@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.packages.runtest
+name: Run Test
+service: Test Base
+groupName: Packages
+apiVersion: 2022-04-01-preview
+summary: Trigger a test run on the package.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/runTest?api-version=2022-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource.
+  types:
+  - uid: string
+- name: testBaseAccountName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Account.
+  types:
+  - uid: string
+- name: packageName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Package.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The test is triggered successfully.
+- name: 202 Accepted
+  headers:
+  - name: Azure-AsyncOperation
+    value: string
+  - name: Location
+    value: string
+  description: The request to trigger a test was accepted. Follow the Location header to poll for final outcome.
+- name: 204 No Content
+  description: The test is triggered successfully.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: testType
+    in: body
+    isRequired: true
+    description: The type of the test.
+    types:
+    - uid: testType
+  - name: osUpdateType
+    in: body
+    description: Specifies the OS update type to test against.
+    types:
+    - uid: osUpdateType
+  - name: osName
+    in: body
+    isRequired: true
+    description: The operating system name. e.g. Windows 10 1809.
+    types:
+    - uid: string
+  - name: releaseName
+    in: body
+    description: The name of the tested release (OS update).
+    types:
+    - uid: string
+  - name: flightingRing
+    in: body
+    description: The flighting ring, only for release of feature updates.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: PackageRunTestParameters
+  description: The parameters supplied to the Test Base Package to start a Test Run.
+  kind: object
+  properties:
+  - name: testType
+    description: The type of the test.
+    types:
+    - uid: testType
+  - name: osUpdateType
+    description: Specifies the OS update type to test against.
+    types:
+    - uid: osUpdateType
+    defaultValue: SecurityUpdate
+  - name: osName
+    description: The operating system name. e.g. Windows 10 1809.
+    types:
+    - uid: string
+  - name: releaseName
+    description: The name of the tested release (OS update).
+    types:
+    - uid: string
+  - name: flightingRing
+    description: The flighting ring, only for release of feature updates.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: testType
+  description: The type of the test.
+  kind: enum
+  properties:
+  - name: OutOfBoxTest
+    types:
+    - uid: string
+  - name: FunctionalTest
+    types:
+    - uid: string
+- name: osUpdateType
+  description: Specifies the OS update type to test against.
+  kind: enum
+  properties:
+  - name: SecurityUpdate
+    types:
+    - uid: string
+  - name: FeatureUpdate
+    types:
+    - uid: string
+examples:
+- name: PackageRunTest
+  request:
+    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/runTest?api-version=2022-04-01-preview
+    body: >-
+      {
+        "testType": "OutOfBoxTest",
+        "osUpdateType": "SecurityUpdate",
+        "osName": "Windows 10 21H1",
+        "releaseName": "2021.05 B"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/runTest?api-version=2022-04-01-preview
+
+      {
+        "testType": "OutOfBoxTest",
+        "osUpdateType": "SecurityUpdate",
+        "osName": "Windows 10 21H1",
+        "releaseName": "2021.05 B"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/operationResults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2022-04-01-preview
+    - name: Location
+      value: https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/operationResults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2022-04-01-preview
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Test Base service - Trigger a test run on the package.
+errorCodes: []

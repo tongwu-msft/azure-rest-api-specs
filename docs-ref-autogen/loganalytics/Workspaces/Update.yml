@@ -220,10 +220,12 @@ definitions:
     description: The network access type for accessing Log Analytics ingestion.
     types:
     - uid: PublicNetworkAccessType
+    defaultValue: Enabled
   - name: properties.publicNetworkAccessForQuery
     description: The network access type for accessing Log Analytics query.
     types:
     - uid: PublicNetworkAccessType
+    defaultValue: Enabled
   - name: properties.forceCmkForQuery
     description: Indicates whether customer managed storage is mandatory for query management.
     types:
@@ -325,10 +327,12 @@ definitions:
     description: The network access type for accessing Log Analytics ingestion.
     types:
     - uid: PublicNetworkAccessType
+    defaultValue: Enabled
   - name: properties.publicNetworkAccessForQuery
     description: The network access type for accessing Log Analytics query.
     types:
     - uid: PublicNetworkAccessType
+    defaultValue: Enabled
   - name: properties.forceCmkForQuery
     description: Indicates whether customer managed storage is mandatory for query management.
     types:
@@ -593,6 +597,138 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000000/resourcegroups/oiautorest6685/providers/Microsoft.OperationalInsights/workspaces/oiautorest6685?api-version=2021-12-01-preview
+
+      {
+        "properties": {
+          "sku": {
+            "name": "PerGB2018"
+          },
+          "retentionInDays": 30,
+          "workspaceCapping": {
+            "dailyQuotaGb": -1
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.loganalytics.models.Workspace;
+      import com.azure.resourcemanager.loganalytics.models.WorkspaceCapping;
+      import com.azure.resourcemanager.loganalytics.models.WorkspaceSku;
+      import com.azure.resourcemanager.loganalytics.models.WorkspaceSkuNameEnum;
+
+      /** Samples for Workspaces Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/WorkspacesUpdate.json
+           */
+          /**
+           * Sample code: WorkspacesPatch.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void workspacesPatch(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              Workspace resource =
+                  manager
+                      .workspaces()
+                      .getByResourceGroupWithResponse("oiautorest6685", "oiautorest6685", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withSku(new WorkspaceSku().withName(WorkspaceSkuNameEnum.PER_GB2018))
+                  .withRetentionInDays(30)
+                  .withWorkspaceCapping(new WorkspaceCapping().withDailyQuotaGb(-1.0))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/WorkspacesUpdate.json
+      func ExampleWorkspacesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewWorkspacesClient("00000000-0000-0000-0000-00000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"oiautorest6685",
+      		"oiautorest6685",
+      		armoperationalinsights.WorkspacePatch{
+      			Properties: &armoperationalinsights.WorkspaceProperties{
+      				RetentionInDays: to.Ptr[int32](30),
+      				SKU: &armoperationalinsights.WorkspaceSKU{
+      					Name: to.Ptr(armoperationalinsights.WorkspaceSKUNameEnumPerGB2018),
+      				},
+      				WorkspaceCapping: &armoperationalinsights.WorkspaceCapping{
+      					DailyQuotaGb: to.Ptr[float64](-1),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a workspace.
+       *
+       * @summary Updates a workspace.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/preview/2021-12-01-preview/examples/WorkspacesUpdate.json
+       */
+      async function workspacesPatch() {
+        const subscriptionId = "00000000-0000-0000-0000-00000000000";
+        const resourceGroupName = "oiautorest6685";
+        const workspaceName = "oiautorest6685";
+        const parameters = {
+          retentionInDays: 30,
+          sku: { name: "PerGB2018" },
+          workspaceCapping: { dailyQuotaGb: -1 },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const result = await client.workspaces.update(resourceGroupName, workspaceName, parameters);
+        console.log(result);
+      }
+
+      workspacesPatch().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

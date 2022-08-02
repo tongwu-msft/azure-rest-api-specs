@@ -81,6 +81,7 @@ definitions:
     description: Flag specifying if the resource monitoring is enabled or disabled.
     types:
     - uid: MonitoringStatus
+    defaultValue: Enabled
 - name: ResourceSku
   kind: object
   properties:
@@ -186,6 +187,7 @@ definitions:
     description: Flag specifying if the resource monitoring is enabled or disabled.
     types:
     - uid: MonitoringStatus
+    defaultValue: Enabled
   - name: marketplaceSubscriptionStatus
     isReadyOnly: true
     description: Flag specifying the Marketplace Subscription Status of the resource. If payment is not made in time, the resource will go in Suspended state.
@@ -438,6 +440,77 @@ examples:
 - name: Monitors_Update
   request:
     uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor?api-version=2021-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor?api-version=2021-03-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdatadog_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datadog/armdatadog"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/Monitors_Update.json
+      func ExampleMonitorsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatadog.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myResourceGroup",
+      		"myMonitor",
+      		&armdatadog.MonitorsClientBeginUpdateOptions{Body: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatadog%2Farmdatadog%2Fv1.0.0/sdk/resourcemanager/datadog/armdatadog/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a monitor resource.
+       *
+       * @summary Update a monitor resource.
+       * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/Monitors_Update.json
+       */
+      async function monitorsUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftDatadogClient(credential, subscriptionId);
+        const result = await client.monitors.beginUpdateAndWait(resourceGroupName, monitorName);
+        console.log(result);
+      }
+
+      monitorsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datadog_3.0.1/sdk/datadog/arm-datadog/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

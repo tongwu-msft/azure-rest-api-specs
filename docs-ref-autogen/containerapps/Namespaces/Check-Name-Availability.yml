@@ -1,0 +1,393 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerapps.namespaces.checknameavailability
+name: Check Name Availability
+service: Azure Container Apps
+groupName: Namespaces
+apiVersion: 2022-03-01
+summary: "Checks the resource name availability.  \nChecks if resource name is available."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}/checkNameAvailability?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: Name of the Managed Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: CheckNameAvailabilityResponse
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: DefaultErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: The resource type.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResponse
+  description: The check availability result.
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: Indicates if the resource name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason why the given name is not available.
+    types:
+    - uid: CheckNameAvailabilityReason
+  - name: message
+    description: Detailed reason why the given name is available.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: CheckNameAvailabilityRequest
+  description: The check availability request body.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityReason
+  description: The reason why the given name is not available.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Details or the error
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  description: Details or the error
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: ContainerApps_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+    body: >-
+      {
+        "name": "testcappname",
+        "type": "Microsoft.App/containerApps"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+
+      {
+        "name": "testcappname",
+        "type": "Microsoft.App/containerApps"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appcontainers.models.CheckNameAvailabilityRequest;
+
+      /** Samples for Namespaces CheckNameAvailability. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_CheckNameAvailability.json
+           */
+          /**
+           * Sample code: ContainerApps_CheckNameAvailability.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void containerAppsCheckNameAvailability(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .namespaces()
+                  .checkNameAvailabilityWithResponse(
+                      "examplerg",
+                      "testcontainerenv",
+                      new CheckNameAvailabilityRequest().withName("testcappname").withType("Microsoft.App/containerApps"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Checks if resource name is available.
+       *
+       * @summary Checks if resource name is available.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ContainerApps_CheckNameAvailability.json
+       */
+      async function containerAppsCheckNameAvailability() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "examplerg";
+        const environmentName = "testcontainerenv";
+        const checkNameAvailabilityRequest = {
+          name: "testcappname",
+          type: "Microsoft.App/containerApps",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.namespaces.checkNameAvailability(
+          resourceGroupName,
+          environmentName,
+          checkNameAvailabilityRequest
+        );
+        console.log(result);
+      }
+
+      containerAppsCheckNameAvailability().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+- name: Certificates_CheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+    body: >-
+      {
+        "name": "testcertificatename",
+        "type": "Microsoft.App/managedEnvironments/certificates"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv/checkNameAvailability?api-version=2022-03-01
+
+      {
+        "name": "testcertificatename",
+        "type": "Microsoft.App/managedEnvironments/certificates"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appcontainers.models.CheckNameAvailabilityRequest;
+
+      /** Samples for Namespaces CheckNameAvailability. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificates_CheckNameAvailability.json
+           */
+          /**
+           * Sample code: Certificates_CheckNameAvailability.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void certificatesCheckNameAvailability(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .namespaces()
+                  .checkNameAvailabilityWithResponse(
+                      "examplerg",
+                      "testcontainerenv",
+                      new CheckNameAvailabilityRequest()
+                          .withName("testcertificatename")
+                          .withType("Microsoft.App/managedEnvironments/certificates"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificates_CheckNameAvailability.json
+      func ExampleNamespacesClient_CheckNameAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewNamespacesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckNameAvailability(ctx,
+      		"examplerg",
+      		"testcontainerenv",
+      		armappcontainers.CheckNameAvailabilityRequest{
+      			Name: to.Ptr("testcertificatename"),
+      			Type: to.Ptr("Microsoft.App/managedEnvironments/certificates"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Checks if resource name is available.
+       *
+       * @summary Checks if resource name is available.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Certificates_CheckNameAvailability.json
+       */
+      async function certificatesCheckNameAvailability() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "examplerg";
+        const environmentName = "testcontainerenv";
+        const checkNameAvailabilityRequest = {
+          name: "testcertificatename",
+          type: "Microsoft.App/managedEnvironments/certificates",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.namespaces.checkNameAvailability(
+          resourceGroupName,
+          environmentName,
+          checkNameAvailabilityRequest
+        );
+        console.log(result);
+      }
+
+      certificatesCheckNameAvailability().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": true,
+        "reason": "None",
+        "message": ""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Learn more about Azure Container Apps service - Checks the resource name availability.  \nChecks if resource name is available."
+errorCodes: []

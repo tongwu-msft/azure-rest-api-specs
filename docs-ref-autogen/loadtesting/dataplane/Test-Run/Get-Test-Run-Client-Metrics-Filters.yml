@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.testrun.gettestrunclientmetricsfilters
+name: Get Test Run Client Metrics Filters
+service: Azure Load Testing
+groupName: Test Run
+apiVersion: 2022-06-01-preview
+summary: Get all filters that are supported for client metrics for a given load test run
+produces:
+- application/json
+paths:
+- content: GET https://{Endpoint}/testruns/{testRunId}/clientMetricsFilters?api-version=2022-06-01-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
+- name: testRunId
+  in: path
+  isRequired: true
+  description: Unique name for load test run, must be a valid URL character ^[a-z0-9_-]*$
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested client metrics filters
+  types:
+  - uid: ClientMetricsFilters
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Load Testing service error response.
+  types:
+  - uid: ErrorResponseBody
+requestHeader: []
+definitions:
+- name: ClientMetricsFilters
+  kind: object
+  properties:
+  - name: testRunId
+    description: Test run name for which client metrics filters is required.
+    types:
+    - uid: string
+  - name: filters
+    description: ''
+    types:
+    - uid: Filters
+  - name: timeRange
+    description: ''
+    types:
+    - uid: TimeRange
+- name: ErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error from a REST request.
+    types:
+    - uid: Error
+- name: Filters
+  kind: object
+  properties:
+  - name: requestSamplerValues
+    description: List of request sampler for the test run, for which client metrics can be filtered.
+    types:
+    - uid: string
+      isArray: true
+  - name: errorFiltersValues
+    description: List of errors occurred for the test run, for which client metrics can be filtered.
+    types:
+    - uid: string
+      isArray: true
+- name: TimeRange
+  kind: object
+  properties:
+  - name: startTime
+    description: start DateTime(ISO 8601 literal format) for the requested client metrics filter.
+    types:
+    - uid: string
+  - name: endTime
+    description: end DateTime(ISO 8601 literal format) for the requested client metrics filter.
+    types:
+    - uid: string
+- name: Error
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: Error
+      isArray: true
+examples:
+- name: GetTestRunClientMetricsFilters
+  request:
+    uri: GET https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012/clientMetricsFilters?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012/clientMetricsFilters?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "filters": {
+          "requestSamplerValues": [
+            "Homepage"
+          ],
+          "errorFiltersValues": [
+            "500"
+          ]
+        },
+        "timeRange": {
+          "startTime": "2021-12-05T16:43:49.590Z",
+          "endTime": "2021-12-05T16:43:49.590Z"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Load Testing service - Get all filters that are supported for client metrics for a given load test run
+errorCodes: []

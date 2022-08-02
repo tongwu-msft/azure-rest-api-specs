@@ -2,7 +2,7 @@
 title: Create or Update Indexer (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Indexer REST API for Azure Cognitive Search.
-ms.date: 03/22/2022
+ms.date: 07/25/2022
 
 ms.service: cognitive-search
 ms.topic: reference
@@ -182,7 +182,7 @@ New in this preview and applicable to skillsets only, you can specify the [cache
 
 **Example: Enrichment cache with a managed identity connection**
 
-This example illustrates the connection string format when using Azure Active Directory for authentication. The search service must be [configured to use a managed identity](/azure/search/search-howto-managed-identities-data-sources). The identity must have "Storage Blob Data Contributor" permissions so that it can write to the cache. The connection string is the unique Resource ID of your storage account, and it must include the container used to store the debug session.
+This example illustrates the connection string format when using Azure Active Directory for authentication. The search service must be [configured to use a managed identity](/azure/search/search-howto-managed-identities-data-sources). The identity must have "Storage Blob Data Contributor" permissions so that it can write to the cache. The connection string is the unique Resource ID of your storage account, and it must include the container used to store the cached enrichment.
 
 ```json
 {
@@ -311,11 +311,13 @@ The following parameters are specific to Cosmos DB indexers.
 
 #### Azure SQL configuration parameters
 
-The following parameters are specific to Azure SQL Database.
+The following parameters are specific to [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers).
 
 | Parameter | Type and allowed values	| Usage       |
-|-----------|---------------------------|-------------|
-|`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | For [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers), set this parameter to increase the timeout beyond the 5-minute default.|
+|-----------|-------------------------|-------------|
+|`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | Set this parameter to override the 5-minute default.|
+|`"convertHighWaterMarkToRowVersion"` | Boolean  | Set this parameter to "true"  to use the rowversion data type for the high water mark column. When this property is set to true, the indexer subtracts one from the rowversion value before the indexer runs. It does this because views with one-to-many joins may have rows with duplicate rowversion values. Subtracting one ensures the indexer query doesn't miss these rows. |
+|`"disableOrderByHighWaterMarkColumn"` | Boolean | Set this parameter to "true" if you want to [disable the ORDER BY behavior](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers#disableorderbyhighwatermarkcolumn) in the query used for change detection. If you're using the high water mark change detection policy, the indexer uses WHERE and ORDER BY clauses to track which rows need indexing (`WHERE [High Water Mark Column] > [Current High Water Mark Value] ORDER BY [High Water Mark Column]`). This parameter disables the ORDER BY behavior. Indexing will finish faster, but the trade off is that if the indexer is interrupted for any reason, the entire indexer job must be repeated in full.|
 
 <a name="field-mappings"></a>
 

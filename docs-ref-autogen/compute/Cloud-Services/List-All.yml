@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservices.listall
 name: List All
 service: Compute
 groupName: Cloud Services
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/cloudServices?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -25,28 +25,16 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: CloudServiceListResult
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CloudServiceListResult
 requestHeader: []
 definitions:
-- name: CloudServiceListResult
-  kind: object
-  properties:
-  - name: value
-    description: Describes the cloud service.
-    types:
-    - uid: CloudService
-      isArray: true
-  - name: nextLink
-    description: ''
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -55,6 +43,44 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: CloudServiceListResult
+  description: The list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: The list of resources.
+    types:
+    - uid: CloudService
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources.
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: CloudService
   description: Describes the cloud service.
   kind: object
@@ -90,29 +116,36 @@ definitions:
     description: Cloud service properties
     types:
     - uid: CloudServiceProperties
-- name: ApiError
-  description: Api error.
+  - name: systemData
+    description: The system meta data relating to this resource.
+    types:
+    - uid: SystemData
+- name: ApiErrorBase
+  description: Api error base.
   kind: object
   properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
   - name: code
     description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
     types:
     - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
     types:
     - uid: string
 - name: CloudServiceProperties
@@ -186,32 +219,18 @@ definitions:
     description: The unique identifier for the cloud service.
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
+- name: SystemData
+  description: The system meta data relating to this resource.
   kind: object
   properties:
-  - name: code
-    description: The error code.
+  - name: createdAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.'
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
+  - name: lastModifiedAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.'
     types:
     - uid: string
 - name: CloudServiceUpgradeMode
@@ -259,6 +278,15 @@ definitions:
     types:
     - uid: LoadBalancerConfiguration
       isArray: true
+  - name: slotType
+    description: >-
+      Slot type for the cloud service.
+
+      Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+      If not specified, the default value is Production.
+    types:
+    - uid: CloudServiceSlotType
   - name: swappableCloudService
     description: The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown.
     types:
@@ -313,6 +341,21 @@ definitions:
     description: Properties of the load balancer configuration.
     types:
     - uid: LoadBalancerConfigurationProperties
+- name: CloudServiceSlotType
+  description: >-
+    Slot type for the cloud service.
+
+    Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+    If not specified, the default value is Production.
+  kind: enum
+  properties:
+  - name: Production
+    types:
+    - uid: string
+  - name: Staging
+    types:
+    - uid: string
 - name: SubResource
   kind: object
   properties:
@@ -357,6 +400,7 @@ definitions:
     types:
     - uid: string
 - name: LoadBalancerConfigurationProperties
+  description: Describes the properties of the load balancer configuration.
   kind: object
   properties:
   - name: frontendIPConfigurations
@@ -387,13 +431,13 @@ definitions:
   - name: settings
     description: Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettings
     description: Protected settings for the extension which are encrypted before sent to the role instance.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettingsFromKeyVault
-    description: ''
+    description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
     types:
     - uid: CloudServiceVaultAndSecretReference
   - name: forceUpdateTag
@@ -420,6 +464,7 @@ definitions:
     - uid: string
       isArray: true
 - name: LoadBalancerFrontendIPConfiguration
+  description: Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration.
   kind: object
   properties:
   - name: name
@@ -431,14 +476,15 @@ definitions:
     types:
     - uid: LoadBalancerFrontendIPConfigurationProperties
 - name: CloudServiceVaultAndSecretReference
+  description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
   kind: object
   properties:
   - name: sourceVault
-    description: ''
+    description: The ARM Resource ID of the Key Vault
     types:
     - uid: SubResource
   - name: secretUrl
-    description: ''
+    description: Secret URL which contains the protected settings of the extension
     types:
     - uid: string
 - name: LoadBalancerFrontendIPConfigurationProperties
@@ -460,7 +506,98 @@ definitions:
 examples:
 - name: List Cloud Services in a Subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/cloudServices?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/cloudServices?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/cloudServices?api-version=2022-04-04
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CloudServices List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_List_BySubscription.json
+           */
+          /**
+           * Sample code: List Cloud Services in a Subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listCloudServicesInASubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.virtualMachines().manager().serviceClient().getCloudServices().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_List_BySubscription.json
+      func ExampleCloudServicesClient_NewListAllPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListAllPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services.
+       *
+       * @summary Gets a list of all cloud services in the subscription, regardless of the associated resource group. Use nextLink property in the response to get the next page of Cloud Services. Do this till nextLink is null to fetch all the Cloud Services.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_List_BySubscription.json
+       */
+      async function listCloudServicesInASubscription() {
+        const subscriptionId = "{subscription-id}";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.cloudServices.listAll()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listCloudServicesInASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -528,7 +665,7 @@ examples:
                       ],
                       "publisher": "Microsoft.Windows.Azure.Extensions",
                       "type": "RDP",
-                      "typeHandlerVersion": "1.2.1",
+                      "typeHandlerVersion": "1.2",
                       "settings": "<PublicConfig><UserName>userazure</UserName><Expiration>01/12/2022 16:29:02</Expiration></PublicConfig>"
                     }
                   }

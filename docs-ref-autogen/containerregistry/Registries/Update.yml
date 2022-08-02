@@ -101,6 +101,7 @@ definitions:
     description: The default action of allow or deny when no other rules match.
     types:
     - uid: DefaultAction
+    defaultValue: Allow
   - name: virtualNetworkRules
     description: The virtual network rules.
     types:
@@ -159,6 +160,7 @@ definitions:
     description: The value that indicates whether the admin user is enabled.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.storageAccount
     description: The properties of the storage account for the container registry. Only applicable to Classic SKU.
     types:
@@ -276,6 +278,7 @@ definitions:
     description: The action of virtual network rule.
     types:
     - uid: Action
+    defaultValue: Allow
   - name: id
     description: 'Resource ID of a subnet, for example: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{vnetName}/subnets/{subnetName}.'
     types:
@@ -288,6 +291,7 @@ definitions:
     description: The action of IP ACL rule.
     types:
     - uid: Action
+    defaultValue: Allow
   - name: value
     description: Specifies the IP or IP range in CIDR format. Only IPV4 address is allowed.
     types:
@@ -300,6 +304,7 @@ definitions:
     description: The value that indicates whether the policy is enabled or not.
     types:
     - uid: PolicyStatus
+    defaultValue: disabled
 - name: TrustPolicy
   description: The content trust policy for a container registry.
   kind: object
@@ -308,10 +313,12 @@ definitions:
     description: The type of trust policy.
     types:
     - uid: TrustPolicyType
+    defaultValue: Notary
   - name: status
     description: The value that indicates whether the policy is enabled or not.
     types:
     - uid: PolicyStatus
+    defaultValue: disabled
 - name: RetentionPolicy
   description: The retention policy for a container registry.
   kind: object
@@ -320,6 +327,7 @@ definitions:
     description: The number of days to retain an untagged manifest after which it gets purged.
     types:
     - uid: integer
+    defaultValue: 7
   - name: lastUpdatedTime
     isReadyOnly: true
     description: The timestamp when the policy was last updated.
@@ -329,6 +337,7 @@ definitions:
     description: The value that indicates whether the policy is enabled or not.
     types:
     - uid: PolicyStatus
+    defaultValue: disabled
 - name: ProvisioningState
   description: The provisioning state of the container registry at the time the operation was called.
   kind: enum
@@ -418,6 +427,25 @@ examples:
           "adminUserEnabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry?api-version=2019-05-01
+
+      {
+        "tags": {
+          "key": "value"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "adminUserEnabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

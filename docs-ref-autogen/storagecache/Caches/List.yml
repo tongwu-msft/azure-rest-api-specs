@@ -306,6 +306,7 @@ definitions:
     description: The IPv4 maximum transmission unit configured for the subnet.
     types:
     - uid: integer
+    defaultValue: 1500
   - name: utilityAddresses
     isReadyOnly: true
     description: Array of additional IP addresses used by this Cache.
@@ -325,6 +326,7 @@ definitions:
     description: NTP server IP Address or FQDN for the cache to use. The default is time.windows.com.
     types:
     - uid: string
+    defaultValue: time.windows.com
 - name: CacheEncryptionSettings
   description: Cache encryption settings.
   kind: object
@@ -523,6 +525,7 @@ definitions:
     description: This setting determines how the cache gets username and group names for clients.
     types:
     - uid: UsernameSource
+    defaultValue: None
   - name: groupFileURI
     description: The URI of the file containing group information (in /etc/group file format). This field must be populated when 'usernameSource' is set to 'File'.
     types:
@@ -692,6 +695,97 @@ examples:
 - name: Caches_List
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/caches?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/caches?api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Caches List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_List.json
+           */
+          /**
+           * Sample code: Caches_List.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void cachesList(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager.caches().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.5/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_List.json
+      func ExampleCachesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewCachesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv1.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns all Caches the user has access to under a subscription.
+       *
+       * @summary Returns all Caches the user has access to under a subscription.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_List.json
+       */
+      async function cachesList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.caches.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      cachesList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.1.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

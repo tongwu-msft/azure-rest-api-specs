@@ -224,6 +224,7 @@ definitions:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.elasticScaleEnabled
     description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
     types:
@@ -258,14 +259,17 @@ definitions:
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.isXenon
     description: 'Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.'
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.hyperV
     description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.targetWorkerCount
     description: Scaling worker count.
     types:
@@ -290,6 +294,7 @@ definitions:
       If <code>false</code>, this App Service Plan will not perform availability zone balancing.
     types:
     - uid: boolean
+    defaultValue: false
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -369,6 +374,7 @@ definitions:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.elasticScaleEnabled
     description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
     types:
@@ -403,14 +409,17 @@ definitions:
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.isXenon
     description: 'Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.'
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.hyperV
     description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.targetWorkerCount
     description: Scaling worker count.
     types:
@@ -435,6 +444,7 @@ definitions:
       If <code>false</code>, this App Service Plan will not perform availability zone balancing.
     types:
     - uid: boolean
+    defaultValue: false
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -633,6 +643,57 @@ examples:
         "kind": "app",
         "properties": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2021-02-01
+
+      {
+        "kind": "app",
+        "properties": {}
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      )
+
+      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/PatchAppServicePlan.json
+      func ExampleAppServicePlansClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armappservice.NewAppServicePlansClient("<subscription-id>", cred, nil)
+      	res, err := client.Update(ctx,
+      		"<resource-group-name>",
+      		"<name>",
+      		armappservice.AppServicePlanPatchResource{
+      			ProxyOnlyResource: armappservice.ProxyOnlyResource{
+      				Kind: to.StringPtr("<kind>"),
+      			},
+      			Properties: &armappservice.AppServicePlanPatchResourceProperties{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	log.Printf("AppServicePlan.ID: %s\n", *res.ID)
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

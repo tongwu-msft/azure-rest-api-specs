@@ -220,14 +220,17 @@ definitions:
     description: Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.disableGateway
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.virtualNetworkType
     description: The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
+    defaultValue: None
   - name: properties.apiVersionConstraint
     description: Control Plane Apis version constraint for the API Management service.
     types:
@@ -236,6 +239,7 @@ definitions:
     description: Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.privateEndpointConnections
     description: List of Private Endpoint Connections of this service.
     types:
@@ -369,10 +373,12 @@ definitions:
     description: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.
     types:
     - uid: boolean
+    defaultValue: false
   - name: negotiateClientCertificate
     description: Specify true to always negotiate client certificate on the hostname. Default Value is false.
     types:
     - uid: boolean
+    defaultValue: false
   - name: certificate
     description: Certificate information.
     types:
@@ -459,6 +465,7 @@ definitions:
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location.
     types:
     - uid: boolean
+    defaultValue: false
   - name: platformVersion
     isReadyOnly: true
     description: Compute Platform Version running the service.
@@ -762,6 +769,90 @@ examples:
       {
         "location": "west us"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/applynetworkconfigurationupdates?api-version=2021-08-01
+
+      {
+        "location": "west us"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceApplyNetworkConfigurationParameters;
+
+      /** Samples for ApiManagementService ApplyNetworkConfigurationUpdates. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
+           */
+          /**
+           * Sample code: ApiManagementApplyNetworkConfigurationUpdates.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementApplyNetworkConfigurationUpdates(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .applyNetworkConfigurationUpdates(
+                      "rg1",
+                      "apimService1",
+                      new ApiManagementServiceApplyNetworkConfigurationParameters().withLocation("west us"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementApplyNetworkConfigurationUpdates.json
+      func ExampleServiceClient_BeginApplyNetworkConfigurationUpdates() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewServiceClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginApplyNetworkConfigurationUpdates(ctx,
+      		"rg1",
+      		"apimService1",
+      		&armapimanagement.ServiceClientBeginApplyNetworkConfigurationUpdatesOptions{Parameters: &armapimanagement.ServiceApplyNetworkConfigurationParameters{
+      			Location: to.Ptr("west us"),
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

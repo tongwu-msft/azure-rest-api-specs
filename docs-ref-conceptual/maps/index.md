@@ -20,9 +20,10 @@ Microsoft Azure Maps provides developers from all industries with powerful geosp
 - Weather
 - Time zones
 - Geolocation
+- Elevation
 - Geofencing
-- Map data
-- Creator
+- Indoor maps (Creator)
 - Spatial operations
+- Data management
 
 The Web and Android SDKs make development easy, flexible, and portable across multiple platforms.

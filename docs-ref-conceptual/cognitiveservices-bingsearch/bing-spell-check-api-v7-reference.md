@@ -1,16 +1,15 @@
 ---
 title: Bing Spell Check API v7 reference | Microsoft Docs
-description: Describes the programming elements of the Bing Video Search API.
+description: Describes the v7 iteration of the Bing Spell Check API and provides technical details about query parameters to use to request spell checks.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
-
 ms.assetid: C844CA95-A5F5-46DE-9B24-EE2A21AE21BA
 ms.service: cognitive-services
 ms.subservice: bing-spell-check
 ms.topic: reference
 ms.date: 06/21/2016
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 
@@ -21,7 +20,7 @@ ms.author: scottwhi
 > Bing Search APIs provisioned using Cognitive Services will be supported for the next three years or until the end of your Enterprise Agreement, whichever happens first.
 > For migration instructions, see [Bing Search Services](https://aka.ms/cogsvcs/bingmigration).
 
-The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/proof-text).  
+The Spell Check API lets you check a text string for spelling and grammar errors. This section provides technical details about the query parameters and headers that you use to request spell checking, and the JSON response objects that contain the results. For examples that show how to make requests, see [Spell check a text string](/azure/cognitive-services/bing-spell-check/proof-text).  
   
 For information about the headers that requests should include, see [Request Headers](#request-headers).  
   
@@ -29,7 +28,7 @@ For information about the query parameters that requests should include, see [Qu
   
 For information about the JSON objects that the response may include, see [Response Objects](#response-objects). 
 
-For information about permitted use and display of results, see [Bing Search API Use and Display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-spell-check/useanddisplayrequirements).
+For information about permitted use and display of results, see [Bing Search API Use and Display requirements](/azure/cognitive-services/bing-spell-check/useanddisplayrequirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -87,7 +86,7 @@ The following are the query parameters that the request may include. The Require
 |<a name="precontexttext" />preContextText|A string that gives context to the [text](#text) string. For example, the `text` string *petal* is valid. However, if you set `preContextText` to *bike*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *petal* to *pedal* (as in *bike pedal*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
 |<a name="postcontexttext" />postContextText|A string that gives context to the [text](#text) string. For example, the `text` string *read* is valid. However, if you set `postContextText` to *carpet*, the context changes and the text string becomes not valid. In this case, the API suggests that you change *read* to *red* (as in *red carpet*).<br /><br /> This text is not checked for grammar or spelling errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request.|String|No|  
 |<a name="sessionid" />sessionId|A unique ID that identifies this user session. Generate a unique value for each user session (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
-|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages and markets](#Bingsupportedlanguagesandmarkets).<br /><br /> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form <language>-<country/region> where <language> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
+|<a name="setlang" />setLang|The language to use for user interface strings. You may specify the language using either a 2-letter or 4-letter code. Using 4-letter codes is preferred.<br /><br/> For a list of supported language codes, see [Bing supported languages and markets](#Bingsupportedlanguagesandmarkets).<br /><br /> Bing loads the localized strings if `setlang` contains a valid 2-letter neutral culture code (**fr**) or a valid 4-letter specific culture code (**fr-ca**). For example, for **fr-ca**, Bing loads the **fr** neutral culture code strings.<br /><br/> If `setlang` is not valid (for example, **zh**) or Bing doesn't support the language (for example, **af**, **af-na**), Bing defaults to **en** (English).<br /><br/> To specify the 2-letter code, set this parameter to an ISO 639-1 language code.<br /><br/> To specify the 4-letter code, use the form \<language\>-<country/region> where \<language\> is an ISO 639-1 language code (neutral culture) and <country/region> is an ISO 3166 country/region (specific culture) code. For example, use **en-US** for United States English.<br /><br/> Although optional, you should always specify the language. Typically, you set `setLang` to the same language specified by `mkt` unless the user wants the user interface strings displayed in a different language.<br /><br/> This parameter and the Accept-Language header are mutually exclusive—do not specify both.<br /><br/> A user interface string is a string that's used as a label in a user interface. There are few user interface strings in the JSON response objects. Also, any links to Bing.com properties in the response objects apply the specified language.|String|No|  
 |<a name="text" />text|The text string to check for spelling and grammar errors.<br /><br /> The combined length of the `text` string, `preContextText` string, and `postContextText` string may not exceed 10,000 characters.<br /><br /> You may specify this parameter in the query string of a GET request or in the body of a POST request. Because of the query string length limit, you'll typically use a POST request unless you're checking only short strings.|String|Yes|  
 |<a name="userid" />userId|A unique ID that identifies the user. Generate a unique value for each user (the value is unimportant).<br /><br /> The service uses the ID to help debug issues and improve the quality of corrections.|String|No|  
   

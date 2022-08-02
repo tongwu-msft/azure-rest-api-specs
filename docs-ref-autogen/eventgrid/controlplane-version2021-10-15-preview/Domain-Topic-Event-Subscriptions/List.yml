@@ -139,6 +139,7 @@ definitions:
     description: The event delivery schema for the event subscription.
     types:
     - uid: EventDeliverySchema
+    defaultValue: EventGridSchema
   - name: properties.retryPolicy
     description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
     types:
@@ -281,6 +282,7 @@ definitions:
       should be compared in a case sensitive manner.
     types:
     - uid: boolean
+    defaultValue: false
   - name: enableAdvancedFilteringOnArrays
     description: Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.
     types:
@@ -348,10 +350,12 @@ definitions:
     description: Maximum number of delivery retry attempts for events.
     types:
     - uid: integer
+    defaultValue: 30
   - name: eventTimeToLiveInMinutes
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+    defaultValue: 1440
 - name: DeadLetterWithResourceIdentity
   description: Information about the deadletter destination with resource identity.
   kind: object
@@ -401,10 +405,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.azureActiveDirectoryTenantId
     description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     types:
@@ -543,10 +549,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.deliveryAttributeMappings
     description: Delivery attribute details.
     types:
@@ -950,6 +958,7 @@ definitions:
     description: Boolean flag to tell if the attribute contains sensitive information .
     types:
     - uid: boolean
+    defaultValue: false
   - name: name
     description: Name of the delivery attribute or header.
     types:
@@ -980,6 +989,79 @@ examples:
 - name: DomainTopicEventSubscriptions_List
   request:
     uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/domains/exampleDomain1/topics/exampleDomainTopic1/eventSubscriptions?api-version=2021-10-15-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/domains/exampleDomain1/topics/exampleDomainTopic1/eventSubscriptions?api-version=2021-10-15-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DomainTopicEventSubscriptions List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainTopicEventSubscriptions_List.json
+           */
+          /**
+           * Sample code: DomainTopicEventSubscriptions_List.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void domainTopicEventSubscriptionsList(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .domainTopicEventSubscriptions()
+                  .list("examplerg", "exampleDomain1", "exampleDomainTopic1", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainTopicEventSubscriptions_List.json
+      func ExampleDomainTopicEventSubscriptionsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewDomainTopicEventSubscriptionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	pager := client.NewListPager("<resource-group-name>",
+      		"<domain-name>",
+      		"<topic-name>",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      			return
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

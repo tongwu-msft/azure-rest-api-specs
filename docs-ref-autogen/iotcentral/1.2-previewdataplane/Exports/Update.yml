@@ -7,7 +7,7 @@ apiVersion: 1.2-preview
 summary: "Patch an export.  \nPerform an incremental update to an export."
 consumes:
 - application/json
-- application/json-merge-patch+json
+- application/merge-patch+json
 produces:
 - application/json
 paths:
@@ -44,7 +44,10 @@ responses:
   types:
   - uid: Export
 - name: Other Status Codes
-  description: Error
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
   types:
   - uid: Error
 requestBody:
@@ -218,6 +221,23 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/dataExport/exports/export1?api-version=1.2-preview
+
+      {
+        "displayName": "Test Export Update",
+        "enabled": true,
+        "enrichments": {
+          "abc": {
+            "path": "$provisioned"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

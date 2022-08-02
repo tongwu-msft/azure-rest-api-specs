@@ -3,14 +3,14 @@ uid: management.azure.com.healthcareapis.operations.list
 name: List
 service: Healthcare Apis
 groupName: Operations
-apiVersion: 2019-09-16
-summary: Lists all of the available Healthcare service REST API operations.
+apiVersion: 2021-11-01
+summary: Lists all of the available operations supported by Microsoft Healthcare resource provider.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2019-09-16
+- content: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2021-11-01
 uriParameters:
 - name: api-version
   in: query
@@ -22,57 +22,66 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: OperationListResult
+  - uid: ListOperations
 - name: Other Status Codes
   description: DefaultErrorResponse
   types:
   - uid: ErrorDetails
 requestHeader: []
 definitions:
-- name: OperationListResult
-  description: A list of service operations. It contains a list of operations and a URL link to get the next set of results.
+- name: ListOperations
+  description: Available operations of the service
   kind: object
   properties:
-  - name: nextLink
-    description: The link used to get the next page of service description objects.
-    types:
-    - uid: string
   - name: value
     isReadyOnly: true
-    description: A list of service operations supported by the Microsoft.HealthcareApis resource provider.
+    description: Collection of available operation details
     types:
-    - uid: Operation
+    - uid: OperationDetail
       isArray: true
+  - name: nextLink
+    description: >-
+      URL client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
 - name: ErrorDetails
   description: Error details.
   kind: object
   properties:
   - name: error
-    description: Object containing error details.
+    description: Error details
     types:
     - uid: ErrorDetailsInternal
-- name: Operation
+- name: OperationDetail
   description: Service REST API operation.
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: 'Operation name: {provider}/{resource}/{read | write | action | delete}'
+    description: Name of the operation
     types:
     - uid: string
   - name: isDataAction
-    description: Gets or sets a value indicating whether the operation is a data action or not
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
     types:
     - uid: boolean
+  - name: display
+    description: Display of the operation
+    types:
+    - uid: OperationDisplay
   - name: origin
     isReadyOnly: true
     description: Default value is 'user,system'.
     types:
     - uid: string
-  - name: display
-    description: The information displayed about the operation.
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
     types:
-    - uid: OperationDisplay
+    - uid: ActionType
   - name: properties
     description: Properties of the operation
     types:
@@ -120,14 +129,213 @@ definitions:
     description: Friendly description for the operation,
     types:
     - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
 - name: OperationProperties
-  description: Operation properties.
+  description: Extra Operation properties
   kind: object
-  properties: []
+  properties:
+  - name: serviceSpecification
+    description: Service specifications of the operation
+    types:
+    - uid: ServiceSpecification
+- name: ServiceSpecification
+  description: Service specification payload
+  kind: object
+  properties:
+  - name: logSpecifications
+    description: Specifications of the Log for Azure Monitoring
+    types:
+    - uid: LogSpecification
+      isArray: true
+  - name: metricSpecifications
+    description: Specifications of the Metrics for Azure Monitoring
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: LogSpecification
+  description: Specifications of the Log for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the log
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the log
+    types:
+    - uid: string
+  - name: blobDuration
+    description: Blob duration of the log
+    types:
+    - uid: string
+- name: MetricSpecification
+  description: Specifications of the Metrics for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the metric
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Localized friendly description of the metric
+    types:
+    - uid: string
+  - name: unit
+    description: Unit that makes sense for the metric
+    types:
+    - uid: string
+  - name: category
+    description: Name of the metric category that the metric belongs to. A metric can only belong to a single category.
+    types:
+    - uid: string
+  - name: aggregationType
+    description: 'Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.'
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: Supported aggregation types
+    types:
+    - uid: string
+      isArray: true
+  - name: supportedTimeGrainTypes
+    description: Supported time grain types
+    types:
+    - uid: string
+      isArray: true
+  - name: fillGapWithZero
+    description: Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published.
+    types:
+    - uid: boolean
+  - name: dimensions
+    description: Dimensions of the metric
+    types:
+    - uid: MetricDimension
+      isArray: true
+  - name: sourceMdmNamespace
+    description: Name of the MDM namespace. Optional.
+    types:
+    - uid: string
+- name: MetricDimension
+  description: Specifications of the Dimension of metrics
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the dimension
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: Whether this dimension should be included for the Shoebox export scenario
+    types:
+    - uid: boolean
 examples:
 - name: List operations
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2019-09-16
+    uri: GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.HealthcareApis/operations?api-version=2021-11-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/OperationsList.json
+           */
+          /**
+           * Sample code: List operations.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void listOperations(com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              manager.operations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/OperationsList.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available operations supported by Microsoft Healthcare resource provider.
+       *
+       * @summary Lists all of the available operations supported by Microsoft Healthcare resource provider.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/OperationsList.json
+       */
+      async function listOperations() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listOperations().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -135,25 +343,21 @@ examples:
         "value": [
           {
             "name": "Microsoft.HealthcareApis/services/read",
-            "isDataAction": false,
             "display": {},
             "origin": "user,system"
           },
           {
             "name": "Microsoft.HealthcareApis/services/write",
-            "isDataAction": false,
             "display": {},
             "origin": "user,system"
           },
           {
             "name": "Microsoft.HealthcareApis/services/delete",
-            "isDataAction": false,
             "display": {},
             "origin": "user,system"
           },
           {
             "name": "Microsoft.HealthcareApis/locations/operationresults/read",
-            "isDataAction": false,
             "display": {
               "provider": "Microsoft.HealthcareApis",
               "resource": "operationresults",
@@ -163,14 +367,72 @@ examples:
             "origin": "user,system"
           },
           {
+            "name": "Microsoft.HealthcareApis/workspaces/read",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/write",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/delete",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/dicomservices/read",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/dicomservices/write",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/dicomservices/delete",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/iotconnectors/read",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/iotconnectors/write",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/iotconnectors/delete",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/fhirservices/read",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/fhirservices/write",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
+            "name": "Microsoft.HealthcareApis/workspaces/fhirservices/delete",
+            "display": {},
+            "origin": "user,system"
+          },
+          {
             "name": "Microsoft.HealthcareApis/checkNameAvailability/post",
-            "isDataAction": false,
             "display": {},
             "origin": "user"
           },
           {
             "name": "Microsoft.HealthcareApis/Operations/read",
-            "isDataAction": false,
             "display": {
               "provider": "Microsoft.HealthcareApis",
               "resource": "operations",
@@ -191,5 +453,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Healthcare Apis service - Lists all of the available Healthcare service REST API operations.
+  description: Learn more about Healthcare Apis service - Lists all of the available operations supported by Microsoft Healthcare resource provider.
 errorCodes: []

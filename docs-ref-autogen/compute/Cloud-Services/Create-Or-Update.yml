@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservices.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Cloud Services
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Create or update a cloud service. Please note some properties can be set only during cloud service creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +37,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: CloudError
 - name: 200 OK
   description: OK
   types:
@@ -45,10 +49,6 @@ responses:
   description: Created
   types:
   - uid: CloudService
-- name: Other Status Codes
-  description: Error
-  types:
-  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -72,6 +72,11 @@ requestBody:
     description: Cloud service properties
     types:
     - uid: CloudServiceProperties
+  - name: systemData
+    in: body
+    description: The system meta data relating to this resource.
+    types:
+    - uid: SystemData
 requestHeader: []
 definitions:
 - name: CloudServiceProperties
@@ -145,6 +150,28 @@ definitions:
     description: The unique identifier for the cloud service.
     types:
     - uid: string
+- name: SystemData
+  description: The system meta data relating to this resource.
+  kind: object
+  properties:
+  - name: createdAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.'
+    types:
+    - uid: string
+  - name: lastModifiedAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.'
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: CloudService
   description: Describes the cloud service.
   kind: object
@@ -180,14 +207,10 @@ definitions:
     description: Cloud service properties
     types:
     - uid: CloudServiceProperties
-- name: CloudError
-  description: An error response from the Compute service.
-  kind: object
-  properties:
-  - name: error
-    description: Api error.
+  - name: systemData
+    description: The system meta data relating to this resource.
     types:
-    - uid: ApiError
+    - uid: SystemData
 - name: CloudServiceUpgradeMode
   description: >-
     Update mode for the cloud service. Role instances are allocated to update domains when the service is deployed. Updates can be initiated manually in each update domain or initiated automatically in all update domains.
@@ -233,6 +256,15 @@ definitions:
     types:
     - uid: LoadBalancerConfiguration
       isArray: true
+  - name: slotType
+    description: >-
+      Slot type for the cloud service.
+
+      Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+      If not specified, the default value is Production.
+    types:
+    - uid: CloudServiceSlotType
   - name: swappableCloudService
     description: The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown.
     types:
@@ -263,12 +295,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: CloudServiceRoleProfileProperties
@@ -312,6 +344,21 @@ definitions:
     description: Properties of the load balancer configuration.
     types:
     - uid: LoadBalancerConfigurationProperties
+- name: CloudServiceSlotType
+  description: >-
+    Slot type for the cloud service.
+
+    Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+    If not specified, the default value is Production.
+  kind: enum
+  properties:
+  - name: Production
+    types:
+    - uid: string
+  - name: Staging
+    types:
+    - uid: string
 - name: SubResource
   kind: object
   properties:
@@ -339,12 +386,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -384,6 +431,7 @@ definitions:
     types:
     - uid: string
 - name: LoadBalancerConfigurationProperties
+  description: Describes the properties of the load balancer configuration.
   kind: object
   properties:
   - name: frontendIPConfigurations
@@ -414,13 +462,13 @@ definitions:
   - name: settings
     description: Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettings
     description: Protected settings for the extension which are encrypted before sent to the role instance.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettingsFromKeyVault
-    description: ''
+    description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
     types:
     - uid: CloudServiceVaultAndSecretReference
   - name: forceUpdateTag
@@ -447,6 +495,7 @@ definitions:
     - uid: string
       isArray: true
 - name: LoadBalancerFrontendIPConfiguration
+  description: Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration.
   kind: object
   properties:
   - name: name
@@ -458,14 +507,15 @@ definitions:
     types:
     - uid: LoadBalancerFrontendIPConfigurationProperties
 - name: CloudServiceVaultAndSecretReference
+  description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
   kind: object
   properties:
   - name: sourceVault
-    description: ''
+    description: The ARM Resource ID of the Key Vault
     types:
     - uid: SubResource
   - name: secretUrl
-    description: ''
+    description: Secret URL which contains the protected settings of the extension
     types:
     - uid: string
 - name: LoadBalancerFrontendIPConfigurationProperties
@@ -487,7 +537,7 @@ definitions:
 examples:
 - name: Create New Cloud Service with Single Role
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "location": "westus",
@@ -528,6 +578,199 @@ examples:
           "upgradeMode": "Auto"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "location": "westus",
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
+                        }
+                      },
+                      "name": "myfe"
+                    }
+                  ]
+                },
+                "name": "myLoadBalancer"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.CloudServiceInner;
+      import com.azure.resourcemanager.compute.models.CloudServiceNetworkProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfileProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleSku;
+      import com.azure.resourcemanager.compute.models.CloudServiceUpgradeMode;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfigurationProperties;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfigurationProperties;
+      import java.util.Arrays;
+
+      /** Samples for CloudServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRole.json
+           */
+          /**
+           * Sample code: Create New Cloud Service with Single Role.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNewCloudServiceWithSingleRole(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServices()
+                  .createOrUpdate(
+                      "ConstosoRG",
+                      "{cs-name}",
+                      new CloudServiceInner()
+                          .withLocation("westus")
+                          .withProperties(
+                              new CloudServiceProperties()
+                                  .withPackageUrl("{PackageUrl}")
+                                  .withConfiguration("{ServiceConfiguration}")
+                                  .withUpgradeMode(CloudServiceUpgradeMode.AUTO)
+                                  .withRoleProfile(
+                                      new CloudServiceRoleProfile()
+                                          .withRoles(
+                                              Arrays
+                                                  .asList(
+                                                      new CloudServiceRoleProfileProperties()
+                                                          .withName("ContosoFrontend")
+                                                          .withSku(
+                                                              new CloudServiceRoleSku()
+                                                                  .withName("Standard_D1_v2")
+                                                                  .withTier("Standard")
+                                                                  .withCapacity(1L)))))
+                                  .withNetworkProfile(
+                                      new CloudServiceNetworkProfile()
+                                          .withLoadBalancerConfigurations(
+                                              Arrays
+                                                  .asList(
+                                                      new LoadBalancerConfiguration()
+                                                          .withName("myLoadBalancer")
+                                                          .withProperties(
+                                                              new LoadBalancerConfigurationProperties()
+                                                                  .withFrontendIpConfigurations(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new LoadBalancerFrontendIpConfiguration()
+                                                                                  .withName("myfe")
+                                                                                  .withProperties(
+                                                                                      new LoadBalancerFrontendIpConfigurationProperties()
+                                                                                          .withPublicIpAddress(
+                                                                                              new SubResource()
+                                                                                                  .withId(
+                                                                                                      "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP")))))))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       *
+       * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRole.json
+       */
+      async function createNewCloudServiceWithSingleRole() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const parameters = {
+          location: "westus",
+          properties: {
+            configuration: "{ServiceConfiguration}",
+            networkProfile: {
+              loadBalancerConfigurations: [
+                {
+                  name: "myLoadBalancer",
+                  properties: {
+                    frontendIPConfigurations: [
+                      {
+                        name: "myfe",
+                        properties: {
+                          publicIPAddress: {
+                            id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            packageUrl: "{PackageUrl}",
+            roleProfile: {
+              roles: [
+                {
+                  name: "ContosoFrontend",
+                  sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+                },
+              ],
+            },
+            upgradeMode: "Auto",
+          },
+        };
+        const options = { parameters };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cloudServiceName,
+          options
+        );
+        console.log(result);
+      }
+
+      createNewCloudServiceWithSingleRole().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -576,6 +819,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "14d10b45-ced7-42ef-a406-50a3df2cea7d"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -625,11 +872,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "14d10b45-ced7-42ef-a406-50a3df2cea7d"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Single Role and RDP Extension
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "properties": {
@@ -642,7 +893,7 @@ examples:
                   "protectedSettings": "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
-                  "typeHandlerVersion": "1.2.1"
+                  "typeHandlerVersion": "1.2"
                 },
                 "name": "RDPExtension"
               }
@@ -685,6 +936,252 @@ examples:
         },
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "properties": {
+          "extensionProfile": {
+            "extensions": [
+              {
+                "properties": {
+                  "type": "RDP",
+                  "autoUpgradeMinorVersion": false,
+                  "protectedSettings": "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
+                  "publisher": "Microsoft.Windows.Azure.Extensions",
+                  "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
+                  "typeHandlerVersion": "1.2"
+                },
+                "name": "RDPExtension"
+              }
+            ]
+          },
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        },
+        "location": "westus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.CloudServiceInner;
+      import com.azure.resourcemanager.compute.models.CloudServiceExtensionProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceExtensionProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceNetworkProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfileProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleSku;
+      import com.azure.resourcemanager.compute.models.CloudServiceUpgradeMode;
+      import com.azure.resourcemanager.compute.models.Extension;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfigurationProperties;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfigurationProperties;
+      import java.util.Arrays;
+
+      /** Samples for CloudServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndRDP.json
+           */
+          /**
+           * Sample code: Create New Cloud Service with Single Role and RDP Extension.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNewCloudServiceWithSingleRoleAndRDPExtension(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServices()
+                  .createOrUpdate(
+                      "ConstosoRG",
+                      "{cs-name}",
+                      new CloudServiceInner()
+                          .withLocation("westus")
+                          .withProperties(
+                              new CloudServiceProperties()
+                                  .withPackageUrl("{PackageUrl}")
+                                  .withConfiguration("{ServiceConfiguration}")
+                                  .withUpgradeMode(CloudServiceUpgradeMode.AUTO)
+                                  .withRoleProfile(
+                                      new CloudServiceRoleProfile()
+                                          .withRoles(
+                                              Arrays
+                                                  .asList(
+                                                      new CloudServiceRoleProfileProperties()
+                                                          .withName("ContosoFrontend")
+                                                          .withSku(
+                                                              new CloudServiceRoleSku()
+                                                                  .withName("Standard_D1_v2")
+                                                                  .withTier("Standard")
+                                                                  .withCapacity(1L)))))
+                                  .withNetworkProfile(
+                                      new CloudServiceNetworkProfile()
+                                          .withLoadBalancerConfigurations(
+                                              Arrays
+                                                  .asList(
+                                                      new LoadBalancerConfiguration()
+                                                          .withName("contosolb")
+                                                          .withProperties(
+                                                              new LoadBalancerConfigurationProperties()
+                                                                  .withFrontendIpConfigurations(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new LoadBalancerFrontendIpConfiguration()
+                                                                                  .withName("contosofe")
+                                                                                  .withProperties(
+                                                                                      new LoadBalancerFrontendIpConfigurationProperties()
+                                                                                          .withPublicIpAddress(
+                                                                                              new SubResource()
+                                                                                                  .withId(
+                                                                                                      "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip")))))))))
+                                  .withExtensionProfile(
+                                      new CloudServiceExtensionProfile()
+                                          .withExtensions(
+                                              Arrays
+                                                  .asList(
+                                                      new Extension()
+                                                          .withName("RDPExtension")
+                                                          .withProperties(
+                                                              new CloudServiceExtensionProperties()
+                                                                  .withPublisher("Microsoft.Windows.Azure.Extensions")
+                                                                  .withType("RDP")
+                                                                  .withTypeHandlerVersion("1.2")
+                                                                  .withAutoUpgradeMinorVersion(false)
+                                                                  .withSettings(
+                                                                      "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021"
+                                                                          + " 15:05:45</Expiration></PublicConfig>")
+                                                                  .withProtectedSettings(
+                                                                      "<PrivateConfig><Password>{password}</Password></PrivateConfig>")))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       *
+       * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndRDP.json
+       */
+      async function createNewCloudServiceWithSingleRoleAndRdpExtension() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const parameters = {
+          location: "westus",
+          properties: {
+            configuration: "{ServiceConfiguration}",
+            extensionProfile: {
+              extensions: [
+                {
+                  name: "RDPExtension",
+                  properties: {
+                    type: "RDP",
+                    autoUpgradeMinorVersion: false,
+                    protectedSettings: "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
+                    publisher: "Microsoft.Windows.Azure.Extensions",
+                    settings:
+                      "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
+                    typeHandlerVersion: "1.2",
+                  },
+                },
+              ],
+            },
+            networkProfile: {
+              loadBalancerConfigurations: [
+                {
+                  name: "contosolb",
+                  properties: {
+                    frontendIPConfigurations: [
+                      {
+                        name: "contosofe",
+                        properties: {
+                          publicIPAddress: {
+                            id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            packageUrl: "{PackageUrl}",
+            roleProfile: {
+              roles: [
+                {
+                  name: "ContosoFrontend",
+                  sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+                },
+              ],
+            },
+            upgradeMode: "Auto",
+          },
+        };
+        const options = { parameters };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cloudServiceName,
+          options
+        );
+        console.log(result);
+      }
+
+      createNewCloudServiceWithSingleRoleAndRdpExtension().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -743,7 +1240,7 @@ examples:
                   ],
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "type": "RDP",
-                  "typeHandlerVersion": "1.2.1",
+                  "typeHandlerVersion": "1.2",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>"
                 }
               }
@@ -751,6 +1248,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "c948cccb-bbfa-4516-a250-c28abc4d0c15"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -810,7 +1311,7 @@ examples:
                   ],
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "type": "RDP",
-                  "typeHandlerVersion": "1.2.1",
+                  "typeHandlerVersion": "1.2",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>"
                 }
               }
@@ -818,11 +1319,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "c948cccb-bbfa-4516-a250-c28abc4d0c15"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Multiple Roles
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "properties": {
@@ -871,6 +1376,303 @@ examples:
         },
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              },
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoBackend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        },
+        "location": "westus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.CloudServiceInner;
+      import com.azure.resourcemanager.compute.models.CloudServiceNetworkProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfileProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleSku;
+      import com.azure.resourcemanager.compute.models.CloudServiceUpgradeMode;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfigurationProperties;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfigurationProperties;
+      import java.util.Arrays;
+
+      /** Samples for CloudServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
+           */
+          /**
+           * Sample code: Create New Cloud Service with Multiple Roles.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNewCloudServiceWithMultipleRoles(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServices()
+                  .createOrUpdate(
+                      "ConstosoRG",
+                      "{cs-name}",
+                      new CloudServiceInner()
+                          .withLocation("westus")
+                          .withProperties(
+                              new CloudServiceProperties()
+                                  .withPackageUrl("{PackageUrl}")
+                                  .withConfiguration("{ServiceConfiguration}")
+                                  .withUpgradeMode(CloudServiceUpgradeMode.AUTO)
+                                  .withRoleProfile(
+                                      new CloudServiceRoleProfile()
+                                          .withRoles(
+                                              Arrays
+                                                  .asList(
+                                                      new CloudServiceRoleProfileProperties()
+                                                          .withName("ContosoFrontend")
+                                                          .withSku(
+                                                              new CloudServiceRoleSku()
+                                                                  .withName("Standard_D1_v2")
+                                                                  .withTier("Standard")
+                                                                  .withCapacity(1L)),
+                                                      new CloudServiceRoleProfileProperties()
+                                                          .withName("ContosoBackend")
+                                                          .withSku(
+                                                              new CloudServiceRoleSku()
+                                                                  .withName("Standard_D1_v2")
+                                                                  .withTier("Standard")
+                                                                  .withCapacity(1L)))))
+                                  .withNetworkProfile(
+                                      new CloudServiceNetworkProfile()
+                                          .withLoadBalancerConfigurations(
+                                              Arrays
+                                                  .asList(
+                                                      new LoadBalancerConfiguration()
+                                                          .withName("contosolb")
+                                                          .withProperties(
+                                                              new LoadBalancerConfigurationProperties()
+                                                                  .withFrontendIpConfigurations(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new LoadBalancerFrontendIpConfiguration()
+                                                                                  .withName("contosofe")
+                                                                                  .withProperties(
+                                                                                      new LoadBalancerFrontendIpConfigurationProperties()
+                                                                                          .withPublicIpAddress(
+                                                                                              new SubResource()
+                                                                                                  .withId(
+                                                                                                      "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip")))))))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
+      func ExampleCloudServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"ConstosoRG",
+      		"{cs-name}",
+      		armcompute.CloudService{
+      			Location: to.Ptr("westus"),
+      			Properties: &armcompute.CloudServiceProperties{
+      				Configuration: to.Ptr("{ServiceConfiguration}"),
+      				NetworkProfile: &armcompute.CloudServiceNetworkProfile{
+      					LoadBalancerConfigurations: []*armcompute.LoadBalancerConfiguration{
+      						{
+      							Name: to.Ptr("contosolb"),
+      							Properties: &armcompute.LoadBalancerConfigurationProperties{
+      								FrontendIPConfigurations: []*armcompute.LoadBalancerFrontendIPConfiguration{
+      									{
+      										Name: to.Ptr("contosofe"),
+      										Properties: &armcompute.LoadBalancerFrontendIPConfigurationProperties{
+      											PublicIPAddress: &armcompute.SubResource{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"),
+      											},
+      										},
+      									}},
+      							},
+      						}},
+      				},
+      				PackageURL: to.Ptr("{PackageUrl}"),
+      				RoleProfile: &armcompute.CloudServiceRoleProfile{
+      					Roles: []*armcompute.CloudServiceRoleProfileProperties{
+      						{
+      							Name: to.Ptr("ContosoFrontend"),
+      							SKU: &armcompute.CloudServiceRoleSKU{
+      								Name:     to.Ptr("Standard_D1_v2"),
+      								Capacity: to.Ptr[int64](1),
+      								Tier:     to.Ptr("Standard"),
+      							},
+      						},
+      						{
+      							Name: to.Ptr("ContosoBackend"),
+      							SKU: &armcompute.CloudServiceRoleSKU{
+      								Name:     to.Ptr("Standard_D1_v2"),
+      								Capacity: to.Ptr[int64](1),
+      								Tier:     to.Ptr("Standard"),
+      							},
+      						}},
+      				},
+      				UpgradeMode: to.Ptr(armcompute.CloudServiceUpgradeModeAuto),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       *
+       * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithMultiRole.json
+       */
+      async function createNewCloudServiceWithMultipleRoles() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const parameters = {
+          location: "westus",
+          properties: {
+            configuration: "{ServiceConfiguration}",
+            networkProfile: {
+              loadBalancerConfigurations: [
+                {
+                  name: "contosolb",
+                  properties: {
+                    frontendIPConfigurations: [
+                      {
+                        name: "contosofe",
+                        properties: {
+                          publicIPAddress: {
+                            id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            packageUrl: "{PackageUrl}",
+            roleProfile: {
+              roles: [
+                {
+                  name: "ContosoFrontend",
+                  sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+                },
+                {
+                  name: "ContosoBackend",
+                  sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+                },
+              ],
+            },
+            upgradeMode: "Auto",
+          },
+        };
+        const options = { parameters };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cloudServiceName,
+          options
+        );
+        console.log(result);
+      }
+
+      createNewCloudServiceWithMultipleRoles().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -927,6 +1729,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "7f3edf91-cb34-4a3e-971a-177dc3dd43cb"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -984,11 +1790,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "7f3edf91-cb34-4a3e-971a-177dc3dd43cb"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Single Role and Certificate from Key Vault
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "location": "westus",
@@ -1043,6 +1853,248 @@ examples:
           "upgradeMode": "Auto"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "location": "westus",
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "osProfile": {
+            "secrets": [
+              {
+                "sourceVault": {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}"
+                },
+                "vaultCertificates": [
+                  {
+                    "certificateUrl": "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}"
+                  }
+                ]
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.CloudServiceInner;
+      import com.azure.resourcemanager.compute.models.CloudServiceNetworkProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceOsProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfile;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleProfileProperties;
+      import com.azure.resourcemanager.compute.models.CloudServiceRoleSku;
+      import com.azure.resourcemanager.compute.models.CloudServiceUpgradeMode;
+      import com.azure.resourcemanager.compute.models.CloudServiceVaultCertificate;
+      import com.azure.resourcemanager.compute.models.CloudServiceVaultSecretGroup;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerConfigurationProperties;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfiguration;
+      import com.azure.resourcemanager.compute.models.LoadBalancerFrontendIpConfigurationProperties;
+      import java.util.Arrays;
+
+      /** Samples for CloudServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndCertificate.json
+           */
+          /**
+           * Sample code: Create New Cloud Service with Single Role and Certificate from Key Vault.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServices()
+                  .createOrUpdate(
+                      "ConstosoRG",
+                      "{cs-name}",
+                      new CloudServiceInner()
+                          .withLocation("westus")
+                          .withProperties(
+                              new CloudServiceProperties()
+                                  .withPackageUrl("{PackageUrl}")
+                                  .withConfiguration("{ServiceConfiguration}")
+                                  .withUpgradeMode(CloudServiceUpgradeMode.AUTO)
+                                  .withRoleProfile(
+                                      new CloudServiceRoleProfile()
+                                          .withRoles(
+                                              Arrays
+                                                  .asList(
+                                                      new CloudServiceRoleProfileProperties()
+                                                          .withName("ContosoFrontend")
+                                                          .withSku(
+                                                              new CloudServiceRoleSku()
+                                                                  .withName("Standard_D1_v2")
+                                                                  .withTier("Standard")
+                                                                  .withCapacity(1L)))))
+                                  .withOsProfile(
+                                      new CloudServiceOsProfile()
+                                          .withSecrets(
+                                              Arrays
+                                                  .asList(
+                                                      new CloudServiceVaultSecretGroup()
+                                                          .withSourceVault(
+                                                              new SubResource()
+                                                                  .withId(
+                                                                      "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}"))
+                                                          .withVaultCertificates(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new CloudServiceVaultCertificate()
+                                                                          .withCertificateUrl(
+                                                                              "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}"))))))
+                                  .withNetworkProfile(
+                                      new CloudServiceNetworkProfile()
+                                          .withLoadBalancerConfigurations(
+                                              Arrays
+                                                  .asList(
+                                                      new LoadBalancerConfiguration()
+                                                          .withName("contosolb")
+                                                          .withProperties(
+                                                              new LoadBalancerConfigurationProperties()
+                                                                  .withFrontendIpConfigurations(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new LoadBalancerFrontendIpConfiguration()
+                                                                                  .withName("contosofe")
+                                                                                  .withProperties(
+                                                                                      new LoadBalancerFrontendIpConfigurationProperties()
+                                                                                          .withPublicIpAddress(
+                                                                                              new SubResource()
+                                                                                                  .withId(
+                                                                                                      "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip")))))))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       *
+       * @summary Create or update a cloud service. Please note some properties can be set only during cloud service creation.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudService_Create_WithSingleRoleAndCertificate.json
+       */
+      async function createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const parameters = {
+          location: "westus",
+          properties: {
+            configuration: "{ServiceConfiguration}",
+            networkProfile: {
+              loadBalancerConfigurations: [
+                {
+                  name: "contosolb",
+                  properties: {
+                    frontendIPConfigurations: [
+                      {
+                        name: "contosofe",
+                        properties: {
+                          publicIPAddress: {
+                            id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip",
+                          },
+                        },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+            osProfile: {
+              secrets: [
+                {
+                  sourceVault: {
+                    id: "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}",
+                  },
+                  vaultCertificates: [
+                    {
+                      certificateUrl:
+                        "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}",
+                    },
+                  ],
+                },
+              ],
+            },
+            packageUrl: "{PackageUrl}",
+            roleProfile: {
+              roles: [
+                {
+                  name: "ContosoFrontend",
+                  sku: { name: "Standard_D1_v2", capacity: 1, tier: "Standard" },
+                },
+              ],
+            },
+            upgradeMode: "Auto",
+          },
+        };
+        const options = { parameters };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cloudServiceName,
+          options
+        );
+        console.log(result);
+      }
+
+      createNewCloudServiceWithSingleRoleAndCertificateFromKeyVault().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1102,6 +2154,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "60b6cd59-600b-4e02-b717-521b07aa94bf"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -1162,6 +2218,10 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "60b6cd59-600b-4e02-b717-521b07aa94bf"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 security:

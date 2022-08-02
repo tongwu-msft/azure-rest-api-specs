@@ -3,16 +3,15 @@ ms.assetid:
 title: Azure Consumption REST APIs
 description: Learn how the Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources.
 ms.service: cost-management-billing
-author: ms-premp
-ms.author: prprak
-ms.manager: srsrikum
-service_description: To be added..
+author: bandersmsft
+ms.author: banders
+ms.reviewer: adwise
 ---
 
 
 # Azure Consumption
 
-The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. These APIs currently only support Enterprise Enrollments and Web Direct  Subscriptions (with a few exceptions). The APIs are continually updated to support other types of Azure subscriptions.
+The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. The APIs currently only support Enterprise Enrollments, Web Direct subscriptions (with a few exceptions), and CSP Azure plan subscriptions. The APIs are continually updated to support other types of Azure subscriptions.
 
 Azure Consumption APIs provide access to:
 * Enterprise Customers Only
@@ -44,7 +43,7 @@ Azure Consumption APIs provide access to:
 | Operation Group | Description |
 |-----------------|-------------|
 | [Budgets](xref:management.azure.com.consumption.budgets) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
-  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions and Billing accounts.
+  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions.
   [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription or Enterprise Billing accounts.
   [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription or Enterprise Billing accounts. |
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
@@ -125,11 +124,11 @@ Sample Response snippet:
 
 For more information about using this API in one of the language-specific SDKs, visit the following
 
-[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python)
+[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python&preserve-view=true)
 
-[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest)
+[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest&preserve-view=true)
 
-[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet)
+[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet&preserve-view=true)
 
 [Azure Consumption NodeJS SDK](/javascript/api/overview/azure/consumption)
 

@@ -1,0 +1,322 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.devices.updateattestation
+name: Update Attestation
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-06-30-preview
+summary: Update an individual device attestation via patch
+consumes:
+- application/json
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{subdomain}.{baseDomain}/api/devices/{deviceId}/attestation?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceId
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: SymmetricKeyAttestation
+  - uid: TpmAttestation
+  - uid: X509Attestation
+  typesTitle: Attestation
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: body
+    in: body
+    description: Individual device attestation patch body.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: SymmetricKeyAttestation
+  description: The symmetric key attestation definition.
+  kind: object
+  properties:
+  - name: symmetricKey
+    description: The symmetric key credentials for this attestation.
+    types:
+    - uid: SymmetricKey
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: symmetricKey
+    typesTitle: string
+- name: TpmAttestation
+  description: The TPM attestation definition.
+  kind: object
+  properties:
+  - name: tpm
+    description: The TPM credentials for this attestation.
+    types:
+    - uid: Tpm
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: tpm
+    typesTitle: string
+- name: X509Attestation
+  description: The X509 attestation definition.
+  kind: object
+  properties:
+  - name: x509
+    description: The X.509 credentials for this attestation.
+    types:
+    - uid: X509
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: x509
+    typesTitle: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: SymmetricKey
+  description: The symmetric key definition.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary key for this credential.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary key for this credential.
+    types:
+    - uid: string
+- name: Tpm
+  description: The trusted platform module definition.
+  kind: object
+  properties:
+  - name: endorsementKey
+    description: The TPM endorsement key for this credential.
+    types:
+    - uid: string
+- name: X509
+  description: The X509 definition.
+  kind: object
+  properties:
+  - name: clientCertificates
+    description: The X.509 client certificates for this credential.
+    types:
+    - uid: X509Certificates
+- name: X509Certificates
+  description: The X509 certificates definition.
+  kind: object
+  properties:
+  - name: primary
+    description: The primary X.509 certificate for this credential.
+    types:
+    - uid: X509Certificate
+  - name: secondary
+    description: The secondary X.509 certificate for this credential.
+    types:
+    - uid: X509Certificate
+- name: X509Certificate
+  description: The X509 certificate definition.
+  kind: object
+  properties:
+  - name: certificate
+    description: The string representation of this certificate.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: Information about this certificate.
+    types:
+    - uid: X509CertificateInfo
+- name: X509CertificateInfo
+  description: The X509 certificate info.
+  kind: object
+  properties:
+  - name: sha1Thumbprint
+    description: The SHA-1 hash value of the certificate.
+    types:
+    - uid: string
+examples:
+- name: Update device attestation - Symmetric Key
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+    body: >-
+      {
+        "type": "symmetricKey",
+        "symmetricKey": {
+          "primaryKey": "<primary key>",
+          "secondaryKey": "<secondary key>"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+
+      {
+        "type": "symmetricKey",
+        "symmetricKey": {
+          "primaryKey": "<primary key>",
+          "secondaryKey": "<secondary key>"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "symmetricKey",
+        "symmetricKey": {
+          "primaryKey": "<primary key>",
+          "secondaryKey": "<secondary key>"
+        }
+      }
+- name: Update device attestation - TPM
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+    body: >-
+      {
+        "type": "tpm",
+        "tpm": {
+          "endorsementKey": "<endorsement key>"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+
+      {
+        "type": "tpm",
+        "tpm": {
+          "endorsementKey": "<endorsement key>"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "tpm",
+        "tpm": {
+          "endorsementKey": "<endorsement key>"
+        }
+      }
+- name: Update device attestation - X509
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+    body: >-
+      {
+        "type": "x509",
+        "x509": {
+          "clientCertificates": {
+            "primary": {
+              "certificate": "<string representation of the certificate>"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/devices/CheckoutThermostat/attestation?api-version=2022-06-30-preview
+
+      {
+        "type": "x509",
+        "x509": {
+          "clientCertificates": {
+            "primary": {
+              "certificate": "<string representation of the certificate>"
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "x509",
+        "x509": {
+          "clientCertificates": {
+            "primary": {
+              "info": {
+                "sha1Thumbprint": "<thumbprint>"
+              }
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Update an individual device attestation via patch
+errorCodes: []

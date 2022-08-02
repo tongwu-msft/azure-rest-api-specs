@@ -1,0 +1,277 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.workloads.sapapplicationserverinstances.delete
+name: Delete
+service: Workloads
+groupName: SAP Application Server Instances
+apiVersion: 2021-12-01-preview
+summary: Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/sapVirtualInstances/{sapVirtualInstanceName}/applicationInstances/{applicationInstanceName}?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: sapVirtualInstanceName
+  in: path
+  isRequired: true
+  description: The name of the Virtual Instances for SAP.
+  types:
+  - uid: string
+- name: applicationInstanceName
+  in: path
+  isRequired: true
+  description: The name of SAP Application Server instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationStatusResult
+- name: 202 Accepted
+  description: Accepted
+- name: 204 No Content
+  description: NoContent
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationStatusResult
+  description: The current status of an async operation.
+  kind: object
+  properties:
+  - name: id
+    description: Fully qualified ID for the async operation.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the async operation.
+    types:
+    - uid: string
+  - name: status
+    description: Operation status.
+    types:
+    - uid: string
+  - name: percentComplete
+    description: Percent of the operation that is complete.
+    types:
+    - uid: number
+  - name: startTime
+    description: The start time of the operation.
+    types:
+    - uid: string
+  - name: endTime
+    description: The end time of the operation.
+    types:
+    - uid: string
+  - name: operations
+    description: The operations list.
+    types:
+    - uid: OperationStatusResult
+      isArray: true
+  - name: error
+    description: If present, details of the operation error.
+    types:
+    - uid: ErrorDetail
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: SAPApplicationServerInstances_Delete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/sapVirtualInstances/X00/applicationInstances/app01?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/sapVirtualInstances/X00/applicationInstances/app01?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SapApplicationServerInstances Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Delete.json
+           */
+          /**
+           * Sample code: SAPApplicationServerInstances_Delete.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPApplicationServerInstancesDelete(
+              com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.sapApplicationServerInstances().delete("test-rg", "X00", "app01", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armworkloads_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/workloads/armworkloads"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Delete.json
+      func ExampleSAPApplicationServerInstancesClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armworkloads.NewSAPApplicationServerInstancesClient("6d875e77-e412-4d7d-9af4-8895278b4443", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx,
+      		"test-rg",
+      		"X00",
+      		"app01",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fworkloads%2Farmworkloads%2Fv0.2.0/sdk/resourcemanager/workloads/armworkloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+       *
+       * @summary Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPApplicationServerInstances_Delete.json
+       */
+      async function sapApplicationServerInstancesDelete() {
+        const subscriptionId = "6d875e77-e412-4d7d-9af4-8895278b4443";
+        const resourceGroupName = "test-rg";
+        const sapVirtualInstanceName = "X00";
+        const applicationInstanceName = "app01";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPApplicationServerInstances.beginDeleteAndWait(
+          resourceGroupName,
+          sapVirtualInstanceName,
+          applicationInstanceName
+        );
+        console.log(result);
+      }
+
+      sapApplicationServerInstancesDelete().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/6d875e77-e412-4d7d-9af4-8895278b4443/resourceGroups/test-rg/providers/Microsoft.Workloads/operations/locations/centralus/1e4193c3-206e-4916-b124-1da16175eb0e",
+        "name": "1e4193c3-206e-4916-b124-1da16175eb0e",
+        "status": "Succeeded",
+        "startTime": "2021-08-19T03:36:07.000Z",
+        "endTime": "2021-08-19T03:38:07.000Z",
+        "error": null
+      }
+  - statusCode: "202"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Deletes the SAP Application Server Instance. <br><br>This operation will be used by service only. Delete by end user will return a Bad Request error.
+errorCodes: []

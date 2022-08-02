@@ -1,8 +1,8 @@
 ---
-title: "List By Subscription"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "List By Network Subscription"
+description: Provides request method, parameters, and examples of getting the network resources in a subscription.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Subscription
+# List By Network Subscription
 Gets all the network resources in a given subscription.
 
 Gets the information about all network resources in a given subscription. The information includes the network description and other runtime properties.

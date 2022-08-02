@@ -3,14 +3,14 @@ uid: management.azure.com.aks.snapshots.get
 name: Get
 service: AKS
 groupName: Snapshots
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: Gets a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}?api-version=2022-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/snapshots/{resourceName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,6 +60,7 @@ definitions:
     description: The type of a snapshot. The default is NodePool.
     types:
     - uid: SnapshotType
+    defaultValue: NodePool
   - name: properties.kubernetesVersion
     isReadyOnly: true
     description: The version of Kubernetes.
@@ -75,6 +76,7 @@ definitions:
     description: The operating system type. The default is Linux.
     types:
     - uid: OSType
+    defaultValue: Linux
   - name: properties.osSku
     isReadyOnly: true
     description: Specifies an OS SKU. This value must not be specified if OSType is Windows.
@@ -90,6 +92,18 @@ definitions:
     description: Whether to use a FIPS-enabled OS.
     types:
     - uid: boolean
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -109,19 +123,7 @@ definitions:
     isReadyOnly: true
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
-    - uid: SystemData
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
+    - uid: systemData
 - name: CloudError
   description: An error response from the Container service.
   kind: object
@@ -168,7 +170,7 @@ definitions:
   - name: CBLMariner
     types:
     - uid: string
-- name: SystemData
+- name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
@@ -236,7 +238,100 @@ definitions:
 examples:
 - name: Get Snapshot
   request:
-    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1?api-version=2022-02-01
+    uri: GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1?api-version=2022-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/snapshots/snapshot1?api-version=2022-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Snapshots GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/SnapshotsGet.json
+           */
+          /**
+           * Sample code: Get Snapshot.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getSnapshot(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .getByResourceGroupWithResponse("rg1", "snapshot1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/SnapshotsGet.json
+      func ExampleSnapshotsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewSnapshotsClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"rg1",
+      		"snapshot1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a snapshot.
+       *
+       * @summary Gets a snapshot.
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/SnapshotsGet.json
+       */
+      async function getSnapshot() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "snapshot1";
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.snapshots.get(resourceGroupName, resourceName);
+        console.log(result);
+      }
+
+      getSnapshot().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

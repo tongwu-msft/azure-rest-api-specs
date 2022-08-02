@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.current-preview.contenttype.createorupda
 name: Create Or Update
 service: API Management
 groupName: Content Type
-apiVersion: 2021-04-01-preview
+apiVersion: 2021-12-01-preview
 summary: Creates or updates the developer portal's content type. Content types describe content items' properties, validation rules, and constraints. Custom content types' identifiers need to start with the `c-` prefix. Built-in content types can't be modified.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}?api-version=2021-04-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -62,6 +62,34 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.id
+    in: body
+    description: Content type identifier
+    types:
+    - uid: string
+  - name: properties.name
+    in: body
+    description: Content type name. Must be 1 to 250 characters long.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: Content type description.
+    types:
+    - uid: string
+  - name: properties.schema
+    in: body
+    description: Content type schema.
+    types:
+    - uid: object
+  - name: properties.version
+    in: body
+    description: Content type version.
+    types:
+    - uid: string
 requestHeader:
 - name: If-Match
   in: header
@@ -144,7 +172,120 @@ definitions:
 examples:
 - name: ApiManagementCreateContentType
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/contentTypes/page?api-version=2021-04-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/contentTypes/page?api-version=2021-12-01-preview
+    body: >-
+      {
+        "properties": {
+          "name": "Page",
+          "description": "A regular page",
+          "schema": {
+            "properties": {
+              "en_us": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "title": "Title",
+                    "description": "Page title. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Page description. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "keywords": {
+                    "title": "Keywords",
+                    "description": "Page keywords. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "permalink": {
+                    "title": "Permalink",
+                    "description": "Page permalink, e.g. '/about'.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "documentId": {
+                    "title": "Document ID",
+                    "description": "Reference to page content document.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "title",
+                  "permalink",
+                  "documentId"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "version": "1.0.0"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/contentTypes/page?api-version=2021-12-01-preview
+
+      {
+        "properties": {
+          "name": "Page",
+          "description": "A regular page",
+          "schema": {
+            "properties": {
+              "en_us": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "title": "Title",
+                    "description": "Page title. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Page description. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "keywords": {
+                    "title": "Keywords",
+                    "description": "Page keywords. This property gets included in SEO attributes.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "permalink": {
+                    "title": "Permalink",
+                    "description": "Page permalink, e.g. '/about'.",
+                    "type": "string",
+                    "indexed": true
+                  },
+                  "documentId": {
+                    "title": "Document ID",
+                    "description": "Reference to page content document.",
+                    "type": "string"
+                  }
+                },
+                "additionalProperties": false,
+                "required": [
+                  "title",
+                  "permalink",
+                  "documentId"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "version": "1.0.0"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

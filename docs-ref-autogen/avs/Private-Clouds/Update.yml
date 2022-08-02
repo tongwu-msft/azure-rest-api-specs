@@ -315,6 +315,7 @@ definitions:
     description: Connectivity to internet is enabled or disabled
     types:
     - uid: InternetEnum
+    defaultValue: Disabled
   - name: properties.identitySources
     description: vCenter Single Sign On Identity Sources
     types:
@@ -360,6 +361,7 @@ definitions:
     description: Connectivity to internet is enabled or disabled
     types:
     - uid: InternetEnum
+    defaultValue: Disabled
   - name: properties.identitySources
     description: vCenter Single Sign On Identity Sources
     types:
@@ -632,6 +634,133 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2021-12-01
+
+      {
+        "identity": {
+          "type": "None"
+        },
+        "properties": {
+          "managementCluster": {
+            "clusterSize": 4
+          },
+          "encryption": {
+            "status": "Enabled",
+            "keyVaultProperties": {
+              "keyName": "keyname1",
+              "keyVersion": "ver1.0",
+              "keyVaultUrl": "https://keyvault1-kmip-kvault.vault.azure.net/"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.avs.models.Encryption;
+      import com.azure.resourcemanager.avs.models.EncryptionKeyVaultProperties;
+      import com.azure.resourcemanager.avs.models.EncryptionState;
+      import com.azure.resourcemanager.avs.models.ManagementCluster;
+      import com.azure.resourcemanager.avs.models.PrivateCloud;
+      import com.azure.resourcemanager.avs.models.PrivateCloudIdentity;
+      import com.azure.resourcemanager.avs.models.ResourceIdentityType;
+
+      /** Samples for PrivateClouds Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_Update.json
+           */
+          /**
+           * Sample code: PrivateClouds_Update.
+           *
+           * @param manager Entry point to AvsManager.
+           */
+          public static void privateCloudsUpdate(com.azure.resourcemanager.avs.AvsManager manager) {
+              PrivateCloud resource =
+                  manager.privateClouds().getByResourceGroupWithResponse("group1", "cloud1", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withIdentity(new PrivateCloudIdentity().withType(ResourceIdentityType.NONE))
+                  .withManagementCluster(new ManagementCluster().withClusterSize(4))
+                  .withEncryption(
+                      new Encryption()
+                          .withStatus(EncryptionState.ENABLED)
+                          .withKeyVaultProperties(
+                              new EncryptionKeyVaultProperties()
+                                  .withKeyName("keyname1")
+                                  .withKeyVersion("ver1.0")
+                                  .withKeyVaultUrl("https://keyvault1-kmip-kvault.vault.azure.net/")))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armavs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_Update.json
+      func ExamplePrivateCloudsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armavs.NewPrivateCloudsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"group1",
+      		"cloud1",
+      		armavs.PrivateCloudUpdate{
+      			Identity: &armavs.PrivateCloudIdentity{
+      				Type: to.Ptr(armavs.ResourceIdentityTypeNone),
+      			},
+      			Properties: &armavs.PrivateCloudUpdateProperties{
+      				Encryption: &armavs.Encryption{
+      					KeyVaultProperties: &armavs.EncryptionKeyVaultProperties{
+      						KeyName:     to.Ptr("keyname1"),
+      						KeyVaultURL: to.Ptr("https://keyvault1-kmip-kvault.vault.azure.net/"),
+      						KeyVersion:  to.Ptr("ver1.0"),
+      					},
+      					Status: to.Ptr(armavs.EncryptionStateEnabled),
+      				},
+      				ManagementCluster: &armavs.ManagementCluster{
+      					ClusterSize: to.Ptr[int32](4),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -767,6 +896,46 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2021-12-01
+
+      {
+        "properties": {
+          "managementCluster": {
+            "clusterSize": 4
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.avs.models.ManagementCluster;
+      import com.azure.resourcemanager.avs.models.PrivateCloud;
+
+      /** Samples for PrivateClouds Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_Update_Stretched.json
+           */
+          /**
+           * Sample code: PrivateClouds_Update_Stretched.
+           *
+           * @param manager Entry point to AvsManager.
+           */
+          public static void privateCloudsUpdateStretched(com.azure.resourcemanager.avs.AvsManager manager) {
+              PrivateCloud resource =
+                  manager.privateClouds().getByResourceGroupWithResponse("group1", "cloud1", Context.NONE).getValue();
+              resource.update().withManagementCluster(new ManagementCluster().withClusterSize(4)).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

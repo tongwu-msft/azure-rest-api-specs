@@ -121,6 +121,7 @@ definitions:
     description: Indicates if the given alert processing rule is enabled or disabled.
     types:
     - uid: boolean
+    defaultValue: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -438,6 +439,86 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/AddActionGroupToSubscription?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "actions": [
+            {
+              "actionType": "AddActionGroups",
+              "actionGroupIds": [
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/ActionGroup1"
+              ]
+            }
+          ],
+          "description": "Add ActionGroup1 to all alerts in the subscription",
+          "enabled": true
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armalertsmanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/alertsmanagement/armalertsmanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/alertsmanagement/resource-manager/Microsoft.AlertsManagement/stable/2021-08-08/examples/AlertProcessingRules_Create_or_update_add_action_group_all_alerts_in_subscription.json
+      func ExampleAlertProcessingRulesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armalertsmanagement.NewAlertProcessingRulesClient("subId1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"alertscorrelationrg",
+      		"AddActionGroupToSubscription",
+      		armalertsmanagement.AlertProcessingRule{
+      			Location: to.Ptr("Global"),
+      			Tags:     map[string]*string{},
+      			Properties: &armalertsmanagement.AlertProcessingRuleProperties{
+      				Description: to.Ptr("Add ActionGroup1 to all alerts in the subscription"),
+      				Actions: []armalertsmanagement.ActionClassification{
+      					&armalertsmanagement.AddActionGroups{
+      						ActionType: to.Ptr(armalertsmanagement.ActionTypeAddActionGroups),
+      						ActionGroupIDs: []*string{
+      							to.Ptr("/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/ActionGroup1")},
+      					}},
+      				Enabled: to.Ptr(true),
+      				Scopes: []*string{
+      					to.Ptr("/subscriptions/subId1")},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Falertsmanagement%2Farmalertsmanagement%2Fv0.6.0/sdk/resourcemanager/alertsmanagement/armalertsmanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -538,6 +619,45 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/AddActionGroupsBySeverity?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1",
+            "/subscriptions/subId1/resourceGroups/RGId2"
+          ],
+          "conditions": [
+            {
+              "field": "Severity",
+              "operator": "Equals",
+              "values": [
+                "sev0",
+                "sev1"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "AddActionGroups",
+              "actionGroupIds": [
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/AGId1",
+                "/subscriptions/subId1/resourcegroups/RGId1/providers/microsoft.insights/actiongroups/AGId2"
+              ]
+            }
+          ],
+          "description": "Add AGId1 and AGId2 to all Sev0 and Sev1 alerts in these resourceGroups",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -652,6 +772,35 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsMaintenanceWindow?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1/providers/Microsoft.Compute/virtualMachines/VMName"
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "effectiveFrom": "2021-04-15T18:00:00",
+            "effectiveUntil": "2021-04-15T20:00:00",
+            "timeZone": "Pacific Standard Time"
+          },
+          "description": "Removes all ActionGroups from all Alerts on VMName during the maintenance window",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -765,6 +914,54 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsRecurringMaintenance?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1/resourceGroups/RGId1",
+            "/subscriptions/subId1/resourceGroups/RGId2"
+          ],
+          "conditions": [
+            {
+              "field": "TargetResourceType",
+              "operator": "Equals",
+              "values": [
+                "microsoft.compute/virtualmachines"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "timeZone": "India Standard Time",
+            "recurrences": [
+              {
+                "recurrenceType": "Weekly",
+                "startTime": "22:00:00",
+                "endTime": "04:00:00",
+                "daysOfWeek": [
+                  "Saturday",
+                  "Sunday"
+                ]
+              }
+            ]
+          },
+          "description": "Remove all ActionGroups from all Vitual machine Alerts during the recurring maintenance",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -909,6 +1106,47 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsOutsideBusinessHours?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "schedule": {
+            "timeZone": "Eastern Standard Time",
+            "recurrences": [
+              {
+                "recurrenceType": "Daily",
+                "startTime": "17:00:00",
+                "endTime": "09:00:00"
+              },
+              {
+                "recurrenceType": "Weekly",
+                "daysOfWeek": [
+                  "Saturday",
+                  "Sunday"
+                ]
+              }
+            ]
+          },
+          "description": "Remove all ActionGroups outside business hours",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1031,6 +1269,39 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId1/resourceGroups/alertscorrelationrg/providers/Microsoft.AlertsManagement/actionRules/RemoveActionGroupsSpecificAlertRule?api-version=2021-08-08
+
+      {
+        "location": "Global",
+        "tags": {},
+        "properties": {
+          "scopes": [
+            "/subscriptions/subId1"
+          ],
+          "conditions": [
+            {
+              "field": "AlertRuleId",
+              "operator": "Equals",
+              "values": [
+                "/subscriptions/suubId1/resourceGroups/Rgid2/providers/microsoft.insights/activityLogAlerts/RuleName"
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "actionType": "RemoveAllActionGroups"
+            }
+          ],
+          "description": "Removes all ActionGroups from all Alerts that fire on above AlertRule",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

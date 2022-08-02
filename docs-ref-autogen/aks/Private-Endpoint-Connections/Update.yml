@@ -3,14 +3,14 @@ uid: management.azure.com.aks.privateendpointconnections.update
 name: Update
 service: AKS
 groupName: Private Endpoint Connections
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: Updates a private endpoint connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -184,7 +184,7 @@ definitions:
 examples:
 - name: Update Private Endpoint Connection
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/privateEndpointConnections/privateendpointconnection1?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/privateEndpointConnections/privateendpointconnection1?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -193,6 +193,136 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/privateEndpointConnections/privateendpointconnection1?api-version=2022-04-01
+
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.containerservice.fluent.models.PrivateEndpointConnectionInner;
+      import com.azure.resourcemanager.containerservice.models.ConnectionStatus;
+      import com.azure.resourcemanager.containerservice.models.PrivateLinkServiceConnectionState;
+
+      /** Samples for PrivateEndpointConnections Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/PrivateEndpointConnectionsUpdate.json
+           */
+          /**
+           * Sample code: Update Private Endpoint Connection.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updatePrivateEndpointConnection(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpointConnections()
+                  .updateWithResponse(
+                      "rg1",
+                      "clustername1",
+                      "privateendpointconnection1",
+                      new PrivateEndpointConnectionInner()
+                          .withPrivateLinkServiceConnectionState(
+                              new PrivateLinkServiceConnectionState().withStatus(ConnectionStatus.APPROVED)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/PrivateEndpointConnectionsUpdate.json
+      func ExamplePrivateEndpointConnectionsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewPrivateEndpointConnectionsClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg1",
+      		"clustername1",
+      		"privateendpointconnection1",
+      		armcontainerservice.PrivateEndpointConnection{
+      			Properties: &armcontainerservice.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armcontainerservice.PrivateLinkServiceConnectionState{
+      					Status: to.Ptr(armcontainerservice.ConnectionStatusApproved),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a private endpoint connection.
+       *
+       * @summary Updates a private endpoint connection.
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/PrivateEndpointConnectionsUpdate.json
+       */
+      async function updatePrivateEndpointConnection() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "clustername1";
+        const privateEndpointConnectionName = "privateendpointconnection1";
+        const parameters = {
+          privateLinkServiceConnectionState: { status: "Approved" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnections.update(
+          resourceGroupName,
+          resourceName,
+          privateEndpointConnectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updatePrivateEndpointConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

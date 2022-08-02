@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.runcommand
 name: Run Command
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: "Submits a command to run against the Managed Cluster.  \nAKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview)."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand?api-version=2022-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/runCommand?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -156,18 +156,142 @@ definitions:
 examples:
 - name: submitNewCommand
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/runCommand?api-version=2022-02-01
+    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/runCommand?api-version=2022-04-01
     body: >-
       {
         "command": "kubectl apply -f ns.yaml",
         "context": "",
         "clusterToken": ""
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/runCommand?api-version=2022-04-01
+
+      {
+        "command": "kubectl apply -f ns.yaml",
+        "context": "",
+        "clusterToken": ""
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.containerservice.models.RunCommandRequest;
+
+      /** Samples for ManagedClusters RunCommand. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/RunCommandRequest.json
+           */
+          /**
+           * Sample code: submitNewCommand.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void submitNewCommand(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getManagedClusters()
+                  .runCommand(
+                      "rg1",
+                      "clustername1",
+                      new RunCommandRequest().withCommand("kubectl apply -f ns.yaml").withContext("").withClusterToken(""),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/RunCommandRequest.json
+      func ExampleManagedClustersClient_BeginRunCommand() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewManagedClustersClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRunCommand(ctx,
+      		"rg1",
+      		"clustername1",
+      		armcontainerservice.RunCommandRequest{
+      			ClusterToken: to.Ptr(""),
+      			Command:      to.Ptr("kubectl apply -f ns.yaml"),
+      			Context:      to.Ptr(""),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+       *
+       * @summary AKS will create a pod to run the command. This is primarily useful for private clusters. For more information see [AKS Run Command](https://docs.microsoft.com/azure/aks/private-clusters#aks-run-command-preview).
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/RunCommandRequest.json
+       */
+      async function submitNewCommand() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "clustername1";
+        const requestPayload = {
+          clusterToken: "",
+          command: "kubectl apply -f ns.yaml",
+          context: "",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.managedClusters.beginRunCommandAndWait(
+          resourceGroupName,
+          resourceName,
+          requestPayload
+        );
+        console.log(result);
+      }
+
+      submitNewCommand().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/commandResults/0e9872e6629349dc865e27ee6f8bab2d?api-version=2022-02-01
+      value: https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/commandResults/0e9872e6629349dc865e27ee6f8bab2d?api-version=2022-04-01
   - statusCode: "200"
     body: >-
       {

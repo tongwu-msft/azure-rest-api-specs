@@ -148,6 +148,84 @@ examples:
         "name": "sampleName",
         "type": "Microsoft.Support/supportTickets"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/checkNameAvailability?api-version=2020-04-01
+
+      {
+        "name": "sampleName",
+        "type": "Microsoft.Support/supportTickets"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsupport_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/support/armsupport"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/CheckNameAvailabilityWithSubscription.json
+      func ExampleTicketsClient_CheckNameAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsupport.NewTicketsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckNameAvailability(ctx,
+      		armsupport.CheckNameAvailabilityInput{
+      			Name: to.Ptr("sampleName"),
+      			Type: to.Ptr(armsupport.TypeMicrosoftSupportSupportTickets),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsupport%2Farmsupport%2Fv1.0.0/sdk/resourcemanager/support/armsupport/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
+       *
+       * @summary Check the availability of a resource name. This API should be used to check the uniqueness of the name for support ticket creation for the selected subscription.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/CheckNameAvailabilityWithSubscription.json
+       */
+      async function checksWhetherNameIsAvailableForSupportTicketResource() {
+        const subscriptionId = "subid";
+        const checkNameAvailabilityInput = {
+          name: "sampleName",
+          type: "Microsoft.Support/supportTickets",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const result = await client.supportTickets.checkNameAvailability(checkNameAvailabilityInput);
+        console.log(result);
+      }
+
+      checksWhetherNameIsAvailableForSupportTicketResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

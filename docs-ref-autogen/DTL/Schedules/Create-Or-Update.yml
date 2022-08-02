@@ -151,6 +151,7 @@ definitions:
     description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: timeInMinutes
     description: Time in minutes before event at which notification will be sent.
     types:
@@ -175,6 +176,7 @@ definitions:
     description: The status of the schedule (i.e. Enabled, Disabled)
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: properties.taskType
     description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     types:
@@ -322,6 +324,165 @@ examples:
           "tagName1": "tagValue1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/schedules/{scheduleName}?api-version=2018-09-15
+
+      {
+        "properties": {
+          "status": "{Enabled|Disabled}",
+          "taskType": "{myLabVmTaskType}",
+          "weeklyRecurrence": {
+            "weekdays": [
+              "Monday",
+              "Wednesday",
+              "Friday"
+            ],
+            "time": "{timeOfTheDayTheScheduleWillOccurOnThoseDays}"
+          },
+          "dailyRecurrence": {
+            "time": "{timeOfTheDayTheScheduleWillOccurEveryDay}"
+          },
+          "hourlyRecurrence": {
+            "minute": 30
+          },
+          "timeZoneId": "Pacific Standard Time",
+          "notificationSettings": {
+            "status": "{Enabled|Disabled}",
+            "timeInMinutes": 15,
+            "webhookUrl": "{webhookUrl}",
+            "emailRecipient": "{email}",
+            "notificationLocale": "EN"
+          },
+          "targetResourceId": "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}"
+        },
+        "location": "{location}",
+        "tags": {
+          "tagName1": "tagValue1"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Schedules_CreateOrUpdate.json
+      func ExampleSchedulesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewSchedulesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"resourceGroupName",
+      		"{labName}",
+      		"{scheduleName}",
+      		armdevtestlabs.Schedule{
+      			Location: to.Ptr("{location}"),
+      			Tags: map[string]*string{
+      				"tagName1": to.Ptr("tagValue1"),
+      			},
+      			Properties: &armdevtestlabs.ScheduleProperties{
+      				DailyRecurrence: &armdevtestlabs.DayDetails{
+      					Time: to.Ptr("{timeOfTheDayTheScheduleWillOccurEveryDay}"),
+      				},
+      				HourlyRecurrence: &armdevtestlabs.HourDetails{
+      					Minute: to.Ptr[int32](30),
+      				},
+      				NotificationSettings: &armdevtestlabs.NotificationSettings{
+      					EmailRecipient:     to.Ptr("{email}"),
+      					NotificationLocale: to.Ptr("EN"),
+      					Status:             to.Ptr(armdevtestlabs.EnableStatus("{Enabled|Disabled}")),
+      					TimeInMinutes:      to.Ptr[int32](15),
+      					WebhookURL:         to.Ptr("{webhookUrl}"),
+      				},
+      				Status:           to.Ptr(armdevtestlabs.EnableStatus("{Enabled|Disabled}")),
+      				TargetResourceID: to.Ptr("/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}"),
+      				TaskType:         to.Ptr("{myLabVmTaskType}"),
+      				TimeZoneID:       to.Ptr("Pacific Standard Time"),
+      				WeeklyRecurrence: &armdevtestlabs.WeekDetails{
+      					Time: to.Ptr("{timeOfTheDayTheScheduleWillOccurOnThoseDays}"),
+      					Weekdays: []*string{
+      						to.Ptr("Monday"),
+      						to.Ptr("Wednesday"),
+      						to.Ptr("Friday")},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or replace an existing schedule.
+       *
+       * @summary Create or replace an existing schedule.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Schedules_CreateOrUpdate.json
+       */
+      async function schedulesCreateOrUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const labName = "{labName}";
+        const name = "{scheduleName}";
+        const schedule = {
+          dailyRecurrence: { time: "{timeOfTheDayTheScheduleWillOccurEveryDay}" },
+          hourlyRecurrence: { minute: 30 },
+          location: "{location}",
+          notificationSettings: {
+            emailRecipient: "{email}",
+            notificationLocale: "EN",
+            status: "{Enabled|Disabled}",
+            timeInMinutes: 15,
+            webhookUrl: "{webhookUrl}",
+          },
+          status: "{Enabled|Disabled}",
+          tags: { tagName1: "tagValue1" },
+          targetResourceId:
+            "/subscriptions/{subscriptionId}/resourcegroups/resourceGroupName/providers/microsoft.devtestlab/labs/{labName}",
+          taskType: "{myLabVmTaskType}",
+          timeZoneId: "Pacific Standard Time",
+          weeklyRecurrence: {
+            time: "{timeOfTheDayTheScheduleWillOccurOnThoseDays}",
+            weekdays: ["Monday", "Wednesday", "Friday"],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const result = await client.schedules.createOrUpdate(resourceGroupName, labName, name, schedule);
+        console.log(result);
+      }
+
+      schedulesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

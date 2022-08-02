@@ -617,6 +617,198 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2021-11-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        },
+        "properties": {
+          "description": "test event updated",
+          "input": {
+            "streamingProtocol": "FragmentedMP4",
+            "keyFrameIntervalDuration": "PT6S",
+            "accessControl": {
+              "ip": {
+                "allow": [
+                  {
+                    "name": "AllowOne",
+                    "address": "192.1.1.0"
+                  }
+                ]
+              }
+            }
+          },
+          "preview": {
+            "accessControl": {
+              "ip": {
+                "allow": [
+                  {
+                    "name": "AllowOne",
+                    "address": "192.1.1.0"
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mediaservices.models.IpAccessControl;
+      import com.azure.resourcemanager.mediaservices.models.IpRange;
+      import com.azure.resourcemanager.mediaservices.models.LiveEvent;
+      import com.azure.resourcemanager.mediaservices.models.LiveEventInput;
+      import com.azure.resourcemanager.mediaservices.models.LiveEventInputAccessControl;
+      import com.azure.resourcemanager.mediaservices.models.LiveEventInputProtocol;
+      import com.azure.resourcemanager.mediaservices.models.LiveEventPreview;
+      import com.azure.resourcemanager.mediaservices.models.LiveEventPreviewAccessControl;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for LiveEvents Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/liveevent-update.json
+           */
+          /**
+           * Sample code: Update a LiveEvent.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void updateALiveEvent(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              LiveEvent resource =
+                  manager
+                      .liveEvents()
+                      .getWithResponse("mediaresources", "slitestmedia10", "myLiveEvent1", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withDescription("test event updated")
+                  .withInput(
+                      new LiveEventInput()
+                          .withStreamingProtocol(LiveEventInputProtocol.FRAGMENTED_MP4)
+                          .withAccessControl(
+                              new LiveEventInputAccessControl()
+                                  .withIp(
+                                      new IpAccessControl()
+                                          .withAllow(
+                                              Arrays.asList(new IpRange().withName("AllowOne").withAddress("192.1.1.0")))))
+                          .withKeyFrameIntervalDuration("PT6S"))
+                  .withPreview(
+                      new LiveEventPreview()
+                          .withAccessControl(
+                              new LiveEventPreviewAccessControl()
+                                  .withIp(
+                                      new IpAccessControl()
+                                          .withAllow(
+                                              Arrays.asList(new IpRange().withName("AllowOne").withAddress("192.1.1.0"))))))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/liveevent-update.json
+      func ExampleLiveEventsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewLiveEventsClient("0a6ec948-5a62-437d-b9df-934dc7c1b722", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"mediaresources",
+      		"slitestmedia10",
+      		"myLiveEvent1",
+      		armmediaservices.LiveEvent{
+      			Location: to.Ptr("West US"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      				"tag3": to.Ptr("value3"),
+      			},
+      			Properties: &armmediaservices.LiveEventProperties{
+      				Description: to.Ptr("test event updated"),
+      				Input: &armmediaservices.LiveEventInput{
+      					AccessControl: &armmediaservices.LiveEventInputAccessControl{
+      						IP: &armmediaservices.IPAccessControl{
+      							Allow: []*armmediaservices.IPRange{
+      								{
+      									Name:    to.Ptr("AllowOne"),
+      									Address: to.Ptr("192.1.1.0"),
+      								}},
+      						},
+      					},
+      					KeyFrameIntervalDuration: to.Ptr("PT6S"),
+      					StreamingProtocol:        to.Ptr(armmediaservices.LiveEventInputProtocolFragmentedMP4),
+      				},
+      				Preview: &armmediaservices.LiveEventPreview{
+      					AccessControl: &armmediaservices.LiveEventPreviewAccessControl{
+      						IP: &armmediaservices.IPAccessControl{
+      							Allow: []*armmediaservices.IPRange{
+      								{
+      									Name:    to.Ptr("AllowOne"),
+      									Address: to.Ptr("192.1.1.0"),
+      								}},
+      						},
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

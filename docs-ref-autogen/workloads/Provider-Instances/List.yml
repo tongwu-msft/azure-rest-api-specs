@@ -1,0 +1,737 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.workloads.providerinstances.list
+name: List
+service: Workloads
+groupName: Provider Instances
+apiVersion: 2021-12-01-preview
+summary: Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Workloads/monitors/{monitorName}/providerInstances?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Name of the SAP monitor resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ProviderInstanceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ProviderInstanceListResult
+  description: The response from the List provider instances operation.
+  kind: object
+  properties:
+  - name: value
+    description: The list of provider instances.
+    types:
+    - uid: ProviderInstance
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of provider instances.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ProviderInstance
+  description: A provider instance associated with SAP monitor.
+  kind: object
+  properties:
+  - name: identity
+    description: Managed service identity (user assigned identities)
+    types:
+    - uid: UserAssignedServiceIdentity
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: State of provisioning of the provider instance
+    types:
+    - uid: WorkloadMonitorProvisioningState
+  - name: properties.errors
+    isReadyOnly: true
+    description: Defines the provider instance errors.
+    types:
+    - uid: Errors
+  - name: properties.providerSettings
+    description: Defines the provider instance errors.
+    types:
+    - uid: HanaDbProviderInstanceProperties
+    - uid: SapNetWeaverProviderInstanceProperties
+    - uid: PrometheusOSProviderInstanceProperties
+    - uid: DB2ProviderInstanceProperties
+    - uid: PrometheusHaClusterProviderInstanceProperties
+    - uid: MsSqlServerProviderInstanceProperties
+    typesTitle: ProviderSpecificProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: UserAssignedServiceIdentity
+  description: Managed service identity (user assigned identities)
+  kind: object
+  properties:
+  - name: type
+    description: Type of manage identity
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nUser assigned identities dictionary"
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: WorkloadMonitorProvisioningState
+  description: State of provisioning of the SAP monitor.
+  kind: enum
+  properties:
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
+- name: Errors
+  description: Defines the provider instance errors.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innerError
+    isReadyOnly: true
+    description: Object containing more specific information than  the current object about the error.
+    types:
+    - uid: InnerError
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (only None, UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: Error
+  description: Standard error object.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Target of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innerError
+    isReadyOnly: true
+    description: Object containing more specific information than  the current object about the error.
+    types:
+    - uid: InnerError
+- name: InnerError
+  description: Object containing more specific information than  the current object about the error.
+  kind: object
+  properties:
+  - name: innerError
+    description: Standard error object.
+    types:
+    - uid: Error
+- name: HanaDbProviderInstanceProperties
+  description: Gets or sets the provider properties.
+  kind: object
+  properties:
+  - name: hostname
+    description: Gets or sets the target virtual machine size.
+    types:
+    - uid: string
+  - name: dbName
+    description: Gets or sets the hana database name.
+    types:
+    - uid: string
+  - name: sqlPort
+    description: Gets or sets the database sql port.
+    types:
+    - uid: string
+  - name: instanceNumber
+    description: Gets or sets the database instance number.
+    types:
+    - uid: string
+  - name: dbUsername
+    description: Gets or sets the database user name.
+    types:
+    - uid: string
+  - name: dbPassword
+    description: Gets or sets the database password.
+    types:
+    - uid: string
+  - name: dbPasswordUri
+    description: Gets or sets the key vault URI to secret with the database password.
+    types:
+    - uid: string
+  - name: dbSslCertificateUri
+    description: Gets or sets the blob URI to SSL certificate for the DB.
+    types:
+    - uid: string
+  - name: sslHostNameInCertificate
+    description: Gets or sets the hostname(s) in the SSL certificate.
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: SapHana
+    typesTitle: string
+- name: SapNetWeaverProviderInstanceProperties
+  description: Gets or sets the provider properties.
+  kind: object
+  properties:
+  - name: sapSid
+    description: Gets or sets the SAP System Identifier
+    types:
+    - uid: string
+  - name: sapHostname
+    description: Gets or sets the target virtual machine IP Address/FQDN.
+    types:
+    - uid: string
+  - name: sapInstanceNr
+    description: Gets or sets the instance number of SAP NetWeaver.
+    types:
+    - uid: string
+  - name: sapHostFileEntries
+    description: Gets or sets the list of HostFile Entries
+    types:
+    - uid: string
+      isArray: true
+  - name: sapUsername
+    description: Gets or sets the SAP user name.
+    types:
+    - uid: string
+  - name: sapPassword
+    description: Sets the SAP password.
+    types:
+    - uid: string
+  - name: sapPasswordUri
+    description: Gets or sets the key vault URI to secret with the SAP password.
+    types:
+    - uid: string
+  - name: sapClientId
+    description: Gets or sets the SAP Client ID.
+    types:
+    - uid: string
+  - name: sapPortNumber
+    description: Gets or sets the SAP HTTP port number.
+    types:
+    - uid: string
+  - name: sapSslCertificateUri
+    description: Gets or sets the blob URI to SSL certificate for the SAP system.
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: SapNetWeaver
+    typesTitle: string
+- name: PrometheusOSProviderInstanceProperties
+  description: Gets or sets the PrometheusOS provider properties.
+  kind: object
+  properties:
+  - name: prometheusUrl
+    description: URL of the Node Exporter endpoint
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: PrometheusOS
+    typesTitle: string
+- name: DB2ProviderInstanceProperties
+  description: Gets or sets the DB2 provider properties.
+  kind: object
+  properties:
+  - name: hostname
+    description: Gets or sets the target virtual machine name.
+    types:
+    - uid: string
+  - name: dbName
+    description: Gets or sets the db2 database name.
+    types:
+    - uid: string
+  - name: dbPort
+    description: Gets or sets the db2 database sql port.
+    types:
+    - uid: string
+  - name: dbUsername
+    description: Gets or sets the db2 database user name.
+    types:
+    - uid: string
+  - name: dbPassword
+    description: Gets or sets the db2 database password.
+    types:
+    - uid: string
+  - name: dbPasswordUri
+    description: Gets or sets the key vault URI to secret with the database password.
+    types:
+    - uid: string
+  - name: sapSid
+    description: Gets or sets the SAP System Identifier
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: Db2
+    typesTitle: string
+- name: PrometheusHaClusterProviderInstanceProperties
+  description: Gets or sets the PrometheusHaCluster provider properties.
+  kind: object
+  properties:
+  - name: prometheusUrl
+    description: URL of the Node Exporter endpoint.
+    types:
+    - uid: string
+  - name: hostname
+    description: Gets or sets the target machine name.
+    types:
+    - uid: string
+  - name: sid
+    description: Gets or sets the cluster sid.
+    types:
+    - uid: string
+  - name: clusterName
+    description: Gets or sets the clusterName.
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: PrometheusHaCluster
+    typesTitle: string
+- name: MsSqlServerProviderInstanceProperties
+  description: Gets or sets the SQL server provider properties.
+  kind: object
+  properties:
+  - name: hostname
+    description: Gets or sets the SQL server host name.
+    types:
+    - uid: string
+  - name: dbPort
+    description: Gets or sets the database sql port.
+    types:
+    - uid: string
+  - name: dbUsername
+    description: Gets or sets the database user name.
+    types:
+    - uid: string
+  - name: dbPassword
+    description: Gets or sets the database password.
+    types:
+    - uid: string
+  - name: dbPasswordUri
+    description: Gets or sets the key vault URI to secret with the database password.
+    types:
+    - uid: string
+  - name: sapSid
+    description: Gets or sets the SAP System Identifier
+    types:
+    - uid: string
+  - name: providerType
+    description: The provider type. For example, the value can be SapHana.
+    types:
+    - uid: MsSqlServer
+    typesTitle: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: List all SAP monitors providers in a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/monitors/mySapMonitor/providerInstances?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/monitors/mySapMonitor/providerInstances?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ProviderInstances List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_List.json
+           */
+          /**
+           * Sample code: List all SAP monitors providers in a subscription.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void listAllSAPMonitorsProvidersInASubscription(
+              com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.providerInstances().list("myResourceGroup", "mySapMonitor", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armworkloads_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/workloads/armworkloads"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_List.json
+      func ExampleProviderInstancesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armworkloads.NewProviderInstancesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"mySapMonitor",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fworkloads%2Farmworkloads%2Fv0.2.0/sdk/resourcemanager/workloads/armworkloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
+       *
+       * @summary Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/workloadmonitor/ProviderInstances_List.json
+       */
+      async function listAllSapMonitorsProvidersInASubscription() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "mySapMonitor";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.providerInstances.list(resourceGroupName, monitorName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllSapMonitorsProvidersInASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/workloads/mySapMonitor/providerInstances/myProviderInstance1",
+            "name": "myProviderInstance1",
+            "type": "Microsoft.Workloads/workloads/providerInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "providerSettings": {
+                "providerType": "SapHana",
+                "hostname": "name",
+                "dbName": "db",
+                "sqlPort": "0000",
+                "instanceNumber": "00",
+                "dbUsername": "user",
+                "dbPasswordUri": "",
+                "sslHostNameInCertificate": "xyz.domain.com",
+                "dbSslCertificateUri": "https://storageaccount.blob.core.windows.net/containername/filename"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/workloads/mySapMonitor/providerInstances/myProviderInstance1",
+            "name": "myProviderInstance2",
+            "type": "Microsoft.Workloads/workloads/providerInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "providerSettings": {
+                "providerType": "SapNetWeaver",
+                "sapSid": "SID",
+                "sapHostname": "name",
+                "sapInstanceNr": "00",
+                "sapHostFileEntries": [
+                  "127.0.0.1 name fqdn"
+                ],
+                "sapUsername": "username",
+                "sapPasswordUri": "",
+                "sapPortNumber": "1234",
+                "sapClientId": "111",
+                "sapSslCertificateUri": "https://storageaccount.blob.core.windows.net/containername/filename"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/workloads/mySapMonitor/providerInstances/myProviderInstance1",
+            "name": "myProviderInstance4",
+            "type": "Microsoft.Workloads/workloads/providerInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "providerSettings": {
+                "providerType": "MsSqlServer",
+                "dbUsername": "user",
+                "dbPort": "5912",
+                "hostname": "hostname",
+                "sapSid": "sid"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/workloads/mySapMonitor/providerInstances/myProviderInstance1",
+            "name": "myProviderInstance3",
+            "type": "Microsoft.Workloads/workloads/providerInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "providerSettings": {
+                "providerType": "PrometheusOS",
+                "prometheusUrl": "http://192.168.0.0:9090/metrics"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Workloads/workloads/mySapMonitor/providerInstances/myProviderInstance1",
+            "name": "myProviderInstance3",
+            "type": "Microsoft.Workloads/workloads/providerInstances",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "providerSettings": {
+                "providerType": "PrometheusHaCluster",
+                "prometheusUrl": "http://192.168.0.0:9090/metrics",
+                "hostname": "hostname",
+                "sid": "sid",
+                "clusterName": "clusterName"
+              }
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Gets a list of provider instances in the specified SAP monitor. The operations returns various properties of each provider instances.
+errorCodes: []

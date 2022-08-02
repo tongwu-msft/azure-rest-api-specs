@@ -3,15 +3,15 @@ uid: management.azure.com.compute.cloudserviceroleinstances.list
 name: List
 service: Compute
 groupName: Cloud Service Role Instances
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets the list of all role instances in a cloud service. Use nextLink property in the response to get the next page of role instances. Do this till nextLink is null to fetch all the role instances.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances?api-version=2021-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances?api-version=2021-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances?api-version=2022-04-04
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances?api-version=2022-04-04&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -23,11 +23,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
+  description: Name of the resource group.
   types:
   - uid: string
 - name: cloudServiceName
   in: path
   isRequired: true
+  description: Name of the cloud service.
   types:
   - uid: string
 - name: api-version
@@ -42,14 +44,14 @@ uriParameters:
   types:
   - uid: InstanceViewTypes
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: RoleInstanceListResult
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RoleInstanceListResult
 requestHeader: []
 definitions:
 - name: InstanceViewTypes
@@ -62,18 +64,6 @@ definitions:
   - name: userData
     types:
     - uid: string
-- name: RoleInstanceListResult
-  kind: object
-  properties:
-  - name: value
-    description: ''
-    types:
-    - uid: RoleInstance
-      isArray: true
-  - name: nextLink
-    description: ''
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -82,7 +72,46 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: RoleInstanceListResult
+  description: The list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: The list of resources.
+    types:
+    - uid: RoleInstance
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources.
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: RoleInstance
+  description: Describes the cloud service role instance.
   kind: object
   properties:
   - name: id
@@ -115,62 +144,13 @@ definitions:
       - uid: string
       - uid: string
   - name: sku
-    description: ''
+    description: The role instance SKU.
     types:
     - uid: InstanceSku
   - name: properties
-    description: ''
+    description: Role instance properties.
     types:
     - uid: RoleInstanceProperties
-- name: ApiError
-  description: Api error.
-  kind: object
-  properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InstanceSku
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: The sku name.
-    types:
-    - uid: string
-  - name: tier
-    isReadyOnly: true
-    description: The tier of the cloud service role instance.
-    types:
-    - uid: string
-- name: RoleInstanceProperties
-  kind: object
-  properties:
-  - name: networkProfile
-    description: Describes the network profile for the role instance.
-    types:
-    - uid: RoleInstanceNetworkProfile
-  - name: instanceView
-    description: The instance view of the role instance.
-    types:
-    - uid: RoleInstanceInstanceView
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -179,12 +159,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -199,6 +179,32 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: InstanceSku
+  description: The role instance SKU.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    isReadyOnly: true
+    description: The tier of the cloud service role instance.
+    types:
+    - uid: string
+- name: RoleInstanceProperties
+  description: Role instance properties.
+  kind: object
+  properties:
+  - name: networkProfile
+    description: Describes the network profile for the role instance.
+    types:
+    - uid: RoleInstanceNetworkProfile
+  - name: instanceView
+    description: The instance view of the role instance.
+    types:
+    - uid: RoleInstanceInstanceView
 - name: RoleInstanceNetworkProfile
   description: Describes the network profile for the role instance.
   kind: object
@@ -285,7 +291,110 @@ definitions:
 examples:
 - name: List Role Instances in a Cloud Service
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances?api-version=2022-04-04
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CloudServiceRoleInstances List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRolesInstance_List.json
+           */
+          /**
+           * Sample code: List Role Instances in a Cloud Service.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listRoleInstancesInACloudService(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServiceRoleInstances()
+                  .list("ConstosoRG", "{cs-name}", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRolesInstance_List.json
+      func ExampleCloudServiceRoleInstancesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServiceRoleInstancesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("ConstosoRG",
+      		"{cs-name}",
+      		&armcompute.CloudServiceRoleInstancesClientListOptions{Expand: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the list of all role instances in a cloud service. Use nextLink property in the response to get the next page of role instances. Do this till nextLink is null to fetch all the role instances.
+       *
+       * @summary Gets the list of all role instances in a cloud service. Use nextLink property in the response to get the next page of role instances. Do this till nextLink is null to fetch all the role instances.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRolesInstance_List.json
+       */
+      async function listRoleInstancesInACloudService() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.cloudServiceRoleInstances.list(
+          resourceGroupName,
+          cloudServiceName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listRoleInstancesInACloudService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -1,0 +1,665 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.generatecostdetailsreport.createoperation
+name: Create Operation
+service: Cost Management
+groupName: Generate Cost Details Report
+apiVersion: 2022-05-01
+summary: This API is the replacement for all previously release Usage Details APIs. Request to generate a cost details report for the provided date range, billing period (Only enterprise customers) or Invoice Id asynchronously at a certain scope. The initial call to request a report will return a 202 with a 'Location' and 'Retry-After' header. The 'Location' header will provide the endpoint to poll to get the result of the report generation. The 'Retry-After' provides the duration to wait before polling for the generated report. A call to poll the report operation will provide a 202 response with a 'Location' header if the operation is still in progress. Once the report generation operation completes, the polling endpoint will provide a 200 response along with details on the report blob(s) that are available for download. The details on the file(s) available for download will be available in the polling response body.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The scope associated with usage details operations. This includes '/subscriptions/{subscriptionId}/' for subscription scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, '/providers/Microsoft.Billing/departments/{departmentId}' for Department scope, '/providers/Microsoft.Billing/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope. Also, Modern Commerce Account scopes are '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for billingAccount scope, '/providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for billingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}/invoiceSections/{invoiceSectionId}' for invoiceSection scope, and 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/customers/{customerId}' specific for partners.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request processing completed.
+  types:
+  - uid: CostDetailsOperationResults
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Accepted. Request will be processed. Use the Location header to check the status.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: GenerateCostDetailsReportErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: metric
+    in: body
+    description: The type of the detailed report. By default ActualCost is provided
+    types:
+    - uid: CostDetailsMetricType
+  - name: timePeriod
+    in: body
+    description: The specific date range of cost details requested for the report. This parameter cannot be used alongside either the invoiceId or billingPeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. API only allows data to be pulled for 1 month or less and no older than 13 months. If no timePeriod or billingPeriod or invoiceId is provided the API defaults to the open month time period
+    types:
+    - uid: CostDetailsTimePeriod
+  - name: billingPeriod
+    in: body
+    description: This parameter can be used only by Enterprise Agreement customers. Use the YearMonth(e.g. 202008) format. This parameter cannot be used alongside either the invoiceId or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost.
+    types:
+    - uid: string
+  - name: invoiceId
+    in: body
+    description: This parameter can only be used by Microsoft Customer Agreement customers. Additionally, it can only be used at the Billing Profile or Customer scope. This parameter cannot be used alongside either the billingPeriod or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CostDetailsTimePeriod
+  description: The start and end date for pulling data for the cost detailed report. API only allows data to be pulled for 1 month or less and no older than 13 months.
+  kind: object
+  properties:
+  - name: start
+    description: The start date to pull data from. example format 2020-03-15
+    types:
+    - uid: string
+  - name: end
+    description: The end date to pull data to. example format 2020-03-15
+    types:
+    - uid: string
+- name: CostDetailsOperationResults
+  description: The result of the long running operation for cost details Api.
+  kind: object
+  properties:
+  - name: id
+    description: The id of the long running operation.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the long running operation.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the long running operation.
+    types:
+    - uid: string
+  - name: status
+    description: The status of the cost details operation
+    types:
+    - uid: CostDetailsStatusType
+  - name: validTill
+    description: The time at which report URL becomes invalid/expires in UTC e.g. 2020-12-08T05:55:59.4394737Z.
+    types:
+    - uid: string
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+  - name: manifest.manifestVersion
+    description: The Manifest version.
+    types:
+    - uid: string
+  - name: manifest.dataFormat
+    description: The data format of the report
+    types:
+    - uid: CostDetailsDataFormat
+  - name: manifest.byteCount
+    description: The total number of bytes in all blobs.
+    types:
+    - uid: integer
+  - name: manifest.blobCount
+    description: The total number of blobs.
+    types:
+    - uid: integer
+  - name: manifest.compressData
+    description: Is the data in compressed format.
+    types:
+    - uid: boolean
+  - name: manifest.blobs
+    description: List of blob information generated by this operation.
+    types:
+    - uid: BlobInfo
+      isArray: true
+  - name: manifest.requestContext.requestScope
+    description: The request scope of the request.
+    types:
+    - uid: string
+  - name: manifest.requestContext.requestBody
+    description: The request payload body provided in Cost Details call
+    types:
+    - uid: GenerateCostDetailsReportRequestDefinition
+- name: GenerateCostDetailsReportErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 400 Bad Request - Invalid Request Payload. Request payload provided is not in a json format or had an invalid member not accepted in the request payload. \n\n * 400 Bad Request - Invalid request payload:  can only have either timePeriod or invoiceId or billingPeriod. API only allows data to be pulled for either timePeriod or invoiceId or billingPeriod. Customer should provide only one of these parameters. \n\n * 400 Bad Request - Start date must be after . API only allows data to be pulled no older than 13 months from now. \n\n * 400 Bad Request - The maximum allowed date range is 1 months. API only allows data to be pulled for 1 month or less. \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: GenerateCostDetailsReportRequestDefinition
+  description: The definition of a cost detailed report.
+  kind: object
+  properties:
+  - name: metric
+    description: The type of the detailed report. By default ActualCost is provided
+    types:
+    - uid: CostDetailsMetricType
+  - name: timePeriod
+    description: The specific date range of cost details requested for the report. This parameter cannot be used alongside either the invoiceId or billingPeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost. API only allows data to be pulled for 1 month or less and no older than 13 months. If no timePeriod or billingPeriod or invoiceId is provided the API defaults to the open month time period
+    types:
+    - uid: CostDetailsTimePeriod
+  - name: billingPeriod
+    description: This parameter can be used only by Enterprise Agreement customers. Use the YearMonth(e.g. 202008) format. This parameter cannot be used alongside either the invoiceId or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost.
+    types:
+    - uid: string
+  - name: invoiceId
+    description: This parameter can only be used by Microsoft Customer Agreement customers. Additionally, it can only be used at the Billing Profile or Customer scope. This parameter cannot be used alongside either the billingPeriod or timePeriod parameters. If a timePeriod, invoiceId or billingPeriod parameter is not provided in the request body the API will return the current month's cost.
+    types:
+    - uid: string
+- name: CostDetailsStatusType
+  description: The status of the cost details operation
+  kind: enum
+  properties:
+  - name: Completed
+    description: Operation is Completed.
+    types:
+    - uid: string
+  - name: NoDataFound
+    description: Operation is Completed and no cost data found.
+    types:
+    - uid: string
+  - name: Failed
+    description: Operation Failed.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: CostDetailsDataFormat
+  description: The data format of the report
+  kind: enum
+  properties:
+  - name: Csv
+    description: Csv data format.
+    types:
+    - uid: string
+- name: BlobInfo
+  description: The blob information generated by this operation.
+  kind: object
+  properties:
+  - name: blobLink
+    description: Link to the blob to download file.
+    types:
+    - uid: string
+  - name: byteCount
+    description: Bytes in the blob.
+    types:
+    - uid: integer
+- name: CostDetailsMetricType
+  description: The type of the detailed report. By default ActualCost is provided
+  kind: enum
+  properties:
+  - name: ActualCost
+    description: Actual cost data.
+    types:
+    - uid: string
+  - name: AmortizedCost
+    description: Amortized cost data.
+    types:
+    - uid: string
+examples:
+- name: GenerateCostDetailsReportByBillingProfileAndInvoiceId
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "invoiceId": "M1234567"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "invoiceId": "M1234567"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579",
+            "requestBody": {
+              "metric": "ActualCost",
+              "billingPeriod": "202205"
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/billingProfiles/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportBySubscriptionAndTimePeriod
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "subscriptions/00000000-0000-0000-0000-000000000000",
+            "requestBody": {
+              "metric": "ActualCost",
+              "timePeriod": {
+                "start": "2020-03-01",
+                "end": "2020-03-15"
+              }
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportByCustomerAndTimePeriod
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579",
+            "requestBody": {
+              "metric": "ActualCost",
+              "timePeriod": {
+                "start": "2020-03-01",
+                "end": "2020-03-15"
+              }
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportByBillingProfileAndInvoiceIdAndCustomerId
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "invoiceId": "M1234567"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "invoiceId": "M1234567"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579",
+            "requestBody": {
+              "metric": "ActualCost",
+              "billingPeriod": "202205"
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:6789/customers/13579/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportByBillingAccountEnterpriseAgreementCustomerAndBillingPeriod
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "billingPeriod": "202205"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "billingPeriod": "202205"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/billingAccounts/12345",
+            "requestBody": {
+              "metric": "ActualCost",
+              "billingPeriod": "202205"
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportByDepartmentsAndTimePeriod
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/departments/12345/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/departments/12345/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/departments/12345/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/departments/12345",
+            "requestBody": {
+              "metric": "ActualCost",
+              "timePeriod": {
+                "start": "2020-03-01",
+                "end": "2020-03-15"
+              }
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/departments/12345/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+- name: GenerateCostDetailsReportByEnrollmentAccountsAndTimePeriod
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+    body: >-
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.CostManagement/generateCostDetailsReport?api-version=2022-05-01
+
+      {
+        "metric": "ActualCost",
+        "timePeriod": {
+          "start": "2020-03-01",
+          "end": "2020-03-15"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000",
+        "name": "00000000-0000-0000-0000-000000000000",
+        "status": "Completed",
+        "manifest": {
+          "manifestVersion": "2022-05-01",
+          "dataFormat": "Csv",
+          "blobCount": 1,
+          "byteCount": 32741,
+          "compressData": false,
+          "requestContext": {
+            "requestScope": "providers/Microsoft.Billing/enrollmentAccounts/1234",
+            "requestBody": {
+              "metric": "ActualCost",
+              "timePeriod": {
+                "start": "2020-03-01",
+                "end": "2020-03-15"
+              }
+            }
+          },
+          "blobs": [
+            {
+              "blobLink": "https://ccmreportstorageeastus.blob.core.windows.net/armreports/00000/00000000-0000-0000-0000-000000000000?sv=2020-05-31&sr=b&sig=abcd",
+              "byteCount": 32741
+            }
+          ]
+        },
+        "validTill": "2022-05-10T08:08:46.1973252Z"
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/providers/Microsoft.Billing/enrollmentAccounts/1234/providers/Microsoft.CostManagement/costDetailsOperationResults/00000000-0000-0000-0000-000000000000?api-version=2022-05-01
+    - name: Retry-After
+      value: "60"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: This API is the replacement for all previously release Usage Details APIs. Request to generate a cost details report for the provided date range, billing period
+errorCodes: []

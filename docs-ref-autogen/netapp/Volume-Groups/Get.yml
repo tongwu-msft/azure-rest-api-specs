@@ -167,10 +167,12 @@ definitions:
     description: "serviceLevel  \nThe service level of the file system"
     types:
     - uid: ServiceLevel
+    defaultValue: Premium
   - name: properties.usageThreshold
     description: "usageThreshold  \nMaximum storage quota allowed for a file system in bytes. This is a soft quota used for alerting only. Minimum size is 100 GiB. Upper limit is 100TiB. Specified in bytes."
     types:
     - uid: integer
+    defaultValue: 107374182400
   - name: properties.exportPolicy
     description: "exportPolicy  \nSet of export policy rules"
     types:
@@ -206,6 +208,7 @@ definitions:
     description: "Network features  \nBasic network, or Standard features available to the volume."
     types:
     - uid: NetworkFeatures
+    defaultValue: Basic
   - name: properties.networkSiblingSetId
     isReadyOnly: true
     description: "Network Sibling Set ID  \nNetwork Sibling Set ID for the the group of volumes sharing networking resources."
@@ -238,22 +241,27 @@ definitions:
     description: If enabled (true) the volume will contain a read-only snapshot directory which provides access to each of the volume's snapshots (default to true).
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.kerberosEnabled
     description: Describe if a volume is KerberosEnabled. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.securityStyle
     description: The security style of volume, default unix, defaults to ntfs for dual protocol or CIFS protocol
     types:
     - uid: SecurityStyle
+    defaultValue: unix
   - name: properties.smbEncryption
     description: Enables encryption for in-flight smb3 data. Only applicable for SMB/DualProtocol volume. To be used with swagger version 2020-08-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.smbContinuouslyAvailable
     description: Enables continuously available share property for smb volume. Only applicable for SMB volume
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.throughputMibps
     description: Maximum throughput in Mibps that can be achieved by this volume and this will be accepted as input only for manual qosType volume
     types:
@@ -266,10 +274,12 @@ definitions:
     description: Specifies whether LDAP is enabled or not for a given NFS volume.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.coolAccess
     description: Specifies whether Cool Access(tiering) is enabled for the volume.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.coolnessPeriod
     description: Specifies the number of days after which data that is not accessed by clients will be tiered.
     types:
@@ -278,6 +288,7 @@ definitions:
     description: 'UNIX permissions for NFS volume accepted in octal 4 digit format. First digit selects the set user ID(4), set group ID (2) and sticky (1) attributes. Second digit selects permission for the owner of the file: read (4), write (2) and execute (1). Third selects permissions for other users in the same group. the fourth for other users not in the group. 0755 - gives read/write/execute permissions to owner and read/execute to group and other users.'
     types:
     - uid: string
+    defaultValue: "0770"
   - name: properties.cloneProgress
     isReadyOnly: true
     description: When a volume is being restored from another volume's snapshot, will show the percentage completion of this cloning process. When this value is empty/null there is no cloning process currently happening on this volume. This value will update every 5 minutes during cloning.
@@ -287,18 +298,22 @@ definitions:
     description: "avsDataStore  \nSpecifies whether the volume is enabled for Azure VMware Solution (AVS) datastore purpose"
     types:
     - uid: avsDataStore
+    defaultValue: Disabled
   - name: properties.isDefaultQuotaEnabled
     description: Specifies if default quota is enabled for the volume.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.defaultUserQuotaInKiBs
     description: Default user quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies .
     types:
     - uid: integer
+    defaultValue: 0
   - name: properties.defaultGroupQuotaInKiBs
     description: Default group quota for volume in KiBs. If isDefaultQuotaEnabled is set, the minimum value of 4 KiBs applies.
     types:
     - uid: integer
+    defaultValue: 0
   - name: properties.maximumNumberOfFiles
     isReadyOnly: true
     description: Maximum number of files allowed. Needs a service request in order to be changed. Only allowed to be changed if volume quota is more than 4TiB.
@@ -335,6 +350,7 @@ definitions:
     description: Flag indicating whether subvolume operations are enabled on the volume
     types:
     - uid: enableSubvolumes
+    defaultValue: Disabled
 - name: ApplicationType
   description: Application Type
   kind: enum
@@ -503,26 +519,32 @@ definitions:
     description: Kerberos5 Read only access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: kerberos5ReadWrite
     description: Kerberos5 Read and write access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: kerberos5iReadOnly
     description: Kerberos5i Read only access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: kerberos5iReadWrite
     description: Kerberos5i Read and write access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: kerberos5pReadOnly
     description: Kerberos5p Read only access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: kerberos5pReadWrite
     description: Kerberos5p Read and write access. To be use with swagger version 2020-05-01 or later
     types:
     - uid: boolean
+    defaultValue: false
   - name: cifs
     description: Allows CIFS protocol
     types:
@@ -543,10 +565,12 @@ definitions:
     description: Has root access to volume
     types:
     - uid: boolean
+    defaultValue: true
   - name: chownMode
     description: This parameter specifies who is authorized to change the ownership of a file. restricted - Only root user can change the ownership of the file. unrestricted - Non-root users can change ownership of files that they own.
     types:
     - uid: ChownMode
+    defaultValue: Restricted
 - name: volumeBackupProperties
   description: Volume Backup Properties
   kind: object
@@ -636,6 +660,96 @@ examples:
 - name: VolumeGroups_Get
   request:
     uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/volumeGroups/group1?api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VolumeGroups Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/VolumeGroups_Get.json
+           */
+          /**
+           * Sample code: VolumeGroups_Get.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void volumeGroupsGet(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              manager.volumeGroups().getWithResponse("myRG", "account1", "group1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/VolumeGroups_Get.json
+      func ExampleVolumeGroupsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewVolumeGroupsClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myRG",
+      		"account1",
+      		"group1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get details of the specified volume group
+       *
+       * @summary Get details of the specified volume group
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/VolumeGroups_Get.json
+       */
+      async function volumeGroupsGet() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const volumeGroupName = "group1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.volumeGroups.get(resourceGroupName, accountName, volumeGroupName);
+        console.log(result);
+      }
+
+      volumeGroupsGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

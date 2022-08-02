@@ -104,6 +104,7 @@ requestBody:
     - uid: AmazonRdsForSqlServerTableDataset
     - uid: RestResourceDataset
     - uid: SapTableResourceDataset
+    - uid: SapOdpResourceDataset
     - uid: WebTableDataset
     - uid: AzureSearchIndexDataset
     - uid: HttpDataset
@@ -213,6 +214,7 @@ definitions:
     - uid: AmazonRdsForSqlServerTableDataset
     - uid: RestResourceDataset
     - uid: SapTableResourceDataset
+    - uid: SapOdpResourceDataset
     - uid: WebTableDataset
     - uid: AzureSearchIndexDataset
     - uid: HttpDataset
@@ -433,7 +435,11 @@ definitions:
     types:
     - uid: DatasetLocation
   - name: typeProperties.sheetName
-    description: 'The sheet of excel file. Type: string (or Expression with resultType string).'
+    description: 'The sheet name of excel file. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.sheetIndex
+    description: 'The sheet index of excel file and default value is 0. Type: integer (or Expression with resultType integer)'
     types:
     - uid: object
   - name: typeProperties.range
@@ -3042,6 +3048,56 @@ definitions:
     description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
     types:
     - uid: Folder
+- name: SapOdpResourceDataset
+  description: SAP ODP Resource properties.
+  kind: object
+  properties:
+  - name: typeProperties.context
+    description: 'The context of the SAP ODP Object. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.objectName
+    description: 'The name of the SAP ODP Object. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of dataset.
+    types:
+    - uid: SapOdpResource
+    typesTitle: string
+  - name: description
+    description: Dataset description.
+    types:
+    - uid: string
+  - name: structure
+    description: 'Columns that define the structure of the dataset. Type: array (or Expression with resultType array), itemType: DatasetDataElement.'
+    types:
+    - uid: object
+  - name: schema
+    description: 'Columns that define the physical type schema of the dataset. Type: array (or Expression with resultType array), itemType: DatasetSchemaDataElement.'
+    types:
+    - uid: object
+  - name: linkedServiceName
+    description: Linked service reference.
+    types:
+    - uid: LinkedServiceReference
+  - name: parameters
+    description: Parameters for dataset.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the Dataset.
+    types:
+    - uid: object
+      isArray: true
+  - name: folder
+    description: The folder that this Dataset is in. If not specified, Dataset will appear at the root level.
+    types:
+    - uid: Folder
 - name: WebTableDataset
   description: The dataset points to a HTML table in the web page.
   kind: object
@@ -5172,6 +5228,44 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/datasets/exampleDataset?api-version=2020-12-01
+
+      {
+        "properties": {
+          "type": "AzureBlob",
+          "typeProperties": {
+            "folderPath": {
+              "value": "@dataset().MyFolderPath",
+              "type": "Expression"
+            },
+            "fileName": {
+              "value": "@dataset().MyFileName",
+              "type": "Expression"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          },
+          "linkedServiceName": {
+            "referenceName": "exampleLinkedService",
+            "type": "LinkedServiceReference"
+          },
+          "parameters": {
+            "MyFolderPath": {
+              "type": "String"
+            },
+            "MyFileName": {
+              "type": "String"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -5268,6 +5362,45 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/datasets/exampleDataset?api-version=2020-12-01
+
+      {
+        "properties": {
+          "type": "AzureBlob",
+          "typeProperties": {
+            "folderPath": {
+              "value": "@dataset().MyFolderPath",
+              "type": "Expression"
+            },
+            "fileName": {
+              "value": "@dataset().MyFileName",
+              "type": "Expression"
+            },
+            "format": {
+              "type": "TextFormat"
+            }
+          },
+          "description": "Example description",
+          "linkedServiceName": {
+            "referenceName": "exampleLinkedService",
+            "type": "LinkedServiceReference"
+          },
+          "parameters": {
+            "MyFolderPath": {
+              "type": "String"
+            },
+            "MyFileName": {
+              "type": "String"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:

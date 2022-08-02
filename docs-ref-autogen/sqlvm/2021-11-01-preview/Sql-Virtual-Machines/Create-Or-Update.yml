@@ -499,6 +499,9 @@ definitions:
   description: Day of week to apply the patch on.
   kind: enum
   properties:
+  - name: Everyday
+    types:
+    - uid: string
   - name: Monday
     types:
     - uid: string
@@ -705,7 +708,7 @@ definitions:
   - name: dayOfWeek
     description: Day of the week to run assessment.
     types:
-    - uid: DayOfWeek
+    - uid: AssessmentDayOfWeek
   - name: startTime
     description: Time of the day in HH:mm format. Eg. 17:30
     types:
@@ -781,6 +784,31 @@ definitions:
   - name: DW
     types:
     - uid: string
+- name: AssessmentDayOfWeek
+  description: Day of the week to run assessment.
+  kind: enum
+  properties:
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+  - name: Sunday
+    types:
+    - uid: string
 examples:
 - name: Creates or updates a SQL virtual machine with min parameters.
   request:
@@ -792,6 +820,54 @@ examples:
           "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineMIN.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineWithMinParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          location: "northeurope",
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineWithMinParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -895,6 +971,176 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "sqlServerLicenseType": "PAYG",
+          "sqlImageSku": "Enterprise",
+          "sqlManagement": "Full",
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "serverConfigurationsManagementSettings": {
+            "sqlConnectivityUpdateSettings": {
+              "connectivityType": "PRIVATE",
+              "port": 1433,
+              "sqlAuthUpdateUserName": "sqllogin",
+              "sqlAuthUpdatePassword": "<password>"
+            },
+            "sqlStorageUpdateSettings": {
+              "diskCount": 1,
+              "startingDeviceId": 2,
+              "diskConfigurationType": "NEW"
+            },
+            "sqlWorkloadTypeUpdateSettings": {
+              "sqlWorkloadType": "OLTP"
+            },
+            "additionalFeaturesServerConfigurations": {
+              "isRServicesEnabled": false
+            },
+            "sqlInstanceSettings": {
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "maxDop": 8,
+              "isOptimizeForAdHocWorkloadsEnabled": true,
+              "minServerMemoryMB": 0,
+              "maxServerMemoryMB": 128
+            }
+          },
+          "keyVaultCredentialSettings": {
+            "enable": false
+          },
+          "autoPatchingSettings": {
+            "enable": true,
+            "dayOfWeek": "Sunday",
+            "maintenanceWindowStartingHour": 2,
+            "maintenanceWindowDuration": 60
+          },
+          "autoBackupSettings": {
+            "enable": true,
+            "retentionPeriod": 17,
+            "enableEncryption": true,
+            "password": "<Password>",
+            "backupScheduleType": "Manual",
+            "backupSystemDbs": true,
+            "storageAccountUrl": "https://teststorage.blob.core.windows.net/",
+            "storageContainerName": "testcontainer",
+            "storageAccessKey": "<primary storage access key>",
+            "fullBackupFrequency": "Daily",
+            "fullBackupStartTime": 6,
+            "fullBackupWindowHours": 11,
+            "logBackupFrequency": 10
+          },
+          "assessmentSettings": {
+            "enable": true,
+            "runImmediately": true,
+            "schedule": {
+              "enable": true,
+              "weeklyInterval": 1,
+              "monthlyOccurrence": null,
+              "dayOfWeek": "Sunday",
+              "startTime": "23:17"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineMAX.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineWithMaxParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          assessmentSettings: {
+            enable: true,
+            runImmediately: true,
+            schedule: {
+              dayOfWeek: "Sunday",
+              enable: true,
+              monthlyOccurrence: undefined,
+              startTime: "23:17",
+              weeklyInterval: 1,
+            },
+          },
+          autoBackupSettings: {
+            backupScheduleType: "Manual",
+            backupSystemDbs: true,
+            enable: true,
+            enableEncryption: true,
+            fullBackupFrequency: "Daily",
+            fullBackupStartTime: 6,
+            fullBackupWindowHours: 11,
+            logBackupFrequency: 10,
+            password: "<Password>",
+            retentionPeriod: 17,
+            storageAccessKey: "<primary storage access key>",
+            storageAccountUrl: "https://teststorage.blob.core.windows.net/",
+            storageContainerName: "testcontainer",
+          },
+          autoPatchingSettings: {
+            dayOfWeek: "Sunday",
+            enable: true,
+            maintenanceWindowDuration: 60,
+            maintenanceWindowStartingHour: 2,
+          },
+          keyVaultCredentialSettings: { enable: false },
+          location: "northeurope",
+          serverConfigurationsManagementSettings: {
+            additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
+            sqlConnectivityUpdateSettings: {
+              connectivityType: "PRIVATE",
+              port: 1433,
+              sqlAuthUpdatePassword: "<password>",
+              sqlAuthUpdateUserName: "sqllogin",
+            },
+            sqlInstanceSettings: {
+              collation: "SQL_Latin1_General_CP1_CI_AS",
+              isOptimizeForAdHocWorkloadsEnabled: true,
+              maxDop: 8,
+              maxServerMemoryMB: 128,
+              minServerMemoryMB: 0,
+            },
+            sqlStorageUpdateSettings: {
+              diskConfigurationType: "NEW",
+              diskCount: 1,
+              startingDeviceId: 2,
+            },
+            sqlWorkloadTypeUpdateSettings: { sqlWorkloadType: "OLTP" },
+          },
+          sqlImageSku: "Enterprise",
+          sqlManagement: "Full",
+          sqlServerLicenseType: "PAYG",
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineWithMaxParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -942,6 +1188,120 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2",
+          "sqlVirtualMachineGroupResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup",
+          "wsfcDomainCredentials": {
+            "clusterBootstrapAccountPassword": "<Password>",
+            "clusterOperatorAccountPassword": "<Password>",
+            "sqlServiceAccountPassword": "<Password>"
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsqlvirtualmachine_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
+      func ExampleSQLVirtualMachinesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsqlvirtualmachine.NewSQLVirtualMachinesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testrg",
+      		"testvm",
+      		armsqlvirtualmachine.SQLVirtualMachine{
+      			Location: to.Ptr("northeurope"),
+      			Properties: &armsqlvirtualmachine.Properties{
+      				SQLVirtualMachineGroupResourceID: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup"),
+      				VirtualMachineResourceID:         to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2"),
+      				WsfcDomainCredentials: &armsqlvirtualmachine.WsfcDomainCredentials{
+      					ClusterBootstrapAccountPassword: to.Ptr("<Password>"),
+      					ClusterOperatorAccountPassword:  to.Ptr("<Password>"),
+      					SQLServiceAccountPassword:       to.Ptr("<Password>"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsqlvirtualmachine%2Farmsqlvirtualmachine%2Fv0.6.0/sdk/resourcemanager/sqlvirtualmachine/armsqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateVirtualMachineWithVMGroup.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          location: "northeurope",
+          sqlVirtualMachineGroupResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/testvmgroup",
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm2",
+          wsfcDomainCredentials: {
+            clusterBootstrapAccountPassword: "<Password>",
+            clusterOperatorAccountPassword: "<Password>",
+            sqlServiceAccountPassword: "<Password>",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineAndJoinsItToASqlVirtualMachineGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1008,6 +1368,96 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "storageConfigurationSettings": {
+            "diskConfigurationType": "NEW",
+            "storageWorkloadType": "OLTP",
+            "sqlDataSettings": {
+              "defaultFilePath": "F:\\folderpath\\",
+              "luns": [
+                0
+              ]
+            },
+            "sqlLogSettings": {
+              "defaultFilePath": "G:\\folderpath\\",
+              "luns": [
+                1
+              ]
+            },
+            "sqlTempDbSettings": {
+              "defaultFilePath": "D:\\TEMP",
+              "dataFileSize": 256,
+              "dataGrowth": 512,
+              "logFileSize": 256,
+              "logGrowth": 512,
+              "dataFileCount": 8
+            },
+            "sqlSystemDbOnDataDisk": true
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationNEW.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          location: "northeurope",
+          storageConfigurationSettings: {
+            diskConfigurationType: "NEW",
+            sqlDataSettings: { defaultFilePath: "F:\\folderpath\\", luns: [0] },
+            sqlLogSettings: { defaultFilePath: "G:\\folderpath\\", luns: [1] },
+            sqlSystemDbOnDataDisk: true,
+            sqlTempDbSettings: {
+              dataFileCount: 8,
+              dataFileSize: 256,
+              dataGrowth: 512,
+              defaultFilePath: "D:\\TEMP",
+              logFileSize: 256,
+              logGrowth: 512,
+            },
+            storageWorkloadType: "OLTP",
+          },
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToNewDataLogAndTempDbStoragePool().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1055,6 +1505,68 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "storageConfigurationSettings": {
+            "diskConfigurationType": "EXTEND",
+            "sqlDataSettings": {
+              "luns": [
+                2
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineStorageConfigurationEXTEND.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          location: "northeurope",
+          storageConfigurationSettings: {
+            diskConfigurationType: "EXTEND",
+            sqlDataSettings: { luns: [2] },
+          },
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineForStorageConfigurationSettingsToExtendDataLogOrTempDbStoragePool().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1144,6 +1656,147 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm?api-version=2021-11-01-preview
+
+      {
+        "location": "northeurope",
+        "properties": {
+          "sqlServerLicenseType": "PAYG",
+          "sqlImageSku": "Enterprise",
+          "sqlManagement": "Full",
+          "virtualMachineResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+          "serverConfigurationsManagementSettings": {
+            "sqlConnectivityUpdateSettings": {
+              "connectivityType": "PRIVATE",
+              "port": 1433,
+              "sqlAuthUpdateUserName": "sqllogin",
+              "sqlAuthUpdatePassword": "<password>"
+            },
+            "sqlStorageUpdateSettings": {
+              "diskCount": 1,
+              "startingDeviceId": 2,
+              "diskConfigurationType": "NEW"
+            },
+            "sqlWorkloadTypeUpdateSettings": {
+              "sqlWorkloadType": "OLTP"
+            },
+            "additionalFeaturesServerConfigurations": {
+              "isRServicesEnabled": false
+            }
+          },
+          "keyVaultCredentialSettings": {
+            "enable": false
+          },
+          "autoPatchingSettings": {
+            "enable": true,
+            "dayOfWeek": "Sunday",
+            "maintenanceWindowStartingHour": 2,
+            "maintenanceWindowDuration": 60
+          },
+          "autoBackupSettings": {
+            "enable": true,
+            "retentionPeriod": 17,
+            "enableEncryption": true,
+            "password": "<Password>",
+            "backupScheduleType": "Manual",
+            "backupSystemDbs": true,
+            "storageAccountUrl": "https://teststorage.blob.core.windows.net/",
+            "storageContainerName": "testcontainer",
+            "storageAccessKey": "<primary storage access key>",
+            "fullBackupFrequency": "Weekly",
+            "daysOfWeek": [
+              "Monday",
+              "Friday"
+            ],
+            "fullBackupStartTime": 6,
+            "fullBackupWindowHours": 11,
+            "logBackupFrequency": 10
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlVirtualMachineManagementClient } = require("@azure/arm-sqlvirtualmachine");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a SQL virtual machine.
+       *
+       * @summary Creates or updates a SQL virtual machine.
+       * x-ms-original-file: specification/sqlvirtualmachine/resource-manager/Microsoft.SqlVirtualMachine/preview/2021-11-01-preview/examples/CreateOrUpdateSqlVirtualMachineAutomatedBackupWeekly.json
+       */
+      async function createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "testrg";
+        const sqlVirtualMachineName = "testvm";
+        const parameters = {
+          autoBackupSettings: {
+            backupScheduleType: "Manual",
+            backupSystemDbs: true,
+            daysOfWeek: ["Monday", "Friday"],
+            enable: true,
+            enableEncryption: true,
+            fullBackupFrequency: "Weekly",
+            fullBackupStartTime: 6,
+            fullBackupWindowHours: 11,
+            logBackupFrequency: 10,
+            password: "<Password>",
+            retentionPeriod: 17,
+            storageAccessKey: "<primary storage access key>",
+            storageAccountUrl: "https://teststorage.blob.core.windows.net/",
+            storageContainerName: "testcontainer",
+          },
+          autoPatchingSettings: {
+            dayOfWeek: "Sunday",
+            enable: true,
+            maintenanceWindowDuration: 60,
+            maintenanceWindowStartingHour: 2,
+          },
+          keyVaultCredentialSettings: { enable: false },
+          location: "northeurope",
+          serverConfigurationsManagementSettings: {
+            additionalFeaturesServerConfigurations: { isRServicesEnabled: false },
+            sqlConnectivityUpdateSettings: {
+              connectivityType: "PRIVATE",
+              port: 1433,
+              sqlAuthUpdatePassword: "<password>",
+              sqlAuthUpdateUserName: "sqllogin",
+            },
+            sqlStorageUpdateSettings: {
+              diskConfigurationType: "NEW",
+              diskCount: 1,
+              startingDeviceId: 2,
+            },
+            sqlWorkloadTypeUpdateSettings: { sqlWorkloadType: "OLTP" },
+          },
+          sqlImageSku: "Enterprise",
+          sqlManagement: "Full",
+          sqlServerLicenseType: "PAYG",
+          virtualMachineResourceId:
+            "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Compute/virtualMachines/testvm",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlVirtualMachineManagementClient(credential, subscriptionId);
+        const result = await client.sqlVirtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          sqlVirtualMachineName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesASqlVirtualMachineForAutomatedBackUpSettingsWithWeeklyAndDaysOfTheWeekToRunTheBackUp().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sqlvirtualmachine_5.0.0-beta.5/sdk/sqlvirtualmachine/arm-sqlvirtualmachine/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

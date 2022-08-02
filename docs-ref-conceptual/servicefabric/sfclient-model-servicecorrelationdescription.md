@@ -1,5 +1,5 @@
 ---
-title: "ServiceCorrelationDescription"
+title: Service Correlation Overview
 description: "ServiceCorrelationDescription"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceCorrelationDescription
+# Service Correlation Overview
 
 Creates a particular correlation between services.
 

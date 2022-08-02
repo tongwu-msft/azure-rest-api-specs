@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.networksecurityperimeters.checkmembers
+name: Check Members
+service: Network Manager
+groupName: Network Security Perimeters
+apiVersion: 2021-02-01-preview
+summary: Action to check members associated to an NSP Profile
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkSecurityPerimeters/{networkSecurityPerimeterName}/profiles/{networkSecurityPerimeterProfile}/checkMembers?api-version=2021-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkSecurityPerimeterName
+  in: path
+  isRequired: true
+  description: The name of the network security perimeter.
+  types:
+  - uid: string
+- name: networkSecurityPerimeterProfile
+  in: path
+  isRequired: true
+  description: The name of the network security perimeter profile.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Check members, nothing is getting created or updated.
+  types:
+  - uid: CheckMembers
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: memberDestinations
+    in: body
+    description: ''
+    types:
+    - uid: MemberDestination
+      isArray: true
+requestHeader: []
+definitions:
+- name: MemberDestination
+  kind: object
+  properties:
+  - name: privateLinkResourceId
+    description: Private link resource Id.
+    types:
+    - uid: string
+  - name: isMember
+    isReadyOnly: true
+    description: yes/no, if it is member or not.
+    types:
+    - uid: isMember
+  - name: profile
+    isReadyOnly: true
+    description: Network security perimeter profile.
+    types:
+    - uid: string
+- name: CheckMembers
+  description: Request object for check members API.
+  kind: object
+  properties:
+  - name: memberDestinations
+    description: ''
+    types:
+    - uid: MemberDestination
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: isMember
+  description: yes/no, if it is member or not.
+  kind: enum
+  properties:
+  - name: yes
+    types:
+    - uid: string
+  - name: no
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Post Check Members
+  request:
+    uri: POST https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/NP1/checkMembers?api-version=2021-02-01-preview
+    body: >-
+      {
+        "memberDestinations": [
+          {
+            "privateLinkResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Sql/servers/resourceName1"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/NP1/checkMembers?api-version=2021-02-01-preview
+
+      {
+        "memberDestinations": [
+          {
+            "privateLinkResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Sql/servers/resourceName1"
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "memberDestinations": [
+          {
+            "privateLinkResourceId": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Sql/servers/resourceName1",
+            "isMember": "no",
+            "profile": ""
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Network Manager service - Action to check members associated to an NSP Profile
+errorCodes: []

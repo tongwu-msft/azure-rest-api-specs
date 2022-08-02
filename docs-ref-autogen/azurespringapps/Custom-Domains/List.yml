@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.customdomains.list
 name: List
 service: Azure Spring Apps
 groupName: Custom Domains
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: List the custom domains of one lifecycle application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -140,6 +140,11 @@ definitions:
     description: The bound certificate name of domain.
     types:
     - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Domain
+    types:
+    - uid: CustomDomainResourceProvisioningState
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -166,6 +171,25 @@ definitions:
     - uid: lastModifiedByType
   - name: lastModifiedAt
     description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
+- name: CustomDomainResourceProvisioningState
+  description: Provisioning state of the Domain
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
     types:
     - uid: string
 - name: createdByType
@@ -203,7 +227,54 @@ definitions:
 examples:
 - name: CustomDomains_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/CustomDomains_List.json
+      func ExampleCustomDomainsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewCustomDomainsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"myservice",
+      		"myapp",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -213,7 +284,8 @@ examples:
             "properties": {
               "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
               "appName": "myapp",
-              "certName": "mycert"
+              "certName": "mycert",
+              "provisioningState": "Succeeded"
             },
             "systemData": {
               "createdBy": "sample-user",

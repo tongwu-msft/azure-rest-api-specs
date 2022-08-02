@@ -1,0 +1,335 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.stable.privateendpointconnections.get
+name: Get
+service: App Configuration
+groupName: Private Endpoint Connections
+apiVersion: 2022-05-01
+summary: Gets the specified private endpoint connection associated with the configuration store.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: configStoreName
+  in: path
+  isRequired: true
+  description: The name of the configuration store.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: Private endpoint connection name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning status of the private endpoint connection.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateEndpoint
+    description: The resource of private endpoint.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ProvisioningState
+  description: The provisioning state of the configuration store.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint which a connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    description: The resource Id for private endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: The state of a private link service connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: ConnectionStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: ActionsRequired
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ConnectionStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ActionsRequired
+  description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Recreate
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: PrivateEndpointConnection_GetConnection
+  request:
+    uri: GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/privateEndpointConnections/myConnection?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/privateEndpointConnections/myConnection?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PrivateEndpointConnections Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresGetPrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: PrivateEndpointConnection_GetConnection.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void privateEndpointConnectionGetConnection(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager
+                  .privateEndpointConnections()
+                  .getWithResponse("myResourceGroup", "contoso", "myConnection", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresGetPrivateEndpointConnection.json
+      func ExamplePrivateEndpointConnectionsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewPrivateEndpointConnectionsClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"contoso",
+      		"myConnection",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the specified private endpoint connection associated with the configuration store.
+       *
+       * @summary Gets the specified private endpoint connection associated with the configuration store.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresGetPrivateEndpointConnection.json
+       */
+      async function privateEndpointConnectionGetConnection() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const privateEndpointConnectionName = "myConnection";
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnections.get(
+          resourceGroupName,
+          configStoreName,
+          privateEndpointConnectionName
+        );
+        console.log(result);
+      }
+
+      privateEndpointConnectionGetConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/privateEndpointConnections/myConnection",
+        "name": "myConnection",
+        "type": "Microsoft.AppConfiguration/configurationStores/privateEndpointConnections",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.Network/privateEndpoints/peexample01"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved",
+            "actionsRequired": "None"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about App Configuration service - Gets the specified private endpoint connection associated with the configuration store.
+errorCodes: []

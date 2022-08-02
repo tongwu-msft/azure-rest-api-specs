@@ -1,0 +1,798 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerapps.containerappsrevisions.listrevisions
+name: List Revisions
+service: Azure Container Apps
+groupName: Container Apps Revisions
+apiVersion: 2022-03-01
+summary: Get the Revisions for a given Container App.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/containerApps/{containerAppName}/revisions?api-version=2022-03-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: containerAppName
+  in: path
+  isRequired: true
+  description: Name of the Container App for which Revisions are needed.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RevisionCollection
+- name: Other Status Codes
+  description: Common error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: RevisionCollection
+  description: Container App Revisions collection ARM resource.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: Revision
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Revision
+  description: Container App Revision.
+  kind: object
+  properties:
+  - name: properties.createdTime
+    isReadyOnly: true
+    description: >-
+      Timestamp describing when the revision was created
+
+      by controller
+    types:
+    - uid: string
+  - name: properties.fqdn
+    isReadyOnly: true
+    description: Fully qualified domain name of the revision
+    types:
+    - uid: string
+  - name: properties.template
+    isReadyOnly: true
+    description: >-
+      Container App Revision Template with all possible settings and the
+
+      defaults if user did not provide them. The defaults are populated
+
+      as they were at the creation time
+    types:
+    - uid: Template
+  - name: properties.active
+    isReadyOnly: true
+    description: Boolean describing if the Revision is Active
+    types:
+    - uid: boolean
+  - name: properties.replicas
+    isReadyOnly: true
+    description: Number of pods currently running for this revision
+    types:
+    - uid: integer
+  - name: properties.trafficWeight
+    isReadyOnly: true
+    description: Traffic weight assigned to this revision
+    types:
+    - uid: integer
+  - name: properties.provisioningError
+    isReadyOnly: true
+    description: Optional Field - Platform Error Message
+    types:
+    - uid: string
+  - name: properties.healthState
+    isReadyOnly: true
+    description: Current health State of the revision
+    types:
+    - uid: RevisionHealthState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning State of the revision
+    types:
+    - uid: RevisionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Details or the error
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Template
+  description: >-
+    Container App versioned application definition.
+
+    Defines the desired state of an immutable revision.
+
+    Any changes to this section Will result in a new revision being created
+  kind: object
+  properties:
+  - name: revisionSuffix
+    description: User friendly suffix that is appended to the revision name
+    types:
+    - uid: string
+  - name: containers
+    description: List of container definitions for the Container App.
+    types:
+    - uid: Container
+      isArray: true
+  - name: scale
+    description: Scaling properties for the Container App.
+    types:
+    - uid: Scale
+  - name: volumes
+    description: List of volume definitions for the Container App.
+    types:
+    - uid: Volume
+      isArray: true
+- name: RevisionHealthState
+  description: Current health State of the revision
+  kind: enum
+  properties:
+  - name: Healthy
+    types:
+    - uid: string
+  - name: Unhealthy
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: RevisionProvisioningState
+  description: Current provisioning State of the revision
+  kind: enum
+  properties:
+  - name: Provisioning
+    types:
+    - uid: string
+  - name: Provisioned
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deprovisioning
+    types:
+    - uid: string
+  - name: Deprovisioned
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Details
+  description: Details or the error
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+- name: Container
+  description: Container App container definition.
+  kind: object
+  properties:
+  - name: image
+    description: Container image tag.
+    types:
+    - uid: string
+  - name: name
+    description: Custom container name.
+    types:
+    - uid: string
+  - name: command
+    description: Container start command.
+    types:
+    - uid: string
+      isArray: true
+  - name: args
+    description: Container start command arguments.
+    types:
+    - uid: string
+      isArray: true
+  - name: env
+    description: Container environment variables.
+    types:
+    - uid: EnvironmentVar
+      isArray: true
+  - name: resources
+    description: Container resource requirements.
+    types:
+    - uid: ContainerResources
+  - name: probes
+    description: List of probes for the container.
+    types:
+    - uid: ContainerAppProbe
+      isArray: true
+  - name: volumeMounts
+    description: Container volume mounts.
+    types:
+    - uid: VolumeMount
+      isArray: true
+- name: Scale
+  description: Container App scaling configurations.
+  kind: object
+  properties:
+  - name: minReplicas
+    description: Optional. Minimum number of container replicas.
+    types:
+    - uid: integer
+  - name: maxReplicas
+    description: Optional. Maximum number of container replicas. Defaults to 10 if not set.
+    types:
+    - uid: integer
+  - name: rules
+    description: Scaling rules.
+    types:
+    - uid: ScaleRule
+      isArray: true
+- name: Volume
+  description: Volume definitions for the Container App.
+  kind: object
+  properties:
+  - name: name
+    description: Volume name.
+    types:
+    - uid: string
+  - name: storageType
+    description: Storage type for the volume. If not provided, use EmptyDir.
+    types:
+    - uid: StorageType
+  - name: storageName
+    description: Name of storage resource. No need to provide for EmptyDir.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: EnvironmentVar
+  description: Container App container environment variable.
+  kind: object
+  properties:
+  - name: name
+    description: Environment variable name.
+    types:
+    - uid: string
+  - name: value
+    description: Non-secret environment variable value.
+    types:
+    - uid: string
+  - name: secretRef
+    description: Name of the Container App secret from which to pull the environment variable value.
+    types:
+    - uid: string
+- name: ContainerResources
+  description: Container App container resource requirements.
+  kind: object
+  properties:
+  - name: cpu
+    description: Required CPU in cores, e.g. 0.5
+    types:
+    - uid: number
+  - name: memory
+    description: Required memory, e.g. "250Mb"
+    types:
+    - uid: string
+  - name: ephemeralStorage
+    isReadyOnly: true
+    description: Ephemeral Storage, e.g. "1Gi"
+    types:
+    - uid: string
+- name: ContainerAppProbe
+  description: Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic.
+  kind: object
+  properties:
+  - name: failureThreshold
+    description: Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. Maximum value is 10.
+    types:
+    - uid: integer
+  - name: httpGet
+    description: HTTPGet specifies the http request to perform.
+    types:
+    - uid: HttpGet
+  - name: initialDelaySeconds
+    description: Number of seconds after the container has started before liveness probes are initiated. Minimum value is 1. Maximum value is 60.
+    types:
+    - uid: integer
+  - name: periodSeconds
+    description: How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value is 240.
+    types:
+    - uid: integer
+  - name: successThreshold
+    description: Minimum consecutive successes for the probe to be considered successful after having failed. Defaults to 1. Must be 1 for liveness and startup. Minimum value is 1. Maximum value is 10.
+    types:
+    - uid: integer
+  - name: tcpSocket
+    description: TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported.
+    types:
+    - uid: TcpSocket
+  - name: terminationGracePeriodSeconds
+    description: Optional duration in seconds the pod needs to terminate gracefully upon probe failure. The grace period is the duration in seconds after the processes running in the pod are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. If this value is nil, the pod's terminationGracePeriodSeconds will be used. Otherwise, this value overrides the value provided by the pod spec. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). This is an alpha field and requires enabling ProbeTerminationGracePeriod feature gate. Maximum value is 3600 seconds (1 hour)
+    types:
+    - uid: integer
+  - name: timeoutSeconds
+    description: Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 240.
+    types:
+    - uid: integer
+  - name: type
+    description: The type of probe.
+    types:
+    - uid: Type
+- name: VolumeMount
+  description: Volume mount for the Container App.
+  kind: object
+  properties:
+  - name: volumeName
+    description: This must match the Name of a Volume.
+    types:
+    - uid: string
+  - name: mountPath
+    description: Path within the container at which the volume should be mounted.Must not contain ':'.
+    types:
+    - uid: string
+- name: ScaleRule
+  description: Container App container scaling rule.
+  kind: object
+  properties:
+  - name: name
+    description: Scale Rule Name
+    types:
+    - uid: string
+  - name: azureQueue
+    description: Azure Queue based scaling.
+    types:
+    - uid: QueueScaleRule
+  - name: custom
+    description: Custom scale rule.
+    types:
+    - uid: CustomScaleRule
+  - name: http
+    description: HTTP requests based scaling.
+    types:
+    - uid: HttpScaleRule
+- name: StorageType
+  description: Storage type for the volume. If not provided, use EmptyDir.
+  kind: enum
+  properties:
+  - name: AzureFile
+    types:
+    - uid: string
+  - name: EmptyDir
+    types:
+    - uid: string
+- name: HttpGet
+  description: HTTPGet specifies the http request to perform.
+  kind: object
+  properties:
+  - name: host
+    description: Host name to connect to, defaults to the pod IP. You probably want to set "Host" in httpHeaders instead.
+    types:
+    - uid: string
+  - name: httpHeaders
+    description: Custom headers to set in the request. HTTP allows repeated headers.
+    types:
+    - uid: HttpHeaders
+      isArray: true
+  - name: path
+    description: Path to access on the HTTP server.
+    types:
+    - uid: string
+  - name: port
+    description: Name or number of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.
+    types:
+    - uid: integer
+  - name: scheme
+    description: Scheme to use for connecting to the host. Defaults to HTTP.
+    types:
+    - uid: Scheme
+- name: TcpSocket
+  description: TCPSocket specifies an action involving a TCP port. TCP hooks not yet supported.
+  kind: object
+  properties:
+  - name: host
+    description: 'Optional: Host name to connect to, defaults to the pod IP.'
+    types:
+    - uid: string
+  - name: port
+    description: Number or name of the port to access on the container. Number must be in the range 1 to 65535. Name must be an IANA_SVC_NAME.
+    types:
+    - uid: integer
+- name: Type
+  description: The type of probe.
+  kind: enum
+  properties:
+  - name: Liveness
+    types:
+    - uid: string
+  - name: Readiness
+    types:
+    - uid: string
+  - name: Startup
+    types:
+    - uid: string
+- name: QueueScaleRule
+  description: Container App container Azure Queue based scaling rule.
+  kind: object
+  properties:
+  - name: queueName
+    description: Queue name.
+    types:
+    - uid: string
+  - name: queueLength
+    description: Queue length.
+    types:
+    - uid: integer
+  - name: auth
+    description: Authentication secrets for the queue scale rule.
+    types:
+    - uid: ScaleRuleAuth
+      isArray: true
+- name: CustomScaleRule
+  description: Container App container Custom scaling rule.
+  kind: object
+  properties:
+  - name: type
+    description: >-
+      Type of the custom scale rule
+
+      eg: azure-servicebus, redis etc.
+    types:
+    - uid: string
+  - name: metadata
+    description: Metadata properties to describe custom scale rule.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: auth
+    description: Authentication secrets for the custom scale rule.
+    types:
+    - uid: ScaleRuleAuth
+      isArray: true
+- name: HttpScaleRule
+  description: Container App container Custom scaling rule.
+  kind: object
+  properties:
+  - name: metadata
+    description: Metadata properties to describe http scale rule.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: auth
+    description: Authentication secrets for the custom scale rule.
+    types:
+    - uid: ScaleRuleAuth
+      isArray: true
+- name: HttpHeaders
+  description: Custom headers to set in the request. HTTP allows repeated headers.
+  kind: object
+  properties:
+  - name: name
+    description: The header field name
+    types:
+    - uid: string
+  - name: value
+    description: The header field value
+    types:
+    - uid: string
+- name: Scheme
+  description: Scheme to use for connecting to the host. Defaults to HTTP.
+  kind: enum
+  properties:
+  - name: HTTP
+    types:
+    - uid: string
+  - name: HTTPS
+    types:
+    - uid: string
+- name: ScaleRuleAuth
+  description: Auth Secrets for Container App Scale Rule
+  kind: object
+  properties:
+  - name: secretRef
+    description: Name of the Container App secret from which to pull the auth params.
+    types:
+    - uid: string
+  - name: triggerParameter
+    description: Trigger Parameter that uses the secret
+    types:
+    - uid: string
+examples:
+- name: List Container App's revisions
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/revisions?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/revisions?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ContainerAppsRevisions ListRevisions. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Revisions_List.json
+           */
+          /**
+           * Sample code: List Container App's revisions.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void listContainerAppSRevisions(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager.containerAppsRevisions().listRevisions("rg", "testcontainerApp0", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Revisions_List.json
+      func ExampleContainerAppsRevisionsClient_NewListRevisionsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewContainerAppsRevisionsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListRevisionsPager("rg",
+      		"testcontainerApp0",
+      		&armappcontainers.ContainerAppsRevisionsClientListRevisionsOptions{Filter: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the Revisions for a given Container App.
+       *
+       * @summary Get the Revisions for a given Container App.
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/Revisions_List.json
+       */
+      async function listContainerAppRevisions() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const containerAppName = "testcontainerApp0";
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.containerAppsRevisions.listRevisions(
+          resourceGroupName,
+          containerAppName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listContainerAppRevisions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/revisions/testcontainerApp0-pjxhsye",
+            "name": "testcontainerApp0-pjxhsye",
+            "type": "Microsoft.App/containerApps/revisions",
+            "properties": {
+              "createdTime": "2021-05-24T21:24:22+00:00",
+              "fqdn": "testcontainerApp0-pjxhsye.demokube-t24clv0g.eastus.containerapps.k4apps.io",
+              "template": {
+                "containers": [
+                  {
+                    "image": "repo/testcontainerApp0:v2",
+                    "name": "testcontainerApp0",
+                    "resources": {
+                      "cpu": 0.2,
+                      "memory": "100Mi"
+                    }
+                  }
+                ],
+                "scale": {
+                  "minReplicas": 1,
+                  "maxReplicas": 5,
+                  "rules": [
+                    {
+                      "name": "httpscalingrule",
+                      "http": {
+                        "metadata": {
+                          "concurrentRequests": "50"
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "active": true,
+              "replicas": 1
+            }
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Container Apps service - Get the Revisions for a given Container App.
+errorCodes: []

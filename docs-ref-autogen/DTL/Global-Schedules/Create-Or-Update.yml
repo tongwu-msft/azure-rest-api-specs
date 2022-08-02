@@ -145,6 +145,7 @@ definitions:
     description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: timeInMinutes
     description: Time in minutes before event at which notification will be sent.
     types:
@@ -169,6 +170,7 @@ definitions:
     description: The status of the schedule (i.e. Enabled, Disabled)
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: properties.taskType
     description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     types:
@@ -301,6 +303,120 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/schedules/labvmautostart?api-version=2018-09-15
+
+      {
+        "properties": {
+          "status": "Enabled",
+          "timeZoneId": "Hawaiian Standard Time",
+          "taskType": "LabVmsStartupTask",
+          "weeklyRecurrence": {
+            "time": "0700",
+            "weekdays": [
+              "Monday",
+              "Tuesday",
+              "Wednesday",
+              "Thursday",
+              "Friday",
+              "Saturday"
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/GlobalSchedules_CreateOrUpdate.json
+      func ExampleGlobalSchedulesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewGlobalSchedulesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"resourceGroupName",
+      		"labvmautostart",
+      		armdevtestlabs.Schedule{
+      			Properties: &armdevtestlabs.ScheduleProperties{
+      				Status:     to.Ptr(armdevtestlabs.EnableStatusEnabled),
+      				TaskType:   to.Ptr("LabVmsStartupTask"),
+      				TimeZoneID: to.Ptr("Hawaiian Standard Time"),
+      				WeeklyRecurrence: &armdevtestlabs.WeekDetails{
+      					Time: to.Ptr("0700"),
+      					Weekdays: []*string{
+      						to.Ptr("Monday"),
+      						to.Ptr("Tuesday"),
+      						to.Ptr("Wednesday"),
+      						to.Ptr("Thursday"),
+      						to.Ptr("Friday"),
+      						to.Ptr("Saturday")},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or replace an existing schedule.
+       *
+       * @summary Create or replace an existing schedule.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/GlobalSchedules_CreateOrUpdate.json
+       */
+      async function globalSchedulesCreateOrUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const name = "labvmautostart";
+        const schedule = {
+          status: "Enabled",
+          taskType: "LabVmsStartupTask",
+          timeZoneId: "Hawaiian Standard Time",
+          weeklyRecurrence: {
+            time: "0700",
+            weekdays: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const result = await client.globalSchedules.createOrUpdate(resourceGroupName, name, schedule);
+        console.log(result);
+      }
+
+      globalSchedulesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

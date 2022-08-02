@@ -372,6 +372,7 @@ definitions:
     description: Enumerates the possible value of keySource for Encryption
     types:
     - uid: keySource
+    defaultValue: Microsoft.KeyVault
   - name: properties.encryption.requireInfrastructureEncryption
     description: Enable Infrastructure Encryption (Double Encryption)
     types:
@@ -593,6 +594,158 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.EventHub/namespaces/NamespaceSample?api-version=2021-11-01
+
+      {
+        "location": "East US",
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2": null
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventhubs.fluent.models.EHNamespaceInner;
+      import com.azure.resourcemanager.eventhubs.models.Identity;
+      import com.azure.resourcemanager.eventhubs.models.ManagedServiceIdentityType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Namespaces Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceUpdate.json
+           */
+          /**
+           * Sample code: NamespacesUpdate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void namespacesUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .eventHubs()
+                  .manager()
+                  .serviceClient()
+                  .getNamespaces()
+                  .updateWithResponse(
+                      "ResurceGroupSample",
+                      "NamespaceSample",
+                      new EHNamespaceInner()
+                          .withLocation("East US")
+                          .withIdentity(
+                              new Identity()
+                                  .withType(ManagedServiceIdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)
+                                  .withUserAssignedIdentities(
+                                      mapOf(
+                                          "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2",
+                                          null))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventhub_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventhub/armeventhub"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceUpdate.json
+      func ExampleNamespacesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventhub.NewNamespacesClient("SampleSubscription", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"ResurceGroupSample",
+      		"NamespaceSample",
+      		armeventhub.EHNamespace{
+      			Location: to.Ptr("East US"),
+      			Identity: &armeventhub.Identity{
+      				Type: to.Ptr(armeventhub.ManagedServiceIdentityTypeSystemAssignedUserAssigned),
+      				UserAssignedIdentities: map[string]*armeventhub.UserAssignedIdentity{
+      					"/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/Microsoft.ManagedIdentity/userAssignedIdentities/ud2": nil,
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventhub%2Farmeventhub%2Fv1.0.0/sdk/resourcemanager/eventhub/armeventhub/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventHubManagementClient } = require("@azure/arm-eventhub");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+       *
+       * @summary Creates or updates a namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
+       * x-ms-original-file: specification/eventhub/resource-manager/Microsoft.EventHub/stable/2021-11-01/examples/NameSpaces/EHNameSpaceUpdate.json
+       */
+      async function namespacesUpdate() {
+        const subscriptionId = "SampleSubscription";
+        const resourceGroupName = "ResurceGroupSample";
+        const namespaceName = "NamespaceSample";
+        const parameters = {
+          identity: {
+            type: "SystemAssigned, UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/SampleSubscription/resourceGroups/ResurceGroupSample/providers/MicrosoftManagedIdentity/userAssignedIdentities/ud2":
+                {},
+            },
+          },
+          location: "East US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventHubManagementClient(credential, subscriptionId);
+        const result = await client.namespaces.update(resourceGroupName, namespaceName, parameters);
+        console.log(result);
+      }
+
+      namespacesUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventhub_5.0.1/sdk/eventhub/arm-eventhub/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

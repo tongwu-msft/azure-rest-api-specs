@@ -1,0 +1,354 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-05-31dataplane.devicetemplates.update
+name: Update
+service: IoT Central
+groupName: Device Templates
+apiVersion: 2022-05-31
+summary: Update the cloud properties and overrides of an existing device template via patch.
+consumes:
+- application/json
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{subdomain}.{baseDomain}/api/deviceTemplates/{deviceTemplateId}?api-version=2022-05-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceTemplateId
+  in: path
+  isRequired: true
+  description: Unique [Digital Twin Model Identifier](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier) of the device template.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceTemplate
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: body
+    in: body
+    description: Device template patch body.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: DeviceTemplate
+  description: The device template definition.
+  kind: object
+  properties:
+  - name: '@id'
+    isReadyOnly: true
+    description: Unique ID of the device template.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The JSON-LD types of this device template.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    description: ETag used to prevent conflict in device template updates.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device template.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the device template.
+    types:
+    - uid: string
+  - name: capabilityModel
+    description: The capability model utilized by this device template.
+    types:
+    - uid: object
+- name: Error
+  description: The response error definition
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Update a device template
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/deviceTemplates/dtmi:contoso:testDeviceTemplate;1?api-version=2022-05-31
+    body: >-
+      {
+        "displayName": "Test Definition Update",
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ],
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ],
+                "displayName": "Settings"
+              }
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "enumValues": [
+                  {
+                    "displayName": "Offline",
+                    "enumValue": 1,
+                    "name": "offline"
+                  },
+                  {
+                    "displayName": "Online",
+                    "enumValue": 2,
+                    "name": "online"
+                  }
+                ],
+                "valueSchema": "integer"
+              }
+            }
+          ],
+          "displayName": "Test Capability Model"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/deviceTemplates/dtmi:contoso:testDeviceTemplate;1?api-version=2022-05-31
+
+      {
+        "displayName": "Test Definition Update",
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ],
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ],
+                "displayName": "Settings"
+              }
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "enumValues": [
+                  {
+                    "displayName": "Offline",
+                    "enumValue": 1,
+                    "name": "offline"
+                  },
+                  {
+                    "displayName": "Online",
+                    "enumValue": 2,
+                    "name": "online"
+                  }
+                ],
+                "valueSchema": "integer"
+              }
+            }
+          ],
+          "displayName": "Test Capability Model"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "etag": "\"~FeoA18iSWEoC7QR3Xf33BmlVQoXvM6toNHamHuGdBs8=\"",
+        "displayName": "Test Definition Update",
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ],
+                "displayName": "Settings"
+              }
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "enumValues": [
+                  {
+                    "displayName": "Offline",
+                    "enumValue": 1,
+                    "name": "offline"
+                  },
+                  {
+                    "displayName": "Online",
+                    "enumValue": 2,
+                    "name": "online"
+                  }
+                ],
+                "valueSchema": "integer"
+              }
+            }
+          ],
+          "displayName": "Test Capability Model"
+        },
+        "@id": "dtmi:modelDefinition:contoso;1",
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Update the cloud properties and overrides of an existing device template via patch.
+errorCodes: []

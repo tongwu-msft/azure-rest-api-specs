@@ -1,0 +1,278 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.testrun.gettestrunclientmetrics
+name: Get Test Run Client Metrics
+service: Azure Load Testing
+groupName: Test Run
+apiVersion: 2022-06-01-preview
+summary: Get all client metrics for a load test run.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{Endpoint}/testruns/{testRunId}/clientMetrics?api-version=2022-06-01-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
+- name: testRunId
+  in: path
+  isRequired: true
+  description: Unique name of the load test run, must be a valid URL character ^[a-z0-9_-]*$.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested client metrics
+  types:
+  - uid: ClientMetricsResults
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Load Testing service error response.
+  types:
+  - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: requestSamplers
+    in: body
+    description: List of request samplers, maximum supported samplers for queries are 20. In case of empty, it will return metrics for maximum 20 samplers
+    types:
+    - uid: string
+      isArray: true
+  - name: errors
+    in: body
+    description: List of errors, maximum supported errors for queries are 20. In case of empty, by default will return metrics for maximum 20 errors
+    types:
+    - uid: string
+      isArray: true
+  - name: percentiles
+    in: body
+    description: List of percentiles values for response time, supported values 50,90,99,95. Default value is 50th percentile.
+    types:
+    - uid: string
+      isArray: true
+  - name: groupByInterval
+    in: body
+    description: For test duration less than 10 minutes group by time interval can be any one of 5s,10s,1m,5m.\n\nFor test duration greater than 10 minutes, group by time interval can be any one of 1m,5m,1h. Default value is 1m.
+    types:
+    - uid: string
+  - name: startTime
+    in: body
+    isRequired: true
+    description: Start time
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: End time
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ClientMetricsResults
+  kind: object
+  properties:
+  - name: testRunId
+    description: Test run name for which client metrics results is required.
+    types:
+    - uid: string
+  - name: timeSeries
+    description: ''
+    types:
+    - uid: Series
+- name: ErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error from a REST request.
+    types:
+    - uid: Error
+- name: ClientMetricsRequestModel
+  description: Client metrics request payload
+  kind: object
+  properties:
+  - name: requestSamplers
+    description: List of request samplers, maximum supported samplers for queries are 20. In case of empty, it will return metrics for maximum 20 samplers
+    types:
+    - uid: string
+      isArray: true
+  - name: errors
+    description: List of errors, maximum supported errors for queries are 20. In case of empty, by default will return metrics for maximum 20 errors
+    types:
+    - uid: string
+      isArray: true
+  - name: percentiles
+    description: List of percentiles values for response time, supported values 50,90,99,95. Default value is 50th percentile.
+    types:
+    - uid: string
+      isArray: true
+  - name: groupByInterval
+    description: For test duration less than 10 minutes group by time interval can be any one of 5s,10s,1m,5m.\n\nFor test duration greater than 10 minutes, group by time interval can be any one of 1m,5m,1h. Default value is 1m.
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time
+    types:
+    - uid: string
+  - name: endTime
+    description: End time
+    types:
+    - uid: string
+- name: Series
+  kind: object
+  properties:
+  - name: activeUsers
+    description: Active users time series data.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: responseTime
+    description: Response time, time series data.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: throughput
+    description: Throughput time series data.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: errors
+    description: Errors time series data.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+- name: Error
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: Error
+      isArray: true
+examples:
+- name: GetTestRunClientMetrics
+  request:
+    uri: POST https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012/clientMetrics?api-version=2022-06-01-preview
+    body: >-
+      {
+        "requestSamplers": [
+          "Homepage"
+        ],
+        "errors": [
+          "500"
+        ],
+        "percentiles": [
+          "95"
+        ],
+        "groupByInterval": "10s",
+        "startTime": "2021-12-05T16:43:49.590Z",
+        "endTime": "2021-12-05T16:43:49.590Z"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012/clientMetrics?api-version=2022-06-01-preview
+
+      {
+        "requestSamplers": [
+          "Homepage"
+        ],
+        "errors": [
+          "500"
+        ],
+        "percentiles": [
+          "95"
+        ],
+        "groupByInterval": "10s",
+        "startTime": "2021-12-05T16:43:49.590Z",
+        "endTime": "2021-12-05T16:43:49.590Z"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "timeSeries": {
+          "activeUsers": {
+            "Homepage": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 1
+              }
+            ]
+          },
+          "responseTime": {
+            "Homepage Pct 95": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 1
+              }
+            ]
+          },
+          "throughput": {
+            "Homepage": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 2
+              }
+            ]
+          },
+          "errors": {
+            "500": [
+              {
+                "timestamp": "2021-12-05T16:43:49.320Z",
+                "value": 1
+              }
+            ]
+          }
+        }
+      }
+security: []
+metadata:
+  description: Learn more about Azure Load Testing service - Get all client metrics for a load test run.
+errorCodes: []

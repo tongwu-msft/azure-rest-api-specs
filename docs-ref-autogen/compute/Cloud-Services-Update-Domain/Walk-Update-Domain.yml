@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservicesupdatedomain.walkupdatedomain
 name: Walk Update Domain
 service: Compute
 groupName: Cloud Services Update Domain
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Updates the role instances in the specified update domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/updateDomains/{updateDomain}?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -44,14 +44,14 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-- name: 202 Accepted
-  description: Accepted
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+- name: 202 Accepted
+  description: Accepted
 requestHeader: []
 definitions:
 - name: CloudError
@@ -93,12 +93,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: ApiErrorBase
@@ -109,12 +109,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -132,7 +132,109 @@ definitions:
 examples:
 - name: Update Cloud Service to specified Domain
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains/1?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains/1?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/updateDomains/1?api-version=2022-04-04
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CloudServicesUpdateDomain WalkUpdateDomain. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceUpdateDomain_Update.json
+           */
+          /**
+           * Sample code: Update Cloud Service to specified Domain.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateCloudServiceToSpecifiedDomain(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServicesUpdateDomains()
+                  .walkUpdateDomain("ConstosoRG", "{cs-name}", 1, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceUpdateDomain_Update.json
+      func ExampleCloudServicesUpdateDomainClient_BeginWalkUpdateDomain() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServicesUpdateDomainClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginWalkUpdateDomain(ctx,
+      		"ConstosoRG",
+      		"{cs-name}",
+      		1,
+      		armcompute.UpdateDomain{},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the role instances in the specified update domain.
+       *
+       * @summary Updates the role instances in the specified update domain.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceUpdateDomain_Update.json
+       */
+      async function updateCloudServiceToSpecifiedDomain() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const updateDomain = 1;
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServicesUpdateDomain.beginWalkUpdateDomainAndWait(
+          resourceGroupName,
+          cloudServiceName,
+          updateDomain
+        );
+        console.log(result);
+      }
+
+      updateCloudServiceToSpecifiedDomain().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

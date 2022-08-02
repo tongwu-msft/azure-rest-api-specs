@@ -737,6 +737,140 @@ examples:
           "ElasticServer": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/servers/mysqltestsvc4?api-version=2017-12-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "administratorLogin": "cloudsa",
+          "administratorLoginPassword": "<administratorLoginPassword>",
+          "sslEnforcement": "Enabled",
+          "storageProfile": {
+            "storageMB": 128000,
+            "backupRetentionDays": 7,
+            "geoRedundantBackup": "Enabled"
+          },
+          "createMode": "Default"
+        },
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "capacity": 2,
+          "family": "Gen5"
+        },
+        "tags": {
+          "ElasticServer": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysql.models.GeoRedundantBackup;
+      import com.azure.resourcemanager.mysql.models.ServerPropertiesForDefaultCreate;
+      import com.azure.resourcemanager.mysql.models.Sku;
+      import com.azure.resourcemanager.mysql.models.SkuTier;
+      import com.azure.resourcemanager.mysql.models.SslEnforcementEnum;
+      import com.azure.resourcemanager.mysql.models.StorageProfile;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreate.json
+           */
+          /**
+           * Sample code: Create a new server.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createANewServer(com.azure.resourcemanager.mysql.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("mysqltestsvc4")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("testrg")
+                  .withProperties(
+                      new ServerPropertiesForDefaultCreate()
+                          .withSslEnforcement(SslEnforcementEnum.ENABLED)
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withBackupRetentionDays(7)
+                                  .withGeoRedundantBackup(GeoRedundantBackup.ENABLED)
+                                  .withStorageMB(128000))
+                          .withAdministratorLogin("cloudsa")
+                          .withAdministratorLoginPassword("<administratorLoginPassword>"))
+                  .withTags(mapOf("ElasticServer", "1"))
+                  .withSku(
+                      new Sku().withName("GP_Gen5_2").withTier(SkuTier.GENERAL_PURPOSE).withCapacity(2).withFamily("Gen5"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysql_1.0.2/sdk/mysql/azure-resourcemanager-mysql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementClient } = require("@azure/arm-mysql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       *
+       * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreate.json
+       */
+      async function createANewServer() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "mysqltestsvc4";
+        const parameters = {
+          location: "westus",
+          properties: {
+            administratorLogin: "cloudsa",
+            administratorLoginPassword: "<administratorLoginPassword>",
+            createMode: "Default",
+            sslEnforcement: "Enabled",
+            storageProfile: {
+              backupRetentionDays: 7,
+              geoRedundantBackup: "Enabled",
+              storageMB: 128000,
+            },
+          },
+          sku: {
+            name: "GP_Gen5_2",
+            capacity: 2,
+            family: "Gen5",
+            tier: "GeneralPurpose",
+          },
+          tags: { elasticServer: "1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementClient(credential, subscriptionId);
+        const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      createANewServer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql_5.0.1/sdk/mysql/arm-mysql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -820,6 +954,182 @@ examples:
           "ElasticServer": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+
+      {
+        "location": "brazilsouth",
+        "properties": {
+          "restorePointInTime": "2017-12-14T00:00:37.467Z",
+          "createMode": "PointInTimeRestore",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
+        },
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "tags": {
+          "ElasticServer": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysql.models.ServerPropertiesForRestore;
+      import com.azure.resourcemanager.mysql.models.Sku;
+      import com.azure.resourcemanager.mysql.models.SkuTier;
+      import java.time.OffsetDateTime;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreatePointInTimeRestore.json
+           */
+          /**
+           * Sample code: Create a database as a point in time restore.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createADatabaseAsAPointInTimeRestore(com.azure.resourcemanager.mysql.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("targetserver")
+                  .withRegion("brazilsouth")
+                  .withExistingResourceGroup("TargetResourceGroup")
+                  .withProperties(
+                      new ServerPropertiesForRestore()
+                          .withSourceServerId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver")
+                          .withRestorePointInTime(OffsetDateTime.parse("2017-12-14T00:00:37.467Z")))
+                  .withTags(mapOf("ElasticServer", "1"))
+                  .withSku(
+                      new Sku().withName("GP_Gen5_2").withTier(SkuTier.GENERAL_PURPOSE).withCapacity(2).withFamily("Gen5"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysql_1.0.2/sdk/mysql/azure-resourcemanager-mysql/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreatePointInTimeRestore.json
+      func ExampleServersClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysql.NewServersClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"TargetResourceGroup",
+      		"targetserver",
+      		armmysql.ServerForCreate{
+      			Location: to.Ptr("brazilsouth"),
+      			Properties: &armmysql.ServerPropertiesForRestore{
+      				CreateMode:         to.Ptr(armmysql.CreateModePointInTimeRestore),
+      				RestorePointInTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-12-14T00:00:37.467Z"); return t }()),
+      				SourceServerID:     to.Ptr("/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"),
+      			},
+      			SKU: &armmysql.SKU{
+      				Name:     to.Ptr("GP_Gen5_2"),
+      				Capacity: to.Ptr[int32](2),
+      				Family:   to.Ptr("Gen5"),
+      				Tier:     to.Ptr(armmysql.SKUTierGeneralPurpose),
+      			},
+      			Tags: map[string]*string{
+      				"ElasticServer": to.Ptr("1"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysql%2Fv1.0.0/sdk/resourcemanager/mysql/armmysql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementClient } = require("@azure/arm-mysql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       *
+       * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreatePointInTimeRestore.json
+       */
+      async function createADatabaseAsAPointInTimeRestore() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TargetResourceGroup";
+        const serverName = "targetserver";
+        const parameters = {
+          location: "brazilsouth",
+          properties: {
+            createMode: "PointInTimeRestore",
+            restorePointInTime: new Date("2017-12-14T00:00:37.467Z"),
+            sourceServerId:
+              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver",
+          },
+          sku: {
+            name: "GP_Gen5_2",
+            capacity: 2,
+            family: "Gen5",
+            tier: "GeneralPurpose",
+          },
+          tags: { elasticServer: "1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementClient(credential, subscriptionId);
+        const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      createADatabaseAsAPointInTimeRestore().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql_5.0.1/sdk/mysql/arm-mysql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -902,6 +1212,118 @@ examples:
           "ElasticServer": "1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "createMode": "GeoRestore",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"
+        },
+        "sku": {
+          "name": "GP_Gen5_2",
+          "tier": "GeneralPurpose",
+          "family": "Gen5",
+          "capacity": 2
+        },
+        "tags": {
+          "ElasticServer": "1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysql.models.ServerPropertiesForGeoRestore;
+      import com.azure.resourcemanager.mysql.models.Sku;
+      import com.azure.resourcemanager.mysql.models.SkuTier;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreateGeoRestoreMode.json
+           */
+          /**
+           * Sample code: Create a server as a geo restore.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAServerAsAGeoRestore(com.azure.resourcemanager.mysql.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("targetserver")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("TargetResourceGroup")
+                  .withProperties(
+                      new ServerPropertiesForGeoRestore()
+                          .withSourceServerId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver"))
+                  .withTags(mapOf("ElasticServer", "1"))
+                  .withSku(
+                      new Sku().withName("GP_Gen5_2").withTier(SkuTier.GENERAL_PURPOSE).withCapacity(2).withFamily("Gen5"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysql_1.0.2/sdk/mysql/azure-resourcemanager-mysql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementClient } = require("@azure/arm-mysql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       *
+       * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreateGeoRestoreMode.json
+       */
+      async function createAServerAsAGeoRestore() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TargetResourceGroup";
+        const serverName = "targetserver";
+        const parameters = {
+          location: "westus",
+          properties: {
+            createMode: "GeoRestore",
+            sourceServerId:
+              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/SourceResourceGroup/providers/Microsoft.DBforMySQL/servers/sourceserver",
+          },
+          sku: {
+            name: "GP_Gen5_2",
+            capacity: 2,
+            family: "Gen5",
+            tier: "GeneralPurpose",
+          },
+          tags: { elasticServer: "1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementClient(credential, subscriptionId);
+        const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      createAServerAsAGeoRestore().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql_5.0.1/sdk/mysql/arm-mysql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -975,6 +1397,97 @@ examples:
           "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TargetResourceGroup/providers/Microsoft.DBforMySQL/servers/targetserver?api-version=2017-12-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "createMode": "Replica",
+          "sourceServerId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mysql.models.ServerPropertiesForReplica;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreateReplicaMode.json
+           */
+          /**
+           * Sample code: Create a replica server.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void createAReplicaServer(com.azure.resourcemanager.mysql.MySqlManager manager) {
+              manager
+                  .servers()
+                  .define("targetserver")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("TargetResourceGroup")
+                  .withProperties(
+                      new ServerPropertiesForReplica()
+                          .withSourceServerId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysql_1.0.2/sdk/mysql/azure-resourcemanager-mysql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementClient } = require("@azure/arm-mysql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       *
+       * @summary Creates a new server or updates an existing server. The update action will overwrite the existing server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2017-12-01/examples/ServerCreateReplicaMode.json
+       */
+      async function createAReplicaServer() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TargetResourceGroup";
+        const serverName = "targetserver";
+        const parameters = {
+          location: "westus",
+          properties: {
+            createMode: "Replica",
+            sourceServerId:
+              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/MasterResourceGroup/providers/Microsoft.DBforMySQL/servers/masterserver",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementClient(credential, subscriptionId);
+        const result = await client.servers.beginCreateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      createAReplicaServer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql_5.0.1/sdk/mysql/arm-mysql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

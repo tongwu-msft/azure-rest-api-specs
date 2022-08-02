@@ -93,6 +93,7 @@ definitions:
     description: DNS server port.
     types:
     - uid: integer
+    defaultValue: 53
 - name: ForwardingRule
   description: Describes a forwarding rule within a DNS forwarding ruleset.
   kind: object
@@ -177,6 +178,7 @@ definitions:
     description: The state of forwarding rule.
     types:
     - uid: ForwardingRuleState
+    defaultValue: Enabled
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -287,6 +289,150 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsForwardingRulesets/sampleDnsForwardingRuleset/forwardingRules/sampleForwardingRule?api-version=2020-04-01-preview
+
+      {
+        "properties": {
+          "forwardingRuleState": "Disabled",
+          "metadata": {
+            "additionalProp2": "value2"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dnsresolver.models.ForwardingRule;
+      import com.azure.resourcemanager.dnsresolver.models.ForwardingRuleState;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ForwardingRules Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/ForwardingRule_Patch.json
+           */
+          /**
+           * Sample code: Update forwarding rule in a DNS forwarding ruleset.
+           *
+           * @param manager Entry point to DnsResolverManager.
+           */
+          public static void updateForwardingRuleInADNSForwardingRuleset(
+              com.azure.resourcemanager.dnsresolver.DnsResolverManager manager) {
+              ForwardingRule resource =
+                  manager
+                      .forwardingRules()
+                      .getWithResponse(
+                          "sampleResourceGroup", "sampleDnsForwardingRuleset", "sampleForwardingRule", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withMetadata(mapOf("additionalProp2", "value2"))
+                  .withForwardingRuleState(ForwardingRuleState.DISABLED)
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dnsresolver_1.0.0-beta.1/sdk/dnsresolver/azure-resourcemanager-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdnsresolver_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/ForwardingRule_Patch.json
+      func ExampleForwardingRulesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdnsresolver.NewForwardingRulesClient("abdd4249-9f34-4cc6-8e42-c2e32110603e", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"sampleResourceGroup",
+      		"sampleDnsForwardingRuleset",
+      		"sampleForwardingRule",
+      		armdnsresolver.ForwardingRulePatch{
+      			Properties: &armdnsresolver.ForwardingRulePatchProperties{
+      				ForwardingRuleState: to.Ptr(armdnsresolver.ForwardingRuleStateDisabled),
+      				Metadata: map[string]*string{
+      					"additionalProp2": to.Ptr("value2"),
+      				},
+      			},
+      		},
+      		&armdnsresolver.ForwardingRulesClientUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdnsresolver%2Farmdnsresolver%2Fv0.4.0/sdk/resourcemanager/dnsresolver/armdnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsResolverManagementClient } = require("@azure/arm-dnsresolver");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a forwarding rule in a DNS forwarding ruleset.
+       *
+       * @summary Updates a forwarding rule in a DNS forwarding ruleset.
+       * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/ForwardingRule_Patch.json
+       */
+      async function updateForwardingRuleInADnsForwardingRuleset() {
+        const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+        const resourceGroupName = "sampleResourceGroup";
+        const dnsForwardingRulesetName = "sampleDnsForwardingRuleset";
+        const forwardingRuleName = "sampleForwardingRule";
+        const parameters = {
+          forwardingRuleState: "Disabled",
+          metadata: { additionalProp2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsResolverManagementClient(credential, subscriptionId);
+        const result = await client.forwardingRules.update(
+          resourceGroupName,
+          dnsForwardingRulesetName,
+          forwardingRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateForwardingRuleInADnsForwardingRuleset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dnsresolver_1.0.0-beta.3/sdk/dnsresolver/arm-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

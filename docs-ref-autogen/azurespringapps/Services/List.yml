@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.services.list
 name: List
 service: Azure Spring Apps
 groupName: Services
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Handles requests to list all resources in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -143,6 +143,10 @@ definitions:
     description: Network profile of the Service
     types:
     - uid: NetworkProfile
+  - name: vnetAddons
+    description: Additional Service settings in vnet injection instance
+    types:
+    - uid: ServiceVNetAddons
   - name: version
     isReadyOnly: true
     description: Version of the Service
@@ -162,23 +166,30 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
   - name: fqdn
     isReadyOnly: true
     description: Fully qualified dns name of the service instance
     types:
     - uid: string
+  - name: marketplaceResource
+    description: Purchasing 3rd party product of the Service resource.
+    types:
+    - uid: MarketplaceResource
 - name: Sku
-  description: Sku of Azure Spring Cloud
+  description: Sku of Azure Spring Apps
   kind: object
   properties:
   - name: name
     description: Name of the Sku
     types:
     - uid: string
+    defaultValue: S0
   - name: tier
     description: Tier of the Sku
     types:
     - uid: string
+    defaultValue: Standard
   - name: capacity
     description: Current capacity of the target resource
     types:
@@ -253,36 +264,49 @@ definitions:
   kind: object
   properties:
   - name: serviceRuntimeSubnetId
-    description: Fully qualified resource Id of the subnet to host Azure Spring Cloud Service Runtime
+    description: Fully qualified resource Id of the subnet to host Azure Spring Apps Service Runtime
     types:
     - uid: string
   - name: appSubnetId
-    description: Fully qualified resource Id of the subnet to host Azure Spring Cloud Apps
+    description: Fully qualified resource Id of the subnet to host customer apps in Azure Spring Apps
     types:
     - uid: string
   - name: serviceCidr
-    description: Azure Spring Cloud service reserved CIDR
+    description: Azure Spring Apps service reserved CIDR
     types:
     - uid: string
   - name: serviceRuntimeNetworkResourceGroup
-    description: Name of the resource group containing network resources of Azure Spring Cloud Service Runtime
+    description: Name of the resource group containing network resources of Azure Spring Apps Service Runtime
     types:
     - uid: string
   - name: appNetworkResourceGroup
-    description: Name of the resource group containing network resources of Azure Spring Cloud Apps
+    description: Name of the resource group containing network resources for customer apps in Azure Spring Apps
     types:
     - uid: string
   - name: outboundIPs
     isReadyOnly: true
-    description: Desired outbound IP resources for Azure Spring Cloud instance.
+    description: Desired outbound IP resources for Azure Spring Apps resource.
     types:
     - uid: OutboundIPs
   - name: requiredTraffics
     isReadyOnly: true
-    description: Required inbound or outbound traffics for Azure Spring Cloud instance.
+    description: Required inbound or outbound traffics for Azure Spring Apps resource.
     types:
     - uid: RequiredTraffic
       isArray: true
+  - name: ingressConfig
+    description: Ingress configuration payload for Azure Spring Apps resource.
+    types:
+    - uid: IngressConfig
+- name: ServiceVNetAddons
+  description: Additional Service settings in vnet injection instance
+  kind: object
+  properties:
+  - name: logStreamPublicEndpoint
+    description: Indicates whether the log stream in vnet injection instance could be accessed from internet.
+    types:
+    - uid: boolean
+    defaultValue: false
 - name: PowerState
   description: Power state of the Service
   kind: enum
@@ -291,6 +315,22 @@ definitions:
     types:
     - uid: string
   - name: Stopped
+    types:
+    - uid: string
+- name: MarketplaceResource
+  description: Purchasing 3rd Party product for one Azure Spring Apps instance
+  kind: object
+  properties:
+  - name: plan
+    description: The plan id of the 3rd Party Artifact that is being procured.
+    types:
+    - uid: string
+  - name: publisher
+    description: The publisher id of the 3rd Party Artifact that is being bought.
+    types:
+    - uid: string
+  - name: product
+    description: The 3rd Party artifact that is being procured.
     types:
     - uid: string
 - name: createdByType
@@ -326,7 +366,7 @@ definitions:
     types:
     - uid: string
 - name: OutboundIPs
-  description: Desired outbound IP resources for Azure Spring Cloud instance.
+  description: Desired outbound IP resources for Azure Spring Apps resource.
   kind: object
   properties:
   - name: publicIPs
@@ -336,7 +376,7 @@ definitions:
     - uid: string
       isArray: true
 - name: RequiredTraffic
-  description: Required inbound or outbound traffic for Azure Spring Cloud instance.
+  description: Required inbound or outbound traffic for Azure Spring Apps resource.
   kind: object
   properties:
   - name: protocol
@@ -366,6 +406,14 @@ definitions:
     description: The direction of required traffic
     types:
     - uid: trafficDirection
+- name: IngressConfig
+  description: Ingress configuration payload for Azure Spring Apps resource.
+  kind: object
+  properties:
+  - name: readTimeoutInSeconds
+    description: Ingress read time out in seconds.
+    types:
+    - uid: integer
 - name: trafficDirection
   description: The direction of required traffic
   kind: enum
@@ -379,7 +427,52 @@ definitions:
 examples:
 - name: Services_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Services_List.json
+      func ExampleServicesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewServicesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -395,6 +488,9 @@ examples:
                     "20.39.3.173",
                     "40.64.67.13"
                   ]
+                },
+                "ingressConfig": {
+                  "readTimeoutInSeconds": 300
                 },
                 "requiredTraffics": [
                   {

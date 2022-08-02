@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.deployments.createorupdate
 name: Create Or Update
 service: Azure Spring Apps
 groupName: Deployments
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Create a new Deployment or update an exiting Deployment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2022-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/deployments/{deploymentName}?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -118,17 +118,19 @@ definitions:
     - uid: DeploymentInstance
       isArray: true
 - name: Sku
-  description: Sku of Azure Spring Cloud
+  description: Sku of Azure Spring Apps
   kind: object
   properties:
   - name: name
     description: Name of the Sku
     types:
     - uid: string
+    defaultValue: S0
   - name: tier
     description: Tier of the Sku
     types:
     - uid: string
+    defaultValue: Standard
   - name: capacity
     description: Current capacity of the target resource
     types:
@@ -225,6 +227,23 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
+  - name: livenessProbe
+    description: 'Periodic probe of App Instance liveness. App Instance will be restarted if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+    types:
+    - uid: Probe
+  - name: readinessProbe
+    description: 'Periodic probe of App Instance service readiness. App Instance will be removed from service endpoints if the probe fails. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+    types:
+    - uid: Probe
+  - name: startupProbe
+    description: "StartupProbe indicates that the App Instance has successfully initialized. If specified, no other probes are executed until this completes successfully. If this probe fails, the Pod will be restarted, just as if the livenessProbe failed. This can be used to provide different probe parameters at the beginning of a App Instance's lifecycle, when it might take a long time to load data or warm a cache, than during steady-state operation. This cannot be updated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes"
+    types:
+    - uid: Probe
+  - name: terminationGracePeriodSeconds
+    description: Optional duration in seconds the App Instance needs to terminate gracefully. May be decreased in delete request. Value must be non-negative integer. The value zero indicates stop immediately via the kill signal (no opportunity to shut down). If this value is nil, the default grace period will be used instead. The grace period is the duration in seconds after the processes running in the App Instance are sent a termination signal and the time when the processes are forcibly halted with a kill signal. Set this value longer than the expected cleanup time for your process. Defaults to 90 seconds.
+    types:
+    - uid: integer
+    defaultValue: 90
   - name: containerProbeSettings
     description: Container liveness and readiness probe settings
     types:
@@ -388,6 +407,42 @@ definitions:
     description: Required memory. 1 GB can be represented by 1Gi or 1024Mi. This should be {512Mi, 1Gi, 2Gi} for Basic tier, and {512Mi, 1Gi, 2Gi, ..., 8Gi} for Standard tier.
     types:
     - uid: string
+- name: Probe
+  description: Probe describes a health check to be performed against an App Instance to determine whether it is alive or ready to receive traffic.
+  kind: object
+  properties:
+  - name: probeAction
+    description: The action of the probe.
+    types:
+    - uid: HTTPGetAction
+    - uid: ExecAction
+    - uid: TCPSocketAction
+    typesTitle: ProbeAction
+  - name: disableProbe
+    description: Indicate whether the probe is disabled.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: initialDelaySeconds
+    description: 'Number of seconds after the App Instance has started before probes are initiated. More info: https://kubernetes.io/docs/concepts/workloads/pods/pod-lifecycle#container-probes'
+    types:
+    - uid: integer
+  - name: periodSeconds
+    description: How often (in seconds) to perform the probe. Minimum value is 1.
+    types:
+    - uid: integer
+  - name: timeoutSeconds
+    description: Number of seconds after which the probe times out. Minimum value is 1.
+    types:
+    - uid: integer
+  - name: failureThreshold
+    description: Minimum consecutive failures for the probe to be considered failed after having succeeded. Minimum value is 1.
+    types:
+    - uid: integer
+  - name: successThreshold
+    description: Minimum consecutive successes for the probe to be considered successful after having failed. Must be 1 for liveness and startup. Minimum value is 1.
+    types:
+    - uid: integer
 - name: ContainerProbeSettings
   description: Container liveness and readiness probe settings
   kind: object
@@ -438,10 +493,72 @@ definitions:
     description: The password of the image registry credential
     types:
     - uid: string
+- name: HTTPGetAction
+  description: HTTPGetAction describes an action based on HTTP Get requests.
+  kind: object
+  properties:
+  - name: path
+    description: Path to access on the HTTP server.
+    types:
+    - uid: string
+  - name: scheme
+    description: >-
+      Scheme to use for connecting to the host. Defaults to HTTP.
+
+
+      Possible enum values:
+       - `"HTTP"` means that the scheme used will be http://
+       - `"HTTPS"` means that the scheme used will be https://
+    types:
+    - uid: HTTPSchemeType
+  - name: type
+    description: The type of the action to take to perform the health check.
+    types:
+    - uid: HTTPGetAction
+    typesTitle: string
+- name: ExecAction
+  description: ExecAction describes a "run in container" action.
+  kind: object
+  properties:
+  - name: command
+    description: Command is the command line to execute inside the container, the working directory for the command is root ('/') in the container's filesystem. The command is not run inside a shell, so traditional shell instructions ('|', etc) won't work. To use a shell, you need to explicitly call out to that shell. Exit status of 0 is treated as live/healthy and non-zero is unhealthy.
+    types:
+    - uid: string
+      isArray: true
+  - name: type
+    description: The type of the action to take to perform the health check.
+    types:
+    - uid: ExecAction
+    typesTitle: string
+- name: TCPSocketAction
+  description: TCPSocketAction describes an action based on opening a socket
+  kind: object
+  properties:
+  - name: type
+    description: The type of the action to take to perform the health check.
+    types:
+    - uid: TCPSocketAction
+    typesTitle: string
+- name: HTTPSchemeType
+  description: >-
+    Scheme to use for connecting to the host. Defaults to HTTP.
+
+
+    Possible enum values:
+     - `"HTTP"` means that the scheme used will be http://
+     - `"HTTPS"` means that the scheme used will be https://
+  kind: enum
+  properties:
+  - name: HTTP
+    types:
+    - uid: string
+  - name: HTTPS
+    types:
+    - uid: string
 examples:
 - name: Deployments_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-05-01-preview
     body: >-
       {
         "properties": {
@@ -465,7 +582,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "instances": null
         },
@@ -475,6 +616,167 @@ examples:
           "capacity": 1
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-05-01-preview
+
+      {
+        "properties": {
+          "source": {
+            "type": "Source",
+            "relativePath": "resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc",
+            "version": "1.0",
+            "artifactSelector": "sub-module-1"
+          },
+          "deploymentSettings": {
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "addonConfigs": {
+              "ApplicationConfigurationService": {
+                "patterns": [
+                  "mypattern"
+                ]
+              }
+            },
+            "environmentVariables": {
+              "env": "test"
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
+          },
+          "instances": null
+        },
+        "sku": {
+          "name": "S0",
+          "tier": "Standard",
+          "capacity": 1
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Deployments_CreateOrUpdate.json
+      func ExampleDeploymentsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewDeploymentsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myservice",
+      		"myapp",
+      		"mydeployment",
+      		armappplatform.DeploymentResource{
+      			Properties: &armappplatform.DeploymentResourceProperties{
+      				DeploymentSettings: &armappplatform.DeploymentSettings{
+      					AddonConfigs: map[string]map[string]interface{}{
+      						"ApplicationConfigurationService": {
+      							"patterns": []interface{}{
+      								"mypattern",
+      							},
+      						},
+      					},
+      					EnvironmentVariables: map[string]*string{
+      						"env": to.Ptr("test"),
+      					},
+      					LivenessProbe: &armappplatform.Probe{
+      						DisableProbe:        to.Ptr(false),
+      						FailureThreshold:    to.Ptr[int32](3),
+      						InitialDelaySeconds: to.Ptr[int32](30),
+      						PeriodSeconds:       to.Ptr[int32](10),
+      						ProbeAction: &armappplatform.HTTPGetAction{
+      							Type:   to.Ptr(armappplatform.ProbeActionTypeHTTPGetAction),
+      							Path:   to.Ptr("/health"),
+      							Scheme: to.Ptr(armappplatform.HTTPSchemeTypeHTTP),
+      						},
+      					},
+      					ReadinessProbe: &armappplatform.Probe{
+      						DisableProbe:        to.Ptr(false),
+      						FailureThreshold:    to.Ptr[int32](3),
+      						InitialDelaySeconds: to.Ptr[int32](30),
+      						PeriodSeconds:       to.Ptr[int32](10),
+      						ProbeAction: &armappplatform.HTTPGetAction{
+      							Type:   to.Ptr(armappplatform.ProbeActionTypeHTTPGetAction),
+      							Path:   to.Ptr("/health"),
+      							Scheme: to.Ptr(armappplatform.HTTPSchemeTypeHTTP),
+      						},
+      					},
+      					ResourceRequests: &armappplatform.ResourceRequests{
+      						CPU:    to.Ptr("1000m"),
+      						Memory: to.Ptr("3Gi"),
+      					},
+      					TerminationGracePeriodSeconds: to.Ptr[int32](30),
+      				},
+      				Source: &armappplatform.SourceUploadedUserSourceInfo{
+      					Type:             to.Ptr("Source"),
+      					Version:          to.Ptr("1.0"),
+      					RelativePath:     to.Ptr("resources/a172cedcae47474b615c54d510a5d84a8dea3032e958587430b413538be3f333-2019082605-e3095339-1723-44b7-8b5e-31b1003978bc"),
+      					ArtifactSelector: to.Ptr("sub-module-1"),
+      				},
+      			},
+      			SKU: &armappplatform.SKU{
+      				Name:     to.Ptr("S0"),
+      				Capacity: to.Ptr[int32](1),
+      				Tier:     to.Ptr("Standard"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -493,7 +795,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Creating",
           "status": "Running",
@@ -541,7 +867,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Succeeded",
           "status": "Running",
@@ -589,7 +939,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Updating",
           "status": "Running",
@@ -622,7 +996,7 @@ examples:
       }
 - name: Deployments_CreateOrUpdate_CustomContainer
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-05-01-preview
     body: >-
       {
         "properties": {
@@ -652,11 +1026,100 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "instances": null
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/deployments/mydeployment?api-version=2022-05-01-preview
+
+      {
+        "properties": {
+          "source": {
+            "type": "Container",
+            "customContainer": {
+              "server": "myacr.azurecr.io",
+              "containerImage": "myContainerImage:v1",
+              "command": [
+                "/bin/sh"
+              ],
+              "args": [
+                "-c",
+                "while true; do echo hello; sleep 10;done"
+              ],
+              "imageRegistryCredential": {
+                "username": "myUsername",
+                "password": "myPassword"
+              },
+              "languageFramework": "springboot"
+            }
+          },
+          "deploymentSettings": {
+            "resourceRequests": {
+              "cpu": "1000m",
+              "memory": "3Gi"
+            },
+            "environmentVariables": {
+              "env": "test"
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
+          },
+          "instances": null
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -681,7 +1144,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Creating",
           "status": "Running",
@@ -735,7 +1222,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Succeeded",
           "status": "Running",
@@ -789,7 +1300,31 @@ examples:
             },
             "environmentVariables": {
               "env": "test"
-            }
+            },
+            "terminationGracePeriodSeconds": 30,
+            "livenessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "readinessProbe": {
+              "disableProbe": false,
+              "initialDelaySeconds": 30,
+              "periodSeconds": 10,
+              "failureThreshold": 3,
+              "probeAction": {
+                "type": "HTTPGetAction",
+                "path": "/health",
+                "scheme": "HTTP"
+              }
+            },
+            "startupProbe": null
           },
           "provisioningState": "Updating",
           "status": "Running",

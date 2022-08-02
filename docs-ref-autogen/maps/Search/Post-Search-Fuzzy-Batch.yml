@@ -665,7 +665,7 @@ definitions:
     isReadyOnly: true
     description: Brands array. The name of the brand for the POI being returned.
     types:
-    - uid: BrandName
+    - uid: Brand
       isArray: true
   - name: openingHours
     description: Opening hours for a POI (Points of Interest).
@@ -768,7 +768,7 @@ definitions:
     - uid: string
   - name: countrySubdivisionName
     isReadyOnly: true
-    description: The full name of a first level of country administrative hierarchy. This field appears only in case countrySubdivision is presented in an abbreviated form. Only supported for USA, Canada, and Great Britain.
+    description: The full name of a first level of country administrative hierarchy. This field appears only in case countrySubdivision is presented in an abbreviated form. Only supported for USA, Canada, and United Kingdom.
     types:
     - uid: string
   - name: localName
@@ -871,8 +871,8 @@ definitions:
     types:
     - uid: ClassificationName
       isArray: true
-- name: BrandName
-  description: The name of the brand for the POI being returned
+- name: Brand
+  description: The brand associated with the POI
   kind: object
   properties:
   - name: name
@@ -1004,6 +1004,27 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://atlas.microsoft.com/search/fuzzy/batch/json?api-version=1.0
+
+      {
+        "batchItems": [
+          {
+            "query": "?query=atm&lat=47.639769&lon=-122.128362&radius=5000&limit=5"
+          },
+          {
+            "query": "?query=Statue Of Liberty&limit=2"
+          },
+          {
+            "query": "?query=Starbucks&lat=47.639769&lon=-122.128362&radius=5000"
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -2402,11 +2423,11 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
 
-     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
 
-     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
   in: query
 - name: SAS Token
   type: apiKey

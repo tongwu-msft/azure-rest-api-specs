@@ -1,0 +1,251 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.preview.configurationstores.listdeleted
+name: List Deleted
+service: App Configuration
+groupName: Configuration Stores
+apiVersion: 2021-10-01-preview
+summary: Gets information about the deleted configuration stores in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AppConfiguration/deletedConfigurationStores?api-version=2021-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Retrieved information about all deleted configuration stores in a subscription.
+  types:
+  - uid: DeletedConfigurationStoreListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeletedConfigurationStoreListResult
+  description: List of deleted configuration stores
+  kind: object
+  properties:
+  - name: value
+    description: The list of deleted configuration store.
+    types:
+    - uid: DeletedConfigurationStore
+      isArray: true
+  - name: nextLink
+    description: The URL to get the next set of deleted configuration stores.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: DeletedConfigurationStore
+  description: Deleted configuration store information with extended details.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID for the deleted configuration store.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the configuration store.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type of the configuration store.
+    types:
+    - uid: string
+  - name: properties.configurationStoreId
+    isReadyOnly: true
+    description: The resource id of the original configuration store.
+    types:
+    - uid: string
+  - name: properties.location
+    isReadyOnly: true
+    description: The location of the original configuration store.
+    types:
+    - uid: string
+  - name: properties.deletionDate
+    isReadyOnly: true
+    description: The deleted date.
+    types:
+    - uid: string
+  - name: properties.scheduledPurgeDate
+    isReadyOnly: true
+    description: The scheduled purged date.
+    types:
+    - uid: string
+  - name: properties.tags
+    isReadyOnly: true
+    description: Tags of the original configuration store.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.purgeProtectionEnabled
+    isReadyOnly: true
+    description: Purge protection status of the original configuration store.
+    types:
+    - uid: boolean
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: DeletedConfigurationStores_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/deletedConfigurationStores?api-version=2021-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/deletedConfigurationStores?api-version=2021-10-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ConfigurationStores ListDeleted. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/preview/2021-10-01-preview/examples/DeletedConfigurationStoresList.json
+           */
+          /**
+           * Sample code: DeletedConfigurationStores_List.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void deletedConfigurationStoresList(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager.configurationStores().listDeleted(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.5/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/preview/2021-10-01-preview/examples/DeletedConfigurationStoresList.json
+      func ExampleConfigurationStoresClient_NewListDeletedPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewConfigurationStoresClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	pager := client.NewListDeletedPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      			return
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv0.4.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/locations/westus/deletedConfigurationStores/contoso",
+            "name": "contoso",
+            "type": "Microsoft.AppConfiguration/deletedConfigurationStores",
+            "properties": {
+              "configurationStoreId": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+              "location": "westus",
+              "tags": {},
+              "deletionDate": "2017-01-01T00:00:59Z",
+              "scheduledPurgeDate": "2017-04-01T00:00:59Z",
+              "purgeProtectionEnabled": true
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/deletedConfigurationStores?api-version=2021-10-01-preview&%24skiptoken=HY3RaoMwAEX%2fRcbeYhJrnRXKYNWOuqpME0sfNcYui0Yxade19N8ne7hcDlzOvVuKX81eKKmt4G4dooLQwgqsL2NGHUDYV6o68Z4rY1e388RtNvRQn2vNJjEaMSgNvcbneMUcsKg8BFwft8DndQ0w9hu2QOiFLRs4TsNFNHzSMBFsGvTQGvuD%2f5bVuTOw4R03vPkH%2fVqNAlzm5SxfOwh7ACOA8POTlvPjILlaU1ke8jImOc23JCppQVfZnna0DXc4ISc3vSVuRo5zJE6%2bj25C3vwk2v2kEV2mMn7PyOc1DbtNGkonnzuLym1G400uI5QRZj0efw%3d%3d"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about App Configuration service - Gets information about the deleted configuration stores in a subscription.
+errorCodes: []

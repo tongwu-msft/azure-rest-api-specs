@@ -1,8 +1,8 @@
 ---
-title: "Create"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Create an application resource"
+description: Describes how to create or update an application resource and provides parameters and examples for application resources.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Create
+# Create an application resource
 Creates or updates an application resource.
 
 Creates an application resource with the specified name and description. If an application with the same name already exists, then its description is updated to the one indicated in this request.

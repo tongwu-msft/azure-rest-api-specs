@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.enrollmentgroups.verifyx509
+name: Verify X509
+service: IoT Central
+groupName: Enrollment Groups
+apiVersion: 2022-06-30-preview
+summary: Verify the primary or secondary x509 certificate of an enrollment group by providing a certificate with the signed verification code.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{subdomain}.{baseDomain}/api/enrollmentGroups/{enrollmentGroupId}/certificates/{entry}/verify?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: enrollmentGroupId
+  in: path
+  isRequired: true
+  description: Unique ID of the enrollment group.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9-]*$
+- name: entry
+  in: path
+  isRequired: true
+  description: Entry of certificate only support primary and secondary.
+  types:
+  - uid: CertificateEntry
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: certificate
+    in: body
+    isRequired: true
+    description: The string representation of this certificate.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CertificateEntry
+  description: Entry of certificate only support primary and secondary.
+  kind: enum
+  properties:
+  - name: primary
+    description: The entry of primary certificate
+    types:
+    - uid: string
+  - name: secondary
+    description: The entry of secondary certificate
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: X509VerificationCertificate
+  description: The X509 verification certificate definition.
+  kind: object
+  properties:
+  - name: certificate
+    description: The string representation of this certificate.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Verify primary or secondary X509 verification code
+  request:
+    uri: POST https://appsubdomain.azureiotcentral.com/api/enrollmentGroups/myEnrollmentGroupId/certificates/primary/verify?api-version=2022-06-30-preview
+    body: >-
+      {
+        "certificate": "<base64-certificate>"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://appsubdomain.azureiotcentral.com/api/enrollmentGroups/myEnrollmentGroupId/certificates/primary/verify?api-version=2022-06-30-preview
+
+      {
+        "certificate": "<base64-certificate>"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Verify the primary or secondary x509 certificate of an enrollment group by providing a certificate with the signed verification code.
+errorCodes: []

@@ -1056,10 +1056,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Enabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -2074,6 +2076,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -2297,10 +2300,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -2313,6 +2318,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -2818,6 +2824,97 @@ examples:
 - name: List all network interfaces
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dscpConfigurations?api-version=2021-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dscpConfigurations?api-version=2021-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DscpConfiguration List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/DscpConfigurationListAll.json
+           */
+          /**
+           * Sample code: List all network interfaces.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAllNetworkInterfaces(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.networks().manager().serviceClient().getDscpConfigurations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/DscpConfigurationListAll.json
+      func ExampleDscpConfigurationClient_NewListAllPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewDscpConfigurationClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListAllPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets all dscp configurations in a subscription.
+       *
+       * @summary Gets all dscp configurations in a subscription.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/DscpConfigurationListAll.json
+       */
+      async function listAllNetworkInterfaces() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.dscpConfigurationOperations.listAll()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllNetworkInterfaces().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2830,8 +2927,12 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "associatedNetworkInterfaces": [
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic1",
-                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic2"
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic1"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic2"
+                }
               ],
               "qosCollectionId": "0f8fad5b-d9cb-469f-a165-70867728950e",
               "qosDefinitionCollection": [
@@ -2906,8 +3007,12 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "associatedNetworkInterfaces": [
-                "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/test-nic3",
-                "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Network/networkInterfaces/test-nic4"
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic3"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/test-nic4"
+                }
               ],
               "qosCollectionId": "9as24mf6-d9cb-7a7f-a165-70867728950e",
               "qosDefinitionCollection": [

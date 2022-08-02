@@ -1,0 +1,342 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.stable.keyvalues.listbyconfigurationstore
+name: List By Configuration Store
+service: App Configuration
+groupName: Key Values
+apiVersion: 2022-05-01
+summary: Lists the key-values for a given configuration store.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/keyValues?api-version=2022-05-01&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: configStoreName
+  in: path
+  isRequired: true
+  description: The name of the configuration store.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: KeyValueListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: KeyValueListResult
+  description: The result of a request to list key-values.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: KeyValue
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: KeyValue
+  description: The key-value resource along with all resource properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: properties.key
+    isReadyOnly: true
+    description: >-
+      The primary identifier of a key-value.
+
+      The key is used in unison with the label to uniquely identify a key-value.
+    types:
+    - uid: string
+  - name: properties.label
+    isReadyOnly: true
+    description: >-
+      A value used to group key-values.
+
+      The label is used in unison with the key to uniquely identify a key-value.
+    types:
+    - uid: string
+  - name: properties.value
+    description: The value of the key-value.
+    types:
+    - uid: string
+  - name: properties.contentType
+    description: >-
+      The content type of the key-value's value.
+
+      Providing a proper content-type can enable transformations of values when they are retrieved by applications.
+    types:
+    - uid: string
+  - name: properties.eTag
+    isReadyOnly: true
+    description: An ETag indicating the state of a key-value within a configuration store.
+    types:
+    - uid: string
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The last time a modifying operation was performed on the given key-value.
+    types:
+    - uid: string
+  - name: properties.locked
+    isReadyOnly: true
+    description: >-
+      A value indicating whether the key-value is locked.
+
+      A locked key-value may not be modified until it is unlocked.
+    types:
+    - uid: boolean
+  - name: properties.tags
+    description: A dictionary of tags that can help identify what a key-value may be applicable for.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: KeyValues_ListByConfigurationStore
+  request:
+    uri: GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/keyValues?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/keyValues?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for KeyValues ListByConfigurationStore. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresListKeyValues.json
+           */
+          /**
+           * Sample code: KeyValues_ListByConfigurationStore.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void keyValuesListByConfigurationStore(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager.keyValues().listByConfigurationStore("myResourceGroup", "contoso", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresListKeyValues.json
+      func ExampleKeyValuesClient_NewListByConfigurationStorePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewKeyValuesClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByConfigurationStorePager("myResourceGroup",
+      		"contoso",
+      		&armappconfiguration.KeyValuesClientListByConfigurationStoreOptions{SkipToken: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the key-values for a given configuration store.
+       *
+       * @summary Lists the key-values for a given configuration store.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresListKeyValues.json
+       */
+      async function keyValuesListByConfigurationStore() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.keyValues.listByConfigurationStore(
+          resourceGroupName,
+          configStoreName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      keyValuesListByConfigurationStore().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "type": "Microsoft.AppConfiguration/configurationStores/keyValues",
+            "properties": {
+              "key": "myKey",
+              "label": "myLabel",
+              "value": "myValue",
+              "contentType": "",
+              "eTag": "IhDxoa8VkXxPsYsemBlxvV0d5fp",
+              "lastModified": "2020-06-23T06:42:24+00:00",
+              "locked": false,
+              "tags": {
+                "tag1": "tagValue1",
+                "tag2": "tagValue2"
+              }
+            },
+            "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/keyValues/myKey$myLabel",
+            "name": "myKey$myLabel"
+          },
+          {
+            "type": "Microsoft.AppConfiguration/configurationStores/keyValues",
+            "properties": {
+              "key": "myKey2",
+              "label": "myLabel2",
+              "value": "myValue",
+              "contentType": "",
+              "eTag": "IfDxoa8VkXxPsYsemBlxvV0d5fp",
+              "lastModified": "2020-06-23T06:42:24+00:00",
+              "locked": false,
+              "tags": {
+                "tag1": "tagValue1",
+                "tag2": "tagValue2"
+              }
+            },
+            "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/keyValues/myKey2$myLabel2",
+            "name": "myKey2$myLabel2"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about App Configuration service - Lists the key-values for a given configuration store.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.certificates.list
 name: List
 service: Azure Spring Apps
 groupName: Certificates
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: List all the certificates of one user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -167,6 +167,7 @@ definitions:
     description: Optional. If set to true, it will not import private key from key vault.
     types:
     - uid: boolean
+    defaultValue: false
   - name: type
     description: The type of the certificate source.
     types:
@@ -208,6 +209,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
 - name: ContentCertificateProperties
   description: Properties of certificate imported from key vault.
   kind: object
@@ -257,6 +263,11 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -289,10 +300,75 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CertificateResourceProvisioningState
+  description: Provisioning state of the Certificate
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
 examples:
 - name: Certificates_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myService/certificates?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myService/certificates?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myService/certificates?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Certificates_List.json
+      func ExampleCertificatesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewCertificatesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"myService",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -315,7 +391,8 @@ examples:
                 "mydomain.com",
                 "mydomain.net",
                 "mydomain.io"
-              ]
+              ],
+              "provisioningState": "Succeeded"
             },
             "systemData": {
               "createdBy": "sample-user",

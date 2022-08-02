@@ -331,6 +331,7 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: projectName
     description: ''
     types:
@@ -343,6 +344,7 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: AnalyzeTextLROTaskKind
   description: Enumeration of supported long-running Text Analysis tasks.
   kind: enum
@@ -390,6 +392,7 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: CustomMultiLabelClassificationTaskParameters
   description: Supported parameters for a Custom Multi Classification task.
   kind: object
@@ -406,6 +409,7 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: HealthcareTaskParameters
   description: Supported parameters for a Healthcare task.
   kind: object
@@ -414,14 +418,17 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: modelVersion
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: SentimentAnalysisTaskParameters
   description: Supported parameters for a Sentiment Analysis task.
   kind: object
@@ -430,18 +437,22 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
   - name: stringIndexType
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: modelVersion
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: EntitiesTaskParameters
   description: Supported parameters for an Entity Recognition task.
   kind: object
@@ -450,14 +461,17 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: modelVersion
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: EntityLinkingTaskParameters
   description: Supported parameters for an Entity Linking task.
   kind: object
@@ -466,14 +480,17 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: modelVersion
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: PiiTaskParameters
   description: Supported parameters for a PII Entities Recognition task.
   kind: object
@@ -482,6 +499,7 @@ definitions:
     description: The PII domain used for PII Entity Recognition.
     types:
     - uid: PiiDomain
+    defaultValue: none
   - name: piiCategories
     description: (Optional) describes the PII categories to return
     types:
@@ -491,14 +509,17 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: modelVersion
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: KeyPhraseTaskParameters
   description: Supported parameters for a Key Phrase Extraction task.
   kind: object
@@ -507,10 +528,12 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: latest
   - name: loggingOptOut
     description: ''
     types:
     - uid: boolean
+    defaultValue: false
 - name: ErrorCode
   description: Human-readable error code.
   kind: enum
@@ -710,6 +733,49 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/analyze-text/jobs?api-version=2022-05-01
+
+
+      {
+        "displayName": "Extracting Location & US Region",
+        "analysisInput": {
+          "documents": [
+            {
+              "id": "1",
+              "language": "en",
+              "text": "I had a wonderful trip to Seattle last week."
+            },
+            {
+              "id": "2",
+              "language": "en",
+              "text": "I'm flying to NYC tomorrow. See you there."
+            }
+          ]
+        },
+        "tasks": [
+          {
+            "kind": "EntityRecognition",
+            "taskName": "Recognize Entities",
+            "parameters": {
+              "modelVersion": "latest"
+            }
+          },
+          {
+            "kind": "CustomEntityRecognition",
+            "taskName": "Recognize US Regions",
+            "parameters": {
+              "projectName": "MyProject",
+              "deploymentName": "MyDeployment"
+            }
+          }
+        ]
+      }
+
+      ```
+
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'

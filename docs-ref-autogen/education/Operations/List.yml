@@ -1,0 +1,280 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.education.operations.list
+name: List
+service: Education
+groupName: Operations
+apiVersion: 2021-12-01-preview
+summary: Lists all of the available Microsoft.Education API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Education/operations?api-version=2021-12-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-12-01-preview
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseBody
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations supported by the resource provider
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of operation list results (if there are any).
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: Operation
+  description: REST API Operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"'
+    types:
+    - uid: string
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
+  - name: display
+    description: Localized display information for this particular operation.
+    types:
+    - uid: Display
+  - name: origin
+    isReadyOnly: true
+    description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+    types:
+    - uid: Origin
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+    types:
+    - uid: ActionType
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Display
+  description: Localized display information for this particular operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+    types:
+    - uid: string
+- name: Origin
+  description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: user,system
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
+examples:
+- name: GetOperations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Education/operations?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Education/operations?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GetOperations.json
+           */
+          /**
+           * Sample code: GetOperations.
+           *
+           * @param manager Entry point to EducationManager.
+           */
+          public static void getOperations(com.azure.resourcemanager.education.EducationManager manager) {
+              manager.operations().listWithResponse(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-education_1.0.0-beta.2/sdk/education/azure-resourcemanager-education/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeducation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/education/armeducation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GetOperations.json
+      func ExampleOperationsClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeducation.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feducation%2Farmeducation%2Fv0.2.0/sdk/resourcemanager/education/armeducation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EducationManagementClient } = require("@azure/arm-education");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available Microsoft.Education API operations.
+       *
+       * @summary Lists all of the available Microsoft.Education API operations.
+       * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/GetOperations.json
+       */
+      async function getOperations() {
+        const credential = new DefaultAzureCredential();
+        const client = new EducationManagementClient(credential);
+        const result = await client.operations.list();
+        console.log(result);
+      }
+
+      getOperations().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-education_1.0.0-beta.2/sdk/education/arm-education/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Education/grants/read",
+            "display": {
+              "provider": "Microsoft Education",
+              "resource": "Grants",
+              "operation": "Get grants",
+              "description": "Read all grants"
+            }
+          },
+          {
+            "name": "Microsoft.Education/labs/read",
+            "display": {
+              "provider": "Microsoft Edcucation",
+              "resource": "Labs",
+              "operation": "Get labs",
+              "description": "Read all labs"
+            }
+          },
+          {
+            "name": "Microsoft.Education/labs/write",
+            "display": {
+              "provider": "Microsoft Edcucation",
+              "resource": "Labs",
+              "operation": "Create or update lab",
+              "description": "Create or update lab"
+            }
+          },
+          {
+            "name": "Microsoft.Education/labs/delete",
+            "display": {
+              "provider": "Microsoft Edcucation",
+              "resource": "Labs",
+              "operation": "Delete lab",
+              "description": "Delete a lab"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Education service - Lists all of the available Microsoft.Education API operations.
+errorCodes: []

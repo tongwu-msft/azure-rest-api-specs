@@ -3,14 +3,14 @@ uid: management.azure.com.videoindexer.accounts.createorupdate
 name: Create Or Update
 service: Azure Video Indexer
 groupName: Accounts
-apiVersion: 2021-10-18-preview
-summary: Creates or updates an Azure Video Analyzer for Media account.
+apiVersion: 2022-04-13-preview
+summary: Creates or updates an Azure Video Indexer account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoIndexer/accounts/{accountName}?api-version=2021-10-18-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.VideoIndexer/accounts/{accountName}?api-version=2022-04-13-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,10 +27,10 @@ uriParameters:
 - name: accountName
   in: path
   isRequired: true
-  description: The name of the Azure Video Analyzer for Media account.
+  description: The name of the Azure Video Indexer account.
   types:
   - uid: string
-  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+  pattern: ^[A-Za-z0-9-]+$
 - name: api-version
   in: query
   isRequired: true
@@ -72,7 +72,7 @@ requestBody:
     - uid: ManagedServiceIdentity
   - name: properties.accountId
     in: body
-    description: The account's data-plane ID
+    description: The account's data-plane ID. This can be set only when connecting an existing classic account
     types:
     - uid: string
   - name: properties.mediaServices
@@ -164,7 +164,7 @@ definitions:
     types:
     - uid: string
 - name: Account
-  description: An Azure Video Analyzer for Media account.
+  description: An Azure Video Indexer account.
   kind: object
   properties:
   - name: identity
@@ -182,9 +182,10 @@ definitions:
     types:
     - uid: string
   - name: properties.accountId
-    description: The account's data-plane ID
+    description: The account's data-plane ID. This can be set only when connecting an existing classic account
     types:
     - uid: string
+    defaultValue: 00000000-0000-0000-0000-000000000000
   - name: properties.accountName
     isReadyOnly: true
     description: The account's name
@@ -194,6 +195,11 @@ definitions:
     description: The media services details
     types:
     - uid: MediaServicesForPutRequest
+  - name: properties.totalSecondsIndexed
+    isReadyOnly: true
+    description: An integer representing the total seconds that have been indexed on the account
+    types:
+    - uid: integer
   - name: properties.provisioningState
     isReadyOnly: true
     description: Gets the status of the account at the time the operation was called.
@@ -325,7 +331,7 @@ definitions:
 examples:
 - name: 'Put example #1'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -342,6 +348,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -359,6 +388,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -405,7 +435,7 @@ examples:
       }
 - name: 'Put example #2'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -422,6 +452,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -439,6 +492,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -485,7 +539,7 @@ examples:
       }
 - name: 'Put example #3'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -502,6 +556,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -519,6 +596,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -565,7 +643,7 @@ examples:
       }
 - name: 'Put example #4'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -582,6 +660,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -599,6 +700,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -645,7 +747,7 @@ examples:
       }
 - name: 'Put example #5'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -662,6 +764,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -679,6 +804,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -725,7 +851,7 @@ examples:
       }
 - name: 'Put example #6'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -742,6 +868,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -759,6 +908,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -805,7 +955,7 @@ examples:
       }
 - name: 'Put example #7'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -822,6 +972,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -839,6 +1012,7 @@ examples:
             "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
             "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
           },
+          "totalSecondsIndexed": 0,
           "provisioningState": "Succeeded"
         },
         "identity": {
@@ -885,7 +1059,7 @@ examples:
       }
 - name: 'Put example #8'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -901,6 +1075,28 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/24237b72-8546-4da5-b204-8c3cb76dd930/resourceGroups/uratzmon-rg/providers/Microsoft.Media/mediaservices/talshoham"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "subscriptions/24237b72-8546-4da5-b204-8c3cb76dd930/resourceGroups/uratzmon-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/talshoham": {}
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -934,8 +1130,17 @@ examples:
       }
 - name: 'Put example #9'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {}
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -969,7 +1174,7 @@ examples:
       }
 - name: 'Put example #10'
   request:
-    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2021-10-18-preview
+    uri: PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
     body: >-
       {
         "location": "NorthEurope",
@@ -984,6 +1189,27 @@ examples:
           "userAssignedIdentities": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b04775c3-63fa-40f3-9430-139d2e5522d3/resourceGroups/contosto-videoanalyzer-rg/providers/Microsoft.VideoIndexer/accounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+
+      {
+        "location": "NorthEurope",
+        "properties": {
+          "mediaServices": {
+            "resourceId": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.Media/mediaservices/contoso-videoanalyzer-ms",
+            "userAssignedIdentity": "/subscriptions/xxx/resourceGroups/contoso-videoanalyzer-rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/contoso-videoanalyzer-mi"
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {}
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1025,5 +1251,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Video Indexer service - Creates or updates an Azure Video Analyzer for Media account.
+  description: Learn more about Azure Video Indexer service - Creates or updates an Azure Video Indexer account.
 errorCodes: []

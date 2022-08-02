@@ -108,6 +108,7 @@ definitions:
       You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.PartnerNamespaceProperties.InboundIpRules" />
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.inboundIpRules
     description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
     types:
@@ -117,6 +118,7 @@ definitions:
     description: This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the partner namespace.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.partnerTopicRoutingMode
     description: >-
       This determines if events published to this partner namespace should use the source attribute in the event payload
@@ -124,6 +126,7 @@ definitions:
       or use the channel name in the header when matching to the partner topic. If none is specified, source attribute routing will be used to match the partner topic.
     types:
     - uid: PartnerTopicRoutingMode
+    defaultValue: SourceEventAttribute
   - name: location
     description: Location of the resource.
     types:
@@ -362,6 +365,78 @@ examples:
 - name: PartnerNamespaces_ListByResourceGroup
   request:
     uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerNamespaces?api-version=2021-10-15-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerNamespaces?api-version=2021-10-15-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PartnerNamespaces ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/PartnerNamespaces_ListByResourceGroup.json
+           */
+          /**
+           * Sample code: PartnerNamespaces_ListByResourceGroup.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void partnerNamespacesListByResourceGroup(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager.partnerNamespaces().listByResourceGroup("examplerg", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/PartnerNamespaces_ListByResourceGroup.json
+      func ExamplePartnerNamespacesClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewPartnerNamespacesClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	pager := client.NewListByResourceGroupPager("<resource-group-name>",
+      		&armeventgrid.PartnerNamespacesClientListByResourceGroupOptions{Filter: nil,
+      			Top: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      			return
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

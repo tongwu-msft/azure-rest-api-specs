@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-05-31dataplane.devicegroups.get
+name: Get
+service: IoT Central
+groupName: Device Groups
+apiVersion: 2022-05-31
+summary: Get the device group by ID.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/deviceGroups/{deviceGroupId}?api-version=2022-05-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceGroupId
+  in: path
+  isRequired: true
+  description: Unique ID for the device group.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceGroup
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: DeviceGroup
+  description: The device group definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the device group.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device group.
+    types:
+    - uid: string
+  - name: filter
+    description: Query defining which devices should be in this group, [Query Language Reference](https://aka.ms/iotcquery).
+    types:
+    - uid: string
+  - name: description
+    description: Short summary of device group.
+    types:
+    - uid: string
+  - name: etag
+    description: ETag used to prevent conflict in device group updates.
+    types:
+    - uid: string
+  - name: organizations
+    description: List of organization IDs of the device group, only one organization support today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: The response error definition
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Get device group by ID
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/deviceGroups/475cad48-b7ff-4a09-b51e-1a9021385453?api-version=2022-05-31
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/deviceGroups/475cad48-b7ff-4a09-b51e-1a9021385453?api-version=2022-05-31
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "475cad48-b7ff-4a09-b51e-1a9021385453",
+        "displayName": "DeviceGroupEntry1",
+        "description": "This is a default device group containing all the devices for this particular Device Template.",
+        "filter": "SELECT * FROM devices WHERE $template = \"dtmi:modelDefinition:dtdlv2\" AND $provisioned = true",
+        "organizations": [
+          "seattle"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Get the device group by ID.
+errorCodes: []

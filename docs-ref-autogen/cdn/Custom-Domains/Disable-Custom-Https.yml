@@ -52,6 +52,8 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK. The request has succeeded.
+  types:
+  - uid: CustomDomain
 - name: 202 Accepted
   description: Accepted and the operation will complete asynchronously.
   types:
@@ -426,9 +428,90 @@ examples:
 - name: CustomDomains_DisableCustomHttps
   request:
     uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/disableCustomHttps?api-version=2021-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net/disableCustomHttps?api-version=2021-06-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CustomDomains DisableCustomHttps. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_DisableCustomHttps.json
+           */
+          /**
+           * Sample code: CustomDomains_DisableCustomHttps.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void customDomainsDisableCustomHttps(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getCustomDomains()
+                  .disableCustomHttpsWithResponse("RG", "profile1", "endpoint1", "www-someDomain-net", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Disable https delivery of the custom domain.
+       *
+       * @summary Disable https delivery of the custom domain.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_DisableCustomHttps.json
+       */
+      async function customDomainsDisableCustomHttps() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const customDomainName = "www-someDomain-net";
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.customDomains.disableCustomHttps(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          customDomainName
+        );
+        console.log(result);
+      }
+
+      customDomainsDisableCustomHttps().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
+    body: >-
+      {
+        "name": "www-someDomain-net",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customdomains/www-someDomain-net",
+        "type": "Microsoft.Cdn/profiles/endpoints/customdomains",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "resourceState": "Active",
+          "hostName": "www.someDomain.net",
+          "customHttpsProvisioningState": "Disabled",
+          "customHttpsProvisioningSubstate": "CertificateDeleted",
+          "validationData": null
+        }
+      }
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/resourceGroupName/providers/Microsoft.Cdn/operationresults/operationId?api-version=2021-06-01
     body: >-
       {
         "name": "www-someDomain-net",

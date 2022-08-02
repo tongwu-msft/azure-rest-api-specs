@@ -1,5 +1,5 @@
 ---
-title: "List Overview"
+title: "Service Fabric Cluster Code List"
 description: "Get the list of all available code versions for Service Fabric cluster resources by location. Parameters include Location, subscriptionId, and api-version."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List Overview
+# Service Fabric Cluster Code List
 Gets the list of Service Fabric cluster code versions available for the specified location.
 
 Gets all available code versions for Service Fabric cluster resources by location.

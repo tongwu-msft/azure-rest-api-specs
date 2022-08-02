@@ -6,7 +6,7 @@ groupName: Device Groups
 apiVersion: 1.2-preview
 summary: "Update a device group via patch  \nUpdate an existing device group by ID."
 consumes:
-- application/json-merge-patch+json
+- application/merge-patch+json
 produces:
 - application/json
 paths:
@@ -31,6 +31,7 @@ uriParameters:
   description: Unique ID for the device group.
   types:
   - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
 - name: api-version
   in: query
   isRequired: true
@@ -43,7 +44,10 @@ responses:
   types:
   - uid: DeviceGroup
 - name: Other Status Codes
-  description: Error
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
   types:
   - uid: Error
 requestBody:
@@ -122,6 +126,17 @@ examples:
       {
         "displayName": "New group name"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/deviceGroups/group1?api-version=1.2-preview
+
+      {
+        "displayName": "New group name"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

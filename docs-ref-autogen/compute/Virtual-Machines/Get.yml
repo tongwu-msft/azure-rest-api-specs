@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachines.get
 name: Get
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Retrieves information about the model view or the instance view of a virtual machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2021-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand={$expand}&api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?$expand={$expand}&api-version=2022-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -196,7 +196,7 @@ definitions:
     - uid: ApplicationProfile
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.'
     types:
     - uid: string
   - name: id
@@ -307,6 +307,10 @@ definitions:
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
     - uid: object
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -320,10 +324,6 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type
-    types:
-    - uid: string
-  - name: location
-    description: Resource location
     types:
     - uid: string
   - name: tags
@@ -1539,7 +1539,7 @@ definitions:
     types:
     - uid: string
 - name: HyperVGenerationType
-  description: Specifies the HyperVGeneration Type
+  description: Specifies the HyperVGeneration Type associated with a resource
   kind: enum
   properties:
   - name: V1
@@ -1717,6 +1717,14 @@ definitions:
     description: Optional, Specifies the uri to an azure blob that will replace the default configuration for the package if provided
     types:
     - uid: string
+  - name: treatFailureAsDeploymentFailure
+    description: Optional, If true, any failure for any operation in the VmApplication will fail the deployment
+    types:
+    - uid: boolean
+  - name: enableAutomaticUpgrade
+    description: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS
+    types:
+    - uid: boolean
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -1746,7 +1754,7 @@ definitions:
     types:
     - uid: string
 - name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
+  description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
   kind: enum
   properties:
   - name: Windows
@@ -1780,7 +1788,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: Gets the caching type.
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None** for Standard storage. **ReadOnly** for Premium storage.'
   kind: enum
   properties:
   - name: None
@@ -1890,6 +1898,10 @@ definitions:
     description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
     types:
     - uid: WindowsPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformSettings
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1920,6 +1932,10 @@ definitions:
     description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
     types:
     - uid: LinuxPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformSettings
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -1933,7 +1949,7 @@ definitions:
     types:
     - uid: string
 - name: DeleteOptions
-  description: Specify what happens to the network interface when the VM is deleted
+  description: Specify what happens to the public IP address when the VM is deleted
   kind: enum
   properties:
   - name: Delete
@@ -2201,6 +2217,9 @@ definitions:
   - name: StandardSSD_ZRS
     types:
     - uid: string
+  - name: PremiumV2_LRS
+    types:
+    - uid: string
 - name: DiskEncryptionSetParameters
   description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
   kind: object
@@ -2268,6 +2287,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
 - name: WinRMListener
   description: Describes Protocol and thumbprint of Windows Remote Management listener
   kind: object
@@ -2312,6 +2339,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 - name: VirtualMachinePublicIPAddressConfiguration
   description: Describes a virtual machines IP Configuration's PublicIPAddress configuration
   kind: object
@@ -2392,6 +2427,22 @@ definitions:
   - name: DiskWithVMGuestState
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -2400,6 +2451,22 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
     types:
     - uid: string
 - name: PublicIPAddressSku
@@ -2467,7 +2534,100 @@ definitions:
 examples:
 - name: Get a Virtual Machine.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachines GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get.json
+           */
+          /**
+           * Sample code: Get a Virtual Machine.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAVirtualMachine(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachines()
+                  .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get.json
+      func ExampleVirtualMachinesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachinesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myVM",
+      		&armcompute.VirtualMachinesClientGetOptions{Expand: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+       *
+       * @summary Retrieves information about the model view or the instance view of a virtual machine.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get.json
+       */
+      async function getAVirtualMachine() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmName = "myVM";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.get(resourceGroupName, vmName);
+        console.log(result);
+      }
+
+      getAVirtualMachine().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2595,7 +2755,65 @@ examples:
       }
 - name: Get a virtual machine placed on a dedicated host group through automatic placement
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachines GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+           */
+          /**
+           * Sample code: Get a virtual machine placed on a dedicated host group through automatic placement.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachines()
+                  .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+       *
+       * @summary Retrieves information about the model view or the instance view of a virtual machine.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get_AutoPlacedOnDedicatedHostGroup.json
+       */
+      async function getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmName = "myVM";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.get(resourceGroupName, vmName);
+        console.log(result);
+      }
+
+      getAVirtualMachinePlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2656,7 +2874,64 @@ examples:
       }
 - name: Get a virtual machine with VM Size Properties
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachines GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+           */
+          /**
+           * Sample code: Get a virtual machine with VM Size Properties.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAVirtualMachineWithVMSizeProperties(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachines()
+                  .getByResourceGroupWithResponse("myResourceGroup", "myVM", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about the model view or the instance view of a virtual machine.
+       *
+       * @summary Retrieves information about the model view or the instance view of a virtual machine.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Get_WithVMSizeProperties.json
+       */
+      async function getAVirtualMachineWithVMSizeProperties() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmName = "myVM";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.get(resourceGroupName, vmName);
+        console.log(result);
+      }
+
+      getAVirtualMachineWithVMSizeProperties().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

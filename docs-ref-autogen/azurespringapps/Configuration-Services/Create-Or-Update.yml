@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.configurationservices.createorupdate
 name: Create Or Update
 service: Azure Spring Apps
 groupName: Configuration Services
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Create the default Application Configuration Service or update the existing Application Configuration Service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}?api-version=2022-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/configurationServices/{configurationServiceName}?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -328,7 +328,7 @@ definitions:
 examples:
 - name: ConfigurationServices_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/default?api-version=2022-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/default?api-version=2022-05-01-preview
     body: >-
       {
         "properties": {
@@ -348,6 +348,90 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/default?api-version=2022-05-01-preview
+
+      {
+        "properties": {
+          "settings": {
+            "gitProperty": {
+              "repositories": [
+                {
+                  "name": "fake",
+                  "uri": "https://github.com/fake-user/fake-repository",
+                  "patterns": [
+                    "app/dev"
+                  ],
+                  "label": "master"
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/ConfigurationServices_CreateOrUpdate.json
+      func ExampleConfigurationServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewConfigurationServicesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myservice",
+      		"default",
+      		armappplatform.ConfigurationServiceResource{
+      			Properties: &armappplatform.ConfigurationServiceProperties{
+      				Settings: &armappplatform.ConfigurationServiceSettings{
+      					GitProperty: &armappplatform.ConfigurationServiceGitProperty{
+      						Repositories: []*armappplatform.ConfigurationServiceGitRepository{
+      							{
+      								Name:  to.Ptr("fake"),
+      								Label: to.Ptr("master"),
+      								Patterns: []*string{
+      									to.Ptr("app/dev")},
+      								URI: to.Ptr("https://github.com/fake-user/fake-repository"),
+      							}},
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

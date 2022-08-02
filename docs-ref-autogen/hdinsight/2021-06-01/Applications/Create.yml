@@ -417,6 +417,7 @@ definitions:
     description: Indicates whether encrypt the data disks.
     types:
     - uid: boolean
+    defaultValue: false
 - name: PrivateLinkConfigurationProvisioningState
   description: The private link configuration provisioning state, which only appears in the response.
   kind: enum
@@ -696,6 +697,185 @@ examples:
           "errors": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/applications/hue?api-version=2021-06-01
+
+      {
+        "properties": {
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "edgenode",
+                "targetInstanceCount": 1,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D12_v2"
+                }
+              }
+            ]
+          },
+          "installScriptActions": [
+            {
+              "name": "app-install-app1",
+              "uri": "https://.../install.sh",
+              "parameters": "-version latest -port 20000",
+              "roles": [
+                "edgenode"
+              ]
+            }
+          ],
+          "uninstallScriptActions": [],
+          "httpsEndpoints": [
+            {
+              "subDomainSuffix": "dss",
+              "destinationPort": 20000,
+              "accessModes": [
+                "WebPage"
+              ]
+            }
+          ],
+          "applicationType": "CustomApplication",
+          "errors": []
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.hdinsight.models.ApplicationGetHttpsEndpoint;
+      import com.azure.resourcemanager.hdinsight.models.ApplicationProperties;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.RuntimeScriptAction;
+      import java.util.Arrays;
+
+      /** Samples for Applications Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateApplication.json
+           */
+          /**
+           * Sample code: Create Application.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createApplication(com.azure.resourcemanager.hdinsight.HDInsightManager manager) {
+              manager
+                  .applications()
+                  .define("hue")
+                  .withExistingCluster("rg1", "cluster1")
+                  .withProperties(
+                      new ApplicationProperties()
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("edgenode")
+                                                  .withTargetInstanceCount(1)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D12_v2")))))
+                          .withInstallScriptActions(
+                              Arrays
+                                  .asList(
+                                      new RuntimeScriptAction()
+                                          .withName("app-install-app1")
+                                          .withUri("https://.../install.sh")
+                                          .withParameters("-version latest -port 20000")
+                                          .withRoles(Arrays.asList("edgenode"))))
+                          .withUninstallScriptActions(Arrays.asList())
+                          .withHttpsEndpoints(
+                              Arrays
+                                  .asList(
+                                      new ApplicationGetHttpsEndpoint()
+                                          .withAccessModes(Arrays.asList("WebPage"))
+                                          .withDestinationPort(20000)
+                                          .withSubDomainSuffix("dss")))
+                          .withApplicationType("CustomApplication")
+                          .withErrors(Arrays.asList()))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateApplication.json
+      func ExampleApplicationsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewApplicationsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"rg1",
+      		"cluster1",
+      		"hue",
+      		armhdinsight.Application{
+      			Properties: &armhdinsight.ApplicationProperties{
+      				ApplicationType: to.Ptr("CustomApplication"),
+      				ComputeProfile: &armhdinsight.ComputeProfile{
+      					Roles: []*armhdinsight.Role{
+      						{
+      							Name: to.Ptr("edgenode"),
+      							HardwareProfile: &armhdinsight.HardwareProfile{
+      								VMSize: to.Ptr("Standard_D12_v2"),
+      							},
+      							TargetInstanceCount: to.Ptr[int32](1),
+      						}},
+      				},
+      				Errors: []*armhdinsight.Errors{},
+      				HTTPSEndpoints: []*armhdinsight.ApplicationGetHTTPSEndpoint{
+      					{
+      						AccessModes: []*string{
+      							to.Ptr("WebPage")},
+      						DestinationPort: to.Ptr[int32](20000),
+      						SubDomainSuffix: to.Ptr("dss"),
+      					}},
+      				InstallScriptActions: []*armhdinsight.RuntimeScriptAction{
+      					{
+      						Name:       to.Ptr("app-install-app1"),
+      						Parameters: to.Ptr("-version latest -port 20000"),
+      						Roles: []*string{
+      							to.Ptr("edgenode")},
+      						URI: to.Ptr("https://.../install.sh"),
+      					}},
+      				UninstallScriptActions: []*armhdinsight.RuntimeScriptAction{},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

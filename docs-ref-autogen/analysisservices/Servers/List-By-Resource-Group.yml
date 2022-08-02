@@ -133,14 +133,17 @@ definitions:
     description: "How the read-write server's participation in the query pool is controlled.<br/>It can have the following values: <ul><li>readOnly - indicates that the read-write server is intended not to participate in query operations</li><li>all - indicates that the read-write server can participate in query operations</li></ul>Specifying readOnly when capacity is 1 results in error."
     types:
     - uid: ConnectionMode
+    defaultValue: All
   - name: properties.managedMode
     description: The managed mode of the server (0 = not managed, 1 = managed).
     types:
     - uid: ManagedMode
+    defaultValue: 1
   - name: properties.serverMonitorMode
     description: The server monitor mode for AS server
     types:
     - uid: ServerMonitorMode
+    defaultValue: 1
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -283,6 +286,7 @@ definitions:
     description: The number of instances in the read only query pool.
     types:
     - uid: integer
+    defaultValue: 1
 - name: ServerAdministrators
   description: An array of administrator user identities.
   kind: object
@@ -400,6 +404,51 @@ examples:
 - name: List existing servers in the resource group.
   request:
     uri: GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.AnalysisServices/servers?api-version=2017-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/613192d7-503f-477a-9cfe-4efc3ee2bd60/resourceGroups/TestRG/providers/Microsoft.AnalysisServices/servers?api-version=2017-08-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armanalysisservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/analysisservices/armanalysisservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/analysisservices/resource-manager/Microsoft.AnalysisServices/stable/2017-08-01/examples/listServersInResourceGroup.json
+      func ExampleServersClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armanalysisservices.NewServersClient("613192d7-503f-477a-9cfe-4efc3ee2bd60", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("TestRG",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fanalysisservices%2Farmanalysisservices%2Fv1.0.0/sdk/resourcemanager/analysisservices/armanalysisservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

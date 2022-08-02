@@ -77,6 +77,7 @@ definitions:
     description: The object identifier of the owner of the virtual machine.
     types:
     - uid: string
+    defaultValue: dynamicValue
   - name: properties.ownerUserPrincipalName
     description: The user principal name of the virtual machine owner.
     types:
@@ -146,6 +147,7 @@ definitions:
     description: Indicates whether the virtual machine is to be created without a public IP address.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.artifacts
     description: The artifacts to be installed on the virtual machine.
     types:
@@ -186,10 +188,12 @@ definitions:
     description: Indicates whether another user can take ownership of the virtual machine
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.storageType
     description: Storage type to use for virtual machine (i.e. Standard, Premium).
     types:
     - uid: string
+    defaultValue: labStorageType
   - name: properties.virtualMachineCreationSource
     isReadyOnly: true
     description: Tells source of creation of lab virtual machine. Output property only.
@@ -512,6 +516,7 @@ definitions:
     description: The status of the schedule (i.e. Enabled, Disabled)
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: properties.taskType
     description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     types:
@@ -626,6 +631,7 @@ definitions:
     description: The status of the schedule (i.e. Enabled, Disabled)
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: properties.taskType
     description: The task type of the schedule (e.g. LabVmsShutdownTask, LabVmAutoStart).
     types:
@@ -772,6 +778,7 @@ definitions:
     description: If notifications are enabled for this schedule (i.e. Enabled, Disabled).
     types:
     - uid: EnableStatus
+    defaultValue: Disabled
   - name: timeInMinutes
     description: Time in minutes before event at which notification will be sent.
     types:
@@ -832,6 +839,85 @@ examples:
   request:
     uri: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{vmName}?api-version=2018-09-15
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/virtualmachines/{vmName}?api-version=2018-09-15
+
+      {}
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Update.json
+      func ExampleVirtualMachinesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewVirtualMachinesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"resourceGroupName",
+      		"{labName}",
+      		"{vmName}",
+      		armdevtestlabs.LabVirtualMachineFragment{},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Allows modifying tags of virtual machines. All other properties will be ignored.
+       *
+       * @summary Allows modifying tags of virtual machines. All other properties will be ignored.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/VirtualMachines_Update.json
+       */
+      async function virtualMachinesUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const labName = "{labName}";
+        const name = "{vmName}";
+        const labVirtualMachine = {};
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const result = await client.virtualMachines.update(
+          resourceGroupName,
+          labName,
+          name,
+          labVirtualMachine
+        );
+        console.log(result);
+      }
+
+      virtualMachinesUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -166,6 +166,7 @@ definitions:
     description: Collation mode
     types:
     - uid: string
+    defaultValue: ''
   - name: properties.sourceDatabaseId
     description: Source database to create from
     types:
@@ -213,6 +214,7 @@ definitions:
     description: The storage account type used to store backups for this sql pool.
     types:
     - uid: StorageAccountType
+    defaultValue: GRS
   - name: properties.sourceDatabaseDeletionDate
     description: Specifies the time that the sql pool was deleted
     types:
@@ -280,6 +282,7 @@ definitions:
     description: Collation mode
     types:
     - uid: string
+    defaultValue: ''
   - name: properties.sourceDatabaseId
     description: Source database to create from
     types:
@@ -327,6 +330,7 @@ definitions:
     description: The storage account type used to store backups for this sql pool.
     types:
     - uid: StorageAccountType
+    defaultValue: GRS
   - name: properties.sourceDatabaseDeletionDate
     description: Specifies the time that the sql pool was deleted
     types:
@@ -433,6 +437,168 @@ examples:
           "restorePointInTime": "1970-01-01T00:00:00.000Z"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/01234567-89ab-4def-0123-456789abcdef/resourceGroups/ExampleResourceGroup/providers/Microsoft.Synapse/workspaces/ExampleWorkspace/sqlPools/ExampleSqlPool?api-version=2021-06-01
+
+      {
+        "location": "West US 2",
+        "tags": {},
+        "sku": {
+          "tier": "",
+          "name": ""
+        },
+        "properties": {
+          "maxSizeBytes": 0,
+          "collation": "",
+          "restorePointInTime": "1970-01-01T00:00:00.000Z"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.synapse.models.Sku;
+      import com.azure.resourcemanager.synapse.models.SqlPool;
+      import java.time.OffsetDateTime;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for SqlPools Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
+           */
+          /**
+           * Sample code: Update a SQL Analytics pool.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void updateASQLAnalyticsPool(com.azure.resourcemanager.synapse.SynapseManager manager) {
+              SqlPool resource =
+                  manager
+                      .sqlPools()
+                      .getWithResponse("ExampleResourceGroup", "ExampleWorkspace", "ExampleSqlPool", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withTags(mapOf())
+                  .withSku(new Sku().withTier("").withName(""))
+                  .withMaxSizeBytes(0L)
+                  .withCollation("")
+                  .withRestorePointInTime(OffsetDateTime.parse("1970-01-01T00:00:00.000Z"))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
+      func ExampleSQLPoolsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewSQLPoolsClient("01234567-89ab-4def-0123-456789abcdef", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"ExampleResourceGroup",
+      		"ExampleWorkspace",
+      		"ExampleSqlPool",
+      		armsynapse.SQLPoolPatchInfo{
+      			Location: to.Ptr("West US 2"),
+      			Properties: &armsynapse.SQLPoolResourceProperties{
+      				Collation:          to.Ptr(""),
+      				MaxSizeBytes:       to.Ptr[int64](0),
+      				RestorePointInTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "1970-01-01T00:00:00.000Z"); return t }()),
+      			},
+      			SKU: &armsynapse.SKU{
+      				Name: to.Ptr(""),
+      				Tier: to.Ptr(""),
+      			},
+      			Tags: map[string]*string{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Apply a partial update to a SQL pool
+       *
+       * @summary Apply a partial update to a SQL pool
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/UpdateSqlPool.json
+       */
+      async function updateASqlAnalyticsPool() {
+        const subscriptionId = "01234567-89ab-4def-0123-456789abcdef";
+        const resourceGroupName = "ExampleResourceGroup";
+        const workspaceName = "ExampleWorkspace";
+        const sqlPoolName = "ExampleSqlPool";
+        const sqlPoolInfo = {
+          collation: "",
+          location: "West US 2",
+          maxSizeBytes: 0,
+          restorePointInTime: new Date("1970-01-01T00:00:00.000Z"),
+          sku: { name: "", tier: "" },
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.sqlPools.update(
+          resourceGroupName,
+          workspaceName,
+          sqlPoolName,
+          sqlPoolInfo
+        );
+        console.log(result);
+      }
+
+      updateASqlAnalyticsPool().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

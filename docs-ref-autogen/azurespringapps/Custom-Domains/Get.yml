@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.customdomains.get
 name: Get
 service: Azure Spring Apps
 groupName: Custom Domains
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Get the custom domain of one lifecycle application.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains/{domainName}?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}/domains/{domainName}?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -112,6 +112,11 @@ definitions:
     description: The bound certificate name of domain.
     types:
     - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Domain
+    types:
+    - uid: CustomDomainResourceProvisioningState
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -161,6 +166,25 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: CustomDomainResourceProvisioningState
+  description: Provisioning state of the Domain
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -196,7 +220,51 @@ definitions:
 examples:
 - name: CustomDomains_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp/domains/mydomain.com?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/CustomDomains_Get.json
+      func ExampleCustomDomainsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewCustomDomainsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myservice",
+      		"myapp",
+      		"mydomain.com",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -204,7 +272,8 @@ examples:
         "properties": {
           "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
           "appName": "myapp",
-          "certName": "mycert"
+          "certName": "mycert",
+          "provisioningState": "Succeeded"
         },
         "systemData": {
           "createdBy": "sample-user",

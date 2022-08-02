@@ -168,6 +168,7 @@ definitions:
     description: 'The Sku name of the resource. The possible values are: Basic or Premium.'
     types:
     - uid: Sku
+    defaultValue: Basic
 - name: InboundIpRule
   kind: object
   properties:
@@ -216,6 +217,7 @@ definitions:
     description: This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource.
     types:
     - uid: InputSchema
+    defaultValue: EventGridSchema
   - name: properties.inputSchemaMapping
     description: Information about the InputSchemaMapping which specified the info about mapping event payload.
     types:
@@ -233,6 +235,7 @@ definitions:
       You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.inboundIpRules
     description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
     types:
@@ -242,6 +245,7 @@ definitions:
     description: This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the domain.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.autoCreateTopicWithFirstSubscription
     description: >-
       This Boolean is used to specify the creation mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
@@ -259,6 +263,7 @@ definitions:
       domain topic on demand if needed.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.autoDeleteTopicWithLastSubscription
     description: >-
       This Boolean is used to specify the deletion mechanism for 'all' the Event Grid Domain Topics associated with this Event Grid Domain resource.
@@ -276,6 +281,7 @@ definitions:
       resources by the user.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.dataResidencyBoundary
     description: Data Residency Boundary of the resource.
     types:
@@ -331,6 +337,7 @@ definitions:
     description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainUpdateParameterProperties.InboundIpRules\" />"
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.inboundIpRules
     description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
     types:
@@ -706,6 +713,146 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/domains/exampledomain1?api-version=2021-10-15-preview
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.Domain;
+      import com.azure.resourcemanager.eventgrid.models.InboundIpRule;
+      import com.azure.resourcemanager.eventgrid.models.IpActionType;
+      import com.azure.resourcemanager.eventgrid.models.PublicNetworkAccess;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Domains Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Domains_Update.json
+           */
+          /**
+           * Sample code: Domains_Update.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void domainsUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              Domain resource =
+                  manager.domains().getByResourceGroupWithResponse("examplerg", "exampledomain1", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                  .withInboundIpRules(
+                      Arrays
+                          .asList(
+                              new InboundIpRule().withIpMask("12.18.30.15").withAction(IpActionType.ALLOW),
+                              new InboundIpRule().withIpMask("12.18.176.1").withAction(IpActionType.ALLOW)))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Domains_Update.json
+      func ExampleDomainsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewDomainsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"<resource-group-name>",
+      		"<domain-name>",
+      		armeventgrid.DomainUpdateParameters{
+      			Properties: &armeventgrid.DomainUpdateParameterProperties{
+      				InboundIPRules: []*armeventgrid.InboundIPRule{
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("<ipmask>"),
+      					},
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("<ipmask>"),
+      					}},
+      				PublicNetworkAccess: to.Ptr(armeventgrid.PublicNetworkAccessEnabled),
+      			},
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		&armeventgrid.DomainsClientBeginUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "201"

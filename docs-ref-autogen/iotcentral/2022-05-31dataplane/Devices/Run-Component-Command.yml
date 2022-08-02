@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-05-31dataplane.devices.runcomponentcommand
+name: Run Component Command
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-05-31
+summary: "Run a component command  \nRun a command on a component."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{subdomain}.{baseDomain}/api/devices/{deviceId}/components/{componentName}/commands/{commandName}?api-version=2022-05-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceId
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: componentName
+  in: path
+  isRequired: true
+  description: Name of the device component.
+  types:
+  - uid: string
+- name: commandName
+  in: path
+  isRequired: true
+  description: Name of this device command.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Success
+  types:
+  - uid: DeviceCommand
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: connectionTimeout
+    in: body
+    description: Connection timeout in seconds to wait for a disconnected device to come online. Defaults to 0 seconds.
+    types:
+    - uid: integer
+  - name: responseTimeout
+    in: body
+    description: Response timeout in seconds to wait for a command completion on a device. Defaults to 30 seconds.
+    types:
+    - uid: integer
+  - name: request
+    in: body
+    description: The payload for the device command, support any primitive types or object.
+    types:
+    - {}
+requestHeader: []
+definitions:
+- name: DeviceCommand
+  description: The device command definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The request ID of the device command execution.
+    types:
+    - uid: string
+  - name: connectionTimeout
+    description: Connection timeout in seconds to wait for a disconnected device to come online. Defaults to 0 seconds.
+    types:
+    - uid: integer
+  - name: responseTimeout
+    description: Response timeout in seconds to wait for a command completion on a device. Defaults to 30 seconds.
+    types:
+    - uid: integer
+  - name: request
+    description: The payload for the device command, support any primitive types or object.
+    types:
+    - {}
+  - name: response
+    isReadyOnly: true
+    description: The payload of the device command response, support any primitive types or object.
+    types:
+    - {}
+  - name: responseCode
+    isReadyOnly: true
+    description: The status code of the device command response.
+    types:
+    - uid: integer
+- name: Error
+  description: The response error definition
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Send command
+  request:
+    uri: POST https://appsubdomain.azureiotcentral.com/api/devices/mx1/components/Thermostat_1o/commands/CoolDown?api-version=2022-05-31
+    body: >-
+      {
+        "request": {
+          "tempVal": 30
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://appsubdomain.azureiotcentral.com/api/devices/mx1/components/Thermostat_1o/commands/CoolDown?api-version=2022-05-31
+
+      {
+        "request": {
+          "tempVal": 30
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    body: '{}'
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: "Learn more about IoT Central service - Run a component command  \nRun a command on a component."
+errorCodes: []

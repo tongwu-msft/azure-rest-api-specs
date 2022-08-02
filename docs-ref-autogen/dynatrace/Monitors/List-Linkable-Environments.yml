@@ -1,0 +1,427 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dynatrace.monitors.listlinkableenvironments
+name: List Linkable Environments
+service: Dynatrace
+groupName: Monitors
+apiVersion: 2021-09-01-preview
+summary: Gets all the Dynatrace environments that a user can link a azure resource to
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/listLinkableEnvironments?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Monitor resource name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: ARM operation completed successfully.
+  types:
+  - uid: LinkableEnvironmentListResponse
+- name: Other Status Codes
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tenantId
+    in: body
+    description: Tenant Id of the user in which they want to link the environment
+    types:
+    - uid: string
+  - name: userPrincipal
+    in: body
+    description: user principal id of the user
+    types:
+    - uid: string
+  - name: region
+    in: body
+    description: Azure region in which we want to link the environment
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: LinkableEnvironmentListResponse
+  description: Response for getting all the linkable environments
+  kind: object
+  properties:
+  - name: value
+    description: List of environments for which user is an admin
+    types:
+    - uid: LinkableEnvironmentResponse
+      isArray: true
+  - name: nextLink
+    description: Link to the next set of results, if any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: LinkableEnvironmentRequest
+  description: Request for getting all the linkable environments for a user
+  kind: object
+  properties:
+  - name: tenantId
+    description: Tenant Id of the user in which they want to link the environment
+    types:
+    - uid: string
+  - name: userPrincipal
+    description: user principal id of the user
+    types:
+    - uid: string
+  - name: region
+    description: Azure region in which we want to link the environment
+    types:
+    - uid: string
+- name: LinkableEnvironmentResponse
+  description: Response for getting all the linkable environments
+  kind: object
+  properties:
+  - name: environmentId
+    description: environment id for which user is an admin
+    types:
+    - uid: string
+  - name: environmentName
+    description: Name of the environment
+    types:
+    - uid: string
+  - name: planData
+    description: Billing plan information.
+    types:
+    - uid: PlanData
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: PlanData
+  description: Billing plan information.
+  kind: object
+  properties:
+  - name: usageType
+    description: different usage type like PAYG/COMMITTED. this could be enum
+    types:
+    - uid: string
+  - name: billingCycle
+    description: different billing cycles like MONTHLY/WEEKLY. this could be enum
+    types:
+    - uid: string
+  - name: planDetails
+    description: plan id as published by Dynatrace
+    types:
+    - uid: string
+  - name: effectiveDate
+    description: date when plan was applied
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Monitors_ListLinkableEnvironments_MaximumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/listLinkableEnvironments?api-version=2021-09-01-preview
+    body: >-
+      {
+        "tenantId": "00000000-0000-0000-0000-000000000000",
+        "userPrincipal": "alice@microsoft.com",
+        "region": "East US"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/listLinkableEnvironments?api-version=2021-09-01-preview
+
+      {
+        "tenantId": "00000000-0000-0000-0000-000000000000",
+        "userPrincipal": "alice@microsoft.com",
+        "region": "East US"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.models.LinkableEnvironmentRequest;
+
+      /** Samples for Monitors ListLinkableEnvironments. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_ListLinkableEnvironments_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_ListLinkableEnvironments_MaximumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsListLinkableEnvironmentsMaximumSetGen(
+              com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              manager
+                  .monitors()
+                  .listLinkableEnvironments(
+                      "myResourceGroup",
+                      "myMonitor",
+                      new LinkableEnvironmentRequest()
+                          .withTenantId("00000000-0000-0000-0000-000000000000")
+                          .withUserPrincipal("alice@microsoft.com")
+                          .withRegion("East US"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdynatrace_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dynatrace/armdynatrace"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_ListLinkableEnvironments_MaximumSet_Gen.json
+      func ExampleMonitorsClient_NewListLinkableEnvironmentsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdynatrace.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListLinkableEnvironmentsPager("myResourceGroup",
+      		"myMonitor",
+      		armdynatrace.LinkableEnvironmentRequest{
+      			Region:        to.Ptr("East US"),
+      			TenantID:      to.Ptr("00000000-0000-0000-0000-000000000000"),
+      			UserPrincipal: to.Ptr("alice@microsoft.com"),
+      		},
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdynatrace%2Farmdynatrace%2Fv0.1.0/sdk/resourcemanager/dynatrace/armdynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DynatraceObservability } = require("@azure/arm-dynatrace");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets all the Dynatrace environments that a user can link a azure resource to
+       *
+       * @summary Gets all the Dynatrace environments that a user can link a azure resource to
+       * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_ListLinkableEnvironments_MaximumSet_Gen.json
+       */
+      async function monitorsListLinkableEnvironmentsMaximumSetGen() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const request = {
+          region: "East US",
+          tenantId: "00000000-0000-0000-0000-000000000000",
+          userPrincipal: "alice@microsoft.com",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DynatraceObservability(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.monitors.listLinkableEnvironments(
+          resourceGroupName,
+          monitorName,
+          request
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      monitorsListLinkableEnvironmentsMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dynatrace_1.0.0-beta.2/sdk/dynatrace/arm-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "environmentId": "abc.123",
+            "environmentName": "myEnv",
+            "planData": {
+              "usageType": "Committed",
+              "billingCycle": "Monthly",
+              "planDetails": "dynatraceapitestplan",
+              "effectiveDate": "2019-08-30T15:14:33+02:00"
+            }
+          }
+        ],
+        "nextLink": "null"
+      }
+- name: Monitors_ListLinkableEnvironments_MinimumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/listLinkableEnvironments?api-version=2021-09-01-preview
+    body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/listLinkableEnvironments?api-version=2021-09-01-preview
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.models.LinkableEnvironmentRequest;
+
+      /** Samples for Monitors ListLinkableEnvironments. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_ListLinkableEnvironments_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_ListLinkableEnvironments_MinimumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsListLinkableEnvironmentsMinimumSetGen(
+              com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              manager
+                  .monitors()
+                  .listLinkableEnvironments("myResourceGroup", "myMonitor", new LinkableEnvironmentRequest(), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DynatraceObservability } = require("@azure/arm-dynatrace");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets all the Dynatrace environments that a user can link a azure resource to
+       *
+       * @summary Gets all the Dynatrace environments that a user can link a azure resource to
+       * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_ListLinkableEnvironments_MinimumSet_Gen.json
+       */
+      async function monitorsListLinkableEnvironmentsMinimumSetGen() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const request = {};
+        const credential = new DefaultAzureCredential();
+        const client = new DynatraceObservability(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.monitors.listLinkableEnvironments(
+          resourceGroupName,
+          monitorName,
+          request
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      monitorsListLinkableEnvironmentsMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dynatrace_1.0.0-beta.2/sdk/dynatrace/arm-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: '{}'
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Dynatrace service - Gets all the Dynatrace environments that a user can link a azure resource to
+errorCodes: []

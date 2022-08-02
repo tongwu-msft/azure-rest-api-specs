@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.buildservice.createorupdatebuild
 name: Create Or Update Build
 service: Azure Spring Apps
 groupName: Build Service
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Create or update a KPack build.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}?api-version=2022-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/buildServices/{buildServiceName}/builds/{buildName}?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -105,6 +105,10 @@ definitions:
     description: " The build result triggered by this build"
     types:
     - uid: TriggeredBuildResult
+  - name: resourceRequests
+    description: The customized build resource for this build
+    types:
+    - uid: BuildResourceRequests
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -196,6 +200,20 @@ definitions:
     description: The unique build id of this build result
     types:
     - uid: string
+- name: BuildResourceRequests
+  description: Resource request payload of Build Resource.
+  kind: object
+  properties:
+  - name: cpu
+    description: "Optional Cpu allocated to the build resource. 1 core can be represented by 1 or 1000m. \nThe default value is 1, this should not exceed build service agent pool cpu size."
+    types:
+    - uid: string
+    defaultValue: "1"
+  - name: memory
+    description: "Optional Memory allocated to the build resource. 1 GB can be represented by 1Gi or 1024Mi. \nThe default value is 2Gi, this should not exceed build service agent pool memory size."
+    types:
+    - uid: string
+    defaultValue: 2Gi
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -252,7 +270,7 @@ definitions:
 examples:
 - name: BuildService_CreateOrUpdateBuild
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builds/mybuild?api-version=2022-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builds/mybuild?api-version=2022-05-01-preview
     body: >-
       {
         "properties": {
@@ -261,9 +279,88 @@ examples:
           "relativePath": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-20210601-3ed9f4a2-986b-4bbd-b833-a42dccb2f777",
           "env": {
             "environmentVariable": "test"
+          },
+          "resourceRequests": {
+            "cpu": "1",
+            "memory": "2Gi"
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builds/mybuild?api-version=2022-05-01-preview
+
+      {
+        "properties": {
+          "builder": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builders/default",
+          "agentPool": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/agentPools/default",
+          "relativePath": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-20210601-3ed9f4a2-986b-4bbd-b833-a42dccb2f777",
+          "env": {
+            "environmentVariable": "test"
+          },
+          "resourceRequests": {
+            "cpu": "1",
+            "memory": "2Gi"
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/BuildService_CreateOrUpdateBuild.json
+      func ExampleBuildServiceClient_CreateOrUpdateBuild() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewBuildServiceClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdateBuild(ctx,
+      		"myResourceGroup",
+      		"myservice",
+      		"default",
+      		"mybuild",
+      		armappplatform.Build{
+      			Properties: &armappplatform.BuildProperties{
+      				AgentPool: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/agentPools/default"),
+      				Builder:   to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builders/default"),
+      				Env: map[string]*string{
+      					"environmentVariable": to.Ptr("test"),
+      				},
+      				RelativePath: to.Ptr("e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-20210601-3ed9f4a2-986b-4bbd-b833-a42dccb2f777"),
+      				ResourceRequests: &armappplatform.BuildResourceRequests{
+      					CPU:    to.Ptr("1"),
+      					Memory: to.Ptr("2Gi"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -275,6 +372,10 @@ examples:
           "relativePath": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855-20210601-3ed9f4a2-986b-4bbd-b833-a42dccb2f777",
           "env": {
             "environmentVariable": "test"
+          },
+          "resourceRequests": {
+            "cpu": "1",
+            "memory": "2Gi"
           }
         },
         "systemData": {
@@ -300,6 +401,10 @@ examples:
           },
           "triggeredBuildResult": {
             "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/buildServices/default/builds/mybuild/results/123"
+          },
+          "resourceRequests": {
+            "cpu": "1",
+            "memory": "2Gi"
           }
         },
         "systemData": {

@@ -1,0 +1,181 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.education.labs.delete
+name: Delete
+service: Education
+groupName: Labs
+apiVersion: 2021-12-01-preview
+summary: Delete a specific lab associated with the provided billing account name, billing profile name, and invoice section name. Note all students must be removed from the lab in order to delete the lab.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+uriParameters:
+- name: billingAccountName
+  in: path
+  isRequired: true
+  description: Billing account name.
+  types:
+  - uid: string
+- name: billingProfileName
+  in: path
+  isRequired: true
+  description: Billing profile name.
+  types:
+  - uid: string
+- name: invoiceSectionName
+  in: path
+  isRequired: true
+  description: Invoice section name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-12-01-preview
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: lab deleted
+- name: 204 No Content
+  description: lab does not exists
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponseBody
+requestHeader: []
+definitions:
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: DeleteLab
+  request:
+    uri: DELETE https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Labs Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/DeleteLab.json
+           */
+          /**
+           * Sample code: DeleteLab.
+           *
+           * @param manager Entry point to EducationManager.
+           */
+          public static void deleteLab(com.azure.resourcemanager.education.EducationManager manager) {
+              manager
+                  .labs()
+                  .deleteWithResponse("{billingAccountName}", "{billingProfileName}", "{invoiceSectionName}", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-education_1.0.0-beta.2/sdk/education/azure-resourcemanager-education/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeducation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/education/armeducation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/DeleteLab.json
+      func ExampleLabsClient_Delete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeducation.NewLabsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Delete(ctx,
+      		"{billingAccountName}",
+      		"{billingProfileName}",
+      		"{invoiceSectionName}",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feducation%2Farmeducation%2Fv0.2.0/sdk/resourcemanager/education/armeducation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EducationManagementClient } = require("@azure/arm-education");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Delete a specific lab associated with the provided billing account name, billing profile name, and invoice section name. Note all students must be removed from the lab in order to delete the lab.
+       *
+       * @summary Delete a specific lab associated with the provided billing account name, billing profile name, and invoice section name. Note all students must be removed from the lab in order to delete the lab.
+       * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/DeleteLab.json
+       */
+      async function deleteLab() {
+        const billingAccountName = "{billingAccountName}";
+        const billingProfileName = "{billingProfileName}";
+        const invoiceSectionName = "{invoiceSectionName}";
+        const credential = new DefaultAzureCredential();
+        const client = new EducationManagementClient(credential);
+        const result = await client.labs.delete(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName
+        );
+        console.log(result);
+      }
+
+      deleteLab().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-education_1.0.0-beta.2/sdk/education/arm-education/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Delete a specific lab associated with the provided billing account name, billing profile name, and invoice section name.
+errorCodes: []

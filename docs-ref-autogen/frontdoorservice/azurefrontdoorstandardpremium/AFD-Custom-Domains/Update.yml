@@ -401,6 +401,157 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "tlsSettings": {
+            "certificateType": "CustomerCertificate",
+            "minimumTlsVersion": "TLS12"
+          },
+          "azureDnsZone": {
+            "id": ""
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.AfdCertificateType;
+      import com.azure.resourcemanager.cdn.models.AfdDomainHttpsParameters;
+      import com.azure.resourcemanager.cdn.models.AfdDomainUpdateParameters;
+      import com.azure.resourcemanager.cdn.models.AfdMinimumTlsVersion;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+
+      /** Samples for AfdCustomDomains Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDCustomDomains_Update.json
+           */
+          /**
+           * Sample code: AFDCustomDomains_Update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void aFDCustomDomainsUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getAfdCustomDomains()
+                  .update(
+                      "RG",
+                      "profile1",
+                      "domain1",
+                      new AfdDomainUpdateParameters()
+                          .withTlsSettings(
+                              new AfdDomainHttpsParameters()
+                                  .withCertificateType(AfdCertificateType.CUSTOMER_CERTIFICATE)
+                                  .withMinimumTlsVersion(AfdMinimumTlsVersion.TLS12))
+                          .withAzureDnsZone(new ResourceReference().withId("")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDCustomDomains_Update.json
+      func ExampleAFDCustomDomainsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewAFDCustomDomainsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"RG",
+      		"profile1",
+      		"domain1",
+      		armcdn.AFDDomainUpdateParameters{
+      			Properties: &armcdn.AFDDomainUpdatePropertiesParameters{
+      				AzureDNSZone: &armcdn.ResourceReference{
+      					ID: to.Ptr(""),
+      				},
+      				TLSSettings: &armcdn.AFDDomainHTTPSParameters{
+      					CertificateType:   to.Ptr(armcdn.AfdCertificateTypeCustomerCertificate),
+      					MinimumTLSVersion: to.Ptr(armcdn.AfdMinimumTLSVersionTLS12),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing domain within a profile.
+       *
+       * @summary Updates an existing domain within a profile.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDCustomDomains_Update.json
+       */
+      async function afdCustomDomainsUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const customDomainName = "domain1";
+        const customDomainUpdateProperties = {
+          azureDnsZone: { id: "" },
+          tlsSettings: {
+            certificateType: "CustomerCertificate",
+            minimumTlsVersion: "TLS12",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.afdCustomDomains.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          customDomainName,
+          customDomainUpdateProperties
+        );
+        console.log(result);
+      }
+
+      afdCustomDomainsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

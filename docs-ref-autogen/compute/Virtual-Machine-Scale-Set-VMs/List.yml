@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.list
 name: List
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Gets a list of all virtual machines in a VM scale sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2021-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines?$filter={$filter}&$select={$select}&$expand={$expand}&api-version=2022-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -115,6 +115,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: identity
+    description: The identity of the virtual machine, if configured.
+    types:
+    - uid: VirtualMachineIdentity
   - name: properties.latestModelApplied
     isReadyOnly: true
     description: Specifies whether the latest model has been applied to the virtual machine.
@@ -329,6 +333,10 @@ definitions:
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
     - uid: object
+  - name: location
+    description: Resource location
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -344,10 +352,6 @@ definitions:
     description: Resource type
     types:
     - uid: string
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
   - name: tags
     description: Resource tags
     types:
@@ -356,6 +360,28 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: VirtualMachineIdentity
+  description: Identity for the virtual machine.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of virtual machine identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the virtual machine. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
 - name: VirtualMachineScaleSetVMInstanceView
   description: The instance view of a virtual machine scale set VM.
   kind: object
@@ -619,6 +645,30 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: ResourceIdentityType
+  description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the Virtual Machine. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
 - name: VirtualMachineAgentInstanceView
   description: The instance view of the VM Agent running on the virtual machine.
   kind: object
@@ -1505,7 +1555,7 @@ definitions:
     types:
     - uid: string
 - name: NetworkApiVersion
-  description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations
+  description: specifies the Microsoft.Network API version used when creating networking resources in the Network Interface Configurations for Virtual Machine Scale Set with orchestration mode 'Flexible'
   kind: enum
   properties:
   - name: 2020-11-01
@@ -1675,7 +1725,7 @@ definitions:
     types:
     - uid: string
 - name: OperatingSystemTypes
-  description: The operating system of the osDiskImage.
+  description: 'This property allows you to specify the type of the OS that is included in the disk if creating a VM from user-image or a specialized VHD. <br><br> Possible values are: <br><br> **Windows** <br><br> **Linux**'
   kind: enum
   properties:
   - name: Windows
@@ -1693,7 +1743,7 @@ definitions:
     types:
     - uid: string
 - name: CachingTypes
-  description: Gets the caching type.
+  description: 'Specifies the caching requirements. <br><br> Possible values are: <br><br> **None** <br><br> **ReadOnly** <br><br> **ReadWrite** <br><br> Default: **None for Standard storage. ReadOnly for Premium storage**'
   kind: enum
   properties:
   - name: None
@@ -1718,7 +1768,7 @@ definitions:
     types:
     - uid: DiffDiskPlacement
 - name: DiskCreateOptionTypes
-  description: Specifies how the virtual machine should be created.<br><br> Possible values are:<br><br> **Attach** \u2013 This value is used when you are using a specialized disk to create the virtual machine.<br><br> **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.
+  description: 'Specifies how the virtual machines in the scale set should be created.<br><br> The only allowed value is: **FromImage** \u2013 This value is used when you are using an image to create the virtual machine. If you are using a platform image, you also use the imageReference element described above. If you are using a marketplace image, you  also use the plan element previously described.'
   kind: enum
   properties:
   - name: FromImage
@@ -1751,7 +1801,7 @@ definitions:
     types:
     - uid: string
 - name: DiskDeleteOptionTypes
-  description: 'Specifies whether OS Disk should be deleted or detached upon VM deletion. <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the os disk is retained after VM is deleted. <br><br> The default value is set to **detach**. For an ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for ephemeral OS Disk.'
+  description: 'Specifies whether OS Disk should be deleted or detached upon VMSS Flex deletion (This feature is available for VMSS with Flexible OrchestrationMode only). <br><br> Possible values: <br><br> **Delete** If this value is used, the OS disk is deleted when VMSS Flex VM is deleted.<br><br> **Detach** If this value is used, the OS disk is retained after VMSS Flex VM is deleted. <br><br> The default value is set to **Delete**. For an Ephemeral OS Disk, the default value is set to **Delete**. User cannot change the delete option for Ephemeral OS Disk.'
   kind: enum
   properties:
   - name: Delete
@@ -1803,6 +1853,10 @@ definitions:
     description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
     types:
     - uid: WindowsPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformSettings
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1833,6 +1887,10 @@ definitions:
     description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
     types:
     - uid: LinuxPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformSettings
 - name: VaultCertificate
   description: Describes a single certificate reference in a Key Vault, and where the certificate should reside on the VM.
   kind: object
@@ -1846,7 +1904,7 @@ definitions:
     types:
     - uid: string
 - name: DeleteOptions
-  description: Specify what happens to the network interface when the VM is deleted
+  description: Specify what happens to the public IP when the VM is deleted
   kind: enum
   properties:
   - name: Delete
@@ -2023,6 +2081,9 @@ definitions:
   - name: StandardSSD_ZRS
     types:
     - uid: string
+  - name: PremiumV2_LRS
+    types:
+    - uid: string
 - name: DiskEncryptionSetParameters
   description: 'Describes the parameter of customer managed disk encryption set resource id that can be specified for disk. <br><br> NOTE: The disk encryption set resource id can only be specified for managed disk. Please refer https://aka.ms/mdssewithcmkoverview for more details.'
   kind: object
@@ -2090,6 +2151,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
 - name: WinRMListener
   description: Describes Protocol and thumbprint of Windows Remote Management listener
   kind: object
@@ -2134,6 +2203,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 - name: VirtualMachinePublicIPAddressConfiguration
   description: Describes a virtual machines IP Configuration's PublicIPAddress configuration
   kind: object
@@ -2250,6 +2327,22 @@ definitions:
   - name: DiskWithVMGuestState
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
 - name: ProtocolTypes
   description: 'Specifies the protocol of WinRM listener. <br><br> Possible values are: <br>**http** <br><br> **https**'
   kind: enum
@@ -2258,6 +2351,22 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
     types:
     - uid: string
 - name: PublicIPAddressSku
@@ -2345,7 +2454,130 @@ definitions:
 examples:
 - name: VirtualMachineScaleSetVMs_List_MaximumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaa/virtualMachines?$filter=aaaaaaaaaaaaaa&$select=aaaaaaaaaaaaaaaaaaaaa&$expand=aaaaaaaaaaaaa&api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaa/virtualMachines?$filter=aaaaaaaaaaaaaa&$select=aaaaaaaaaaaaaaaaaaaaa&$expand=aaaaaaaaaaaaa&api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaa/virtualMachines?$filter=aaaaaaaaaaaaaa&$select=aaaaaaaaaaaaaaaaaaaaa&$expand=aaaaaaaaaaaaa&api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachineScaleSetVMs List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSetVMs_List_MaximumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetVMsListMaximumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetVMs()
+                  .list(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaaaa",
+                      "aaaaaaaaaaaaaa",
+                      "aaaaaaaaaaaaaaaaaaaaa",
+                      "aaaaaaaaaaaaa",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
+      func ExampleVirtualMachineScaleSetVMsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetVMsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rgcompute",
+      		"aaaaaaaaaaaaaaaaaaaaaa",
+      		&armcompute.VirtualMachineScaleSetVMsClientListOptions{Filter: to.Ptr("aaaaaaaaaaaaaa"),
+      			Select: to.Ptr("aaaaaaaaaaaaaaaaaaaaa"),
+      			Expand: to.Ptr("aaaaaaaaaaaaa"),
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
+       *
+       * @summary Gets a list of all virtual machines in a VM scale sets.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MaximumSet_Gen.json
+       */
+      async function virtualMachineScaleSetVMSListMaximumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaa";
+        const filter = "aaaaaaaaaaaaaa";
+        const select = "aaaaaaaaaaaaaaaaaaaaa";
+        const expand = "aaaaaaaaaaaaa";
+        const options = {
+          filter,
+          select,
+          expand,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.virtualMachineScaleSetVMs.list(
+          resourceGroupName,
+          virtualMachineScaleSetName,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      virtualMachineScaleSetVMSListMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2558,7 +2790,6 @@ examples:
                 "secrets": [],
                 "allowExtensionOperations": true,
                 "requireGuestProvisionSignal": true,
-                "adminPassword": "aaaaaaaaaaaaaaaa",
                 "customData": "aaaa",
                 "linuxConfiguration": {
                   "disablePasswordAuthentication": true,
@@ -2884,7 +3115,71 @@ examples:
       }
 - name: VirtualMachineScaleSetVMs_List_MinimumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaa/virtualMachines?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaa/virtualMachines?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaa/virtualMachines?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachineScaleSetVMs List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSetVMs_List_MinimumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetVMsListMinimumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetVMs()
+                  .list("rgcompute", "aaaaaaaaaaaaaaaaaaaaaaaaaaaa", null, null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all virtual machines in a VM scale sets.
+       *
+       * @summary Gets a list of all virtual machines in a VM scale sets.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMs_List_MinimumSet_Gen.json
+       */
+      async function virtualMachineScaleSetVMSListMinimumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const virtualMachineScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.virtualMachineScaleSetVMs.list(
+          resourceGroupName,
+          virtualMachineScaleSetName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      virtualMachineScaleSetVMSListMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

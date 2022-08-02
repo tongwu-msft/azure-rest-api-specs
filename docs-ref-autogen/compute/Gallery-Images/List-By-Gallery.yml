@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimages.listbygallery
 name: List By Gallery
 service: Compute
 groupName: Gallery Images
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: List gallery image definitions in a gallery.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -122,15 +122,9 @@ definitions:
     - uid: ImagePurchasePlan
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image definition.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.features
     description: A list of gallery image features.
     types:
@@ -275,6 +269,28 @@ definitions:
     description: The product ID.
     types:
     - uid: string
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: GalleryImageFeature
   description: A feature for gallery image.
   kind: object
@@ -340,7 +356,107 @@ definitions:
 examples:
 - name: List gallery images in a gallery.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images?api-version=2021-10-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images?api-version=2022-01-03
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images?api-version=2022-01-03
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for GalleryImages ListByGallery. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImage_ListByGallery.json
+           */
+          /**
+           * Sample code: List gallery images in a gallery.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listGalleryImagesInAGallery(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImages()
+                  .listByGallery("myResourceGroup", "myGalleryName", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImage_ListByGallery.json
+      func ExampleGalleryImagesClient_NewListByGalleryPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewGalleryImagesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByGalleryPager("myResourceGroup",
+      		"myGalleryName",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List gallery image definitions in a gallery.
+       *
+       * @summary List gallery image definitions in a gallery.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImage_ListByGallery.json
+       */
+      async function listGalleryImagesInAGallery() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.galleryImages.listByGallery(resourceGroupName, galleryName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listGalleryImagesInAGallery().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

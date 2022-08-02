@@ -4,7 +4,7 @@ name: List
 service: Consumption
 groupName: Reservations Details
 apiVersion: 2021-10-01
-summary: Lists the reservations details for the defined scope and provided date range.
+summary: 'Lists the reservations details for the defined scope and provided date range. Note: ARM has a payload size limit of 12MB, so currently callers get 502 when the response size exceeds the ARM limit. In such cases, API call should be made with smaller date ranges.'
 consumes:
 - application/json
 produces:
@@ -192,6 +192,117 @@ examples:
 - name: ReservationDetailsByBillingAccountId
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationDetails?$filter=properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345/providers/Microsoft.Consumption/reservationDetails?$filter=properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05&api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ReservationsDetails List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
+           */
+          /**
+           * Sample code: ReservationDetailsByBillingAccountId.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationDetailsByBillingAccountId(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationsDetails()
+                  .list(
+                      "providers/Microsoft.Billing/billingAccounts/12345",
+                      null,
+                      null,
+                      "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05",
+                      null,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armconsumption_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/consumption/armconsumption"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
+      func ExampleReservationsDetailsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconsumption.NewReservationsDetailsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("providers/Microsoft.Billing/billingAccounts/12345",
+      		&armconsumption.ReservationsDetailsClientListOptions{StartDate: nil,
+      			EndDate:            nil,
+      			Filter:             to.Ptr("properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05"),
+      			ReservationID:      nil,
+      			ReservationOrderID: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconsumption%2Farmconsumption%2Fv1.0.0/sdk/resourcemanager/consumption/armconsumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
+       *
+       * @summary Lists the reservations details for the defined scope and provided date range.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingAccountId.json
+       */
+      async function reservationDetailsByBillingAccountId() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "providers/Microsoft.Billing/billingAccounts/12345";
+        const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-12-05";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.reservationsDetails.list(scope, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationDetailsByBillingAccountId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -220,6 +331,73 @@ examples:
 - name: ReservationDetailsByBillingProfileId
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationDetails?startDate=2019-09-01&endDate=2019-10-31&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationDetails?startDate=2019-09-01&endDate=2019-10-31&api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ReservationsDetails List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileId.json
+           */
+          /**
+           * Sample code: ReservationDetailsByBillingProfileId.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationDetailsByBillingProfileId(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationsDetails()
+                  .list(
+                      "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579",
+                      "2019-09-01",
+                      "2019-10-31",
+                      null,
+                      null,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
+       *
+       * @summary Lists the reservations details for the defined scope and provided date range.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileId.json
+       */
+      async function reservationDetailsByBillingProfileId() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
+        const startDate = "2019-09-01";
+        const endDate = "2019-10-31";
+        const options = { startDate, endDate };
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.reservationsDetails.list(scope, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationDetailsByBillingProfileId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -248,6 +426,80 @@ examples:
 - name: ReservationDetailsByBillingProfileIdReservationId
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationDetails?startDate=2019-09-01&endDate=2019-10-31&reservationId=1c6b6358-709f-484c-85f1-72e862a0cf3b&reservationOrderId=9f39ba10-794f-4dcb-8f4b-8d0cb47c27dc&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579/providers/Microsoft.Consumption/reservationDetails?startDate=2019-09-01&endDate=2019-10-31&reservationId=1c6b6358-709f-484c-85f1-72e862a0cf3b&reservationOrderId=9f39ba10-794f-4dcb-8f4b-8d0cb47c27dc&api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ReservationsDetails List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileIdReservationId.json
+           */
+          /**
+           * Sample code: ReservationDetailsByBillingProfileIdReservationId.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationDetailsByBillingProfileIdReservationId(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationsDetails()
+                  .list(
+                      "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579",
+                      "2019-09-01",
+                      "2019-10-31",
+                      null,
+                      "1c6b6358-709f-484c-85f1-72e862a0cf3b",
+                      "9f39ba10-794f-4dcb-8f4b-8d0cb47c27dc",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the reservations details for the defined scope and provided date range.
+       *
+       * @summary Lists the reservations details for the defined scope and provided date range.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationDetailsByBillingProfileIdReservationId.json
+       */
+      async function reservationDetailsByBillingProfileIdReservationId() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "providers/Microsoft.Billing/billingAccounts/12345:2468/billingProfiles/13579";
+        const startDate = "2019-09-01";
+        const endDate = "2019-10-31";
+        const reservationId = "1c6b6358-709f-484c-85f1-72e862a0cf3b";
+        const reservationOrderId = "9f39ba10-794f-4dcb-8f4b-8d0cb47c27dc";
+        const options = {
+          startDate,
+          endDate,
+          reservationId,
+          reservationOrderId,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.reservationsDetails.list(scope, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationDetailsByBillingProfileIdReservationId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -283,5 +535,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Consumption service - Lists the reservations details for the defined scope and provided date range.
+  description: 'Lists the reservations details for the defined scope and provided date range. Note: ARM has a payload size limit of 12MB, so currently callers get 502 when the '
 errorCodes: []

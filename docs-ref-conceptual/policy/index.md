@@ -1,10 +1,10 @@
 ---
 title: Policy REST API
 description: Operation groups for the Policy REST API
-author: DCtheGeek
-ms.author: dacoulte
-ms.manager: carmonm
-ms.date: 03/10/2021
+author: timwarner-msft
+ms.author: timwarner
+ms.manager: rayoflores
+ms.date: 05/20/2022
 ms.topic: reference
 ms.service: azure-policy
 ms.devlang: rest-api
@@ -23,6 +23,7 @@ Policy REST API surfaces operations related to [Azure Policy](https://docs.micro
 | [Policy Events](xref:management.azure.com.policy.policyevents) | Query policy evaluation events generated as resources are created or updated. |
 | [Policy Exemptions](xref:management.azure.com.policy.policyexemptions)         | Provides operations to create policy exemptions to exempt a scope from a policy assignment. |
 | [Policy Metadata](xref:management.azure.com.policy.policymetadata) | Retrieve rich metadata for built-in policies. |
+| [Policy Restrictions](xref:management.azure.com.policy.policyrestrictions) | Retrieve what restrictions Azure Policy will place on a resource. |
 | [Policy Set Definitions](xref:management.azure.com.policy.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
 | [Policy States](xref:management.azure.com.policy.policystates) | Query policy compliance states for resources. |
 | [Policy Tracked Resources](xref:management.azure.com.policy.policytrackedresources) | Query resources deployed by policy. |

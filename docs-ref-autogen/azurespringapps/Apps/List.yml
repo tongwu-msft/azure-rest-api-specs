@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.apps.list
 name: List
 service: Azure Spring Apps
 groupName: Apps
-apiVersion: 2022-03-01-preview
+apiVersion: 2022-05-01-preview
 summary: Handles requests to list all resources in a Service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps?api-version=2022-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps?api-version=2022-05-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -162,6 +162,7 @@ definitions:
     description: Indicate if only https is allowed.
     types:
     - uid: boolean
+    defaultValue: false
   - name: temporaryDisk
     description: Temporary disk settings
     types:
@@ -179,11 +180,16 @@ definitions:
     description: Indicate if end to end TLS is enabled.
     types:
     - uid: boolean
+    defaultValue: false
   - name: loadedCertificates
     description: Collection of loaded certificates
     types:
     - uid: LoadedCertificate
       isArray: true
+  - name: vnetAddons
+    description: Additional App settings in vnet injection instance
+    types:
+    - uid: AppVNetAddons
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -267,6 +273,7 @@ definitions:
     description: Mount path of the temporary disk
     types:
     - uid: string
+    defaultValue: /tmp
 - name: PersistentDisk
   description: Persistent disk payload
   kind: object
@@ -294,7 +301,7 @@ definitions:
     - uid: AzureFileVolume
     typesTitle: CustomPersistentDiskProperties
   - name: storageId
-    description: The resource id of Azure Spring Cloud Storage resource.
+    description: The resource id of Azure Spring Apps Storage resource.
     types:
     - uid: string
 - name: LoadedCertificate
@@ -309,6 +316,21 @@ definitions:
     description: Indicate whether the certificate will be loaded into default trust store, only work for Java runtime.
     types:
     - uid: boolean
+    defaultValue: false
+- name: AppVNetAddons
+  description: Additional App settings in vnet injection instance
+  kind: object
+  properties:
+  - name: publicEndpoint
+    description: Indicates whether the App in vnet injection instance exposes endpoint which could be accessed from internet.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: publicEndpointUrl
+    isReadyOnly: true
+    description: URL of the App in vnet injection instance which could be accessed from internet
+    types:
+    - uid: string
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -400,7 +422,53 @@ definitions:
 examples:
 - name: Apps_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Apps_List.json
+      func ExampleAppsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewAppsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"myservice",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -414,6 +482,98 @@ examples:
               "fqdn": "myapp.mydomain.com",
               "httpsOnly": false,
               "enableEndToEndTLS": false,
+              "temporaryDisk": {
+                "sizeInGB": 2,
+                "mountPath": "/mytemporarydisk"
+              },
+              "persistentDisk": {
+                "sizeInGB": 2,
+                "usedInGB": 1,
+                "mountPath": "/mypersistentdisk"
+              },
+              "loadedCertificates": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert1",
+                  "loadTrustStore": false
+                },
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert2",
+                  "loadTrustStore": true
+                }
+              ],
+              "customPersistentDisks": [
+                {
+                  "customPersistentDiskProperties": {
+                    "type": "AzureFileVolume",
+                    "mountPath": "/mypath1/mypath2",
+                    "mountOptions": [
+                      "uid=0",
+                      "gid=0",
+                      "dir_mode=0777",
+                      "file_mode=0777"
+                    ],
+                    "shareName": "myFileShare"
+                  },
+                  "storageId": "myASCStorageID"
+                }
+              ]
+            },
+            "systemData": {
+              "createdBy": "sample-user",
+              "createdByType": "User",
+              "createdAt": "2021-08-11T03:16:03.944Z",
+              "lastModifiedBy": "sample-user",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+            },
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "identity": {
+              "type": "SystemAssigned,UserAssigned",
+              "principalId": "principalid",
+              "tenantId": "tenantid",
+              "userAssignedIdentities": {
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+                  "clientId": "clientId1",
+                  "principalId": "principalId1"
+                },
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+                  "clientId": "clientId2",
+                  "principalId": "principalId2"
+                }
+              }
+            },
+            "location": "eastus",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
+            "name": "myapp"
+          }
+        ]
+      }
+- name: Apps_List_VNetInjection
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "public": true,
+              "url": "myapp.myservice.private.azuremicroservices.io",
+              "provisioningState": "Succeeded",
+              "fqdn": "myapp.mydomain.com",
+              "httpsOnly": false,
+              "enableEndToEndTLS": false,
+              "vnetAddons": {
+                "publicEndpoint": true,
+                "publicEndpointUrl": "myapp.myservice.azuremicroservices.io"
+              },
               "temporaryDisk": {
                 "sizeInGB": 2,
                 "mountPath": "/mytemporarydisk"

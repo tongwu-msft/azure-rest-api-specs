@@ -265,18 +265,22 @@ definitions:
     description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.partitionCount
     description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.hostingMode
     description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
     types:
     - uid: HostingMode
+    defaultValue: default
   - name: properties.publicNetworkAccess
     description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
     types:
     - uid: PublicNetworkAccess
+    defaultValue: enabled
   - name: properties.status
     isReadyOnly: true
     description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
@@ -401,18 +405,22 @@ definitions:
     description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.partitionCount
     description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.hostingMode
     description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
     types:
     - uid: HostingMode
+    defaultValue: default
   - name: properties.publicNetworkAccess
     description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
     types:
     - uid: PublicNetworkAccess
+    defaultValue: enabled
   - name: properties.status
     isReadyOnly: true
     description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. 'stopped': The search service is in a subscription that's disabled. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
@@ -796,6 +804,7 @@ definitions:
     description: A description of any extra actions that may be required.
     types:
     - uid: string
+    defaultValue: None
 - name: SharedPrivateLinkResourceStatus
   description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected or other yet to be documented value.
   kind: enum
@@ -874,6 +883,23 @@ examples:
           "replicaCount": 2
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -926,6 +952,22 @@ examples:
           "type": "None"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "sku": {
+          "name": "standard"
+        },
+        "identity": {
+          "type": "None"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -984,6 +1026,31 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1049,6 +1116,32 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "properties": {
+          "replicaCount": 3,
+          "partitionCount": 1,
+          "publicNetworkAccess": "enabled",
+          "networkRuleSet": {
+            "ipRules": [
+              {
+                "value": "123.4.5.6"
+              },
+              {
+                "value": "123.4.6.0/18"
+              }
+            ],
+            "bypass": "AzurePortal"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1104,6 +1197,21 @@ examples:
           "publicNetworkAccess": "disabled"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "properties": {
+          "replicaCount": 1,
+          "partitionCount": 1,
+          "publicNetworkAccess": "disabled"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1162,6 +1270,28 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "authOptions": {
+            "aadOrApiKey": {
+              "aadAuthFailureMode": "http401WithBearerChallenge"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1217,6 +1347,24 @@ examples:
           "disableLocalAuth": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "disableLocalAuth": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1271,6 +1419,26 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "encryptionWithCmk": {
+            "enforcement": "Enabled"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1327,6 +1495,26 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "disabledDataExfiltrationOptions": [
+            "All"
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1383,6 +1571,24 @@ examples:
           "semanticSearch": "standard"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice?api-version=2021-04-01-preview
+
+      {
+        "tags": {
+          "app-name": "My e-commerce app",
+          "new-tag": "Adding a new tag"
+        },
+        "properties": {
+          "replicaCount": 2,
+          "semanticSearch": "standard"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

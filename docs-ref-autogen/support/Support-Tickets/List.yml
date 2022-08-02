@@ -4,7 +4,7 @@ name: List
 service: Support
 groupName: Support Tickets
 apiVersion: 2020-04-01
-summary: Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+summary: Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassificationId_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
 consumes:
 - application/json
 produces:
@@ -28,7 +28,7 @@ uriParameters:
   format: int32
 - name: $filter
   in: query
-  description: The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_ filter can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'.
+  description: The filter to apply on the operation. We support 'odata v4.0' filter semantics. [Learn more](https://docs.microsoft.com/odata/concepts/queryoptions-overview). _Status_, _ServiceId_, and _ProblemClassificationId_ filters can only be used with Equals ('eq') operator. For _CreatedDate_ filter, the supported operators are Greater Than ('gt') and Greater Than or Equals ('ge'). When using both filters, combine them using the logical 'AND'.
   types:
   - uid: string
 - name: api-version
@@ -351,6 +351,38 @@ examples:
 - name: List support tickets for a subscription
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?api-version=2020-04-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListSupportTicketsBySubscription.json
+       */
+      async function listSupportTicketsForASubscription() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.supportTickets.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listSupportTicketsForASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -438,6 +470,40 @@ examples:
 - name: List support tickets in open state for a subscription
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=status eq 'Open'&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=status eq 'Open'&api-version=2020-04-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListSupportTicketsInOpenStateBySubscription.json
+       */
+      async function listSupportTicketsInOpenStateForASubscription() {
+        const subscriptionId = "subid";
+        const filter = "status eq 'Open'";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.supportTickets.list(options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listSupportTicketsInOpenStateForASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -525,6 +591,81 @@ examples:
 - name: List support tickets created on or after a certain date and in open state for a subscription
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=createdDate ge 2020-03-10T22:08:51Z and status eq 'Open'&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=createdDate ge 2020-03-10T22:08:51Z and status eq 'Open'&api-version=2020-04-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsupport_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/support/armsupport"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListSupportTicketsCreatedOnOrAfterAndInOpenStateBySubscription.json
+      func ExampleTicketsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsupport.NewTicketsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(&armsupport.TicketsClientListOptions{Top: nil,
+      		Filter: to.Ptr("createdDate ge 2020-03-10T22:08:51Z and status eq 'Open'"),
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsupport%2Farmsupport%2Fv1.0.0/sdk/resourcemanager/support/armsupport/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter. Output will be a paged result with _nextLink_, using which you can retrieve the next set of support tickets. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListSupportTicketsCreatedOnOrAfterAndInOpenStateBySubscription.json
+       */
+      async function listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenStateForASubscription() {
+        const subscriptionId = "subid";
+        const filter = "createdDate ge 2020-03-10T22:08:51Z and status eq 'Open'";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.supportTickets.list(options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listSupportTicketsCreatedOnOrAfterACertainDateAndInOpenStateForASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -609,6 +750,168 @@ examples:
           }
         ]
       }
+- name: List support tickets with a certain service id for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=ServiceId eq 'vm_windows_service_guid'&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=ServiceId eq 'vm_windows_service_guid'&api-version=2020-04-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets",
+            "name": "testticket1",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "2205040010000082",
+              "description": "my description",
+              "problemClassificationId": "/providers/Microsoft.Support/services/vm_windows_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "problemClassification_displayName",
+              "severity": "minimal",
+              "require24X7Response": false,
+              "enrollmentId": "",
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "usa",
+                "preferredSupportLanguage": "en-US"
+              },
+              "supportEngineer": {
+                "emailAddress": "xyz@contoso.com"
+              },
+              "supportPlanType": "Premier",
+              "title": "my title",
+              "serviceId": "/providers/Microsoft.Support/services/vm_windows_service_guid",
+              "serviceDisplayName": "Virtual Machine running Windows",
+              "status": "Open",
+              "createdDate": "2022-05-04T21:52:10Z",
+              "modifiedDate": "2022-05-12T23:05:19Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets",
+            "name": "testticket2",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "2205040010000080",
+              "description": "This is a test - please ignore",
+              "problemClassificationId": "/providers/Microsoft.Support/services/vm_windows_service_guid/problemClassifications/problemClassification_guid",
+              "problemClassificationDisplayName": "problemClassification_displayName",
+              "severity": "minimal",
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "USA",
+                "preferredSupportLanguage": "en-US"
+              },
+              "supportEngineer": {
+                "emailAddress": "xyz@contoso.com"
+              },
+              "supportPlanType": "Premier",
+              "title": "Test - please ignore",
+              "serviceId": "/providers/Microsoft.Support/services/vm_windows_service_guid",
+              "serviceDisplayName": "Virtual Machine running Windows",
+              "status": "Open",
+              "createdDate": "2022-05-04T21:38:42Z",
+              "modifiedDate": "2022-05-04T21:39:14Z"
+            }
+          }
+        ]
+      }
+- name: List support tickets with a certain problem classification id for a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=ProblemClassificationId eq 'compute_vm_problemClassification_guid'&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets?$filter=ProblemClassificationId eq 'compute_vm_problemClassification_guid'&api-version=2020-04-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testTicket1",
+            "name": "testTicket1",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "2205060010000072",
+              "description": "my description",
+              "problemClassificationId": "/providers/Microsoft.Support/services/service_guid/problemClassifications/compute_vm_problemClassification_guid",
+              "problemClassificationDisplayName": "Compute-VM (cores-vCPUs) subscription limit increases",
+              "severity": "minimal",
+              "require24X7Response": false,
+              "enrollmentId": "",
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "usa",
+                "preferredSupportLanguage": "en-US"
+              },
+              "supportEngineer": {
+                "emailAddress": "xyz@contoso.com"
+              },
+              "supportPlanType": "Premier",
+              "title": "my title",
+              "serviceId": "/providers/Microsoft.Support/services/service_guid",
+              "serviceDisplayName": "service_displayName",
+              "status": "Open",
+              "createdDate": "2022-05-04T21:52:10Z",
+              "modifiedDate": "2022-05-12T23:05:19Z"
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Support/supportTickets/testTicket2",
+            "name": "testTicket2",
+            "type": "Microsoft.Support/supportTickets",
+            "properties": {
+              "supportTicketId": "2205040010000077",
+              "description": "This is a test - please ignore",
+              "problemClassificationId": "/providers/Microsoft.Support/services/service_guid/problemClassifications/compute_vm_problemClassification_guid",
+              "problemClassificationDisplayName": "Compute-VM (cores-vCPUs) subscription limit increases",
+              "severity": "minimal",
+              "require24X7Response": false,
+              "contactDetails": {
+                "firstName": "abc",
+                "lastName": "xyz",
+                "preferredContactMethod": "email",
+                "primaryEmailAddress": "abc@contoso.com",
+                "preferredTimeZone": "Pacific Standard Time",
+                "country": "USA",
+                "preferredSupportLanguage": "en-US"
+              },
+              "supportEngineer": {
+                "emailAddress": "xyz@contoso.com"
+              },
+              "supportPlanType": "Premier",
+              "title": "Test - please ignore",
+              "serviceId": "/providers/Microsoft.Support/services/service_guid",
+              "serviceDisplayName": "service_displayName",
+              "status": "Open",
+              "createdDate": "2022-05-04T21:38:42Z",
+              "modifiedDate": "2022-05-04T21:39:14Z"
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -619,5 +922,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_ or _CreatedDate_ using the $filter parameter.
+  description: Lists all the support tickets for an Azure subscription. You can also filter the support tickets by _Status_, _CreatedDate_, _ServiceId_, and _ProblemClassifica
 errorCodes: []

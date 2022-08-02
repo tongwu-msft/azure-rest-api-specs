@@ -51,4 +51,4 @@ The Azure Billing APIs allow you to view and manage your billing details program
 ## See Also
 
 - [Azure Consumption APIs](/rest/api/consumption/)
-- [Azure Cost Management and Billing documentation](/azure/cost-management-billing/)
+- [Cost Management and Billing documentation](/azure/cost-management-billing/)

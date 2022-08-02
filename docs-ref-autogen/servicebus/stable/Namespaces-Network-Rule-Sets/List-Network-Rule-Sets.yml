@@ -99,6 +99,7 @@ definitions:
     description: This determines if traffic is allowed over public network. By default it is enabled.
     types:
     - uid: PublicNetworkAccessFlag
+    defaultValue: Enabled
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -212,6 +213,7 @@ definitions:
     description: The IP Filter Action
     types:
     - uid: NetworkRuleIPAction
+    defaultValue: Allow
 - name: PublicNetworkAccessFlag
   description: This determines if traffic is allowed over public network. By default it is enabled.
   kind: enum
@@ -271,6 +273,80 @@ examples:
 - name: NameSpaceNetworkRuleSetList
   request:
     uri: GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets?api-version=2021-11-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetList.json
+      func ExampleNamespacesClient_NewListNetworkRuleSetsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewNamespacesClient("Subscription", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListNetworkRuleSetsPager("ResourceGroup",
+      		"sdk-Namespace-6019",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv1.0.0/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ServiceBusManagementClient } = require("@azure/arm-servicebus");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets list of NetworkRuleSet for a Namespace.
+       *
+       * @summary Gets list of NetworkRuleSet for a Namespace.
+       * x-ms-original-file: specification/servicebus/resource-manager/Microsoft.ServiceBus/stable/2021-11-01/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetList.json
+       */
+      async function nameSpaceNetworkRuleSetList() {
+        const subscriptionId = "Subscription";
+        const resourceGroupName = "ResourceGroup";
+        const namespaceName = "sdk-Namespace-6019";
+        const credential = new DefaultAzureCredential();
+        const client = new ServiceBusManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.namespaces.listNetworkRuleSets(resourceGroupName, namespaceName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      nameSpaceNetworkRuleSetList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-servicebus_6.0.0/sdk/servicebus/arm-servicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

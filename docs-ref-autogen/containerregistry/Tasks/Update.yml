@@ -233,6 +233,7 @@ definitions:
     description: Run timeout in seconds.
     types:
     - uid: integer
+    defaultValue: 3600
   - name: properties.step
     description: The properties of a task step.
     types:
@@ -500,6 +501,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -521,6 +523,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -537,6 +540,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -652,6 +656,7 @@ definitions:
     description: Flag to indicate whether the argument represents a secret and want to be removed from build logs.
     types:
     - uid: boolean
+    defaultValue: false
 - name: SetValue
   description: The properties of a overridable value that can be passed to a task template.
   kind: object
@@ -668,6 +673,7 @@ definitions:
     description: Flag to indicate whether the value represents a secret or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: TriggerStatus
   description: The current status of trigger.
   kind: enum
@@ -759,10 +765,12 @@ definitions:
     description: The value of this property indicates whether the image built should be pushed to the registry or not.
     types:
     - uid: boolean
+    defaultValue: true
   - name: noCache
     description: The value of this property indicates whether the image cache is enabled or not.
     types:
     - uid: boolean
+    defaultValue: false
   - name: dockerFilePath
     description: The Docker file path relative to the source context.
     types:
@@ -879,6 +887,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -900,6 +909,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -916,6 +926,7 @@ definitions:
     description: The current status of trigger.
     types:
     - uid: TriggerStatus
+    defaultValue: Enabled
   - name: name
     description: The name of the trigger.
     types:
@@ -1112,6 +1123,63 @@ examples:
           "testkey": "value"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask?api-version=2019-04-01
+
+      {
+        "properties": {
+          "status": "Enabled",
+          "agentConfiguration": {
+            "cpu": 3
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag1"
+            ],
+            "dockerFilePath": "src/DockerFile"
+          },
+          "trigger": {
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ]
+          },
+          "credentials": {
+            "customRegistries": {
+              "myregistry.azurecr.io": {
+                "userName": {
+                  "type": "Opaque",
+                  "value": "username"
+                },
+                "password": {
+                  "type": "Vaultsecret",
+                  "value": "https://myacbvault.vault.azure.net/secrets/password"
+                },
+                "identity": "[system]"
+              }
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1324,6 +1392,63 @@ examples:
           "testkey": "value"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask?api-version=2019-04-01
+
+      {
+        "properties": {
+          "status": "Enabled",
+          "agentConfiguration": {
+            "cpu": 3
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag1"
+            ],
+            "dockerFilePath": "src/DockerFile"
+          },
+          "trigger": {
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ]
+          },
+          "credentials": {
+            "customRegistries": {
+              "myregistry.azurecr.io": {
+                "userName": {
+                  "type": "Vaultsecret",
+                  "value": "https://myacbvault.vault.azure.net/secrets/username"
+                },
+                "password": {
+                  "type": "Vaultsecret",
+                  "value": "https://myacbvault.vault.azure.net/secrets/password"
+                },
+                "identity": "[system]"
+              }
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1528,6 +1653,55 @@ examples:
           "testkey": "value"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask?api-version=2019-04-01
+
+      {
+        "properties": {
+          "status": "Enabled",
+          "agentConfiguration": {
+            "cpu": 3
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag1"
+            ],
+            "dockerFilePath": "src/DockerFile"
+          },
+          "trigger": {
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ]
+          },
+          "credentials": {
+            "customRegistries": {
+              "myregistry.azurecr.io": {
+                "identity": "[system]"
+              }
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1739,6 +1913,62 @@ examples:
           "testkey": "value"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/tasks/myTask?api-version=2019-04-01
+
+      {
+        "properties": {
+          "status": "Enabled",
+          "agentConfiguration": {
+            "cpu": 3
+          },
+          "step": {
+            "type": "Docker",
+            "imageNames": [
+              "azurerest:testtag1"
+            ],
+            "dockerFilePath": "src/DockerFile"
+          },
+          "trigger": {
+            "sourceTriggers": [
+              {
+                "name": "mySourceTrigger",
+                "sourceRepository": {
+                  "sourceControlAuthProperties": {
+                    "tokenType": "PAT",
+                    "token": "xxxxx"
+                  }
+                },
+                "sourceTriggerEvents": [
+                  "commit"
+                ]
+              }
+            ]
+          },
+          "credentials": {
+            "customRegistries": {
+              "myregistry.azurecr.io": {
+                "userName": {
+                  "type": "Opaque",
+                  "value": "username"
+                },
+                "password": {
+                  "type": "Opaque",
+                  "value": "***"
+                }
+              }
+            }
+          }
+        },
+        "tags": {
+          "testkey": "value"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

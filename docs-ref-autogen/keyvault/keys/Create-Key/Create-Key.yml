@@ -107,7 +107,7 @@ definitions:
     types:
     - uid: DeletionRecoveryLevel
   - name: exportable
-    description: Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: enabled
@@ -133,18 +133,20 @@ definitions:
     types:
     - uid: integer
 - name: KeyReleasePolicy
+  description: The policy rules under which the key can be exported.
   kind: object
   properties:
   - name: contentType
     description: Content type and version of key release policy
     types:
     - uid: string
+    defaultValue: application/json; charset=utf-8
   - name: immutable
     description: Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances.
     types:
     - uid: boolean
   - name: data
-    description: Blob encoding the policy rules under which the key can be released.
+    description: Blob encoding the policy rules under which the key can be released. Blob must be base64 URL encoded.
     types:
     - uid: string
 - name: KeyBundle
@@ -416,6 +418,31 @@ examples:
           "test name ": "CreateGetDeleteKeyTest"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.3
+
+      {
+        "kty": "RSA",
+        "key_size": 2048,
+        "key_ops": [
+          "encrypt",
+          "decrypt",
+          "sign",
+          "verify",
+          "wrapKey",
+          "unwrapKey"
+        ],
+        "attributes": {},
+        "tags": {
+          "purpose": "unit test",
+          "test name ": "CreateGetDeleteKeyTest"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

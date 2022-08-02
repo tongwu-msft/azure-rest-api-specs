@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.updateinstances
 name: Update Instances
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade?api-version=2021-11-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/manualupgrade?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -130,13 +130,135 @@ definitions:
 examples:
 - name: VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2021-11-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2022-03-01
     body: >-
       {
         "instanceIds": [
           "aaaaaaaaaaaaaaaaaaaaaaaaa"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2022-03-01
+
+      {
+        "instanceIds": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaa"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.VirtualMachineScaleSetVMInstanceRequiredIDs;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachineScaleSets UpdateInstances. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetsUpdateInstancesMaximumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSets()
+                  .updateInstances(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaaaaaa",
+                      new VirtualMachineScaleSetVMInstanceRequiredIDs()
+                          .withInstanceIds(Arrays.asList("aaaaaaaaaaaaaaaaaaaaaaaaa")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
+      func ExampleVirtualMachineScaleSetsClient_BeginUpdateInstances() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdateInstances(ctx,
+      		"rgcompute",
+      		"aaaaaaaaaaaaaaaaaaaaaaaa",
+      		armcompute.VirtualMachineScaleSetVMInstanceRequiredIDs{
+      			InstanceIDs: []*string{
+      				to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaa")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+       *
+       * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MaximumSet_Gen.json
+       */
+      async function virtualMachineScaleSetsUpdateInstancesMaximumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaa";
+        const vmInstanceIDs = {
+          instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          vmInstanceIDs
+        );
+        console.log(result);
+      }
+
+      virtualMachineScaleSetsUpdateInstancesMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -145,13 +267,92 @@ examples:
       value: https://foo.com/operationstatus
 - name: VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2021-11-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2022-03-01
     body: >-
       {
         "instanceIds": [
           "aaaaaaaaaaaaaaaaaaaaaaaaa"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/manualupgrade?api-version=2022-03-01
+
+      {
+        "instanceIds": [
+          "aaaaaaaaaaaaaaaaaaaaaaaaa"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.VirtualMachineScaleSetVMInstanceRequiredIDs;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachineScaleSets UpdateInstances. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetsUpdateInstancesMinimumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSets()
+                  .updateInstances(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      new VirtualMachineScaleSetVMInstanceRequiredIDs()
+                          .withInstanceIds(Arrays.asList("aaaaaaaaaaaaaaaaaaaaaaaaa")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+       *
+       * @summary Upgrades one or more virtual machines to the latest SKU set in the VM scale set model.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_UpdateInstances_MinimumSet_Gen.json
+       */
+      async function virtualMachineScaleSetsUpdateInstancesMinimumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        const vmInstanceIDs = {
+          instanceIds: ["aaaaaaaaaaaaaaaaaaaaaaaaa"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSets.beginUpdateInstancesAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          vmInstanceIDs
+        );
+        console.log(result);
+      }
+
+      virtualMachineScaleSetsUpdateInstancesMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

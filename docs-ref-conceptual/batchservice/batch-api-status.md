@@ -68,13 +68,13 @@ The Batch management SDKs scheduled for future deprecation and removal are as fo
 
 | Language  | Version         | Upgrade Instructions |
 |-----------|-----------------|------------------------
-| Azure CLI | `<= 2.0.54`     | [Here](https://docs.microsoft.com/cli/azure/install-azure-cli?view=azure-cli-latest#install)
+| Azure CLI | `<= 2.0.54`     | [Here](/cli/azure/install-azure-cli)
 | C#        | `<= 6.0.0`      | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#net) (named `Microsoft.Azure.Management.Batch`)
 | Go        | `<= 2017-09-01` | [Here](https://github.com/Azure/azure-sdk-for-go/blob/master/CHANGELOG.md) (named `batch`)
 | Java      | `<= 1.25.0`     | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#java) (named `azure-mgmt-batch`)
 | Node.js   | `<= 3.0.0`      | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#javascript) (named `@azure/arm-batch`)
-| PowerShell (Az.Batch) | `<= 1.1.1` | [Here](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-3.8.0#update-the-azure-powershell-module)
-| PowerShell (AzureRm.Batch) | `<= 5.0.0-preview` | [Here](https://docs.microsoft.com/powershell/azure/install-az-ps?view=azps-3.8.0#update-the-azure-powershell-module)
+| PowerShell (Az.Batch) | `<= 1.1.1` | [Here](/powershell/azure/install-az-ps)
+| PowerShell (AzureRm.Batch) | `<= 5.0.0-preview` | [Here](/powershell/azure/install-az-ps)
 | Python    | `<= 5.0.0`      | [Here](https://azure.github.io/azure-sdk/releases/latest/all/#python) (named `azure-mgmt-batch`)
 | Ruby      | `<= 0.15.1`     | [Here](https://rubygems.org/gems/azure_mgmt_batch)
 

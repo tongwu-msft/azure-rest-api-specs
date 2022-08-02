@@ -1,0 +1,811 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.orbital.earthobservation.spacecrafts.listavailablecontacts
+name: List Available Contacts
+service: Orbital
+groupName: Spacecrafts
+apiVersion: 2022-03-01
+summary: Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duration provided in the contact profile.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Orbital/spacecrafts/{spacecraftName}/listAvailableContacts?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: spacecraftName
+  in: path
+  isRequired: true
+  description: Spacecraft ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of available contacts resources.
+  types:
+  - uid: AvailableContactsListResult
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the resource group does not exist, 404 (NotFound) will be returned.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: contactProfile
+    in: body
+    isRequired: true
+    description: The reference to the contact profile resource.
+    types:
+    - uid: ContactProfile
+  - name: groundStationName
+    in: body
+    isRequired: true
+    description: Name of Azure Ground Station.
+    types:
+    - uid: string
+  - name: startTime
+    in: body
+    isRequired: true
+    description: Start time of a contact (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: endTime
+    in: body
+    isRequired: true
+    description: End time of a contact (ISO 8601 UTC standard).
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: ContactProfile
+  description: Customer creates a Contact Profile Resource, which will contain all of the configurations required for scheduling a contact.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification.
+    types:
+    - uid: ContactProfilesProperties.ProvisioningState
+  - name: properties.minimumViableContactDuration
+    description: Minimum viable contact duration in ISO 8601 format. Used for listing the available contacts with a spacecraft at a given ground station.
+    types:
+    - uid: string
+  - name: properties.minimumElevationDegrees
+    description: Minimum viable elevation for the contact in decimal degrees. Used for listing the available contacts with a spacecraft at a given ground station.
+    types:
+    - uid: number
+  - name: properties.autoTrackingConfiguration
+    description: Auto-tracking configuration.
+    types:
+    - uid: AutoTrackingConfiguration
+  - name: properties.eventHubUri
+    description: ARM resource identifier of the Event Hub used for telemetry. Requires granting Orbital Resource Provider the rights to send telemetry into the hub.
+    types:
+    - uid: string
+  - name: properties.networkConfiguration
+    description: Network configuration of customer virtual network.
+    types:
+    - uid: NetworkConfiguration
+  - name: properties.links
+    description: Links of the Contact Profile. Describes RF links, modem processing, and IP endpoints.
+    types:
+    - uid: ContactProfileLink
+      isArray: true
+- name: ContactParameters.ContactProfile
+  description: The reference to the contact profile resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: AvailableContactsListResult
+  description: Response for the ListAvailableContacts API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of available contacts.
+    types:
+    - uid: AvailableContacts
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: ContactParameters
+  description: Parameters that define the contact resource.
+  kind: object
+  properties:
+  - name: contactProfile
+    description: The reference to the contact profile resource.
+    types:
+    - uid: ContactProfile
+  - name: groundStationName
+    description: Name of Azure Ground Station.
+    types:
+    - uid: string
+  - name: startTime
+    description: Start time of a contact (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: endTime
+    description: End time of a contact (ISO 8601 UTC standard).
+    types:
+    - uid: string
+- name: AvailableContacts
+  description: Customer retrieves list of Available Contacts for a spacecraft resource. Later, one of the available contact can be selected to create a contact.
+  kind: object
+  properties:
+  - name: spacecraft
+    description: The reference to the spacecraft resource.
+    types:
+    - uid: Spacecraft
+  - name: groundStationName
+    isReadyOnly: true
+    description: Name of Azure Ground Station.
+    types:
+    - uid: string
+  - name: properties.maximumElevationDegrees
+    isReadyOnly: true
+    description: Maximum elevation of the antenna during the contact in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.txStartTime
+    isReadyOnly: true
+    description: Time at which antenna transmit will be enabled (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: properties.txEndTime
+    isReadyOnly: true
+    description: Time at which antenna transmit will be disabled (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: properties.rxStartTime
+    isReadyOnly: true
+    description: Earliest time to receive a signal (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: properties.rxEndTime
+    isReadyOnly: true
+    description: Time to lost receiving a signal (ISO 8601 UTC standard).
+    types:
+    - uid: string
+  - name: properties.startAzimuthDegrees
+    isReadyOnly: true
+    description: Azimuth of the antenna at the start of the contact in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.endAzimuthDegrees
+    isReadyOnly: true
+    description: Azimuth of the antenna at the end of the contact in decimal degrees.
+    types:
+    - uid: number
+  - name: properties.startElevationDegrees
+    isReadyOnly: true
+    description: Spacecraft elevation above the horizon at contact start.
+    types:
+    - uid: number
+  - name: properties.endElevationDegrees
+    isReadyOnly: true
+    description: Spacecraft elevation above the horizon at contact end.
+    types:
+    - uid: number
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Spacecraft
+  description: Customer creates a spacecraft resource to schedule a contact.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: The current state of the resource's creation, deletion, or modification.
+    types:
+    - uid: ProvisioningState
+  - name: properties.noradId
+    description: NORAD ID of the spacecraft.
+    types:
+    - uid: string
+  - name: properties.titleLine
+    description: Title line of the two-line element set (TLE).
+    types:
+    - uid: string
+  - name: properties.tleLine1
+    description: Line 1 of the two-line element set (TLE).
+    types:
+    - uid: string
+  - name: properties.tleLine2
+    description: Line 2 of the two-line element set (TLE).
+    types:
+    - uid: string
+  - name: properties.links
+    description: Immutable list of Spacecraft links.
+    types:
+    - uid: SpacecraftLink
+      isArray: true
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification.
+  kind: object
+  properties: []
+- name: ContactProfilesProperties.ProvisioningState
+  description: The current state of the resource's creation, deletion, or modification.
+  kind: object
+  properties: []
+- name: AutoTrackingConfiguration
+  description: Auto-tracking configuration.
+  kind: enum
+  properties:
+  - name: disabled
+    types:
+    - uid: string
+  - name: xBand
+    types:
+    - uid: string
+  - name: sBand
+    types:
+    - uid: string
+- name: NetworkConfiguration
+  description: Network configuration of customer virtual network.
+  kind: object
+  properties:
+  - name: subnetId
+    description: ARM resource identifier of the subnet delegated to the Microsoft.Orbital/orbitalGateways. Needs to be at least a class C subnet, and should not have any IP created in it.
+    types:
+    - uid: string
+- name: ContactProfileLink
+  description: Contact Profile Link.
+  kind: object
+  properties:
+  - name: name
+    description: Link name.
+    types:
+    - uid: string
+  - name: polarization
+    description: Polarization. e.g. (RHCP, LHCP).
+    types:
+    - uid: polarization
+  - name: direction
+    description: Direction (uplink or downlink).
+    types:
+    - uid: direction
+  - name: gainOverTemperature
+    description: Gain To Noise Temperature in db/K. It is the required G/T by the customer. Not used yet.
+    types:
+    - uid: number
+  - name: eirpdBW
+    description: Effective Isotropic Radiated Power (EIRP) in dBW. It is the required EIRP by the customer. Not used yet.
+    types:
+    - uid: number
+  - name: channels
+    description: Contact Profile Link Channel.
+    types:
+    - uid: ContactProfileLinkChannel
+      isArray: true
+- name: SpacecraftLink
+  description: List of authorized spacecraft links per ground station and the expiration date of the authorization.
+  kind: object
+  properties:
+  - name: name
+    description: Link name.
+    types:
+    - uid: string
+  - name: centerFrequencyMHz
+    description: Center Frequency in MHz.
+    types:
+    - uid: number
+  - name: bandwidthMHz
+    description: Bandwidth in MHz.
+    types:
+    - uid: number
+  - name: direction
+    description: Direction (uplink or downlink).
+    types:
+    - uid: direction
+  - name: polarization
+    description: Polarization. e.g. (RHCP, LHCP).
+    types:
+    - uid: polarization
+  - name: authorizations
+    isReadyOnly: true
+    description: Authorized Ground Stations
+    types:
+    - uid: AuthorizedGroundstation
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: polarization
+  description: Polarization. e.g. (RHCP, LHCP).
+  kind: enum
+  properties:
+  - name: RHCP
+    types:
+    - uid: string
+  - name: LHCP
+    types:
+    - uid: string
+  - name: linearVertical
+    types:
+    - uid: string
+  - name: linearHorizontal
+    types:
+    - uid: string
+- name: direction
+  description: Direction (uplink or downlink).
+  kind: enum
+  properties:
+  - name: uplink
+    types:
+    - uid: string
+  - name: downlink
+    types:
+    - uid: string
+- name: ContactProfileLinkChannel
+  description: Contact Profile Link Channel.
+  kind: object
+  properties:
+  - name: name
+    description: Channel name.
+    types:
+    - uid: string
+  - name: centerFrequencyMHz
+    description: Center Frequency in MHz.
+    types:
+    - uid: number
+  - name: bandwidthMHz
+    description: Bandwidth in MHz.
+    types:
+    - uid: number
+  - name: endPoint
+    description: Customer End point to store/retrieve data during a contact.
+    types:
+    - uid: EndPoint
+  - name: modulationConfiguration
+    description: Copy of the modem configuration file such as Kratos QRadio. Only valid for uplink directions. If provided, the modem connects to the customer endpoint and accepts commands from the customer instead of a VITA.49 stream.
+    types:
+    - uid: string
+  - name: demodulationConfiguration
+    description: Copy of the modem configuration file such as Kratos QRadio or Kratos QuantumRx. Only valid for downlink directions. If provided, the modem connects to the customer endpoint and sends demodulated data instead of a VITA.49 stream.
+    types:
+    - uid: string
+  - name: encodingConfiguration
+    description: Currently unused.
+    types:
+    - uid: string
+  - name: decodingConfiguration
+    description: Currently unused.
+    types:
+    - uid: string
+- name: AuthorizedGroundstation
+  description: Authorized groundstation.
+  kind: object
+  properties:
+  - name: groundStation
+    description: Groundstation name.
+    types:
+    - uid: string
+  - name: expirationDate
+    description: Date of authorization expiration.
+    types:
+    - uid: string
+- name: EndPoint
+  description: Customer End point to store/retrieve data during a contact.
+  kind: object
+  properties:
+  - name: ipAddress
+    description: IP Address.
+    types:
+    - uid: string
+  - name: endPointName
+    description: Name of an end point.
+    types:
+    - uid: string
+  - name: port
+    description: TCP port to listen on to receive data.
+    types:
+    - uid: string
+  - name: protocol
+    description: Protocol either UDP or TCP.
+    types:
+    - uid: protocol
+- name: protocol
+  description: Protocol either UDP or TCP.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+examples:
+- name: List of Contact
+  request:
+    uri: POST https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01
+    body: >-
+      {
+        "contactProfile": {
+          "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
+        },
+        "groundStationName": "EASTUS2_0",
+        "startTime": "2022-03-01T11:30:00Z",
+        "endTime": "2022-03-02T11:30:00Z"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01
+
+      {
+        "contactProfile": {
+          "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"
+        },
+        "groundStationName": "EASTUS2_0",
+        "startTime": "2022-03-01T11:30:00Z",
+        "endTime": "2022-03-02T11:30:00Z"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.orbital.models.ContactParameters;
+      import com.azure.resourcemanager.orbital.models.ContactParametersContactProfile;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Spacecrafts ListAvailableContacts. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+           */
+          /**
+           * Sample code: List of Contact.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void listOfContact(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager
+                  .spacecrafts()
+                  .listAvailableContacts(
+                      "contoso-Rgp",
+                      "CONTOSO_SAT",
+                      new ContactParameters()
+                          .withContactProfile(
+                              new ContactParametersContactProfile()
+                                  .withId(
+                                      "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/contactProfiles/CONTOSO-CP"))
+                          .withGroundStationName("EASTUS2_0")
+                          .withStartTime(OffsetDateTime.parse("2022-03-01T11:30:00Z"))
+                          .withEndTime(OffsetDateTime.parse("2022-03-02T11:30:00Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+      func ExampleSpacecraftsClient_BeginListAvailableContacts() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewSpacecraftsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginListAvailableContacts(ctx,
+      		"rgName",
+      		"AQUA",
+      		armorbital.ContactParameters{
+      			ContactProfile: &armorbital.ContactParametersContactProfile{
+      				ID: to.Ptr("/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK"),
+      			},
+      			EndTime:           to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-07-17T23:49:40.00Z"); return t }()),
+      			GroundStationName: to.Ptr("westus_gs1"),
+      			StartTime:         to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-07-16T05:40:21.00Z"); return t }()),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	for res.More() {
+      		nextResult, err := res.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Return list of available contacts
+       *
+       * @summary Return list of available contacts
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/AvailableContactsList.json
+       */
+      async function listOfContact() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rgName";
+        const spacecraftName = "AQUA";
+        const contactProfile = {
+          id: "/subscriptions/subId/resourceGroups/rg/Microsoft.Orbital/contactProfiles/AQUA_DIRECTPLAYBACK_WITH_UPLINK",
+        };
+        const groundStationName = "westus_gs1";
+        const startTime = new Date("2020-07-16T05:40:21.00Z");
+        const endTime = new Date("2020-07-17T23:49:40.00Z");
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.spacecrafts.beginListAvailableContactsAndWait(
+          resourceGroupName,
+          spacecraftName,
+          contactProfile,
+          groundStationName,
+          startTime,
+          endTime
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listOfContact().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.1.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/Microsoft.Orbital/operationResults/4e2ffff7-b331-4fcb-ab11-b5fa49368188?api-version=2022-03-01
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "spacecraft": {
+              "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT"
+            },
+            "groundStationName": "EASTUS2_0",
+            "properties": {
+              "maximumElevationDegrees": 26.617297,
+              "txStartTime": "2022-03-01T11:55:01Z",
+              "txEndTime": "2022-03-01T12:05:25Z",
+              "rxStartTime": "2022-03-01T11:55:01Z",
+              "rxEndTime": "2022-03-01T12:05:25Z",
+              "startAzimuthDegrees": 201.340472,
+              "endAzimuthDegrees": 330.489627,
+              "startElevationDegrees": 5,
+              "endElevationDegrees": 5.040625
+            }
+          },
+          {
+            "spacecraft": {
+              "id": "/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT"
+            },
+            "groundStationName": "EASTUS2_0",
+            "properties": {
+              "maximumElevationDegrees": 85.9796,
+              "txStartTime": "2022-03-02T10:58:30Z",
+              "txEndTime": "2022-03-02T11:10:45Z",
+              "rxStartTime": "2022-03-02T10:58:30Z",
+              "rxEndTime": "2022-03-02T11:10:45Z",
+              "startAzimuthDegrees": 165.758896,
+              "endAzimuthDegrees": 345.848482,
+              "startElevationDegrees": 5,
+              "endElevationDegrees": 5.048656
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/subscriptions/c1be1141-a7c9-4aac-9608-3c2e2f1152c3/resourceGroups/contoso-Rgp/providers/Microsoft.Orbital/spacecrafts/CONTOSO_SAT/listAvailableContacts?api-version=2022-03-01&$skiptoken=opaqueString"
+      }
+security: []
+metadata:
+  description: Returns list of available contacts. A contact is available if the spacecraft is visible from the ground station for more than the minimum viable contact duratio
+errorCodes: []

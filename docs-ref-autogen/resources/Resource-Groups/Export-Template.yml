@@ -146,6 +146,96 @@ examples:
         ],
         "options": "IncludeParameterDefaultValue,IncludeComments"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/exportTemplate?api-version=2021-04-01
+
+      {
+        "resources": [
+          "*"
+        ],
+        "options": "IncludeParameterDefaultValue,IncludeComments"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armresources_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ExportResourceGroup.json
+      func ExampleResourceGroupsClient_BeginExportTemplate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armresources.NewResourceGroupsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginExportTemplate(ctx,
+      		"my-resource-group",
+      		armresources.ExportTemplateRequest{
+      			Options: to.Ptr("IncludeParameterDefaultValue,IncludeComments"),
+      			Resources: []*string{
+      				to.Ptr("*")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmresources%2Fv1.0.0/sdk/resourcemanager/resources/armresources/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Captures the specified resource group as a template.
+       *
+       * @summary Captures the specified resource group as a template.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ExportResourceGroup.json
+       */
+      async function exportAResourceGroup() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "my-resource-group";
+        const parameters = {
+          options: "IncludeParameterDefaultValue,IncludeComments",
+          resources: ["*"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.resourceGroups.beginExportTemplateAndWait(
+          resourceGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      exportAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -209,6 +299,53 @@ examples:
         ],
         "options": "SkipResourceNameParameterization"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/my-resource-group/exportTemplate?api-version=2021-04-01
+
+      {
+        "resources": [
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/My.RP/myResourceType/myFirstResource"
+        ],
+        "options": "SkipResourceNameParameterization"
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Captures the specified resource group as a template.
+       *
+       * @summary Captures the specified resource group as a template.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/ExportResourceGroupWithFiltering.json
+       */
+      async function exportAResourceGroupWithFiltering() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "my-resource-group";
+        const parameters = {
+          options: "SkipResourceNameParameterization",
+          resources: [
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/my-resource-group/providers/My.RP/myResourceType/myFirstResource",
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.resourceGroups.beginExportTemplateAndWait(
+          resourceGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      exportAResourceGroupWithFiltering().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:

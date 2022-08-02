@@ -1,17 +1,16 @@
 ---
-title: Blob service error codes (REST API) - Azure Storage
-description: Error codes for Blob service operations.
+title: Blob Storage error codes (REST API) - Azure Storage
+description: Error codes for Azure Blob Storage operations.
 author: pemari-msft
-
 ms.date: 10/20/2020
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
-# Blob service error codes
+# Azure Blob Storage error codes
 
-The error codes listed in the following table may be returned by an operation against the Blob service.  
+You might see the following error codes returned by an operation against Azure Blob Storage.  
   
 |Error code|HTTP status code|User message|  
 |----------------|----------------------|------------------|  
@@ -24,7 +23,7 @@ The error codes listed in the following table may be returned by an operation ag
 |BlobTierInadequateForContentLength|Conflict (409)|The specified blob tier size limit cannot be less than content length.|  
 |BlockCountExceedsLimit|Conflict (409)|The committed block count cannot exceed the maximum limit of 50,000 blocks.|  
 |BlockCountExceedsLimit|Conflict (409)|The uncommitted block count cannot exceed the maximum limit of 100,000 blocks.|
-|BlockListTooLong|Bad Request (400)|The block list may not contain more than 50,000 blocks.|
+|BlockListTooLong|Bad Request (400)|The blocklist may not contain more than 50,000 blocks.|
 |CannotChangeToLowerTier|Conflict (409)|A higher blob tier has already been explicitly set.|  
 |CannotVerifyCopySource|Internal Server Error (500)|Could not verify the copy source within the specified time. Examine the HTTP status code and message for more information about the failure.|  
 |ContainerAlreadyExists|Conflict (409)|The specified container already exists.|  
@@ -47,7 +46,7 @@ The error codes listed in the following table may be returned by an operation ag
 |InvalidBlobTier|Bad Request (400)|The specified blob tier is invalid.|  
 |InvalidBlobType|Conflict (409)|The blob type is invalid for this operation.|  
 |InvalidBlockId|Bad Request (400)|The specified block ID is invalid. The block ID must be Base64-encoded.|  
-|InvalidBlockList|Bad Request (400)|The specified block list is invalid.|  
+|InvalidBlockList|Bad Request (400)|The specified blocklist is invalid.|  
 |InvalidOperation|Bad Request (400)|Invalid operation against a blob snapshot.|  
 |InvalidPageRange|Requested Range Not Satisfiable (416)|The page range specified is invalid.|  
 |InvalidSourceBlobType|Conflict (409)|The copy source blob type is invalid for this operation.|
@@ -91,9 +90,9 @@ The error codes listed in the following table may be returned by an operation ag
 
 ## See also
 
- [Common REST API Error Codes](Common-REST-API-Error-Codes.md)   
- [Queue Service Error Codes](Queue-Service-Error-Codes.md)   
- [Table Service Error Codes](Table-Service-Error-Codes.md)   
- [Troubleshooting API Operations](Troubleshooting-API-Operations.md)   
- [HttpStatusCode Enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
- [Storage Services REST](Azure-Storage-Services-REST-API-Reference.md)
+ [Common REST API error codes](Common-REST-API-Error-Codes.md)   
+ [Queue Storage error codes](Queue-Service-Error-Codes.md)   
+ [Table Storage error codes](Table-Service-Error-Codes.md)   
+ [Troubleshooting API operations](Troubleshooting-API-Operations.md)   
+ [HttpStatusCode enumeration](https://go.microsoft.com/fwlink/?LinkId=152845)   
+ [Storage services REST](Azure-Storage-Services-REST-API-Reference.md)

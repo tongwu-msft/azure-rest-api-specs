@@ -1,8 +1,8 @@
 ---
-title: "Get"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Get API Replica"
+description: Provides request method, parameters, responses, and examples of getting a specific replica of a given service.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Get
+# Get API Replica
 Gets a specific replica of a given service.
 
 Gets the information about the specified replica of a given service of an application. The information includes the runtime properties of the replica instance.

@@ -165,6 +165,128 @@ examples:
           "endIpAddress": "255.255.255.255"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/testserver/firewallRules/rule1?api-version=2017-12-01
+
+      {
+        "properties": {
+          "startIpAddress": "0.0.0.0",
+          "endIpAddress": "255.255.255.255"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for FirewallRules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/FirewallRuleCreate.json
+           */
+          /**
+           * Sample code: FirewallRuleCreate.
+           *
+           * @param manager Entry point to PostgreSqlManager.
+           */
+          public static void firewallRuleCreate(com.azure.resourcemanager.postgresql.PostgreSqlManager manager) {
+              manager
+                  .firewallRules()
+                  .define("rule1")
+                  .withExistingServer("TestGroup", "testserver")
+                  .withStartIpAddress("0.0.0.0")
+                  .withEndIpAddress("255.255.255.255")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-postgresql_1.0.2/sdk/postgresql/azure-resourcemanager-postgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpostgresql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/FirewallRuleCreate.json
+      func ExampleFirewallRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpostgresql.NewFirewallRulesClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"TestGroup",
+      		"testserver",
+      		"rule1",
+      		armpostgresql.FirewallRule{
+      			Properties: &armpostgresql.FirewallRuleProperties{
+      				EndIPAddress:   to.Ptr("255.255.255.255"),
+      				StartIPAddress: to.Ptr("0.0.0.0"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpostgresql%2Farmpostgresql%2Fv1.0.0/sdk/resourcemanager/postgresql/armpostgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PostgreSQLManagementClient } = require("@azure/arm-postgresql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new firewall rule or updates an existing firewall rule.
+       *
+       * @summary Creates a new firewall rule or updates an existing firewall rule.
+       * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/FirewallRuleCreate.json
+       */
+      async function firewallRuleCreate() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TestGroup";
+        const serverName = "testserver";
+        const firewallRuleName = "rule1";
+        const parameters = {
+          endIpAddress: "255.255.255.255",
+          startIpAddress: "0.0.0.0",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PostgreSQLManagementClient(credential, subscriptionId);
+        const result = await client.firewallRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          firewallRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      firewallRuleCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-postgresql_6.0.1/sdk/postgresql/arm-postgresql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

@@ -1,0 +1,180 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.managedservices.operationswithscope.list
+name: List
+service: Managed Services
+groupName: Operations With Scope
+apiVersion: 2022-01-01-preview
+summary: Gets a list of the operations with the scope.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/operations?api-version=2022-01-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The scope of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK - Returns a list of operations.
+  types:
+  - uid: OperationList
+- name: Other Status Codes
+  description: The error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationList
+  description: The list of the operations.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of Microsoft.ManagedServices operations.
+    types:
+    - uid: Operation
+      isArray: true
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: Operation
+  description: The object that describes a single Microsoft.ManagedServices operation.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'The operation name with the format: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    isReadyOnly: true
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+- name: ErrorDefinition
+  description: The error response indicating why the incoming request wasn’t able to be processed
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: details
+    description: The internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    description: The service provider.
+    types:
+    - uid: string
+  - name: resource
+    description: The resource on which the operation is performed.
+    types:
+    - uid: string
+  - name: operation
+    description: The operation type.
+    types:
+    - uid: string
+  - name: description
+    description: The description of the operation.
+    types:
+    - uid: string
+examples:
+- name: Get Registration Operations
+  request:
+    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/operations?api-version=2022-01-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/operations?api-version=2022-01-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmanagedservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managedservices/armmanagedservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/managedservices/resource-manager/Microsoft.ManagedServices/preview/2022-01-01-preview/examples/GetOperationsWithScope.json
+      func ExampleOperationsWithScopeClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmanagedservices.NewOperationsWithScopeClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		"subscription/0afefe50-734e-4610-8a82-a144ahf49dea",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmanagedservices%2Farmmanagedservices%2Fv0.5.0/sdk/resourcemanager/managedservices/armmanagedservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.ManagedServices/registrationDefinitions/read",
+            "display": {
+              "provider": "Microsoft Managed Services",
+              "resource": "Managed Services Registration Definition",
+              "operation": "List Managed Services Registration Definitions",
+              "description": "Retrieves a list of Managed Services registration definitions."
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: The Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Managed Services service - Gets a list of the operations with the scope.
+errorCodes: []

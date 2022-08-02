@@ -227,6 +227,90 @@ examples:
           "password": "****Certificate Password******"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert?api-version=2021-08-01
+
+      {
+        "properties": {
+          "data": "****************Base 64 Encoded Certificate *******************************",
+          "password": "****Certificate Password******"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for Certificate CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCertificate.json
+           */
+          /**
+           * Sample code: ApiManagementCreateCertificate.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateCertificate(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .certificates()
+                  .define("tempcert")
+                  .withExistingService("rg1", "apimService1")
+                  .withData("****************Base 64 Encoded Certificate *******************************")
+                  .withPassword("****Certificate Password******")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCertificate.json
+      func ExampleCertificateClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewCertificateClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		"tempcert",
+      		armapimanagement.CertificateCreateOrUpdateParameters{
+      			Properties: &armapimanagement.CertificateCreateOrUpdateProperties{
+      				Data:     to.Ptr("****************Base 64 Encoded Certificate *******************************"),
+      				Password: to.Ptr("****Certificate Password******"),
+      			},
+      		},
+      		&armapimanagement.CertificateClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -264,6 +348,53 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCertkv?api-version=2021-08-01
+
+      {
+        "properties": {
+          "keyVault": {
+            "identityClientId": "ceaa6b06-c00f-43ef-99ac-f53d1fe876a0",
+            "secretIdentifier": "https://rpbvtkeyvaultintegration.vault-int.azure-int.net/secrets/msitestingCert"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.KeyVaultContractCreateProperties;
+
+      /** Samples for Certificate CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateCertificateWithKeyVault.json
+           */
+          /**
+           * Sample code: ApiManagementCreateCertificateWithKeyVault.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateCertificateWithKeyVault(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .certificates()
+                  .define("templateCertkv")
+                  .withExistingService("rg1", "apimService1")
+                  .withKeyVault(
+                      new KeyVaultContractCreateProperties()
+                          .withSecretIdentifier(
+                              "https://rpbvtkeyvaultintegration.vault-int.azure-int.net/secrets/msitestingCert")
+                          .withIdentityClientId("ceaa6b06-c00f-43ef-99ac-f53d1fe876a0"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

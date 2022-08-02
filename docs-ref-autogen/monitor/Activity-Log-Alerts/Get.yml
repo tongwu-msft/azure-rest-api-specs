@@ -68,6 +68,7 @@ definitions:
     description: Indicates whether this Activity Log Alert rule is enabled. If an Activity Log Alert rule is not enabled, then none of its actions will be activated.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.description
     description: A description of this Activity Log Alert rule.
     types:
@@ -91,6 +92,7 @@ definitions:
     description: The location of the resource. Since Azure Activity Log Alerts is a global service, the location of the rules should always be 'global'.
     types:
     - uid: string
+    defaultValue: global
   - name: tags
     description: The tags of the resource.
     types:
@@ -208,6 +210,73 @@ examples:
 - name: Get an Activity Log Alert rule
   request:
     uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/activityLogAlerts/SampleActivityLogAlertRule?api-version=2020-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/MyResourceGroup/providers/Microsoft.Insights/activityLogAlerts/SampleActivityLogAlertRule?api-version=2020-10-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_Get.json
+      func ExampleActivityLogAlertsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewActivityLogAlertsClient("187f412d-1758-44d9-b052-169e2564721d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"MyResourceGroup",
+      		"SampleActivityLogAlertRule",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get an Activity Log Alert rule.
+       *
+       * @summary Get an Activity Log Alert rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2020-10-01/examples/ActivityLogAlertRule_Get.json
+       */
+      async function getAnActivityLogAlertRule() {
+        const subscriptionId = "187f412d-1758-44d9-b052-169e2564721d";
+        const resourceGroupName = "MyResourceGroup";
+        const activityLogAlertName = "SampleActivityLogAlertRule";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.activityLogAlerts.get(resourceGroupName, activityLogAlertName);
+        console.log(result);
+      }
+
+      getAnActivityLogAlertRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

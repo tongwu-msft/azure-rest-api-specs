@@ -106,9 +106,9 @@ The response body is a well-formed UTF-8 XML document.
 
 The following users can perform this operation:
 
-- The account owner
-- Anyone with a shared access signature (SAS) who has permission to find blobs by tags (the `f` SAS permission)  
-- Role-based access control (RBAC) users who have the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission  
+- The account owner.
+- Anyone with a shared access signature (SAS) who has permission to find blobs by tags (the `f` SAS permission). An [account SAS](create-account-sas.md) is required for authorization.  
+- Role-based access control (RBAC) users who have the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission.  
   
 ## Remarks  
 

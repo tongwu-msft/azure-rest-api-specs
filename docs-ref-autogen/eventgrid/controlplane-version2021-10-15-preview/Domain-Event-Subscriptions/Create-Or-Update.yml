@@ -213,6 +213,7 @@ definitions:
       should be compared in a case sensitive manner.
     types:
     - uid: boolean
+    defaultValue: false
   - name: enableAdvancedFilteringOnArrays
     description: Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.
     types:
@@ -267,10 +268,12 @@ definitions:
     description: Maximum number of delivery retry attempts for events.
     types:
     - uid: integer
+    defaultValue: 30
   - name: eventTimeToLiveInMinutes
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+    defaultValue: 1440
 - name: DeadLetterWithResourceIdentity
   description: Information about the deadletter destination with resource identity.
   kind: object
@@ -345,6 +348,7 @@ definitions:
     description: The event delivery schema for the event subscription.
     types:
     - uid: EventDeliverySchema
+    defaultValue: EventGridSchema
   - name: properties.retryPolicy
     description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
     types:
@@ -412,10 +416,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.azureActiveDirectoryTenantId
     description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     types:
@@ -554,10 +560,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.deliveryAttributeMappings
     description: Delivery attribute details.
     types:
@@ -999,6 +1007,7 @@ definitions:
     description: Boolean flag to tell if the attribute contains sensitive information .
     types:
     - uid: boolean
+    defaultValue: false
   - name: name
     description: Name of the delivery attribute or header.
     types:
@@ -1045,6 +1054,131 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/domains/exampleDomain1/eventSubscriptions/exampleEventSubscriptionName1?api-version=2021-10-15-preview
+
+      {
+        "properties": {
+          "destination": {
+            "endpointType": "WebHook",
+            "properties": {
+              "endpointUrl": "https://requestb.in/15ksip71"
+            }
+          },
+          "filter": {
+            "isSubjectCaseSensitive": false,
+            "subjectBeginsWith": "ExamplePrefix",
+            "subjectEndsWith": "ExampleSuffix"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.fluent.models.EventSubscriptionInner;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+
+      /** Samples for DomainEventSubscriptions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainEventSubscriptions_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: DomainEventSubscriptions_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void domainEventSubscriptionsCreateOrUpdate(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .domainEventSubscriptions()
+                  .createOrUpdate(
+                      "examplerg",
+                      "exampleDomain1",
+                      "exampleEventSubscriptionName1",
+                      new EventSubscriptionInner()
+                          .withDestination(
+                              new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                          .withFilter(
+                              new EventSubscriptionFilter()
+                                  .withSubjectBeginsWith("ExamplePrefix")
+                                  .withSubjectEndsWith("ExampleSuffix")
+                                  .withIsSubjectCaseSensitive(false)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainEventSubscriptions_CreateOrUpdate.json
+      func ExampleDomainEventSubscriptionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewDomainEventSubscriptionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<domain-name>",
+      		"<event-subscription-name>",
+      		armeventgrid.EventSubscription{
+      			Properties: &armeventgrid.EventSubscriptionProperties{
+      				Destination: &armeventgrid.WebHookEventSubscriptionDestination{
+      					EndpointType: to.Ptr(armeventgrid.EndpointTypeWebHook),
+      					Properties: &armeventgrid.WebHookEventSubscriptionDestinationProperties{
+      						EndpointURL: to.Ptr("<endpoint-url>"),
+      					},
+      				},
+      				Filter: &armeventgrid.EventSubscriptionFilter{
+      					IsSubjectCaseSensitive: to.Ptr(false),
+      					SubjectBeginsWith:      to.Ptr("<subject-begins-with>"),
+      					SubjectEndsWith:        to.Ptr("<subject-ends-with>"),
+      				},
+      			},
+      		},
+      		&armeventgrid.DomainEventSubscriptionsClientBeginCreateOrUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

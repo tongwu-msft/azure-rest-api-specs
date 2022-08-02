@@ -194,6 +194,70 @@ examples:
           "functionLanguage": "testFunctionLanguage"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/zipdeploy?api-version=2021-02-01
+
+      {
+        "properties": {
+          "appZipUrl": "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/app-zipdeploy.zip",
+          "apiZipUrl": "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/api-zipdeploy.zip",
+          "deploymentTitle": "Update index.html",
+          "provider": "testProvider",
+          "functionLanguage": "testFunctionLanguage"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      )
+
+      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/StaticSiteZipDeploy.json
+      func ExampleStaticSitesClient_BeginCreateZipDeploymentForStaticSite() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armappservice.NewStaticSitesClient("<subscription-id>", cred, nil)
+      	poller, err := client.BeginCreateZipDeploymentForStaticSite(ctx,
+      		"<resource-group-name>",
+      		"<name>",
+      		armappservice.StaticSiteZipDeploymentARMResource{
+      			Properties: &armappservice.StaticSiteZipDeployment{
+      				APIZipURL:        to.StringPtr("<apizip-url>"),
+      				AppZipURL:        to.StringPtr("<app-zip-url>"),
+      				DeploymentTitle:  to.StringPtr("<deployment-title>"),
+      				FunctionLanguage: to.StringPtr("<function-language>"),
+      				Provider:         to.StringPtr("<provider>"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

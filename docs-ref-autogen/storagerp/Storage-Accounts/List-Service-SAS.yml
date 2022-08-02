@@ -288,6 +288,138 @@ examples:
         "signedPermission": "l",
         "signedExpiry": "2017-05-24T11:32:48.8457197Z"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7439/providers/Microsoft.Storage/storageAccounts/sto1299/ListServiceSas?api-version=2021-09-01
+
+      {
+        "canonicalizedResource": "/blob/sto1299/music",
+        "signedResource": "c",
+        "signedPermission": "l",
+        "signedExpiry": "2017-05-24T11:32:48.8457197Z"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.Permissions;
+      import com.azure.resourcemanager.storage.models.ServiceSasParameters;
+      import com.azure.resourcemanager.storage.models.SignedResource;
+      import java.time.OffsetDateTime;
+
+      /** Samples for StorageAccounts ListServiceSas. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListServiceSAS.json
+           */
+          /**
+           * Sample code: StorageAccountListServiceSAS.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountListServiceSAS(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .listServiceSasWithResponse(
+                      "res7439",
+                      "sto1299",
+                      new ServiceSasParameters()
+                          .withCanonicalizedResource("/blob/sto1299/music")
+                          .withResource(SignedResource.C)
+                          .withPermissions(Permissions.L)
+                          .withSharedAccessExpiryTime(OffsetDateTime.parse("2017-05-24T11:32:48.8457197Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListServiceSAS.json
+      func ExampleAccountsClient_ListServiceSAS() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewAccountsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListServiceSAS(ctx,
+      		"res7439",
+      		"sto1299",
+      		armstorage.ServiceSasParameters{
+      			CanonicalizedResource:  to.Ptr("/blob/sto1299/music"),
+      			SharedAccessExpiryTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-05-24T11:32:48.8457197Z"); return t }()),
+      			Permissions:            to.Ptr(armstorage.PermissionsL),
+      			Resource:               to.Ptr(armstorage.SignedResourceC),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List service SAS credentials of a specific resource.
+       *
+       * @summary List service SAS credentials of a specific resource.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountListServiceSAS.json
+       */
+      async function storageAccountListServiceSas() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7439";
+        const accountName = "sto1299";
+        const parameters = {
+          canonicalizedResource: "/blob/sto1299/music",
+          sharedAccessExpiryTime: new Date("2017-05-24T11:32:48.8457197Z"),
+          permissions: "l",
+          resource: "c",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.listServiceSAS(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountListServiceSas().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

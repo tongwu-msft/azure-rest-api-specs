@@ -3,14 +3,14 @@ uid: management.azure.com.hybridkubernetes.connectedcluster.update
 name: Update
 service: Hybrid Kubernetes
 groupName: Connected Cluster
-apiVersion: 2021-03-01
+apiVersion: 2021-10-01
 summary: "Updates a connected cluster.  \nAPI to update certain properties of the connected cluster resource"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}?api-version=2021-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters/{clusterName}?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -193,6 +193,7 @@ definitions:
     description: The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster.
     types:
     - uid: ResourceIdentityType
+    defaultValue: SystemAssigned
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -352,17 +353,144 @@ definitions:
 examples:
 - name: UpdateClusterExample
   request:
-    uri: PATCH https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters/testCluster?api-version=2021-03-01
+    uri: PATCH https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters/testCluster?api-version=2021-10-01
     body: >-
       {
         "tags": {
           "tag1": "value1",
           "tag2": "value2"
-        },
-        "properties": {
-          "agentPublicKeyCertificate": "MIICYzCCAcygAwIBAgIBADANBgkqhkiG9w0BAQUFADAuMQswCQYDVQQGEwJVUzEMMAoGA1UEChMDSUJNMREwDwYDVQQLEwhMb2NhbCBDQTAeFw05OTEyMjIwNTAwMDBaFw0wMDEyMjMwNDU5NTlaMC4xCzAJBgNVBAYTAlVTMQwwCgYDVQQKEwNJQk0xETAPBgNVBAsTCExvY2FsIENBMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQD2bZEo7xGaX2/0GHkrNFZvlxBou9v1Jmt/PDiTMPve8r9FeJAQ0QdvFST/0JPQYD20rH0bimdDLgNdNynmyRoS2S/IInfpmf69iyc2G0TPyRvmHIiOZbdCd+YBHQi1adkj17NDcWj6S14tVurFX73zx0sNoMS79q3tuXKrDsxeuwIDAQABo4GQMIGNMEsGCVUdDwGG+EIBDQQ+EzxHZW5lcmF0ZWQgYnkgdGhlIFNlY3VyZVdheSBTZWN1cml0eSBTZXJ2ZXIgZm9yIE9TLzM5MCAoUkFDRikwDgYDVR0PAQH/BAQDAgAGMA8GA1UdEwEB/wQFMAMBAf8wHQYDVR0OBBYEFJ3+ocRyCTJw067dLSwr/nalx6YMMA0GCSqGSIb3DQEBBQUAA4GBAMaQzt+zaj1GU77yzlr8iiMBXgdQrwsZZWJo5exnAucJAEYQZmOfyLiM D6oYq+ZnfvM0n8G/Y79q8nhwvuxpYOnRSAXFp6xSkrIOeZtJMY1h00LKp/JX3Ng1svZ2agE126JHsQ0bhzN5TKsYfbwfTwfjdWAGy6Vf1nYi/rO+ryMO"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters/testCluster?api-version=2021-10-01
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.hybridkubernetes.models.ConnectedCluster;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConnectedCluster Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/UpdateClusterExample.json
+           */
+          /**
+           * Sample code: UpdateClusterExample.
+           *
+           * @param manager Entry point to HybridKubernetesManager.
+           */
+          public static void updateClusterExample(
+              com.azure.resourcemanager.hybridkubernetes.HybridKubernetesManager manager) {
+              ConnectedCluster resource =
+                  manager
+                      .connectedClusters()
+                      .getByResourceGroupWithResponse("k8sc-rg", "testCluster", Context.NONE)
+                      .getValue();
+              resource.update().withTags(mapOf("tag1", "value1", "tag2", "value2")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hybridkubernetes_1.0.0-beta.2/sdk/hybridkubernetes/azure-resourcemanager-hybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhybridkubernetes_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/UpdateClusterExample.json
+      func ExampleConnectedClusterClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhybridkubernetes.NewConnectedClusterClient("1bfbb5d0-917e-4346-9026-1d3b344417f5", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"k8sc-rg",
+      		"testCluster",
+      		armhybridkubernetes.ConnectedClusterPatch{
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhybridkubernetes%2Farmhybridkubernetes%2Fv1.0.0/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to API to update certain properties of the connected cluster resource
+       *
+       * @summary API to update certain properties of the connected cluster resource
+       * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/UpdateClusterExample.json
+       */
+      async function updateClusterExample() {
+        const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
+        const resourceGroupName = "k8sc-rg";
+        const clusterName = "testCluster";
+        const connectedClusterPatch = {
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ConnectedKubernetesClient(credential, subscriptionId);
+        const result = await client.connectedClusterOperations.update(
+          resourceGroupName,
+          clusterName,
+          connectedClusterPatch
+        );
+        console.log(result);
+      }
+
+      updateClusterExample().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hybridkubernetes_2.0.1/sdk/hybridkubernetes/arm-hybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

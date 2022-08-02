@@ -3,14 +3,14 @@ uid: management.azure.com.compute.dedicatedhostgroups.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Dedicated Host Groups
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -69,6 +69,11 @@ requestBody:
     description: "Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01."
     types:
     - uid: boolean
+  - name: properties.additionalCapabilities
+    in: body
+    description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+    types:
+    - uid: AdditionalCapabilities
   - name: location
     in: body
     isRequired: true
@@ -102,6 +107,14 @@ definitions:
     types:
     - uid: DedicatedHostInstanceViewWithName
       isArray: true
+- name: AdditionalCapabilities
+  description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: "The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. <br><br>NOTE: The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. <br><br>Minimum api-version: 2022-03-01."
+    types:
+    - uid: boolean
 - name: DedicatedHostGroup
   description: Specifies information about the dedicated host group that the dedicated hosts should be assigned to. <br><br> Currently, a dedicated host can only be added to a dedicated host group at creation time. An existing dedicated host cannot be added to another dedicated host group.
   kind: object
@@ -130,6 +143,10 @@ definitions:
     description: "Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01."
     types:
     - uid: boolean
+  - name: properties.additionalCapabilities
+    description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+    types:
+    - uid: AdditionalCapabilities
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -302,7 +319,7 @@ definitions:
 examples:
 - name: Create or update a dedicated host group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
     body: >-
       {
         "location": "westus",
@@ -317,6 +334,113 @@ examples:
           "supportAutomaticPlacement": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DedicatedHostGroupInner;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for DedicatedHostGroups CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or update a dedicated host group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateADedicatedHostGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDedicatedHostGroups()
+                  .createOrUpdateWithResponse(
+                      "myResourceGroup",
+                      "myDedicatedHostGroup",
+                      new DedicatedHostGroupInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("department", "finance"))
+                          .withZones(Arrays.asList("1"))
+                          .withPlatformFaultDomainCount(3)
+                          .withSupportAutomaticPlacement(true),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
+       *
+       * @summary Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate.json
+       */
+      async function createOrUpdateADedicatedHostGroup() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const hostGroupName = "myDedicatedHostGroup";
+        const parameters = {
+          location: "westus",
+          platformFaultDomainCount: 3,
+          supportAutomaticPlacement: true,
+          tags: { department: "finance" },
+          zones: ["1"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.dedicatedHostGroups.createOrUpdate(
+          resourceGroupName,
+          hostGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateADedicatedHostGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -341,6 +465,235 @@ examples:
         "properties": {
           "platformFaultDomainCount": 3,
           "supportAutomaticPlacement": true
+        },
+        "location": "westus",
+        "tags": {
+          "department": "finance",
+          "owner": "myCompany"
+        },
+        "name": "myDedicatedHostGroup",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "zones": [
+          "1"
+        ]
+      }
+- name: Create or update a dedicated host group with Ultra SSD support.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DedicatedHostGroupInner;
+      import com.azure.resourcemanager.compute.models.DedicatedHostGroupPropertiesAdditionalCapabilities;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for DedicatedHostGroups CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
+           */
+          /**
+           * Sample code: Create or update a dedicated host group with Ultra SSD support.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateADedicatedHostGroupWithUltraSSDSupport(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDedicatedHostGroups()
+                  .createOrUpdateWithResponse(
+                      "myResourceGroup",
+                      "myDedicatedHostGroup",
+                      new DedicatedHostGroupInner()
+                          .withLocation("westus")
+                          .withTags(mapOf("department", "finance"))
+                          .withZones(Arrays.asList("1"))
+                          .withPlatformFaultDomainCount(3)
+                          .withSupportAutomaticPlacement(true)
+                          .withAdditionalCapabilities(
+                              new DedicatedHostGroupPropertiesAdditionalCapabilities().withUltraSsdEnabled(true)),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
+      func ExampleDedicatedHostGroupsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDedicatedHostGroupsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myDedicatedHostGroup",
+      		armcompute.DedicatedHostGroup{
+      			Location: to.Ptr("westus"),
+      			Tags: map[string]*string{
+      				"department": to.Ptr("finance"),
+      			},
+      			Properties: &armcompute.DedicatedHostGroupProperties{
+      				AdditionalCapabilities: &armcompute.DedicatedHostGroupPropertiesAdditionalCapabilities{
+      					UltraSSDEnabled: to.Ptr(true),
+      				},
+      				PlatformFaultDomainCount:  to.Ptr[int32](3),
+      				SupportAutomaticPlacement: to.Ptr(true),
+      			},
+      			Zones: []*string{
+      				to.Ptr("1")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
+       *
+       * @summary Create or update a dedicated host group. For details of Dedicated Host and Dedicated Host Groups please see [Dedicated Host Documentation] (https://go.microsoft.com/fwlink/?linkid=2082596)
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_CreateOrUpdate_WithUltraSSD.json
+       */
+      async function createOrUpdateADedicatedHostGroupWithUltraSsdSupport() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const hostGroupName = "myDedicatedHostGroup";
+        const parameters = {
+          additionalCapabilities: { ultraSSDEnabled: true },
+          location: "westus",
+          platformFaultDomainCount: 3,
+          supportAutomaticPlacement: true,
+          tags: { department: "finance" },
+          zones: ["1"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.dedicatedHostGroups.createOrUpdate(
+          resourceGroupName,
+          hostGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateADedicatedHostGroupWithUltraSsdSupport().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "myDedicatedHostGroup",
+        "location": "westus",
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/HostGroups/myDedicatedHostGroup",
+        "tags": {
+          "department": "finance"
+        },
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          }
         },
         "location": "westus",
         "tags": {

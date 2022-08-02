@@ -1,8 +1,8 @@
 ---
-title: "List By Resource Group"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "List By Network Resource Group"
+description: Provides request methods, parameters, and examples of creating lists by resource groups, including network description and runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# List By Resource Group
+# List By Network Resource Group
 Gets all the network resources in a given resource group.
 
 Gets the information about all network resources in a given resource group. The information includes the network description and other runtime properties.

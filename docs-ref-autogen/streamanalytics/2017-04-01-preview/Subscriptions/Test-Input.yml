@@ -296,6 +296,7 @@ definitions:
     description: 'Authentication Mode. '
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubStreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -329,6 +330,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2StreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -362,6 +364,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -530,6 +533,7 @@ definitions:
     description: 'Authentication Mode. '
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: RawReferenceInputDataSource
   description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
   kind: object
@@ -696,6 +700,44 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/providers/Microsoft.StreamAnalytics/locations/West US/testInput?api-version=2017-04-01-preview
+
+      {
+        "input": {
+          "properties": {
+            "type": "Stream",
+            "datasource": {
+              "type": "Microsoft.Storage/Blob",
+              "properties": {
+                "storageAccounts": [
+                  {
+                    "accountName": "someAccountName",
+                    "accountKey": "someAccountKey=="
+                  }
+                ],
+                "container": "state",
+                "pathPattern": "{date}/{time}",
+                "dateFormat": "yyyy/MM/dd",
+                "timeFormat": "HH",
+                "sourcePartitionCount": 16
+              }
+            },
+            "serialization": {
+              "type": "Csv",
+              "properties": {
+                "fieldDelimiter": ",",
+                "encoding": "UTF8"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     body: >-

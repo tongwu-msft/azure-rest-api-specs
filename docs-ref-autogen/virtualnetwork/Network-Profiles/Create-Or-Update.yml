@@ -431,10 +431,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Enabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -770,6 +772,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -1922,10 +1925,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -1938,6 +1943,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -2859,6 +2865,188 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkProfiles/networkProfile1?api-version=2021-08-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "containerNetworkInterfaceConfigurations": [
+            {
+              "name": "eth1",
+              "properties": {
+                "ipConfigurations": [
+                  {
+                    "name": "ipconfig1",
+                    "properties": {
+                      "subnet": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.IpConfigurationProfileInner;
+      import com.azure.resourcemanager.network.fluent.models.NetworkProfileInner;
+      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
+      import com.azure.resourcemanager.network.models.ContainerNetworkInterfaceConfiguration;
+      import java.util.Arrays;
+
+      /** Samples for NetworkProfiles CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkProfileCreateConfigOnly.json
+           */
+          /**
+           * Sample code: Create network profile defaults.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createNetworkProfileDefaults(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getNetworkProfiles()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "networkProfile1",
+                      new NetworkProfileInner()
+                          .withLocation("westus")
+                          .withContainerNetworkInterfaceConfigurations(
+                              Arrays
+                                  .asList(
+                                      new ContainerNetworkInterfaceConfiguration()
+                                          .withName("eth1")
+                                          .withIpConfigurations(
+                                              Arrays
+                                                  .asList(
+                                                      new IpConfigurationProfileInner()
+                                                          .withName("ipconfig1")
+                                                          .withSubnet(
+                                                              new SubnetInner()
+                                                                  .withId(
+                                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1")))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkProfileCreateConfigOnly.json
+      func ExampleProfilesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewProfilesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"networkProfile1",
+      		armnetwork.Profile{
+      			Location: to.Ptr("westus"),
+      			Properties: &armnetwork.ProfilePropertiesFormat{
+      				ContainerNetworkInterfaceConfigurations: []*armnetwork.ContainerNetworkInterfaceConfiguration{
+      					{
+      						Name: to.Ptr("eth1"),
+      						Properties: &armnetwork.ContainerNetworkInterfaceConfigurationPropertiesFormat{
+      							IPConfigurations: []*armnetwork.IPConfigurationProfile{
+      								{
+      									Name: to.Ptr("ipconfig1"),
+      									Properties: &armnetwork.IPConfigurationProfilePropertiesFormat{
+      										Subnet: &armnetwork.Subnet{
+      											ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1"),
+      										},
+      									},
+      								}},
+      						},
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a network profile.
+       *
+       * @summary Creates or updates a network profile.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkProfileCreateConfigOnly.json
+       */
+      async function createNetworkProfileDefaults() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const networkProfileName = "networkProfile1";
+        const parameters = {
+          containerNetworkInterfaceConfigurations: [
+            {
+              name: "eth1",
+              ipConfigurations: [
+                {
+                  name: "ipconfig1",
+                  subnet: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/networkProfileVnet/subnets/networkProfileSubnet1",
+                  },
+                },
+              ],
+            },
+          ],
+          location: "westus",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.networkProfiles.createOrUpdate(
+          resourceGroupName,
+          networkProfileName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createNetworkProfileDefaults().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -128,6 +128,7 @@ definitions:
     description: 'The Sku name of the resource. The possible values are: Basic or Premium.'
     types:
     - uid: Sku
+    defaultValue: Basic
 - name: IdentityInfo
   description: The identity information for the resource.
   kind: object
@@ -259,6 +260,7 @@ definitions:
     description: Kind of the resource.
     types:
     - uid: ResourceKind
+    defaultValue: Azure
   - name: extendedLocation
     description: Extended location of the resource.
     types:
@@ -288,6 +290,7 @@ definitions:
     description: This determines the format that Event Grid should expect for incoming events published to the topic.
     types:
     - uid: InputSchema
+    defaultValue: EventGridSchema
   - name: properties.inputSchemaMapping
     description: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema.
     types:
@@ -302,6 +305,7 @@ definitions:
     description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules\" />"
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.inboundIpRules
     description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
     types:
@@ -311,6 +315,7 @@ definitions:
     description: This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.dataResidencyBoundary
     description: Data Residency Boundary of the resource.
     types:
@@ -618,6 +623,147 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2021-10-15-preview
+
+      {
+        "location": "westus2",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.eventgrid.models.InboundIpRule;
+      import com.azure.resourcemanager.eventgrid.models.IpActionType;
+      import com.azure.resourcemanager.eventgrid.models.PublicNetworkAccess;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Topics CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Topics_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Topics_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void topicsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .topics()
+                  .define("exampletopic1")
+                  .withRegion("westus2")
+                  .withExistingResourceGroup("examplerg")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                  .withInboundIpRules(
+                      Arrays
+                          .asList(
+                              new InboundIpRule().withIpMask("12.18.30.15").withAction(IpActionType.ALLOW),
+                              new InboundIpRule().withIpMask("12.18.176.1").withAction(IpActionType.ALLOW)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Topics_CreateOrUpdate.json
+      func ExampleTopicsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewTopicsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<topic-name>",
+      		armeventgrid.Topic{
+      			Location: to.Ptr("<location>"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      			Properties: &armeventgrid.TopicProperties{
+      				InboundIPRules: []*armeventgrid.InboundIPRule{
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("<ipmask>"),
+      					},
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("<ipmask>"),
+      					}},
+      				PublicNetworkAccess: to.Ptr(armeventgrid.PublicNetworkAccessEnabled),
+      			},
+      		},
+      		&armeventgrid.TopicsClientBeginCreateOrUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -665,6 +811,78 @@ examples:
           "inputSchema": "CloudEventSchemaV1_0"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2021-10-15-preview
+
+      {
+        "location": "westus2",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "kind": "AzureArc",
+        "extendedLocation": {
+          "name": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.ExtendedLocation/CustomLocations/exampleCustomLocation",
+          "type": "CustomLocation"
+        },
+        "properties": {
+          "inputSchema": "CloudEventSchemaV1_0"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.eventgrid.models.ExtendedLocation;
+      import com.azure.resourcemanager.eventgrid.models.InputSchema;
+      import com.azure.resourcemanager.eventgrid.models.ResourceKind;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Topics CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Topics_CreateOrUpdateForAzureArc.json
+           */
+          /**
+           * Sample code: Topics_CreateOrUpdateForAzureArc.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void topicsCreateOrUpdateForAzureArc(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .topics()
+                  .define("exampletopic1")
+                  .withRegion("westus2")
+                  .withExistingResourceGroup("examplerg")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withKind(ResourceKind.AZURE_ARC)
+                  .withExtendedLocation(
+                      new ExtendedLocation()
+                          .withName(
+                              "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourcegroups/examplerg/providers/Microsoft.ExtendedLocation/CustomLocations/exampleCustomLocation")
+                          .withType("CustomLocation"))
+                  .withInputSchema(InputSchema.CLOUD_EVENT_SCHEMA_V1_0)
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

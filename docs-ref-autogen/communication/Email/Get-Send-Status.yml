@@ -1,0 +1,148 @@
+### YamlMime:RESTOperation
+uid: communication.email.getsendstatus
+name: Get Send Status
+service: Communication
+groupName: Email
+apiVersion: 2021-10-01-preview
+summary: Gets the status of a message sent previously.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/emails/{messageId}/status?api-version=2021-10-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://my-resource.communication.azure.com
+  types:
+  - uid: string
+- name: messageId
+  in: path
+  isRequired: true
+  description: System generated message id (GUID) returned from a previous call to send email
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error
+  types:
+  - uid: CommunicationErrorResponse
+- name: 200 OK
+  headers:
+  - name: Retry-After
+    value: integer
+  description: Message status was successfully retrieved.
+  types:
+  - uid: SendStatusResult
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An authentication string containing a signature generated using HMAC-SHA256 scheme.
+  types:
+  - uid: string
+definitions:
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: SendStatusResult
+  description: Status of an email message that was sent previously.
+  kind: object
+  properties:
+  - name: messageId
+    description: System generated id of an email message sent.
+    types:
+    - uid: string
+  - name: status
+    description: The type indicating the status of a request.
+    types:
+    - uid: SendStatus
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+- name: SendStatus
+  description: The type indicating the status of a request.
+  kind: enum
+  properties:
+  - name: queued
+    description: The message has passed basic validations and has been queued to be processed further.
+    types:
+    - uid: string
+  - name: outForDelivery
+    description: The message has been processed and is now out for delivery.
+    types:
+    - uid: string
+  - name: dropped
+    description: The message could not be processed and was dropped.
+    types:
+    - uid: string
+examples:
+- name: Get Message Status
+  request:
+    uri: GET https://contoso.westus.communications.azure.com/emails/F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4/status?api-version=2021-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.westus.communications.azure.com/emails/F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4/status?api-version=2021-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Retry-After
+      value: "100"
+    body: >-
+      {
+        "messageId": "F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4",
+        "status": "queued"
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An authentication string containing a signature generated using HMAC-SHA256 scheme.
+  in: header
+metadata:
+  description: Learn more about Communication service - Gets the status of a message sent previously.
+errorCodes: []

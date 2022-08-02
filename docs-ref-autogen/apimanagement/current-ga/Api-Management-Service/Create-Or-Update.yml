@@ -277,10 +277,12 @@ definitions:
     description: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.
     types:
     - uid: boolean
+    defaultValue: false
   - name: negotiateClientCertificate
     description: Specify true to always negotiate client certificate on the hostname. Default Value is false.
     types:
     - uid: boolean
+    defaultValue: false
   - name: certificate
     description: Certificate information.
     types:
@@ -357,6 +359,7 @@ definitions:
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location.
     types:
     - uid: boolean
+    defaultValue: false
   - name: platformVersion
     isReadyOnly: true
     description: Compute Platform Version running the service.
@@ -589,14 +592,17 @@ definitions:
     description: Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.disableGateway
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.virtualNetworkType
     description: The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
+    defaultValue: None
   - name: properties.apiVersionConstraint
     description: Control Plane Apis version constraint for the API Management service.
     types:
@@ -605,6 +611,7 @@ definitions:
     description: Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.privateEndpointConnections
     description: List of Private Endpoint Connections of this service.
     types:
@@ -887,6 +894,74 @@ examples:
           "Test": "User"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "foo@contoso.com",
+          "publisherName": "foo"
+        },
+        "sku": {
+          "name": "Developer",
+          "capacity": 1
+        },
+        "location": "South Central US",
+        "tags": {
+          "Name": "Contoso",
+          "Test": "User"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateService.json
+           */
+          /**
+           * Sample code: ApiManagementCreateService.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateService(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("South Central US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.DEVELOPER).withCapacity(1))
+                  .withPublisherEmail("foo@contoso.com")
+                  .withPublisherName("foo")
+                  .withTags(mapOf("Name", "Contoso", "Test", "User"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1032,6 +1107,95 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk",
+          "virtualNetworkConfiguration": {
+            "subnetResourceId": "/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.Network/virtualNetworks/apimcus/subnets/tenant"
+          },
+          "publicIpAddressId": "/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.Network/publicIPAddresses/apimazvnet",
+          "virtualNetworkType": "External"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 2
+        },
+        "zones": [
+          "1",
+          "2"
+        ],
+        "location": "East US 2 EUAP",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import com.azure.resourcemanager.apimanagement.models.VirtualNetworkConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.VirtualNetworkType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceInVnetWithPublicIP.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceInVnetWithPublicIP.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceInVnetWithPublicIP(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("East US 2 EUAP")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.PREMIUM).withCapacity(2))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withZones(Arrays.asList("1", "2"))
+                  .withPublicIpAddressId(
+                      "/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.Network/publicIPAddresses/apimazvnet")
+                  .withVirtualNetworkConfiguration(
+                      new VirtualNetworkConfiguration()
+                          .withSubnetResourceId(
+                              "/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.Network/virtualNetworks/apimcus/subnets/tenant"))
+                  .withVirtualNetworkType(VirtualNetworkType.EXTERNAL)
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1221,6 +1385,234 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "hostnameConfigurations": [
+            {
+              "type": "Proxy",
+              "hostName": "gateway1.msitesting.net",
+              "encodedCertificate": "****** Base 64 Encoded Certificate ************",
+              "certificatePassword": "Password",
+              "defaultSslBinding": true
+            },
+            {
+              "type": "Management",
+              "hostName": "mgmt.msitesting.net",
+              "encodedCertificate": "****** Base 64 Encoded Certificate ************",
+              "certificatePassword": "Password"
+            },
+            {
+              "type": "Portal",
+              "hostName": "portal1.msitesting.net",
+              "encodedCertificate": "****** Base 64 Encoded Certificate ************",
+              "certificatePassword": "Password"
+            }
+          ],
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk",
+          "additionalLocations": [
+            {
+              "location": "East US",
+              "sku": {
+                "name": "Premium",
+                "capacity": 1
+              },
+              "disableGateway": true
+            }
+          ],
+          "virtualNetworkType": "None",
+          "apiVersionConstraint": {
+            "minApiVersion": "2019-01-01"
+          }
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        },
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.AdditionalLocation;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.ApiVersionConstraint;
+      import com.azure.resourcemanager.apimanagement.models.HostnameConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.HostnameType;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import com.azure.resourcemanager.apimanagement.models.VirtualNetworkType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
+           */
+          /**
+           * Sample code: ApiManagementCreateMultiRegionServiceWithCustomHostname.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateMultiRegionServiceWithCustomHostname(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("West US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.PREMIUM).withCapacity(1))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withHostnameConfigurations(
+                      Arrays
+                          .asList(
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.PROXY)
+                                  .withHostname("gateway1.msitesting.net")
+                                  .withEncodedCertificate("****** Base 64 Encoded Certificate ************")
+                                  .withCertificatePassword("Password")
+                                  .withDefaultSslBinding(true),
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.MANAGEMENT)
+                                  .withHostname("mgmt.msitesting.net")
+                                  .withEncodedCertificate("****** Base 64 Encoded Certificate ************")
+                                  .withCertificatePassword("Password"),
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.PORTAL)
+                                  .withHostname("portal1.msitesting.net")
+                                  .withEncodedCertificate("****** Base 64 Encoded Certificate ************")
+                                  .withCertificatePassword("Password")))
+                  .withAdditionalLocations(
+                      Arrays
+                          .asList(
+                              new AdditionalLocation()
+                                  .withLocation("East US")
+                                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.PREMIUM).withCapacity(1))
+                                  .withDisableGateway(true)))
+                  .withVirtualNetworkType(VirtualNetworkType.NONE)
+                  .withApiVersionConstraint(new ApiVersionConstraint().withMinApiVersion("2019-01-01"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateMultiRegionServiceWithCustomHostname.json
+      func ExampleServiceClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewServiceClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		armapimanagement.ServiceResource{
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      				"tag3": to.Ptr("value3"),
+      			},
+      			Location: to.Ptr("West US"),
+      			Properties: &armapimanagement.ServiceProperties{
+      				AdditionalLocations: []*armapimanagement.AdditionalLocation{
+      					{
+      						DisableGateway: to.Ptr(true),
+      						Location:       to.Ptr("East US"),
+      						SKU: &armapimanagement.ServiceSKUProperties{
+      							Name:     to.Ptr(armapimanagement.SKUTypePremium),
+      							Capacity: to.Ptr[int32](1),
+      						},
+      					}},
+      				APIVersionConstraint: &armapimanagement.APIVersionConstraint{
+      					MinAPIVersion: to.Ptr("2019-01-01"),
+      				},
+      				HostnameConfigurations: []*armapimanagement.HostnameConfiguration{
+      					{
+      						Type:                to.Ptr(armapimanagement.HostnameTypeProxy),
+      						CertificatePassword: to.Ptr("Password"),
+      						DefaultSSLBinding:   to.Ptr(true),
+      						EncodedCertificate:  to.Ptr("****** Base 64 Encoded Certificate ************"),
+      						HostName:            to.Ptr("gateway1.msitesting.net"),
+      					},
+      					{
+      						Type:                to.Ptr(armapimanagement.HostnameTypeManagement),
+      						CertificatePassword: to.Ptr("Password"),
+      						EncodedCertificate:  to.Ptr("****** Base 64 Encoded Certificate ************"),
+      						HostName:            to.Ptr("mgmt.msitesting.net"),
+      					},
+      					{
+      						Type:                to.Ptr(armapimanagement.HostnameTypePortal),
+      						CertificatePassword: to.Ptr("Password"),
+      						EncodedCertificate:  to.Ptr("****** Base 64 Encoded Certificate ************"),
+      						HostName:            to.Ptr("portal1.msitesting.net"),
+      					}},
+      				VirtualNetworkType: to.Ptr(armapimanagement.VirtualNetworkTypeNone),
+      				PublisherEmail:     to.Ptr("apim@autorestsdk.com"),
+      				PublisherName:      to.Ptr("autorestsdk"),
+      			},
+      			SKU: &armapimanagement.ServiceSKUProperties{
+      				Name:     to.Ptr(armapimanagement.SKUTypePremium),
+      				Capacity: to.Ptr[int32](1),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1439,6 +1831,81 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk"
+        },
+        "sku": {
+          "name": "Consumption",
+          "capacity": 0
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceIdentity;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.ApimIdentityType;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceHavingMsi.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceHavingMsi.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceHavingMsi(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("West US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.CONSUMPTION).withCapacity(0))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withIdentity(new ApiManagementServiceIdentity().withType(ApimIdentityType.SYSTEM_ASSIGNED))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1574,6 +2041,92 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "certificates": [
+            {
+              "encodedCertificate": "*******Base64 encoded Certificate******************",
+              "certificatePassword": "Password",
+              "storeName": "CertificateAuthority"
+            }
+          ],
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk"
+        },
+        "sku": {
+          "name": "Basic",
+          "capacity": 1
+        },
+        "location": "Central US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.CertificateConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.CertificateConfigurationStoreName;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithSystemCertificates.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceWithSystemCertificates.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceWithSystemCertificates(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("Central US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.BASIC).withCapacity(1))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withCertificates(
+                      Arrays
+                          .asList(
+                              new CertificateConfiguration()
+                                  .withEncodedCertificate("*******Base64 encoded Certificate******************")
+                                  .withCertificatePassword("Password")
+                                  .withStoreName(CertificateConfigurationStoreName.CERTIFICATE_AUTHORITY)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1740,6 +2293,91 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk"
+        },
+        "sku": {
+          "name": "Consumption",
+          "capacity": 0
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apimService1": {}
+          }
+        },
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceIdentity;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.ApimIdentityType;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import com.azure.resourcemanager.apimanagement.models.UserIdentityProperties;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithUserAssignedIdentity.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceWithUserAssignedIdentity.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceWithUserAssignedIdentity(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("West US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.CONSUMPTION).withCapacity(0))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withIdentity(
+                      new ApiManagementServiceIdentity()
+                          .withType(ApimIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/apimService1",
+                                  new UserIdentityProperties())))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -1888,6 +2526,81 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk"
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 2
+        },
+        "zones": [
+          "1",
+          "2"
+        ],
+        "location": "North europe",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceInZones.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceInZones.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceInZones(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("North europe")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.PREMIUM).withCapacity(2))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withZones(Arrays.asList("1", "2"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -2030,6 +2743,70 @@ examples:
         },
         "location": "South Central US"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "publisherEmail": "foo@contoso.com",
+          "publisherName": "foo",
+          "restore": true
+        },
+        "sku": {
+          "name": "Developer",
+          "capacity": 1
+        },
+        "location": "South Central US"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementUndelete.json
+           */
+          /**
+           * Sample code: ApiManagementUndelete.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementUndelete(com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("South Central US")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.DEVELOPER).withCapacity(1))
+                  .withPublisherEmail("foo@contoso.com")
+                  .withPublisherName("foo")
+                  .withRestore(true)
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -2172,6 +2949,142 @@ examples:
           "tag3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "hostnameConfigurations": [
+            {
+              "type": "Proxy",
+              "hostName": "gateway1.msitesting.net",
+              "keyVaultId": "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+              "identityClientId": "329419bc-adec-4dce-9568-25a6d486e468",
+              "defaultSslBinding": true
+            },
+            {
+              "type": "Management",
+              "hostName": "mgmt.msitesting.net",
+              "keyVaultId": "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+              "identityClientId": "329419bc-adec-4dce-9568-25a6d486e468"
+            },
+            {
+              "type": "Portal",
+              "hostName": "portal1.msitesting.net",
+              "keyVaultId": "https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert",
+              "identityClientId": "329419bc-adec-4dce-9568-25a6d486e468"
+            }
+          ],
+          "publisherEmail": "apim@autorestsdk.com",
+          "publisherName": "autorestsdk",
+          "virtualNetworkType": "None",
+          "apiVersionConstraint": {
+            "minApiVersion": "2019-01-01"
+          }
+        },
+        "sku": {
+          "name": "Premium",
+          "capacity": 1
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {}
+          }
+        },
+        "location": "North Europe",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2",
+          "tag3": "value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceIdentity;
+      import com.azure.resourcemanager.apimanagement.models.ApiManagementServiceSkuProperties;
+      import com.azure.resourcemanager.apimanagement.models.ApiVersionConstraint;
+      import com.azure.resourcemanager.apimanagement.models.ApimIdentityType;
+      import com.azure.resourcemanager.apimanagement.models.HostnameConfiguration;
+      import com.azure.resourcemanager.apimanagement.models.HostnameType;
+      import com.azure.resourcemanager.apimanagement.models.SkuType;
+      import com.azure.resourcemanager.apimanagement.models.UserIdentityProperties;
+      import com.azure.resourcemanager.apimanagement.models.VirtualNetworkType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ApiManagementService CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateServiceWithCustomHostnameKeyVault.json
+           */
+          /**
+           * Sample code: ApiManagementCreateServiceWithCustomHostnameKeyVault.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateServiceWithCustomHostnameKeyVault(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .apiManagementServices()
+                  .define("apimService1")
+                  .withRegion("North Europe")
+                  .withExistingResourceGroup("rg1")
+                  .withSku(new ApiManagementServiceSkuProperties().withName(SkuType.PREMIUM).withCapacity(1))
+                  .withPublisherEmail("apim@autorestsdk.com")
+                  .withPublisherName("autorestsdk")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2", "tag3", "value3"))
+                  .withIdentity(
+                      new ApiManagementServiceIdentity()
+                          .withType(ApimIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                                  new UserIdentityProperties())))
+                  .withHostnameConfigurations(
+                      Arrays
+                          .asList(
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.PROXY)
+                                  .withHostname("gateway1.msitesting.net")
+                                  .withKeyVaultId("https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert")
+                                  .withIdentityClientId("329419bc-adec-4dce-9568-25a6d486e468")
+                                  .withDefaultSslBinding(true),
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.MANAGEMENT)
+                                  .withHostname("mgmt.msitesting.net")
+                                  .withKeyVaultId("https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert")
+                                  .withIdentityClientId("329419bc-adec-4dce-9568-25a6d486e468"),
+                              new HostnameConfiguration()
+                                  .withType(HostnameType.PORTAL)
+                                  .withHostname("portal1.msitesting.net")
+                                  .withKeyVaultId("https://rpbvtkeyvaultintegration.vault.azure.net/secrets/msitestingCert")
+                                  .withIdentityClientId("329419bc-adec-4dce-9568-25a6d486e468")))
+                  .withVirtualNetworkType(VirtualNetworkType.NONE)
+                  .withApiVersionConstraint(new ApiVersionConstraint().withMinApiVersion("2019-01-01"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:

@@ -3,14 +3,14 @@ uid: management.azure.com.cost-management.scheduledactions.createorupdate
 name: Create Or Update
 service: Cost Management
 groupName: Scheduled Actions
-apiVersion: 2022-04-01-preview
+apiVersion: 2022-06-01-preview
 summary: Create or update a private scheduled action.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/{name}?api-version=2022-04-01-preview
+- content: PUT https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/{name}?api-version=2022-06-01-preview
 uriParameters:
 - name: name
   in: path
@@ -48,7 +48,7 @@ requestBody:
     - uid: string
   - name: properties.fileDestination
     in: body
-    description: Destination format of the view data.
+    description: Destination format of the view data. This is optional.
     types:
     - uid: FileDestination
   - name: properties.notification
@@ -88,7 +88,7 @@ requestBody:
 requestHeader: []
 definitions:
 - name: FileDestination
-  description: Destination of the view data. Currently only csv format is supported.
+  description: Destination of the view data. This is optional. Currently only csv format is supported.
   kind: object
   properties:
   - name: fileFormats
@@ -184,7 +184,7 @@ definitions:
     types:
     - uid: string
   - name: properties.fileDestination
-    description: Destination format of the view data.
+    description: Destination format of the view data. This is optional.
     types:
     - uid: FileDestination
   - name: properties.notification
@@ -296,6 +296,10 @@ definitions:
     description: Cost analysis data will be emailed.
     types:
     - uid: string
+  - name: InsightAlert
+    description: Cost anomaly information will be emailed. Available only on subscription scope at daily frequency. If no anomaly is detected on the resource, an email won't be sent.
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -313,7 +317,7 @@ definitions:
 examples:
 - name: CreateOrUpdatePrivateScheduledAction
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource?api-version=2022-04-01-preview
+    uri: PUT https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource?api-version=2022-06-01-preview
     body: >-
       {
         "kind": "Email",
@@ -343,6 +347,42 @@ examples:
           "viewId": "/providers/Microsoft.CostManagement/views/swaggerExample"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource?api-version=2022-06-01-preview
+
+      {
+        "kind": "Email",
+        "properties": {
+          "displayName": "Monthly Cost By Resource",
+          "notification": {
+            "to": [
+              "user@gmail.com",
+              "team@gmail.com"
+            ],
+            "subject": "Cost by resource this month"
+          },
+          "schedule": {
+            "frequency": "Monthly",
+            "weeksOfMonth": [
+              "First",
+              "Third"
+            ],
+            "daysOfWeek": [
+              "Monday"
+            ],
+            "hourOfDay": 10,
+            "startDate": "2020-06-19T22:21:51.1287144Z",
+            "endDate": "2021-06-19T22:21:51.1287144Z"
+          },
+          "status": "Enabled",
+          "viewId": "/providers/Microsoft.CostManagement/views/swaggerExample"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-

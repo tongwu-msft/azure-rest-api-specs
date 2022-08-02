@@ -102,6 +102,7 @@ definitions:
     description: Whether the target is included or excluded from the group.
     types:
     - uid: JobTargetGroupMembershipType
+    defaultValue: Include
   - name: type
     description: The target type.
     types:
@@ -189,6 +190,53 @@ examples:
           "members": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1?api-version=2020-11-01-preview
+
+      {
+        "properties": {
+          "members": []
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a target group.
+       *
+       * @summary Creates or updates a target group.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMin.json
+       */
+      async function createOrUpdateATargetGroupWithMinimalProperties() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "group1";
+        const serverName = "server1";
+        const jobAgentName = "agent1";
+        const targetGroupName = "targetGroup1";
+        const parameters = { members: [] };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.jobTargetGroups.createOrUpdate(
+          resourceGroupName,
+          serverName,
+          jobAgentName,
+          targetGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateATargetGroupWithMinimalProperties().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -246,6 +294,182 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1?api-version=2020-11-01-preview
+
+      {
+        "properties": {
+          "members": [
+            {
+              "membershipType": "Exclude",
+              "type": "SqlDatabase",
+              "serverName": "server1",
+              "databaseName": "database1"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlServer",
+              "serverName": "server1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlElasticPool",
+              "serverName": "server2",
+              "elasticPoolName": "pool1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            },
+            {
+              "membershipType": "Include",
+              "type": "SqlShardMap",
+              "serverName": "server3",
+              "shardMapName": "shardMap1",
+              "refreshCredential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMax.json
+      func ExampleJobTargetGroupsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewJobTargetGroupsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"group1",
+      		"server1",
+      		"agent1",
+      		"targetGroup1",
+      		armsql.JobTargetGroup{
+      			Properties: &armsql.JobTargetGroupProperties{
+      				Members: []*armsql.JobTarget{
+      					{
+      						Type:           to.Ptr(armsql.JobTargetTypeSQLDatabase),
+      						DatabaseName:   to.Ptr("database1"),
+      						MembershipType: to.Ptr(armsql.JobTargetGroupMembershipTypeExclude),
+      						ServerName:     to.Ptr("server1"),
+      					},
+      					{
+      						Type:              to.Ptr(armsql.JobTargetTypeSQLServer),
+      						MembershipType:    to.Ptr(armsql.JobTargetGroupMembershipTypeInclude),
+      						RefreshCredential: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"),
+      						ServerName:        to.Ptr("server1"),
+      					},
+      					{
+      						Type:              to.Ptr(armsql.JobTargetTypeSQLElasticPool),
+      						ElasticPoolName:   to.Ptr("pool1"),
+      						MembershipType:    to.Ptr(armsql.JobTargetGroupMembershipTypeInclude),
+      						RefreshCredential: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"),
+      						ServerName:        to.Ptr("server2"),
+      					},
+      					{
+      						Type:              to.Ptr(armsql.JobTargetTypeSQLShardMap),
+      						MembershipType:    to.Ptr(armsql.JobTargetGroupMembershipTypeInclude),
+      						RefreshCredential: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential"),
+      						ServerName:        to.Ptr("server3"),
+      						ShardMapName:      to.Ptr("shardMap1"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a target group.
+       *
+       * @summary Creates or updates a target group.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateJobTargetGroupMax.json
+       */
+      async function createOrUpdateATargetGroupWithAllProperties() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "group1";
+        const serverName = "server1";
+        const jobAgentName = "agent1";
+        const targetGroupName = "targetGroup1";
+        const parameters = {
+          members: [
+            {
+              type: "SqlDatabase",
+              databaseName: "database1",
+              membershipType: "Exclude",
+              serverName: "server1",
+            },
+            {
+              type: "SqlServer",
+              membershipType: "Include",
+              refreshCredential:
+                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
+              serverName: "server1",
+            },
+            {
+              type: "SqlElasticPool",
+              elasticPoolName: "pool1",
+              membershipType: "Include",
+              refreshCredential:
+                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
+              serverName: "server2",
+            },
+            {
+              type: "SqlShardMap",
+              membershipType: "Include",
+              refreshCredential:
+                "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/testCredential",
+              serverName: "server3",
+              shardMapName: "shardMap1",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.jobTargetGroups.createOrUpdate(
+          resourceGroupName,
+          serverName,
+          jobAgentName,
+          targetGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateATargetGroupWithAllProperties().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

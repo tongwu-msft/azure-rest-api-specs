@@ -3,14 +3,14 @@ uid: management.azure.com.kubernetesconfiguration.extensions.update
 name: Update
 service: Kubernetes Configuration
 groupName: Extensions
-apiVersion: 2022-03-01
+apiVersion: 2022-07-01
 summary: Patch an existing Kubernetes Cluster Extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}?api-version=2022-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{clusterRp}/{clusterResourceName}/{clusterName}/providers/Microsoft.KubernetesConfiguration/extensions/{extensionName}?api-version=2022-07-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,10 +126,12 @@ definitions:
     description: Flag to note if this extension participates in auto upgrade of minor version, or not.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.releaseTrain
     description: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'.
     types:
     - uid: string
+    defaultValue: Stable
   - name: properties.version
     description: User-specified version of the extension for this extension to 'pin'. To use 'version', autoUpgradeMinorVersion must be 'false'.
     types:
@@ -223,10 +225,12 @@ definitions:
     description: Flag to note if this extension participates in auto upgrade of minor version, or not.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.releaseTrain
     description: ReleaseTrain this extension participates in for auto-upgrade (e.g. Stable, Preview, etc.) - only if autoUpgradeMinorVersion is 'true'.
     types:
     - uid: string
+    defaultValue: Stable
   - name: properties.version
     description: Version of the extension for this extension, if it is 'pinned' to a specific version. autoUpgradeMinorVersion must be 'false'.
     types:
@@ -343,6 +347,7 @@ definitions:
     description: Level of the status.
     types:
     - uid: LevelType
+    defaultValue: Information
   - name: message
     description: Detailed message of the status from the Extension.
     types:
@@ -479,7 +484,7 @@ definitions:
 examples:
 - name: Update Extension
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor?api-version=2022-03-01
+    uri: PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor?api-version=2022-07-01
     body: >-
       {
         "properties": {
@@ -494,6 +499,27 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subId1/resourceGroups/rg1/providers/Microsoft.Kubernetes/connectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor?api-version=2022-07-01
+
+      {
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "releaseTrain": "Preview",
+          "configurationSettings": {
+            "omsagent.secret.wsid": "a38cef99-5a89-52ed-b6db-22095c23664b",
+            "omsagent.env.clusterName": "clusterName1"
+          },
+          "configurationProtectedSettings": {
+            "omsagent.secret.key": "secretKeyValue01"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -523,7 +549,7 @@ examples:
     - name: x-ms-async-operation-timeout
       value: PT48H
     - name: Azure-AsyncOperation
-      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/operationId?api-version=2022-03-01
+      value: http://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Kubernetes/ConnectedClusters/clusterName1/providers/Microsoft.KubernetesConfiguration/extensions/ClusterMonitor/operations/operationId?api-version=2022-07-01
     body: >-
       {
         "properties": {

@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.get
 name: Get
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2020-10-01
+apiVersion: 2022-05-01
 summary: Get HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2020-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -90,6 +90,10 @@ definitions:
     description: Unique, immutable resource id.
     types:
     - uid: string
+  - name: properties.cloudManagementEndpoint
+    description: Endpoint configured for management from the Azure portal.
+    types:
+    - uid: string
   - name: properties.aadClientId
     description: App id of cluster AAD identity.
     types:
@@ -98,7 +102,20 @@ definitions:
     description: Tenant id of cluster AAD identity.
     types:
     - uid: string
+  - name: properties.aadApplicationObjectId
+    description: Object id of cluster AAD identity.
+    types:
+    - uid: string
+  - name: properties.aadServicePrincipalObjectId
+    description: Id of cluster identity service principal.
+    types:
+    - uid: string
+  - name: properties.desiredProperties
+    description: Desired properties of the cluster.
+    types:
+    - uid: ClusterDesiredProperties
   - name: properties.reportedProperties
+    isReadyOnly: true
     description: Properties reported by cluster agent.
     types:
     - uid: ClusterReportedProperties
@@ -125,6 +142,11 @@ definitions:
   - name: properties.lastBillingTimestamp
     isReadyOnly: true
     description: Most recent billing meter timestamp.
+    types:
+    - uid: string
+  - name: properties.serviceEndpoint
+    isReadyOnly: true
+    description: Region specific DataPath Endpoint of the cluster.
     types:
     - uid: string
   - name: tags
@@ -216,6 +238,18 @@ definitions:
   - name: Error
     types:
     - uid: string
+- name: ClusterDesiredProperties
+  description: Desired properties of the cluster.
+  kind: object
+  properties:
+  - name: windowsServerSubscription
+    description: Desired state of Windows Server Subscription.
+    types:
+    - uid: WindowsServerSubscription
+  - name: diagnosticLevel
+    description: Desired level of diagnostic data emitted by the cluster.
+    types:
+    - uid: DiagnosticLevel
 - name: ClusterReportedProperties
   description: Properties reported by cluster agent.
   kind: object
@@ -246,6 +280,15 @@ definitions:
     description: Last time the cluster reported the data.
     types:
     - uid: string
+  - name: imdsAttestation
+    isReadyOnly: true
+    description: IMDS attestation status of the cluster.
+    types:
+    - uid: ImdsAttestation
+  - name: diagnosticLevel
+    description: Level of diagnostic data emitted by the cluster.
+    types:
+    - uid: DiagnosticLevel
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -277,6 +320,29 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: WindowsServerSubscription
+  description: Desired state of Windows Server Subscription.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: DiagnosticLevel
+  description: Desired level of diagnostic data emitted by the cluster.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Enhanced
+    types:
+    - uid: string
 - name: ClusterNode
   description: Cluster node details.
   kind: object
@@ -291,6 +357,11 @@ definitions:
     description: Id of the node in the cluster.
     types:
     - uid: number
+  - name: windowsServerSubscription
+    isReadyOnly: true
+    description: State of Windows Server Subscription.
+    types:
+    - uid: WindowsServerSubscription
   - name: manufacturer
     isReadyOnly: true
     description: Manufacturer of the cluster node hardware.
@@ -326,6 +397,16 @@ definitions:
     description: Total available memory on the cluster node (in GiB).
     types:
     - uid: number
+- name: ImdsAttestation
+  description: IMDS attestation status of the cluster.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -343,7 +424,95 @@ definitions:
 examples:
 - name: Get cluster
   request:
-    uri: GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2020-10-01
+    uri: GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Clusters GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/GetCluster.json
+           */
+          /**
+           * Sample code: Get cluster.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void getCluster(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
+              manager.clusters().getByResourceGroupWithResponse("test-rg", "myCluster", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/GetCluster.json
+      func ExampleClustersClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewClustersClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"test-rg",
+      		"myCluster",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get HCI cluster.
+       *
+       * @summary Get HCI cluster.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/GetCluster.json
+       */
+      async function getCluster() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.clusters.get(resourceGroupName, clusterName);
+        console.log(result);
+      }
+
+      getCluster().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -353,12 +522,25 @@ examples:
         "type": "Microsoft.AzureStackHCI/clusters",
         "location": "East US",
         "tags": {},
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+        },
         "properties": {
           "provisioningState": "Succeeded",
           "status": "ConnectedRecently",
           "cloudId": "a3c0468f-e38e-4dda-ac48-817f620536f0",
+          "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
           "aadClientId": "24a6e53d-04e5-44d2-b7cc-1b732a847dfc",
           "aadTenantId": "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94",
+          "desiredProperties": {
+            "windowsServerSubscription": "Enabled",
+            "diagnosticLevel": "Basic"
+          },
           "reportedProperties": {
             "clusterName": "cluster1",
             "clusterId": "a76ac23a-1819-4e82-9410-e3e4ec3d1425",
@@ -367,6 +549,7 @@ examples:
               {
                 "name": "Node1",
                 "id": 1,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -378,6 +561,7 @@ examples:
               {
                 "name": "Node2",
                 "id": 2,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -389,6 +573,7 @@ examples:
               {
                 "name": "Node3",
                 "id": 3,
+                "windowsServerSubscription": "Enabled",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -398,7 +583,9 @@ examples:
                 "memoryInGiB": 256
               }
             ],
-            "lastUpdated": "2020-03-11T19:24:42.1946017Z"
+            "lastUpdated": "2020-03-11T19:24:42.1946017Z",
+            "imdsAttestation": "Disabled",
+            "diagnosticLevel": "Basic"
           },
           "trialDaysRemaining": 30,
           "billingModel": "Trial",

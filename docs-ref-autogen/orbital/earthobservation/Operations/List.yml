@@ -1,0 +1,275 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.orbital.earthobservation.operations.list
+name: List
+service: Orbital
+groupName: Operations
+apiVersion: 2022-03-01
+summary: Lists all of the available Orbital Rest API operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.Orbital/operations?api-version=2022-03-01
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: apiVersionParameter
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed. If the resource group does not exist, 404 (NotFound) will be returned.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: apiVersionParameter
+  description: Version of the API to be used with the client request.
+  kind: enum
+  properties:
+  - name: 2020-09-01-preview
+    types:
+    - uid: string
+  - name: 2021-04-04-preview
+    types:
+    - uid: string
+  - name: 2022-03-01
+    types:
+    - uid: string
+- name: OperationListResult
+  description: A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations supported by the resource provider
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of operation list results (if there are any).
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: Operation
+  description: REST API Operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"'
+    types:
+    - uid: string
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
+  - name: display
+    description: Localized display information for this particular operation.
+    types:
+    - uid: Display
+  - name: origin
+    isReadyOnly: true
+    description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+    types:
+    - uid: Origin
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+    types:
+    - uid: ActionType
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Display
+  description: Localized display information for this particular operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+    types:
+    - uid: string
+- name: Origin
+  description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: user,system
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
+examples:
+- name: OperationsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.Orbital/operations?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Orbital/operations?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationsList.json
+           */
+          /**
+           * Sample code: OperationsList.
+           *
+           * @param manager Entry point to OrbitalManager.
+           */
+          public static void operationsList(com.azure.resourcemanager.orbital.OrbitalManager manager) {
+              manager.operations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-orbital_1.0.0-beta.1/sdk/orbital/azure-resourcemanager-orbital/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armorbital_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/orbital/armorbital"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationsList.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armorbital.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Forbital%2Farmorbital%2Fv1.0.0/sdk/resourcemanager/orbital/armorbital/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureOrbital } = require("@azure/arm-orbital");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available Orbital Rest API operations.
+       *
+       * @summary Lists all of the available Orbital Rest API operations.
+       * x-ms-original-file: specification/orbital/resource-manager/Microsoft.Orbital/stable/2022-03-01/examples/OperationsList.json
+       */
+      async function operationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureOrbital(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      operationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-orbital_1.1.0/sdk/orbital/arm-orbital/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Orbital/spacecrafts/write",
+            "display": {
+              "provider": "Microsoft Orbital",
+              "resource": "Spacecraft",
+              "operation": "Create/Update a spacecraft",
+              "description": "Creates or Updates a spacecraft."
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about Orbital service - Lists all of the available Orbital Rest API operations.
+errorCodes: []

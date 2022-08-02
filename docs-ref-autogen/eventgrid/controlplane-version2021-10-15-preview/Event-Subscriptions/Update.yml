@@ -170,6 +170,7 @@ definitions:
       should be compared in a case sensitive manner.
     types:
     - uid: boolean
+    defaultValue: false
   - name: enableAdvancedFilteringOnArrays
     description: Allows advanced filters to be evaluated against an array of values instead of expecting a singular value.
     types:
@@ -224,10 +225,12 @@ definitions:
     description: Maximum number of delivery retry attempts for events.
     types:
     - uid: integer
+    defaultValue: 30
   - name: eventTimeToLiveInMinutes
     description: Time To Live (in minutes) for events.
     types:
     - uid: integer
+    defaultValue: 1440
 - name: DeadLetterWithResourceIdentity
   description: Information about the deadletter destination with resource identity.
   kind: object
@@ -302,6 +305,7 @@ definitions:
     description: The event delivery schema for the event subscription.
     types:
     - uid: EventDeliverySchema
+    defaultValue: EventGridSchema
   - name: properties.retryPolicy
     description: The retry policy for events. This can be used to configure maximum number of delivery attempts and time to live for events.
     types:
@@ -415,10 +419,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.azureActiveDirectoryTenantId
     description: The Azure Active Directory Tenant ID to get the access token that will be included as the bearer token in delivery requests.
     types:
@@ -557,10 +563,12 @@ definitions:
     description: Maximum number of events per batch.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.preferredBatchSizeInKilobytes
     description: Preferred batch size in Kilobytes.
     types:
     - uid: integer
+    defaultValue: 64
   - name: properties.deliveryAttributeMappings
     description: Delivery attribute details.
     types:
@@ -1046,6 +1054,7 @@ definitions:
     description: Boolean flag to tell if the attribute contains sensitive information .
     types:
     - uid: boolean
+    defaultValue: false
   - name: name
     description: Name of the delivery attribute or header.
     types:
@@ -1094,6 +1103,72 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription3?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForSubscription.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForSubscription.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForSubscription(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4", "examplesubscription3", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1139,6 +1214,77 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription2?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "EventHub",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventHubEventSubscriptionDestination;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForResourceGroup.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForResourceGroup.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForResourceGroup(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg",
+                          "examplesubscription2",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new EventHubEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1184,6 +1330,74 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForResource.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForResource.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForResource(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventHub/namespaces/examplenamespace1",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1229,6 +1443,135 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopic(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic.json
+      func ExampleEventSubscriptionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewEventSubscriptionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"<scope>",
+      		"<event-subscription-name>",
+      		armeventgrid.EventSubscriptionUpdateParameters{
+      			Destination: &armeventgrid.WebHookEventSubscriptionDestination{
+      				EndpointType: to.Ptr(armeventgrid.EndpointTypeWebHook),
+      				Properties: &armeventgrid.WebHookEventSubscriptionDestinationProperties{
+      					EndpointURL: to.Ptr("<endpoint-url>"),
+      				},
+      			},
+      			Filter: &armeventgrid.EventSubscriptionFilter{
+      				IsSubjectCaseSensitive: to.Ptr(true),
+      				SubjectBeginsWith:      to.Ptr("<subject-begins-with>"),
+      				SubjectEndsWith:        to.Ptr("<subject-ends-with>"),
+      			},
+      			Labels: []*string{
+      				to.Ptr("label1"),
+      				to.Ptr("label2")},
+      		},
+      		&armeventgrid.EventSubscriptionsClientBeginUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1277,6 +1620,74 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_WebhookDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_WebhookDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicWebhookDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1325,6 +1736,77 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "EventHub",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventHubEventSubscriptionDestination;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_EventHubDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_EventHubDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicEventHubDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new EventHubEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.EventHub/namespaces/ContosoNamespace/eventhubs/EH1"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1373,6 +1855,77 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "HybridConnection",
+          "properties": {
+            "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.HybridConnectionEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_HybridConnectionDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicHybridConnectionDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new HybridConnectionEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Relay/namespaces/ContosoNamespace/hybridConnections/HC1"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1426,6 +1979,88 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "StorageQueue",
+          "properties": {
+            "resourceId": "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+            "queueName": "queue1",
+            "queueMessageTimeToLiveInSeconds": 300
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": false,
+          "subjectBeginsWith": "ExamplePrefix",
+          "subjectEndsWith": "ExampleSuffix"
+        },
+        "deadLetterDestination": {
+          "endpointType": "StorageBlob",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+            "blobContainerName": "contosocontainer"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.StorageBlobDeadLetterDestination;
+      import com.azure.resourcemanager.eventgrid.models.StorageQueueEventSubscriptionDestination;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_StorageQueueDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicStorageQueueDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new StorageQueueEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/d33c5f7a-02ea-40f4-bf52-07f17e84d6a8/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg")
+                          .withQueueName("queue1")
+                          .withQueueMessageTimeToLiveInSeconds(300L))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("ExamplePrefix")
+                          .withSubjectEndsWith("ExampleSuffix")
+                          .withIsSubjectCaseSensitive(false))
+                  .withDeadLetterDestination(
+                      new StorageBlobDeadLetterDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg")
+                          .withBlobContainerName("contosocontainer"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1483,6 +2118,84 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "AzureFunction",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Web/sites/ContosoSite/funtions/ContosoFunc"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": false,
+          "subjectBeginsWith": "ExamplePrefix",
+          "subjectEndsWith": "ExampleSuffix"
+        },
+        "deadLetterDestination": {
+          "endpointType": "StorageBlob",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+            "blobContainerName": "contosocontainer"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.AzureFunctionEventSubscriptionDestination;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.StorageBlobDeadLetterDestination;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_AzureFunctionDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicAzureFunctionDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new AzureFunctionEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Web/sites/ContosoSite/funtions/ContosoFunc"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("ExamplePrefix")
+                          .withSubjectEndsWith("ExampleSuffix")
+                          .withIsSubjectCaseSensitive(false))
+                  .withDeadLetterDestination(
+                      new StorageBlobDeadLetterDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg")
+                          .withBlobContainerName("contosocontainer"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1535,6 +2248,77 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "ServiceBusTopic",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/topics/SBT"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.ServiceBusTopicEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_ServiceBusTopicDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicServiceBusTopicDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic2",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new ServiceBusTopicEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/topics/SBT"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("existingPrefix")
+                          .withSubjectEndsWith("newSuffix")
+                          .withIsSubjectCaseSensitive(true))
+                  .withLabels(Arrays.asList("label1", "label2"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1586,6 +2370,84 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/providers/Microsoft.EventGrid/eventSubscriptions/examplesubscription1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "ServiceBusQueue",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/queues/SBQ"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": false,
+          "subjectBeginsWith": "ExamplePrefix",
+          "subjectEndsWith": "ExampleSuffix"
+        },
+        "deadLetterDestination": {
+          "endpointType": "StorageBlob",
+          "properties": {
+            "resourceId": "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg",
+            "blobContainerName": "contosocontainer"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscription;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.ServiceBusQueueEventSubscriptionDestination;
+      import com.azure.resourcemanager.eventgrid.models.StorageBlobDeadLetterDestination;
+
+      /** Samples for EventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.json
+           */
+          /**
+           * Sample code: EventSubscriptions_UpdateForCustomTopic_ServiceBusQueueDestination.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void eventSubscriptionsUpdateForCustomTopicServiceBusQueueDestination(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              EventSubscription resource =
+                  manager
+                      .eventSubscriptions()
+                      .getWithResponse(
+                          "subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+                          "examplesubscription1",
+                          Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDestination(
+                      new ServiceBusQueueEventSubscriptionDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.ServiceBus/namespaces/ContosoNamespace/queues/SBQ"))
+                  .withFilter(
+                      new EventSubscriptionFilter()
+                          .withSubjectBeginsWith("ExamplePrefix")
+                          .withSubjectEndsWith("ExampleSuffix")
+                          .withIsSubjectCaseSensitive(false))
+                  .withDeadLetterDestination(
+                      new StorageBlobDeadLetterDestination()
+                          .withResourceId(
+                              "/subscriptions/55f3dcd4-cac7-43b4-990b-a139d62a1eb2/resourceGroups/TestRG/providers/Microsoft.Storage/storageAccounts/contosostg")
+                          .withBlobContainerName("contosocontainer"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

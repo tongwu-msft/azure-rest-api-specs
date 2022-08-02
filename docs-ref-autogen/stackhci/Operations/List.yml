@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.operations.list
 name: List
 service: Azure Stack HCI
 groupName: Operations
-apiVersion: 2020-10-01
+apiVersion: 2022-05-01
 summary: List all available Microsoft.AzureStackHCI provider operations
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.AzureStackHCI/operations?api-version=2020-10-01
+- content: GET https://management.azure.com/providers/Microsoft.AzureStackHCI/operations?api-version=2022-05-01
 uriParameters:
 - name: api-version
   in: query
@@ -22,27 +22,26 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: AvailableOperations
+  - uid: OperationListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: AvailableOperations
-  description: Available operations of the service
+- name: OperationListResult
+  description: A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
   kind: object
   properties:
   - name: value
-    description: Collection of available operation details
+    isReadyOnly: true
+    description: List of operations supported by the resource provider
     types:
-    - uid: OperationDetail
+    - uid: Operation
       isArray: true
   - name: nextLink
-    description: >-
-      URL client should use to fetch the next page (per server side paging).
-
-      It's null for now, added for future use.
+    isReadyOnly: true
+    description: URL to get the next set of operation list results (if there are any).
     types:
     - uid: string
 - name: ErrorResponse
@@ -53,30 +52,34 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: OperationDetail
-  description: Operation detail payload
+- name: Operation
+  description: REST API Operation
   kind: object
   properties:
   - name: name
-    description: Name of the operation
+    isReadyOnly: true
+    description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"'
     types:
     - uid: string
   - name: isDataAction
-    description: Indicates whether the operation is a data action
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
     types:
     - uid: boolean
   - name: display
-    description: Display of the operation
+    description: Localized display information for this particular operation.
     types:
-    - uid: OperationDisplay
+    - uid: Display
   - name: origin
-    description: Origin of the operation
+    isReadyOnly: true
+    description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
     types:
-    - uid: string
-  - name: properties
-    description: Properties of the operation
+    - uid: Origin
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
     types:
-    - uid: OperationProperties
+    - uid: ActionType
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -108,30 +111,50 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: OperationDisplay
-  description: Operation display payload
+- name: Display
+  description: Localized display information for this particular operation.
   kind: object
   properties:
   - name: provider
-    description: Resource provider of the operation
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
     types:
     - uid: string
   - name: resource
-    description: Resource of the operation
+    isReadyOnly: true
+    description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
     types:
     - uid: string
   - name: operation
-    description: Localized friendly name for the operation
+    isReadyOnly: true
+    description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
     types:
     - uid: string
   - name: description
-    description: Localized friendly description for the operation
+    isReadyOnly: true
+    description: The short, localized friendly description of the operation; suitable for tool tips and detailed views.
     types:
     - uid: string
-- name: OperationProperties
-  description: Operation properties.
-  kind: object
-  properties: []
+- name: Origin
+  description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: user,system
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -146,7 +169,441 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-examples: []
+examples:
+- name: Create cluster
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.AzureStackHCI/operations?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.AzureStackHCI/operations?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListOperations.json
+           */
+          /**
+           * Sample code: Create cluster.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void createCluster(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
+              manager.operations().listWithResponse(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListOperations.json
+      func ExampleOperationsClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List all available Microsoft.AzureStackHCI provider operations
+       *
+       * @summary List all available Microsoft.AzureStackHCI provider operations
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListOperations.json
+       */
+      async function createCluster() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.operations.list();
+        console.log(result);
+      }
+
+      createCluster().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.AzureStackHCI/Register/Action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Register",
+              "operation": "Registers the Azure Stack HCI Resource Provider",
+              "description": "Registers the subscription for the Azure Stack HCI resource provider and enables the creation of Azure Stack HCI resources."
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Unregister/Action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Unregister",
+              "operation": "Unregisters the Azure Stack HCI Resource Provider",
+              "description": "Unregisters the subscription for the Azure Stack HCI resource provider."
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Operations/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Operations",
+              "operation": "Gets/List operations resources",
+              "description": "Gets operations"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters",
+              "operation": "Gets/List cluster resources",
+              "description": "Gets clusters"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters",
+              "operation": "Create/update cluster resources",
+              "description": "Creates or updates a cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters",
+              "operation": "Deletes cluster resource",
+              "description": "Deletes cluster resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings",
+              "operation": "Gets/List arc resources",
+              "description": "Gets arc resource of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings",
+              "operation": "Create/Update arc resources",
+              "description": "Create or updates arc resource of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings",
+              "operation": "Delete arc resources",
+              "description": "Delete arc resource of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Extensions/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings/Extensions",
+              "operation": "Gets/List extension resources of HCI cluster",
+              "description": "Gets extension resource of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Extensions/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings/Extensions",
+              "operation": "Create/Update extension resources of HCI cluster",
+              "description": "Create or update extension resource of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/Clusters/ArcSettings/Extensions/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "Clusters/ArcSettings/Extensions",
+              "operation": "Delete extension resources of HCI cluster",
+              "description": "Delete extension resources of HCI cluster"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Restart/Action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Restarts virtual machine resource",
+              "description": "Restarts virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Start/Action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Starts virtual machine resource",
+              "description": "Starts virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Stop/Action",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Stops virtual machine resource",
+              "description": "Stops virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Deletes virtual machine resource",
+              "description": "Deletes virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Creates/Updates virtual machine resource",
+              "description": "Creates/Updates virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines",
+              "operation": "Gets/Lists virtual machine resource",
+              "description": "Gets/Lists virtual machine resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualNetworks/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualNetworks",
+              "operation": "Deletes virtual networks resource",
+              "description": "Deletes virtual networks resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualNetworks/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualNetworks",
+              "operation": "Creates/Updates virtual networks resource",
+              "description": "Creates/Updates virtual networks resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualNetworks/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualNetworks",
+              "operation": "Gets/Lists virtual networks resource",
+              "description": "Gets/Lists virtual networks resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualHardDisks/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualHardDisks",
+              "operation": "Deletes virtual hard disk resource",
+              "description": "Deletes virtual hard disk resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualHardDisks/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualHardDisks",
+              "operation": "Creates/Updates virtual hard disk resource",
+              "description": "Creates/Updates virtual hard disk resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualHardDisks/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualHardDisks",
+              "operation": "Gets/Lists virtual hard disk resource",
+              "description": "Gets/Lists virtual hard disk resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/NetworkInterfaces/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "NetworkInterfaces",
+              "operation": "Deletes network interfaces resource",
+              "description": "Deletes network interfaces resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/NetworkInterfaces/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "NetworkInterfaces",
+              "operation": "Creates/Updates network interfaces resource",
+              "description": "Creates/Updates network interfaces resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/NetworkInterfaces/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "NetworkInterfaces",
+              "operation": "Gets/Lists network interfaces resource",
+              "description": "Gets/Lists network interfaces resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/GalleryImages/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "GalleryImages",
+              "operation": "Deletes gallery images resource",
+              "description": "Deletes gallery images resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/GalleryImages/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "GalleryImages",
+              "operation": "Creates/Updates gallery images resource",
+              "description": "Creates/Updates gallery images resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/GalleryImages/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "GalleryImages",
+              "operation": "Gets/Lists gallery images resource",
+              "description": "Gets/Lists gallery images resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/HybridIdentityMetadata/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines/HybridIdentityMetadata",
+              "operation": "Gets/Lists virtual machine hybrid identity metadata proxy resource",
+              "description": "Gets/Lists virtual machine hybrid identity metadata proxy resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Extensions/Read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines/Extensions",
+              "operation": "Gets/Lists virtual machine extensions resource",
+              "description": "Gets/Lists virtual machine extensions resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Extensions/Write",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines/Extensions",
+              "operation": "Creates/Updates virtual machine extensions resource",
+              "description": "Creates/Updates virtual machine extensions resource"
+            }
+          },
+          {
+            "name": "Microsoft.AzureStackHCI/VirtualMachines/Extensions/Delete",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft.AzureStackHCI",
+              "resource": "VirtualMachines/Extensions",
+              "operation": "Deletes virtual machine extensions resource",
+              "description": "Deletes virtual machine extensions resource"
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

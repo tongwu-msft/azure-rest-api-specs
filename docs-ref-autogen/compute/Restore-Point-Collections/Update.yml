@@ -3,14 +3,14 @@ uid: management.azure.com.compute.restorepointcollections.update
 name: Update
 service: Compute
 groupName: Restore Point Collections
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: The operation to update the restore point collection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}?api-version=2021-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -97,8 +97,7 @@ definitions:
     types:
     - uid: string
   - name: properties.consistencyMode
-    isReadyOnly: true
-    description: Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
+    description: ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details.
     types:
     - uid: ConsistencyModeTypes
   - name: properties.timeCreated
@@ -265,7 +264,7 @@ definitions:
     types:
     - uid: string
 - name: ConsistencyModeTypes
-  description: Gets the consistency mode for the restore point. Please refer to https://aka.ms/RestorePoints for more details.
+  description: ConsistencyMode of the RestorePoint. Can be specified in the input while creating a restore point. For now, only CrashConsistent is accepted as a valid input. Please refer to https://aka.ms/RestorePoints for more details.
   kind: enum
   properties:
   - name: CrashConsistent
@@ -418,7 +417,6 @@ definitions:
     description: The disk restore point replication status information.
     types:
     - uid: DiskRestorePointReplicationStatus
-      isArray: true
 - name: InstanceViewStatus
   description: Instance view status.
   kind: object
@@ -1149,7 +1147,10 @@ definitions:
     description: The resource status information.
     types:
     - uid: InstanceViewStatus
-      isArray: true
+  - name: completionPercent
+    description: Replication completion percentage.
+    types:
+    - uid: integer
 - name: StatusLevelTypes
   description: The level code.
   kind: enum
@@ -1258,6 +1259,10 @@ definitions:
     description: 'Specifies the mode of VM Guest patch assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine.<br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true. '
     types:
     - uid: WindowsPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Windows.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformSettings
 - name: WinRMConfiguration
   description: Describes Windows Remote Management configuration of the VM
   kind: object
@@ -1288,6 +1293,10 @@ definitions:
     description: Specifies the mode of VM Guest Patch Assessment for the IaaS virtual machine.<br /><br /> Possible values are:<br /><br /> **ImageDefault** - You control the timing of patch assessments on a virtual machine. <br /><br /> **AutomaticByPlatform** - The platform will trigger periodic patch assessments. The property provisionVMAgent must be true.
     types:
     - uid: LinuxPatchAssessmentMode
+  - name: automaticByPlatformSettings
+    description: Specifies additional settings for patch mode AutomaticByPlatform in VM Guest Patching on Linux.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformSettings
 - name: SubResource
   kind: object
   properties:
@@ -1351,6 +1360,9 @@ definitions:
     types:
     - uid: string
   - name: StandardSSD_ZRS
+    types:
+    - uid: string
+  - name: PremiumV2_LRS
     types:
     - uid: string
 - name: DiskEncryptionSetParameters
@@ -1420,6 +1432,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Windows patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
 - name: WinRMListener
   description: Describes Protocol and thumbprint of Windows Remote Management listener
   kind: object
@@ -1464,6 +1484,14 @@ definitions:
   - name: AutomaticByPlatform
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformSettings
+  description: Specifies additional settings to be applied when patch mode AutomaticByPlatform is selected in Linux patch settings.
+  kind: object
+  properties:
+  - name: rebootSetting
+    description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+    types:
+    - uid: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
 - name: securityEncryptionTypes
   description: 'Specifies the EncryptionType of the managed disk. <br> It is set to DiskWithVMGuestState for encryption of the managed disk along with VMGuestState blob, and VMGuestStateOnly for encryption of just the VMGuestState blob. <br><br> NOTE: It can be set for only Confidential VMs.'
   kind: enum
@@ -1472,6 +1500,22 @@ definitions:
     types:
     - uid: string
   - name: DiskWithVMGuestState
+    types:
+    - uid: string
+- name: WindowsVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
     types:
     - uid: string
 - name: ProtocolTypes
@@ -1484,10 +1528,26 @@ definitions:
   - name: Https
     types:
     - uid: string
+- name: LinuxVMGuestPatchAutomaticByPlatformRebootSetting
+  description: Specifies the reboot setting for all AutomaticByPlatform patch installation operations.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: IfRequired
+    types:
+    - uid: string
+  - name: Never
+    types:
+    - uid: string
+  - name: Always
+    types:
+    - uid: string
 examples:
 - name: RestorePointCollections_Update_MaximumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaaaa?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -1499,6 +1559,157 @@ examples:
           "key8536": "aaaaaaaaaaaaaaaaaaa"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaaaa?api-version=2022-03-01
+
+      {
+        "properties": {
+          "source": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+          }
+        },
+        "tags": {
+          "key8536": "aaaaaaaaaaaaaaaaaaa"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.RestorePointCollectionSourceProperties;
+      import com.azure.resourcemanager.compute.models.RestorePointCollectionUpdate;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RestorePointCollections Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: RestorePointCollections_Update_MaximumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void restorePointCollectionsUpdateMaximumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getRestorePointCollections()
+                  .updateWithResponse(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaa",
+                      new RestorePointCollectionUpdate()
+                          .withTags(mapOf("key8536", "aaaaaaaaaaaaaaaaaaa"))
+                          .withSource(
+                              new RestorePointCollectionSourceProperties()
+                                  .withId(
+                                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
+      func ExampleRestorePointCollectionsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewRestorePointCollectionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rgcompute",
+      		"aaaaaaaaaaaaaaaaaaaa",
+      		armcompute.RestorePointCollectionUpdate{
+      			Tags: map[string]*string{
+      				"key8536": to.Ptr("aaaaaaaaaaaaaaaaaaa"),
+      			},
+      			Properties: &armcompute.RestorePointCollectionProperties{
+      				Source: &armcompute.RestorePointCollectionSourceProperties{
+      					ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to update the restore point collection.
+       *
+       * @summary The operation to update the restore point collection.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MaximumSet_Gen.json
+       */
+      async function restorePointCollectionsUpdateMaximumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const restorePointCollectionName = "aaaaaaaaaaaaaaaaaaaa";
+        const parameters = {
+          source: {
+            id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+          },
+          tags: { key8536: "aaaaaaaaaaaaaaaaaaa" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.restorePointCollections.update(
+          resourceGroupName,
+          restorePointCollectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      restorePointCollectionsUpdateMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1676,8 +1887,88 @@ examples:
       }
 - name: RestorePointCollections_Update_MinimumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaa?api-version=2022-03-01
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/restorePointCollections/aaaaaaaaaaaaaaaaaa?api-version=2022-03-01
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.RestorePointCollectionUpdate;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for RestorePointCollections Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: RestorePointCollections_Update_MinimumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void restorePointCollectionsUpdateMinimumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getRestorePointCollections()
+                  .updateWithResponse("rgcompute", "aaaaaaaaaaaaaaaaaa", new RestorePointCollectionUpdate(), Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to update the restore point collection.
+       *
+       * @summary The operation to update the restore point collection.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/restorePointExamples/RestorePointCollections_Update_MinimumSet_Gen.json
+       */
+      async function restorePointCollectionsUpdateMinimumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const restorePointCollectionName = "aaaaaaaaaaaaaaaaaa";
+        const parameters = {};
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.restorePointCollections.update(
+          resourceGroupName,
+          restorePointCollectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      restorePointCollectionsUpdateMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

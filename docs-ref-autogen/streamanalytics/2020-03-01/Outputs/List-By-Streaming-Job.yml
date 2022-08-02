@@ -97,6 +97,7 @@ definitions:
     - uid: ServiceBusTopicOutputDataSource
     - uid: PowerBIOutputDataSource
     - uid: AzureDataLakeStoreOutputDataSource
+    - uid: GatewayMessageBusOutputDataSource
     typesTitle: OutputDataSource
   - name: properties.timeWindow
     description: The time frame for filtering Stream Analytics job outputs.
@@ -152,6 +153,10 @@ definitions:
   description: Describes a blob output data source.
   kind: object
   properties:
+  - name: properties.blobPathPrefix
+    description: Blob path prefix.
+    types:
+    - uid: string
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -182,6 +187,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureTableOutputDataSource
   description: Describes an Azure Table output data source.
   kind: object
@@ -258,6 +264,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2OutputDataSource
   description: Describes an Event Hub output data source.
   kind: object
@@ -296,6 +303,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlDatabaseOutputDataSource
   description: Describes an Azure SQL database output data source.
   kind: object
@@ -337,6 +345,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSynapseOutputDataSource
   description: Describes an Azure Synapse output data source.
   kind: object
@@ -466,6 +475,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: ServiceBusTopicOutputDataSource
   description: Describes a Service Bus Topic output data source.
   kind: object
@@ -508,6 +518,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: PowerBIOutputDataSource
   description: Describes a Power BI output data source.
   kind: object
@@ -532,6 +543,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -577,6 +589,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -592,6 +605,19 @@ definitions:
     - uid: string
   - name: properties.tokenUserDisplayName
     description: The user display name of the user that was used to obtain the refresh token. Use this property to help remember which user was used to obtain the refresh token.
+    types:
+    - uid: string
+- name: GatewayMessageBusOutputDataSource
+  description: Describes a Gateway Message Bus output data source.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
+    types:
+    - uid: GatewayMessageBus
+    typesTitle: string
+  - name: properties.topic
+    description: The name of the Service Bus topic.
     types:
     - uid: string
 - name: ParquetSerialization
@@ -727,6 +753,102 @@ examples:
 - name: List all outputs in a streaming job
   request:
     uri: GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg2157/providers/Microsoft.StreamAnalytics/streamingjobs/sj6458/outputs?api-version=2020-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg2157/providers/Microsoft.StreamAnalytics/streamingjobs/sj6458/outputs?api-version=2020-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Outputs ListByStreamingJob. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_ListByStreamingJob.json
+           */
+          /**
+           * Sample code: List all outputs in a streaming job.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void listAllOutputsInAStreamingJob(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager.outputs().listByStreamingJob("sjrg2157", "sj6458", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_ListByStreamingJob.json
+      func ExampleOutputsClient_NewListByStreamingJobPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewOutputsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByStreamingJobPager("sjrg2157",
+      		"sj6458",
+      		&armstreamanalytics.OutputsClientListByStreamingJobOptions{Select: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the outputs under the specified streaming job.
+       *
+       * @summary Lists all of the outputs under the specified streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Output_ListByStreamingJob.json
+       */
+      async function listAllOutputsInAStreamingJob() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg2157";
+        const jobName = "sj6458";
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.outputs.listByStreamingJob(resourceGroupName, jobName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllOutputsInAStreamingJob().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

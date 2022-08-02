@@ -1,5 +1,5 @@
 ---
-title: "ClusterVersion resources"
+title: "Cluster Version API List"
 description: "Learn about ClusterVersionAPIs that include descriptions of Get, Get By Environment, List,and List By Environment."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
@@ -25,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ClusterVersion resources
+# Cluster Version APIs
 
 | Name | Description |
 | --- | --- |

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.sharedgalleries.get
 name: Get
 service: Compute
 groupName: Shared Galleries
-apiVersion: 2021-07-01
+apiVersion: 2022-01-03
 summary: Get a shared gallery by subscription id or tenant id.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}?api-version=2021-07-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -127,9 +127,102 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get a gallery.
+- name: Get a shared gallery.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName?api-version=2021-07-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName?api-version=2022-01-03
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName?api-version=2022-01-03
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SharedGalleries Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGallery_Get.json
+           */
+          /**
+           * Sample code: Get a shared gallery.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getASharedGallery(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSharedGalleries()
+                  .getWithResponse("myLocation", "galleryUniqueName", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGallery_Get.json
+      func ExampleSharedGalleriesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewSharedGalleriesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myLocation",
+      		"galleryUniqueName",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get a shared gallery by subscription id or tenant id.
+       *
+       * @summary Get a shared gallery by subscription id or tenant id.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGallery_Get.json
+       */
+      async function getASharedGallery() {
+        const subscriptionId = "{subscription-id}";
+        const location = "myLocation";
+        const galleryUniqueName = "galleryUniqueName";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.sharedGalleries.get(location, galleryUniqueName);
+        console.log(result);
+      }
+
+      getASharedGallery().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

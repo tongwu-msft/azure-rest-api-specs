@@ -45,23 +45,23 @@ definitions:
   description: The details of the test notification results.
   kind: object
   properties:
-  - name: Context
+  - name: context
     description: The context info
     types:
     - uid: Context
-  - name: State
+  - name: state
     description: The overall state
     types:
     - uid: string
-  - name: CompletedTime
+  - name: completedTime
     description: The completed time
     types:
     - uid: string
-  - name: CreatedTime
+  - name: createdTime
     description: The created time
     types:
     - uid: string
-  - name: ActionDetails
+  - name: actionDetails
     description: The list of action detail
     types:
     - uid: ActionDetail
@@ -82,11 +82,11 @@ definitions:
   description: The context info
   kind: object
   properties:
-  - name: NotificationSource
+  - name: notificationSource
     description: The source of the notification request
     types:
     - uid: string
-  - name: ContextType
+  - name: contextType
     description: The context id type
     types:
     - uid: string
@@ -119,24 +119,68 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get notification details
+- name: Get notification details at subscription level
   request:
     uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/notificationStatus/11000222191287?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/notificationStatus/11000222191287?api-version=2021-09-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2021-09-01/examples/getTestNotifications.json
+      func ExampleActionGroupsClient_GetTestNotifications() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewActionGroupsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.GetTestNotifications(ctx,
+      		"<notification-id>",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "Context": {
-          "NotificationSource": "Microsoft.Insights/TestNotification",
-          "ContextType": "Microsoft.Insights/Budget"
+        "context": {
+          "notificationSource": "Microsoft.Insights/TestNotification",
+          "contextType": "Microsoft.Insights/Budget"
         },
-        "State": "Completed",
-        "CompletedTime": "0001-01-01T00:00:00+00:00",
-        "CreatedTime": "2021-09-21T04:52:29.5091168+00:00",
-        "ActionDetails": [
+        "state": "Completed",
+        "completedTime": "0001-01-01T00:00:00+00:00",
+        "createdTime": "2021-09-21T04:52:29.5091168+00:00",
+        "actionDetails": [
           {
             "MechanismType": "AzureAppPush",
-            "Name": "AzureAppPush",
+            "Name": "AzureAppPush-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:42.8620629+00:00",
@@ -144,7 +188,7 @@ examples:
           },
           {
             "MechanismType": "AzureFunction",
-            "Name": "AzureFunction-1",
+            "Name": "AzureFunction-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:42.0623319+00:00",
@@ -152,7 +196,7 @@ examples:
           },
           {
             "MechanismType": "Email",
-            "Name": "Email-2",
+            "Name": "Email-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:40.7480368+00:00",
@@ -160,15 +204,23 @@ examples:
           },
           {
             "MechanismType": "LogicApp",
-            "Name": "Sample logicApp",
+            "Name": "LogicApp-Name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:42.2473419+00:00",
             "Detail": null
           },
           {
+            "MechanismType": "Webhook",
+            "Name": "Webhook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
             "MechanismType": "SecureWebhook",
-            "Name": "SecureWebhook-1",
+            "Name": "SecureWebhook-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:42.0723479+00:00",
@@ -176,7 +228,7 @@ examples:
           },
           {
             "MechanismType": "Sms",
-            "Name": "Sms-1",
+            "Name": "Sms-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:41.353015+00:00",
@@ -184,10 +236,34 @@ examples:
           },
           {
             "MechanismType": "Voice",
-            "Name": "Voice-1",
+            "Name": "Voice-name",
             "Status": "Completed",
             "SubState": "Default",
             "SendTime": "2021-09-21T04:52:41.6330734+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "EventHub",
+            "Name": "EventHub-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "AutomationRunbook",
+            "Name": "AutomationRunbook-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
+            "Detail": null
+          },
+          {
+            "MechanismType": "Itsm",
+            "Name": "Itsm-name",
+            "Status": "Completed",
+            "SubState": "Default",
+            "SendTime": "2021-09-21T04:52:42.0723479+00:00",
             "Detail": null
           }
         ]

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudserviceroles.get
 name: Get
 service: Compute
 groupName: Cloud Service Roles
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets a role from a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles/{roleName}?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,11 +21,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
+  description: Name of the resource group.
   types:
   - uid: string
 - name: cloudServiceName
   in: path
   isRequired: true
+  description: Name of the cloud service.
   types:
   - uid: string
 - name: roleName
@@ -41,16 +43,24 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: CloudServiceRole
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CloudServiceRole
 requestHeader: []
 definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: CloudServiceRole
   description: Describes a role of the cloud service.
   kind: object
@@ -80,42 +90,9 @@ definitions:
     types:
     - uid: CloudServiceRoleSku
   - name: properties
-    description: ''
+    description: The cloud service role properties.
     types:
     - uid: CloudServiceRoleProperties
-- name: CloudError
-  description: An error response from the Compute service.
-  kind: object
-  properties:
-  - name: error
-    description: Api error.
-    types:
-    - uid: ApiError
-- name: CloudServiceRoleSku
-  description: Describes the cloud service role sku.
-  kind: object
-  properties:
-  - name: name
-    description: 'The sku name. NOTE: If the new SKU is not supported on the hardware the cloud service is currently on, you need to delete and recreate the cloud service or move back to the old sku.'
-    types:
-    - uid: string
-  - name: tier
-    description: Specifies the tier of the cloud service. Possible Values are <br /><br /> **Standard** <br /><br /> **Basic**
-    types:
-    - uid: string
-  - name: capacity
-    description: Specifies the number of role instances in the cloud service.
-    types:
-    - uid: integer
-- name: CloudServiceRoleProperties
-  description: ''
-  kind: object
-  properties:
-  - name: uniqueId
-    isReadyOnly: true
-    description: Specifies the ID which uniquely identifies a cloud service role.
-    types:
-    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -133,12 +110,37 @@ definitions:
     description: The error code.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: CloudServiceRoleSku
+  description: Describes the cloud service role sku.
+  kind: object
+  properties:
+  - name: name
+    description: 'The sku name. NOTE: If the new SKU is not supported on the hardware the cloud service is currently on, you need to delete and recreate the cloud service or move back to the old sku.'
+    types:
+    - uid: string
+  - name: tier
+    description: Specifies the tier of the cloud service. Possible Values are <br /><br /> **Standard** <br /><br /> **Basic**
+    types:
+    - uid: string
+  - name: capacity
+    description: Specifies the number of role instances in the cloud service.
+    types:
+    - uid: integer
+- name: CloudServiceRoleProperties
+  description: The cloud service role properties.
+  kind: object
+  properties:
+  - name: uniqueId
+    isReadyOnly: true
+    description: Specifies the ID which uniquely identifies a cloud service role.
     types:
     - uid: string
 - name: ApiErrorBase
@@ -149,12 +151,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -172,7 +174,102 @@ definitions:
 examples:
 - name: Get Cloud Service Role
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles/{role-name}?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles/{role-name}?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles/{role-name}?api-version=2022-04-04
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CloudServiceRoles Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRole_Get.json
+           */
+          /**
+           * Sample code: Get Cloud Service Role.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getCloudServiceRole(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getCloudServiceRoles()
+                  .getWithResponse("{role-name}", "ConstosoRG", "{cs-name}", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRole_Get.json
+      func ExampleCloudServiceRolesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewCloudServiceRolesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"{role-name}",
+      		"ConstosoRG",
+      		"{cs-name}",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a role from a cloud service.
+       *
+       * @summary Gets a role from a cloud service.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-04-04/CloudServiceRP/examples/CloudServiceRole_Get.json
+       */
+      async function getCloudServiceRole() {
+        const subscriptionId = "{subscription-id}";
+        const roleName = "{role-name}";
+        const resourceGroupName = "ConstosoRG";
+        const cloudServiceName = "{cs-name}";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.cloudServiceRoles.get(roleName, resourceGroupName, cloudServiceName);
+        console.log(result);
+      }
+
+      getCloudServiceRole().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

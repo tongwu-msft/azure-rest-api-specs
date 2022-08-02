@@ -283,6 +283,130 @@ examples:
           "source": "user-override"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/testserver/configurations/event_scheduler?api-version=2021-05-01
+
+      {
+        "properties": {
+          "value": "on",
+          "source": "user-override"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mysqlflexibleserver.fluent.models.ConfigurationInner;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ConfigurationSource;
+
+      /** Samples for Configurations Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationUpdate.json
+           */
+          /**
+           * Sample code: Update a user configuration.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void updateAUserConfiguration(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .configurations()
+                  .update(
+                      "testrg",
+                      "testserver",
+                      "event_scheduler",
+                      new ConfigurationInner().withValue("on").withSource(ConfigurationSource.USER_OVERRIDE),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysqlflexibleservers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationUpdate.json
+      func ExampleConfigurationsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysqlflexibleservers.NewConfigurationsClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"testrg",
+      		"testserver",
+      		"event_scheduler",
+      		armmysqlflexibleservers.Configuration{
+      			Properties: &armmysqlflexibleservers.ConfigurationProperties{
+      				Source: to.Ptr(armmysqlflexibleservers.ConfigurationSourceUserOverride),
+      				Value:  to.Ptr("on"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysqlflexibleservers%2Fv1.0.0/sdk/resourcemanager/mysql/armmysqlflexibleservers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a configuration of a server.
+       *
+       * @summary Updates a configuration of a server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationUpdate.json
+       */
+      async function updateAUserConfiguration() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "testserver";
+        const configurationName = "event_scheduler";
+        const parameters = { source: "user-override", value: "on" };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+        const result = await client.configurations.beginUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          configurationName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAUserConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql-flexible_3.0.0/sdk/mysql/arm-mysql-flexible/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

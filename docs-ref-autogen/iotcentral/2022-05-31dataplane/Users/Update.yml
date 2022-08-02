@@ -1,0 +1,308 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-05-31dataplane.users.update
+name: Update
+service: IoT Central
+groupName: Users
+apiVersion: 2022-05-31
+summary: Update a user in the application via patch
+consumes:
+- application/json
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{subdomain}.{baseDomain}/api/users/{userId}?api-version=2022-05-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: userId
+  in: path
+  isRequired: true
+  description: Unique ID of the user.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9-_]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ADGroupUser
+  - uid: EmailUser
+  - uid: ServicePrincipalUser
+  typesTitle: User
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: body
+    in: body
+    description: User patch body.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: Error
+  description: The response error definition
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ADGroupUser
+  description: The active directory group user definition.
+  kind: object
+  properties:
+  - name: tenantId
+    description: The AAD tenant ID of the AD Group.
+    types:
+    - uid: string
+  - name: objectId
+    description: The AAD object ID of the AD Group.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the user.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the user.
+    types:
+    - uid: adGroup
+    typesTitle: string
+  - name: roles
+    description: List of role assignments that specify the permissions to access the application.
+    types:
+    - uid: RoleAssignment
+      isArray: true
+- name: EmailUser
+  description: The email user definition.
+  kind: object
+  properties:
+  - name: email
+    description: Email address of the user.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the user.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the user.
+    types:
+    - uid: email
+    typesTitle: string
+  - name: roles
+    description: List of role assignments that specify the permissions to access the application.
+    types:
+    - uid: RoleAssignment
+      isArray: true
+- name: ServicePrincipalUser
+  description: The service principal user definition.
+  kind: object
+  properties:
+  - name: tenantId
+    description: The AAD tenant ID of the service principal.
+    types:
+    - uid: string
+  - name: objectId
+    description: The AAD object ID of the service principal.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the user.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the user.
+    types:
+    - uid: servicePrincipal
+    typesTitle: string
+  - name: roles
+    description: List of role assignments that specify the permissions to access the application.
+    types:
+    - uid: RoleAssignment
+      isArray: true
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: RoleAssignment
+  description: The role assignment definition.
+  kind: object
+  properties:
+  - name: role
+    description: ID of the role for this role assignment.
+    types:
+    - uid: string
+  - name: organization
+    description: ID of the organization for this role assignment.
+    types:
+    - uid: string
+examples:
+- name: Update a service principal user
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/users/123?api-version=2022-05-31
+    body: >-
+      {
+        "type": "servicePrincipal",
+        "tenantId": "027fdad7-cf0f-470a-a26a-272197813322",
+        "objectId": "65e13aac-1443-4c49-9d49-57b87197cfff",
+        "roles": [
+          {
+            "role": "c7be2c6b-797e-4551-bb24-33709f6b2e20"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/users/123?api-version=2022-05-31
+
+      {
+        "type": "servicePrincipal",
+        "tenantId": "027fdad7-cf0f-470a-a26a-272197813322",
+        "objectId": "65e13aac-1443-4c49-9d49-57b87197cfff",
+        "roles": [
+          {
+            "role": "c7be2c6b-797e-4551-bb24-33709f6b2e20"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "123",
+        "type": "servicePrincipal",
+        "tenantId": "027fdad7-cf0f-470a-a26a-272197813322",
+        "objectId": "65e13aac-1443-4c49-9d49-57b87197cfff",
+        "roles": [
+          {
+            "role": "c7be2c6b-797e-4551-bb24-33709f6b2e20"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ]
+      }
+- name: Update an email user
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/users/123?api-version=2022-05-31
+    body: >-
+      {
+        "type": "email",
+        "roles": [
+          {
+            "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ],
+        "email": "bob@contoso.com"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/users/123?api-version=2022-05-31
+
+      {
+        "type": "email",
+        "roles": [
+          {
+            "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ],
+        "email": "bob@contoso.com"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "email",
+        "roles": [
+          {
+            "role": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4"
+          },
+          {
+            "role": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "organization": "seattle"
+          }
+        ],
+        "email": "bob@contoso.com"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Update a user in the application via patch
+errorCodes: []

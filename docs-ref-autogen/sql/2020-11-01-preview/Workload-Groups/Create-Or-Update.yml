@@ -201,6 +201,59 @@ examples:
           "minResourcePercentPerRequest": 3
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/smallrc?api-version=2020-11-01-preview
+
+      {
+        "properties": {
+          "minResourcePercent": 0,
+          "maxResourcePercent": 100,
+          "minResourcePercentPerRequest": 3
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a workload group.
+       *
+       * @summary Creates or updates a workload group.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadGroupMin.json
+       */
+      async function createAWorkloadGroupWithTheRequiredPropertiesSpecified() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const databaseName = "testdb";
+        const workloadGroupName = "smallrc";
+        const parameters = {
+          maxResourcePercent: 100,
+          minResourcePercent: 0,
+          minResourcePercentPerRequest: 3,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.workloadGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          workloadGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAWorkloadGroupWithTheRequiredPropertiesSpecified().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -247,6 +300,118 @@ examples:
           "queryExecutionTimeout": 0
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/smallrc?api-version=2020-11-01-preview
+
+      {
+        "properties": {
+          "minResourcePercent": 0,
+          "maxResourcePercent": 100,
+          "minResourcePercentPerRequest": 3,
+          "maxResourcePercentPerRequest": 3,
+          "importance": "normal",
+          "queryExecutionTimeout": 0
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadGroupMax.json
+      func ExampleWorkloadGroupsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewWorkloadGroupsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"Default-SQL-SouthEastAsia",
+      		"testsvr",
+      		"testdb",
+      		"smallrc",
+      		armsql.WorkloadGroup{
+      			Properties: &armsql.WorkloadGroupProperties{
+      				Importance:                   to.Ptr("normal"),
+      				MaxResourcePercent:           to.Ptr[int32](100),
+      				MaxResourcePercentPerRequest: to.Ptr[float64](3),
+      				MinResourcePercent:           to.Ptr[int32](0),
+      				MinResourcePercentPerRequest: to.Ptr[float64](3),
+      				QueryExecutionTimeout:        to.Ptr[int32](0),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a workload group.
+       *
+       * @summary Creates or updates a workload group.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/CreateOrUpdateWorkloadGroupMax.json
+       */
+      async function createAWorkloadGroupWithAllPropertiesSpecified() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const databaseName = "testdb";
+        const workloadGroupName = "smallrc";
+        const parameters = {
+          importance: "normal",
+          maxResourcePercent: 100,
+          maxResourcePercentPerRequest: 3,
+          minResourcePercent: 0,
+          minResourcePercentPerRequest: 3,
+          queryExecutionTimeout: 0,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.workloadGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          workloadGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAWorkloadGroupWithAllPropertiesSpecified().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

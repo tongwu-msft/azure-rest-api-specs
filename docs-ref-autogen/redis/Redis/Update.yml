@@ -180,6 +180,10 @@ definitions:
     description: The storage account connection string for storing rdb file
     types:
     - uid: string
+  - name: aof-backup-enabled
+    description: Specifies whether the aof backup is enabled
+    types:
+    - uid: string
   - name: aof-storage-connection-string-0
     description: First storage account connection string
     types:
@@ -222,6 +226,10 @@ definitions:
   - name: zonal-configuration
     isReadyOnly: true
     description: Zonal Configuration
+    types:
+    - uid: string
+  - name: authnotrequired
+    description: Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view.
     types:
     - uid: string
 - name: RedisResource
@@ -331,6 +339,7 @@ definitions:
     description: Specifies whether the non-ssl Redis server port (6379) is enabled.
     types:
     - uid: boolean
+    defaultValue: false
   - name: replicasPerMaster
     description: The number of replicas to be created per primary.
     types:
@@ -359,6 +368,7 @@ definitions:
     description: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -399,6 +409,7 @@ definitions:
     description: Specifies whether the non-ssl Redis server port (6379) is enabled.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.replicasPerMaster
     description: The number of replicas to be created per primary.
     types:
@@ -427,6 +438,7 @@ definitions:
     description: Whether or not public endpoint access is allowed for this cache.  Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. Default value is 'Enabled'
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
 - name: ManagedServiceIdentityType
   description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
   kind: enum
@@ -742,6 +754,123 @@ examples:
           "replicasPerPrimary": 2
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "enableNonSslPort": true,
+          "replicasPerPrimary": 2
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redis.models.RedisUpdateParameters;
+
+      /** Samples for Redis Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
+           */
+          /**
+           * Sample code: RedisCacheUpdate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void redisCacheUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .redisCaches()
+                  .manager()
+                  .serviceClient()
+                  .getRedis()
+                  .updateWithResponse(
+                      "rg1",
+                      "cache1",
+                      new RedisUpdateParameters().withEnableNonSslPort(true).withReplicasPerPrimary(2),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
+      func ExampleClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredis.NewClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg1",
+      		"cache1",
+      		armredis.UpdateParameters{
+      			Properties: &armredis.UpdateProperties{
+      				EnableNonSSLPort:   to.Ptr(true),
+      				ReplicasPerPrimary: to.Ptr[int32](2),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisManagementClient } = require("@azure/arm-rediscache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update an existing Redis cache.
+       *
+       * @summary Update an existing Redis cache.
+       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheUpdate.json
+       */
+      async function redisCacheUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const name = "cache1";
+        const parameters = {
+          enableNonSslPort: true,
+          replicasPerPrimary: 2,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisManagementClient(credential, subscriptionId);
+        const result = await client.redis.update(resourceGroupName, name, parameters);
+        console.log(result);
+      }
+
+      redisCacheUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

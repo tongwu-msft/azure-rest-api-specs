@@ -216,6 +216,7 @@ definitions:
     description: Indicates the indexing mode.
     types:
     - uid: IndexingMode
+    defaultValue: consistent
   - name: includedPaths
     description: List of paths to include in the indexing
     types:
@@ -249,6 +250,7 @@ definitions:
     description: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create
     types:
     - uid: PartitionKind
+    defaultValue: Hash
   - name: version
     description: Indicates the version of the partition key definition
     types:
@@ -275,6 +277,7 @@ definitions:
     description: Indicates the conflict resolution mode.
     types:
     - uid: ConflictResolutionMode
+    defaultValue: LastWriterWins
   - name: conflictResolutionPath
     description: The conflict resolution path in the case of LastWriterWins mode.
     types:
@@ -428,6 +431,7 @@ definitions:
     description: The datatype for which the indexing behavior is applied to.
     types:
     - uid: DataType
+    defaultValue: String
   - name: precision
     description: The precision of the index. -1 is maximum precision.
     types:
@@ -436,6 +440,7 @@ definitions:
     description: Indicates the type of index.
     types:
     - uid: IndexKind
+    defaultValue: Hash
 - name: DataType
   description: The datatype for which the indexing behavior is applied to.
   kind: enum
@@ -528,6 +533,257 @@ examples:
           "options": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/gremlinDatabases/databaseName/graphs/graphName?api-version=2021-10-15
+
+      {
+        "location": "West US",
+        "tags": {},
+        "properties": {
+          "resource": {
+            "id": "graphName",
+            "indexingPolicy": {
+              "indexingMode": "consistent",
+              "automatic": true,
+              "includedPaths": [
+                {
+                  "path": "/*",
+                  "indexes": [
+                    {
+                      "kind": "Range",
+                      "dataType": "String",
+                      "precision": -1
+                    },
+                    {
+                      "kind": "Range",
+                      "dataType": "Number",
+                      "precision": -1
+                    }
+                  ]
+                }
+              ],
+              "excludedPaths": []
+            },
+            "partitionKey": {
+              "paths": [
+                "/AccountNumber"
+              ],
+              "kind": "Hash"
+            },
+            "defaultTtl": 100,
+            "uniqueKeyPolicy": {
+              "uniqueKeys": [
+                {
+                  "paths": [
+                    "/testPath"
+                  ]
+                }
+              ]
+            },
+            "conflictResolutionPolicy": {
+              "mode": "LastWriterWins",
+              "conflictResolutionPath": "/path"
+            }
+          },
+          "options": {}
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cosmos.models.ConflictResolutionMode;
+      import com.azure.resourcemanager.cosmos.models.ConflictResolutionPolicy;
+      import com.azure.resourcemanager.cosmos.models.ContainerPartitionKey;
+      import com.azure.resourcemanager.cosmos.models.CreateUpdateOptions;
+      import com.azure.resourcemanager.cosmos.models.DataType;
+      import com.azure.resourcemanager.cosmos.models.GremlinGraphCreateUpdateParameters;
+      import com.azure.resourcemanager.cosmos.models.GremlinGraphResource;
+      import com.azure.resourcemanager.cosmos.models.IncludedPath;
+      import com.azure.resourcemanager.cosmos.models.IndexKind;
+      import com.azure.resourcemanager.cosmos.models.Indexes;
+      import com.azure.resourcemanager.cosmos.models.IndexingMode;
+      import com.azure.resourcemanager.cosmos.models.IndexingPolicy;
+      import com.azure.resourcemanager.cosmos.models.PartitionKind;
+      import com.azure.resourcemanager.cosmos.models.UniqueKey;
+      import com.azure.resourcemanager.cosmos.models.UniqueKeyPolicy;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for GremlinResources CreateUpdateGremlinGraph. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBGremlinGraphCreateUpdate.json
+           */
+          /**
+           * Sample code: CosmosDBGremlinGraphCreateUpdate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBGremlinGraphCreateUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getGremlinResources()
+                  .createUpdateGremlinGraph(
+                      "rg1",
+                      "ddb1",
+                      "databaseName",
+                      "graphName",
+                      new GremlinGraphCreateUpdateParameters()
+                          .withLocation("West US")
+                          .withTags(mapOf())
+                          .withResource(
+                              new GremlinGraphResource()
+                                  .withId("graphName")
+                                  .withIndexingPolicy(
+                                      new IndexingPolicy()
+                                          .withAutomatic(true)
+                                          .withIndexingMode(IndexingMode.CONSISTENT)
+                                          .withIncludedPaths(
+                                              Arrays
+                                                  .asList(
+                                                      new IncludedPath()
+                                                          .withPath("/*")
+                                                          .withIndexes(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new Indexes()
+                                                                          .withDataType(DataType.STRING)
+                                                                          .withPrecision(-1)
+                                                                          .withKind(IndexKind.RANGE),
+                                                                      new Indexes()
+                                                                          .withDataType(DataType.NUMBER)
+                                                                          .withPrecision(-1)
+                                                                          .withKind(IndexKind.RANGE)))))
+                                          .withExcludedPaths(Arrays.asList()))
+                                  .withPartitionKey(
+                                      new ContainerPartitionKey()
+                                          .withPaths(Arrays.asList("/AccountNumber"))
+                                          .withKind(PartitionKind.HASH))
+                                  .withDefaultTtl(100)
+                                  .withUniqueKeyPolicy(
+                                      new UniqueKeyPolicy()
+                                          .withUniqueKeys(
+                                              Arrays.asList(new UniqueKey().withPaths(Arrays.asList("/testPath")))))
+                                  .withConflictResolutionPolicy(
+                                      new ConflictResolutionPolicy()
+                                          .withMode(ConflictResolutionMode.LAST_WRITER_WINS)
+                                          .withConflictResolutionPath("/path")))
+                          .withOptions(new CreateUpdateOptions()),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBGremlinGraphCreateUpdate.json
+      func ExampleGremlinResourcesClient_BeginCreateUpdateGremlinGraph() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewGremlinResourcesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateUpdateGremlinGraph(ctx,
+      		"rg1",
+      		"ddb1",
+      		"databaseName",
+      		"graphName",
+      		armcosmos.GremlinGraphCreateUpdateParameters{
+      			Location: to.Ptr("West US"),
+      			Tags:     map[string]*string{},
+      			Properties: &armcosmos.GremlinGraphCreateUpdateProperties{
+      				Options: &armcosmos.CreateUpdateOptions{},
+      				Resource: &armcosmos.GremlinGraphResource{
+      					ConflictResolutionPolicy: &armcosmos.ConflictResolutionPolicy{
+      						ConflictResolutionPath: to.Ptr("/path"),
+      						Mode:                   to.Ptr(armcosmos.ConflictResolutionModeLastWriterWins),
+      					},
+      					DefaultTTL: to.Ptr[int32](100),
+      					ID:         to.Ptr("graphName"),
+      					IndexingPolicy: &armcosmos.IndexingPolicy{
+      						Automatic:     to.Ptr(true),
+      						ExcludedPaths: []*armcosmos.ExcludedPath{},
+      						IncludedPaths: []*armcosmos.IncludedPath{
+      							{
+      								Path: to.Ptr("/*"),
+      								Indexes: []*armcosmos.Indexes{
+      									{
+      										DataType:  to.Ptr(armcosmos.DataTypeString),
+      										Kind:      to.Ptr(armcosmos.IndexKindRange),
+      										Precision: to.Ptr[int32](-1),
+      									},
+      									{
+      										DataType:  to.Ptr(armcosmos.DataTypeNumber),
+      										Kind:      to.Ptr(armcosmos.IndexKindRange),
+      										Precision: to.Ptr[int32](-1),
+      									}},
+      							}},
+      						IndexingMode: to.Ptr(armcosmos.IndexingModeConsistent),
+      					},
+      					PartitionKey: &armcosmos.ContainerPartitionKey{
+      						Kind: to.Ptr(armcosmos.PartitionKindHash),
+      						Paths: []*string{
+      							to.Ptr("/AccountNumber")},
+      					},
+      					UniqueKeyPolicy: &armcosmos.UniqueKeyPolicy{
+      						UniqueKeys: []*armcosmos.UniqueKey{
+      							{
+      								Paths: []*string{
+      									to.Ptr("/testPath")},
+      							}},
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv1.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

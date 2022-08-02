@@ -126,6 +126,7 @@ definitions:
     description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
     types:
     - uid: StringIndexType
+    defaultValue: TextElements_v8
   - name: directTarget
     description: The name of a target project to forward the request to.
     types:
@@ -614,6 +615,7 @@ definitions:
     description: Logical operation used to join metadata filter with source filter.
     types:
     - uid: LogicalOperationKind
+    defaultValue: AND
 - name: ShortAnswerOptions
   description: To configure Answer span prediction feature.
   kind: object
@@ -721,6 +723,7 @@ definitions:
     description: Operation used to join metadata filters.
     types:
     - uid: LogicalOperationKind
+    defaultValue: AND
 - name: LogicalOperationKind
   description: Set to 'OR' or 'AND' for using corresponding logical operation.
   kind: enum
@@ -1785,6 +1788,30 @@ examples:
           "stringIndexType": "TextElement_V8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "id": "1",
+            "participantId": "1",
+            "text": "play In the air tonight from Phil Collins"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+
+      ```
+
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -1847,6 +1874,34 @@ examples:
           "stringIndexType": "TextElement_V8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "participantId": "1",
+            "id": "1",
+            "modality": "text",
+            "language": "en-GB",
+            "text": "How do I integrate QnA Maker and LUIS?"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "verbose": true,
+          "isLoggingEnabled": false,
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+
+      ```
+
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -1927,6 +1982,43 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "text": "Ports and connectors",
+            "participantId": "1",
+            "id": "1"
+          }
+        },
+        "parameters": {
+          "projectName": "prj1",
+          "deploymentName": "dep1",
+          "directTarget": "qnaProject",
+          "targetProjectParameters": {
+            "qnaProject": {
+              "targetProjectKind": "QuestionAnswering",
+              "callingOptions": {
+                "context": {
+                  "previousUserQuery": "Meet Surface Pro 4",
+                  "previousQnaId": 4
+                },
+                "top": 1,
+                "question": "App Service overview"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'

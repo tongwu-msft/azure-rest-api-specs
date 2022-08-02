@@ -1,0 +1,546 @@
+### YamlMime:RESTOperation
+uid: communication.email.send
+name: Send
+service: Communication
+groupName: Email
+apiVersion: 2021-10-01-preview
+summary: Queues an email message to be sent to one or more recipients
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/emails:send?api-version=2021-10-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The communication resource, for example https://my-resource.communication.azure.com
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error
+  types:
+  - uid: CommunicationErrorResponse
+- name: 202 Accepted
+  headers:
+  - name: Repeatability-Result
+    value: string
+  - name: Operation-Location
+    value: string
+  - name: Retry-After
+    value: integer
+  - name: x-ms-request-id
+    value: string
+  description: Message accepted, the `Operation-Location` header contains the URL to poll for the message status.
+requestBody:
+- name: default
+  parameters:
+  - name: headers
+    in: body
+    description: Custom email headers to be passed.
+    types:
+    - uid: EmailCustomHeader
+      isArray: true
+  - name: sender
+    in: body
+    isRequired: true
+    description: Sender email address from a verified domain.
+    types:
+    - uid: string
+  - name: content
+    in: body
+    isRequired: true
+    description: Email content to be sent.
+    types:
+    - uid: EmailContent
+  - name: importance
+    in: body
+    description: The importance type for the email.
+    types:
+    - uid: EmailImportance
+  - name: recipients
+    in: body
+    isRequired: true
+    description: Recipients for the email.
+    types:
+    - uid: EmailRecipients
+  - name: attachments
+    in: body
+    description: list of attachments
+    types:
+    - uid: EmailAttachment
+      isArray: true
+  - name: replyTo
+    in: body
+    description: Email addresses where recipients' replies will be sent to.
+    types:
+    - uid: EmailAddress
+      isArray: true
+  - name: disableUserEngagementTracking
+    in: body
+    description: Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane.
+    types:
+    - uid: boolean
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An authentication string containing a signature generated using HMAC-SHA256 scheme.
+  types:
+  - uid: string
+- name: repeatability-request-id
+  in: header
+  isRequired: true
+  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+  types:
+  - uid: string
+- name: repeatability-first-sent
+  in: header
+  isRequired: true
+  description: Must be sent by clients to specify that a request is repeatable. Repeatability-First-Sent is used to specify the date and time at which the request was first created in the IMF-fix date form of HTTP-date as defined in RFC7231. eg- Tue, 26 Mar 2019 16:06:51 GMT
+  types:
+  - uid: string
+definitions:
+- name: EmailCustomHeader
+  description: Custom header for email.
+  kind: object
+  properties:
+  - name: name
+    description: Header name.
+    types:
+    - uid: string
+  - name: value
+    description: Header value.
+    types:
+    - uid: string
+- name: EmailContent
+  description: Content of the email.
+  kind: object
+  properties:
+  - name: subject
+    description: Subject of the email message
+    types:
+    - uid: string
+  - name: plainText
+    description: Plain text version of the email message.
+    types:
+    - uid: string
+  - name: html
+    description: Html version of the email message.
+    types:
+    - uid: string
+- name: EmailRecipients
+  description: Recipients of the email
+  kind: object
+  properties:
+  - name: to
+    description: Email To recipients
+    types:
+    - uid: EmailAddress
+      isArray: true
+  - name: CC
+    description: Email CC recipients
+    types:
+    - uid: EmailAddress
+      isArray: true
+  - name: bCC
+    description: Email BCC recipients
+    types:
+    - uid: EmailAddress
+      isArray: true
+- name: EmailAttachment
+  description: Attachment to the email.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the attachment
+    types:
+    - uid: string
+  - name: attachmentType
+    description: The type of attachment file.
+    types:
+    - uid: EmailAttachmentType
+  - name: contentBytesBase64
+    description: Base64 encoded contents of the attachment
+    types:
+    - uid: string
+- name: EmailAddress
+  description: An object representing the email address and its display name
+  kind: object
+  properties:
+  - name: email
+    description: Email address.
+    types:
+    - uid: string
+  - name: displayName
+    description: Email display name.
+    types:
+    - uid: string
+- name: CommunicationErrorResponse
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: error
+    description: The Communication Services error.
+    types:
+    - uid: CommunicationError
+- name: EmailMessage
+  description: Message payload for sending an email
+  kind: object
+  properties:
+  - name: headers
+    description: Custom email headers to be passed.
+    types:
+    - uid: EmailCustomHeader
+      isArray: true
+  - name: sender
+    description: Sender email address from a verified domain.
+    types:
+    - uid: string
+  - name: content
+    description: Email content to be sent.
+    types:
+    - uid: EmailContent
+  - name: importance
+    description: The importance type for the email.
+    types:
+    - uid: EmailImportance
+    defaultValue: normal
+  - name: recipients
+    description: Recipients for the email.
+    types:
+    - uid: EmailRecipients
+  - name: attachments
+    description: list of attachments
+    types:
+    - uid: EmailAttachment
+      isArray: true
+  - name: replyTo
+    description: Email addresses where recipients' replies will be sent to.
+    types:
+    - uid: EmailAddress
+      isArray: true
+  - name: disableUserEngagementTracking
+    description: Indicates whether user engagement tracking should be disabled for this request if the resource-level user engagement tracking setting was already enabled in the control plane.
+    types:
+    - uid: boolean
+- name: EmailAttachmentType
+  description: The type of attachment file.
+  kind: enum
+  properties:
+  - name: avi
+    types:
+    - uid: string
+  - name: bmp
+    types:
+    - uid: string
+  - name: doc
+    types:
+    - uid: string
+  - name: docm
+    types:
+    - uid: string
+  - name: docx
+    types:
+    - uid: string
+  - name: gif
+    types:
+    - uid: string
+  - name: jpeg
+    types:
+    - uid: string
+  - name: mp3
+    types:
+    - uid: string
+  - name: one
+    types:
+    - uid: string
+  - name: pdf
+    types:
+    - uid: string
+  - name: png
+    types:
+    - uid: string
+  - name: ppsm
+    types:
+    - uid: string
+  - name: ppsx
+    types:
+    - uid: string
+  - name: ppt
+    types:
+    - uid: string
+  - name: pptm
+    types:
+    - uid: string
+  - name: pptx
+    types:
+    - uid: string
+  - name: pub
+    types:
+    - uid: string
+  - name: rpmsg
+    types:
+    - uid: string
+  - name: rtf
+    types:
+    - uid: string
+  - name: tif
+    types:
+    - uid: string
+  - name: txt
+    types:
+    - uid: string
+  - name: vsd
+    types:
+    - uid: string
+  - name: wav
+    types:
+    - uid: string
+  - name: wma
+    types:
+    - uid: string
+  - name: xls
+    types:
+    - uid: string
+  - name: xlsb
+    types:
+    - uid: string
+  - name: xlsm
+    types:
+    - uid: string
+  - name: xlsx
+    types:
+    - uid: string
+- name: CommunicationError
+  description: The Communication Services error.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Further details about specific errors that led to this error.
+    types:
+    - uid: CommunicationError
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: The inner error if any.
+    types:
+    - uid: CommunicationError
+- name: EmailImportance
+  description: The importance type for the email.
+  kind: enum
+  properties:
+  - name: high
+    types:
+    - uid: string
+  - name: normal
+    types:
+    - uid: string
+  - name: low
+    types:
+    - uid: string
+examples:
+- name: Send Email
+  request:
+    uri: POST https://contoso.westus.communications.azure.com/emails:send?api-version=2021-10-01-preview
+    body: >-
+      {
+        "headers": [
+          {
+            "name": "ClientCorrelationId",
+            "value": "123"
+          },
+          {
+            "name": "ClientCustomHeaderName",
+            "value": "ClientCustomHeaderValue"
+          }
+        ],
+        "sender": "abc@domain.com",
+        "content": {
+          "subject": "An exciting offer especially for you!",
+          "plainText": "This exciting offer was created especially for you, our most loyal customer.",
+          "html": "<html><head><title>Exciting offer!</title></head><body><h1>This exciting offer was created especially for you, our most loyal customer.</h1></body></html>"
+        },
+        "importance": "normal",
+        "recipients": {
+          "to": [
+            {
+              "email": "john.doe@domain.com",
+              "displayName": "John Doe"
+            },
+            {
+              "email": "jane.doe@domain2.com",
+              "displayName": "Jane Doe"
+            }
+          ],
+          "CC": [
+            {
+              "email": "wendy@someotherdomain.com",
+              "displayName": "Wendy"
+            },
+            {
+              "email": "jimmy@anotherdomain.com",
+              "displayName": "Jimmy Johns"
+            }
+          ],
+          "bCC": [
+            {
+              "email": "bob@anotherdomain.com",
+              "displayName": "Bob"
+            },
+            {
+              "email": "mail@yetanotherdomain.com",
+              "displayName": "Another DisplayName"
+            }
+          ]
+        },
+        "attachments": [
+          {
+            "name": "MyAttachment.pdf",
+            "attachmentType": "pdf",
+            "contentBytesBase64": "TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu"
+          },
+          {
+            "name": "MyAttachment2.docx",
+            "attachmentType": "docx",
+            "contentBytesBase64": "pZ2h0IHdvcmsu5kcyBtYWtlIGxpZ2h0IHdvcmsu"
+          }
+        ],
+        "replyTo": [
+          {
+            "email": "contoso-support@contoso.com",
+            "displayName": "Contoso Support"
+          }
+        ],
+        "disableUserEngagementTracking": true
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://contoso.westus.communications.azure.com/emails:send?api-version=2021-10-01-preview
+
+
+
+      {
+        "headers": [
+          {
+            "name": "ClientCorrelationId",
+            "value": "123"
+          },
+          {
+            "name": "ClientCustomHeaderName",
+            "value": "ClientCustomHeaderValue"
+          }
+        ],
+        "sender": "abc@domain.com",
+        "content": {
+          "subject": "An exciting offer especially for you!",
+          "plainText": "This exciting offer was created especially for you, our most loyal customer.",
+          "html": "<html><head><title>Exciting offer!</title></head><body><h1>This exciting offer was created especially for you, our most loyal customer.</h1></body></html>"
+        },
+        "importance": "normal",
+        "recipients": {
+          "to": [
+            {
+              "email": "john.doe@domain.com",
+              "displayName": "John Doe"
+            },
+            {
+              "email": "jane.doe@domain2.com",
+              "displayName": "Jane Doe"
+            }
+          ],
+          "CC": [
+            {
+              "email": "wendy@someotherdomain.com",
+              "displayName": "Wendy"
+            },
+            {
+              "email": "jimmy@anotherdomain.com",
+              "displayName": "Jimmy Johns"
+            }
+          ],
+          "bCC": [
+            {
+              "email": "bob@anotherdomain.com",
+              "displayName": "Bob"
+            },
+            {
+              "email": "mail@yetanotherdomain.com",
+              "displayName": "Another DisplayName"
+            }
+          ]
+        },
+        "attachments": [
+          {
+            "name": "MyAttachment.pdf",
+            "attachmentType": "pdf",
+            "contentBytesBase64": "TWFueSBoYW5kcyBtYWtlIGxpZ2h0IHdvcmsu"
+          },
+          {
+            "name": "MyAttachment2.docx",
+            "attachmentType": "docx",
+            "contentBytesBase64": "pZ2h0IHdvcmsu5kcyBtYWtlIGxpZ2h0IHdvcmsu"
+          }
+        ],
+        "replyTo": [
+          {
+            "email": "contoso-support@contoso.com",
+            "displayName": "Contoso Support"
+          }
+        ],
+        "disableUserEngagementTracking": true
+      }
+
+      ```
+
+    headers:
+    - name: repeatability-request-id
+      value: 8540c0de-899f-5cce-acb5-3ec493af3800
+    - name: repeatability-first-sent
+      value: Sun, 06 Nov 1994 08:49:37 GMT
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Repeatability-Result
+      value: accepted
+    - name: Operation-Location
+      value: https://contoso.westus.communications.azure.com//email/status/8540c0de-899f-5cce-acb5-3ec493af3800?api-version=2021-10-01-preview
+    - name: Retry-After
+      value: "1"
+    - name: x-ms-request-id
+      value: 8540c0de-899f-5cce-acb5-3ec493af3800
+security:
+- name: Authorization
+  type: apiKey
+  description: An authentication string containing a signature generated using HMAC-SHA256 scheme.
+  in: header
+metadata:
+  description: Learn more about Communication service - Queues an email message to be sent to one or more recipients
+errorCodes: []

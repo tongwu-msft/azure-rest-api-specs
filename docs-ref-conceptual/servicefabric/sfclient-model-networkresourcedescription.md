@@ -1,5 +1,5 @@
 ---
-title: "NetworkResourceDescription"
+title: Network Resource Overview
 description: "NetworkResourceDescription"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NetworkResourceDescription
+# Network Resource Overview
 
 This type describes a network resource.
 

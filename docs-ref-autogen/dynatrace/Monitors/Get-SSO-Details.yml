@@ -1,0 +1,367 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dynatrace.monitors.getssodetails
+name: Get SSO Details
+service: Dynatrace
+groupName: Monitors
+apiVersion: 2021-09-01-preview
+summary: Gets the SSO configuration details from the partner.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Dynatrace.Observability/monitors/{monitorName}/getSSODetails?api-version=2021-09-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Monitor resource name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: ARM operation completed successfully.
+  types:
+  - uid: SSODetailsResponse
+- name: 401 Unauthorized
+  description: User has insufficient permissions to update SSO configuration
+- name: Other Status Codes
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: userPrincipal
+    in: body
+    description: user principal id of the user
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SSODetailsResponse
+  description: SSO details from the Dynatrace partner
+  kind: object
+  properties:
+  - name: isSsoEnabled
+    description: Whether the SSO is enabled for this resource or not.
+    types:
+    - uid: SSOStatus
+  - name: metadataUrl
+    description: URL for Azure AD metadata
+    types:
+    - uid: string
+  - name: singleSignOnUrl
+    description: The login URL specific to this Dynatrace Environment
+    types:
+    - uid: string
+  - name: aadDomains
+    description: array of Aad(azure active directory) domains
+    types:
+    - uid: string
+      isArray: true
+  - name: adminUsers
+    description: Array of admin user emails.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: SSODetailsRequest
+  description: Request for getting sso details for a user
+  kind: object
+  properties:
+  - name: userPrincipal
+    description: user principal id of the user
+    types:
+    - uid: string
+- name: SSOStatus
+  description: Indicates whether SSO is enabled or not
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Monitors_GetSSODetails_MaximumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/getSSODetails?api-version=2021-09-01-preview
+    body: >-
+      {
+        "userPrincipal": "alice@microsoft.com"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/getSSODetails?api-version=2021-09-01-preview
+
+      {
+        "userPrincipal": "alice@microsoft.com"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.models.SsoDetailsRequest;
+
+      /** Samples for Monitors GetSsoDetails. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_GetSSODetails_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_GetSSODetails_MaximumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsGetSSODetailsMaximumSetGen(
+              com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              manager
+                  .monitors()
+                  .getSsoDetailsWithResponse(
+                      "myResourceGroup",
+                      "myMonitor",
+                      new SsoDetailsRequest().withUserPrincipal("alice@microsoft.com"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdynatrace_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dynatrace/armdynatrace"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_GetSSODetails_MaximumSet_Gen.json
+      func ExampleMonitorsClient_GetSSODetails() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdynatrace.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetSSODetails(ctx,
+      		"myResourceGroup",
+      		"myMonitor",
+      		&armdynatrace.MonitorsClientGetSSODetailsOptions{Request: &armdynatrace.SSODetailsRequest{
+      			UserPrincipal: to.Ptr("alice@microsoft.com"),
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdynatrace%2Farmdynatrace%2Fv0.1.0/sdk/resourcemanager/dynatrace/armdynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DynatraceObservability } = require("@azure/arm-dynatrace");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the SSO configuration details from the partner.
+       *
+       * @summary Gets the SSO configuration details from the partner.
+       * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_GetSSODetails_MaximumSet_Gen.json
+       */
+      async function monitorsGetSsoDetailsMaximumSetGen() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const request = { userPrincipal: "alice@microsoft.com" };
+        const options = { request };
+        const credential = new DefaultAzureCredential();
+        const client = new DynatraceObservability(credential, subscriptionId);
+        const result = await client.monitors.getSSODetails(resourceGroupName, monitorName, options);
+        console.log(result);
+      }
+
+      monitorsGetSsoDetailsMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dynatrace_1.0.0-beta.2/sdk/dynatrace/arm-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isSsoEnabled": "Enabled",
+        "metadataUrl": "https://someuri",
+        "singleSignOnUrl": "https://www.dynatrace.io/IAmSomeHash",
+        "aadDomains": [
+          "mpliftrdt20210811outlook.onmicrosoft.com"
+        ],
+        "adminUsers": [
+          "alice@microsoft.com"
+        ]
+      }
+  - statusCode: "401"
+- name: Monitors_GetSSODetails_MinimumSet_Gen
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/getSSODetails?api-version=2021-09-01-preview
+    body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Dynatrace.Observability/monitors/myMonitor/getSSODetails?api-version=2021-09-01-preview
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dynatrace.models.SsoDetailsRequest;
+
+      /** Samples for Monitors GetSsoDetails. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_GetSSODetails_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: Monitors_GetSSODetails_MinimumSet_Gen.
+           *
+           * @param manager Entry point to DynatraceManager.
+           */
+          public static void monitorsGetSSODetailsMinimumSetGen(
+              com.azure.resourcemanager.dynatrace.DynatraceManager manager) {
+              manager
+                  .monitors()
+                  .getSsoDetailsWithResponse("myResourceGroup", "myMonitor", new SsoDetailsRequest(), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dynatrace_1.0.0-beta.1/sdk/dynatrace/azure-resourcemanager-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DynatraceObservability } = require("@azure/arm-dynatrace");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the SSO configuration details from the partner.
+       *
+       * @summary Gets the SSO configuration details from the partner.
+       * x-ms-original-file: specification/dynatrace/resource-manager/Dynatrace.Observability/preview/2021-09-01-preview/examples/Monitors_GetSSODetails_MinimumSet_Gen.json
+       */
+      async function monitorsGetSsoDetailsMinimumSetGen() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const request = {};
+        const options = { request };
+        const credential = new DefaultAzureCredential();
+        const client = new DynatraceObservability(credential, subscriptionId);
+        const result = await client.monitors.getSSODetails(resourceGroupName, monitorName, options);
+        console.log(result);
+      }
+
+      monitorsGetSsoDetailsMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dynatrace_1.0.0-beta.2/sdk/dynatrace/arm-dynatrace/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: '{}'
+  - statusCode: "401"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Dynatrace service - Gets the SSO configuration details from the partner.
+errorCodes: []

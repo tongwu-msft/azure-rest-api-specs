@@ -1,0 +1,145 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoindexer.userclassicaccounts.list
+name: List
+service: Azure Video Indexer
+groupName: User Classic Accounts
+apiVersion: 2022-04-13-preview
+summary: Lists all Azure Video Indexer classic accounts
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/{location}/userClassicAccounts?api-version=2022-04-13-preview
+uriParameters:
+- name: location
+  in: path
+  isRequired: true
+  description: The name of Azure region.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: UserClassicAccountList
+- name: 500 Internal Server Error
+  description: Internal Server Error
+  types:
+  - uid: ErrorResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UserClassicAccountList
+  description: The list of user classic accounts.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of classic account names and their location.
+    types:
+    - uid: ClassicAccountSlim
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: ClassicAccountSlim
+  description: An Azure Video Indexer classic account.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The account's name
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The account's location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The account's id
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+examples:
+- name: List accounts
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/NorthEurope/userClassicAccounts?api-version=2022-04-13-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/NorthEurope/userClassicAccounts?api-version=2022-04-13-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "contoso-videoanalyzer",
+            "location": "NorthEurope",
+            "id": "462af7c5-d1f6-4b91-86e3-8bc5e8a61574"
+          }
+        ],
+        "nextLink": "link"
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "GENERAL",
+          "message": "Trace id: '9677927b-ae6b-496g-1df8-9ec3048b4bf2'."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Azure Video Indexer service - Lists all Azure Video Indexer classic accounts
+errorCodes: []

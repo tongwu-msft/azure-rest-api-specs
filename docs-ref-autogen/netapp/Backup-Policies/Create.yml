@@ -59,21 +59,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: location
-    in: body
-    isRequired: true
-    description: Resource location
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
   - name: properties.dailyBackupsToKeep
     in: body
     description: Daily backups count to keep
@@ -94,36 +79,23 @@ requestBody:
     description: The property to decide policy is enabled or not
     types:
     - uid: boolean
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
 requestHeader: []
 definitions:
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
-    types:
-    - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
-    types:
-    - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
-    types:
-    - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
-    types:
-    - uid: string
 - name: volumeBackups
   description: Volume details using the backup policy
   kind: object
@@ -144,43 +116,11 @@ definitions:
   description: Backup policy information
   kind: object
   properties:
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: The system meta data relating to this resource.
-    types:
-    - uid: systemData
   - name: properties.backupPolicyId
     isReadyOnly: true
     description: Backup Policy Resource ID
@@ -218,20 +158,31 @@ definitions:
     types:
     - uid: volumeBackups
       isArray: true
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
     types:
     - uid: string
-  - name: Application
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
-  - name: ManagedIdentity
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
     types:
     - uid: string
-  - name: Key
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 examples:
@@ -248,6 +199,140 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/backupPolicies/backupPolicyName?api-version=2021-10-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "dailyBackupsToKeep": 10,
+          "weeklyBackupsToKeep": 10,
+          "monthlyBackupsToKeep": 10,
+          "enabled": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for BackupPolicies Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/BackupPolicies_Create.json
+           */
+          /**
+           * Sample code: BackupPolicies_Create.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void backupPoliciesCreate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              manager
+                  .backupPolicies()
+                  .define("backupPolicyName")
+                  .withRegion("westus")
+                  .withExistingNetAppAccount("myRG", "account1")
+                  .withDailyBackupsToKeep(10)
+                  .withWeeklyBackupsToKeep(10)
+                  .withMonthlyBackupsToKeep(10)
+                  .withEnabled(true)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/BackupPolicies_Create.json
+      func ExampleBackupPoliciesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewBackupPoliciesClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"myRG",
+      		"account1",
+      		"backupPolicyName",
+      		armnetapp.BackupPolicy{
+      			Location: to.Ptr("westus"),
+      			Properties: &armnetapp.BackupPolicyProperties{
+      				DailyBackupsToKeep:   to.Ptr[int32](10),
+      				Enabled:              to.Ptr(true),
+      				MonthlyBackupsToKeep: to.Ptr[int32](10),
+      				WeeklyBackupsToKeep:  to.Ptr[int32](10),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a backup policy for Netapp Account
+       *
+       * @summary Create a backup policy for Netapp Account
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/BackupPolicies_Create.json
+       */
+      async function backupPoliciesCreate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const backupPolicyName = "backupPolicyName";
+        const body = {
+          dailyBackupsToKeep: 10,
+          enabled: true,
+          location: "westus",
+          monthlyBackupsToKeep: 10,
+          weeklyBackupsToKeep: 10,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.backupPolicies.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          backupPolicyName,
+          body
+        );
+        console.log(result);
+      }
+
+      backupPoliciesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -102,6 +102,7 @@ definitions:
     description: The Key to be used to generate gateway token.
     types:
     - uid: KeyType
+    defaultValue: primary
   - name: expiry
     description: 'The Expiry time of the Token. Maximum token expiry time is set to 30 days. The date conforms to the following format: `yyyy-MM-ddTHH:mm:ssZ` as specified by the ISO 8601 standard.'
     types:
@@ -141,6 +142,96 @@ examples:
         "keyType": "primary",
         "expiry": "2020-04-21T00:44:24.2845269Z"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/gateways/gw1/generateToken?api-version=2021-08-01
+
+      {
+        "keyType": "primary",
+        "expiry": "2020-04-21T00:44:24.2845269Z"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.apimanagement.models.GatewayTokenRequestContract;
+      import com.azure.resourcemanager.apimanagement.models.KeyType;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Gateway GenerateToken. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGatewayGenerateToken.json
+           */
+          /**
+           * Sample code: ApiManagementGatewayGenerateToken.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementGatewayGenerateToken(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .gateways()
+                  .generateTokenWithResponse(
+                      "rg1",
+                      "apimService1",
+                      "gw1",
+                      new GatewayTokenRequestContract()
+                          .withKeyType(KeyType.PRIMARY)
+                          .withExpiry(OffsetDateTime.parse("2020-04-21T00:44:24.2845269Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGatewayGenerateToken.json
+      func ExampleGatewayClient_GenerateToken() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewGatewayClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GenerateToken(ctx,
+      		"rg1",
+      		"apimService1",
+      		"gw1",
+      		armapimanagement.GatewayTokenRequestContract{
+      			Expiry:  to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-04-21T00:44:24.2845269Z"); return t }()),
+      			KeyType: to.Ptr(armapimanagement.KeyTypePrimary),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

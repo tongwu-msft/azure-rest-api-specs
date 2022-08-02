@@ -3,12 +3,12 @@ uid: management.azure.com.hybridkubernetes.connectedcluster.listbyresourcegroup
 name: List By Resource Group
 service: Hybrid Kubernetes
 groupName: Connected Cluster
-apiVersion: 2021-03-01
+apiVersion: 2021-10-01
 summary: "Lists all connected clusters  \nAPI to enumerate registered connected K8s clusters under a Resource Group"
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -205,6 +205,7 @@ definitions:
     description: The type of identity used for the connected cluster. The type 'SystemAssigned, includes a system created identity. The type 'None' means no identity is assigned to the connected cluster.
     types:
     - uid: ResourceIdentityType
+    defaultValue: SystemAssigned
 - name: SystemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -333,7 +334,100 @@ definitions:
 examples:
 - name: GetClustersExample
   request:
-    uri: GET https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/1bfbb5d0-917e-4346-9026-1d3b344417f5/resourcegroups/k8sc-rg/providers/Microsoft.Kubernetes/connectedClusters?api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ConnectedCluster ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/GetClustersByResourceGroupExample.json
+           */
+          /**
+           * Sample code: GetClustersExample.
+           *
+           * @param manager Entry point to HybridKubernetesManager.
+           */
+          public static void getClustersExample(com.azure.resourcemanager.hybridkubernetes.HybridKubernetesManager manager) {
+              manager.connectedClusters().listByResourceGroup("k8sc-rg", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hybridkubernetes_1.0.0-beta.2/sdk/hybridkubernetes/azure-resourcemanager-hybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhybridkubernetes_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/GetClustersByResourceGroupExample.json
+      func ExampleConnectedClusterClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhybridkubernetes.NewConnectedClusterClient("1bfbb5d0-917e-4346-9026-1d3b344417f5", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("k8sc-rg",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhybridkubernetes%2Farmhybridkubernetes%2Fv1.0.0/sdk/resourcemanager/hybridkubernetes/armhybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConnectedKubernetesClient } = require("@azure/arm-hybridkubernetes");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to API to enumerate registered connected K8s clusters under a Resource Group
+       *
+       * @summary API to enumerate registered connected K8s clusters under a Resource Group
+       * x-ms-original-file: specification/hybridkubernetes/resource-manager/Microsoft.Kubernetes/stable/2021-10-01/examples/GetClustersByResourceGroupExample.json
+       */
+      async function getClustersExample() {
+        const subscriptionId = "1bfbb5d0-917e-4346-9026-1d3b344417f5";
+        const resourceGroupName = "k8sc-rg";
+        const credential = new DefaultAzureCredential();
+        const client = new ConnectedKubernetesClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.connectedClusterOperations.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getClustersExample().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hybridkubernetes_2.0.1/sdk/hybridkubernetes/arm-hybridkubernetes/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

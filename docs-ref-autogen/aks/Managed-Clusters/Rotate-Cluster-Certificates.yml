@@ -3,14 +3,14 @@ uid: management.azure.com.aks.managedclusters.rotateclustercertificates
 name: Rotate Cluster Certificates
 service: AKS
 groupName: Managed Clusters
-apiVersion: 2022-02-01
+apiVersion: 2022-04-01
 summary: "Rotates the certificates of a managed cluster.  \nSee [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates?api-version=2022-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/rotateClusterCertificates?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,7 +80,105 @@ definitions:
 examples:
 - name: Rotate Cluster Certificates
   request:
-    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/rotateClusterCertificates?api-version=2022-02-01
+    uri: POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/rotateClusterCertificates?api-version=2022-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/rotateClusterCertificates?api-version=2022-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ManagedClusters RotateClusterCertificates. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ManagedClustersRotateClusterCertificates.json
+           */
+          /**
+           * Sample code: Rotate Cluster Certificates.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void rotateClusterCertificates(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getManagedClusters()
+                  .rotateClusterCertificates("rg1", "clustername1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ManagedClustersRotateClusterCertificates.json
+      func ExampleManagedClustersClient_BeginRotateClusterCertificates() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewManagedClustersClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRotateClusterCertificates(ctx,
+      		"rg1",
+      		"clustername1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+       *
+       * @summary See [Certificate rotation](https://docs.microsoft.com/azure/aks/certificate-rotation) for more details about rotating managed cluster certificates.
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ManagedClustersRotateClusterCertificates.json
+       */
+      async function rotateClusterCertificates() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "clustername1";
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.managedClusters.beginRotateClusterCertificatesAndWait(
+          resourceGroupName,
+          resourceName
+        );
+        console.log(result);
+      }
+
+      rotateClusterCertificates().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "204"
