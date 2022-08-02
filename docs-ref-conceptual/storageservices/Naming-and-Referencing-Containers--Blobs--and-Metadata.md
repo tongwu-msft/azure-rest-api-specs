@@ -3,7 +3,7 @@ title: Naming and Referencing Containers, Blobs, and Metadata - Azure Storage
 description: This topic describes naming and referring to containers, blobs, metadata, and snapshots. A storage account can contain zero or more containers. A container contains properties, metadata, and zero or more blobs. A blob is any single entity comprised of binary data, properties, and metadata.
 author: tamram
 
-ms.date: 08/26/2019
+ms.date: 06/24/2022
 ms.service: storage
 ms.topic: reference
 ms.author: tamram
@@ -19,8 +19,11 @@ The URI to reference a container or a blob must be unique. Because every account
   
 If you attempt to create a container or blob with a name that violates naming rules, the request will fail with status code 400 (Bad Request).  
   
-> [!IMPORTANT]
-> Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names. Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used.  In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed. For rules governing Unicode strings in HTTP/1.1, see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).
+Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.
+
+Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used. In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed.
+
+For rules governing Unicode strings in HTTP/1.1, see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).
   
 ### Container Names  
 
