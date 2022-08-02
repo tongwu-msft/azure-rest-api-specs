@@ -1673,6 +1673,12 @@
 #### [Overview](appconfiguration/preview/Private-Link-Resources.yml)
 #### [Get](appconfiguration/preview/Private-Link-Resources/Get.yml)
 #### [List By Configuration Store](appconfiguration/preview/Private-Link-Resources/List-By-Configuration-Store.yml)
+### Replicas
+#### [Overview](appconfiguration/preview/Replicas.yml)
+#### [Create](appconfiguration/preview/Replicas/Create.yml)
+#### [Delete](appconfiguration/preview/Replicas/Delete.yml)
+#### [Get](appconfiguration/preview/Replicas/Get.yml)
+#### [List By Configuration Store](appconfiguration/preview/Replicas/List-By-Configuration-Store.yml)
 ## Stable
 ### Configuration Stores
 #### [Overview](appconfiguration/stable/Configuration-Stores.yml)
