@@ -19,7 +19,8 @@ This is the stable release versions that can be used to develop production solut
 
 | API version | Specification | API updates |
 |---------|---------------|-----------------|
-| `2022-05-31` (Latest) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
+| `2022-07-31` (Latest) | [Swagger specicication](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-07-31) | [Release note](#2022-07-31)
+| `2022-05-31` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/2022-05-31) | [Release note](#2022-05-31)
 | `1.0` (Deprecated) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/stable/1.0) |  [Release note](#10) |
 
 ## Preview versions
@@ -33,6 +34,17 @@ Preview versions are released to test new functionality, gather feedback, and di
 | `1.1-Preview` (Deprecated)| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/data-plane/Microsoft.IoTCentral/preview/1.1-preview) | [Release note](#11-preview-deprecated) |
 
 ## Release notes
+
+### 2022-07-31
+
+Our latest GA release on July 31st, 2022 improves the previously existing `2022-05-31` release and is fully backwards compatible. As of today, the `2022-05-31` release is now marked for `deprecation` and we will look to end support for it by July 2025. Here are set of updates captured in this release:
+
++ Jobs with progress status support 
++ Scheduled Jobs support
++ Device Enrollment Groups support
++ Device Relationships support
++ Device Groups List Devices support
+
 
 ### 2022-06-30-preview
 

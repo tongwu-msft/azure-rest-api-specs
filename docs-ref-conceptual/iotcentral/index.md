@@ -22,6 +22,9 @@ The IoT Central REST API enables you to develop clients that integrate with your
 
 Try our [guided learning journey](/learn/modules/manage-iot-central-apps-with-rest-api/) to learn about how to use the IoT Central APIs.
 
+## Release History
+[Versions](versions.md)
+
 ## Operation groups
 
 The IoT Central REST API provides operations for working with the following resources:
