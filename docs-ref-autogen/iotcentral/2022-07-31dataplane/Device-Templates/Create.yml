@@ -1,0 +1,727 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-07-31dataplane.devicetemplates.create
+name: Create
+service: IoT Central
+groupName: Device Templates
+apiVersion: 2022-07-31
+summary: Publish a new device template. Default views will be automatically generated for new device templates created this way.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/deviceTemplates/{deviceTemplateId}?api-version=2022-07-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceTemplateId
+  in: path
+  isRequired: true
+  description: Unique [Digital Twin Model Identifier](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/dtdlv2.md#digital-twin-model-identifier) of the device template.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceTemplate
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: '@type'
+    in: body
+    isRequired: true
+    description: The JSON-LD types of this device template.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict in device template updates.
+    types:
+    - uid: string
+  - name: displayName
+    in: body
+    description: Display name of the device template.
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Detailed description of the device template.
+    types:
+    - uid: string
+  - name: capabilityModel
+    in: body
+    isRequired: true
+    description: The capability model utilized by this device template.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: DeviceTemplate
+  description: The device template definition.
+  kind: object
+  properties:
+  - name: '@id'
+    isReadyOnly: true
+    description: Unique ID of the device template.
+    types:
+    - uid: string
+  - name: '@type'
+    description: The JSON-LD types of this device template.
+    types:
+    - uid: string
+      isArray: true
+  - name: etag
+    description: ETag used to prevent conflict in device template updates.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device template.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the device template.
+    types:
+    - uid: string
+  - name: capabilityModel
+    description: The capability model utilized by this device template.
+    types:
+    - uid: object
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Create a device template
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/deviceTemplates/dtmi:contoso:testDeviceTemplate;1?api-version=2022-07-31
+    body: >-
+      {
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ],
+        "displayName": "Test Contoso Definition",
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "displayName": "Test Capability Model",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "displayName": "Settings",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ]
+              }
+            },
+            {
+              "@type": [
+                "Telemetry",
+                "Humidity"
+              ],
+              "name": "humidity",
+              "displayName": "Humidity",
+              "schema": "double"
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "valueSchema": "integer",
+                "enumValues": [
+                  {
+                    "name": "offline",
+                    "displayName": "Offline",
+                    "enumValue": 1
+                  },
+                  {
+                    "name": "online",
+                    "displayName": "Online",
+                    "enumValue": 2
+                  }
+                ]
+              }
+            }
+          ],
+          "extends": [
+            {
+              "@id": "dtmi:contoso:testInterface;1",
+              "@type": "Interface",
+              "displayName": "Test Interface",
+              "contents": [
+                {
+                  "@type": "Telemetry",
+                  "displayName": "Test Telemetry",
+                  "name": "testTelemetry",
+                  "schema": "double"
+                },
+                {
+                  "@type": [
+                    "Telemetry",
+                    "Event",
+                    "EventValue"
+                  ],
+                  "displayName": "Test Event",
+                  "name": "testEvent",
+                  "schema": "integer",
+                  "severity": "warning"
+                },
+                {
+                  "@type": [
+                    "Property",
+                    "Initialized"
+                  ],
+                  "displayName": "Test Property",
+                  "name": "testProperty",
+                  "schema": "string",
+                  "writable": true,
+                  "initialValue": "initialValue1"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Read-Only Property",
+                  "name": "testReadOnly",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Complex Property",
+                  "name": "testComplex",
+                  "schema": {
+                    "@id": "dtmi:contoso:testComplex;1",
+                    "@type": "Object",
+                    "displayName": "Object",
+                    "fields": [
+                      {
+                        "displayName": "First",
+                        "name": "first",
+                        "schema": "string"
+                      },
+                      {
+                        "displayName": "Second",
+                        "name": "second",
+                        "schema": "string"
+                      }
+                    ]
+                  },
+                  "writable": true
+                },
+                {
+                  "@type": "Command",
+                  "commandType": "synchronous",
+                  "displayName": "Test Command",
+                  "name": "testCommand",
+                  "request": {
+                    "displayName": "Test Request",
+                    "name": "testRequest",
+                    "schema": "double"
+                  },
+                  "response": {
+                    "displayName": "Test Response",
+                    "name": "testResponse",
+                    "schema": "geopoint"
+                  }
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Enum",
+                  "name": "testEnum",
+                  "schema": {
+                    "@id": "dtmi:contoso:testEnum;1",
+                    "@type": "Enum",
+                    "displayName": "Enum",
+                    "enumValues": [
+                      {
+                        "displayName": "First",
+                        "enumValue": 1,
+                        "name": "first"
+                      },
+                      {
+                        "displayName": "Second",
+                        "enumValue": 2,
+                        "name": "second"
+                      }
+                    ],
+                    "valueSchema": "integer"
+                  },
+                  "writable": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://appsubdomain.azureiotcentral.com/api/deviceTemplates/dtmi:contoso:testDeviceTemplate;1?api-version=2022-07-31
+
+      {
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ],
+        "displayName": "Test Contoso Definition",
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "displayName": "Test Capability Model",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "displayName": "Settings",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ]
+              }
+            },
+            {
+              "@type": [
+                "Telemetry",
+                "Humidity"
+              ],
+              "name": "humidity",
+              "displayName": "Humidity",
+              "schema": "double"
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "valueSchema": "integer",
+                "enumValues": [
+                  {
+                    "name": "offline",
+                    "displayName": "Offline",
+                    "enumValue": 1
+                  },
+                  {
+                    "name": "online",
+                    "displayName": "Online",
+                    "enumValue": 2
+                  }
+                ]
+              }
+            }
+          ],
+          "extends": [
+            {
+              "@id": "dtmi:contoso:testInterface;1",
+              "@type": "Interface",
+              "displayName": "Test Interface",
+              "contents": [
+                {
+                  "@type": "Telemetry",
+                  "displayName": "Test Telemetry",
+                  "name": "testTelemetry",
+                  "schema": "double"
+                },
+                {
+                  "@type": [
+                    "Telemetry",
+                    "Event",
+                    "EventValue"
+                  ],
+                  "displayName": "Test Event",
+                  "name": "testEvent",
+                  "schema": "integer",
+                  "severity": "warning"
+                },
+                {
+                  "@type": [
+                    "Property",
+                    "Initialized"
+                  ],
+                  "displayName": "Test Property",
+                  "name": "testProperty",
+                  "schema": "string",
+                  "writable": true,
+                  "initialValue": "initialValue1"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Read-Only Property",
+                  "name": "testReadOnly",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Complex Property",
+                  "name": "testComplex",
+                  "schema": {
+                    "@id": "dtmi:contoso:testComplex;1",
+                    "@type": "Object",
+                    "displayName": "Object",
+                    "fields": [
+                      {
+                        "displayName": "First",
+                        "name": "first",
+                        "schema": "string"
+                      },
+                      {
+                        "displayName": "Second",
+                        "name": "second",
+                        "schema": "string"
+                      }
+                    ]
+                  },
+                  "writable": true
+                },
+                {
+                  "@type": "Command",
+                  "commandType": "synchronous",
+                  "displayName": "Test Command",
+                  "name": "testCommand",
+                  "request": {
+                    "displayName": "Test Request",
+                    "name": "testRequest",
+                    "schema": "double"
+                  },
+                  "response": {
+                    "displayName": "Test Response",
+                    "name": "testResponse",
+                    "schema": "geopoint"
+                  }
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Enum",
+                  "name": "testEnum",
+                  "schema": {
+                    "@id": "dtmi:contoso:testEnum;1",
+                    "@type": "Enum",
+                    "displayName": "Enum",
+                    "enumValues": [
+                      {
+                        "displayName": "First",
+                        "enumValue": 1,
+                        "name": "first"
+                      },
+                      {
+                        "displayName": "Second",
+                        "enumValue": 2,
+                        "name": "second"
+                      }
+                    ],
+                    "valueSchema": "integer"
+                  },
+                  "writable": true
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "etag": "\"~FeoA18iSWEoC7QR3Xf33BmlVQoXvM6toNHamHuGdBs8=\"",
+        "displayName": "Test Contoso Definition",
+        "capabilityModel": {
+          "@id": "dtmi:contoso:testCapabilityModel;1",
+          "@type": "Interface",
+          "contents": [
+            {
+              "@id": "dtmi:contoso:testCapabilityModel:settings;1",
+              "@type": "Component",
+              "displayName": "Settings",
+              "name": "settings",
+              "schema": {
+                "@id": "dtmi:contoso:settings;1",
+                "@type": "Interface",
+                "contents": [
+                  {
+                    "@type": "Telemetry",
+                    "displayName": "Test Component Telemetry",
+                    "name": "testComponentTelemetry",
+                    "schema": "double"
+                  },
+                  {
+                    "@type": [
+                      "Property",
+                      "Initialized"
+                    ],
+                    "displayName": "Temperature Threshold",
+                    "name": "threshold",
+                    "schema": "double",
+                    "writable": true,
+                    "initialValue": "100"
+                  }
+                ],
+                "displayName": "Settings"
+              }
+            },
+            {
+              "@type": [
+                "Telemetry",
+                "Humidity"
+              ],
+              "displayName": "Humidity",
+              "name": "humidity",
+              "schema": "double"
+            },
+            {
+              "@type": [
+                "Property",
+                "Cloud"
+              ],
+              "displayName": "Online Status",
+              "name": "status",
+              "schema": {
+                "@type": "Enum",
+                "enumValues": [
+                  {
+                    "displayName": "Offline",
+                    "enumValue": 1,
+                    "name": "offline"
+                  },
+                  {
+                    "displayName": "Online",
+                    "enumValue": 2,
+                    "name": "online"
+                  }
+                ],
+                "valueSchema": "integer"
+              }
+            }
+          ],
+          "displayName": "Test Capability Model",
+          "extends": [
+            {
+              "@id": "dtmi:contoso:testInterface;1",
+              "@type": [
+                "Interface",
+                "NamedInterface"
+              ],
+              "contents": [
+                {
+                  "@type": "Telemetry",
+                  "displayName": "Test Telemetry",
+                  "name": "testTelemetry",
+                  "schema": "double"
+                },
+                {
+                  "@type": [
+                    "EventValue",
+                    "Telemetry",
+                    "Event"
+                  ],
+                  "displayName": "Test Event",
+                  "name": "testEvent",
+                  "schema": "integer",
+                  "severity": "warning"
+                },
+                {
+                  "@type": [
+                    "Initialized",
+                    "Property"
+                  ],
+                  "displayName": "Test Property",
+                  "name": "testProperty",
+                  "schema": "string",
+                  "writable": true,
+                  "initialValue": "initialValue1"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Read-Only Property",
+                  "name": "testReadOnly",
+                  "schema": "string"
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Complex Property",
+                  "name": "testComplex",
+                  "schema": {
+                    "@id": "dtmi:contoso:testComplex;1",
+                    "@type": "Object",
+                    "displayName": "Object",
+                    "fields": [
+                      {
+                        "displayName": "First",
+                        "name": "first",
+                        "schema": "string"
+                      },
+                      {
+                        "displayName": "Second",
+                        "name": "second",
+                        "schema": "string"
+                      }
+                    ]
+                  },
+                  "writable": true
+                },
+                {
+                  "@type": "Command",
+                  "commandType": "synchronous",
+                  "displayName": "Test Command",
+                  "name": "testCommand",
+                  "request": {
+                    "@type": "CommandPayload",
+                    "displayName": "Test Request",
+                    "name": "testRequest",
+                    "schema": "double"
+                  },
+                  "response": {
+                    "@type": "CommandPayload",
+                    "displayName": "Test Response",
+                    "name": "testResponse",
+                    "schema": "geopoint"
+                  }
+                },
+                {
+                  "@type": "Property",
+                  "displayName": "Test Enum",
+                  "name": "testEnum",
+                  "schema": {
+                    "@id": "dtmi:contoso:testEnum;1",
+                    "@type": "Enum",
+                    "displayName": "Enum",
+                    "enumValues": [
+                      {
+                        "displayName": "First",
+                        "enumValue": 1,
+                        "name": "first"
+                      },
+                      {
+                        "displayName": "Second",
+                        "enumValue": 2,
+                        "name": "second"
+                      }
+                    ],
+                    "valueSchema": "integer"
+                  },
+                  "writable": true
+                }
+              ],
+              "displayName": "Test Interface",
+              "name": "contoso_testInterface"
+            }
+          ]
+        },
+        "@id": "dtmi:modelDefinition:contoso;1",
+        "@type": [
+          "ModelDefinition",
+          "DeviceModel"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Publish a new device template. Default views will be automatically generated for new device templates created this way.
+errorCodes: []
