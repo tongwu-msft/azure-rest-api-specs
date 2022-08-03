@@ -296,6 +296,98 @@ examples:
 - name: Get Metric for data
   request:
     uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetric.json
+      func ExampleMetricsClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewMetricsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		"subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default",
+      		&armmonitor.MetricsClientListOptions{Timespan: to.Ptr("2017-04-14T02:20:00Z/2017-04-14T04:20:00Z"),
+      			Interval:        to.Ptr("PT1M"),
+      			Metricnames:     nil,
+      			Aggregation:     to.Ptr("Average,count"),
+      			Top:             to.Ptr[int32](3),
+      			Orderby:         to.Ptr("Average asc"),
+      			Filter:          to.Ptr("BlobType eq '*'"),
+      			ResultType:      nil,
+      			Metricnamespace: to.Ptr("Microsoft.Storage/storageAccounts/blobServices"),
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to **Lists the metric values for a resource**.
+       *
+       * @summary **Lists the metric values for a resource**.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetric.json
+       */
+      async function getMetricForData() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceUri =
+          "subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default";
+        const timespan = "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z";
+        const interval = "PT1M";
+        const aggregation = "Average,count";
+        const top = 3;
+        const orderby = "Average asc";
+        const filter = "BlobType eq '*'";
+        const metricnamespace = "Microsoft.Storage/storageAccounts/blobServices";
+        const options = {
+          timespan,
+          interval,
+          aggregation,
+          top,
+          orderby,
+          filter,
+          metricnamespace,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.metrics.list(resourceUri, options);
+        console.log(result);
+      }
+
+      getMetricForData().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -383,6 +475,53 @@ examples:
 - name: Get Metric for metadata
   request:
     uri: GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default/providers/Microsoft.Insights/metrics?timespan=2017-04-14T02:20:00Z/2017-04-14T04:20:00Z&interval=PT1M&aggregation=Average,count&top=3&orderby=Average asc&$filter=BlobType eq '*'&api-version=2018-01-01&metricnamespace=Microsoft.Storage/storageAccounts/blobServices
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to **Lists the metric values for a resource**.
+       *
+       * @summary **Lists the metric values for a resource**.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricMetadata.json
+       */
+      async function getMetricForMetadata() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceUri =
+          "subscriptions/b324c52b-4073-4807-93af-e07d289c093e/resourceGroups/test/providers/Microsoft.Storage/storageAccounts/larryshoebox/blobServices/default";
+        const timespan = "2017-04-14T02:20:00Z/2017-04-14T04:20:00Z";
+        const interval = "PT1M";
+        const aggregation = "Average,count";
+        const top = 3;
+        const orderby = "Average asc";
+        const filter = "BlobType eq '*'";
+        const metricnamespace = "Microsoft.Storage/storageAccounts/blobServices";
+        const options = {
+          timespan,
+          interval,
+          aggregation,
+          top,
+          orderby,
+          filter,
+          metricnamespace,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.metrics.list(resourceUri, options);
+        console.log(result);
+      }
+
+      getMetricForMetadata().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -430,6 +569,49 @@ examples:
 - name: Get Metric with error
   request:
     uri: GET https://management.azure.com/subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo/providers/Microsoft.Insights/metrics?timespan=2021-06-07T21:51:00Z/2021-06-08T01:51:00Z&interval=FULL&metricnames=MongoRequestsCount,MongoRequests&aggregation=average&api-version=2018-01-01&metricnamespace=microsoft.documentdb/databaseaccounts
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo/providers/Microsoft.Insights/metrics?timespan=2021-06-07T21:51:00Z/2021-06-08T01:51:00Z&interval=FULL&metricnames=MongoRequestsCount,MongoRequests&aggregation=average&api-version=2018-01-01&metricnamespace=microsoft.documentdb/databaseaccounts
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to **Lists the metric values for a resource**.
+       *
+       * @summary **Lists the metric values for a resource**.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-01-01/examples/GetMetricError.json
+       */
+      async function getMetricWithError() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceUri =
+          "subscriptions/ac41e21f-afd6-4a79-8070-f01eba278f97/resourceGroups/todking/providers/Microsoft.DocumentDb/databaseAccounts/tk-cosmos-mongo";
+        const timespan = "2021-06-07T21:51:00Z/2021-06-08T01:51:00Z";
+        const interval = "FULL";
+        const metricnames = "MongoRequestsCount,MongoRequests";
+        const aggregation = "average";
+        const metricnamespace = "microsoft.documentdb/databaseaccounts";
+        const options = {
+          timespan,
+          interval,
+          metricnames,
+          aggregation,
+          metricnamespace,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.metrics.list(resourceUri, options);
+        console.log(result);
+      }
+
+      getMetricWithError().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

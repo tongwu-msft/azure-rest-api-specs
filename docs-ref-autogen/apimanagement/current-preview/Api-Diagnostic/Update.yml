@@ -111,6 +111,11 @@ requestBody:
     description: The format of the Operation Name for Application Insights telemetries. Default is Name.
     types:
     - uid: OperationNameFormat
+  - name: properties.metrics
+    in: body
+    description: Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.
+    types:
+    - uid: boolean
 requestHeader:
 - name: If-Match
   in: header
@@ -183,6 +188,10 @@ definitions:
     description: The format of the Operation Name for Application Insights telemetries. Default is Name.
     types:
     - uid: OperationNameFormat
+  - name: properties.metrics
+    description: Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -403,6 +412,61 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/apis/echo-api/diagnostics/applicationinsights?api-version=2021-12-01-preview
+
+
+      {
+        "properties": {
+          "alwaysLog": "allErrors",
+          "loggerId": "/loggers/applicationinsights",
+          "sampling": {
+            "samplingType": "fixed",
+            "percentage": 50
+          },
+          "frontend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          },
+          "backend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
     headers:
     - name: If-Match
       value: '*'

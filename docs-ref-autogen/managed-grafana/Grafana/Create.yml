@@ -391,6 +391,174 @@ examples:
         },
         "location": "West US"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Dashboard/grafana/myWorkspace?api-version=2021-09-01-preview
+
+      {
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "provisioningState": "Accepted",
+          "zoneRedundancy": "Enabled"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "tags": {
+          "Environment": "Dev"
+        },
+        "location": "West US"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.dashboard.models.IdentityType;
+      import com.azure.resourcemanager.dashboard.models.ManagedGrafanaProperties;
+      import com.azure.resourcemanager.dashboard.models.ManagedIdentity;
+      import com.azure.resourcemanager.dashboard.models.ProvisioningState;
+      import com.azure.resourcemanager.dashboard.models.ResourceSku;
+      import com.azure.resourcemanager.dashboard.models.ZoneRedundancy;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Grafana Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Create.json
+           */
+          /**
+           * Sample code: Grafana_Create.
+           *
+           * @param manager Entry point to DashboardManager.
+           */
+          public static void grafanaCreate(com.azure.resourcemanager.dashboard.DashboardManager manager) {
+              manager
+                  .grafanas()
+                  .define("myWorkspace")
+                  .withRegion("West US")
+                  .withExistingResourceGroup("myResourceGroup")
+                  .withTags(mapOf("Environment", "Dev"))
+                  .withSku(new ResourceSku().withName("Standard"))
+                  .withProperties(
+                      new ManagedGrafanaProperties()
+                          .withProvisioningState(ProvisioningState.ACCEPTED)
+                          .withZoneRedundancy(ZoneRedundancy.ENABLED))
+                  .withIdentity(new ManagedIdentity().withType(IdentityType.SYSTEM_ASSIGNED))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dashboard_1.0.0-beta.1/sdk/dashboard/azure-resourcemanager-dashboard/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdashboard_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dashboard/armdashboard"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Create.json
+      func ExampleGrafanaClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdashboard.NewGrafanaClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"myResourceGroup",
+      		"myWorkspace",
+      		armdashboard.ManagedGrafana{
+      			Identity: &armdashboard.ManagedIdentity{
+      				Type: to.Ptr(armdashboard.IdentityTypeSystemAssigned),
+      			},
+      			Location: to.Ptr("West US"),
+      			Properties: &armdashboard.ManagedGrafanaProperties{
+      				ProvisioningState: to.Ptr(armdashboard.ProvisioningStateAccepted),
+      				ZoneRedundancy:    to.Ptr(armdashboard.ZoneRedundancyEnabled),
+      			},
+      			SKU: &armdashboard.ResourceSKU{
+      				Name: to.Ptr("Standard"),
+      			},
+      			Tags: map[string]*string{
+      				"Environment": to.Ptr("Dev"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdashboard%2Farmdashboard%2Fv0.3.0/sdk/resourcemanager/dashboard/armdashboard/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DashboardManagementClient } = require("@azure/arm-dashboard");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
+       *
+       * @summary Create or update a workspace for Grafana resource. This API is idempotent, so user can either create a new grafana or update an existing grafana.
+       * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/preview/2021-09-01-preview/examples/Grafana_Create.json
+       */
+      async function grafanaCreate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const workspaceName = "myWorkspace";
+        const requestBodyParameters = {
+          identity: { type: "SystemAssigned" },
+          location: "West US",
+          properties: { provisioningState: "Accepted", zoneRedundancy: "Enabled" },
+          sku: { name: "Standard" },
+          tags: { environment: "Dev" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DashboardManagementClient(credential, subscriptionId);
+        const result = await client.grafana.beginCreateAndWait(
+          resourceGroupName,
+          workspaceName,
+          requestBodyParameters
+        );
+        console.log(result);
+      }
+
+      grafanaCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dashboard_1.0.0-beta.1/sdk/dashboard/arm-dashboard/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

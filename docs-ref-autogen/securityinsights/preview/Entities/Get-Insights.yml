@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.entities.getinsights
 name: Get Insights
 service: Sentinel
 groupName: Entities
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Execute Insights for an entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights?api-version=2021-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getInsights?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -132,7 +132,7 @@ definitions:
   - name: errors
     description: information about the failed queries
     types:
-    - uid: GetInsightsError
+    - uid: GetInsightsErrorKind
       isArray: true
 - name: EntityInsightItem
   description: Entity insight Item.
@@ -169,15 +169,14 @@ definitions:
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
-- name: GetInsightsError
+- name: GetInsightsErrorKind
   description: GetInsights Query Errors.
   kind: object
   properties:
   - name: kind
     description: the query kind
     types:
-    - uid: Insight
-    typesTitle: enum
+    - uid: GetInsightsError
   - name: queryId
     description: the query id
     types:
@@ -212,6 +211,13 @@ definitions:
     types:
     - uid: array
       isArray: true
+- name: GetInsightsError
+  description: the query kind
+  kind: enum
+  properties:
+  - name: Insight
+    types:
+    - uid: string
 - name: Columns
   description: Columns Metadata of the table
   kind: object
@@ -227,7 +233,7 @@ definitions:
 examples:
 - name: Entity Insight
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getInsights?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getInsights?api-version=2022-07-01-preview
     body: >-
       {
         "addDefaultExtendedTimeRange": false,
@@ -237,6 +243,59 @@ examples:
           "cae8d0aa-aa45-4d53-8d88-17dd64ffd4e4"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getInsights?api-version=2022-07-01-preview
+
+      {
+        "addDefaultExtendedTimeRange": false,
+        "startTime": "2021-09-01T00:00:00.000Z",
+        "endTime": "2021-10-01T00:00:00.000Z",
+        "insightQueryIds": [
+          "cae8d0aa-aa45-4d53-8d88-17dd64ffd4e4"
+        ]
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Execute Insights for an entity.
+       *
+       * @summary Execute Insights for an entity.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/insights/PostGetInsights.json
+       */
+      async function entityInsight() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
+        const parameters = {
+          addDefaultExtendedTimeRange: false,
+          endTime: new Date("2021-10-01T00:00:00.000Z"),
+          insightQueryIds: ["cae8d0aa-aa45-4d53-8d88-17dd64ffd4e4"],
+          startTime: new Date("2021-09-01T00:00:00.000Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.entities.getInsights(
+          resourceGroupName,
+          workspaceName,
+          entityId,
+          parameters
+        );
+        console.log(result);
+      }
+
+      entityInsight().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

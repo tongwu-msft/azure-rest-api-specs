@@ -1,0 +1,248 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2022-06-15.topics.listeventtypes
+name: List Event Types
+service: Event Grid
+groupName: Topics
+apiVersion: 2022-06-15
+summary: "List topic event types.  \nList event types for a topic."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{providerNamespace}/{resourceTypeName}/{resourceName}/providers/Microsoft.EventGrid/eventTypes?api-version=2022-06-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: providerNamespace
+  in: path
+  isRequired: true
+  description: Namespace of the provider of the topic.
+  types:
+  - uid: string
+- name: resourceTypeName
+  in: path
+  isRequired: true
+  description: Name of the topic type.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Name of the topic.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: EventTypesListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestHeader: []
+definitions:
+- name: EventTypesListResult
+  description: Result of the List Event Types operation
+  kind: object
+  properties:
+  - name: value
+    description: A collection of event types
+    types:
+    - uid: EventType
+      isArray: true
+- name: EventType
+  description: Event Type for a subject under a topic
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Display name of the event type.
+    types:
+    - uid: string
+  - name: properties.description
+    description: Description of the event type.
+    types:
+    - uid: string
+  - name: properties.schemaUrl
+    description: Url of the schema for this event type.
+    types:
+    - uid: string
+  - name: properties.isInDefaultSet
+    description: IsInDefaultSet flag of the event type.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+examples:
+- name: Topics_ListEventTypes
+  request:
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.Storage/storageAccounts/ExampleStorageAccount/providers/Microsoft.EventGrid/eventTypes?api-version=2022-06-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.Storage/storageAccounts/ExampleStorageAccount/providers/Microsoft.EventGrid/eventTypes?api-version=2022-06-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Topics ListEventTypes. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_ListEventTypes.json
+           */
+          /**
+           * Sample code: Topics_ListEventTypes.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void topicsListEventTypes(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .topics()
+                  .listEventTypes("examplerg", "Microsoft.Storage", "storageAccounts", "ExampleStorageAccount", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_ListEventTypes.json
+      func ExampleTopicsClient_NewListEventTypesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewTopicsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListEventTypesPager("examplerg",
+      		"Microsoft.Storage",
+      		"storageAccounts",
+      		"ExampleStorageAccount",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List event types for a topic.
+       *
+       * @summary List event types for a topic.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_ListEventTypes.json
+       */
+      async function topicsListEventTypes() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const providerNamespace = "Microsoft.Storage";
+        const resourceTypeName = "storageAccounts";
+        const resourceName = "ExampleStorageAccount";
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.topics.listEventTypes(
+          resourceGroupName,
+          providerNamespace,
+          resourceTypeName,
+          resourceName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      topicsListEventTypes().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "description": "Raised when a blob is created.",
+              "schemaUrl": "tbd",
+              "displayName": "Blob Created"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobCreated",
+            "name": "Microsoft.Storage.BlobCreated",
+            "type": "Microsoft.EventGrid/topicTypes/eventTypes"
+          },
+          {
+            "properties": {
+              "description": "Raised when a blob is deleted.",
+              "schemaUrl": "tbd",
+              "displayName": "Blob Deleted"
+            },
+            "id": "providers/Microsoft.EventGrid/topicTypes/Microsoft.Storage.StorageAccounts/eventTypes/Microsoft.Storage.BlobDeleted",
+            "name": "Microsoft.Storage.BlobDeleted",
+            "type": "Microsoft.EventGrid/topicTypes/eventTypes"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: "Learn more about Event Grid service - List topic event types.  \nList event types for a topic."
+errorCodes: []

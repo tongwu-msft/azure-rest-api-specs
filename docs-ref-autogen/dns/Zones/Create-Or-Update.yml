@@ -230,6 +230,137 @@ examples:
           "key1": "value1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-05-01
+
+      {
+        "location": "Global",
+        "tags": {
+          "key1": "value1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.dns.fluent.models.ZoneInner;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Zones CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateZone.json
+           */
+          /**
+           * Sample code: Create zone.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createZone(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getZones()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "zone1",
+                      new ZoneInner().withLocation("Global").withTags(mapOf("key1", "value1")),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateZone.json
+      func ExampleZonesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdns.NewZonesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"zone1",
+      		armdns.Zone{
+      			Location: to.Ptr("Global"),
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      			},
+      		},
+      		&armdns.ZonesClientCreateOrUpdateOptions{IfMatch: nil,
+      			IfNoneMatch: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv1.0.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a DNS zone. Does not modify DNS records within the zone.
+       *
+       * @summary Creates or updates a DNS zone. Does not modify DNS records within the zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/CreateOrUpdateZone.json
+       */
+      async function createZone() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const parameters = { location: "Global", tags: { key1: "value1" } };
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.zones.createOrUpdate(resourceGroupName, zoneName, parameters);
+        console.log(result);
+      }
+
+      createZone().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

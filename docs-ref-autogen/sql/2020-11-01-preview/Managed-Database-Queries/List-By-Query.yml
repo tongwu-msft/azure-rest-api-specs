@@ -241,6 +241,52 @@ examples:
 - name: Obtain query execution statistics. Minimal example with only mandatory request parameters.
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?interval=PT1H&api-version=2020-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?interval=PT1H&api-version=2020-11-01-preview
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get query execution statistics by query id.
+       *
+       * @summary Get query execution statistics by query id.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMin.json
+       */
+      async function obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "sqlcrudtest-7398";
+        const managedInstanceName = "sqlcrudtest-4645";
+        const databaseName = "database_1";
+        const queryId = "42";
+        const interval = "PT1H";
+        const options = { interval };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.managedDatabaseQueries.listByQuery(
+          resourceGroupName,
+          managedInstanceName,
+          databaseName,
+          queryId,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      obtainQueryExecutionStatisticsMinimalExampleWithOnlyMandatoryRequestParameters().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -325,6 +371,92 @@ examples:
 - name: Obtain query execution statistics
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?api-version=2020-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?api-version=2020-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsList.json
+      func ExampleManagedDatabaseQueriesClient_NewListByQueryPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewManagedDatabaseQueriesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByQueryPager("sqlcrudtest-7398",
+      		"sqlcrudtest-4645",
+      		"database_1",
+      		"42",
+      		&armsql.ManagedDatabaseQueriesClientListByQueryOptions{StartTime: nil,
+      			EndTime:  nil,
+      			Interval: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get query execution statistics by query id.
+       *
+       * @summary Get query execution statistics by query id.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsList.json
+       */
+      async function obtainQueryExecutionStatistics() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "sqlcrudtest-7398";
+        const managedInstanceName = "sqlcrudtest-4645";
+        const databaseName = "database_1";
+        const queryId = "42";
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.managedDatabaseQueries.listByQuery(
+          resourceGroupName,
+          managedInstanceName,
+          databaseName,
+          queryId
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      obtainQueryExecutionStatistics().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -595,6 +727,56 @@ examples:
 - name: Obtain query execution statistics. Example with all request parameters.
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?startTime=03/01/2020 16:23:09&endTime=03/11/2020 14:00:00&interval=P1D&api-version=2020-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/databases/database_1/queries/42/statistics?startTime=03/01/2020 16:23:09&endTime=03/11/2020 14:00:00&interval=P1D&api-version=2020-11-01-preview
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get query execution statistics by query id.
+       *
+       * @summary Get query execution statistics by query id.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2020-11-01-preview/examples/ManagedInstanceQueryStatisticsListMax.json
+       */
+      async function obtainQueryExecutionStatisticsExampleWithAllRequestParameters() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "sqlcrudtest-7398";
+        const managedInstanceName = "sqlcrudtest-4645";
+        const databaseName = "database_1";
+        const queryId = "42";
+        const startTime = "03/01/2020 16:23:09";
+        const endTime = "03/11/2020 14:00:00";
+        const interval = "P1D";
+        const options = {
+          startTime,
+          endTime,
+          interval,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.managedDatabaseQueries.listByQuery(
+          resourceGroupName,
+          managedInstanceName,
+          databaseName,
+          queryId,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      obtainQueryExecutionStatisticsExampleWithAllRequestParameters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

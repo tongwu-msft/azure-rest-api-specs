@@ -1120,6 +1120,136 @@ examples:
           "label2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/domains/exampleDomain1/topics/exampleDomainTopic1/eventSubscriptions/exampleEventSubscriptionName1?api-version=2021-10-15-preview
+
+      {
+        "destination": {
+          "endpointType": "WebHook",
+          "properties": {
+            "endpointUrl": "https://requestb.in/15ksip71"
+          }
+        },
+        "filter": {
+          "isSubjectCaseSensitive": true,
+          "subjectBeginsWith": "existingPrefix",
+          "subjectEndsWith": "newSuffix"
+        },
+        "labels": [
+          "label1",
+          "label2"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionFilter;
+      import com.azure.resourcemanager.eventgrid.models.EventSubscriptionUpdateParameters;
+      import com.azure.resourcemanager.eventgrid.models.WebhookEventSubscriptionDestination;
+      import java.util.Arrays;
+
+      /** Samples for DomainTopicEventSubscriptions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainTopicEventSubscriptions_Update.json
+           */
+          /**
+           * Sample code: DomainTopicEventSubscriptions_Update.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void domainTopicEventSubscriptionsUpdate(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .domainTopicEventSubscriptions()
+                  .update(
+                      "examplerg",
+                      "exampleDomain1",
+                      "exampleDomainTopic1",
+                      "exampleEventSubscriptionName1",
+                      new EventSubscriptionUpdateParameters()
+                          .withDestination(
+                              new WebhookEventSubscriptionDestination().withEndpointUrl("https://requestb.in/15ksip71"))
+                          .withFilter(
+                              new EventSubscriptionFilter()
+                                  .withSubjectBeginsWith("existingPrefix")
+                                  .withSubjectEndsWith("newSuffix")
+                                  .withIsSubjectCaseSensitive(true))
+                          .withLabels(Arrays.asList("label1", "label2")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/DomainTopicEventSubscriptions_Update.json
+      func ExampleDomainTopicEventSubscriptionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewDomainTopicEventSubscriptionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"<resource-group-name>",
+      		"<domain-name>",
+      		"<topic-name>",
+      		"<event-subscription-name>",
+      		armeventgrid.EventSubscriptionUpdateParameters{
+      			Destination: &armeventgrid.WebHookEventSubscriptionDestination{
+      				EndpointType: to.Ptr(armeventgrid.EndpointTypeWebHook),
+      				Properties: &armeventgrid.WebHookEventSubscriptionDestinationProperties{
+      					EndpointURL: to.Ptr("<endpoint-url>"),
+      				},
+      			},
+      			Filter: &armeventgrid.EventSubscriptionFilter{
+      				IsSubjectCaseSensitive: to.Ptr(true),
+      				SubjectBeginsWith:      to.Ptr("<subject-begins-with>"),
+      				SubjectEndsWith:        to.Ptr("<subject-ends-with>"),
+      			},
+      			Labels: []*string{
+      				to.Ptr("label1"),
+      				to.Ptr("label2")},
+      		},
+      		&armeventgrid.DomainTopicEventSubscriptionsClientBeginUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

@@ -1,0 +1,200 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-07-31dataplane.fileuploads.create
+name: Create
+service: IoT Central
+groupName: File Uploads
+apiVersion: 2022-07-31
+summary: Create the file upload storage account configuration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/fileUploads?api-version=2022-07-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: FileUpload
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: account
+    in: body
+    description: The storage account name where to upload the file to
+    types:
+    - uid: string
+  - name: connectionString
+    in: body
+    isRequired: true
+    description: The connection string used to configure the storage account
+    types:
+    - uid: string
+  - name: container
+    in: body
+    isRequired: true
+    description: The name of the container inside the storage account
+    types:
+    - uid: string
+  - name: sasTtl
+    in: body
+    description: ISO 8601 duration standard, The amount of time the device’s request to upload a file is valid before it expires.
+    types:
+    - uid: string
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict with multiple uploads
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: FileUpload
+  description: The file upload configuration definition.
+  kind: object
+  properties:
+  - name: account
+    description: The storage account name where to upload the file to
+    types:
+    - uid: string
+  - name: connectionString
+    description: The connection string used to configure the storage account
+    types:
+    - uid: string
+  - name: container
+    description: The name of the container inside the storage account
+    types:
+    - uid: string
+  - name: sasTtl
+    description: ISO 8601 duration standard, The amount of time the device’s request to upload a file is valid before it expires.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: The state of the file upload configuration
+    types:
+    - uid: FileUploadState
+  - name: etag
+    description: ETag used to prevent conflict with multiple uploads
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: FileUploadState
+  description: The state of the file upload configuration
+  kind: enum
+  properties:
+  - name: pending
+    types:
+    - uid: string
+  - name: updating
+    types:
+    - uid: string
+  - name: deleting
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Create file upload storage account configuration
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/fileUploads?api-version=2022-07-31
+    body: >-
+      {
+        "account": "contoso-account",
+        "connectionString": "DefaultEndpointsProtocol=https;AccountName=MyAccountName;AccountKey=*****;EndpointSuffix=core.windows.net",
+        "container": "container",
+        "sasTtl": "PT1H"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/fileUploads?api-version=2022-07-31
+
+      {
+        "account": "contoso-account",
+        "connectionString": "DefaultEndpointsProtocol=https;AccountName=MyAccountName;AccountKey=*****;EndpointSuffix=core.windows.net",
+        "container": "container",
+        "sasTtl": "PT1H"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "account": "contoso-account",
+        "connectionString": "DefaultEndpointsProtocol=https;AccountName=MyAccountName;AccountKey=*****;EndpointSuffix=core.windows.net",
+        "container": "container",
+        "sasTtl": "PT1H",
+        "state": "pending"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Create the file upload storage account configuration.
+errorCodes: []

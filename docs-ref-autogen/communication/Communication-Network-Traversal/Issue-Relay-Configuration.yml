@@ -3,14 +3,14 @@ uid: communication.communicationnetworktraversal.issuerelayconfiguration
 name: Issue Relay Configuration
 service: Communication
 groupName: Communication Network Traversal
-apiVersion: 2021-10-08-preview
-summary: Issue a configuration for an STUN/TURN server for an existing identity.
+apiVersion: 2022-03-01-preview
+summary: Issue a configuration for an STUN/TURN server.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {endpoint}/networktraversal/:issueRelayConfiguration?api-version=2021-10-08-preview
+- content: POST {endpoint}/networkTraversal/:issueRelayConfiguration?api-version=2022-03-01-preview
 uriParameters:
 - name: endpoint
   in: path
@@ -39,14 +39,19 @@ requestBody:
   parameters:
   - name: id
     in: body
-    description: An existing ACS identity.
+    description: An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value.
     types:
     - uid: string
   - name: routeType
     in: body
-    description: The routing methodology to where the ICE server will be located from the client.
+    description: Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers.
     types:
     - uid: RouteType
+  - name: ttl
+    in: body
+    description: The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it.
+    types:
+    - uid: integer
 requestHeader: []
 definitions:
 - name: CommunicationRelayConfiguration
@@ -54,7 +59,7 @@ definitions:
   kind: object
   properties:
   - name: expiresOn
-    description: The date for which the username and credentials are not longer valid.
+    description: The date for which the username and credentials are not longer valid. Will be 48 hours from request time.
     types:
     - uid: string
   - name: iceServers
@@ -75,13 +80,18 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: An existing ACS identity.
+    description: An identity to be associated with telemetry for data relayed using the returned credentials. Must be an existing ACS user identity. If not provided, the telemetry will not contain an associated identity value.
     types:
     - uid: string
   - name: routeType
-    description: The routing methodology to where the ICE server will be located from the client.
+    description: Filter the routing methodology returned. If not provided, will return all route types in separate ICE servers.
     types:
     - uid: RouteType
+  - name: ttl
+    description: The credential Time-To-Live (TTL), in seconds. The default value will be used if given value exceeds it.
+    types:
+    - uid: integer
+    defaultValue: 172800
 - name: CommunicationIceServer
   description: An instance of a STUN/TURN server with credentials to be used for ICE negotiation.
   kind: object
@@ -100,7 +110,7 @@ definitions:
     types:
     - uid: string
   - name: routeType
-    description: The routing methodology to where the ICE server will be located from the client.
+    description: The routing methodology to where the ICE server will be located from the client. "any" will have higher reliability while "nearest" will have lower latency. It is recommended to default to use the "any" routing method unless there are specific scenarios which minimizing latency is critical.
     types:
     - uid: RouteType
 - name: CommunicationError
@@ -132,7 +142,7 @@ definitions:
     types:
     - uid: CommunicationError
 - name: RouteType
-  description: The routing methodology to where the ICE server will be located from the client.
+  description: The routing methodology to where the ICE server will be located from the client. "any" will have higher reliability while "nearest" will have lower latency. It is recommended to default to use the "any" routing method unless there are specific scenarios which minimizing latency is critical.
   kind: enum
   properties:
   - name: any
@@ -144,16 +154,29 @@ definitions:
 examples:
 - name: Issue Relay Configuration
   request:
-    uri: POST https://my-resource.communication.azure.com/networktraversal/:issueRelayConfiguration?api-version=2021-10-08-preview
+    uri: POST https://my-resource.communication.azure.com/networkTraversal/:issueRelayConfiguration?api-version=2022-03-01-preview
     body: >-
       {
-        "id": "8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081"
+        "id": "8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081",
+        "ttl": 3600
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://my-resource.communication.azure.com/networkTraversal/:issueRelayConfiguration?api-version=2022-03-01-preview
+
+      {
+        "id": "8:acs:2dee53b4-368b-45b4-ab52-8493fb117652_00000005-14a2-493b-8a72-5a3a0d000081",
+        "ttl": 3600
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
       {
-        "expiresOn": "2021-11-10T21:39:39.3244584+00:00",
+        "expiresOn": "2022-03-01T21:39:39.3244584+00:00",
         "iceServers": [
           {
             "urls": [
@@ -168,5 +191,5 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Communication service - Issue a configuration for an STUN/TURN server for an existing identity.
+  description: Learn more about Communication service - Issue a configuration for an STUN/TURN server.
 errorCodes: []

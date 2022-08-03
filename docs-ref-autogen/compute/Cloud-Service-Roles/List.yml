@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudserviceroles.list
 name: List
 service: Compute
 groupName: Cloud Service Roles
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets a list of all roles in a cloud service. Use nextLink property in the response to get the next page of roles. Do this till nextLink is null to fetch all the roles.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roles?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,11 +21,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
+  description: Name of the resource group.
   types:
   - uid: string
 - name: cloudServiceName
   in: path
   isRequired: true
+  description: Name of the cloud service.
   types:
   - uid: string
 - name: api-version
@@ -35,28 +37,16 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: CloudServiceRoleListResult
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CloudServiceRoleListResult
 requestHeader: []
 definitions:
-- name: CloudServiceRoleListResult
-  kind: object
-  properties:
-  - name: value
-    description: Describes a role of the cloud service.
-    types:
-    - uid: CloudServiceRole
-      isArray: true
-  - name: nextLink
-    description: ''
-    types:
-    - uid: string
 - name: CloudError
   description: An error response from the Compute service.
   kind: object
@@ -65,6 +55,44 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: CloudServiceRoleListResult
+  description: The list operation result.
+  kind: object
+  properties:
+  - name: value
+    description: The list of resources.
+    types:
+    - uid: CloudServiceRole
+      isArray: true
+  - name: nextLink
+    description: The URI to fetch the next page of resources. Use this to get the next page of resources. Do this till nextLink is null to fetch all the resources.
+    types:
+    - uid: string
+- name: ApiError
+  description: Api error.
+  kind: object
+  properties:
+  - name: details
+    description: The Api error details
+    types:
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: CloudServiceRole
   description: Describes a role of the cloud service.
   kind: object
@@ -94,32 +122,35 @@ definitions:
     types:
     - uid: CloudServiceRoleSku
   - name: properties
-    description: ''
+    description: The cloud service role properties.
     types:
     - uid: CloudServiceRoleProperties
-- name: ApiError
-  description: Api error.
+- name: ApiErrorBase
+  description: Api error base.
   kind: object
   properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
   - name: code
     description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
     types:
     - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
     types:
     - uid: string
 - name: CloudServiceRoleSku
@@ -139,7 +170,7 @@ definitions:
     types:
     - uid: integer
 - name: CloudServiceRoleProperties
-  description: ''
+  description: The cloud service role properties.
   kind: object
   properties:
   - name: uniqueId
@@ -147,38 +178,16 @@ definitions:
     description: Specifies the ID which uniquely identifies a cloud service role.
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 examples:
 - name: List Roles in a Cloud Service
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roles?api-version=2022-04-04
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

@@ -160,6 +160,7 @@ requestBody:
     - uid: AzureFunctionLinkedService
     - uid: SnowflakeLinkedService
     - uid: SharePointOnlineListLinkedService
+    - uid: AzureSynapseArtifactsLinkedService
     typesTitle: LinkedService
 requestHeader:
 - name: If-Match
@@ -284,6 +285,7 @@ definitions:
     - uid: AzureFunctionLinkedService
     - uid: SnowflakeLinkedService
     - uid: SharePointOnlineListLinkedService
+    - uid: AzureSynapseArtifactsLinkedService
     typesTitle: LinkedService
   - name: etag
     isReadyOnly: true
@@ -6906,6 +6908,44 @@ definitions:
     types:
     - uid: object
       isArray: true
+- name: AzureSynapseArtifactsLinkedService
+  description: Azure Synapse Analytics (Artifacts) linked service.
+  kind: object
+  properties:
+  - name: typeProperties.endpoint
+    description: 'https://<workspacename>.dev.azuresynapse.net, Azure Synapse Analytics workspace URL. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: typeProperties.authentication
+    description: 'Required to specify MSI, if using system assigned managed identity as authentication method. Type: string (or Expression with resultType string).'
+    types:
+    - uid: object
+  - name: type
+    description: Type of linked service.
+    types:
+    - uid: AzureSynapseArtifacts
+    typesTitle: string
+  - name: connectVia
+    description: The integration runtime reference.
+    types:
+    - uid: IntegrationRuntimeReference
+  - name: description
+    description: Linked service description.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for linked service.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ParameterSpecification
+  - name: annotations
+    description: List of tags that can be used for describing the linked service.
+    types:
+    - uid: object
+      isArray: true
 - name: AzureKeyVaultSecretReference
   description: Azure Key Vault secret reference.
   kind: object
@@ -7442,6 +7482,25 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/linkedservices/exampleLinkedService?api-version=2020-12-01
+
+      {
+        "properties": {
+          "type": "AzureStorage",
+          "typeProperties": {
+            "connectionString": {
+              "type": "SecureString",
+              "value": "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -7489,6 +7548,26 @@ examples:
           "description": "Example description"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/linkedservices/exampleLinkedService?api-version=2020-12-01
+
+      {
+        "properties": {
+          "type": "AzureStorage",
+          "typeProperties": {
+            "connectionString": {
+              "type": "SecureString",
+              "value": "DefaultEndpointsProtocol=https;AccountName=examplestorageaccount;AccountKey=<storage key>"
+            }
+          },
+          "description": "Example description"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:

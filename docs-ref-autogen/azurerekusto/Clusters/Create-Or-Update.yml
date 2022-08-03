@@ -925,6 +925,183 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster?api-version=2022-02-01
+
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard_L8s_v2",
+          "capacity": 2,
+          "tier": "Standard"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "enableStreamingIngest": true,
+          "enablePurge": true,
+          "enableDoubleEncryption": false,
+          "enableAutoStop": true,
+          "publicIPType": "DualStack",
+          "publicNetworkAccess": "Enabled",
+          "allowedIpRangeList": [
+            "0.0.0.0/0"
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.kusto.models.AzureSku;
+      import com.azure.resourcemanager.kusto.models.AzureSkuName;
+      import com.azure.resourcemanager.kusto.models.AzureSkuTier;
+      import com.azure.resourcemanager.kusto.models.Identity;
+      import com.azure.resourcemanager.kusto.models.IdentityType;
+      import com.azure.resourcemanager.kusto.models.PublicIpType;
+      import com.azure.resourcemanager.kusto.models.PublicNetworkAccess;
+      import java.util.Arrays;
+
+      /** Samples for Clusters CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersCreateOrUpdate.json
+           */
+          /**
+           * Sample code: KustoClustersCreateOrUpdate.
+           *
+           * @param manager Entry point to KustoManager.
+           */
+          public static void kustoClustersCreateOrUpdate(com.azure.resourcemanager.kusto.KustoManager manager) {
+              manager
+                  .clusters()
+                  .define("kustoCluster")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("kustorptest")
+                  .withSku(new AzureSku().withName(AzureSkuName.STANDARD_L8S).withCapacity(2).withTier(AzureSkuTier.STANDARD))
+                  .withIdentity(new Identity().withType(IdentityType.SYSTEM_ASSIGNED))
+                  .withEnableStreamingIngest(true)
+                  .withEnablePurge(true)
+                  .withEnableDoubleEncryption(false)
+                  .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                  .withAllowedIpRangeList(Arrays.asList("0.0.0.0/0"))
+                  .withEnableAutoStop(true)
+                  .withPublicIpType(PublicIpType.DUAL_STACK)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkusto_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersCreateOrUpdate.json
+      func ExampleClustersClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkusto.NewClustersClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"kustorptest",
+      		"kustoCluster",
+      		armkusto.Cluster{
+      			Location: to.Ptr("westus"),
+      			Identity: &armkusto.Identity{
+      				Type: to.Ptr(armkusto.IdentityTypeSystemAssigned),
+      			},
+      			Properties: &armkusto.ClusterProperties{
+      				AllowedIPRangeList: []*string{
+      					to.Ptr("0.0.0.0/0")},
+      				EnableAutoStop:         to.Ptr(true),
+      				EnableDoubleEncryption: to.Ptr(false),
+      				EnablePurge:            to.Ptr(true),
+      				EnableStreamingIngest:  to.Ptr(true),
+      				PublicIPType:           to.Ptr(armkusto.PublicIPTypeDualStack),
+      				PublicNetworkAccess:    to.Ptr(armkusto.PublicNetworkAccessEnabled),
+      			},
+      			SKU: &armkusto.AzureSKU{
+      				Name:     to.Ptr(armkusto.AzureSKUNameStandardL8S),
+      				Capacity: to.Ptr[int32](2),
+      				Tier:     to.Ptr(armkusto.AzureSKUTierStandard),
+      			},
+      		},
+      		&armkusto.ClustersClientBeginCreateOrUpdateOptions{IfMatch: nil,
+      			IfNoneMatch: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.0.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { KustoManagementClient } = require("@azure/arm-kusto");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Kusto cluster.
+       *
+       * @summary Create or update a Kusto cluster.
+       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoClustersCreateOrUpdate.json
+       */
+      async function kustoClustersCreateOrUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-123456789098";
+        const resourceGroupName = "kustorptest";
+        const clusterName = "kustoCluster";
+        const parameters = {
+          allowedIpRangeList: ["0.0.0.0/0"],
+          enableAutoStop: true,
+          enableDoubleEncryption: false,
+          enablePurge: true,
+          enableStreamingIngest: true,
+          identity: { type: "SystemAssigned" },
+          location: "westus",
+          publicIPType: "DualStack",
+          publicNetworkAccess: "Enabled",
+          sku: { name: "Standard_L8s_v2", capacity: 2, tier: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new KustoManagementClient(credential, subscriptionId);
+        const result = await client.clusters.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          clusterName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      kustoClustersCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

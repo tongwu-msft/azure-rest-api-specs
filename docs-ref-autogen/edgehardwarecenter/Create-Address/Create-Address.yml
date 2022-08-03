@@ -354,6 +354,145 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.EdgeOrder/addresses/TestAddressName2?api-version=2021-12-01
+
+      {
+        "properties": {
+          "shippingAddress": {
+            "streetAddress1": "16 TOWNSEND ST",
+            "streetAddress2": "UNIT 1",
+            "city": "San Francisco",
+            "stateOrProvince": "CA",
+            "country": "US",
+            "postalCode": "94107",
+            "companyName": "Microsoft",
+            "addressType": "None"
+          },
+          "contactDetails": {
+            "contactName": "XXXX XXXX",
+            "phone": "0000000000",
+            "phoneExtension": "",
+            "emailList": [
+              "xxxx@xxxx.xxx"
+            ]
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.edgeorder.models.AddressType;
+      import com.azure.resourcemanager.edgeorder.models.ContactDetails;
+      import com.azure.resourcemanager.edgeorder.models.ShippingAddress;
+      import java.util.Arrays;
+
+      /** Samples for ResourceProvider CreateAddress. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/CreateAddress.json
+           */
+          /**
+           * Sample code: CreateAddress.
+           *
+           * @param manager Entry point to EdgeOrderManager.
+           */
+          public static void createAddress(com.azure.resourcemanager.edgeorder.EdgeOrderManager manager) {
+              manager
+                  .resourceProviders()
+                  .defineAddress("TestMSAddressName")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("TestRG")
+                  .withContactDetails(
+                      new ContactDetails()
+                          .withContactName("Petr Cech")
+                          .withPhone("1234567890")
+                          .withPhoneExtension("")
+                          .withEmailList(Arrays.asList("testemail@microsoft.com")))
+                  .withShippingAddress(
+                      new ShippingAddress()
+                          .withStreetAddress1("16 TOWNSEND ST")
+                          .withStreetAddress2("UNIT 1")
+                          .withCity("San Francisco")
+                          .withStateOrProvince("CA")
+                          .withCountry("US")
+                          .withPostalCode("94107")
+                          .withCompanyName("Microsoft")
+                          .withAddressType(AddressType.NONE))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-edgeorder_1.0.0-beta.1/sdk/edgeorder/azure-resourcemanager-edgeorder/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armedgeorder_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/edgeorder/armedgeorder"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/CreateAddress.json
+      func ExampleManagementClient_BeginCreateAddress() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armedgeorder.NewManagementClient("YourSubscriptionId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateAddress(ctx,
+      		"TestAddressName2",
+      		"YourResourceGroupName",
+      		armedgeorder.AddressResource{
+      			Location: to.Ptr("eastus"),
+      			Properties: &armedgeorder.AddressProperties{
+      				ContactDetails: &armedgeorder.ContactDetails{
+      					ContactName: to.Ptr("XXXX XXXX"),
+      					EmailList: []*string{
+      						to.Ptr("xxxx@xxxx.xxx")},
+      					Phone:          to.Ptr("0000000000"),
+      					PhoneExtension: to.Ptr(""),
+      				},
+      				ShippingAddress: &armedgeorder.ShippingAddress{
+      					AddressType:     to.Ptr(armedgeorder.AddressTypeNone),
+      					City:            to.Ptr("San Francisco"),
+      					CompanyName:     to.Ptr("Microsoft"),
+      					Country:         to.Ptr("US"),
+      					PostalCode:      to.Ptr("94107"),
+      					StateOrProvince: to.Ptr("CA"),
+      					StreetAddress1:  to.Ptr("16 TOWNSEND ST"),
+      					StreetAddress2:  to.Ptr("UNIT 1"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fedgeorder%2Farmedgeorder%2Fv1.0.0/sdk/resourcemanager/edgeorder/armedgeorder/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

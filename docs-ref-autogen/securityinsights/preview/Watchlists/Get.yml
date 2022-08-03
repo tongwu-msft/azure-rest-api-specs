@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.watchlists.get
 name: Get
 service: Sentinel
 groupName: Watchlists
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Gets a watchlist, without its watchlist items.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}?api-version=2021-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/watchlists/{watchlistAlias}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -70,9 +70,13 @@ definitions:
     types:
     - uid: string
   - name: properties.source
-    description: The source of the watchlist
+    description: The filename of the watchlist, called 'source'
     types:
-    - uid: source
+    - uid: string
+  - name: properties.sourceType
+    description: The sourceType of the watchlist
+    types:
+    - uid: sourceType
   - name: properties.created
     description: The time the watchlist was created
     types:
@@ -138,10 +142,6 @@ definitions:
     description: 'The status of the Watchlist upload : New, InProgress or Complete. Pls note : When a Watchlist upload status is equal to InProgress, the Watchlist cannot be deleted'
     types:
     - uid: string
-  - name: properties.watchlistItemsCount
-    description: The number of Watchlist Items in the Watchlist
-    types:
-    - uid: integer
   - name: etag
     description: Etag of the azure resource
     types:
@@ -174,8 +174,8 @@ definitions:
     description: Error data
     types:
     - uid: CloudErrorBody
-- name: source
-  description: The source of the watchlist
+- name: sourceType
+  description: The sourceType of the watchlist
   kind: enum
   properties:
   - name: Local file
@@ -263,7 +263,39 @@ definitions:
 examples:
 - name: Get a watchlist.
   request:
-    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/watchlists/highValueAsset?api-version=2022-07-01-preview
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a watchlist, without its watchlist items.
+       *
+       * @summary Gets a watchlist, without its watchlist items.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/watchlists/GetWatchlistByAlias.json
+       */
+      async function getAWatchlist() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const watchlistAlias = "highValueAsset";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.watchlists.get(resourceGroupName, workspaceName, watchlistAlias);
+        console.log(result);
+      }
+
+      getAWatchlist().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -276,7 +308,8 @@ examples:
           "watchlistId": "76d5a51f-ba1f-4038-9d22-59fda38dc017",
           "displayName": "High Value Assets Watchlist",
           "provider": "Microsoft",
-          "source": "Local file",
+          "source": "watchlist.csv",
+          "sourceType": "Local file",
           "created": "2020-09-28T00:26:54.7746089+00:00",
           "updated": "2020-09-28T00:26:57+00:00",
           "createdBy": {

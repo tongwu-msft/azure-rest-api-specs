@@ -3,14 +3,14 @@ title: Set Directory Properties (FilesREST API) - Azure Files
 description: The Set Directory Properties operation sets system properties for the directory.
 author: wmgries
 
-ms.date: 03/05/2022
+ms.date: 07/22/2022
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Set Directory Properties
-The `Set Directory Properties` operation sets system properties for the directory. This API is available starting in version 2019-02-02.
+The `Set Directory Properties` operation sets system properties for the specified directory. This API is available starting in version 2019-02-02.
 
 ## Protocol availability
 
@@ -95,7 +95,7 @@ None.
 ## Authorization
 Only the account owner may call this operation.  
 
-#### File system attributes
+## File system attributes
 | Attribute | Win32 file attribute | Definition |
 |-----------|----------------------|------------|
 | ReadOnly | FILE_ATTRIBUTE_READONLY | A directory that is read-only. |
@@ -110,6 +110,8 @@ Only the account owner may call this operation.
   
 ## Remarks
 `Set Directory Properties` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue).
+
+Properties that are set on a directory with `Set Directory Properties` do not propagate to any subdirectories beneath that directory. You must call `Set Directory Properties` for each directory for which you want to update properties.
 
 ## See also
 [Operations on Directories](Operations-on-Directories.md)

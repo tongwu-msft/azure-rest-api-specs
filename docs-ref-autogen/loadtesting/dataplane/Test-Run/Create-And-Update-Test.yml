@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: <dataplaneurl>.loadtesting.dataplane.testrun.createandupdatetest
+uid: loadtesting.dataplane.testrun.createandupdatetest
 name: Create And Update Test
 service: Azure Load Testing
 groupName: Test Run
@@ -10,10 +10,18 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://<dataPlaneURL>/testruns/{testRunId}?api-version=2022-06-01-preview
-- content: PATCH https://<dataPlaneURL>/testruns/{testRunId}?oldTestRunId={oldTestRunId}&api-version=2022-06-01-preview
+- content: PATCH https://{Endpoint}/testruns/{testRunId}?api-version=2022-06-01-preview
+- content: PATCH https://{Endpoint}/testruns/{testRunId}?oldTestRunId={oldTestRunId}&api-version=2022-06-01-preview
   isOptional: true
 uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
 - name: testRunId
   in: path
   isRequired: true
@@ -354,15 +362,19 @@ definitions:
   kind: object
   properties:
   - name: clientmetric
-    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’.
+    description: The client metric on which the criteria should be applied. Allowed values - ‘response_time_ms’ , ‘latency’, ‘error’, ‘requests’, ‘requests_per_sec’.
     types:
     - uid: string
   - name: aggregate
-    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric , ‘avg’ - for response_time_ms and latency metric.
+    description: The aggregation function to be applied on the client metric. Allowed functions - ‘percentage’ - for error metric ,‘avg’, ‘p50’, ‘p90’, ‘p95’, ‘p99’, ‘min’, ‘max’ - for response_time_ms and latency metric, ‘avg’ - for requests_per_sec, ‘count’ - for requests.
     types:
     - uid: string
   - name: condition
     description: 'The comparison operator. Supported types ‘>’ '
+    types:
+    - uid: string
+  - name: requestName
+    description: Request name for which the Pass fail criteria has to be applied.
     types:
     - uid: string
   - name: value
@@ -486,7 +498,7 @@ definitions:
 examples:
 - name: CreateAndUpdateTestRun
   request:
-    uri: PATCH https://<dataPlaneURL>/testruns/12316678-1234-1234-1234-122451189012?oldTestRunId=12345678-1234-1234-1234-123456789012&api-version=2022-06-01-preview
+    uri: PATCH https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012?oldTestRunId=12345678-1234-1234-1234-123456789012&api-version=2022-06-01-preview
     body: >-
       {
         "displayName": "Performance_LoadTest_Run1",
@@ -517,6 +529,43 @@ examples:
           "envvar1": "sampletext"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://{Endpoint}/testruns/12316678-1234-1234-1234-122451189012?oldTestRunId=12345678-1234-1234-1234-123456789012&api-version=2022-06-01-preview
+
+      {
+        "displayName": "Performance_LoadTest_Run1",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "description": "sample description",
+        "loadTestConfig": {
+          "engineInstances": 6,
+          "splitAllCSVs": true
+        },
+        "passFailCriteria": {
+          "passFailMetrics": {
+            "fefd759d-7fe8-4f83-8b6d-aeebe0f491fe": {
+              "clientmetric": "response_time_ms",
+              "aggregate": "percentage",
+              "condition": ">",
+              "value": 20,
+              "action": "continue"
+            }
+          }
+        },
+        "secrets": {
+          "secret1": {
+            "value": "https://samplevault.vault.azure.net/secrets/samplesecret/f113f91fd4c44a368049849c164db827",
+            "type": "AKV_SECRET_URI"
+          }
+        },
+        "environmentVariables": {
+          "envvar1": "sampletext"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

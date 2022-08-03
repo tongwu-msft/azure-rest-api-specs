@@ -1301,6 +1301,207 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1"
+        },
+        "properties": {
+          "clusterVersion": "3.5",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": "true",
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateLinuxHadoopSshPassword.json
+           */
+          /**
+           * Sample code: Create Hadoop on Linux cluster with SSH password.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createHadoopOnLinuxClusterWithSSHPassword(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withTags(mapOf("key1", "val1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.5")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":\"true\",\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(4)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storagekey")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1472,6 +1673,222 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1"
+        },
+        "properties": {
+          "clusterVersion": "3.5",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.SshProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshPublicKey;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateLinuxHadoopSshPublicKey.json
+           */
+          /**
+           * Sample code: Create Hadoop on Linux cluster with SSH public key.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createHadoopOnLinuxClusterWithSSHPublicKey(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withTags(mapOf("key1", "val1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.5")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********")))))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(4)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storagekey")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1626,6 +2043,186 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1"
+        },
+        "properties": {
+          "clusterVersion": "3.5",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Spark",
+            "componentVersion": {
+              "Spark": "2.0"
+            },
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storageapikey*"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D12_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D4_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateLinuxSparkSshPassword.json
+           */
+          /**
+           * Sample code: Create Spark on Linux Cluster with SSH password.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createSparkOnLinuxClusterWithSSHPassword(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withTags(mapOf("key1", "val1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.5")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Spark")
+                                  .withComponentVersion(mapOf("Spark", "2.0"))
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D12_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(4)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D4_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storageapikey*")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1840,6 +2437,315 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1"
+        },
+        "properties": {
+          "clusterVersion": "3.5",
+          "osType": "Linux",
+          "tier": "Premium",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "securityProfile": {
+            "directoryType": "ActiveDirectory",
+            "domain": "DomainName",
+            "organizationalUnitDN": "OU=Hadoop,DC=hdinsight,DC=test",
+            "ldapsUrls": [
+              "ldaps://10.10.0.4:636"
+            ],
+            "domainUsername": "DomainUsername",
+            "domainUserPassword": "**********",
+            "clusterUsersGroupDNs": [
+              "hdiusers"
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                },
+                "scriptActions": []
+              },
+              {
+                "name": "workernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                },
+                "scriptActions": []
+              },
+              {
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                },
+                "scriptActions": []
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.DirectoryType;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.SecurityProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshPublicKey;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import com.azure.resourcemanager.hdinsight.models.VirtualNetworkProfile;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateLinuxHadoopSecureHadoop.json
+           */
+          /**
+           * Sample code: Create Secure Hadoop cluster.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createSecureHadoopCluster(com.azure.resourcemanager.hdinsight.HDInsightManager manager)
+              throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withTags(mapOf("key1", "val1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.5")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.PREMIUM)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withSecurityProfile(
+                              new SecurityProfile()
+                                  .withDirectoryType(DirectoryType.ACTIVE_DIRECTORY)
+                                  .withDomain("DomainName")
+                                  .withOrganizationalUnitDN("OU=Hadoop,DC=hdinsight,DC=test")
+                                  .withLdapsUrls(Arrays.asList("ldaps://10.10.0.4:636"))
+                                  .withDomainUsername("DomainUsername")
+                                  .withDomainUserPassword("**********")
+                                  .withClusterUsersGroupDNs(Arrays.asList("hdiusers")))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"))
+                                                  .withScriptActions(Arrays.asList()),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(4)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"))
+                                                  .withScriptActions(Arrays.asList()),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"))
+                                                  .withScriptActions(Arrays.asList()))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storage account key")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2005,6 +2911,207 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1"
+        },
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": "true",
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.dfs.core.windows.net",
+                "isDefault": true,
+                "fileSystem": "default",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D3_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateLinuxHadoopAdlsGen2.json
+           */
+          /**
+           * Sample code: Create Hadoop cluster with Azure Data Lake Storage Gen 2.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createHadoopClusterWithAzureDataLakeStorageGen2(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withTags(mapOf("key1", "val1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":\"true\",\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(4)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D3_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withMinInstanceCount(1)
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.dfs.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withFileSystem("default")
+                                                  .withKey("storagekey")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2202,6 +3309,419 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "componentVersion": {
+              "Hadoop": "2.7"
+            },
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "hdinsight-autoscale-tes-2019-06-18t05-49-16-591z",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "autoscale": {
+                  "capacity": null,
+                  "recurrence": {
+                    "timeZone": "China Standard Time",
+                    "schedule": [
+                      {
+                        "days": [
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday"
+                        ],
+                        "timeAndCapacity": {
+                          "time": "09:00",
+                          "minInstanceCount": 3,
+                          "maxInstanceCount": 3
+                        }
+                      },
+                      {
+                        "days": [
+                          "Monday",
+                          "Tuesday",
+                          "Wednesday",
+                          "Thursday",
+                          "Friday"
+                        ],
+                        "timeAndCapacity": {
+                          "time": "18:00",
+                          "minInstanceCount": 6,
+                          "maxInstanceCount": 6
+                        }
+                      },
+                      {
+                        "days": [
+                          "Saturday",
+                          "Sunday"
+                        ],
+                        "timeAndCapacity": {
+                          "time": "09:00",
+                          "minInstanceCount": 2,
+                          "maxInstanceCount": 2
+                        }
+                      },
+                      {
+                        "days": [
+                          "Saturday",
+                          "Sunday"
+                        ],
+                        "timeAndCapacity": {
+                          "time": "18:00",
+                          "minInstanceCount": 4,
+                          "maxInstanceCount": 4
+                        }
+                      }
+                    ]
+                  }
+                },
+                "name": "workernode",
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D4_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.Autoscale;
+      import com.azure.resourcemanager.hdinsight.models.AutoscaleRecurrence;
+      import com.azure.resourcemanager.hdinsight.models.AutoscaleSchedule;
+      import com.azure.resourcemanager.hdinsight.models.AutoscaleTimeAndCapacity;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.DaysOfWeek;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithAutoscaleConfig.json
+           */
+          /**
+           * Sample code: Create HDInsight cluster with Autoscale configuration.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createHDInsightClusterWithAutoscaleConfiguration(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("hadoop")
+                                  .withComponentVersion(mapOf("Hadoop", "2.7"))
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(4)
+                                                  .withAutoscaleConfiguration(
+                                                      new Autoscale()
+                                                          .withRecurrence(
+                                                              new AutoscaleRecurrence()
+                                                                  .withTimeZone("China Standard Time")
+                                                                  .withSchedule(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new AutoscaleSchedule()
+                                                                                  .withDays(
+                                                                                      Arrays
+                                                                                          .asList(
+                                                                                              DaysOfWeek.MONDAY,
+                                                                                              DaysOfWeek.TUESDAY,
+                                                                                              DaysOfWeek.WEDNESDAY,
+                                                                                              DaysOfWeek.THURSDAY,
+                                                                                              DaysOfWeek.FRIDAY))
+                                                                                  .withTimeAndCapacity(
+                                                                                      new AutoscaleTimeAndCapacity()
+                                                                                          .withTime("09:00")
+                                                                                          .withMinInstanceCount(3)
+                                                                                          .withMaxInstanceCount(3)),
+                                                                              new AutoscaleSchedule()
+                                                                                  .withDays(
+                                                                                      Arrays
+                                                                                          .asList(
+                                                                                              DaysOfWeek.MONDAY,
+                                                                                              DaysOfWeek.TUESDAY,
+                                                                                              DaysOfWeek.WEDNESDAY,
+                                                                                              DaysOfWeek.THURSDAY,
+                                                                                              DaysOfWeek.FRIDAY))
+                                                                                  .withTimeAndCapacity(
+                                                                                      new AutoscaleTimeAndCapacity()
+                                                                                          .withTime("18:00")
+                                                                                          .withMinInstanceCount(6)
+                                                                                          .withMaxInstanceCount(6)),
+                                                                              new AutoscaleSchedule()
+                                                                                  .withDays(
+                                                                                      Arrays
+                                                                                          .asList(
+                                                                                              DaysOfWeek.SATURDAY,
+                                                                                              DaysOfWeek.SUNDAY))
+                                                                                  .withTimeAndCapacity(
+                                                                                      new AutoscaleTimeAndCapacity()
+                                                                                          .withTime("09:00")
+                                                                                          .withMinInstanceCount(2)
+                                                                                          .withMaxInstanceCount(2)),
+                                                                              new AutoscaleSchedule()
+                                                                                  .withDays(
+                                                                                      Arrays
+                                                                                          .asList(
+                                                                                              DaysOfWeek.SATURDAY,
+                                                                                              DaysOfWeek.SUNDAY))
+                                                                                  .withTimeAndCapacity(
+                                                                                      new AutoscaleTimeAndCapacity()
+                                                                                          .withTime("18:00")
+                                                                                          .withMinInstanceCount(4)
+                                                                                          .withMaxInstanceCount(4))))))
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D4_V2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")))
+                                                  .withScriptActions(Arrays.asList()))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("hdinsight-autoscale-tes-2019-06-18t05-49-16-591z")
+                                                  .withKey("storagekey")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithAutoscaleConfig.json
+      func ExampleClustersClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewClustersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"rg1",
+      		"cluster1",
+      		armhdinsight.ClusterCreateParametersExtended{
+      			Properties: &armhdinsight.ClusterCreateProperties{
+      				ClusterDefinition: &armhdinsight.ClusterDefinition{
+      					ComponentVersion: map[string]*string{
+      						"Hadoop": to.Ptr("2.7"),
+      					},
+      					Configurations: map[string]interface{}{
+      						"gateway": map[string]interface{}{
+      							"restAuthCredential.isEnabled": true,
+      							"restAuthCredential.password":  "**********",
+      							"restAuthCredential.username":  "admin",
+      						},
+      					},
+      					Kind: to.Ptr("hadoop"),
+      				},
+      				ClusterVersion: to.Ptr("3.6"),
+      				ComputeProfile: &armhdinsight.ComputeProfile{
+      					Roles: []*armhdinsight.Role{
+      						{
+      							Name: to.Ptr("workernode"),
+      							AutoscaleConfiguration: &armhdinsight.Autoscale{
+      								Recurrence: &armhdinsight.AutoscaleRecurrence{
+      									Schedule: []*armhdinsight.AutoscaleSchedule{
+      										{
+      											Days: []*armhdinsight.DaysOfWeek{
+      												to.Ptr(armhdinsight.DaysOfWeekMonday),
+      												to.Ptr(armhdinsight.DaysOfWeekTuesday),
+      												to.Ptr(armhdinsight.DaysOfWeekWednesday),
+      												to.Ptr(armhdinsight.DaysOfWeekThursday),
+      												to.Ptr(armhdinsight.DaysOfWeekFriday)},
+      											TimeAndCapacity: &armhdinsight.AutoscaleTimeAndCapacity{
+      												MaxInstanceCount: to.Ptr[int32](3),
+      												MinInstanceCount: to.Ptr[int32](3),
+      												Time:             to.Ptr("09:00"),
+      											},
+      										},
+      										{
+      											Days: []*armhdinsight.DaysOfWeek{
+      												to.Ptr(armhdinsight.DaysOfWeekMonday),
+      												to.Ptr(armhdinsight.DaysOfWeekTuesday),
+      												to.Ptr(armhdinsight.DaysOfWeekWednesday),
+      												to.Ptr(armhdinsight.DaysOfWeekThursday),
+      												to.Ptr(armhdinsight.DaysOfWeekFriday)},
+      											TimeAndCapacity: &armhdinsight.AutoscaleTimeAndCapacity{
+      												MaxInstanceCount: to.Ptr[int32](6),
+      												MinInstanceCount: to.Ptr[int32](6),
+      												Time:             to.Ptr("18:00"),
+      											},
+      										},
+      										{
+      											Days: []*armhdinsight.DaysOfWeek{
+      												to.Ptr(armhdinsight.DaysOfWeekSaturday),
+      												to.Ptr(armhdinsight.DaysOfWeekSunday)},
+      											TimeAndCapacity: &armhdinsight.AutoscaleTimeAndCapacity{
+      												MaxInstanceCount: to.Ptr[int32](2),
+      												MinInstanceCount: to.Ptr[int32](2),
+      												Time:             to.Ptr("09:00"),
+      											},
+      										},
+      										{
+      											Days: []*armhdinsight.DaysOfWeek{
+      												to.Ptr(armhdinsight.DaysOfWeekSaturday),
+      												to.Ptr(armhdinsight.DaysOfWeekSunday)},
+      											TimeAndCapacity: &armhdinsight.AutoscaleTimeAndCapacity{
+      												MaxInstanceCount: to.Ptr[int32](4),
+      												MinInstanceCount: to.Ptr[int32](4),
+      												Time:             to.Ptr("18:00"),
+      											},
+      										}},
+      									TimeZone: to.Ptr("China Standard Time"),
+      								},
+      							},
+      							HardwareProfile: &armhdinsight.HardwareProfile{
+      								VMSize: to.Ptr("Standard_D4_V2"),
+      							},
+      							OSProfile: &armhdinsight.OsProfile{
+      								LinuxOperatingSystemProfile: &armhdinsight.LinuxOperatingSystemProfile{
+      									Password: to.Ptr("**********"),
+      									Username: to.Ptr("sshuser"),
+      								},
+      							},
+      							ScriptActions:       []*armhdinsight.ScriptAction{},
+      							TargetInstanceCount: to.Ptr[int32](4),
+      						}},
+      				},
+      				OSType: to.Ptr(armhdinsight.OSTypeLinux),
+      				StorageProfile: &armhdinsight.StorageProfile{
+      					Storageaccounts: []*armhdinsight.StorageAccount{
+      						{
+      							Name:      to.Ptr("mystorage.blob.core.windows.net"),
+      							Container: to.Ptr("hdinsight-autoscale-tes-2019-06-18t05-49-16-591z"),
+      							IsDefault: to.Ptr(true),
+      							Key:       to.Ptr("storagekey"),
+      						}},
+      				},
+      				Tier: to.Ptr(armhdinsight.TierStandard),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2388,6 +3908,246 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "4.0",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "kafka",
+            "componentVersion": {
+              "Kafka": "2.1"
+            },
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "kafkaRestProperties": {
+            "clientGroupInfo": {
+              "groupName": "Kafka security group name",
+              "groupId": "00000000-0000-0000-0000-111111111111"
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                },
+                "dataDisksGroups": [
+                  {
+                    "disksPerNode": 8
+                  }
+                ]
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "kafkamanagementnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D4_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "kafkauser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storagekey"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClientGroupInfo;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.DataDisksGroups;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.KafkaRestProperties;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateKafkaClusterWithKafkaRestProxy.json
+           */
+          /**
+           * Sample code: Create Kafka cluster with Kafka Rest Proxy.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createKafkaClusterWithKafkaRestProxy(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("4.0")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("kafka")
+                                  .withComponentVersion(mapOf("Kafka", "2.1"))
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withKafkaRestProperties(
+                              new KafkaRestProperties()
+                                  .withClientGroupInfo(
+                                      new ClientGroupInfo()
+                                          .withGroupName("Kafka security group name")
+                                          .withGroupId("00000000-0000-0000-0000-111111111111")))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")))
+                                                  .withDataDisksGroups(
+                                                      Arrays.asList(new DataDisksGroups().withDisksPerNode(8))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("kafkamanagementnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_D4_v2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("kafkauser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storagekey")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2580,6 +4340,199 @@ examples:
           "minSupportedTlsVersion": "1.2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "default8525",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "minSupportedTlsVersion": "1.2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithTLS12.json
+           */
+          /**
+           * Sample code: Create cluster with TLS 1.2.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithTLS12(com.azure.resourcemanager.hdinsight.HDInsightManager manager)
+              throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("default8525")
+                                                  .withKey("storagekey"))))
+                          .withMinSupportedTlsVersion("1.2"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2744,6 +4697,203 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Large"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Small"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "default8525",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "encryptionInTransitProperties": {
+            "isEncryptionInTransitEnabled": true
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.EncryptionInTransitProperties;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithEncryptionInTransit.json
+           */
+          /**
+           * Sample code: Create cluster with encryption in transit.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithEncryptionInTransit(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Large"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Small"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("default8525")
+                                                  .withKey("storagekey"))))
+                          .withEncryptionInTransitProperties(
+                              new EncryptionInTransitProperties().withIsEncryptionInTransitEnabled(true)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2910,6 +5060,202 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "Hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS14_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS14_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              },
+              {
+                "name": "zookeepernode",
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Standard_DS14_v2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage.blob.core.windows.net",
+                "isDefault": true,
+                "container": "default8525",
+                "key": "storagekey"
+              }
+            ]
+          },
+          "diskEncryptionProperties": {
+            "encryptionAtHost": true
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.DiskEncryptionProperties;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.Tier;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithEncryptionAtHost.json
+           */
+          /**
+           * Sample code: Create cluster with encryption at host.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithEncryptionAtHost(com.azure.resourcemanager.hdinsight.HDInsightManager manager)
+              throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withTier(Tier.STANDARD)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("Hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_DS14_v2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_DS14_v2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))),
+                                              new Role()
+                                                  .withName("zookeepernode")
+                                                  .withTargetInstanceCount(3)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("Standard_DS14_v2"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********"))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage.blob.core.windows.net")
+                                                  .withIsDefault(true)
+                                                  .withContainer("default8525")
+                                                  .withKey("storagekey"))))
+                          .withDiskEncryptionProperties(new DiskEncryptionProperties().withEncryptionAtHost(true)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -3090,6 +5436,235 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          },
+          "networkProperties": {
+            "resourceProviderConnection": "Outbound",
+            "privateLink": "Enabled"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.NetworkProperties;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.PrivateLink;
+      import com.azure.resourcemanager.hdinsight.models.ResourceProviderConnection;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.SshProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshPublicKey;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.VirtualNetworkProfile;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithCustomNetworkProperties.json
+           */
+          /**
+           * Sample code: Create cluster with network properties.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithNetworkProperties(com.azure.resourcemanager.hdinsight.HDInsightManager manager)
+              throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet")),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet")))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storage account key"))))
+                          .withNetworkProperties(
+                              new NetworkProperties()
+                                  .withResourceProviderConnection(ResourceProviderConnection.OUTBOUND)
+                                  .withPrivateLink(PrivateLink.ENABLED)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -3238,6 +5813,209 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "computeIsolationProperties": {
+            "enableComputeIsolation": true,
+            "hostSku": null
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeIsolationProperties;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.SshProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshPublicKey;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithComputeIsolationProperties.json
+           */
+          /**
+           * Sample code: Create cluster with compute isolation properties.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithComputeIsolationProperties(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********")))))),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********")))))))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storage account key"))))
+                          .withComputeIsolationProperties(new ComputeIsolationProperties().withEnableComputeIsolation(true)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -3424,6 +6202,281 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "zones": [
+          "1"
+        ],
+        "properties": {
+          "clusterVersion": "3.6",
+          "osType": "Linux",
+          "clusterDefinition": {
+            "kind": "hadoop",
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              },
+              "ambari-conf": {
+                "database-server": "{sql server name}.database.windows.net",
+                "database-name": "{ambari database name}",
+                "database-user-name": "**********",
+                "database-user-password": "**********"
+              },
+              "hive-site": {
+                "javax.jdo.option.ConnectionURL": "jdbc:sqlserver://{sql server name}.database.windows.net;database={hive metastore name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0",
+                "javax.jdo.option.ConnectionUserName": "**********",
+                "javax.jdo.option.ConnectionPassword": "**********!",
+                "javax.jdo.option.ConnectionDriverName": "com.microsoft.sqlserver.jdbc.SQLServerDriver"
+              },
+              "hive-env": {
+                "hive_database": "Existing MSSQL Server database with SQL authentication",
+                "hive_database_name": "{hive metastore name}",
+                "hive_database_type": "mssql",
+                "hive_existing_mssql_server_database": "{hive metastore name}",
+                "hive_existing_mssql_server_host": "{sql server name}.database.windows.net",
+                "hive_hostname": "{sql server name}.database.windows.net"
+              },
+              "oozie-site": {
+                "oozie.service.JPAService.jdbc.url": "jdbc:sqlserver://{sql server name}.database.windows.net;database={oozie metastore name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0",
+                "oozie.service.JPAService.jdbc.username": "**********",
+                "oozie.service.JPAService.jdbc.password": "**********",
+                "oozie.service.JPAService.jdbc.driver": "com.microsoft.sqlserver.jdbc.SQLServerDriver",
+                "oozie.db.schema.name": "oozie"
+              },
+              "oozie-env": {
+                "oozie_database": "Existing MSSQL Server database with SQL authentication",
+                "oozie_database_name": "{oozie metastore name}",
+                "oozie_database_type": "mssql",
+                "oozie_existing_mssql_server_database": "{oozie metastore name}",
+                "oozie_existing_mssql_server_host": "{sql server name}.database.windows.net",
+                "oozie_hostname": "{sql server name}.database.windows.net"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "mystorage",
+                "isDefault": true,
+                "container": "containername",
+                "key": "storage account key"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "name": "headnode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              },
+              {
+                "name": "workernode",
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "standard_d3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********",
+                    "sshProfile": {
+                      "publicKeys": [
+                        {
+                          "certificateData": "**********"
+                        }
+                      ]
+                    }
+                  }
+                },
+                "virtualNetworkProfile": {
+                  "id": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname",
+                  "subnet": "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet"
+                }
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.hdinsight.models.ClusterCreateProperties;
+      import com.azure.resourcemanager.hdinsight.models.ClusterDefinition;
+      import com.azure.resourcemanager.hdinsight.models.ComputeProfile;
+      import com.azure.resourcemanager.hdinsight.models.HardwareProfile;
+      import com.azure.resourcemanager.hdinsight.models.LinuxOperatingSystemProfile;
+      import com.azure.resourcemanager.hdinsight.models.OSType;
+      import com.azure.resourcemanager.hdinsight.models.OsProfile;
+      import com.azure.resourcemanager.hdinsight.models.Role;
+      import com.azure.resourcemanager.hdinsight.models.SshProfile;
+      import com.azure.resourcemanager.hdinsight.models.SshPublicKey;
+      import com.azure.resourcemanager.hdinsight.models.StorageAccount;
+      import com.azure.resourcemanager.hdinsight.models.StorageProfile;
+      import com.azure.resourcemanager.hdinsight.models.VirtualNetworkProfile;
+      import java.io.IOException;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/CreateHDInsightClusterWithAvailabilityZones.json
+           */
+          /**
+           * Sample code: Create cluster with availability zones.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void createClusterWithAvailabilityZones(com.azure.resourcemanager.hdinsight.HDInsightManager manager)
+              throws IOException {
+              manager
+                  .clusters()
+                  .define("cluster1")
+                  .withExistingResourceGroup("rg1")
+                  .withZones(Arrays.asList("1"))
+                  .withProperties(
+                      new ClusterCreateProperties()
+                          .withClusterVersion("3.6")
+                          .withOsType(OSType.LINUX)
+                          .withClusterDefinition(
+                              new ClusterDefinition()
+                                  .withKind("hadoop")
+                                  .withConfigurations(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"ambari-conf\":{\"database-name\":\"{ambari database"
+                                                  + " name}\",\"database-server\":\"{sql server"
+                                                  + " name}.database.windows.net\",\"database-user-name\":\"**********\",\"database-user-password\":\"**********\"},\"gateway\":{\"restAuthCredential.isEnabled\":true,\"restAuthCredential.password\":\"**********\",\"restAuthCredential.username\":\"admin\"},\"hive-env\":{\"hive_database\":\"Existing"
+                                                  + " MSSQL Server database with SQL"
+                                                  + " authentication\",\"hive_database_name\":\"{hive metastore"
+                                                  + " name}\",\"hive_database_type\":\"mssql\",\"hive_existing_mssql_server_database\":\"{hive"
+                                                  + " metastore name}\",\"hive_existing_mssql_server_host\":\"{sql server"
+                                                  + " name}.database.windows.net\",\"hive_hostname\":\"{sql server"
+                                                  + " name}.database.windows.net\"},\"hive-site\":{\"javax.jdo.option.ConnectionDriverName\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\",\"javax.jdo.option.ConnectionPassword\":\"**********!\",\"javax.jdo.option.ConnectionURL\":\"jdbc:sqlserver://{sql"
+                                                  + " server name}.database.windows.net;database={hive metastore"
+                                                  + " name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0\",\"javax.jdo.option.ConnectionUserName\":\"**********\"},\"oozie-env\":{\"oozie_database\":\"Existing"
+                                                  + " MSSQL Server database with SQL"
+                                                  + " authentication\",\"oozie_database_name\":\"{oozie metastore"
+                                                  + " name}\",\"oozie_database_type\":\"mssql\",\"oozie_existing_mssql_server_database\":\"{oozie"
+                                                  + " metastore name}\",\"oozie_existing_mssql_server_host\":\"{sql server"
+                                                  + " name}.database.windows.net\",\"oozie_hostname\":\"{sql server"
+                                                  + " name}.database.windows.net\"},\"oozie-site\":{\"oozie.db.schema.name\":\"oozie\",\"oozie.service.JPAService.jdbc.driver\":\"com.microsoft.sqlserver.jdbc.SQLServerDriver\",\"oozie.service.JPAService.jdbc.password\":\"**********\",\"oozie.service.JPAService.jdbc.url\":\"jdbc:sqlserver://{sql"
+                                                  + " server name}.database.windows.net;database={oozie metastore"
+                                                  + " name};encrypt=true;trustServerCertificate=true;create=false;loginTimeout=300;sendStringParametersAsUnicode=true;prepareSQL=0\",\"oozie.service.JPAService.jdbc.username\":\"**********\"}}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withComputeProfile(
+                              new ComputeProfile()
+                                  .withRoles(
+                                      Arrays
+                                          .asList(
+                                              new Role()
+                                                  .withName("headnode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet")),
+                                              new Role()
+                                                  .withName("workernode")
+                                                  .withTargetInstanceCount(2)
+                                                  .withHardwareProfile(new HardwareProfile().withVmSize("standard_d3"))
+                                                  .withOsProfile(
+                                                      new OsProfile()
+                                                          .withLinuxOperatingSystemProfile(
+                                                              new LinuxOperatingSystemProfile()
+                                                                  .withUsername("sshuser")
+                                                                  .withPassword("**********")
+                                                                  .withSshProfile(
+                                                                      new SshProfile()
+                                                                          .withPublicKeys(
+                                                                              Arrays
+                                                                                  .asList(
+                                                                                      new SshPublicKey()
+                                                                                          .withCertificateData(
+                                                                                              "**********"))))))
+                                                  .withVirtualNetworkProfile(
+                                                      new VirtualNetworkProfile()
+                                                          .withId(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname")
+                                                          .withSubnet(
+                                                              "/subscriptions/subId/resourceGroups/rg/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/vnetsubnet")))))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withStorageaccounts(
+                                      Arrays
+                                          .asList(
+                                              new StorageAccount()
+                                                  .withName("mystorage")
+                                                  .withIsDefault(true)
+                                                  .withContainer("containername")
+                                                  .withKey("storage account key")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

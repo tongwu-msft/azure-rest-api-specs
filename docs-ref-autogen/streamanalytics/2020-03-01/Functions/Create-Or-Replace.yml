@@ -327,6 +327,160 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg7/providers/Microsoft.StreamAnalytics/streamingjobs/sj9093/functions/function588?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Scalar",
+          "properties": {
+            "inputs": [
+              {
+                "dataType": "nvarchar(max)"
+              }
+            ],
+            "output": {
+              "dataType": "nvarchar(max)"
+            },
+            "binding": {
+              "type": "Microsoft.MachineLearning/WebService",
+              "properties": {
+                "endpoint": "someAzureMLEndpointURL",
+                "apiKey": "someApiKey==",
+                "inputs": {
+                  "name": "input1",
+                  "columnNames": [
+                    {
+                      "name": "tweet",
+                      "dataType": "string",
+                      "mapTo": 0
+                    }
+                  ]
+                },
+                "outputs": [
+                  {
+                    "name": "Sentiment",
+                    "dataType": "string"
+                  }
+                ],
+                "batchSize": 1000
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.AzureMachineLearningWebServiceFunctionBinding;
+      import com.azure.resourcemanager.streamanalytics.models.AzureMachineLearningWebServiceInputColumn;
+      import com.azure.resourcemanager.streamanalytics.models.AzureMachineLearningWebServiceInputs;
+      import com.azure.resourcemanager.streamanalytics.models.AzureMachineLearningWebServiceOutputColumn;
+      import com.azure.resourcemanager.streamanalytics.models.FunctionInput;
+      import com.azure.resourcemanager.streamanalytics.models.FunctionOutput;
+      import com.azure.resourcemanager.streamanalytics.models.ScalarFunctionProperties;
+      import java.util.Arrays;
+
+      /** Samples for Functions CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Create_AzureML.json
+           */
+          /**
+           * Sample code: Create an Azure ML function.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAnAzureMLFunction(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .functions()
+                  .define("function588")
+                  .withExistingStreamingjob("sjrg7", "sj9093")
+                  .withProperties(
+                      new ScalarFunctionProperties()
+                          .withInputs(Arrays.asList(new FunctionInput().withDataType("nvarchar(max)")))
+                          .withOutput(new FunctionOutput().withDataType("nvarchar(max)"))
+                          .withBinding(
+                              new AzureMachineLearningWebServiceFunctionBinding()
+                                  .withEndpoint("someAzureMLEndpointURL")
+                                  .withApiKey("someApiKey==")
+                                  .withInputs(
+                                      new AzureMachineLearningWebServiceInputs()
+                                          .withName("input1")
+                                          .withColumnNames(
+                                              Arrays
+                                                  .asList(
+                                                      new AzureMachineLearningWebServiceInputColumn()
+                                                          .withName("tweet")
+                                                          .withDataType("string")
+                                                          .withMapTo(0))))
+                                  .withOutputs(
+                                      Arrays
+                                          .asList(
+                                              new AzureMachineLearningWebServiceOutputColumn()
+                                                  .withName("Sentiment")
+                                                  .withDataType("string")))
+                                  .withBatchSize(1000)))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a function or replaces an already existing function under an existing streaming job.
+       *
+       * @summary Creates a function or replaces an already existing function under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Create_AzureML.json
+       */
+      async function createAnAzureMlFunction() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg7";
+        const jobName = "sj9093";
+        const functionName = "function588";
+        const functionParam = {
+          properties: {
+            type: "Scalar",
+            binding: {
+              type: "Microsoft.MachineLearning/WebService",
+              apiKey: "someApiKey==",
+              batchSize: 1000,
+              endpoint: "someAzureMLEndpointURL",
+              inputs: {
+                name: "input1",
+                columnNames: [{ name: "tweet", dataType: "string", mapTo: 0 }],
+              },
+              outputs: [{ name: "Sentiment", dataType: "string" }],
+            },
+            inputs: [{ dataType: "nvarchar(max)" }],
+            output: { dataType: "nvarchar(max)" },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.functions.createOrReplace(
+          resourceGroupName,
+          jobName,
+          functionName,
+          functionParam
+        );
+        console.log(result);
+      }
+
+      createAnAzureMlFunction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
@@ -445,6 +599,172 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg1637/providers/Microsoft.StreamAnalytics/streamingjobs/sj8653/functions/function8197?api-version=2020-03-01
+
+      {
+        "properties": {
+          "type": "Scalar",
+          "properties": {
+            "inputs": [
+              {
+                "dataType": "Any"
+              }
+            ],
+            "output": {
+              "dataType": "Any"
+            },
+            "binding": {
+              "type": "Microsoft.StreamAnalytics/JavascriptUdf",
+              "properties": {
+                "script": "function (x, y) { return x + y; }"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.streamanalytics.models.FunctionInput;
+      import com.azure.resourcemanager.streamanalytics.models.FunctionOutput;
+      import com.azure.resourcemanager.streamanalytics.models.JavaScriptFunctionBinding;
+      import com.azure.resourcemanager.streamanalytics.models.ScalarFunctionProperties;
+      import java.util.Arrays;
+
+      /** Samples for Functions CreateOrReplace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Create_JavaScript.json
+           */
+          /**
+           * Sample code: Create a JavaScript function.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void createAJavaScriptFunction(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager
+                  .functions()
+                  .define("function8197")
+                  .withExistingStreamingjob("sjrg1637", "sj8653")
+                  .withProperties(
+                      new ScalarFunctionProperties()
+                          .withInputs(Arrays.asList(new FunctionInput().withDataType("Any")))
+                          .withOutput(new FunctionOutput().withDataType("Any"))
+                          .withBinding(new JavaScriptFunctionBinding().withScript("function (x, y) { return x + y; }")))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Create_JavaScript.json
+      func ExampleFunctionsClient_CreateOrReplace() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewFunctionsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrReplace(ctx,
+      		"sjrg1637",
+      		"sj8653",
+      		"function8197",
+      		armstreamanalytics.Function{
+      			Properties: &armstreamanalytics.ScalarFunctionProperties{
+      				Type: to.Ptr("Scalar"),
+      				Properties: &armstreamanalytics.FunctionConfiguration{
+      					Binding: &armstreamanalytics.JavaScriptFunctionBinding{
+      						Type: to.Ptr("Microsoft.StreamAnalytics/JavascriptUdf"),
+      						Properties: &armstreamanalytics.JavaScriptFunctionBindingProperties{
+      							Script: to.Ptr("function (x, y) { return x + y; }"),
+      						},
+      					},
+      					Inputs: []*armstreamanalytics.FunctionInput{
+      						{
+      							DataType: to.Ptr("Any"),
+      						}},
+      					Output: &armstreamanalytics.FunctionOutput{
+      						DataType: to.Ptr("Any"),
+      					},
+      				},
+      			},
+      		},
+      		&armstreamanalytics.FunctionsClientCreateOrReplaceOptions{IfMatch: nil,
+      			IfNoneMatch: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a function or replaces an already existing function under an existing streaming job.
+       *
+       * @summary Creates a function or replaces an already existing function under an existing streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_Create_JavaScript.json
+       */
+      async function createAJavaScriptFunction() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg1637";
+        const jobName = "sj8653";
+        const functionName = "function8197";
+        const functionParam = {
+          properties: {
+            type: "Scalar",
+            binding: {
+              type: "Microsoft.StreamAnalytics/JavascriptUdf",
+              script: "function (x, y) { return x + y; }",
+            },
+            inputs: [{ dataType: "Any" }],
+            output: { dataType: "Any" },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const result = await client.functions.createOrReplace(
+          resourceGroupName,
+          jobName,
+          functionName,
+          functionParam
+        );
+        console.log(result);
+      }
+
+      createAJavaScriptFunction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:

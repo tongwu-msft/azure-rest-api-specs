@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudserviceroleinstances.getinstanceview
 name: Get Instance View
 service: Compute
 groupName: Cloud Service Role Instances
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Retrieves information about the run-time state of a role instance in a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView?api-version=2021-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}/instanceView?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -21,11 +21,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
+  description: Name of the resource group.
   types:
   - uid: string
 - name: cloudServiceName
   in: path
   isRequired: true
+  description: Name of the cloud service.
   types:
   - uid: string
 - name: roleInstanceName
@@ -41,16 +43,24 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: RoleInstanceInstanceView
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RoleInstanceInstanceView
 requestHeader: []
 definitions:
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: RoleInstanceInstanceView
   description: The instance view of the role instance.
   kind: object
@@ -76,14 +86,31 @@ definitions:
     types:
     - uid: ResourceInstanceViewStatus
       isArray: true
-- name: CloudError
-  description: An error response from the Compute service.
+- name: ApiError
+  description: Api error.
   kind: object
   properties:
-  - name: error
-    description: Api error.
+  - name: details
+    description: The Api error details
     types:
-    - uid: ApiError
+    - uid: ApiErrorBase
+      isArray: true
+  - name: innererror
+    description: The Api inner error
+    types:
+    - uid: InnerError
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
 - name: ResourceInstanceViewStatus
   description: Instance view status.
   kind: object
@@ -112,29 +139,32 @@ definitions:
     description: The level code.
     types:
     - uid: StatusLevelTypes
-- name: ApiError
-  description: Api error.
+- name: ApiErrorBase
+  description: Api error base.
   kind: object
   properties:
-  - name: details
-    description: The Api error details
-    types:
-    - uid: ApiErrorBase
-      isArray: true
-  - name: innererror
-    description: The Api inner error
-    types:
-    - uid: InnerError
   - name: code
     description: The error code.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
     types:
     - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
-  - name: target
-    description: The target of the particular error.
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
     types:
     - uid: string
 - name: StatusLevelTypes
@@ -150,38 +180,16 @@ definitions:
   - name: Error
     types:
     - uid: string
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 examples:
 - name: Get Instance View of Cloud Service Role Instance
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}/instanceView?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}/instanceView?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}/instanceView?api-version=2022-04-04
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

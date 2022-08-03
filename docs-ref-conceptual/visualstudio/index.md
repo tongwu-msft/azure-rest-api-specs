@@ -1,10 +1,11 @@
 ---
 title: Visual Studio REST API reference
+description: Description of the Visual Studio REST API and REST operation groups.
 author: tfitzmac
 ms.author: tomfitz
 ms.date: 01/31/2018
 ms.topic: reference
-ms.service: visual-studio
+ms.service: azure
 ms.devlang: rest-api
 ---
 

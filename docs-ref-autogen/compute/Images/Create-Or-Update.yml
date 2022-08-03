@@ -201,7 +201,7 @@ definitions:
     types:
     - uid: OperatingSystemTypes
   - name: osState
-    description: The OS State.
+    description: The OS State. For managed images, use Generalized.
     types:
     - uid: OperatingSystemStateTypes
   - name: snapshot
@@ -314,7 +314,7 @@ definitions:
     types:
     - uid: string
 - name: OperatingSystemStateTypes
-  description: The OS State.
+  description: The OS State. For managed images, use Generalized.
   kind: enum
   properties:
   - name: Generalized
@@ -417,6 +417,27 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "osState": "Generalized"
+            },
+            "zoneResilient": true
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -479,6 +500,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "snapshot": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              },
+              "osState": "Generalized"
+            },
+            "zoneResilient": false
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -545,6 +589,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "managedDisk": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+              },
+              "osState": "Generalized"
+            },
+            "zoneResilient": true
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -604,6 +671,22 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "sourceVirtualMachine": {
+            "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -680,6 +763,33 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "osState": "Generalized"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "blobUri": "https://mystorageaccount.blob.core.windows.net/dataimages/dataimage.vhd"
+              }
+            ],
+            "zoneResilient": false
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -760,6 +870,37 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "snapshot": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              },
+              "osState": "Generalized"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "snapshot": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2"
+                }
+              }
+            ],
+            "zoneResilient": true
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -848,6 +989,37 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "managedDisk": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+              },
+              "osState": "Generalized"
+            },
+            "dataDisks": [
+              {
+                "lun": 1,
+                "managedDisk": {
+                  "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk2"
+                }
+              }
+            ],
+            "zoneResilient": false
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -928,6 +1100,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "blobUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+              "diskEncryptionSet": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              },
+              "osState": "Generalized"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -996,6 +1191,31 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "managedDisk": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myManagedDisk"
+              },
+              "diskEncryptionSet": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              },
+              "osState": "Generalized"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1068,6 +1288,31 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/myImage?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "storageProfile": {
+            "osDisk": {
+              "osType": "Linux",
+              "snapshot": {
+                "id": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+              },
+              "diskEncryptionSet": {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+              },
+              "osState": "Generalized"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

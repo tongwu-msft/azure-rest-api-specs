@@ -353,7 +353,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: The desired number of low-priority compute nodes in the pool.
+    description: The desired number of Spot/low-priority compute nodes in the pool.
     types:
     - uid: integer
   - name: resizeTimeout
@@ -450,7 +450,7 @@ definitions:
     - uid: integer
   - name: properties.currentLowPriorityNodes
     isReadyOnly: true
-    description: The number of low-priority compute nodes currently in the pool.
+    description: The number of Spot/low-priority compute nodes currently in the pool.
     types:
     - uid: integer
   - name: properties.scaleSettings
@@ -642,7 +642,7 @@ definitions:
     types:
     - uid: integer
   - name: targetLowPriorityNodes
-    description: "The desired number of low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
+    description: "The desired number of Spot/low-priority compute nodes in the pool.  \nAt least one of targetDedicatedNodes, targetLowPriorityNodes must be set."
     types:
     - uid: integer
   - name: nodeDeallocationOption
@@ -708,7 +708,7 @@ definitions:
     types:
     - uid: IPAddressProvisioningType
   - name: ipAddressIds
-    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
+    description: "The list of public IPs which the Batch service will use when provisioning Compute Nodes.  \nThe number of IPs specified here limits the maximum size of the Pool - 100 dedicated nodes or 100 Spot/low-priority nodes can be allocated for each public IP. For example, a pool needing 250 dedicated VMs would need at least 3 public IPs specified. Each element of this collection is of the form: /subscriptions/{subscription}/resourceGroups/{group}/providers/Microsoft.Network/publicIPAddresses/{ip}."
     types:
     - uid: string
       isArray: true
@@ -1424,6 +1424,65 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "deploymentConfiguration": {
+            "cloudServiceConfiguration": {
+              "osFamily": "5"
+            }
+          },
+          "scaleSettings": {
+            "fixedScale": {
+              "targetDedicatedNodes": 3
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_MinimalCloudServiceConfiguration.json
+       */
+      async function createPoolMinimalCloudServiceConfiguration() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: { cloudServiceConfiguration: { osFamily: "5" } },
+          scaleSettings: { fixedScale: { targetDedicatedNodes: 3 } },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolMinimalCloudServiceConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1497,6 +1556,87 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "Canonical",
+                "offer": "UbuntuServer",
+                "sku": "18.04-LTS",
+                "version": "latest"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          },
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=1",
+              "evaluationInterval": "PT5M"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_MinimalVirtualMachineConfiguration.json
+       */
+      async function createPoolMinimalVirtualMachineConfiguration() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                offer: "UbuntuServer",
+                publisher: "Canonical",
+                sku: "18.04-LTS",
+                version: "latest",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 18.04",
+            },
+          },
+          scaleSettings: {
+            autoScale: {
+              evaluationInterval: "PT5M",
+              formula: "$TargetDedicatedNodes=1",
+            },
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolMinimalVirtualMachineConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1647,6 +1787,223 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "displayName": "my-pool-name",
+          "vmSize": "STANDARD_D4",
+          "interNodeCommunication": "Enabled",
+          "taskSlotsPerNode": 13,
+          "taskSchedulingPolicy": {
+            "nodeFillType": "Pack"
+          },
+          "deploymentConfiguration": {
+            "cloudServiceConfiguration": {
+              "osFamily": "4",
+              "osVersion": "WA-GUEST-OS-4.45_201708-01"
+            }
+          },
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
+                "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268"
+              ]
+            }
+          },
+          "scaleSettings": {
+            "fixedScale": {
+              "targetDedicatedNodes": 6,
+              "targetLowPriorityNodes": 28,
+              "resizeTimeout": "PT8M",
+              "nodeDeallocationOption": "TaskCompletion"
+            }
+          },
+          "metadata": [
+            {
+              "name": "metadata-1",
+              "value": "value-1"
+            },
+            {
+              "name": "metadata-2",
+              "value": "value-2"
+            }
+          ],
+          "startTask": {
+            "commandLine": "cmd /c SET",
+            "resourceFiles": [
+              {
+                "httpUrl": "https://testaccount.blob.core.windows.net/example-blob-file",
+                "filePath": "c:\\temp\\gohere",
+                "fileMode": "777"
+              }
+            ],
+            "environmentSettings": [
+              {
+                "name": "MYSET",
+                "value": "1234"
+              }
+            ],
+            "userIdentity": {
+              "autoUser": {
+                "scope": "Pool",
+                "elevationLevel": "Admin"
+              }
+            },
+            "maxTaskRetryCount": 6,
+            "waitForSuccess": true
+          },
+          "userAccounts": [
+            {
+              "name": "username1",
+              "password": "<ExamplePassword>",
+              "elevationLevel": "Admin",
+              "linuxUserConfiguration": {
+                "sshPrivateKey": "sshprivatekeyvalue",
+                "uid": 1234,
+                "gid": 4567
+              }
+            }
+          ],
+          "applicationPackages": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
+              "version": "asdf"
+            }
+          ],
+          "certificates": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
+              "storeLocation": "LocalMachine",
+              "storeName": "MY",
+              "visibility": [
+                "RemoteUser"
+              ]
+            }
+          ],
+          "applicationLicenses": [
+            "app-license0",
+            "app-license1"
+          ]
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_CloudServiceConfiguration.json
+       */
+      async function createPoolFullCloudServiceConfiguration() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          applicationLicenses: ["app-license0", "app-license1"],
+          applicationPackages: [
+            {
+              id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/applications/app_1234",
+              version: "asdf",
+            },
+          ],
+          certificates: [
+            {
+              id: "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool/certificates/sha1-1234567",
+              storeLocation: "LocalMachine",
+              storeName: "MY",
+              visibility: ["RemoteUser"],
+            },
+          ],
+          deploymentConfiguration: {
+            cloudServiceConfiguration: {
+              osFamily: "4",
+              osVersion: "WA-GUEST-OS-4.45_201708-01",
+            },
+          },
+          displayName: "my-pool-name",
+          interNodeCommunication: "Enabled",
+          metadata: [
+            { name: "metadata-1", value: "value-1" },
+            { name: "metadata-2", value: "value-2" },
+          ],
+          networkConfiguration: {
+            publicIPAddressConfiguration: {
+              ipAddressIds: [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
+                "/subscriptions/subid2/resourceGroups/rg24/providers/Microsoft.Network/publicIPAddresses/ip268",
+              ],
+              provision: "UserManaged",
+            },
+            subnetId:
+              "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+          },
+          scaleSettings: {
+            fixedScale: {
+              nodeDeallocationOption: "TaskCompletion",
+              resizeTimeout: "PT8M",
+              targetDedicatedNodes: 6,
+              targetLowPriorityNodes: 28,
+            },
+          },
+          startTask: {
+            commandLine: "cmd /c SET",
+            environmentSettings: [{ name: "MYSET", value: "1234" }],
+            maxTaskRetryCount: 6,
+            resourceFiles: [
+              {
+                fileMode: "777",
+                filePath: "c:\tempgohere",
+                httpUrl: "https://testaccount.blob.core.windows.net/example-blob-file",
+              },
+            ],
+            userIdentity: { autoUser: { elevationLevel: "Admin", scope: "Pool" } },
+            waitForSuccess: true,
+          },
+          taskSchedulingPolicy: { nodeFillType: "Pack" },
+          taskSlotsPerNode: 13,
+          userAccounts: [
+            {
+              name: "username1",
+              elevationLevel: "Admin",
+              linuxUserConfiguration: {
+                gid: 4567,
+                sshPrivateKey: "sshprivatekeyvalue",
+                uid: 1234,
+              },
+              password: "<ExamplePassword>",
+            },
+          ],
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolFullCloudServiceConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1781,6 +2138,69 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_SharedImageGallery.json
+       */
+      async function createPoolCustomImage() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 18.04",
+            },
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolCustomImage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1849,6 +2269,88 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+            "publicIPAddressConfiguration": {
+              "provision": "UserManaged",
+              "ipAddressIds": [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135"
+              ]
+            }
+          },
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_PublicIPs.json
+       */
+      async function createPoolPublicIPs() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 18.04",
+            },
+          },
+          networkConfiguration: {
+            publicIPAddressConfiguration: {
+              ipAddressIds: [
+                "/subscriptions/subid1/resourceGroups/rg13/providers/Microsoft.Network/publicIPAddresses/ip135",
+              ],
+              provision: "UserManaged",
+            },
+            subnetId:
+              "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolPublicIPs().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -1990,6 +2492,197 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "MicrosoftWindowsServer",
+                "offer": "WindowsServer",
+                "sku": "2016-Datacenter-SmallDisk",
+                "version": "latest"
+              },
+              "nodeAgentSkuId": "batch.node.windows amd64",
+              "windowsConfiguration": {
+                "enableAutomaticUpdates": false
+              },
+              "licenseType": "Windows_Server",
+              "dataDisks": [
+                {
+                  "lun": 0,
+                  "caching": "ReadWrite",
+                  "diskSizeGB": 30,
+                  "storageAccountType": "Premium_LRS"
+                },
+                {
+                  "lun": 1,
+                  "caching": "None",
+                  "diskSizeGB": 200,
+                  "storageAccountType": "Standard_LRS"
+                }
+              ],
+              "diskEncryptionConfiguration": {
+                "targets": [
+                  "OsDisk",
+                  "TemporaryDisk"
+                ]
+              },
+              "nodePlacementConfiguration": {
+                "policy": "Zonal"
+              },
+              "osDisk": {
+                "ephemeralOSDiskSettings": {
+                  "placement": "CacheDisk"
+                }
+              }
+            }
+          },
+          "networkConfiguration": {
+            "endpointConfiguration": {
+              "inboundNatPools": [
+                {
+                  "name": "testnat",
+                  "protocol": "TCP",
+                  "backendPort": 12001,
+                  "frontendPortRangeStart": 15000,
+                  "frontendPortRangeEnd": 15100,
+                  "networkSecurityGroupRules": [
+                    {
+                      "access": "Allow",
+                      "sourceAddressPrefix": "192.100.12.45",
+                      "priority": 150,
+                      "sourcePortRanges": [
+                        "1",
+                        "2"
+                      ]
+                    },
+                    {
+                      "access": "Deny",
+                      "sourceAddressPrefix": "*",
+                      "priority": 3500,
+                      "sourcePortRanges": [
+                        "*"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=1",
+              "evaluationInterval": "PT5M"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_VirtualMachineConfiguration.json
+       */
+      async function createPoolFullVirtualMachineConfiguration() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              dataDisks: [
+                {
+                  caching: "ReadWrite",
+                  diskSizeGB: 30,
+                  lun: 0,
+                  storageAccountType: "Premium_LRS",
+                },
+                {
+                  caching: "None",
+                  diskSizeGB: 200,
+                  lun: 1,
+                  storageAccountType: "Standard_LRS",
+                },
+              ],
+              diskEncryptionConfiguration: { targets: ["OsDisk", "TemporaryDisk"] },
+              imageReference: {
+                offer: "WindowsServer",
+                publisher: "MicrosoftWindowsServer",
+                sku: "2016-Datacenter-SmallDisk",
+                version: "latest",
+              },
+              licenseType: "Windows_Server",
+              nodeAgentSkuId: "batch.node.windows amd64",
+              nodePlacementConfiguration: { policy: "Zonal" },
+              osDisk: { ephemeralOSDiskSettings: { placement: "CacheDisk" } },
+              windowsConfiguration: { enableAutomaticUpdates: false },
+            },
+          },
+          networkConfiguration: {
+            endpointConfiguration: {
+              inboundNatPools: [
+                {
+                  name: "testnat",
+                  backendPort: 12001,
+                  frontendPortRangeEnd: 15100,
+                  frontendPortRangeStart: 15000,
+                  networkSecurityGroupRules: [
+                    {
+                      access: "Allow",
+                      priority: 150,
+                      sourceAddressPrefix: "192.100.12.45",
+                      sourcePortRanges: ["1", "2"],
+                    },
+                    {
+                      access: "Deny",
+                      priority: 3500,
+                      sourceAddressPrefix: "*",
+                      sourcePortRanges: ["*"],
+                    },
+                  ],
+                  protocol: "TCP",
+                },
+              ],
+            },
+          },
+          scaleSettings: {
+            autoScale: {
+              evaluationInterval: "PT5M",
+              formula: "$TargetDedicatedNodes=1",
+            },
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolFullVirtualMachineConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2117,6 +2810,80 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "networkConfiguration": {
+            "subnetId": "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+            "publicIPAddressConfiguration": {
+              "provision": "NoPublicIPAddresses"
+            }
+          },
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "id": "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_NoPublicIPAddresses.json
+       */
+      async function createPoolNoPublicIP() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                id: "/subscriptions/subid/resourceGroups/networking-group/providers/Microsoft.Compute/galleries/testgallery/images/testimagedef/versions/0.0.1",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 18.04",
+            },
+          },
+          networkConfiguration: {
+            publicIPAddressConfiguration: { provision: "NoPublicIPAddresses" },
+            subnetId:
+              "/subscriptions/subid/resourceGroups/rg1234/providers/Microsoft.Network/virtualNetworks/network1234/subnets/subnet123",
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolNoPublicIP().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2198,6 +2965,103 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "Canonical",
+                "offer": "UbuntuServer",
+                "sku": "18.04-LTS",
+                "version": "latest"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 18.04"
+            }
+          },
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=1",
+              "evaluationInterval": "PT5M"
+            }
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+            "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_UserAssignedIdentities.json
+       */
+      async function createPoolUserAssignedIdentities() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                offer: "UbuntuServer",
+                publisher: "Canonical",
+                sku: "18.04-LTS",
+                version: "latest",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 18.04",
+            },
+          },
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+                {},
+              "/subscriptions/subid/resourceGroups/defaultAzurebatchJapaneast/providers/MicrosoftManagedIdentity/userAssignedIdentities/id2":
+                {},
+            },
+          },
+          scaleSettings: {
+            autoScale: {
+              evaluationInterval: "PT5M",
+              formula: "$TargetDedicatedNodes=1",
+            },
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolUserAssignedIdentities().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -2296,6 +3160,113 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools/testpool?api-version=2022-06-01
+
+      {
+        "properties": {
+          "vmSize": "STANDARD_D4",
+          "scaleSettings": {
+            "autoScale": {
+              "formula": "$TargetDedicatedNodes=1",
+              "evaluationInterval": "PT5M"
+            }
+          },
+          "deploymentConfiguration": {
+            "virtualMachineConfiguration": {
+              "imageReference": {
+                "publisher": "Canonical",
+                "offer": "0001-com-ubuntu-server-focal",
+                "sku": "20_04-lts"
+              },
+              "nodeAgentSkuId": "batch.node.ubuntu 20.04",
+              "extensions": [
+                {
+                  "name": "batchextension1",
+                  "type": "SecurityMonitoringForLinux",
+                  "publisher": "Microsoft.Azure.Security.Monitoring",
+                  "typeHandlerVersion": "1.0",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "settingsKey": "settingsValue"
+                  },
+                  "protectedSettings": {
+                    "protectedSettingsKey": "protectedSettingsValue"
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new pool inside the specified account.
+       *
+       * @summary Creates a new pool inside the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolCreate_VirtualMachineConfiguration_Extensions.json
+       */
+      async function createPoolVirtualMachineConfigurationExtensions() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const poolName = "testpool";
+        const parameters = {
+          deploymentConfiguration: {
+            virtualMachineConfiguration: {
+              imageReference: {
+                offer: "0001-com-ubuntu-server-focal",
+                publisher: "Canonical",
+                sku: "20_04-lts",
+              },
+              nodeAgentSkuId: "batch.node.ubuntu 20.04",
+              extensions: [
+                {
+                  name: "batchextension1",
+                  type: "SecurityMonitoringForLinux",
+                  autoUpgradeMinorVersion: true,
+                  protectedSettings: {
+                    protectedSettingsKey: "protectedSettingsValue",
+                  },
+                  publisher: "Microsoft.Azure.Security.Monitoring",
+                  settings: { settingsKey: "settingsValue" },
+                  typeHandlerVersion: "1.0",
+                },
+              ],
+            },
+          },
+          scaleSettings: {
+            autoScale: {
+              evaluationInterval: "PT5M",
+              formula: "$TargetDedicatedNodes=1",
+            },
+          },
+          vmSize: "STANDARD_D4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.poolOperations.create(
+          resourceGroupName,
+          accountName,
+          poolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPoolVirtualMachineConfigurationExtensions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

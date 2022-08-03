@@ -1,19 +1,27 @@
 ### YamlMime:RESTOperation
-uid: <dataplaneurl>.loadtesting.dataplane.test.uploadtestfile
+uid: loadtesting.dataplane.test.uploadtestfile
 name: Upload Test File
 service: Azure Load Testing
 groupName: Test
 apiVersion: 2022-06-01-preview
-summary: Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten.
+summary: Upload input file for a given test name. File size can't be more than 50 MB. Existing file with same name for the given test will be overwritten. File should be provided in the request body as multipart/form-data.
 consumes:
 - multipart/form-data
 produces:
 - application/json
 paths:
-- content: PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?api-version=2022-06-01-preview
-- content: PUT https://<dataPlaneURL>/loadtests/{testId}/files/{fileId}?fileType={fileType}&api-version=2022-06-01-preview
+- content: PUT https://{Endpoint}/loadtests/{testId}/files/{fileId}?api-version=2022-06-01-preview
+- content: PUT https://{Endpoint}/loadtests/{testId}/files/{fileId}?fileType={fileType}&api-version=2022-06-01-preview
   isOptional: true
 uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
 - name: testId
   in: path
   isRequired: true
@@ -127,7 +135,13 @@ definitions:
 examples:
 - name: UploadTestFile
   request:
-    uri: PUT https://<dataPlaneURL>/loadtests/12345678-1234-1234-1234-123456789012/files/92345678-1234-1111-1234-123456789012?fileType=2&api-version=2022-06-01-preview
+    uri: PUT https://{Endpoint}/loadtests/12345678-1234-1234-1234-123456789012/files/92345678-1234-1111-1234-123456789012?fileType=2&api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://{Endpoint}/loadtests/12345678-1234-1234-1234-123456789012/files/92345678-1234-1111-1234-123456789012?fileType=2&api-version=2022-06-01-preview
+      ```
+
   responses:
   - statusCode: "201"
     body: >-

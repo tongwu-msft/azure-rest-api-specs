@@ -3,15 +3,15 @@ uid: management.azure.com.compute.cloudserviceroleinstances.get
 name: Get
 service: Compute
 groupName: Cloud Service Role Instances
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Gets a role instance from a cloud service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2021-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2022-04-04
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}/roleInstances/{roleInstanceName}?api-version=2022-04-04&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -23,11 +23,13 @@ uriParameters:
 - name: resourceGroupName
   in: path
   isRequired: true
+  description: Name of the resource group.
   types:
   - uid: string
 - name: cloudServiceName
   in: path
   isRequired: true
+  description: Name of the cloud service.
   types:
   - uid: string
 - name: roleInstanceName
@@ -48,14 +50,14 @@ uriParameters:
   types:
   - uid: InstanceViewTypes
 responses:
-- name: 200 OK
-  description: OK
-  types:
-  - uid: RoleInstance
 - name: Other Status Codes
   description: Error
   types:
   - uid: CloudError
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RoleInstance
 requestHeader: []
 definitions:
 - name: InstanceViewTypes
@@ -68,7 +70,16 @@ definitions:
   - name: userData
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: RoleInstance
+  description: Describes the cloud service role instance.
   kind: object
   properties:
   - name: id
@@ -101,45 +112,13 @@ definitions:
       - uid: string
       - uid: string
   - name: sku
-    description: ''
+    description: The role instance SKU.
     types:
     - uid: InstanceSku
   - name: properties
-    description: ''
+    description: Role instance properties.
     types:
     - uid: RoleInstanceProperties
-- name: CloudError
-  description: An error response from the Compute service.
-  kind: object
-  properties:
-  - name: error
-    description: Api error.
-    types:
-    - uid: ApiError
-- name: InstanceSku
-  kind: object
-  properties:
-  - name: name
-    isReadyOnly: true
-    description: The sku name.
-    types:
-    - uid: string
-  - name: tier
-    isReadyOnly: true
-    description: The tier of the cloud service role instance.
-    types:
-    - uid: string
-- name: RoleInstanceProperties
-  kind: object
-  properties:
-  - name: networkProfile
-    description: Describes the network profile for the role instance.
-    types:
-    - uid: RoleInstanceNetworkProfile
-  - name: instanceView
-    description: The instance view of the role instance.
-    types:
-    - uid: RoleInstanceInstanceView
 - name: ApiError
   description: Api error.
   kind: object
@@ -157,12 +136,66 @@ definitions:
     description: The error code.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
   - name: message
     description: The error message.
     types:
     - uid: string
+- name: InstanceSku
+  description: The role instance SKU.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The sku name.
+    types:
+    - uid: string
+  - name: tier
+    isReadyOnly: true
+    description: The tier of the cloud service role instance.
+    types:
+    - uid: string
+- name: RoleInstanceProperties
+  description: Role instance properties.
+  kind: object
+  properties:
+  - name: networkProfile
+    description: Describes the network profile for the role instance.
+    types:
+    - uid: RoleInstanceNetworkProfile
+  - name: instanceView
+    description: The instance view of the role instance.
+    types:
+    - uid: RoleInstanceInstanceView
+- name: ApiErrorBase
+  description: Api error base.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+- name: InnerError
+  description: Inner error details.
+  kind: object
+  properties:
+  - name: exceptiontype
+    description: The exception type.
+    types:
+    - uid: string
+  - name: errordetail
+    description: The internal error message or exception dump.
     types:
     - uid: string
 - name: RoleInstanceNetworkProfile
@@ -200,34 +233,6 @@ definitions:
     types:
     - uid: ResourceInstanceViewStatus
       isArray: true
-- name: ApiErrorBase
-  description: Api error base.
-  kind: object
-  properties:
-  - name: code
-    description: The error code.
-    types:
-    - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
-  - name: target
-    description: The target of the particular error.
-    types:
-    - uid: string
-- name: InnerError
-  description: Inner error details.
-  kind: object
-  properties:
-  - name: exceptiontype
-    description: The exception type.
-    types:
-    - uid: string
-  - name: errordetail
-    description: The internal error message or exception dump.
-    types:
-    - uid: string
 - name: SubResource
   kind: object
   properties:
@@ -279,7 +284,13 @@ definitions:
 examples:
 - name: Get Cloud Service Role Instance
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2021-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2022-04-04
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}/roleInstances/{roleInstance-name}?api-version=2022-04-04
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

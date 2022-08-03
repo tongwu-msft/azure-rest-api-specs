@@ -279,6 +279,147 @@ examples:
           "expirationDate": "2021-12-09T22:11:29.422Z"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Billing/billingAccounts/{billingAccountName}/billingProfiles/{billingProfileName}/invoiceSections/{invoiceSectionName}/providers/Microsoft.Education/labs/default?api-version=2021-12-01-preview
+
+      {
+        "properties": {
+          "displayName": "example lab",
+          "budgetPerStudent": {
+            "currency": "USD",
+            "value": 100
+          },
+          "description": "example lab description",
+          "expirationDate": "2021-12-09T22:11:29.422Z"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.education.fluent.models.Amount;
+      import com.azure.resourcemanager.education.fluent.models.LabDetailsInner;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Labs CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateLab.json
+           */
+          /**
+           * Sample code: CreateLab.
+           *
+           * @param manager Entry point to EducationManager.
+           */
+          public static void createLab(com.azure.resourcemanager.education.EducationManager manager) {
+              manager
+                  .labs()
+                  .createOrUpdateWithResponse(
+                      "{billingAccountName}",
+                      "{billingProfileName}",
+                      "{invoiceSectionName}",
+                      new LabDetailsInner()
+                          .withDisplayName("example lab")
+                          .withBudgetPerStudent(new Amount().withCurrency("USD").withValue(100.0f))
+                          .withDescription("example lab description")
+                          .withExpirationDate(OffsetDateTime.parse("2021-12-09T22:11:29.422Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-education_1.0.0-beta.2/sdk/education/azure-resourcemanager-education/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeducation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/education/armeducation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateLab.json
+      func ExampleLabsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeducation.NewLabsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"{billingAccountName}",
+      		"{billingProfileName}",
+      		"{invoiceSectionName}",
+      		armeducation.LabDetails{
+      			Properties: &armeducation.LabProperties{
+      				Description: to.Ptr("example lab description"),
+      				BudgetPerStudent: &armeducation.Amount{
+      					Currency: to.Ptr("USD"),
+      					Value:    to.Ptr[float32](100),
+      				},
+      				DisplayName:    to.Ptr("example lab"),
+      				ExpirationDate: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2021-12-09T22:11:29.422Z"); return t }()),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feducation%2Farmeducation%2Fv0.2.0/sdk/resourcemanager/education/armeducation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EducationManagementClient } = require("@azure/arm-education");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a new lab or update a previously created lab.
+       *
+       * @summary Create a new lab or update a previously created lab.
+       * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/CreateLab.json
+       */
+      async function createLab() {
+        const billingAccountName = "{billingAccountName}";
+        const billingProfileName = "{billingProfileName}";
+        const invoiceSectionName = "{invoiceSectionName}";
+        const parameters = {
+          description: "example lab description",
+          budgetPerStudent: { currency: "USD", value: 100 },
+          displayName: "example lab",
+          expirationDate: new Date("2021-12-09T22:11:29.422Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EducationManagementClient(credential);
+        const result = await client.labs.createOrUpdate(
+          billingAccountName,
+          billingProfileName,
+          invoiceSectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLab().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-education_1.0.0-beta.2/sdk/education/arm-education/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

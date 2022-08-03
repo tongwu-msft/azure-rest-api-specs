@@ -271,6 +271,235 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/iotconnectors/blue/fhirdestinations/dest1?api-version=2021-11-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "resourceIdentityResolutionType": "Create",
+          "fhirServiceResourceId": "subscriptions/11111111-2222-3333-4444-555566667777/resourceGroups/myrg/providers/Microsoft.HealthcareApis/workspaces/myworkspace/fhirservices/myfhirservice",
+          "fhirMapping": {
+            "content": {
+              "templateType": "CollectionFhirTemplate",
+              "template": [
+                {
+                  "templateType": "CodeValueFhir",
+                  "template": {
+                    "codes": [
+                      {
+                        "code": "8867-4",
+                        "system": "http://loinc.org",
+                        "display": "Heart rate"
+                      }
+                    ],
+                    "periodInterval": 60,
+                    "typeName": "heartrate",
+                    "value": {
+                      "defaultPeriod": 5000,
+                      "unit": "count/min",
+                      "valueName": "hr",
+                      "valueType": "SampledData"
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.healthcareapis.models.IotIdentityResolutionType;
+      import com.azure.resourcemanager.healthcareapis.models.IotMappingProperties;
+      import java.io.IOException;
+
+      /** Samples for IotConnectorFhirDestination CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_fhirdestination_Create.json
+           */
+          /**
+           * Sample code: Create or update an Iot Connector FHIR destination.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void createOrUpdateAnIotConnectorFHIRDestination(
+              com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) throws IOException {
+              manager
+                  .iotConnectorFhirDestinations()
+                  .define("dest1")
+                  .withExistingIotconnector("testRG", "workspace1", "blue")
+                  .withResourceIdentityResolutionType(IotIdentityResolutionType.CREATE)
+                  .withFhirServiceResourceId(
+                      "subscriptions/11111111-2222-3333-4444-555566667777/resourceGroups/myrg/providers/Microsoft.HealthcareApis/workspaces/myworkspace/fhirservices/myfhirservice")
+                  .withFhirMapping(
+                      new IotMappingProperties()
+                          .withContent(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"template\":[{\"template\":{\"codes\":[{\"code\":\"8867-4\",\"display\":\"Heart"
+                                          + " rate\",\"system\":\"http://loinc.org\"}],\"periodInterval\":60,\"typeName\":\"heartrate\",\"value\":{\"defaultPeriod\":5000,\"unit\":\"count/min\",\"valueName\":\"hr\",\"valueType\":\"SampledData\"}},\"templateType\":\"CodeValueFhir\"}],\"templateType\":\"CollectionFhirTemplate\"}",
+                                      Object.class,
+                                      SerializerEncoding.JSON)))
+                  .withRegion("westus")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_fhirdestination_Create.json
+      func ExampleIotConnectorFhirDestinationClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewIotConnectorFhirDestinationClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testRG",
+      		"workspace1",
+      		"blue",
+      		"dest1",
+      		armhealthcareapis.IotFhirDestination{
+      			Location: to.Ptr("westus"),
+      			Properties: &armhealthcareapis.IotFhirDestinationProperties{
+      				FhirMapping: &armhealthcareapis.IotMappingProperties{
+      					Content: map[string]interface{}{
+      						"template": []interface{}{
+      							map[string]interface{}{
+      								"template": map[string]interface{}{
+      									"codes": []interface{}{
+      										map[string]interface{}{
+      											"code":    "8867-4",
+      											"display": "Heart rate",
+      											"system":  "http://loinc.org",
+      										},
+      									},
+      									"periodInterval": float64(60),
+      									"typeName":       "heartrate",
+      									"value": map[string]interface{}{
+      										"defaultPeriod": float64(5000),
+      										"unit":          "count/min",
+      										"valueName":     "hr",
+      										"valueType":     "SampledData",
+      									},
+      								},
+      								"templateType": "CodeValueFhir",
+      							},
+      						},
+      						"templateType": "CollectionFhirTemplate",
+      					},
+      				},
+      				FhirServiceResourceID:          to.Ptr("subscriptions/11111111-2222-3333-4444-555566667777/resourceGroups/myrg/providers/Microsoft.HealthcareApis/workspaces/myworkspace/fhirservices/myfhirservice"),
+      				ResourceIdentityResolutionType: to.Ptr(armhealthcareapis.IotIdentityResolutionTypeCreate),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an IoT Connector FHIR destination resource with the specified parameters.
+       *
+       * @summary Creates or updates an IoT Connector FHIR destination resource with the specified parameters.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_fhirdestination_Create.json
+       */
+      async function createOrUpdateAnIotConnectorFhirDestination() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const workspaceName = "workspace1";
+        const iotConnectorName = "blue";
+        const fhirDestinationName = "dest1";
+        const iotFhirDestination = {
+          fhirMapping: {
+            content: {
+              template: [
+                {
+                  template: {
+                    codes: [
+                      {
+                        code: "8867-4",
+                        display: "Heart rate",
+                        system: "http://loinc.org",
+                      },
+                    ],
+                    periodInterval: 60,
+                    typeName: "heartrate",
+                    value: {
+                      defaultPeriod: 5000,
+                      unit: "count/min",
+                      valueName: "hr",
+                      valueType: "SampledData",
+                    },
+                  },
+                  templateType: "CodeValueFhir",
+                },
+              ],
+              templateType: "CollectionFhirTemplate",
+            },
+          },
+          fhirServiceResourceId:
+            "subscriptions/11111111-2222-3333-4444-555566667777/resourceGroups/myrg/providers/Microsoft.HealthcareApis/workspaces/myworkspace/fhirservices/myfhirservice",
+          location: "westus",
+          resourceIdentityResolutionType: "Create",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.iotConnectorFhirDestination.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          iotConnectorName,
+          fhirDestinationName,
+          iotFhirDestination
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAnIotConnectorFhirDestination().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -1,0 +1,275 @@
+### YamlMime:RESTOperation
+uid: purview.sharedataplane.acceptedsentshares.reinstate
+name: Reinstate
+service: Purview
+groupName: Accepted Sent Shares
+apiVersion: 2021-09-01-preview
+summary: Reinstate a revoked accepted sent share
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/sentShares/{sentShareName}/acceptedSentShares/{acceptedSentShareName}:reinstate?api-version=2021-09-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com/share'
+  types:
+  - uid: string
+- name: sentShareName
+  in: path
+  isRequired: true
+  description: The name of the sent share
+  types:
+  - uid: string
+- name: acceptedSentShareName
+  in: path
+  isRequired: true
+  description: The name of the accepted sent share
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Accepted
+  types:
+  - uid: InPlaceAcceptedSentShare
+  typesTitle: AcceptedSentShare
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: PurviewShareError
+requestBody:
+- name: InPlaceAcceptedSentShare
+  description: An in place accepted sent share.
+  parameters:
+  - name: properties.expirationDate
+    in: body
+    description: Expiration date of the received share in UTC format
+    types:
+    - uid: string
+  - name: shareKind
+    in: body
+    isRequired: true
+    description: Defines the supported types for share.
+    types:
+    - uid: InPlace
+    typesTitle: string
+requestHeader:
+- name: repeatability-request-id
+  in: header
+  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+  types:
+  - uid: string
+definitions:
+- name: InPlaceAcceptedSentShare
+  description: An in place accepted sent share.
+  kind: object
+  properties:
+  - name: properties.createdAt
+    isReadyOnly: true
+    description: created at
+    types:
+    - uid: string
+  - name: properties.expirationDate
+    description: Expiration date of the received share in UTC format
+    types:
+    - uid: string
+  - name: properties.receivedShareStatus
+    isReadyOnly: true
+    description: received share status
+    types:
+    - uid: ReceivedShareStatus
+  - name: properties.receiverEmail
+    isReadyOnly: true
+    description: Email of the user/receiver who received the sent share invitation and created the received share
+    types:
+    - uid: string
+  - name: properties.receiverName
+    isReadyOnly: true
+    description: Name of the user/receiver who received the sent share invitation and created the received share
+    types:
+    - uid: string
+  - name: properties.receiverTargetObjectId
+    isReadyOnly: true
+    description: Receiver's target object id
+    types:
+    - uid: string
+  - name: properties.receiverTenantName
+    isReadyOnly: true
+    description: Tenant name of the user/receiver who received the sent share invitation and created the received share
+    types:
+    - uid: string
+  - name: properties.senderEmail
+    isReadyOnly: true
+    description: Email of the sender who created the sent share invitation
+    types:
+    - uid: string
+  - name: properties.senderName
+    isReadyOnly: true
+    description: Name of the sender who created the sent share invitation
+    types:
+    - uid: string
+  - name: properties.senderTenantName
+    isReadyOnly: true
+    description: Tenant name of the sender who created the sent share invitation
+    types:
+    - uid: string
+  - name: properties.sharedAt
+    isReadyOnly: true
+    description: Shared at
+    types:
+    - uid: string
+  - name: shareKind
+    description: Defines the supported types for share.
+    types:
+    - uid: InPlace
+    typesTitle: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: PurviewShareError
+  description: The purview share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The purview share error body model.
+    types:
+    - uid: PurviewShareErrorInfo
+- name: ReceivedShareStatus
+  description: received share status
+  kind: enum
+  properties:
+  - name: Active
+    types:
+    - uid: string
+  - name: Reinstating
+    types:
+    - uid: string
+  - name: Revoked
+    types:
+    - uid: string
+  - name: Revoking
+    types:
+    - uid: string
+  - name: RevokeFailed
+    types:
+    - uid: string
+  - name: ReinstateFailed
+    types:
+    - uid: string
+  - name: SourceDeleted
+    types:
+    - uid: string
+- name: ShareKind
+  description: Defines the supported types for share.
+  kind: enum
+  properties:
+  - name: InPlace
+    types:
+    - uid: string
+- name: PurviewShareErrorInfo
+  description: The purview share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: PurviewShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+examples:
+- name: AcceptedSentShares_Reinstate
+  request:
+    uri: POST accountName.purview.azure.com/share/sentShares/sentShareName1/acceptedSentShares/25cbd032-a111-4c73-9772-6622d68b152a:reinstate?api-version=2021-09-01-preview
+    body: >-
+      {
+        "shareKind": "InPlace",
+        "properties": {
+          "expirationDate": "2022-02-24T21:02:24.695Z"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST accountName.purview.azure.com/share/sentShares/sentShareName1/acceptedSentShares/25cbd032-a111-4c73-9772-6622d68b152a:reinstate?api-version=2021-09-01-preview
+
+
+      {
+        "shareKind": "InPlace",
+        "properties": {
+          "expirationDate": "2022-02-24T21:02:24.695Z"
+        }
+      }
+
+      ```
+
+    headers:
+    - name: repeatability-request-id
+      value: b470712a-ffbc-4d9f-ab99-6640db8bbcb8
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    - name: x-ms-long-running-operation
+      value: "True"
+    - name: Azure-AsyncOperation
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    - name: Operation-Location
+      value: https://accountName.purview.azure.com/share/operationResults/dad6baec-3a39-41df-a469-843a9ee94213?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "receivedShareStatus": "Reinstating",
+          "createdAt": "2021-07-13T21:54:52.8172128Z",
+          "sharedAt": "2021-07-13T21:54:08.6597494Z",
+          "receiverName": "Jane Doe",
+          "receiverEmail": "janedoe@fabrikam.com",
+          "receiverTenantName": "Fabrikam",
+          "senderName": "John Smith",
+          "senderEmail": "john.smith@microsoft.com",
+          "senderTenantName": "Contoso"
+        },
+        "id": "/sentShares/sentShareName1/acceptedSentShares/25cbd032-a111-4c73-9772-6622d68b152a",
+        "name": "accepedSentShareName1",
+        "type": "sentShares/acceptedSentShares",
+        "shareKind": "InPlace"
+      }
+security: []
+metadata:
+  description: Learn more about Purview service - Reinstate a revoked accepted sent share
+errorCodes: []

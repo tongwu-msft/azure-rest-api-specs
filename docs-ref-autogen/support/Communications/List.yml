@@ -185,6 +185,80 @@ examples:
 - name: List communications for a subscription support ticket
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?api-version=2020-04-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsupport_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/support/armsupport"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListCommunicationsForSubscriptionSupportTicket.json
+      func ExampleCommunicationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsupport.NewCommunicationsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("testticket",
+      		&armsupport.CommunicationsClientListOptions{Top: nil,
+      			Filter: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsupport%2Farmsupport%2Fv1.0.0/sdk/resourcemanager/support/armsupport/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListCommunicationsForSubscriptionSupportTicket.json
+       */
+      async function listCommunicationsForASubscriptionSupportTicket() {
+        const subscriptionId = "subid";
+        const supportTicketName = "testticket";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.communications.list(supportTicketName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listCommunicationsForASubscriptionSupportTicket().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -221,6 +295,41 @@ examples:
 - name: List web communications for a subscription support ticket
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web'&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web'&api-version=2020-04-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListWebCommunicationsForSubscriptionSupportTicket.json
+       */
+      async function listWebCommunicationsForASubscriptionSupportTicket() {
+        const subscriptionId = "subid";
+        const supportTicketName = "testticket";
+        const filter = "communicationType eq 'web'";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.communications.list(supportTicketName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listWebCommunicationsForASubscriptionSupportTicket().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -257,6 +366,43 @@ examples:
 - name: List web communication created on or after a specific date for a subscription support ticket
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web' and createdDate ge 2020-03-10T22:08:51Z&api-version=2020-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Support/supportTickets/testticket/communications?$filter=communicationType eq 'web' and createdDate ge 2020-03-10T22:08:51Z&api-version=2020-04-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftSupport } = require("@azure/arm-support");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       *
+       * @summary Lists all communications (attachments not included) for a support ticket. <br/></br> You can also filter support ticket communications by _CreatedDate_ or _CommunicationType_ using the $filter parameter. The only type of communication supported today is _Web_. Output will be a paged result with _nextLink_, using which you can retrieve the next set of Communication results. <br/><br/>Support ticket data is available for 18 months after ticket creation. If a ticket was created more than 18 months ago, a request for data might cause an error.
+       * x-ms-original-file: specification/support/resource-manager/Microsoft.Support/stable/2020-04-01/examples/ListWebCommunicationsForSubscriptionSupportTicketCreatedOnOrAfter.json
+       */
+      async function listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket() {
+        const subscriptionId = "subid";
+        const supportTicketName = "testticket";
+        const filter = "communicationType eq 'web' and createdDate ge 2020-03-10T22:08:51Z";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftSupport(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.communications.list(supportTicketName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listWebCommunicationCreatedOnOrAfterASpecificDateForASubscriptionSupportTicket().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-support_2.0.2/sdk/support/arm-support/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

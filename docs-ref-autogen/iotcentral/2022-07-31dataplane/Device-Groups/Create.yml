@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-07-31dataplane.devicegroups.create
+name: Create
+service: IoT Central
+groupName: Device Groups
+apiVersion: 2022-07-31
+summary: Create or update a device group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/deviceGroups/{deviceGroupId}?api-version=2022-07-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceGroupId
+  in: path
+  isRequired: true
+  description: Unique ID for the device group.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceGroup
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: displayName
+    in: body
+    isRequired: true
+    description: Display name of the device group.
+    types:
+    - uid: string
+  - name: filter
+    in: body
+    isRequired: true
+    description: Query defining which devices should be in this group, [Query Language Reference](https://aka.ms/iotcquery).
+    types:
+    - uid: string
+  - name: description
+    in: body
+    description: Short summary of device group.
+    types:
+    - uid: string
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict in device group updates.
+    types:
+    - uid: string
+  - name: organizations
+    in: body
+    description: List of organization IDs of the device group, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: DeviceGroup
+  description: The device group definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the device group.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device group.
+    types:
+    - uid: string
+  - name: filter
+    description: Query defining which devices should be in this group, [Query Language Reference](https://aka.ms/iotcquery).
+    types:
+    - uid: string
+  - name: description
+    description: Short summary of device group.
+    types:
+    - uid: string
+  - name: etag
+    description: ETag used to prevent conflict in device group updates.
+    types:
+    - uid: string
+  - name: organizations
+    description: List of organization IDs of the device group, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Create device group
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/deviceGroups/group1?api-version=2022-07-31
+    body: >-
+      {
+        "displayName": "Device group 1",
+        "description": "Custom device group.",
+        "filter": "SELECT * FROM devices WHERE $template = \"dtmi:modelDefinition:dtdlv2\" AND $provisioned = true",
+        "organizations": [
+          "seattle"
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://appsubdomain.azureiotcentral.com/api/deviceGroups/group1?api-version=2022-07-31
+
+      {
+        "displayName": "Device group 1",
+        "description": "Custom device group.",
+        "filter": "SELECT * FROM devices WHERE $template = \"dtmi:modelDefinition:dtdlv2\" AND $provisioned = true",
+        "organizations": [
+          "seattle"
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "group1",
+        "displayName": "Device group 1",
+        "description": "Custom device group.",
+        "filter": "SELECT * FROM devices WHERE $template = \"dtmi:modelDefinition:dtdlv2\" AND $provisioned = true",
+        "organizations": [
+          "seattle"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about IoT Central service - Create or update a device group.
+errorCodes: []

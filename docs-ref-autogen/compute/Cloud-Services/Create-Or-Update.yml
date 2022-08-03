@@ -3,14 +3,14 @@ uid: management.azure.com.compute.cloudservices.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Cloud Services
-apiVersion: 2021-03-01
+apiVersion: 2022-04-04
 summary: Create or update a cloud service. Please note some properties can be set only during cloud service creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2021-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/cloudServices/{cloudServiceName}?api-version=2022-04-04
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +37,10 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: CloudError
 - name: 200 OK
   description: OK
   types:
@@ -45,10 +49,6 @@ responses:
   description: Created
   types:
   - uid: CloudService
-- name: Other Status Codes
-  description: Error
-  types:
-  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -72,6 +72,11 @@ requestBody:
     description: Cloud service properties
     types:
     - uid: CloudServiceProperties
+  - name: systemData
+    in: body
+    description: The system meta data relating to this resource.
+    types:
+    - uid: SystemData
 requestHeader: []
 definitions:
 - name: CloudServiceProperties
@@ -145,6 +150,28 @@ definitions:
     description: The unique identifier for the cloud service.
     types:
     - uid: string
+- name: SystemData
+  description: The system meta data relating to this resource.
+  kind: object
+  properties:
+  - name: createdAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was created. <br />Minimum api-version: 2022-04-04.'
+    types:
+    - uid: string
+  - name: lastModifiedAt
+    isReadyOnly: true
+    description: 'Specifies the time in UTC at which the Cloud Service (extended support) resource was last modified. <br />Minimum api-version: 2022-04-04.'
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the Compute service.
+  kind: object
+  properties:
+  - name: error
+    description: Api error.
+    types:
+    - uid: ApiError
 - name: CloudService
   description: Describes the cloud service.
   kind: object
@@ -180,14 +207,10 @@ definitions:
     description: Cloud service properties
     types:
     - uid: CloudServiceProperties
-- name: CloudError
-  description: An error response from the Compute service.
-  kind: object
-  properties:
-  - name: error
-    description: Api error.
+  - name: systemData
+    description: The system meta data relating to this resource.
     types:
-    - uid: ApiError
+    - uid: SystemData
 - name: CloudServiceUpgradeMode
   description: >-
     Update mode for the cloud service. Role instances are allocated to update domains when the service is deployed. Updates can be initiated manually in each update domain or initiated automatically in all update domains.
@@ -233,6 +256,15 @@ definitions:
     types:
     - uid: LoadBalancerConfiguration
       isArray: true
+  - name: slotType
+    description: >-
+      Slot type for the cloud service.
+
+      Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+      If not specified, the default value is Production.
+    types:
+    - uid: CloudServiceSlotType
   - name: swappableCloudService
     description: The id reference of the cloud service containing the target IP with which the subject cloud service can perform a swap. This property cannot be updated once it is set. The swappable cloud service referred by this id must be present otherwise an error will be thrown.
     types:
@@ -263,12 +295,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: CloudServiceRoleProfileProperties
@@ -312,6 +344,21 @@ definitions:
     description: Properties of the load balancer configuration.
     types:
     - uid: LoadBalancerConfigurationProperties
+- name: CloudServiceSlotType
+  description: >-
+    Slot type for the cloud service.
+
+    Possible values are <br /><br />**Production**<br /><br />**Staging**<br /><br />
+
+    If not specified, the default value is Production.
+  kind: enum
+  properties:
+  - name: Production
+    types:
+    - uid: string
+  - name: Staging
+    types:
+    - uid: string
 - name: SubResource
   kind: object
   properties:
@@ -339,12 +386,12 @@ definitions:
     description: The error code.
     types:
     - uid: string
-  - name: message
-    description: The error message.
-    types:
-    - uid: string
   - name: target
     description: The target of the particular error.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
     types:
     - uid: string
 - name: InnerError
@@ -384,6 +431,7 @@ definitions:
     types:
     - uid: string
 - name: LoadBalancerConfigurationProperties
+  description: Describes the properties of the load balancer configuration.
   kind: object
   properties:
   - name: frontendIPConfigurations
@@ -414,13 +462,13 @@ definitions:
   - name: settings
     description: Public settings for the extension. For JSON extensions, this is the JSON settings for the extension. For XML Extension (like RDP), this is the XML setting for the extension.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettings
     description: Protected settings for the extension which are encrypted before sent to the role instance.
     types:
-    - uid: string
+    - uid: object
   - name: protectedSettingsFromKeyVault
-    description: ''
+    description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
     types:
     - uid: CloudServiceVaultAndSecretReference
   - name: forceUpdateTag
@@ -447,6 +495,7 @@ definitions:
     - uid: string
       isArray: true
 - name: LoadBalancerFrontendIPConfiguration
+  description: Specifies the frontend IP to be used for the load balancer. Only IPv4 frontend IP address is supported. Each load balancer configuration must have exactly one frontend IP configuration.
   kind: object
   properties:
   - name: name
@@ -458,14 +507,15 @@ definitions:
     types:
     - uid: LoadBalancerFrontendIPConfigurationProperties
 - name: CloudServiceVaultAndSecretReference
+  description: Protected settings for the extension, referenced using KeyVault which are encrypted before sent to the role instance.
   kind: object
   properties:
   - name: sourceVault
-    description: ''
+    description: The ARM Resource ID of the Key Vault
     types:
     - uid: SubResource
   - name: secretUrl
-    description: ''
+    description: Secret URL which contains the protected settings of the extension
     types:
     - uid: string
 - name: LoadBalancerFrontendIPConfigurationProperties
@@ -487,7 +537,7 @@ definitions:
 examples:
 - name: Create New Cloud Service with Single Role
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "location": "westus",
@@ -528,6 +578,53 @@ examples:
           "upgradeMode": "Auto"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "location": "westus",
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/myPublicIP"
+                        }
+                      },
+                      "name": "myfe"
+                    }
+                  ]
+                },
+                "name": "myLoadBalancer"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -576,6 +673,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "14d10b45-ced7-42ef-a406-50a3df2cea7d"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -625,11 +726,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "14d10b45-ced7-42ef-a406-50a3df2cea7d"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Single Role and RDP Extension
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "properties": {
@@ -642,7 +747,7 @@ examples:
                   "protectedSettings": "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
-                  "typeHandlerVersion": "1.2.1"
+                  "typeHandlerVersion": "1.2"
                 },
                 "name": "RDPExtension"
               }
@@ -685,6 +790,68 @@ examples:
         },
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "properties": {
+          "extensionProfile": {
+            "extensions": [
+              {
+                "properties": {
+                  "type": "RDP",
+                  "autoUpgradeMinorVersion": false,
+                  "protectedSettings": "<PrivateConfig><Password>{password}</Password></PrivateConfig>",
+                  "publisher": "Microsoft.Windows.Azure.Extensions",
+                  "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>",
+                  "typeHandlerVersion": "1.2"
+                },
+                "name": "RDPExtension"
+              }
+            ]
+          },
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        },
+        "location": "westus"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -743,7 +910,7 @@ examples:
                   ],
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "type": "RDP",
-                  "typeHandlerVersion": "1.2.1",
+                  "typeHandlerVersion": "1.2",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>"
                 }
               }
@@ -751,6 +918,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "c948cccb-bbfa-4516-a250-c28abc4d0c15"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -810,7 +981,7 @@ examples:
                   ],
                   "publisher": "Microsoft.Windows.Azure.Extensions",
                   "type": "RDP",
-                  "typeHandlerVersion": "1.2.1",
+                  "typeHandlerVersion": "1.2",
                   "settings": "<PublicConfig><UserName>UserAzure</UserName><Expiration>10/22/2021 15:05:45</Expiration></PublicConfig>"
                 }
               }
@@ -818,11 +989,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "c948cccb-bbfa-4516-a250-c28abc4d0c15"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Multiple Roles
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "properties": {
@@ -871,6 +1046,61 @@ examples:
         },
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              },
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoBackend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        },
+        "location": "westus"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -927,6 +1157,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "7f3edf91-cb34-4a3e-971a-177dc3dd43cb"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -984,11 +1218,15 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "7f3edf91-cb34-4a3e-971a-177dc3dd43cb"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 - name: Create New Cloud Service with Single Role and Certificate from Key Vault
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2021-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
     body: >-
       {
         "location": "westus",
@@ -1043,6 +1281,67 @@ examples:
           "upgradeMode": "Auto"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Compute/cloudServices/{cs-name}?api-version=2022-04-04
+
+      {
+        "location": "westus",
+        "properties": {
+          "networkProfile": {
+            "loadBalancerConfigurations": [
+              {
+                "properties": {
+                  "frontendIPConfigurations": [
+                    {
+                      "properties": {
+                        "publicIPAddress": {
+                          "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.Network/publicIPAddresses/contosopublicip"
+                        }
+                      },
+                      "name": "contosofe"
+                    }
+                  ]
+                },
+                "name": "contosolb"
+              }
+            ]
+          },
+          "osProfile": {
+            "secrets": [
+              {
+                "sourceVault": {
+                  "id": "/subscriptions/{subscription-id}/resourceGroups/ConstosoRG/providers/Microsoft.KeyVault/vaults/{keyvault-name}"
+                },
+                "vaultCertificates": [
+                  {
+                    "certificateUrl": "https://{keyvault-name}.vault.azure.net:443/secrets/ContosoCertificate/{secret-id}"
+                  }
+                ]
+              }
+            ]
+          },
+          "roleProfile": {
+            "roles": [
+              {
+                "sku": {
+                  "name": "Standard_D1_v2",
+                  "capacity": 1,
+                  "tier": "Standard"
+                },
+                "name": "ContosoFrontend"
+              }
+            ]
+          },
+          "configuration": "{ServiceConfiguration}",
+          "packageUrl": "{PackageUrl}",
+          "upgradeMode": "Auto"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1102,6 +1401,10 @@ examples:
           },
           "provisioningState": "Updating",
           "uniqueId": "60b6cd59-600b-4e02-b717-521b07aa94bf"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
   - statusCode: "201"
@@ -1162,6 +1465,10 @@ examples:
           },
           "provisioningState": "Creating",
           "uniqueId": "60b6cd59-600b-4e02-b717-521b07aa94bf"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedAt": "2020-01-01T17:18:19.1234567Z"
         }
       }
 security:
