@@ -1,9 +1,9 @@
 ---
 title: Create a user delegation SAS - Azure Storage
-description: You can secure a shared access signature token for access to a container, directory, or blob by using either Azure AD credentials or an account key. An SAS that's secured with Azure AD credentials is called a user delegation SAS, because the token that's used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
+description: You can secure a shared access signature token for access to a container, directory, or blob by using either Azure AD credentials or an account key. A SAS that's secured with Azure AD credentials is called a user delegation SAS, because the token that's used to create the SAS is requested on behalf of the user. Microsoft recommends that you use Azure AD credentials when possible as a security best practice. 
 author: tamram
 
-ms.date: 03/16/2022
+ms.date: 08/03/2022
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -12,16 +12,16 @@ ms.topic: reference
 
 # Create a user delegation SAS
 
-You can secure a shared access signature (SAS) token for access to a container, directory, or blob by using either Azure Active Directory (Azure AD) credentials or an account key. An SAS that's secured with Azure AD credentials is called a *user delegation* SAS. As a security best practice, we recommend that you use Azure AD credentials when possible, rather than the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS to help ensure better security.
+You can secure a shared access signature (SAS) token for access to a container, directory, or blob by using either Azure Active Directory (Azure AD) credentials or an account key. A SAS that's secured with Azure AD credentials is called a *user delegation* SAS. As a security best practice, we recommend that you use Azure AD credentials when possible, rather than the account key, which can be more easily compromised. When your application design requires shared access signatures, use Azure AD credentials to create a user delegation SAS to help ensure better security.
 
 Every SAS is signed with a key. To create a user delegation SAS, you must first request a *user delegation key*, which you then use to sign the SAS. The user delegation key is analogous to the account key that's used to sign a service SAS or an account SAS, except that it relies on your Azure AD credentials. To request the user delegation key, call the [Get User Delegation Key](Get-User-Delegation-Key.md) operation. You can then use the user delegation key to create the SAS.
 
 A user delegation SAS is supported for Azure Blob Storage and Azure Data Lake Storage Gen2. Stored access policies are not supported for a user delegation SAS.
 
 > [!CAUTION]
-> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect an SAS from malicious or unintended use. Use discretion in distributing an SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
+> Shared access signatures are keys that grant permissions to storage resources, and you should protect them just as you would protect an account key. It's important to protect a SAS from malicious or unintended use. Use discretion in distributing a SAS, and have a plan in place for revoking a compromised SAS. Operations that use shared access signatures should be performed only over an HTTPS connection, and shared access signature URIs should only be distributed on a secure connection such as HTTPS.  
 
-For information about using your account key to secure an SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
+For information about using your account key to secure a SAS, see [Create a service SAS](create-service-sas.md) and [Create an account SAS](create-account-sas.md).
 
 ## User delegation SAS support for directory-scoped access
 
@@ -37,7 +37,7 @@ SAS tokens can be constrained to a specific filesystem operation and user, which
 
 ## Authorize a user delegation SAS
 
-When a client accesses a Blob Storage resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions that are granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and helps you avoid having to store your account access key with your application code. For these reasons, creating an SAS by using Azure AD credentials is a security best practice.
+When a client accesses a Blob Storage resource with a user delegation SAS, the request to Azure Storage is authorized with the Azure AD credentials that were used to create the SAS. The role-based access control (RBAC) permissions that are granted for that Azure AD account, together with the permissions explicitly granted on the SAS, determine the client's access to the resource. This approach provides an additional level of security and helps you avoid having to store your account access key with your application code. For these reasons, creating a SAS by using Azure AD credentials is a security best practice.
 
 The permissions granted to a client who possesses the SAS are the intersection of the permissions that were granted to the security principal that requested the user delegation key and the permissions that were granted to the resource on the SAS token using the `signedPermissions` (`sp`) field. If a permission that's granted to the security principal via RBAC isn't also granted on the SAS token, that permission isn't granted to the client who attempts to use the SAS to access the resource. When you're creating a user delegation SAS, make sure that the permissions granted via RBAC and the permissions granted via the SAS token both align to the level of access that's required by the client.  
 
@@ -129,7 +129,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 
 The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start and expiration times for the SAS. The `signedExpiry` field is required. The `signedStart` field is optional. It it's omitted, the current UTC time is used as the start time.
 
-For a user delegation SAS, the start and expiration times for the SAS should be within the interval that's defined for the user delegation key. If a client attempts to use an SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
+For a user delegation SAS, the start and expiration times for the SAS should be within the interval that's defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
 For more information about accepted UTC formats, see [Format DateTime values](formatting-datetime-values.md).
 
@@ -149,7 +149,7 @@ A user delegation SAS can't grant access to certain operations:
 - Container metadata and properties can't be read or written.
 - Containers can't be leased.  
 
-To construct an SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
+To construct a SAS that grants access to these operations, use an account SAS. For more information, see [Create an account SAS](create-account-sas.md).
   
 The permissions that are supported for each resource type are described in the following table:  
 
@@ -172,17 +172,17 @@ The permissions that are supported for each resource type are described in the f
 
 ### Specify an IP address or IP range  
 
-The optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized.  
+The optional `signedIp` (`sip`) field specifies a public IP address or a range of public IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized.  
   
 When you specify a range of IP addresses, the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.  
 
-The following table describes whether to include the `signedIp` field on an SAS token for a given scenario, based on the client environment and the location of the storage account.
+The following table describes whether to include the `signedIp` field on a SAS token for a given scenario, based on the client environment and the location of the storage account.
 
 | Client environment | Storage account location | Recommendation |
 |--|--|--|
-| Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that you make from within the same region by using an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
-| Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses. |
-| Client running on-premises or in a different cloud environment | In any Azure region | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
+| Client running in Azure | In the same region as the client | A SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that you make from within the same region by using a SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
+| Client running in Azure | In a different region from the client | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses. |
+| Client running on-premises or in a different cloud environment | In any Azure region | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. Requests that you make with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
   
 ### Specify the HTTP protocol  
 
@@ -240,7 +240,7 @@ The `saoid` or `suoid` field is supported only if the `signedVersion` (`sv`) fie
 
 ### Specify a correlation ID
 
-The `signedCorrelationId` (`scid`) field specifies a correlation ID that may be used to correlate the storage audit logs with the audit logs that are used by the principal that generates and distributes the SAS. For example, a trusted authorization service ordinarily has a managed identity that authenticates and authorizes users, generates an SAS, adds an entry to the local audit log, and returns the SAS to a user, who can then use the SAS to access Azure Storage resources. By including a correlation ID in both the local audit log and the storage audit log, you allow these events to be correlated later. The value is a GUID without braces and with lowercase characters.
+The `signedCorrelationId` (`scid`) field specifies a correlation ID that may be used to correlate the storage audit logs with the audit logs that are used by the principal that generates and distributes the SAS. For example, a trusted authorization service ordinarily has a managed identity that authenticates and authorizes users, generates a SAS, adds an entry to the local audit log, and returns the SAS to a user, who can then use the SAS to access Azure Storage resources. By including a correlation ID in both the local audit log and the storage audit log, you allow these events to be correlated later. The value is a GUID without braces and with lowercase characters.
 
 This field is supported with version 2020-02-10 and later.
 
@@ -264,7 +264,7 @@ To define values for certain response headers to be returned when the shared acc
 | `Content-Language` | `rscl` |
 | `Content-Type` | `rsct` |
   
-For example, if you specify the `rsct=binary` query parameter on an SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
+For example, if you specify the `rsct=binary` query parameter on a SAS token, the `Content-Type` response header is set to `binary`. This value overrides the `Content-Type` header value stored for the blob for a request using this shared access signature only.  
   
 If you create a shared access signature that specifies response headers as query parameters, you must include those response headers in the string-to-sign that's used to construct the signature string. For more information, see the "[Specify the signature](#specify-the-signature)" section.  
 
@@ -378,7 +378,7 @@ StringToSign =  signedPermissions + "\n" +
 
 The `canonicalizedResource` portion of the string is a canonical path to the signed resource. It must include the Blob Storage endpoint and the resource name, and it must be URL-decoded. A blob path must include its container. A directory path must include the number of subdirectories that correspond to the `sdd` parameter. 
 
-The canonicalized resource string for a container must omit the trailing slash (/) for an SAS that provides access to that container.
+The canonicalized resource string for a container must omit the trailing slash (/) for a SAS that provides access to that container.
 
 The following examples show how to construct the `canonicalizedResource` portion of the string, depending on the type of resource.  
   
@@ -423,7 +423,7 @@ If a field is optional and not provided as part of the SAS token, specify an emp
 
 ## Revoke a user delegation SAS
 
-If you believe that an SAS has been compromised, you should revoke it. You can revoke a user delegation SAS either by revoking the user delegation key, or by changing or removing RBAC role assignments for the security principal that's used to create the SAS.
+If you believe that a SAS has been compromised, you should revoke it. You can revoke a user delegation SAS either by revoking the user delegation key, or by changing or removing RBAC role assignments for the security principal that's used to create the SAS.
 
 > [!IMPORTANT]
 > Both the user delegation key and RBAC role assignments are cached by Azure Storage, so there may be a delay between when you initiate the process of revocation and when an existing user delegation SAS becomes invalid.

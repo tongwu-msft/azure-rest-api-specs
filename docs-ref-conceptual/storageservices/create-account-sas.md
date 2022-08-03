@@ -3,7 +3,7 @@ title: Create an account SAS - Azure Storage
 description: An account shared access signature (SAS) delegates access to resources in a storage account. An account SAS can provide access to resources in more than one Azure Storage service or to service-level operations.
 author: tamram
 
-ms.date: 11/16/2020
+ms.date: 08/03/2022
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -56,6 +56,52 @@ The required and optional parameters for the SAS token are described in the foll
 |`SignedProtocol (spr)`|Optional. Specifies the protocol that's permitted for a request made with the account SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.<br /><br /> Note that HTTP only is not a permitted value.|  
 |`SignedEncryptionScope (ses)`|Optional. Indicates the encryption scope to use to encrypt the request contents. This field is supported with version 2020-12-06 and later.|
 |`Signature (sig)`|Required.  The signature part of the URI is used to authorize the request that's made with the shared access signature.<br /><br /> The string-to-sign is a unique string that's constructed from the fields that must be verified to authorize the request. The signature is a hash-based message authentication code (HMAC) that's computed over the string-to-sign and key by using the SHA256 algorithm, and then encoded by using Base64 encoding.|  
+
+### Specify the `signedVersion` field
+
+The `signedVersion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization that's used by this shared access signature (in the `signature` field). The value also specifies the service version for requests that are made with this shared access signature.
+
+For information about which version is used when you execute requests via a shared access signature, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).
+
+For information about how this parameter affects the authorization of requests made with a shared access signature, see [Delegate access with a shared access signature](delegate-access-with-shared-access-signature.md).
+  
+|Field name|Query parameter|Description|  
+|----------------|---------------------|-----------------|  
+|`signedVersion`|`sv`|Required. Supported in version 2015-04-05 and later. The storage service version to use to authorize and handle requests that you make with this shared access signature. For more information, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|
+
+### Specify an IP address or IP range  
+
+As of version 2015-04-05, the optional `signedIp` (`sip`) field specifies a public IP address or a range of public IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized.  
+  
+When you're specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.
+
+The following table describes whether to include the `signedIp` field on a SAS token for a specified scenario, based on the client environment and the location of the storage account.
+
+| Client environment | Storage account location | Recommendation |
+|--|--|--|
+| Client running in Azure | In the same region as the client | A SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that are made from within the same region that use a SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
+| Client running in Azure | In a different region from the client | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
+| Client running on-premises or in a different cloud environment | In any Azure region | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
+  
+### Specify the HTTP protocol  
+
+As of version 2015-04-05, the optional `signedProtocol` (`spr`) field specifies the protocol that's permitted for a request made with the SAS. Possible values are both HTTPS and HTTP (`https,http`) or HTTPS only (`https`).  The default value is `https,http`.  Note that HTTP only isn't a permitted value.  
+
+### Specify the encryption scope
+
+By using the `signedEncryptionScope` field on the URI, you can specify the encryption scope that the client application can use. It enforces the server-side encryption with the specified encryption scope when you upload blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before.
+
+The following table describes how to refer to a signed encryption scope on the URI:
+
+|Field name|Query parameter|Description|  
+|----------------|---------------------|-----------------|  
+|`signedEncryptionScope`|`ses`|Optional. Indicates the encryption scope to use to encrypt the request contents.| 
+
+This field is supported with version 2020-12-06 or later. If you add the `ses` before the supported version, the service returns error response code 403 (Forbidden).
+
+If you set the default encryption scope for the container or file system, the `ses` query parameter respects the container encryption policy. If there's a mismatch between the `ses` query parameter and `x-ms-default-encryption-scope` header, and the `x-ms-deny-encryption-scope-override` header is set to `true`, the service returns error response code 403 (Forbidden).
+
+When you provide the `x-ms-encryption-scope` header and the `ses` query parameter in the PUT request, the service returns error response code 400 (Bad Request) if there's a mismatch.
   
 ### Construct the signature string
 
@@ -93,7 +139,7 @@ StringToSign = accountname + "\n" +
     signedversion + "\n" +
     signedEncryptionScope + "\n"  
   
-``` 
+```
   
 ## Account SAS permissions by operation
 
