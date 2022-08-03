@@ -1,0 +1,182 @@
+### YamlMime:RESTOperation
+uid: communication.rooms.removeparticipants
+name: Remove Participants
+service: Communication
+groupName: Rooms
+apiVersion: 2022-02-01
+summary: Remove participants from a room.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/rooms/{roomId}/participants:remove?api-version=2022-02-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+  format: uri
+- name: roomId
+  in: path
+  isRequired: true
+  description: Room id to remove the participants from.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The participants were successfully deleted. The action returns an updated list of participants.
+  types:
+  - uid: ParticipantsCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: CommunicationErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: participants
+    in: body
+    isRequired: true
+    description: Participants to be removed from a room.
+    types:
+    - uid: RoomParticipant
+      isArray: true
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An ACS (Azure Communication Services) user access token.
+  types:
+  - uid: string
+definitions:
+- name: RoomParticipant
+  description: A participant of the room.
+  kind: object
+  properties:
+  - name: communicationIdentifier
+    description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: role
+    description: The Role of a room participant.
+    types:
+    - uid: RoleType
+- name: ParticipantsCollection
+  description: Collection of participants in a room.
+  kind: object
+  properties:
+  - name: participants
+    description: Room Participants.
+    types:
+    - uid: RoomParticipant
+      isArray: true
+- name: RemoveParticipantsRequest
+  description: Participants to be removed from a room.
+  kind: object
+  properties:
+  - name: participants
+    description: Participants to be removed from a room.
+    types:
+    - uid: RoomParticipant
+      isArray: true
+- name: CommunicationIdentifierModel
+  description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+  kind: object
+  properties:
+  - name: rawId
+    description: Raw id of the identifier. Optional in requests, required in responses.
+    types:
+    - uid: string
+  - name: communicationUser
+    description: ''
+    types:
+    - uid: CommunicationUserIdentifierModel
+- name: RoleType
+  description: The Role of a room participant.
+  kind: enum
+  properties:
+  - name: Presenter
+    types:
+    - uid: string
+  - name: Attendee
+    types:
+    - uid: string
+  - name: Consumer
+    types:
+    - uid: string
+examples:
+- name: Remove participant
+  request:
+    uri: POST https://contoso.communication.azure.com//rooms/99199690362660524/participants:remove?api-version=2022-02-01
+    body: >-
+      {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000666",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000666"
+              }
+            },
+            "role": "Presenter"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://contoso.communication.azure.com//rooms/99199690362660524/participants:remove?api-version=2022-02-01
+
+      {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000666",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000666"
+              }
+            },
+            "role": "Presenter"
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000777",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000777"
+              }
+            },
+            "role": "Attendee"
+          }
+        ]
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An ACS (Azure Communication Services) user access token.
+  in: header
+metadata:
+  description: Learn more about Communication service - Remove participants from a room.
+errorCodes: []

@@ -6590,6 +6590,16 @@
 #### [Release Phone Number](communication/Phone-Numbers/Release-Phone-Number.yml)
 #### [Search Available Phone Numbers](communication/Phone-Numbers/Search-Available-Phone-Numbers.yml)
 #### [Update Capabilities](communication/Phone-Numbers/Update-Capabilities.yml)
+### Rooms
+#### [Overview](communication/Rooms.yml)
+#### [Add Participants](communication/Rooms/Add-Participants.yml)
+#### [Create Room](communication/Rooms/Create-Room.yml)
+#### [Delete Room](communication/Rooms/Delete-Room.yml)
+#### [Get Participants](communication/Rooms/Get-Participants.yml)
+#### [Get Room](communication/Rooms/Get-Room.yml)
+#### [Remove Participants](communication/Rooms/Remove-Participants.yml)
+#### [Update Participants](communication/Rooms/Update-Participants.yml)
+#### [Update Room](communication/Rooms/Update-Room.yml)
 ### Sms
 #### [Overview](communication/Sms.yml)
 #### [Send](communication/Sms/Send.yml)

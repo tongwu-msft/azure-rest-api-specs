@@ -1,0 +1,150 @@
+### YamlMime:RESTOperation
+uid: communication.rooms.getparticipants
+name: Get Participants
+service: Communication
+groupName: Rooms
+apiVersion: 2022-02-01
+summary: Get participants in a room.
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/rooms/{roomId}/participants?api-version=2022-02-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+  format: uri
+- name: roomId
+  in: path
+  isRequired: true
+  description: The id of the room to get participants from
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The action returns the participants of a room.
+  types:
+  - uid: ParticipantsCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: CommunicationErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An ACS (Azure Communication Services) user access token.
+  types:
+  - uid: string
+definitions:
+- name: ParticipantsCollection
+  description: Collection of participants in a room.
+  kind: object
+  properties:
+  - name: participants
+    description: Room Participants.
+    types:
+    - uid: RoomParticipant
+      isArray: true
+- name: RoomParticipant
+  description: A participant of the room.
+  kind: object
+  properties:
+  - name: communicationIdentifier
+    description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: role
+    description: The Role of a room participant.
+    types:
+    - uid: RoleType
+- name: CommunicationIdentifierModel
+  description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+  kind: object
+  properties:
+  - name: rawId
+    description: Raw id of the identifier. Optional in requests, required in responses.
+    types:
+    - uid: string
+  - name: communicationUser
+    description: ''
+    types:
+    - uid: CommunicationUserIdentifierModel
+- name: RoleType
+  description: The Role of a room participant.
+  kind: enum
+  properties:
+  - name: Presenter
+    types:
+    - uid: string
+  - name: Attendee
+    types:
+    - uid: string
+  - name: Consumer
+    types:
+    - uid: string
+examples:
+- name: Get participants
+  request:
+    uri: GET https://contoso.communication.azure.com//rooms/99199690362660524/participants?api-version=2022-02-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.communication.azure.com//rooms/99199690362660524/participants?api-version=2022-02-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000333",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000333"
+              }
+            },
+            "role": "Presenter"
+          },
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000444",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000444"
+              }
+            },
+            "role": "Attendee"
+          },
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000555",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000555"
+              }
+            },
+            "role": "Attendee"
+          }
+        ]
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An ACS (Azure Communication Services) user access token.
+  in: header
+metadata:
+  description: Learn more about Communication service - Get participants in a room.
+errorCodes: []
