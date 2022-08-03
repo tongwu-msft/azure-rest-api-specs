@@ -945,7 +945,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
 
       {
         "tags": {
@@ -1007,6 +1007,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -1026,6 +1030,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.CacheIdentityType;
       import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
       import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
       import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
@@ -1036,6 +1041,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
       import com.azure.resourcemanager.storagecache.models.UserAssignedIdentitiesValue;
       import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
       import java.util.Arrays;
       import java.util.HashMap;
       import java.util.Map;
@@ -1043,7 +1049,7 @@ examples:
       /** Samples for Caches CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
            */
           /**
            * Sample code: Caches_CreateOrUpdate.
@@ -1068,6 +1074,10 @@ examples:
                   .withCacheSizeGB(3072)
                   .withSubnet(
                       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
                   .withEncryptionSettings(
                       new CacheEncryptionSettings()
                           .withKeyEncryptionKey(
@@ -1132,7 +1142,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.5/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armstoragecache_test
@@ -1141,12 +1151,14 @@ examples:
       	"context"
       	"log"
 
+      	"time"
+
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
       func ExampleCachesClient_BeginCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -1160,7 +1172,7 @@ examples:
       	poller, err := client.BeginCreateOrUpdate(ctx,
       		"scgroup",
       		"sc1",
-      		&armstoragecache.CachesClientBeginCreateOrUpdateOptions{Cache: &armstoragecache.Cache{
+      		armstoragecache.Cache{
       			Identity: &armstoragecache.CacheIdentity{
       				Type: to.Ptr(armstoragecache.CacheIdentityTypeUserAssigned),
       				UserAssignedIdentities: map[string]*armstoragecache.UserAssignedIdentitiesValue{
@@ -1216,6 +1228,10 @@ examples:
       						}},
       				},
       				Subnet: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1"),
+      				UpgradeSettings: &armstoragecache.CacheUpgradeSettings{
+      					ScheduledTime:          to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2022-04-26T18:25:43.511Z"); return t }()),
+      					UpgradeScheduleEnabled: to.Ptr(true),
+      				},
       			},
       			SKU: &armstoragecache.CacheSKU{
       				Name: to.Ptr("Standard_2G"),
@@ -1224,7 +1240,7 @@ examples:
       				"Dept": to.Ptr("Contoso"),
       			},
       		},
-      		})
+      		nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -1237,7 +1253,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv1.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
@@ -1247,7 +1263,7 @@ examples:
        * This sample demonstrates how to Create or update a Cache.
        *
        * @summary Create or update a Cache.
-       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
        */
       async function cachesCreateOrUpdate() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -1311,6 +1327,10 @@ examples:
           subnet:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
         };
         const options = { cache };
         const credential = new DefaultAzureCredential();
@@ -1326,7 +1346,7 @@ examples:
       cachesCreateOrUpdate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.1.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
@@ -1632,7 +1652,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
 
       {
         "tags": {
@@ -1677,6 +1697,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -1692,6 +1716,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.CacheEncryptionSettings;
       import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
       import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
       import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
@@ -1701,6 +1726,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleAccess;
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
       import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
       import java.util.Arrays;
       import java.util.HashMap;
       import java.util.Map;
@@ -1708,7 +1734,7 @@ examples:
       /** Samples for Caches CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
            */
           /**
            * Sample code: Caches_CreateOrUpdate_ldap_only.
@@ -1727,6 +1753,10 @@ examples:
                   .withCacheSizeGB(3072)
                   .withSubnet(
                       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
                   .withEncryptionSettings(
                       new CacheEncryptionSettings()
                           .withKeyEncryptionKey(
@@ -1780,7 +1810,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.5/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
@@ -1790,7 +1820,7 @@ examples:
        * This sample demonstrates how to Create or update a Cache.
        *
        * @summary Create or update a Cache.
-       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
        */
       async function cachesCreateOrUpdateLdapOnly() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -1839,6 +1869,10 @@ examples:
           subnet:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
         };
         const options = { cache };
         const credential = new DefaultAzureCredential();
@@ -1854,7 +1888,7 @@ examples:
       cachesCreateOrUpdateLdapOnly().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.1.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
