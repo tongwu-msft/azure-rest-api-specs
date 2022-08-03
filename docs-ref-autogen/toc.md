@@ -24510,8 +24510,13 @@
 ### [Get](storagecache/Caches/Get.yml)
 ### [List](storagecache/Caches/List.yml)
 ### [List By Resource Group](storagecache/Caches/List-By-Resource-Group.yml)
+### [Pause Priming Job](storagecache/Caches/Pause-Priming-Job.yml)
+### [Resume Priming Job](storagecache/Caches/Resume-Priming-Job.yml)
+### [Space Allocation](storagecache/Caches/Space-Allocation.yml)
 ### [Start](storagecache/Caches/Start.yml)
+### [Start Priming Job](storagecache/Caches/Start-Priming-Job.yml)
 ### [Stop](storagecache/Caches/Stop.yml)
+### [Stop Priming Job](storagecache/Caches/Stop-Priming-Job.yml)
 ### [Update](storagecache/Caches/Update.yml)
 ### [Upgrade Firmware](storagecache/Caches/Upgrade-Firmware.yml)
 ## Operations

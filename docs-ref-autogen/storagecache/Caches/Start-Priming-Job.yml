@@ -1,0 +1,299 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.caches.startprimingjob
+name: Start Priming Job
+service: Storagecache
+groupName: Caches
+apiVersion: 2022-05-01
+summary: Create a priming job. This operation is only allowed when the cache is healthy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/startPrimingJob?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Target resource group.
+  types:
+  - uid: string
+- name: cacheName
+  in: path
+  isRequired: true
+  description: Name of Cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
+  types:
+  - uid: string
+  pattern: ^[-0-9a-zA-Z_]{1,80}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: The priming job is being created and will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: primingJobName
+    in: body
+    isRequired: true
+    description: The priming job name.
+    types:
+    - uid: string
+  - name: primingManifestUrl
+    in: body
+    isRequired: true
+    description: The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: PrimingJob
+  description: A priming job instance.
+  kind: object
+  properties:
+  - name: primingJobName
+    description: The priming job name.
+    types:
+    - uid: string
+  - name: primingManifestUrl
+    description: The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob.
+    types:
+    - uid: string
+  - name: primingJobId
+    isReadyOnly: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
+  - name: primingJobState
+    isReadyOnly: true
+    description: The state of the priming operation.
+    types:
+    - uid: PrimingJobState
+  - name: primingJobStatus
+    isReadyOnly: true
+    description: The status code of the priming job.
+    types:
+    - uid: string
+  - name: primingJobDetails
+    isReadyOnly: true
+    description: The job details or error information if any.
+    types:
+    - uid: string
+  - name: primingJobPercentComplete
+    isReadyOnly: true
+    description: The current progress of the priming job, as a percentage.
+    types:
+    - uid: number
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: PrimingJobState
+  description: The state of the priming operation.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+examples:
+- name: StartPrimingJob
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/startPrimingJob?api-version=2022-05-01
+    body: >-
+      {
+        "primingJobName": "contosoJob",
+        "primingManifestUrl": "https://contosostorage.blob.core.windows.net/contosoblob/00000000_00000000000000000000000000000000.00000000000.FFFFFFFF.00000000?sp=r&st=2021-08-11T19:33:35Z&se=2021-08-12T03:33:35Z&spr=https&sv=2020-08-04&sr=b&sig=<secret-value-from-key>"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/startPrimingJob?api-version=2022-05-01
+
+      {
+        "primingJobName": "contosoJob",
+        "primingManifestUrl": "https://contosostorage.blob.core.windows.net/contosoblob/00000000_00000000000000000000000000000000.00000000000.FFFFFFFF.00000000?sp=r&st=2021-08-11T19:33:35Z&se=2021-08-12T03:33:35Z&spr=https&sv=2020-08-04&sr=b&sig=<secret-value-from-key>"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storagecache.models.PrimingJob;
+
+      /** Samples for Caches StartPrimingJob. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StartPrimingJob.json
+           */
+          /**
+           * Sample code: StartPrimingJob.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void startPrimingJob(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .caches()
+                  .startPrimingJob(
+                      "scgroup",
+                      "sc1",
+                      new PrimingJob()
+                          .withPrimingJobName("contosoJob")
+                          .withPrimingManifestUrl(
+                              "https://contosostorage.blob.core.windows.net/contosoblob/00000000_00000000000000000000000000000000.00000000000.FFFFFFFF.00000000?sp=r&st=2021-08-11T19:33:35Z&se=2021-08-12T03:33:35Z&spr=https&sv=2020-08-04&sr=b&sig=<secret-value-from-key>"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StartPrimingJob.json
+      func ExampleCachesClient_BeginStartPrimingJob() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewCachesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginStartPrimingJob(ctx,
+      		"scgroup",
+      		"sc1",
+      		&armstoragecache.CachesClientBeginStartPrimingJobOptions{Primingjob: &armstoragecache.PrimingJob{
+      			PrimingJobName:     to.Ptr("contosoJob"),
+      			PrimingManifestURL: to.Ptr("https://contosostorage.blob.core.windows.net/contosoblob/00000000_00000000000000000000000000000000.00000000000.FFFFFFFF.00000000?sp=r&st=2021-08-11T19:33:35Z&se=2021-08-12T03:33:35Z&spr=https&sv=2020-08-04&sr=b&sig=<secret-value-from-key>"),
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a priming job. This operation is only allowed when the cache is healthy.
+       *
+       * @summary Create a priming job. This operation is only allowed when the cache is healthy.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StartPrimingJob.json
+       */
+      async function startPrimingJob() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const primingjob = {
+          primingJobName: "contosoJob",
+          primingManifestUrl:
+            "https://contosostorage.blob.core.windows.net/contosoblob/00000000_00000000000000000000000000000000.00000000000.FFFFFFFF.00000000?sp=r&st=2021-08-11T19:33:35Z&se=2021-08-12T03:33:35Z&spr=https&sv=2020-08-04&sr=b&sig=<secret-value-from-key>",
+        };
+        const options = { primingjob };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.caches.beginStartPrimingJobAndWait(
+          resourceGroupName,
+          cacheName,
+          options
+        );
+        console.log(result);
+      }
+
+      startPrimingJob().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/22222222-2222-2222-2222-222222222222?monitor=true&api-version=2022-05-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/22222222-2222-2222-2222-222222222222?api-version=2022-05-01
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Storagecache service - Create a priming job. This operation is only allowed when the cache is healthy.
+errorCodes: []
