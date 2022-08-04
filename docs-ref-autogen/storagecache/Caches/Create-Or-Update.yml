@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Caches
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Create or update a Cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,11 @@ requestBody:
     description: Subnet used for the Cache.
     types:
     - uid: string
+  - name: properties.upgradeSettings
+    in: body
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     in: body
     description: Specifies network settings of the cache.
@@ -222,6 +227,18 @@ definitions:
     description: When firmwareUpdateAvailable is true, this field holds the version string for the update.
     types:
     - uid: string
+- name: CacheUpgradeSettings
+  description: Cache Upgrade Settings.
+  kind: object
+  properties:
+  - name: upgradeScheduleEnabled
+    description: True if the user chooses to select an installation time between now and firmwareUpdateDeadline. Else the firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+    types:
+    - uid: boolean
+  - name: scheduledTime
+    description: When upgradeScheduleEnabled is true, this field holds the user-chosen upgrade time. At the user-chosen time, the firmware update will automatically be installed on the cache.
+    types:
+    - uid: string
 - name: CacheNetworkSettings
   description: Cache network settings.
   kind: object
@@ -284,6 +301,55 @@ definitions:
     description: Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups.
     types:
     - uid: CacheUsernameDownloadSettings
+- name: PrimingJob
+  description: A priming job instance.
+  kind: object
+  properties:
+  - name: primingJobName
+    description: The priming job name.
+    types:
+    - uid: string
+  - name: primingManifestUrl
+    description: The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob.
+    types:
+    - uid: string
+  - name: primingJobId
+    isReadyOnly: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
+  - name: primingJobState
+    isReadyOnly: true
+    description: The state of the priming operation.
+    types:
+    - uid: PrimingJobState
+  - name: primingJobStatus
+    isReadyOnly: true
+    description: The status code of the priming job.
+    types:
+    - uid: string
+  - name: primingJobDetails
+    isReadyOnly: true
+    description: The job details or error information if any.
+    types:
+    - uid: string
+  - name: primingJobPercentComplete
+    isReadyOnly: true
+    description: The current progress of the priming job, as a percentage.
+    types:
+    - uid: number
+- name: StorageTargetSpaceAllocation
+  description: Storage Target space allocation properties.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the storage target.
+    types:
+    - uid: string
+  - name: allocationPercentage
+    description: The percentage of cache space allocated for this storage target
+    types:
+    - uid: integer
 - name: Cache
   description: 'A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md'
   kind: object
@@ -357,6 +423,10 @@ definitions:
     description: Upgrade status of the Cache.
     types:
     - uid: CacheUpgradeStatus
+  - name: properties.upgradeSettings
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     description: Specifies network settings of the cache.
     types:
@@ -377,6 +447,18 @@ definitions:
     description: Availability zones for resources. This field should only contain a single element in the array.
     types:
     - uid: string
+      isArray: true
+  - name: properties.primingJobs
+    isReadyOnly: true
+    description: Specifies the priming jobs defined in the cache.
+    types:
+    - uid: PrimingJob
+      isArray: true
+  - name: properties.spaceAllocation
+    isReadyOnly: true
+    description: Specifies the space allocation percentage for each storage target in the cache.
+    types:
+    - uid: StorageTargetSpaceAllocation
       isArray: true
 - name: CloudError
   description: An error response.
@@ -455,6 +537,15 @@ definitions:
     types:
     - uid: string
   - name: Flushing
+    types:
+    - uid: string
+  - name: WaitingForKey
+    types:
+    - uid: string
+  - name: StartFailed
+    types:
+    - uid: string
+  - name: UpgradeFailed
     types:
     - uid: string
 - name: Condition
@@ -593,6 +684,22 @@ definitions:
     description: When present, these are the credentials for the secure LDAP connection.
     types:
     - uid: Credentials
+- name: PrimingJobState
+  description: The state of the priming operation.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
 - name: ProvisioningStateType
   description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
   kind: enum
@@ -763,7 +870,7 @@ definitions:
 examples:
 - name: Caches_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -825,6 +932,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -834,7 +945,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
 
       {
         "tags": {
@@ -896,6 +1007,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -915,6 +1030,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.CacheIdentityType;
       import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
       import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
       import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
@@ -925,6 +1041,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
       import com.azure.resourcemanager.storagecache.models.UserAssignedIdentitiesValue;
       import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
       import java.util.Arrays;
       import java.util.HashMap;
       import java.util.Map;
@@ -932,7 +1049,7 @@ examples:
       /** Samples for Caches CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
            */
           /**
            * Sample code: Caches_CreateOrUpdate.
@@ -957,6 +1074,10 @@ examples:
                   .withCacheSizeGB(3072)
                   .withSubnet(
                       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
                   .withEncryptionSettings(
                       new CacheEncryptionSettings()
                           .withKeyEncryptionKey(
@@ -1021,7 +1142,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.5/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armstoragecache_test
@@ -1030,12 +1151,14 @@ examples:
       	"context"
       	"log"
 
+      	"time"
+
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
       func ExampleCachesClient_BeginCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
@@ -1049,7 +1172,7 @@ examples:
       	poller, err := client.BeginCreateOrUpdate(ctx,
       		"scgroup",
       		"sc1",
-      		&armstoragecache.CachesClientBeginCreateOrUpdateOptions{Cache: &armstoragecache.Cache{
+      		armstoragecache.Cache{
       			Identity: &armstoragecache.CacheIdentity{
       				Type: to.Ptr(armstoragecache.CacheIdentityTypeUserAssigned),
       				UserAssignedIdentities: map[string]*armstoragecache.UserAssignedIdentitiesValue{
@@ -1105,6 +1228,10 @@ examples:
       						}},
       				},
       				Subnet: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1"),
+      				UpgradeSettings: &armstoragecache.CacheUpgradeSettings{
+      					ScheduledTime:          to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2022-04-26T18:25:43.511Z"); return t }()),
+      					UpgradeScheduleEnabled: to.Ptr(true),
+      				},
       			},
       			SKU: &armstoragecache.CacheSKU{
       				Name: to.Ptr("Standard_2G"),
@@ -1113,7 +1240,7 @@ examples:
       				"Dept": to.Ptr("Contoso"),
       			},
       		},
-      		})
+      		nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -1126,7 +1253,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv1.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
@@ -1136,7 +1263,7 @@ examples:
        * This sample demonstrates how to Create or update a Cache.
        *
        * @summary Create or update a Cache.
-       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate.json
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
        */
       async function cachesCreateOrUpdate() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -1200,6 +1327,10 @@ examples:
           subnet:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
         };
         const options = { cache };
         const credential = new DefaultAzureCredential();
@@ -1215,7 +1346,7 @@ examples:
       cachesCreateOrUpdate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.1.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
@@ -1286,6 +1417,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1317,6 +1452,8 @@ examples:
               "usernameDownloaded": "No"
             }
           },
+          "primingJobs": [],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1393,6 +1530,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1424,6 +1565,25 @@ examples:
               "usernameDownloaded": "Yes"
             }
           },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1434,7 +1594,7 @@ examples:
       }
 - name: Caches_CreateOrUpdate_ldap_only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -1479,6 +1639,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -1488,7 +1652,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
 
       {
         "tags": {
@@ -1533,6 +1697,10 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
@@ -1548,6 +1716,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.CacheEncryptionSettings;
       import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
       import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
       import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
       import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
@@ -1557,6 +1726,7 @@ examples:
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleAccess;
       import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
       import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
       import java.util.Arrays;
       import java.util.HashMap;
       import java.util.Map;
@@ -1564,7 +1734,7 @@ examples:
       /** Samples for Caches CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
            */
           /**
            * Sample code: Caches_CreateOrUpdate_ldap_only.
@@ -1583,6 +1753,10 @@ examples:
                   .withCacheSizeGB(3072)
                   .withSubnet(
                       "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
                   .withEncryptionSettings(
                       new CacheEncryptionSettings()
                           .withKeyEncryptionKey(
@@ -1636,7 +1810,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.5/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
@@ -1646,7 +1820,7 @@ examples:
        * This sample demonstrates how to Create or update a Cache.
        *
        * @summary Create or update a Cache.
-       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-01-01/examples/Caches_CreateOrUpdate_ldap_only.json
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
        */
       async function cachesCreateOrUpdateLdapOnly() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
@@ -1695,6 +1869,10 @@ examples:
           subnet:
             "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
           tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
         };
         const options = { cache };
         const credential = new DefaultAzureCredential();
@@ -1710,7 +1888,7 @@ examples:
       cachesCreateOrUpdateLdapOnly().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.1.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
@@ -1781,6 +1959,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1803,7 +1985,12 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "No"
             }
-          }
+          },
+          "primingJobs": [],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"
@@ -1877,6 +2064,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1899,7 +2090,29 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "Yes"
             }
-          }
+          },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"

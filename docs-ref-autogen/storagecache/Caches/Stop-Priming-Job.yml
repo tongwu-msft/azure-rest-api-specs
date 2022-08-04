@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.storagecache.caches.flush
-name: Flush
+uid: management.azure.com.storagecache.caches.stopprimingjob
+name: Stop Priming Job
 service: Storagecache
 groupName: Caches
 apiVersion: 2022-05-01
-summary: Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
+summary: Schedule a priming job for deletion.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/flush?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/stopPrimingJob?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,16 +38,28 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: All cached data has been flushed to the Storage Target(s).
 - name: 202 Accepted
-  description: Cache has started flushing to its Storage Target(s). Poll the Cache's state field to monitor.
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: Started priming job deletion.
 - name: 204 No Content
-  description: Cache flush already in progress or has completed.
+  description: The priming job is being deleted.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: primingJobId
+    in: body
+    isRequired: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
 requestHeader: []
 definitions:
 - name: CloudError
@@ -58,6 +70,14 @@ definitions:
     description: The body of the error.
     types:
     - uid: CloudErrorBody
+- name: PrimingJobIdParameter
+  description: Object containing the priming job ID.
+  kind: object
+  properties:
+  - name: primingJobId
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -80,31 +100,44 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Caches_Flush
+- name: StopPrimingJob
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc/flush?api-version=2022-05-01
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/stopPrimingJob?api-version=2022-05-01
+    body: >-
+      {
+        "primingJobId": "00000000000_0000000000"
+      }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc/flush?api-version=2022-05-01
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/stopPrimingJob?api-version=2022-05-01
+
+      {
+        "primingJobId": "00000000000_0000000000"
+      }
+
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storagecache.models.PrimingJobIdParameter;
 
-      /** Samples for Caches Flush. */
+      /** Samples for Caches StopPrimingJob. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Flush.json
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StopPrimingJob.json
            */
           /**
-           * Sample code: Caches_Flush.
+           * Sample code: StopPrimingJob.
            *
            * @param manager Entry point to StorageCacheManager.
            */
-          public static void cachesFlush(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
-              manager.caches().flush("scgroup", "sc", Context.NONE);
+          public static void stopPrimingJob(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .caches()
+                  .stopPrimingJob(
+                      "scgroup", "sc1", new PrimingJobIdParameter().withPrimingJobId("00000000000_0000000000"), Context.NONE);
           }
       }
 
@@ -118,12 +151,13 @@ examples:
       	"context"
       	"log"
 
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Flush.json
-      func ExampleCachesClient_BeginFlush() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StopPrimingJob.json
+      func ExampleCachesClient_BeginStopPrimingJob() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -133,10 +167,13 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginFlush(ctx,
+      	poller, err := client.BeginStopPrimingJob(ctx,
       		"scgroup",
-      		"sc",
-      		nil)
+      		"sc1",
+      		&armstoragecache.CachesClientBeginStopPrimingJobOptions{PrimingJobID: &armstoragecache.PrimingJobIDParameter{
+      			PrimingJobID: to.Ptr("00000000000_0000000000"),
+      		},
+      		})
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -154,28 +191,40 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
+       * This sample demonstrates how to Schedule a priming job for deletion.
        *
-       * @summary Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
-       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_Flush.json
+       * @summary Schedule a priming job for deletion.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StopPrimingJob.json
        */
-      async function cachesFlush() {
+      async function stopPrimingJob() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
         const resourceGroupName = "scgroup";
-        const cacheName = "sc";
+        const cacheName = "sc1";
+        const primingJobId = {
+          primingJobId: "00000000000_0000000000",
+        };
+        const options = { primingJobId };
         const credential = new DefaultAzureCredential();
         const client = new StorageCacheManagementClient(credential, subscriptionId);
-        const result = await client.caches.beginFlushAndWait(resourceGroupName, cacheName);
+        const result = await client.caches.beginStopPrimingJobAndWait(
+          resourceGroupName,
+          cacheName,
+          options
+        );
         console.log(result);
       }
 
-      cachesFlush().catch(console.error);
+      stopPrimingJob().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
-  - statusCode: "200"
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/33333333-3333-3333-3333-333333333333?monitor=true&api-version=2022-05-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/33333333-3333-3333-3333-333333333333?api-version=2022-05-01
   - statusCode: "204"
 security:
 - name: azure_auth
@@ -187,5 +236,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will see errors returned until the flush is complete.
+  description: Learn more about Storagecache service - Schedule a priming job for deletion.
 errorCodes: []
