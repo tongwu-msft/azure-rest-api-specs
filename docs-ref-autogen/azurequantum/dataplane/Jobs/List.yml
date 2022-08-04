@@ -3,7 +3,7 @@ uid: quantum.azure.com.azurequantum.dataplane.jobs.list
 name: List
 service: Azure Quantum
 groupName: Jobs
-apiVersion: 2021-05-06-preview
+apiVersion: 2021-11-01-preview
 summary: List jobs.
 consumes:
 - application/json
@@ -133,6 +133,11 @@ definitions:
     description: The time when a job was successfully cancelled.
     types:
     - uid: string
+  - name: costEstimate
+    isReadyOnly: true
+    description: The job cost billed by the provider. The final cost on your bill might be slightly different due to added taxes and currency conversion rates.
+    types:
+    - uid: CostEstimate
   - name: errorData
     isReadyOnly: true
     description: The error data for the job. This is expected only when Status 'Failed'.
@@ -162,6 +167,23 @@ definitions:
   - name: Cancelled
     types:
     - uid: string
+- name: CostEstimate
+  description: The job cost billed by the provider. The final cost on your bill might be slightly different due to added taxes and currency conversion rates.
+  kind: object
+  properties:
+  - name: currencyCode
+    description: The currency code.
+    types:
+    - uid: string
+  - name: events
+    description: List of usage events
+    types:
+    - uid: UsageEvent
+      isArray: true
+  - name: estimatedTotal
+    description: The estimated total.
+    types:
+    - uid: number
 - name: ErrorData
   description: An error response from Azure.
   kind: object
@@ -174,6 +196,34 @@ definitions:
     description: A message describing the error, intended to be suitable for displaying in a user interface.
     types:
     - uid: string
+- name: UsageEvent
+  description: Usage event details.
+  kind: object
+  properties:
+  - name: dimensionId
+    description: The dimension id.
+    types:
+    - uid: string
+  - name: dimensionName
+    description: The dimension name.
+    types:
+    - uid: string
+  - name: measureUnit
+    description: The unit of measure.
+    types:
+    - uid: string
+  - name: amountBilled
+    description: The amount billed.
+    types:
+    - uid: number
+  - name: amountConsumed
+    description: The amount consumed.
+    types:
+    - uid: number
+  - name: unitPrice
+    description: The unit price.
+    types:
+    - uid: number
 examples:
 - name: Get list of jobs in a Quantum Workspace
   request:
