@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getazurereachabilityre
 name: Get Azure Reachability Report
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: 'NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.'
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport?api-version=2021-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/azureReachabilityReport?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -199,7 +199,7 @@ definitions:
 examples:
 - name: Get Azure Reachability Report
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2021-08-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2022-01-01
     body: >-
       {
         "providerLocation": {
@@ -218,7 +218,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2021-08-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2022-01-01
 
       {
         "providerLocation": {
@@ -237,137 +237,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.AzureReachabilityReportLocation;
-      import com.azure.resourcemanager.network.models.AzureReachabilityReportParameters;
-      import java.time.OffsetDateTime;
-      import java.util.Arrays;
-
-      /** Samples for NetworkWatchers GetAzureReachabilityReport. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkWatcherAzureReachabilityReportGet.json
-           */
-          /**
-           * Sample code: Get Azure Reachability Report.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getAzureReachabilityReport(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNetworkWatchers()
-                  .getAzureReachabilityReport(
-                      "rg1",
-                      "nw1",
-                      new AzureReachabilityReportParameters()
-                          .withProviderLocation(
-                              new AzureReachabilityReportLocation().withCountry("United States").withState("washington"))
-                          .withProviders(Arrays.asList("Frontier Communications of America, Inc. - ASN 5650"))
-                          .withAzureLocations(Arrays.asList("West US"))
-                          .withStartTime(OffsetDateTime.parse("2017-09-07T00:00:00Z"))
-                          .withEndTime(OffsetDateTime.parse("2017-09-10T00:00:00Z")),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkWatcherAzureReachabilityReportGet.json
-      func ExampleWatchersClient_BeginGetAzureReachabilityReport() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewWatchersClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginGetAzureReachabilityReport(ctx,
-      		"rg1",
-      		"nw1",
-      		armnetwork.AzureReachabilityReportParameters{
-      			AzureLocations: []*string{
-      				to.Ptr("West US")},
-      			EndTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-09-10T00:00:00Z"); return t }()),
-      			ProviderLocation: &armnetwork.AzureReachabilityReportLocation{
-      				Country: to.Ptr("United States"),
-      				State:   to.Ptr("washington"),
-      			},
-      			Providers: []*string{
-      				to.Ptr("Frontier Communications of America, Inc. - ASN 5650")},
-      			StartTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-09-07T00:00:00Z"); return t }()),
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
-       *
-       * @summary NOTE: This feature is currently in preview and still being tested for stability. Gets the relative latency score for internet service providers from a specified location to Azure regions.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/NetworkWatcherAzureReachabilityReportGet.json
-       */
-      async function getAzureReachabilityReport() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const networkWatcherName = "nw1";
-        const parameters = {
-          azureLocations: ["West US"],
-          endTime: new Date("2017-09-10T00:00:00Z"),
-          providerLocation: { country: "United States", state: "washington" },
-          providers: ["Frontier Communications of America, Inc. - ASN 5650"],
-          startTime: new Date("2017-09-07T00:00:00Z"),
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.networkWatchers.beginGetAzureReachabilityReportAndWait(
-          resourceGroupName,
-          networkWatcherName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      getAzureReachabilityReport().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -401,7 +270,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2021-08-01
+      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/azureReachabilityReport?api-version=2022-01-01
     body: >-
       {
         "aggregationLevel": "State",

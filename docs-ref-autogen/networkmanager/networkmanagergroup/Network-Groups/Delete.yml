@@ -3,14 +3,16 @@ uid: management.azure.com.networkmanager.networkmanagergroup.networkgroups.delet
 name: Delete
 service: Network Manager
 groupName: Network Groups
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Deletes a network group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}?api-version=2021-02-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}?api-version=2022-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}?force={force}&api-version=2022-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,9 +35,14 @@ uriParameters:
 - name: networkGroupName
   in: path
   isRequired: true
-  description: The name of the network group to get.
+  description: The name of the network group.
   types:
   - uid: string
+- name: force
+  in: query
+  description: Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -45,6 +52,11 @@ uriParameters:
 responses:
 - name: 200 OK
   description: Delete Succeed.
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: Accepted and will complete asynchronously.
 - name: 204 No Content
   description: Request successful. The resource does not exist.
 - name: Other Status Codes
@@ -85,14 +97,18 @@ definitions:
 examples:
 - name: NetworkGroupsDelete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup?api-version=2021-02-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup?force=False&api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup?api-version=2021-02-01-preview
+      DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup?force=False&api-version=2022-01-01
       ```
 
   responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleRG/providers/Microsoft.Network/networkManagers/TestNM/networkGroups/testNetworkGroup/operationResults/00000000-0000-0000-0000-000000000000?api-version=2022-01-01
   - statusCode: "200"
   - statusCode: "204"
 security:

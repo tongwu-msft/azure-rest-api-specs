@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualwans.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Wans
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualWans/{VirtualWANName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -239,7 +239,7 @@ definitions:
 examples:
 - name: VirtualWANCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2022-01-01
     body: >-
       {
         "location": "West US",
@@ -254,7 +254,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2021-08-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/wan1?api-version=2022-01-01
 
       {
         "location": "West US",
@@ -269,140 +269,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.VirtualWanInner;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for VirtualWans CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualWANPut.json
-           */
-          /**
-           * Sample code: VirtualWANCreate.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void virtualWANCreate(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getVirtualWans()
-                  .createOrUpdate(
-                      "rg1",
-                      "wan1",
-                      new VirtualWanInner()
-                          .withLocation("West US")
-                          .withTags(mapOf("key1", "value1"))
-                          .withDisableVpnEncryption(false)
-                          .withTypePropertiesType("Basic"),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualWANPut.json
-      func ExampleVirtualWansClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewVirtualWansClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"rg1",
-      		"wan1",
-      		armnetwork.VirtualWAN{
-      			Location: to.Ptr("West US"),
-      			Tags: map[string]*string{
-      				"key1": to.Ptr("value1"),
-      			},
-      			Properties: &armnetwork.VirtualWanProperties{
-      				Type:                 to.Ptr("Basic"),
-      				DisableVPNEncryption: to.Ptr(false),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
-       *
-       * @summary Creates a VirtualWAN resource if it doesn't exist else updates the existing VirtualWAN.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/VirtualWANPut.json
-       */
-      async function virtualWanCreate() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const virtualWANName = "wan1";
-        const wANParameters = {
-          typePropertiesType: "Basic",
-          disableVpnEncryption: false,
-          location: "West US",
-          tags: { key1: "value1" },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.virtualWans.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          virtualWANName,
-          wANParameters
-        );
-        console.log(result);
-      }
-
-      virtualWanCreate().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -419,20 +285,12 @@ examples:
           "provisioningState": "Succeeded",
           "disableVpnEncryption": false,
           "virtualHubs": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
-            },
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
-            }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
           ],
           "vpnSites": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
-            },
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-            }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
           ],
           "type": "Basic"
         }
@@ -452,20 +310,12 @@ examples:
           "provisioningState": "Succeeded",
           "disableVpnEncryption": false,
           "virtualHubs": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1"
-            },
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
-            }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/hub2"
           ],
           "vpnSites": [
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1"
-            },
-            {
-              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
-            }
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite1",
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnSites/vpnSite2"
           ],
           "type": "Basic"
         }

@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.networkmanagers.createorupdate
 name: Create Or Update
 service: Network Manager
 groupName: Network Managers
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Creates or updates a Network Manager.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}?api-version=2021-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,11 +52,6 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
-    in: body
-    description: A friendly name for the network manager.
-    types:
-    - uid: string
   - name: properties.description
     in: body
     description: A description of the network manager.
@@ -64,11 +59,13 @@ requestBody:
     - uid: string
   - name: properties.networkManagerScopes
     in: body
+    isRequired: true
     description: Scope of Network Manager.
     types:
     - uid: NetworkManagerScopes
   - name: properties.networkManagerScopeAccesses
     in: body
+    isRequired: true
     description: Scope Access.
     types:
     - uid: string
@@ -136,6 +133,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: crossTenantScopes
+    isReadyOnly: true
+    description: List of cross tenant scopes.
+    types:
+    - uid: CrossTenantScopes
+      isArray: true
 - name: NetworkManager
   description: The Managed Network resource
   kind: object
@@ -150,10 +153,6 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network manager.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network manager.
     types:
@@ -169,7 +168,7 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the scope assignment resource.
+    description: The provisioning state of the network manager resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -222,6 +221,27 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CrossTenantScopes
+  description: Cross tenant scopes.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant ID.
+    types:
+    - uid: string
+  - name: managementGroups
+    isReadyOnly: true
+    description: List of management groups.
+    types:
+    - uid: string
+      isArray: true
+  - name: subscriptions
+    isReadyOnly: true
+    description: List of subscriptions.
+    types:
+    - uid: string
+      isArray: true
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -262,11 +282,10 @@ definitions:
 examples:
 - name: Put Network Manager
   request:
-    uri: PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/TestNetworkManager?api-version=2021-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/TestNetworkManager?api-version=2022-01-01
     body: >-
       {
         "properties": {
-          "displayName": "TestNetworkManager",
           "description": "My Test Network Manager",
           "networkManagerScopes": {
             "managementGroups": [
@@ -284,11 +303,10 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/TestNetworkManager?api-version=2021-02-01-preview
+      PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/TestNetworkManager?api-version=2022-01-01
 
       {
         "properties": {
-          "displayName": "TestNetworkManager",
           "description": "My Test Network Manager",
           "networkManagerScopes": {
             "managementGroups": [
@@ -323,7 +341,6 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "TestNetworkManager",
           "description": "My Test Network Manager",
           "networkManagerScopes": {
             "managementGroups": [
@@ -355,7 +372,6 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "TestNetworkManager",
           "description": "My Test Network Manager",
           "networkManagerScopes": {
             "managementGroups": [

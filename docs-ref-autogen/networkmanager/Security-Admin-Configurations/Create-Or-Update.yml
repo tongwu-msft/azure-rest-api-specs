@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.securityadminconfigurations.createorupd
 name: Create Or Update
 service: Network Manager
 groupName: Security Admin Configurations
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Creates or updates a network manager security admin configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}?api-version=2021-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: api-version
@@ -46,11 +46,11 @@ responses:
 - name: 200 OK
   description: Updated Admin Configuration
   types:
-  - uid: SecurityConfiguration
+  - uid: SecurityAdminConfiguration
 - name: 201 Created
   description: Created Admin Configuration
   types:
-  - uid: SecurityConfiguration
+  - uid: SecurityAdminConfiguration
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -58,26 +58,17 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
-    in: body
-    description: A display name of the security configuration.
-    types:
-    - uid: string
   - name: properties.description
     in: body
     description: A description of the security configuration.
     types:
     - uid: string
-  - name: properties.securityType
+  - name: properties.applyOnNetworkIntentPolicyBasedServices
     in: body
-    description: Security Type.
+    description: Enum list of network intent policy based services.
     types:
-    - uid: SecurityType
-  - name: properties.deleteExistingNSGs
-    in: body
-    description: Flag if need to delete existing network security groups.
-    types:
-    - uid: DeleteExistingNSGs
+    - uid: string
+      isArray: true
 requestHeader: []
 definitions:
 - name: SystemData
@@ -108,8 +99,8 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: SecurityConfiguration
-  description: Defines the security configuration
+- name: SecurityAdminConfiguration
+  description: Defines the security admin configuration
   kind: object
   properties:
   - name: systemData
@@ -117,22 +108,15 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A display name of the security configuration.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the security configuration.
     types:
     - uid: string
-  - name: properties.securityType
-    description: Security Type.
+  - name: properties.applyOnNetworkIntentPolicyBasedServices
+    description: Enum list of network intent policy based services.
     types:
-    - uid: SecurityType
-  - name: properties.deleteExistingNSGs
-    description: Flag if need to delete existing network security groups.
-    types:
-    - uid: DeleteExistingNSGs
+    - uid: string
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -182,26 +166,6 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: SecurityType
-  description: Security Type.
-  kind: enum
-  properties:
-  - name: AdminPolicy
-    types:
-    - uid: string
-  - name: UserPolicy
-    types:
-    - uid: string
-- name: DeleteExistingNSGs
-  description: Flag if need to delete existing network security groups.
-  kind: enum
-  properties:
-  - name: "False"
-    types:
-    - uid: string
-  - name: "True"
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -242,25 +206,27 @@ definitions:
 examples:
 - name: Create network manager security admin configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2021-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2022-01-01
     body: >-
       {
         "properties": {
           "description": "A sample policy",
-          "securityType": "AdminPolicy",
-          "deleteExistingNSGs": "True"
+          "applyOnNetworkIntentPolicyBasedServices": [
+            "None"
+          ]
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2021-02-01-preview
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2022-01-01
 
       {
         "properties": {
           "description": "A sample policy",
-          "securityType": "AdminPolicy",
-          "deleteExistingNSGs": "True"
+          "applyOnNetworkIntentPolicyBasedServices": [
+            "None"
+          ]
         }
       }
 
@@ -282,11 +248,11 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "myTestSecurityConfig",
           "description": "A sample policy",
           "provisioningState": "Succeeded",
-          "securityType": "AdminPolicy",
-          "deleteExistingNSGs": "True"
+          "applyOnNetworkIntentPolicyBasedServices": [
+            "None"
+          ]
         }
       }
   - statusCode: "201"
@@ -304,11 +270,11 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "myTestSecurityConfig",
           "description": "A sample policy",
           "provisioningState": "Succeeded",
-          "securityType": "AdminPolicy",
-          "deleteExistingNSGs": "True"
+          "applyOnNetworkIntentPolicyBasedServices": [
+            "None"
+          ]
         }
       }
 security:

@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkmanager.networkmanagers.patchtags
-name: Patch Tags
+uid: management.azure.com.networkmanager.networkmanagers.patch
+name: Patch
 service: Network Manager
 groupName: Network Managers
-apiVersion: 2021-02-01-preview
-summary: Patch a NetworkManager Tags.
+apiVersion: 2022-01-01
+summary: Patch NetworkManager.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}?api-version=2021-02-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,10 +73,6 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network manager.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network manager.
     types:
@@ -92,7 +88,7 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the scope assignment resource.
+    description: The provisioning state of the network manager resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -129,8 +125,8 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: TagsObject
-  description: Tags object for patch operations.
+- name: PatchObject
+  description: Object for patch operations.
   kind: object
   properties:
   - name: tags
@@ -182,6 +178,12 @@ definitions:
     description: List of subscriptions.
     types:
     - uid: string
+      isArray: true
+  - name: crossTenantScopes
+    isReadyOnly: true
+    description: List of cross tenant scopes.
+    types:
+    - uid: CrossTenantScopes
       isArray: true
 - name: ProvisioningState
   description: The current provisioning state.
@@ -236,10 +238,31 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CrossTenantScopes
+  description: Cross tenant scopes.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant ID.
+    types:
+    - uid: string
+  - name: managementGroups
+    isReadyOnly: true
+    description: List of management groups.
+    types:
+    - uid: string
+      isArray: true
+  - name: subscriptions
+    isReadyOnly: true
+    description: List of subscriptions.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: NetworkManagesPatch
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager?api-version=2021-02-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager?api-version=2022-01-01
     body: >-
       {
         "tags": {
@@ -250,7 +273,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager?api-version=2021-02-01-preview
+      PATCH https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager?api-version=2022-01-01
 
       {
         "tags": {
@@ -283,16 +306,15 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "TestNetworkManager",
           "description": "My Test Network Manager",
           "networkManagerScopes": {
             "managementGroups": [],
             "subscriptions": [
-              "/subscriptions/00000000-0000-0000-0000-000000000000"
+              "/subscriptions/00000000-0000-0000-0000-000000000001"
             ]
           },
           "networkManagerScopeAccesses": [
-            "SecurityUser"
+            "Connectivity"
           ],
           "provisioningState": "Succeeded"
         }
@@ -307,5 +329,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Patch a NetworkManager Tags.
+  description: Learn more about Network Manager service - Patch NetworkManager.
 errorCodes: []

@@ -3,15 +3,15 @@ uid: management.azure.com.networkmanager.networkmanagers.listbysubscription
 name: List By Subscription
 service: Network Manager
 groupName: Network Managers
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: List all network managers in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagers?api-version=2022-01-01&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -83,10 +83,6 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network manager.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network manager.
     types:
@@ -102,7 +98,7 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the scope assignment resource.
+    description: The provisioning state of the network manager resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -194,6 +190,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: crossTenantScopes
+    isReadyOnly: true
+    description: List of cross tenant scopes.
+    types:
+    - uid: CrossTenantScopes
+      isArray: true
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -226,14 +228,35 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CrossTenantScopes
+  description: Cross tenant scopes.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant ID.
+    types:
+    - uid: string
+  - name: managementGroups
+    isReadyOnly: true
+    description: List of management groups.
+    types:
+    - uid: string
+      isArray: true
+  - name: subscriptions
+    isReadyOnly: true
+    description: List of subscriptions.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: NetworkManagersList
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview
+      GET https://management.azure.com/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
       ```
 
   responses:
@@ -255,7 +278,6 @@ examples:
               "lastModifiedAt": "2021-01-11T18:52:27Z"
             },
             "properties": {
-              "displayName": "TestNetworkManager",
               "description": "My Test Network Manager",
               "networkManagerScopes": {
                 "managementGroups": [],
@@ -270,7 +292,7 @@ examples:
             }
           }
         ],
-        "nextLink": "{baseurl}/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview&$skipToken=10"
+        "nextLink": "{baseurl}/subscriptions/subscriptionC/providers/Microsoft.Network/networkManagers?api-version=2022-01-01&$skipToken=10"
       }
 security:
 - name: azure_auth

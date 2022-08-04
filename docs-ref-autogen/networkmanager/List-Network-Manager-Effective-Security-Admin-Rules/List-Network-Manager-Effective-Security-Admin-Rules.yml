@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkmanager.activesecurityadminrules.list
-name: List
+uid: management.azure.com.networkmanager.listnetworkmanagereffectivesecurityadminrules.listnetworkmanagereffectivesecurityadminrules
+name: List Network Manager Effective Security Admin Rules
 service: Network Manager
-groupName: Active Security Admin Rules
-apiVersion: 2021-02-01-preview
-summary: Lists active security admin rules in a network manager.
+groupName: List Network Manager Effective Security Admin Rules
+apiVersion: 2022-01-01
+summary: List all effective security admin rules applied on a virtual network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules?api-version=2021-02-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listNetworkManagerEffectiveSecurityAdminRules?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,10 +24,10 @@ uriParameters:
   description: The name of the resource group.
   types:
   - uid: string
-- name: networkManagerName
+- name: virtualNetworkName
   in: path
   isRequired: true
-  description: The name of the network manager.
+  description: The name of the virtual network.
   types:
   - uid: string
 - name: api-version
@@ -38,22 +38,16 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Post successful. The operation returns the specified Managed Network active security admin rules resource.
+  description: OK - Returns information about the configurations.
   types:
-  - uid: ActiveSecurityAdminRulesListResult
+  - uid: NetworkManagerEffectiveSecurityAdminRulesListResult
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Resource Provider error response describing why the operation failed.
   types:
   - uid: CloudError
 requestBody:
 - name: default
   parameters:
-  - name: regions
-    in: body
-    description: List of regions.
-    types:
-    - uid: string
-      isArray: true
   - name: skipToken
     in: body
     description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
@@ -61,18 +55,18 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: ActiveSecurityAdminRulesListResult
-  description: Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results.
+- name: NetworkManagerEffectiveSecurityAdminRulesListResult
+  description: Result of the request to list networkManagerEffectiveSecurityAdminRules. It contains a list of groups and a skiptoken to get the next set of results.
   kind: object
   properties:
   - name: value
-    description: Gets a page of active security admin rules.
+    description: Gets a page of NetworkManagerEffectiveSecurityAdminRules
     types:
-    - uid: ActiveSecurityAdminRule
+    - uid: EffectiveSecurityAdminRule
       isArray: true
-    - uid: ActiveDefaultSecurityAdminRule
+    - uid: EffectiveDefaultSecurityAdminRule
       isArray: true
-    typesTitle: ActiveBaseSecurityAdminRule[]
+    typesTitle: EffectiveBaseSecurityAdminRule[]
   - name: skipToken
     description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
     types:
@@ -85,15 +79,10 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: ActiveConfigurationParameter
-  description: Effective Virtual Networks Parameter.
+- name: QueryRequestOptions
+  description: Query Request Options
   kind: object
   properties:
-  - name: regions
-    description: List of regions.
-    types:
-    - uid: string
-      isArray: true
   - name: skipToken
     description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
     types:
@@ -119,14 +108,10 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: ActiveSecurityAdminRule
+- name: EffectiveSecurityAdminRule
   description: Network admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     description: A description for this rule. Restricted to 140 chars.
     types:
@@ -176,24 +161,8 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-  - name: commitTime
-    description: Deployment time string.
-    types:
-    - uid: string
-  - name: region
-    description: Deployment region.
-    types:
-    - uid: string
-  - name: configurationDisplayName
-    description: A display name of the security admin configuration.
-    types:
-    - uid: string
   - name: configurationDescription
     description: A description of the security admin configuration.
-    types:
-    - uid: string
-  - name: ruleCollectionDisplayName
-    description: A display name of the rule collection.
     types:
     - uid: string
   - name: ruleCollectionDescription
@@ -215,15 +184,10 @@ definitions:
     types:
     - uid: Custom
     typesTitle: string
-- name: ActiveDefaultSecurityAdminRule
+- name: EffectiveDefaultSecurityAdminRule
   description: Network default admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    isReadyOnly: true
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     isReadyOnly: true
     description: A description for this rule. Restricted to 140 chars.
@@ -286,24 +250,8 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
-  - name: commitTime
-    description: Deployment time string.
-    types:
-    - uid: string
-  - name: region
-    description: Deployment region.
-    types:
-    - uid: string
-  - name: configurationDisplayName
-    description: A display name of the security admin configuration.
-    types:
-    - uid: string
   - name: configurationDescription
     description: A description of the security admin configuration.
-    types:
-    - uid: string
-  - name: ruleCollectionDisplayName
-    description: A display name of the rule collection.
     types:
     - uid: string
   - name: ruleCollectionDescription
@@ -411,28 +359,11 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: properties.displayName
-    description: A friendly name for the network group.
+    description: Network group ID.
     types:
     - uid: string
   - name: properties.description
     description: A description of the network group.
-    types:
-    - uid: string
-  - name: properties.memberType
-    description: Group member type.
-    types:
-    - uid: string
-  - name: properties.groupMembers
-    description: Group members of network group.
-    types:
-    - uid: groupMembersItem
-      isArray: true
-  - name: properties.conditionalMembership
-    description: Network group conditional filter.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -450,35 +381,21 @@ definitions:
   - name: ServiceTag
     types:
     - uid: string
-- name: groupMembersItem
-  description: GroupMembers Item.
-  kind: object
-  properties:
-  - name: resourceId
-    description: Resource Id.
-    types:
-    - uid: string
 examples:
-- name: List Active Security Admin Rules
+- name: List effective security admin rules
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2021-02-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/testVirtualNetwork/listNetworkManagerEffectiveSecurityAdminRules?api-version=2022-01-01
     body: >-
       {
-        "regions": [
-          "westus"
-        ],
-        "skipToken": "fakeSkipTokenCode"
+        "skipToken": "FakeSkipTokenCode"
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2021-02-01-preview
+      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/testVirtualNetwork/listNetworkManagerEffectiveSecurityAdminRules?api-version=2022-01-01
 
       {
-        "regions": [
-          "westus"
-        ],
-        "skipToken": "fakeSkipTokenCode"
+        "skipToken": "FakeSkipTokenCode"
       }
 
       ```
@@ -489,12 +406,8 @@ examples:
       {
         "value": [
           {
-            "region": "westus",
-            "commitTime": "2020-07-10T18:03:22.2578238+05:30",
             "id": "/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule",
-            "configurationDisplayName": "SampleConfig",
             "configurationDescription": "SampleDescription",
-            "ruleCollectionDisplayName": "SampleRuleCollection",
             "ruleCollectionDescription": "SampleRuleCollectionDescription",
             "ruleCollectionAppliesToGroups": [
               {
@@ -503,7 +416,6 @@ examples:
             ],
             "kind": "Default",
             "properties": {
-              "displayName": "SampleAdminRule",
               "description": "Sample Admin Rule",
               "flag": "AllowVnetInbound",
               "protocol": "Tcp",
@@ -534,15 +446,7 @@ examples:
               {
                 "id": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
                 "properties": {
-                  "displayName": "My Network Group",
                   "description": "A group for all test Virtual Networks",
-                  "memberType": "Microsoft.Network/virtualNetworks",
-                  "groupMembers": [
-                    {
-                      "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetwork/vnet1"
-                    }
-                  ],
-                  "conditionalMembership": "",
                   "provisioningState": "Succeeded"
                 }
               }
@@ -561,5 +465,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Lists active security admin rules in a network manager.
+  description: Learn more about Network Manager service - List all effective security admin rules applied on a virtual network.
 errorCodes: []
