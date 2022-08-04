@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.networkmanager.activesecurityuserrules.list
-name: List
+uid: management.azure.com.networkmanager.listactivesecurityadminrules.listactivesecurityadminrules
+name: List Active Security Admin Rules
 service: Network Manager
-groupName: Active Security User Rules
-apiVersion: 2021-02-01-preview
-summary: Lists Active Security User Rules in a network manager.
+groupName: List Active Security Admin Rules
+apiVersion: 2022-01-01
+summary: Lists active security admin rules in a network manager.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityUserRules?api-version=2021-02-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,9 +38,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Post successful. The operation returns the specified Managed Network active security user rules resource.
+  description: Post successful. The operation returns the specified Managed Network active security admin rules resource.
   types:
-  - uid: ActiveSecurityUserRulesListResult
+  - uid: ActiveSecurityAdminRulesListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -61,18 +61,18 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: ActiveSecurityUserRulesListResult
-  description: Result of the request to list active security user rules. It contains a list of active security user rules and a skiptoken to get the next set of results.
+- name: ActiveSecurityAdminRulesListResult
+  description: Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results.
   kind: object
   properties:
   - name: value
-    description: Gets a page of active security user rules.
+    description: Gets a page of active security admin rules.
     types:
-    - uid: ActiveSecurityUserRule
+    - uid: ActiveSecurityAdminRule
       isArray: true
-    - uid: ActiveDefaultSecurityUserRule
+    - uid: ActiveDefaultSecurityAdminRule
       isArray: true
-    typesTitle: ActiveBaseSecurityUserRule[]
+    typesTitle: ActiveBaseSecurityAdminRule[]
   - name: skipToken
     description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
     types:
@@ -119,16 +119,12 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: ActiveSecurityUserRule
-  description: Network security user rule.
+- name: ActiveSecurityAdminRule
+  description: Network admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
-    description: A description for this rule.
+    description: A description for this rule. Restricted to 140 chars.
     types:
     - uid: string
   - name: properties.protocol
@@ -155,13 +151,21 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.access
+    description: Indicates the access allowed for this particular rule
+    types:
+    - uid: SecurityConfigurationRuleAccess
+  - name: properties.priority
+    description: The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
   - name: properties.direction
     description: Indicates if the traffic matched against the rule in inbound or outbound.
     types:
     - uid: SecurityConfigurationRuleDirection
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the security configuration user rule resource.
+    description: The provisioning state of the resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -176,16 +180,8 @@ definitions:
     description: Deployment region.
     types:
     - uid: string
-  - name: configurationDisplayName
-    description: A display name of the security user configuration.
-    types:
-    - uid: string
   - name: configurationDescription
-    description: A description of the security user configuration.
-    types:
-    - uid: string
-  - name: ruleCollectionDisplayName
-    description: A display name of the rule collection.
+    description: A description of the security admin configuration.
     types:
     - uid: string
   - name: ruleCollectionDescription
@@ -207,15 +203,10 @@ definitions:
     types:
     - uid: Custom
     typesTitle: string
-- name: ActiveDefaultSecurityUserRule
-  description: Network security default user rule.
+- name: ActiveDefaultSecurityAdminRule
+  description: Network default admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    isReadyOnly: true
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     isReadyOnly: true
     description: A description for this rule. Restricted to 140 chars.
@@ -254,6 +245,16 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: properties.access
+    isReadyOnly: true
+    description: Indicates the access allowed for this particular rule
+    types:
+    - uid: SecurityConfigurationRuleAccess
+  - name: properties.priority
+    isReadyOnly: true
+    description: The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
   - name: properties.direction
     isReadyOnly: true
     description: Indicates if the traffic matched against the rule in inbound or outbound.
@@ -261,7 +262,7 @@ definitions:
     - uid: SecurityConfigurationRuleDirection
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the security configuration user rule resource.
+    description: The provisioning state of the resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -276,16 +277,8 @@ definitions:
     description: Deployment region.
     types:
     - uid: string
-  - name: configurationDisplayName
-    description: A display name of the security user configuration.
-    types:
-    - uid: string
   - name: configurationDescription
-    description: A description of the security user configuration.
-    types:
-    - uid: string
-  - name: ruleCollectionDisplayName
-    description: A display name of the rule collection.
+    description: A description of the security admin configuration.
     types:
     - uid: string
   - name: ruleCollectionDescription
@@ -341,6 +334,19 @@ definitions:
     description: Address prefix type.
     types:
     - uid: AddressPrefixType
+- name: SecurityConfigurationRuleAccess
+  description: Whether network traffic is allowed or denied.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: AlwaysAllow
+    types:
+    - uid: string
 - name: SecurityConfigurationRuleDirection
   description: The direction of the rule. The direction specifies if the rule will be evaluated on incoming or outgoing traffic.
   kind: enum
@@ -380,28 +386,11 @@ definitions:
   kind: object
   properties:
   - name: id
-    description: Resource ID.
-    types:
-    - uid: string
-  - name: properties.displayName
-    description: A friendly name for the network group.
+    description: Network group ID.
     types:
     - uid: string
   - name: properties.description
     description: A description of the network group.
-    types:
-    - uid: string
-  - name: properties.memberType
-    description: Group member type.
-    types:
-    - uid: string
-  - name: properties.groupMembers
-    description: Group members of network group.
-    types:
-    - uid: groupMembersItem
-      isArray: true
-  - name: properties.conditionalMembership
-    description: Network group conditional filter.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -419,18 +408,10 @@ definitions:
   - name: ServiceTag
     types:
     - uid: string
-- name: groupMembersItem
-  description: GroupMembers Item.
-  kind: object
-  properties:
-  - name: resourceId
-    description: Resource Id.
-    types:
-    - uid: string
 examples:
-- name: List Active Security User Rules
+- name: List Active Security Admin Rules
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityUserRules?api-version=2021-02-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2022-01-01
     body: >-
       {
         "regions": [
@@ -441,7 +422,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityUserRules?api-version=2021-02-01-preview
+      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2022-01-01
 
       {
         "regions": [
@@ -460,20 +441,18 @@ examples:
           {
             "region": "westus",
             "commitTime": "2020-07-10T18:03:22.2578238+05:30",
-            "id": "/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/securityUserConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleUserRule",
-            "configurationDisplayName": "SampleConfig",
+            "id": "/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule",
             "configurationDescription": "SampleDescription",
-            "ruleCollectionDisplayName": "SampleRuleCollection",
             "ruleCollectionDescription": "SampleRuleCollectionDescription",
             "ruleCollectionAppliesToGroups": [
               {
                 "networkGroupId": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1"
               }
             ],
-            "kind": "Custom",
+            "kind": "Default",
             "properties": {
-              "displayName": "SampleUserRule",
-              "description": "Sample User Rule",
+              "description": "Sample Admin Rule",
+              "flag": "AllowVnetInbound",
               "protocol": "Tcp",
               "sources": [
                 {
@@ -494,21 +473,15 @@ examples:
                 "22"
               ],
               "direction": "Inbound",
+              "access": "Deny",
+              "priority": 1,
               "provisioningState": "Succeeded"
             },
             "ruleGroups": [
               {
                 "id": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
                 "properties": {
-                  "displayName": "My Network Group",
                   "description": "A group for all test Virtual Networks",
-                  "memberType": "Microsoft.Network/virtualNetworks",
-                  "groupMembers": [
-                    {
-                      "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetwork/vnet1"
-                    }
-                  ],
-                  "conditionalMembership": "",
                   "provisioningState": "Succeeded"
                 }
               }
@@ -527,5 +500,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Lists Active Security User Rules in a network manager.
+  description: Learn more about Network Manager service - Lists active security admin rules in a network manager.
 errorCodes: []
