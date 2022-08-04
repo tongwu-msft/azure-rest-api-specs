@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.networkmanagercommits.post
 name: Post
 service: Network Manager
 groupName: Network Manager Commits
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Post a Network Manager Commit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit?api-version=2021-02-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,14 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Succeed.
+  types:
+  - uid: NetworkManagerCommit
 - name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
   description: Accepted and the operation will complete asynchronously
   types:
   - uid: NetworkManagerCommit
@@ -50,6 +57,7 @@ requestBody:
   parameters:
   - name: targetLocations
     in: body
+    isRequired: true
     description: List of target locations.
     types:
     - uid: string
@@ -62,6 +70,7 @@ requestBody:
       isArray: true
   - name: commitType
     in: body
+    isRequired: true
     description: Commit Type.
     types:
     - uid: ConfigurationType
@@ -105,9 +114,6 @@ definitions:
   - name: SecurityAdmin
     types:
     - uid: string
-  - name: SecurityUser
-    types:
-    - uid: string
   - name: Connectivity
     types:
     - uid: string
@@ -135,7 +141,7 @@ definitions:
 examples:
 - name: NetworkManageCommitPost
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2021-02-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2022-01-01
     body: >-
       {
         "targetLocations": [
@@ -149,7 +155,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2021-02-01-preview
+      POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2022-01-01
 
       {
         "targetLocations": [
@@ -164,7 +170,22 @@ examples:
       ```
 
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "commitId": "testCommitId",
+        "targetLocations": [
+          "useast"
+        ],
+        "configurationIds": [
+          "/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig"
+        ],
+        "commitType": "SecurityAdmin"
+      }
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleRG/providers/Microsoft.Network/networkManagers/TestNM/operationResults/00000000-0000-0000-0000-000000000000?api-version=2022-01-01
     body: >-
       {
         "commitId": "testCommitId",
