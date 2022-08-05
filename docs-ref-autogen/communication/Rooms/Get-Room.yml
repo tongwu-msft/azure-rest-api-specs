@@ -1,0 +1,176 @@
+### YamlMime:RESTOperation
+uid: communication.rooms.getroom
+name: Get Room
+service: Communication
+groupName: Rooms
+apiVersion: 2022-02-01
+summary: Retrieves an existing room by id.
+produces:
+- application/json
+paths:
+- content: GET {endpoint}/rooms/{roomId}?api-version=2022-02-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The endpoint of the Azure Communication resource.
+  types:
+  - uid: string
+  format: uri
+- name: roomId
+  in: path
+  isRequired: true
+  description: The id of the room requested
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The action returns a room.
+  types:
+  - uid: RoomModel
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response
+  types:
+  - uid: CommunicationErrorResponse
+requestHeader:
+- name: Authorization
+  in: header
+  isRequired: true
+  description: An ACS (Azure Communication Services) user access token.
+  types:
+  - uid: string
+definitions:
+- name: RoomModel
+  description: The meeting room.
+  kind: object
+  properties:
+  - name: id
+    description: Unique identifier of a room. This id is server generated.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: 'The timestamp when the room was created at the server. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+  - name: validFrom
+    description: 'The timestamp from when the room is open for joining. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+  - name: validUntil
+    description: 'The timestamp from when the room can no longer be joined. The timestamp is in RFC3339 format: `yyyy-MM-ddTHH:mm:ssZ`.'
+    types:
+    - uid: string
+  - name: roomJoinPolicy
+    description: The Policy based on which Participants can join a room.
+    types:
+    - uid: RoomJoinPolicy
+  - name: participants
+    description: Collection of room participants.
+    types:
+    - uid: RoomParticipant
+      isArray: true
+- name: RoomJoinPolicy
+  description: The Policy based on which Participants can join a room.
+  kind: enum
+  properties:
+  - name: InviteOnly
+    types:
+    - uid: string
+  - name: CommunicationServiceUsers
+    types:
+    - uid: string
+- name: RoomParticipant
+  description: A participant of the room.
+  kind: object
+  properties:
+  - name: communicationIdentifier
+    description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+    types:
+    - uid: CommunicationIdentifierModel
+  - name: role
+    description: The Role of a room participant.
+    types:
+    - uid: RoleType
+- name: CommunicationIdentifierModel
+  description: 'Identifies a participant in Azure Communication services. A participant is, for example, an Azure communication user. This model must be interpreted as a union: Apart from rawId, at most one further property may be set.'
+  kind: object
+  properties:
+  - name: rawId
+    description: Raw id of the identifier. Optional in requests, required in responses.
+    types:
+    - uid: string
+  - name: communicationUser
+    description: ''
+    types:
+    - uid: CommunicationUserIdentifierModel
+- name: RoleType
+  description: The Role of a room participant.
+  kind: enum
+  properties:
+  - name: Presenter
+    types:
+    - uid: string
+  - name: Attendee
+    types:
+    - uid: string
+  - name: Consumer
+    types:
+    - uid: string
+examples:
+- name: Get meeting room.
+  request:
+    uri: GET https://contoso.communication.azure.com/rooms/99117812428622880?api-version=2022-02-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.communication.azure.com/rooms/99117812428622880?api-version=2022-02-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "99117812428622880",
+        "createdDateTime": "2022-05-26T05:46:17.8159131+00:00",
+        "validFrom": "2022-05-30T00:00:00+00:00",
+        "validUntil": "2022-06-30T00:00:00+00:00",
+        "roomJoinPolicy": "InviteOnly",
+        "participants": [
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000222",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000222"
+              }
+            },
+            "role": "Presenter"
+          },
+          {
+            "communicationIdentifier": {
+              "rawId": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000333",
+              "communicationUser": {
+                "id": "8:acs:db75ed0c-e801-41a3-99a4-66a0a119a06c_00000010-ce28-064a-83fe-084822000333"
+              }
+            },
+            "role": "Attendee"
+          }
+        ]
+      }
+security:
+- name: Authorization
+  type: apiKey
+  description: An ACS (Azure Communication Services) user access token.
+  in: header
+metadata:
+  description: Learn more about Communication service - Retrieves an existing room by id.
+errorCodes: []
