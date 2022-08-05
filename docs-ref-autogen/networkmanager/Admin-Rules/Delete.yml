@@ -3,14 +3,16 @@ uid: management.azure.com.networkmanager.adminrules.delete
 name: Delete
 service: Network Manager
 groupName: Admin Rules
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Deletes an admin rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2021-02-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2022-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?force={force}&api-version=2022-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +35,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: ruleCollectionName
@@ -48,6 +50,11 @@ uriParameters:
   description: The name of the rule.
   types:
   - uid: string
+- name: force
+  in: query
+  description: Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -57,6 +64,11 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: Accepted and will complete asynchronously.
 - name: 204 No Content
   description: Request successful. Resource does not exist.
 - name: Other Status Codes
@@ -97,14 +109,18 @@ definitions:
 examples:
 - name: Deletes an admin rule
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2021-02-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?force=False&api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2021-02-01-preview
+      DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?force=False&api-version=2022-01-01
       ```
 
   responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleRG/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule/operationResults/00000000-0000-0000-0000-000000000000?api-version=2022-01-01
   - statusCode: "200"
   - statusCode: "204"
 security:

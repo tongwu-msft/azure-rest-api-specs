@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Updates tags of a Azure Firewall Policy resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2021-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -123,10 +123,10 @@ definitions:
     description: DNS Proxy Settings definition.
     types:
     - uid: DnsSettings
-  - name: properties.explicitProxySettings
+  - name: properties.explicitProxy
     description: Explicit Proxy Settings definition.
     types:
-    - uid: ExplicitProxySettings
+    - uid: ExplicitProxy
   - name: properties.intrusionDetection
     description: The configuration for Intrusion detection.
     types:
@@ -283,6 +283,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: autoLearnPrivateRanges
+    description: The operation mode for automatically learning private ranges to not be SNAT
+    types:
+    - uid: AutoLearnPrivateRangesMode
 - name: FirewallPolicySQL
   description: SQL Settings in Firewall Policy.
   kind: object
@@ -308,7 +312,7 @@ definitions:
     description: FQDNs in Network Rules are supported when set to true.
     types:
     - uid: boolean
-- name: ExplicitProxySettings
+- name: ExplicitProxy
   description: Explicit Proxy Settings in Firewall Policy.
   kind: object
   properties:
@@ -324,6 +328,10 @@ definitions:
     description: Port number for explicit proxy https protocol, cannot be greater than 64000.
     types:
     - uid: integer
+  - name: enablePacFile
+    description: When set to true, pac file port and url needs to be provided.
+    types:
+    - uid: boolean
   - name: pacFilePort
     description: Port number for firewall to serve PAC file.
     types:
@@ -418,6 +426,16 @@ definitions:
     description: The default workspace Id for Firewall Policy Insights.
     types:
     - uid: SubResource
+- name: AutoLearnPrivateRangesMode
+  description: The operation mode for automatically learning private ranges to not be SNAT
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: FirewallPolicyIntrusionDetectionStateType
   description: Intrusion detection general state.
   kind: enum
@@ -559,7 +577,7 @@ definitions:
 examples:
 - name: Update FirewallPolicy Tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2021-08-01
+    uri: PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2022-01-01
     body: >-
       {
         "tags": {
@@ -570,7 +588,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2021-08-01
+      PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2022-01-01
 
       {
         "tags": {
@@ -581,123 +599,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.TagsObject;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for FirewallPolicies UpdateTags. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/FirewallPolicyPatch.json
-           */
-          /**
-           * Sample code: Update FirewallPolicy Tags.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void updateFirewallPolicyTags(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getFirewallPolicies()
-                  .updateTagsWithResponse(
-                      "myResourceGroup",
-                      "firewallPolicy",
-                      new TagsObject().withTags(mapOf("key1", "value1", "key2", "value2")),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/FirewallPolicyPatch.json
-      func ExampleFirewallPoliciesClient_UpdateTags() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewFirewallPoliciesClient("subId", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.UpdateTags(ctx,
-      		"myResourceGroup",
-      		"firewallPolicy",
-      		armnetwork.TagsObject{
-      			Tags: map[string]*string{
-      				"key1": to.Ptr("value1"),
-      				"key2": to.Ptr("value2"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Updates tags of a Azure Firewall Policy resource.
-       *
-       * @summary Updates tags of a Azure Firewall Policy resource.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/FirewallPolicyPatch.json
-       */
-      async function updateFirewallPolicyTags() {
-        const subscriptionId = "subId";
-        const resourceGroupName = "myResourceGroup";
-        const firewallPolicyName = "firewallPolicy";
-        const parameters = { tags: { key1: "value1", key2: "value2" } };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.firewallPolicies.updateTags(
-          resourceGroupName,
-          firewallPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      updateFirewallPolicyTags().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -766,7 +667,7 @@ examples:
             "enableProxy": true,
             "requireProxyForNetworkRules": false
           },
-          "explicitProxySettings": {
+          "explicitProxy": {
             "enableExplicitProxy": true,
             "httpPort": 8087,
             "httpsPort": 8087,

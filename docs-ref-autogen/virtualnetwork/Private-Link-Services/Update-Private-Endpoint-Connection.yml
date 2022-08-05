@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privatelinkservices.updateprivateendpoi
 name: Update Private Endpoint Connection
 service: Virtual Networks
 groupName: Private Link Services
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Approve or reject private end point connection for a private link service in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}/privateEndpointConnections/{peConnectionName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -350,7 +350,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -423,7 +423,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -677,6 +677,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -2679,11 +2683,14 @@ definitions:
 examples:
 - name: approve or reject private end point connection for a private link service
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls/privateEndpointConnections/testPlePeConnection?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls/privateEndpointConnections/testPlePeConnection?api-version=2022-01-01
     body: >-
       {
         "name": "testPlePeConnection",
         "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"
+          },
           "privateLinkServiceConnectionState": {
             "status": "Approved",
             "description": "approved it for some reason."
@@ -2693,11 +2700,14 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls/privateEndpointConnections/testPlePeConnection?api-version=2021-08-01
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls/privateEndpointConnections/testPlePeConnection?api-version=2022-01-01
 
       {
         "name": "testPlePeConnection",
         "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"
+          },
           "privateLinkServiceConnectionState": {
             "status": "Approved",
             "description": "approved it for some reason."
@@ -2707,136 +2717,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.PrivateEndpointConnectionInner;
-      import com.azure.resourcemanager.network.models.PrivateLinkServiceConnectionState;
-
-      /** Samples for PrivateLinkServices UpdatePrivateEndpointConnection. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
-           */
-          /**
-           * Sample code: approve or reject private end point connection for a private link service.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void approveOrRejectPrivateEndPointConnectionForAPrivateLinkService(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getPrivateLinkServices()
-                  .updatePrivateEndpointConnectionWithResponse(
-                      "rg1",
-                      "testPls",
-                      "testPlePeConnection",
-                      new PrivateEndpointConnectionInner()
-                          .withName("testPlePeConnection")
-                          .withPrivateLinkServiceConnectionState(
-                              new PrivateLinkServiceConnectionState()
-                                  .withStatus("Approved")
-                                  .withDescription("approved it for some reason.")),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
-      func ExamplePrivateLinkServicesClient_UpdatePrivateEndpointConnection() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewPrivateLinkServicesClient("subId", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.UpdatePrivateEndpointConnection(ctx,
-      		"rg1",
-      		"testPls",
-      		"testPlePeConnection",
-      		armnetwork.PrivateEndpointConnection{
-      			Name: to.Ptr("testPlePeConnection"),
-      			Properties: &armnetwork.PrivateEndpointConnectionProperties{
-      				PrivateEndpoint: &armnetwork.PrivateEndpoint{
-      					ID: to.Ptr("/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe"),
-      				},
-      				PrivateLinkServiceConnectionState: &armnetwork.PrivateLinkServiceConnectionState{
-      					Description: to.Ptr("approved it for some reason."),
-      					Status:      to.Ptr("Approved"),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Approve or reject private end point connection for a private link service in a subscription.
-       *
-       * @summary Approve or reject private end point connection for a private link service in a subscription.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/PrivateLinkServiceUpdatePrivateEndpointConnection.json
-       */
-      async function approveOrRejectPrivateEndPointConnectionForAPrivateLinkService() {
-        const subscriptionId = "subId";
-        const resourceGroupName = "rg1";
-        const serviceName = "testPls";
-        const peConnectionName = "testPlePeConnection";
-        const parameters = {
-          name: "testPlePeConnection",
-          privateEndpoint: {
-            id: "/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateEndpoints/testPe",
-          },
-          privateLinkServiceConnectionState: {
-            description: "approved it for some reason.",
-            status: "Approved",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.privateLinkServices.updatePrivateEndpointConnection(
-          resourceGroupName,
-          serviceName,
-          peConnectionName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      approveOrRejectPrivateEndPointConnectionForAPrivateLinkService().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.customipprefixes.get
 name: Get
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Gets the specified custom IP prefix in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2021-08-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2021-08-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2022-01-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -98,6 +98,10 @@ definitions:
     description: The commissioned state of the Custom IP Prefix.
     types:
     - uid: CommissionedState
+  - name: properties.noInternetAdvertise
+    description: Whether to Advertise the range to Internet.
+    types:
+    - uid: boolean
   - name: properties.publicIpPrefixes
     isReadyOnly: true
     description: The list of all referenced PublicIpPrefixes.
@@ -195,6 +199,9 @@ definitions:
   - name: Deprovisioning
     types:
     - uid: string
+  - name: CommissionedNoInternetAdvertise
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -242,100 +249,13 @@ definitions:
 examples:
 - name: Get custom IP prefix
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2021-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2021-08-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2022-01-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for CustomIpPrefixes GetByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/CustomIpPrefixGet.json
-           */
-          /**
-           * Sample code: Get custom IP prefix.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getCustomIPPrefix(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getCustomIpPrefixes()
-                  .getByResourceGroupWithResponse("rg1", "test-customipprefix", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/CustomIpPrefixGet.json
-      func ExampleCustomIPPrefixesClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewCustomIPPrefixesClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx,
-      		"rg1",
-      		"test-customipprefix",
-      		&armnetwork.CustomIPPrefixesClientGetOptions{Expand: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.0.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets the specified custom IP prefix in a specified resource group.
-       *
-       * @summary Gets the specified custom IP prefix in a specified resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2021-08-01/examples/CustomIpPrefixGet.json
-       */
-      async function getCustomIPPrefix() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const customIpPrefixName = "test-customipprefix";
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.customIPPrefixes.get(resourceGroupName, customIpPrefixName);
-        console.log(result);
-      }
-
-      getCustomIPPrefix().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_28.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

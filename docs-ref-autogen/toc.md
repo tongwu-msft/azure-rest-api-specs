@@ -10574,6 +10574,12 @@
 ### [Overview](expressroute/Express-Route-Ports-Locations.yml)
 ### [Get](expressroute/Express-Route-Ports-Locations/Get.yml)
 ### [List](expressroute/Express-Route-Ports-Locations/List.yml)
+## Express Route Provider Port
+### [Overview](expressroute/Express-Route-Provider-Port.yml)
+### [Express Route Provider Port](expressroute/Express-Route-Provider-Port/Express-Route-Provider-Port.yml)
+## Express Route Provider Ports Location
+### [Overview](expressroute/Express-Route-Provider-Ports-Location.yml)
+### [List](expressroute/Express-Route-Provider-Ports-Location/List.yml)
 ## Express Route Service Providers
 ### [Overview](expressroute/Express-Route-Service-Providers.yml)
 ### [List](expressroute/Express-Route-Service-Providers/List.yml)
@@ -10633,6 +10639,7 @@
 ### [Get](firewall/Azure-Firewalls/Get.yml)
 ### [List](firewall/Azure-Firewalls/List.yml)
 ### [List All](firewall/Azure-Firewalls/List-All.yml)
+### [List Learned Prefixes](firewall/Azure-Firewalls/List-Learned-Prefixes.yml)
 ### [Update Tags](firewall/Azure-Firewalls/Update-Tags.yml)
 # Front Door Service
 ## [Overview](../docs-ref-conceptual/frontdoor/index.md)
@@ -14382,15 +14389,6 @@
 ### [Update Tags](network-gateway/Virtual-Network-Taps/Update-Tags.yml)
 # Network Manager
 ## [Overview](../docs-ref-conceptual/networkmanager/index.md)
-## Active Connectivity Configurations
-### [Overview](networkmanager/Active-Connectivity-Configurations.yml)
-### [List](networkmanager/Active-Connectivity-Configurations/List.yml)
-## Active Security Admin Rules
-### [Overview](networkmanager/Active-Security-Admin-Rules.yml)
-### [List](networkmanager/Active-Security-Admin-Rules/List.yml)
-## Active Security User Rules
-### [Overview](networkmanager/Active-Security-User-Rules.yml)
-### [List](networkmanager/Active-Security-User-Rules/List.yml)
 ## Admin Rule Collections
 ### [Overview](networkmanager/Admin-Rule-Collections.yml)
 ### [Create Or Update](networkmanager/Admin-Rule-Collections/Create-Or-Update.yml)
@@ -14409,21 +14407,30 @@
 ### [Delete](networkmanager/Connectivity-Configurations/Delete.yml)
 ### [Get](networkmanager/Connectivity-Configurations/Get.yml)
 ### [List](networkmanager/Connectivity-Configurations/List.yml)
-## Effective Connectivity Configurations
-### [Overview](networkmanager/Effective-Connectivity-Configurations.yml)
-### [List](networkmanager/Effective-Connectivity-Configurations/List.yml)
-## Effective Virtual Networks
-### [Overview](networkmanager/Effective-Virtual-Networks.yml)
-### [List By Network Manager](networkmanager/Effective-Virtual-Networks/List-By-Network-Manager.yml)
+## List Active Connectivity Configurations
+### [Overview](networkmanager/List-Active-Connectivity-Configurations.yml)
+### [List Active Connectivity Configurations](networkmanager/List-Active-Connectivity-Configurations/List-Active-Connectivity-Configurations.yml)
+## List Active Security Admin Rules
+### [Overview](networkmanager/List-Active-Security-Admin-Rules.yml)
+### [List Active Security Admin Rules](networkmanager/List-Active-Security-Admin-Rules/List-Active-Security-Admin-Rules.yml)
+## List Network Manager Effective Connectivity Configurations
+### [Overview](networkmanager/List-Network-Manager-Effective-Connectivity-Configurations.yml)
+### [List Network Manager Effective Connectivity Configurations](networkmanager/List-Network-Manager-Effective-Connectivity-Configurations/List-Network-Manager-Effective-Connectivity-Configurations.yml)
+## List Network Manager Effective Security Admin Rules
+### [Overview](networkmanager/List-Network-Manager-Effective-Security-Admin-Rules.yml)
+### [List Network Manager Effective Security Admin Rules](networkmanager/List-Network-Manager-Effective-Security-Admin-Rules/List-Network-Manager-Effective-Security-Admin-Rules.yml)
+## Management Group Network Manager Connections
+### [Overview](networkmanager/Management-Group-Network-Manager-Connections.yml)
+### [Create Or Update](networkmanager/Management-Group-Network-Manager-Connections/Create-Or-Update.yml)
+### [Delete](networkmanager/Management-Group-Network-Manager-Connections/Delete.yml)
+### [Get](networkmanager/Management-Group-Network-Manager-Connections/Get.yml)
+### [List](networkmanager/Management-Group-Network-Manager-Connections/List.yml)
 ## Network Manager Commits
 ### [Overview](networkmanager/Network-Manager-Commits.yml)
 ### [Post](networkmanager/Network-Manager-Commits/Post.yml)
 ## Network Manager Deployment Status
 ### [Overview](networkmanager/Network-Manager-Deployment-Status.yml)
 ### [List](networkmanager/Network-Manager-Deployment-Status/List.yml)
-## Network Manager Effective Security Admin Rules
-### [Overview](networkmanager/Network-Manager-Effective-Security-Admin-Rules.yml)
-### [List](networkmanager/Network-Manager-Effective-Security-Admin-Rules/List.yml)
 ## Network Managers
 ### [Overview](networkmanager/Network-Managers.yml)
 ### [Create Or Update](networkmanager/Network-Managers/Create-Or-Update.yml)
@@ -14431,7 +14438,7 @@
 ### [Get](networkmanager/Network-Managers/Get.yml)
 ### [List](networkmanager/Network-Managers/List.yml)
 ### [List By Subscription](networkmanager/Network-Managers/List-By-Subscription.yml)
-### [Patch Tags](networkmanager/Network-Managers/Patch-Tags.yml)
+### [Patch](networkmanager/Network-Managers/Patch.yml)
 ## Network Security Perimeters
 ### [Overview](networkmanager/Network-Security-Perimeters.yml)
 ### [Check Members](networkmanager/Network-Security-Perimeters/Check-Members.yml)
@@ -14471,6 +14478,12 @@
 ## Perimeter Associable Resource Types
 ### [Overview](networkmanager/Perimeter-Associable-Resource-Types.yml)
 ### [List](networkmanager/Perimeter-Associable-Resource-Types/List.yml)
+## Scope Connections
+### [Overview](networkmanager/Scope-Connections.yml)
+### [Create Or Update](networkmanager/Scope-Connections/Create-Or-Update.yml)
+### [Delete](networkmanager/Scope-Connections/Delete.yml)
+### [Get](networkmanager/Scope-Connections/Get.yml)
+### [List](networkmanager/Scope-Connections/List.yml)
 ## Security Admin Configurations
 ### [Overview](networkmanager/Security-Admin-Configurations.yml)
 ### [Create Or Update](networkmanager/Security-Admin-Configurations/Create-Or-Update.yml)
@@ -14483,6 +14496,12 @@
 ### [Delete](networkmanager/Security-User-Configurations/Delete.yml)
 ### [Get](networkmanager/Security-User-Configurations/Get.yml)
 ### [List](networkmanager/Security-User-Configurations/List.yml)
+## Subscription Network Manager Connections
+### [Overview](networkmanager/Subscription-Network-Manager-Connections.yml)
+### [Create Or Update](networkmanager/Subscription-Network-Manager-Connections/Create-Or-Update.yml)
+### [Delete](networkmanager/Subscription-Network-Manager-Connections/Delete.yml)
+### [Get](networkmanager/Subscription-Network-Manager-Connections/Get.yml)
+### [List](networkmanager/Subscription-Network-Manager-Connections/List.yml)
 ## User Rule Collections
 ### [Overview](networkmanager/User-Rule-Collections.yml)
 ### [Create Or Update](networkmanager/User-Rule-Collections/Create-Or-Update.yml)
@@ -14496,15 +14515,18 @@
 ### [Get](networkmanager/User-Rules/Get.yml)
 ### [List](networkmanager/User-Rules/List.yml)
 ## Network Manager Group
-### Effective Virtual Networks
-#### [Overview](networkmanager/networkmanagergroup/Effective-Virtual-Networks.yml)
-#### [List By Network Group](networkmanager/networkmanagergroup/Effective-Virtual-Networks/List-By-Network-Group.yml)
 ### Network Groups
 #### [Overview](networkmanager/networkmanagergroup/Network-Groups.yml)
 #### [Create Or Update](networkmanager/networkmanagergroup/Network-Groups/Create-Or-Update.yml)
 #### [Delete](networkmanager/networkmanagergroup/Network-Groups/Delete.yml)
 #### [Get](networkmanager/networkmanagergroup/Network-Groups/Get.yml)
 #### [List](networkmanager/networkmanagergroup/Network-Groups/List.yml)
+### Static Members
+#### [Overview](networkmanager/networkmanagergroup/Static-Members.yml)
+#### [Create Or Update](networkmanager/networkmanagergroup/Static-Members/Create-Or-Update.yml)
+#### [Delete](networkmanager/networkmanagergroup/Static-Members/Delete.yml)
+#### [Get](networkmanager/networkmanagergroup/Static-Members/Get.yml)
+#### [List](networkmanager/networkmanagergroup/Static-Members/List.yml)
 # Network Watcher
 ## [Overview](../docs-ref-conceptual/network-watcher/index.md)
 ## Connection Monitors
@@ -24520,8 +24542,13 @@
 ### [Get](storagecache/Caches/Get.yml)
 ### [List](storagecache/Caches/List.yml)
 ### [List By Resource Group](storagecache/Caches/List-By-Resource-Group.yml)
+### [Pause Priming Job](storagecache/Caches/Pause-Priming-Job.yml)
+### [Resume Priming Job](storagecache/Caches/Resume-Priming-Job.yml)
+### [Space Allocation](storagecache/Caches/Space-Allocation.yml)
 ### [Start](storagecache/Caches/Start.yml)
+### [Start Priming Job](storagecache/Caches/Start-Priming-Job.yml)
 ### [Stop](storagecache/Caches/Stop.yml)
+### [Stop Priming Job](storagecache/Caches/Stop-Priming-Job.yml)
 ### [Update](storagecache/Caches/Update.yml)
 ### [Upgrade Firmware](storagecache/Caches/Upgrade-Firmware.yml)
 ## Operations
