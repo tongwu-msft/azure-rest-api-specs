@@ -19,11 +19,11 @@ The URI to reference a container or a blob must be unique. Because every account
   
 If you attempt to create a container or blob with a name that violates naming rules, the request will fail with status code 400 (Bad Request).  
   
-Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names.
+Blob and container names are passed to the Blob service within a URL. Certain characters must be percent-encoded to appear in a URL, using UTF-8 (preferred) or MBCS. This encoding occurs automatically when you use the Azure Storage client libraries. However, there are certain characters that are not valid in URL paths even when encoded. These characters cannot appear in blob or container names. For a list of these characters, see [Unicode characters not supported in container or blob names](#unicode-characters-not-supported-in-container-or-blob-names).
 
 Code points like \uE000, while valid in NTFS filenames, are not valid Unicode characters, so they cannot be used. In addition, some ASCII or Unicode characters, like control characters (0x00 to 0x1F, \u0081, etc.), are also not allowed.
 
-For rules governing Unicode strings in HTTP/1.1, see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).
+For additional rules governing Unicode strings in HTTP/1.1, see [RFC 2616, Section 2.2: Basic Rules](http://www.ietf.org/rfc/rfc2616.txt) and   [RFC 3987](http://www.ietf.org/rfc/rfc3987.txt).
   
 ### Container Names  
 
@@ -108,6 +108,110 @@ For example, assume that a blob has the following URI:
 The URI for a snapshot of that blob is formed as follows:  
   
 `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`  
+
+## Unicode characters not supported in container or blob names
+
+The following table provides a list of Unicode characters that are not supported in container or blob names:
+
+| Unicode character |
+|---|
+| U+0080 |
+| U+0082 |
+| U+0083 |
+| U+0084 |
+| U+0085 |
+| U+0086 |
+| U+0087 |
+| U+0088 |
+| U+0089 |
+| U+008A |
+| U+008B |
+| U+008C |
+| U+008E |
+| U+0091 |
+| U+0092 |
+| U+0093 |
+| U+0094 |
+| U+0095 |
+| U+0096 |
+| U+0097 |
+| U+0098 |
+| U+0099 |
+| U+009A |
+| U+009B |
+| U+009C |
+| U+009E |
+| U+009F |
+| U+FDD1 |
+| U+FDD2 |
+| U+FDD3 |
+| U+FDD4 |
+| U+FDD5 |
+| U+FDD6 |
+| U+FDD7 |
+| U+FDD8 |
+| U+FDD9 |
+| U+FDDA |
+| U+FDDB |
+| U+FDDC |
+| U+FDDE |
+| U+FDDF |
+| U+FDE0 |
+| U+FDE1 |
+| U+FDE2 |
+| U+FDE3 |
+| U+FDE4 |
+| U+FDE5 |
+| U+FDE6 |
+| U+FDE7 |
+| U+FDE8 |
+| U+FDE9 |
+| U+FDEA |
+| U+FDEB |
+| U+FDEC |
+| U+FDED |
+| U+FDEE |
+| U+FDEF |
+| U+FFF0 |
+| U+FFF1 |
+| U+FFF2 |
+| U+FFF3 |
+| U+FFF4 |
+| U+FFF5 |
+| U+FFF6 |
+| U+FFF7 |
+| U+FFF8 |
+| U+FFF9 |
+| U+FFFA |
+| U+FFFB |
+| U+FFFC |
+| U+FFFD |
+| U+FFFE |
+| U+FFFF |
+| U+1FFFE |
+| U+1FFFF |
+| U+2FFFE |
+| U+2FFFF |
+| U+3FFFE |
+| U+3FFFF |
+| U+5FFFE |
+| U+5FFFF |
+| U+6FFFE |
+| U+6FFFF |
+| U+7FFFE |
+| U+7FFFF |
+| U+9FFFE |
+| U+9FFFF |
+| U+AFFFE |
+| U+AFFFF |
+| U+BFFFE |
+| U+BFFFF |
+| U+DFFFE |
+| U+DFFFF |
+| U+EFFFE |
+| U+EFFFF |
+| U+FFFFE |
+| U+FFFFF |
   
 ## See also  
 
