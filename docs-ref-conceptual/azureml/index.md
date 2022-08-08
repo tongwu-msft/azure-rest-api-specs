@@ -40,25 +40,26 @@ Uses REST API Version 2022-05-01
 
 ### Latest Preview API Version
 
-Uses REST API Version 2022-02-01-preview
+Uses REST API Version 2022-06-01-preview
 
 | Operation group | Description | Operation subgroups |
 | --------------- | ------------| ------------------- |
-| [Workspaces](/rest/api/azureml/2022-02-01-preview/workspaces) | Provides operations for managing workspaces. |
-| Compute | Provides operations for managing compute. | [Compute](/rest/api/azureml/2022-02-01-preview/compute) <br /> [Usages](/rest/api/azureml/2022-02-01-preview/usages) <br /> [Virtual Machine Sizes](/rest/api/azureml/2022-02-01-preview/virtual-machine-sizes) |
-| [Datastores](/rest/api/azureml/2022-02-01-preview/datastores) | Provides operations for managing datastores. |
-| Environments | Provides operations for managing environments. | [Environment Containers](/rest/api/azureml/2022-02-01-preview/environment-containers) <br /> [Environment Versions](/rest/api/azureml/2022-02-01-preview/environment-versions) |
-| Data | Provides operations for managing data assets. | [Data Containers](/rest/api/azureml/2022-02-01-preview/data-containers) <br /> [Data Versions](/rest/api/azureml/2022-02-01-preview/data-versions) |
-| Code | Provides operations for managing code assets. | [Code Containers](/rest/api/azureml/2022-02-01-preview/code-containers) <br /> [Code Versions](/rest/api/azureml/2022-02-01-preview/code-versions) |
-| Models | Provides operations for managing models. | [Model Containers](/rest/api/azureml/2022-02-01-preview/model-containers) <br /> [Model Versions](/rest/api/azureml/2022-02-01-preview/model-versions) |
-| Components | Provides operations for managing components. | [Component Containers](/rest/api/azureml/2022-02-01-preview/component-containers) <br /> [Component Versions](/rest/api/azureml/2022-02-01-preview/component-versions) |
-| [Jobs](/rest/api/azureml/2022-02-01-preview/jobs) | Provides operations for managing jobs. |
-| Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](/rest/api/azureml/2022-02-01-preview/online-endpoints) <br /> [Online Deployments](/rest/api/azureml/2022-02-01-preview/online-deployments) |
-| Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](/rest/api/azureml/2022-02-01-preview/batch-endpoints) <br /> [Batch Deployments](/rest/api/azureml/2022-02-01-preview/batch-deployments) |
-| [Workspace Connections](/rest/api/azureml/2022-02-01-preview/workspace-connections) | Provides operations for managing workspace connections. |
-| [Quotas](/rest/api/azureml/2022-02-01-preview/quotas) | Provides operations for managing quotas. |
-| [Private Endpoint Connections](/rest/api/azureml/2022-02-01-preview/private-endpoint-connections) | Provides operations for managing private endpoint connections to a workspace. |
-| [Private Link Resources](/rest/api/azureml/2022-02-01-preview/private-link-resources) | Provides operations for managing private link resources for a workspace. |
+| [Workspaces](/rest/api/azureml/2022-06-01-preview/workspaces) | Provides operations for managing workspaces. |
+| Compute | Provides operations for managing compute. | [Compute](/rest/api/azureml/2022-06-01-preview/compute) <br /> [Usages](/rest/api/azureml/2022-06-01-preview/usages) <br /> [Virtual Machine Sizes](/rest/api/azureml/2022-06-01-preview/virtual-machine-sizes) |
+| [Datastores](/rest/api/azureml/2022-06-01-preview/datastores) | Provides operations for managing datastores. |
+| Environments | Provides operations for managing environments. | [Environment Containers](/rest/api/azureml/2022-06-01-preview/environment-containers) <br /> [Environment Versions](/rest/api/azureml/2022-06-01-preview/environment-versions) |
+| Data | Provides operations for managing data assets. | [Data Containers](/rest/api/azureml/2022-06-01-preview/data-containers) <br /> [Data Versions](/rest/api/azureml/2022-06-01-preview/data-versions) |
+| Code | Provides operations for managing code assets. | [Code Containers](/rest/api/azureml/2022-06-01-preview/code-containers) <br /> [Code Versions](/rest/api/azureml/2022-06-01-preview/code-versions) |
+| Models | Provides operations for managing models. | [Model Containers](/rest/api/azureml/2022-06-01-preview/model-containers) <br /> [Model Versions](/rest/api/azureml/2022-06-01-preview/model-versions) |
+| Components | Provides operations for managing components. | [Component Containers](/rest/api/azureml/2022-06-01-preview/component-containers) <br /> [Component Versions](/rest/api/azureml/2022-06-01-preview/component-versions) |
+| [Jobs](/rest/api/azureml/2022-06-01-preview/jobs) | Provides operations for managing jobs. |
+| Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](/rest/api/azureml/2022-06-01-preview/online-endpoints) <br /> [Online Deployments](/rest/api/azureml/2022-06-01-preview/online-deployments) |
+| Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](/rest/api/azureml/2022-06-01-preview/batch-endpoints) <br /> [Batch Deployments](/rest/api/azureml/2022-06-01-preview/batch-deployments) |
+| [Schedules](/rest/api/azureml/2022-06-01-preview/schedules) | Provides operations for managing schedules. |
+| [Workspace Connections](/rest/api/azureml/2022-06-01-preview/workspace-connections) | Provides operations for managing workspace connections. |
+| [Quotas](/rest/api/azureml/2022-06-01-preview/quotas) | Provides operations for managing quotas. |
+| [Private Endpoint Connections](/rest/api/azureml/2022-06-01-preview/private-endpoint-connections) | Provides operations for managing private endpoint connections to a workspace. |
+| [Private Link Resources](/rest/api/azureml/2022-06-01-preview/private-link-resources) | Provides operations for managing private link resources for a workspace. |
 
 ## See Also
 
