@@ -139,7 +139,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Recover Deleted Key](/rest/api/keyvault/keys/Recover-Deleted-Key) | Recovers the deleted key to its latest version. |
 | [Backup Key](/rest/api/keyvault/keys/Backup-Key) | Requests that a backup of the specified key be downloaded to the client. |
 | [Restore Key](/rest/api/keyvault/keys/Restore-Key) | Restores a backed up key to a vault. |
-| [Release Key](/rest/api/keyvault/keys/Restore-Key) | Releases a key. The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. |
+| [Release Key](/rest/api/keyvault/keys/release) | Releases a key. The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. |
 
 ### Key operations (Key Vault only)
 
