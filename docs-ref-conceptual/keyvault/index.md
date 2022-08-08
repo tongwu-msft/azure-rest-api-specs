@@ -62,7 +62,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 | Operation | Description |
 |--|--|
-| [List By MHSM Resource](/rest/api/keyvault/managedhsm/mhsm-private-link-resources/list-by-mhsm-resource) | Gets the private link resources supported for the managed hsm pool.| 
+| [List By MHSM Resource](/rest/api/keyvault/managedhsm/mhsm-private-link-resources/list-by-mhsm-resource) | Gets the private link resources supported for the managed HSM pool.| 
 
 #### Private endpoint connections operations
 
@@ -202,7 +202,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Purge Deleted Storage Account](/rest/api/keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account) | Permanently deletes the specified storage account. |
 | [Recover Deleted Storage Account](/rest/api/keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account) | Recovers the deleted storage account. |
 | [Backup Storage Account](/rest/api/keyvault/secrets-storageaccounts/Backup-Storage-Account) | Backs up the specified storage account. |
-| [Restore Storage Account](/rest/api/keyvault/secrets-storageaccounts/Restore-Storage-Account) | Restores a backed up storage account to a vault. |
+| [Restore Storage Account](/rest/api/keyvault/secrets-storageaccounts/Restore-Storage-Account) | Restores a backed-up storage account to a vault. |
 
 #### Storage Account key operations
 
@@ -243,7 +243,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Purge Deleted Certificate](/rest/api/keyvault/certificates/Purge-Deleted-Certificate) | Permanently deletes the specified deleted certificate. |
 | [Recover Deleted Certificate](/rest/api/keyvault/certificates/Recover-Deleted-Certificate) | Recovers the deleted certificate back to its current version under /certificates. |
 | [Backup Certificate](/rest/api/keyvault/certificates/Backup-Certificate) | Backs up the specified certificate. |
-| [Restore Certificate](/rest/api/keyvault/certificates/Restore-Certificate) | Restores a backed up certificate to a vault. |
+| [Restore Certificate](/rest/api/keyvault/certificates/Restore-Certificate) | Restores a backed-up certificate to a vault. |
 
 ### Certificate policy operations
 
