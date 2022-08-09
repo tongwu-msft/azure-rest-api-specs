@@ -3,7 +3,7 @@ title: Get Blob (REST API) - Azure Storage
 description: The Get Blob operation reads or downloads a blob from the system, including its metadata and properties. You can also call Get Blob to read a snapshot.
 author: pemari-msft
 
-ms.date: 10/06/2020
+ms.date: 08/04/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -44,7 +44,7 @@ The `Get Blob` operation reads or downloads a blob from the system, including it
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. If this header is omitted for an anonymous request, then the service executes the request with version 2009-09-19. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Range`|Optional. Return only the bytes of the blob in the specified range.|  
 |`x-ms-range`|Optional. Return only the bytes of the blob in the specified range. If both `Range` and `x-ms-range` are specified, the service uses the value of `x-ms-range`. If neither are specified, the entire blob contents are returned. See [Specifying the Range Header for Blob Service Operations](Specifying-the-Range-Header-for-Blob-Service-Operations.md) for more information.|  
 |`x-ms-lease-id: <ID>`|Optional. If this header is specified, the operation will be performed only if both of the following conditions are met:<br /><br /> -   The blob's lease is currently active.<br />-   The lease ID specified in the request matches that of the blob.<br /><br /> If this header is specified and both of these conditions are not met, the request will fail and the `Get Blob` operation will fail with status code 412 (Precondition Failed).|  

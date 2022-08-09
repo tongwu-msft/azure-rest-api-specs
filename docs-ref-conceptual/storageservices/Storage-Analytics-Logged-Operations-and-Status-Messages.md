@@ -3,7 +3,7 @@ title: Storage Analytics logged operations and status messages (REST API) - Azur
 description: Storage Analytics logging records the details for both successful and failed requests for your storage account.
 author: pemari-msft
 
-ms.date: 06/12/2020
+ms.date: 08/03/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -21,7 +21,7 @@ This topic lists the storage service operations and status messages that are rec
 
 2.  **Description**: A description of the status message including HTTP verbs and status codes, if applicable.  
 
-3.  **Billable**: A yes/no value that indicates whether or not the request is billable. For more information on billing in Azure Storage, see [Understanding Azure Storage Billing - Bandwidth, Transactions, and Capacity](/archive/blogs/windowsazurestorage/understanding-windows-azure-storage-billing-bandwidth-transactions-and-capacity).  
+3.  **Billable**: A yes/no value that indicates whether or not the request is billable. For more information on billing in Azure Storage, see [Azure Blob Storage pricing](https://azure.microsoft.com/pricing/details/storage/blobs/).  
 
 4.  **Availability**: A yes/no value that indicates whether or not the request is included in the availability calculation for a storage service or a specific API operation. All unexpected errors result in reduced availability for the storage service or the specified API operation.  
 
