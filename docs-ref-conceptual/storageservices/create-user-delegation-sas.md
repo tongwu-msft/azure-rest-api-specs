@@ -127,7 +127,7 @@ The required `signedResource` (`sr`) field specifies which resources are accessi
 
 ### Specify the duration of signature validity
 
-The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start and expiration times for the SAS. The `signedExpiry` field is required. The `signedStart` field is optional. It it's omitted, the current UTC time is used as the start time.
+The `signedStart` (`st`) and `signedExpiry` (`se`) fields indicate the start and expiration times for the SAS. The `signedExpiry` field is required. The `signedStart` field is optional. If it's omitted, the current UTC time is used as the start time.
 
 For a user delegation SAS, the start and expiration times for the SAS should be within the interval that's defined for the user delegation key. If a client attempts to use a SAS after the user delegation key has expired, the SAS will fail with an authorization error, regardless of whether the SAS itself is still valid.
 
