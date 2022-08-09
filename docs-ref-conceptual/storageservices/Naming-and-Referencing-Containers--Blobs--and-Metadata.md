@@ -39,7 +39,7 @@ A container name must be a valid DNS name, conforming to the following naming ru
   
 ### Blob Names  
 
-A blob name must conforming to the following naming rules:  
+A blob name must conform to the following naming rules:  
   
 - A blob name can contain any combination of characters.  
   
