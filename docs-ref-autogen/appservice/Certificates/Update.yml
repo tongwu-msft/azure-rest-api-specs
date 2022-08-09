@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.certificates.update
 name: Update
 service: App Service
 groupName: Certificates
-apiVersion: 2021-02-01
-summary: Create or update a certificate.
+apiVersion: 2022-03-01
+summary: Description for Create or update a certificate.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}?api-version=2021-02-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/certificates/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -465,7 +465,7 @@ definitions:
 examples:
 - name: Patch Certificate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2021-02-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -475,7 +475,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2021-02-01
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/certificates/testc6282?api-version=2022-03-01
 
       {
         "properties": {
@@ -485,6 +485,34 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.CertificatePatchResource;
+
+      /** Samples for Certificates Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchCertificate.json
+           */
+          /**
+           * Sample code: Patch Certificate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void patchCertificate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getCertificates()
+                  .updateWithResponse(
+                      "testrg123", "testc6282", new CertificatePatchResource().withPassword("<password>"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -495,34 +523,66 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/PatchCertificate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchCertificate.json
       func ExampleCertificatesClient_Update() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewCertificatesClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewCertificatesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.Update(ctx,
-      		"<resource-group-name>",
-      		"<name>",
-      		armappservice.CertificatePatchResource{
-      			Properties: &armappservice.CertificatePatchResourceProperties{
-      				Password: to.StringPtr("<password>"),
+      		"testrg123",
+      		"testc6282",
+      		armappservice.AppCertificatePatchResource{
+      			Properties: &armappservice.AppCertificatePatchResourceProperties{
+      				Password: to.Ptr("<password>"),
       			},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("Certificate.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Create or update a certificate.
+       *
+       * @summary Description for Create or update a certificate.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchCertificate.json
+       */
+      async function patchCertificate() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const name = "testc6282";
+        const certificateEnvelope = {
+          password: "<password>",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.certificates.update(resourceGroupName, name, certificateEnvelope);
+        console.log(result);
+      }
+
+      patchCertificate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -553,5 +613,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Create or update a certificate.
+  description: Learn more about App Service service - Description for Create or update a certificate.
 errorCodes: []

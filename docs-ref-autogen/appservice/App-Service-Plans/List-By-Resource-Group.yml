@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceplans.listbyresourcegroup
 name: List By Resource Group
 service: App Service
 groupName: App Service Plans
-apiVersion: 2021-02-01
-summary: Get all App Service plans in a resource group.
+apiVersion: 2022-03-01
+summary: Description for Get all App Service plans in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -98,6 +98,11 @@ definitions:
   - name: properties.maximumNumberOfWorkers
     isReadyOnly: true
     description: Maximum number of instances that can be assigned to this App Service plan.
+    types:
+    - uid: integer
+  - name: properties.numberOfWorkers
+    isReadyOnly: true
+    description: The number of instances that are assigned to this App Service plan.
     types:
     - uid: integer
   - name: properties.geoRegion
@@ -423,13 +428,34 @@ definitions:
 examples:
 - name: List App Service plans by resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2021-02-01
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServicePlans ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlansByResourceGroup.json
+           */
+          /**
+           * Sample code: List App Service plans by resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAppServicePlansByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getAppServicePlans().listByResourceGroup("testrg123", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -439,31 +465,63 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/ListAppServicePlansByResourceGroup.json
-      func ExampleAppServicePlansClient_ListByResourceGroup() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlansByResourceGroup.json
+      func ExamplePlansClient_NewListByResourceGroupPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewAppServicePlansClient("<subscription-id>", cred, nil)
-      	pager := client.ListByResourceGroup("<resource-group-name>",
+      	client, err := armappservice.NewPlansClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("testrg123",
       		nil)
-      	for pager.NextPage(ctx) {
-      		if err := pager.Err(); err != nil {
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
       		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("AppServicePlan.ID: %s\n", *v.ID)
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
       		}
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all App Service plans in a resource group.
+       *
+       * @summary Description for Get all App Service plans in a resource group.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlansByResourceGroup.json
+       */
+      async function listAppServicePlansByResourceGroup() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.appServicePlans.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAppServicePlansByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -478,6 +536,7 @@ examples:
             "properties": {
               "status": "Ready",
               "maximumNumberOfWorkers": 20,
+              "numberOfWorkers": 19,
               "geoRegion": "East US",
               "numberOfSites": 4,
               "isSpot": false,
@@ -503,6 +562,7 @@ examples:
             "properties": {
               "status": "Ready",
               "maximumNumberOfWorkers": 20,
+              "numberOfWorkers": 19,
               "geoRegion": "East US",
               "numberOfSites": 4,
               "isSpot": false,
@@ -531,5 +591,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get all App Service plans in a resource group.
+  description: Learn more about App Service service - Description for Get all App Service plans in a resource group.
 errorCodes: []

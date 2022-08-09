@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceplans.update
 name: Update
 service: App Service
 groupName: App Service Plans
-apiVersion: 2021-02-01
-summary: Creates or updates an App Service Plan.
+apiVersion: 2022-03-01
+summary: Description for Creates or updates an App Service Plan.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2021-02-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/serverfarms/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -212,6 +212,11 @@ definitions:
     description: Maximum number of instances that can be assigned to this App Service plan.
     types:
     - uid: integer
+  - name: properties.numberOfWorkers
+    isReadyOnly: true
+    description: The number of instances that are assigned to this App Service plan.
+    types:
+    - uid: integer
   - name: properties.geoRegion
     isReadyOnly: true
     description: Geographical location for the App Service plan.
@@ -360,6 +365,11 @@ definitions:
   - name: properties.maximumNumberOfWorkers
     isReadyOnly: true
     description: Maximum number of instances that can be assigned to this App Service plan.
+    types:
+    - uid: integer
+  - name: properties.numberOfWorkers
+    isReadyOnly: true
+    description: The number of instances that are assigned to this App Service plan.
     types:
     - uid: integer
   - name: properties.geoRegion
@@ -637,7 +647,7 @@ definitions:
 examples:
 - name: Patch Service plan
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2021-02-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2022-03-01
     body: >-
       {
         "kind": "app",
@@ -646,7 +656,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2021-02-01
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/serverfarms/testsf6141?api-version=2022-03-01
 
       {
         "kind": "app",
@@ -655,6 +665,34 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.AppServicePlanPatchResource;
+
+      /** Samples for AppServicePlans Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchAppServicePlan.json
+           */
+          /**
+           * Sample code: Patch Service plan.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void patchServicePlan(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServicePlans()
+                  .updateWithResponse(
+                      "testrg123", "testsf6141", new AppServicePlanPatchResource().withKind("app"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -665,35 +703,63 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/PatchAppServicePlan.json
-      func ExampleAppServicePlansClient_Update() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchAppServicePlan.json
+      func ExamplePlansClient_Update() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewAppServicePlansClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewPlansClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.Update(ctx,
-      		"<resource-group-name>",
-      		"<name>",
-      		armappservice.AppServicePlanPatchResource{
-      			ProxyOnlyResource: armappservice.ProxyOnlyResource{
-      				Kind: to.StringPtr("<kind>"),
-      			},
-      			Properties: &armappservice.AppServicePlanPatchResourceProperties{},
+      		"testrg123",
+      		"testsf6141",
+      		armappservice.PlanPatchResource{
+      			Kind:       to.Ptr("app"),
+      			Properties: &armappservice.PlanPatchResourceProperties{},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("AppServicePlan.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Creates or updates an App Service Plan.
+       *
+       * @summary Description for Creates or updates an App Service Plan.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/PatchAppServicePlan.json
+       */
+      async function patchServicePlan() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const name = "testsf6141";
+        const appServicePlan = { kind: "app" };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServicePlans.update(resourceGroupName, name, appServicePlan);
+        console.log(result);
+      }
+
+      patchServicePlan().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -763,5 +829,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Creates or updates an App Service Plan.
+  description: Learn more about App Service service - Description for Creates or updates an App Service Plan.
 errorCodes: []

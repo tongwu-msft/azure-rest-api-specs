@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.verifyhostingenvironmentvnet.verifyhostinge
 name: Verify Hosting Environment Vnet
 service: App Service
 groupName: Verify Hosting Environment Vnet
-apiVersion: 2021-02-01
-summary: Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+apiVersion: 2022-03-01
+summary: Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2021-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -233,7 +233,7 @@ definitions:
 examples:
 - name: VerifyHostingEnvironmentVnet
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2021-02-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -245,7 +245,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2021-02-01
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/verifyHostingEnvironmentVnet?api-version=2022-03-01
 
       {
         "properties": {
@@ -257,6 +257,38 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.VnetParameters;
+
+      /** Samples for ResourceProvider VerifyHostingEnvironmentVnet. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/VerifyHostingEnvironmentVnet.json
+           */
+          /**
+           * Sample code: VerifyHostingEnvironmentVnet.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void verifyHostingEnvironmentVnet(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getResourceProviders()
+                  .verifyHostingEnvironmentVnetWithResponse(
+                      new VnetParameters()
+                          .withVnetResourceGroup("vNet123rg")
+                          .withVnetName("vNet123")
+                          .withVnetSubnetName("vNet123SubNet"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -267,34 +299,66 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/VerifyHostingEnvironmentVnet.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/VerifyHostingEnvironmentVnet.json
       func ExampleWebSiteManagementClient_VerifyHostingEnvironmentVnet() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewWebSiteManagementClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewWebSiteManagementClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.VerifyHostingEnvironmentVnet(ctx,
       		armappservice.VnetParameters{
       			Properties: &armappservice.VnetParametersProperties{
-      				VnetName:          to.StringPtr("<vnet-name>"),
-      				VnetResourceGroup: to.StringPtr("<vnet-resource-group>"),
-      				VnetSubnetName:    to.StringPtr("<vnet-subnet-name>"),
+      				VnetName:          to.Ptr("vNet123"),
+      				VnetResourceGroup: to.Ptr("vNet123rg"),
+      				VnetSubnetName:    to.Ptr("vNet123SubNet"),
       			},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("VnetValidationFailureDetails.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+       *
+       * @summary Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/VerifyHostingEnvironmentVnet.json
+       */
+      async function verifyHostingEnvironmentVnet() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const parameters = {
+          vnetName: "vNet123",
+          vnetResourceGroup: "vNet123rg",
+          vnetSubnetName: "vNet123SubNet",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.verifyHostingEnvironmentVnet(parameters);
+        console.log(result);
+      }
+
+      verifyHostingEnvironmentVnet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -315,5 +379,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
+  description: Description for Verifies if this VNET is compatible with an App Service Environment by analyzing the Network Security Group rules.
 errorCodes: []

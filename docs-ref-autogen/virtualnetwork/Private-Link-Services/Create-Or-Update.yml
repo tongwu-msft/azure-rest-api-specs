@@ -2815,6 +2815,132 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateLinkServiceCreate.json
+      func ExamplePrivateLinkServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPrivateLinkServicesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testPls", armnetwork.PrivateLinkService{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.PrivateLinkServiceProperties{
+      			AutoApproval: &armnetwork.PrivateLinkServicePropertiesAutoApproval{
+      				Subscriptions: []*string{
+      					to.Ptr("subscription1"),
+      					to.Ptr("subscription2")},
+      			},
+      			Fqdns: []*string{
+      				to.Ptr("fqdn1"),
+      				to.Ptr("fqdn2"),
+      				to.Ptr("fqdn3")},
+      			IPConfigurations: []*armnetwork.PrivateLinkServiceIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.PrivateLinkServiceIPConfigurationProperties{
+      						PrivateIPAddress:          to.Ptr("10.0.1.4"),
+      						PrivateIPAddressVersion:   to.Ptr(armnetwork.IPVersionIPv4),
+      						PrivateIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodStatic),
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			LoadBalancerFrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      				}},
+      			Visibility: &armnetwork.PrivateLinkServicePropertiesVisibility{
+      				Subscriptions: []*string{
+      					to.Ptr("subscription1"),
+      					to.Ptr("subscription2"),
+      					to.Ptr("subscription3")},
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
+       *
+       * @summary Creates or updates an private link service in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateLinkServiceCreate.json
+       */
+      async function createPrivateLinkService() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const serviceName = "testPls";
+        const parameters = {
+          autoApproval: { subscriptions: ["subscription1", "subscription2"] },
+          fqdns: ["fqdn1", "fqdn2", "fqdn3"],
+          ipConfigurations: [
+            {
+              name: "fe-lb",
+              privateIPAddress: "10.0.1.4",
+              privateIPAddressVersion: "IPv4",
+              privateIPAllocationMethod: "Static",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          loadBalancerFrontendIpConfigurations: [
+            {
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+            },
+          ],
+          location: "eastus",
+          visibility: {
+            subscriptions: ["subscription1", "subscription2", "subscription3"],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.privateLinkServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serviceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPrivateLinkService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

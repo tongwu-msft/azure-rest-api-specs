@@ -128,6 +128,116 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.AccessLevel;
+      import com.azure.resourcemanager.compute.models.GrantAccessData;
+
+      /** Samples for Disks GrantAccess. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/BeginGetAccessManagedDisk.json
+           */
+          /**
+           * Sample code: Get a sas on a managed disk.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getASasOnAManagedDisk(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .grantAccess(
+                      "myResourceGroup",
+                      "myDisk",
+                      new GrantAccessData().withAccess(AccessLevel.READ).withDurationInSeconds(300),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/BeginGetAccessManagedDisk.json
+      func ExampleDisksClient_BeginGrantAccess() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDisksClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGrantAccess(ctx,
+      		"myResourceGroup",
+      		"myDisk",
+      		armcompute.GrantAccessData{
+      			Access:            to.Ptr(armcompute.AccessLevelRead),
+      			DurationInSeconds: to.Ptr[int32](300),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Grants access to a disk.
+       *
+       * @summary Grants access to a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/BeginGetAccessManagedDisk.json
+       */
+      async function getASasOnAManagedDisk() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const grantAccessData = {
+          access: "Read",
+          durationInSeconds: 300,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginGrantAccessAndWait(
+          resourceGroupName,
+          diskName,
+          grantAccessData
+        );
+        console.log(result);
+      }
+
+      getASasOnAManagedDisk().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -157,6 +267,75 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.AccessLevel;
+      import com.azure.resourcemanager.compute.models.GrantAccessData;
+
+      /** Samples for Disks GrantAccess. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/BeginGetAccessManagedDiskWithVMGuestState.json
+           */
+          /**
+           * Sample code: Get sas on managed disk and VM guest state.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getSasOnManagedDiskAndVMGuestState(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .grantAccess(
+                      "myResourceGroup",
+                      "myDisk",
+                      new GrantAccessData()
+                          .withAccess(AccessLevel.READ)
+                          .withDurationInSeconds(300)
+                          .withGetSecureVMGuestStateSas(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Grants access to a disk.
+       *
+       * @summary Grants access to a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/BeginGetAccessManagedDiskWithVMGuestState.json
+       */
+      async function getSasOnManagedDiskAndVMGuestState() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const grantAccessData = {
+          access: "Read",
+          durationInSeconds: 300,
+          getSecureVMGuestStateSAS: true,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginGrantAccessAndWait(
+          resourceGroupName,
+          diskName,
+          grantAccessData
+        );
+        console.log(result);
+      }
+
+      getSasOnManagedDiskAndVMGuestState().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

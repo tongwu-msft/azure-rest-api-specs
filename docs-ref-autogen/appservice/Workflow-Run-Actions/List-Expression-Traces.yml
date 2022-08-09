@@ -1,0 +1,314 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.workflowrunactions.listexpressiontraces
+name: List Expression Traces
+service: App Service
+groupName: Workflow Run Actions
+apiVersion: 2022-03-01
+summary: Lists a workflow run expression trace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/runs/{runName}/actions/{actionName}/listExpressionTraces?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+- name: workflowName
+  in: path
+  isRequired: true
+  description: The workflow name.
+  types:
+  - uid: string
+- name: runName
+  in: path
+  isRequired: true
+  description: The workflow run name.
+  types:
+  - uid: string
+- name: actionName
+  in: path
+  isRequired: true
+  description: The workflow action name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ExpressionTraces
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ExpressionTraces
+  description: The expression traces.
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - {}
+  - name: inputs
+    description: The expression root.
+    types:
+    - uid: ExpressionRoot
+      isArray: true
+  - name: nextLink
+    description: The link used to get the next page of recommendations.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Logic service is not able to process the incoming request. The error property contains the error details.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ErrorProperties
+- name: ExpressionRoot
+  description: The expression root.
+  kind: object
+  properties:
+  - name: path
+    description: The path.
+    types:
+    - uid: string
+  - name: text
+    description: The text.
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - {}
+  - name: subexpressions
+    description: The sub expressions.
+    types:
+    - uid: Expression
+      isArray: true
+  - name: error
+    description: The azure resource error info.
+    types:
+    - uid: AzureResourceErrorInfo
+- name: ErrorProperties
+  description: Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Expression
+  description: The expression.
+  kind: object
+  properties:
+  - name: text
+    description: The text.
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - {}
+  - name: subexpressions
+    description: The sub expressions.
+    types:
+    - uid: Expression
+      isArray: true
+  - name: error
+    description: The azure resource error info.
+    types:
+    - uid: AzureResourceErrorInfo
+- name: AzureResourceErrorInfo
+  description: The azure resource error info.
+  kind: object
+  properties:
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: details
+    description: The error details.
+    types:
+    - uid: AzureResourceErrorInfo
+      isArray: true
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+examples:
+- name: List expression traces
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Web/sites/test-name/hostruntime/runtime/webhooks/workflow/api/management/workflows/testFlow/runs/08586776228332053161046300351/actions/testAction/listExpressionTraces?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Web/sites/test-name/hostruntime/runtime/webhooks/workflow/api/management/workflows/testFlow/runs/08586776228332053161046300351/actions/testAction/listExpressionTraces?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WorkflowRunActions ListExpressionTraces. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/WorkflowRunActions_ListExpressionTraces.json
+           */
+          /**
+           * Sample code: List expression traces.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listExpressionTraces(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getWorkflowRunActions()
+                  .listExpressionTraces(
+                      "testResourceGroup",
+                      "test-name",
+                      "testFlow",
+                      "08586776228332053161046300351",
+                      "testAction",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/WorkflowRunActions_ListExpressionTraces.json
+      func ExampleWorkflowRunActionsClient_NewListExpressionTracesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewWorkflowRunActionsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListExpressionTracesPager("testResourceGroup",
+      		"test-name",
+      		"testFlow",
+      		"08586776228332053161046300351",
+      		"testAction",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Inputs {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists a workflow run expression trace.
+       *
+       * @summary Lists a workflow run expression trace.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/WorkflowRunActions_ListExpressionTraces.json
+       */
+      async function listExpressionTraces() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testResourceGroup";
+        const name = "test-name";
+        const workflowName = "testFlow";
+        const runName = "08586776228332053161046300351";
+        const actionName = "testAction";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.workflowRunActions.listExpressionTraces(
+          resourceGroupName,
+          name,
+          workflowName,
+          runName,
+          actionName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listExpressionTraces().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "inputs": [
+          {
+            "path": "",
+            "text": "add(4, 4)",
+            "value": 8
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about App Service service - Lists a workflow run expression trace.
+errorCodes: []

@@ -77,7 +77,7 @@ definitions:
     isReadyOnly: true
     description: Raw failure information if DNS verification fails.
     types:
-    - uid: DefaultErrorResponse
+    - uid: CustomDomainVerificationFailureInfo
   - name: hasConflictOnManagedEnvironment
     isReadyOnly: true
     description: <code>true</code> if there is a conflict on the Container App's managed environment; otherwise, <code>false</code>.
@@ -135,6 +135,30 @@ definitions:
   - name: Skipped
     types:
     - uid: string
+- name: CustomDomainVerificationFailureInfo
+  description: Raw failure information if DNS verification fails.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Details or the error
+    types:
+    - uid: customDomainVerificationFailureInfo.Details
+      isArray: true
 - name: Error
   description: Error model.
   kind: object
@@ -165,6 +189,25 @@ definitions:
     types:
     - uid: string
 - name: Details
+  description: Details or the error
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+- name: customDomainVerificationFailureInfo.Details
   description: Details or the error
   kind: object
   properties:
@@ -315,6 +358,37 @@ examples:
         "alternateTxtRecords": [
           "txtRecord1",
           "txtRecord2"
+        ]
+      }
+- name: Analyse Custom Hostname Error Response
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/listCustomHostNameAnalysis?customHostname=my.name.corp&api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.App/containerApps/testcontainerApp0/listCustomHostNameAnalysis?customHostname=my.name.corp&api-version=2022-03-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "isHostnameAlreadyVerified": false,
+        "customDomainVerificationTest": "Failed",
+        "customDomainVerificationFailureInfo": {
+          "code": "InvalidCustomHostNameValidation",
+          "message": "A TXT record pointing from my.name.corp to AF365AD7C598B96CFCB1EA1A803A44A8F861436767173A251F6E9B7027FF078E was not found."
+        },
+        "hasConflictOnManagedEnvironment": false,
+        "cNameRecords": [],
+        "txtRecords": [
+          "652modgx8o8y2t0ahxci"
+        ],
+        "aRecords": [
+          "40.112.243.18"
+        ],
+        "alternateTxtRecords": [
+          "7301B614D78FC456A5F1F9002CF1A31B6116D7AC5DEDC128C5DE6CCC90F3BE1C"
         ]
       }
 security:

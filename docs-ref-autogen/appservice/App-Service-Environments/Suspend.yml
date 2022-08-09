@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.suspend
 name: Suspend
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
-summary: Suspend an App Service Environment.
+apiVersion: 2022-03-01
+summary: Description for Suspend an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend?api-version=2021-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/suspend?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -155,6 +155,18 @@ definitions:
     description: Last time the app was modified, in UTC. Read-only.
     types:
     - uid: string
+  - name: properties.vnetRouteAllEnabled
+    description: Virtual Network Route All enabled. This causes all outbound traffic to have Virtual Network Security Groups and User Defined Routes applied.
+    types:
+    - uid: boolean
+  - name: properties.vnetImagePullEnabled
+    description: To enable pulling image over Virtual Network
+    types:
+    - uid: boolean
+  - name: properties.vnetContentShareEnabled
+    description: To enable accessing content over virtual network
+    types:
+    - uid: boolean
   - name: properties.siteConfig
     description: Configuration of the app.
     types:
@@ -281,6 +293,10 @@ definitions:
   - name: properties.inProgressOperationId
     isReadyOnly: true
     description: Specifies an operation id if this site has a pending operation.
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: "Property to allow or block all public traffic. Allowed Values: 'Enabled', 'Disabled' or an empty string."
     types:
     - uid: string
   - name: properties.storageAccountRequired
@@ -1621,7 +1637,137 @@ definitions:
     description: Parameters for the executable.
     types:
     - uid: string
-examples: []
+examples:
+- name: Suspend an App Service Environment.
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/suspend?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/suspend?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceEnvironments Suspend. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Suspend.json
+           */
+          /**
+           * Sample code: Suspend an App Service Environment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void suspendAnAppServiceEnvironment(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .suspend("test-rg", "test-ase", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Suspend.json
+      func ExampleEnvironmentsClient_BeginSuspend() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginSuspend(ctx,
+      		"test-rg",
+      		"test-ase",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	for res.More() {
+      		nextResult, err := res.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Suspend an App Service Environment.
+       *
+       * @summary Description for Suspend an App Service Environment.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Suspend.json
+       */
+      async function suspendAnAppServiceEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.appServiceEnvironments.beginListSuspendAndWait(
+          resourceGroupName,
+          name
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      suspendAnAppServiceEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: x-ms-routing-request-id
+      value: NORTHCENTRALUS:20220408T212612Z:79bd0bce-5524-4fd1-ada0-1d8c86263d17
+    - name: Location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/operations/f6a27306-3ee3-4e6b-997d-3ba2024b85e6?api-version=2019-08-01
+    body: >-
+      {
+        "value": []
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "value": []
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -1632,5 +1778,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Suspend an App Service Environment.
+  description: Learn more about App Service service - Description for Suspend an App Service Environment.
 errorCodes: []

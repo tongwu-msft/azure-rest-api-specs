@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.get
 name: Get
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
-summary: Get the properties of an App Service Environment.
+apiVersion: 2022-03-01
+summary: Description for Get the properties of an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -118,6 +118,11 @@ definitions:
     description: Flag that displays whether an ASE has linux workers or not
     types:
     - uid: boolean
+  - name: properties.upgradePreference
+    description: Upgrade Preference
+    types:
+    - uid: UpgradePreference
+    defaultValue: None
   - name: properties.dedicatedHostCount
     description: Dedicated Host Count
     types:
@@ -126,6 +131,19 @@ definitions:
     description: Whether or not this App Service Environment is zone-redundant.
     types:
     - uid: boolean
+  - name: properties.customDnsSuffixConfiguration
+    description: Full view of the custom domain suffix configuration for ASEv3.
+    types:
+    - uid: CustomDnsSuffixConfiguration
+  - name: properties.networkingConfiguration
+    description: Full view of networking configuration for an ASE.
+    types:
+    - uid: AseV3NetworkingConfiguration
+  - name: properties.upgradeAvailability
+    isReadyOnly: true
+    description: Whether an upgrade is available for this App Service Environment.
+    types:
+    - uid: UpgradeAvailability
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -251,6 +269,146 @@ definitions:
     description: Pair value.
     types:
     - uid: string
+- name: UpgradePreference
+  description: Upgrade Preference
+  kind: enum
+  properties:
+  - name: None
+    description: No preference on when this App Service Environment will be upgraded
+    types:
+    - uid: string
+  - name: Early
+    description: This App Service Environment will be upgraded before others in the same region that have Upgrade Preference 'Late'
+    types:
+    - uid: string
+  - name: Late
+    description: This App Service Environment will be upgraded after others in the same region that have Upgrade Preference 'Early'
+    types:
+    - uid: string
+  - name: Manual
+    description: ASEv3 only. Once an upgrade is available, this App Service Environment will wait 10 days for the upgrade to be manually initiated. After 10 days the upgrade will begin automatically
+    types:
+    - uid: string
+- name: CustomDnsSuffixConfiguration
+  description: Full view of the custom domain suffix configuration for ASEv3.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: CustomDnsSuffixProvisioningState
+  - name: properties.provisioningDetails
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: properties.dnsSuffix
+    description: The default custom domain suffix to use for all sites deployed on the ASE.
+    types:
+    - uid: string
+  - name: properties.certificateUrl
+    description: The URL referencing the Azure Key Vault certificate secret that should be used as the default SSL/TLS certificate for sites with the custom domain suffix.
+    types:
+    - uid: string
+  - name: properties.keyVaultReferenceIdentity
+    description: The user-assigned identity to use for resolving the key vault certificate reference. If not specified, the system-assigned ASE identity will be used if available.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AseV3NetworkingConfiguration
+  description: Full view of networking configuration for an ASE.
+  kind: object
+  properties:
+  - name: properties.windowsOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.linuxOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.externalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.internalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.allowNewPrivateEndpointConnections
+    description: Property to enable and disable new private endpoint connection creation on ASE
+    types:
+    - uid: boolean
+  - name: properties.ftpEnabled
+    description: Property to enable and disable FTP on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.remoteDebugEnabled
+    description: Property to enable and disable Remote Debug on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.inboundIpAddressOverride
+    description: Customer provided Inbound IP Address. Only able to be set on Ase create.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: UpgradeAvailability
+  description: Whether an upgrade is available for this App Service Environment.
+  kind: enum
+  properties:
+  - name: None
+    description: No upgrade is currently available for this App Service Environment
+    types:
+    - uid: string
+  - name: Ready
+    description: An upgrade is ready to be manually initiated on this App Service Environment
+    types:
+    - uid: string
 - name: Error
   description: Error model.
   kind: object
@@ -280,6 +438,21 @@ definitions:
     description: More information to debug error.
     types:
     - uid: string
+- name: CustomDnsSuffixProvisioningState
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -298,7 +471,157 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get the properties of an App Service Environment.
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceEnvironments GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Get.json
+           */
+          /**
+           * Sample code: Get the properties of an App Service Environment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getThePropertiesOfAnAppServiceEnvironment(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .getByResourceGroupWithResponse("test-rg", "test-ase", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Get.json
+      func ExampleEnvironmentsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"test-rg",
+      		"test-ase",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get the properties of an App Service Environment.
+       *
+       * @summary Description for Get the properties of an App Service Environment.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_Get.json
+       */
+      async function getThePropertiesOfAnAppServiceEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceEnvironments.get(resourceGroupName, name);
+        console.log(result);
+      }
+
+      getThePropertiesOfAnAppServiceEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase",
+        "name": "test-ase",
+        "type": "Microsoft.Web/hostingEnvironments",
+        "kind": "ASEV3",
+        "location": "South Central US",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "status": "Ready",
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-subnet/subnets/delegated",
+            "name": "delegated",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "subnet": ""
+          },
+          "internalLoadBalancingMode": "None",
+          "multiSize": "Standard_D2d_v4",
+          "multiRoleCount": null,
+          "ipsslAddressCount": 0,
+          "dnsSuffix": "test-ase.p.azurewebsites.net",
+          "maximumNumberOfMachines": 250,
+          "frontEndScaleFactor": 15,
+          "suspended": false,
+          "clusterSettings": null,
+          "userWhitelistedIpRanges": null,
+          "hasLinuxWorkers": true,
+          "dedicatedHostCount": 0,
+          "zoneRedundant": false,
+          "networkingConfiguration": {
+            "properties": {
+              "windowsOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "linuxOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "externalInboundIpAddresses": [
+                "52.153.248.36"
+              ],
+              "internalInboundIpAddresses": [],
+              "allowNewPrivateEndpointConnections": false,
+              "ftpEnabled": false,
+              "remoteDebugEnabled": false,
+              "inboundIpAddressOverride": null
+            }
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -309,5 +632,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get the properties of an App Service Environment.
+  description: Learn more about App Service service - Description for Get the properties of an App Service Environment.
 errorCodes: []

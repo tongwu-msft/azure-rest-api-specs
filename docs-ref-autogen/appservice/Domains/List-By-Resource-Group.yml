@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.domains.listbyresourcegroup
 name: List By Resource Group
 service: App Service
 groupName: Domains
-apiVersion: 2015-04-01
-summary: Get all domains in a resource group.
+apiVersion: 2022-03-01
+summary: Description for Get all domains in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains?api-version=2015-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,10 @@ responses:
   description: OK
   types:
   - uid: DomainCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: DomainCollection
@@ -52,6 +56,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: Domain
   description: Information about a domain.
   kind: object
@@ -180,6 +193,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: Contact
   description: "Contact information for domain registration. If 'Domain Privacy' option is not selected then the contact information is made publicly available through the Whois \ndirectories as per ICANN requirements."
   kind: object
@@ -362,6 +404,24 @@ definitions:
   - name: DefaultDomainRegistrarDns
     types:
     - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 - name: Address
   description: Address information for domain registration.
   kind: object
@@ -420,7 +480,211 @@ definitions:
   - name: Managed
     types:
     - uid: string
-examples: []
+examples:
+- name: List domains by resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.DomainRegistration/domains?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.DomainRegistration/domains?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Domains ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListDomainsByResourceGroup.json
+           */
+          /**
+           * Sample code: List domains by resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listDomainsByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getDomains().listByResourceGroup("testrg123", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListDomainsByResourceGroup.json
+      func ExampleDomainsClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewDomainsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("testrg123",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all domains in a resource group.
+       *
+       * @summary Description for Get all domains in a resource group.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListDomainsByResourceGroup.json
+       */
+      async function listDomainsByResourceGroup() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.domains.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listDomainsByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.DomainRegistration/domains/example.com",
+            "name": "example.com",
+            "type": "Microsoft.DomainRegistration/domains",
+            "location": "global",
+            "tags": {},
+            "properties": {
+              "authCode": "exampleAuthCode",
+              "registrationStatus": "Active",
+              "provisioningState": "Succeeded",
+              "nameServers": [
+                "ns01.ote.domaincontrol.com",
+                "ns02.ote.domaincontrol.com"
+              ],
+              "privacy": false,
+              "createdTime": "2021-09-10T19:30:53Z",
+              "expirationTime": "2022-09-10T19:30:53Z",
+              "autoRenew": true,
+              "readyForDnsRecordManagement": true,
+              "managedHostNames": [],
+              "domainNotRenewableReasons": [
+                "ExpirationNotInRenewalTimeRange"
+              ],
+              "dnsType": "DefaultDomainRegistrarDns",
+              "consent": {
+                "agreementKeys": [
+                  "agreementKey1"
+                ],
+                "agreedBy": "192.0.2.1",
+                "agreedAt": "2021-09-10T19:30:53Z"
+              },
+              "contactTech": {
+                "email": "tech@email.com",
+                "fax": "1-245-534-2242",
+                "nameFirst": "John",
+                "nameLast": "Doe",
+                "nameMiddle": "",
+                "jobTitle": "Tech",
+                "organization": "Microsoft Inc.",
+                "phone": "1-245-534-2242",
+                "addressMailing": {
+                  "address1": "3400 State St",
+                  "city": "Chicago",
+                  "state": "IL",
+                  "country": "United States",
+                  "postalCode": "67098"
+                }
+              },
+              "contactBilling": {
+                "email": "billing@email.com",
+                "fax": "1-245-534-2242",
+                "nameFirst": "John",
+                "nameLast": "Doe",
+                "nameMiddle": "",
+                "jobTitle": "Billing",
+                "organization": "Microsoft Inc.",
+                "phone": "1-245-534-2242",
+                "addressMailing": {
+                  "address1": "3400 State St",
+                  "city": "Chicago",
+                  "state": "IL",
+                  "country": "United States",
+                  "postalCode": "67098"
+                }
+              },
+              "contactAdmin": {
+                "email": "admin@email.com",
+                "fax": "1-245-534-2242",
+                "nameFirst": "John",
+                "nameLast": "Doe",
+                "nameMiddle": "",
+                "jobTitle": "Admin",
+                "organization": "Microsoft Inc.",
+                "phone": "1-245-534-2242",
+                "addressMailing": {
+                  "address1": "3400 State St",
+                  "city": "Chicago",
+                  "state": "IL",
+                  "country": "United States",
+                  "postalCode": "67098"
+                }
+              },
+              "contactRegistrant": {
+                "email": "registrant@email.com",
+                "fax": "1-245-534-2242",
+                "nameFirst": "John",
+                "nameLast": "Doe",
+                "nameMiddle": "",
+                "jobTitle": "Registrant",
+                "organization": "Microsoft Inc.",
+                "phone": "1-245-534-2242",
+                "addressMailing": {
+                  "address1": "3400 State St",
+                  "city": "Chicago",
+                  "state": "IL",
+                  "country": "United States",
+                  "postalCode": "67098"
+                }
+              }
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -431,5 +695,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get all domains in a resource group.
+  description: Learn more about App Service service - Description for Get all domains in a resource group.
 errorCodes: []

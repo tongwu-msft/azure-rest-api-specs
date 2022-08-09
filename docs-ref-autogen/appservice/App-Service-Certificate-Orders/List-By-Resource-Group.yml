@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.listbyresourceg
 name: List By Resource Group
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
-summary: Get certificate orders in a resource group.
+apiVersion: 2022-03-01
+summary: Description for Get certificate orders in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2015-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,6 +36,10 @@ responses:
   description: OK
   types:
   - uid: AppServiceCertificateOrderCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: AppServiceCertificateOrderCollection
@@ -52,6 +56,15 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: AppServiceCertificateOrder
   description: SSL certificate purchase order.
   kind: object
@@ -74,7 +87,7 @@ definitions:
     types:
     - uid: string
   - name: properties.validityInYears
-    description: Duration in years (must be between 1 and 3).
+    description: Duration in years (must be 1).
     types:
     - uid: integer
     defaultValue: 1
@@ -152,6 +165,11 @@ definitions:
     description: Time stamp when the certificate would be auto renewed next
     types:
     - uid: string
+  - name: properties.contact
+    isReadyOnly: true
+    description: Contact info
+    types:
+    - uid: CertificateOrderContact
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -183,6 +201,35 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
 - name: AppServiceCertificate
   description: Key Vault container for a certificate that is purchased through Azure.
   kind: object
@@ -312,6 +359,43 @@ definitions:
     description: Raw certificate data.
     types:
     - uid: string
+- name: CertificateOrderContact
+  kind: object
+  properties:
+  - name: email
+    description: ''
+    types:
+    - uid: string
+  - name: nameFirst
+    description: ''
+    types:
+    - uid: string
+  - name: nameLast
+    description: ''
+    types:
+    - uid: string
+  - name: phone
+    description: ''
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 - name: KeyVaultSecretStatus
   description: Status of the Key Vault secret.
   kind: enum
@@ -349,7 +433,191 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-examples: []
+examples:
+- name: List App Service Certificate orders by resource group
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceCertificateOrders ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
+           */
+          /**
+           * Sample code: List App Service Certificate orders by resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAppServiceCertificateOrdersByResourceGroup(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceCertificateOrders()
+                  .listByResourceGroup("testrg123", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
+      func ExampleCertificateOrdersClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewCertificateOrdersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("testrg123",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get certificate orders in a resource group.
+       *
+       * @summary Description for Get certificate orders in a resource group.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ListAppServiceCertificateOrdersByResourceGroup.json
+       */
+      async function listAppServiceCertificateOrdersByResourceGroup() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.appServiceCertificateOrders.listByResourceGroup(
+          resourceGroupName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAppServiceCertificateOrdersByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertificateOrderName",
+            "name": "SampleCertificateOrderName",
+            "type": "Microsoft.CertificateRegistration/certificateOrders",
+            "location": "Global",
+            "properties": {
+              "certificates": {
+                "SampleCertName1": {
+                  "keyVaultId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
+                  "keyVaultSecretName": "SampleSecretName1",
+                  "provisioningState": "Succeeded"
+                },
+                "SampleCertName2": {
+                  "keyVaultId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourcegroups/testrg123/providers/microsoft.keyvault/vaults/SamplevaultName",
+                  "keyVaultSecretName": "SampleSecretName2",
+                  "provisioningState": "KeyVaultSecretDoesNotExist"
+                }
+              },
+              "distinguishedName": "CN=SampleCustomDomain.com",
+              "domainVerificationToken": "awe4163Br6d32r",
+              "validityInYears": 2,
+              "keySize": 2048,
+              "productType": "StandardDomainValidatedSsl",
+              "autoRenew": true,
+              "provisioningState": "Succeeded",
+              "status": "Issued",
+              "signedCertificate": {
+                "version": 123249,
+                "serialNumber": "sds12424k",
+                "thumbprint": "FE703D7411A44163B6D32B3AD9B03E175886EBFE",
+                "subject": "CN=CertSubjectName",
+                "issuer": "CACert",
+                "signatureAlgorithm": "SHA",
+                "notAfter": "2022-11-12T23:40:25+00:00",
+                "notBefore": "2021-11-12T23:40:25+00:00"
+              },
+              "csr": "xdf!x|",
+              "intermediate": {
+                "version": 5589220,
+                "serialNumber": "k45kad0024",
+                "thumbprint": "RF3D7411A44163B6D32B3343559B03E175886EBFE",
+                "subject": "CN=IntermediateCertSubjectName",
+                "issuer": "CACert",
+                "signatureAlgorithm": "SHA",
+                "notAfter": "2023-11-12T23:40:25+00:00",
+                "notBefore": "2021-05-12T23:40:25+00:00"
+              },
+              "root": {
+                "version": 3430921,
+                "serialNumber": "jkskd890ajdd00124",
+                "thumbprint": "ZD3D7411A44163B6D32B3343559B03E175886EBFE",
+                "subject": "CN=RootCertSubjectName",
+                "issuer": "CACert",
+                "signatureAlgorithm": "SHA",
+                "notAfter": "2023-11-12T23:40:25+00:00",
+                "notBefore": "2021-05-12T23:40:25+00:00"
+              },
+              "serialNumber": "12324325325",
+              "lastCertificateIssuanceTime": "2021-11-12T23:40:25+00:00",
+              "expirationTime": "2022-11-12T23:40:25+00:00",
+              "isPrivateKeyExternal": false,
+              "appServiceCertificateNotRenewableReasons": [
+                "ExpirationNotInRenewalTimeRange"
+              ],
+              "nextAutoRenewalTimeStamp": "2022-11-12T23:40:25+00:00",
+              "contact": {
+                "email": "contact@email.com",
+                "nameFirst": "SampleFirstName",
+                "nameLast": "SampleLastName",
+                "phone": "1-224-550-332"
+              }
+            }
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -360,5 +628,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get certificate orders in a resource group.
+  description: Learn more about App Service service - Description for Get certificate orders in a resource group.
 errorCodes: []

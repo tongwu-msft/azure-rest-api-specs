@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.reissue
 name: Reissue
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
-summary: Reissue an existing certificate order.
+apiVersion: 2022-03-01
+summary: Description for Reissue an existing certificate order.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue?api-version=2015-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/reissue?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,6 +40,10 @@ uriParameters:
 responses:
 - name: 204 No Content
   description: No Content
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -70,6 +74,15 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: ReissueCertificateOrderRequest
   description: Class representing certificate reissue request.
   kind: object
@@ -109,7 +122,197 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-examples: []
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Reissue App Service Certificate Order
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertificateOrderName/reissue?api-version=2022-03-01
+    body: >-
+      {
+        "properties": {
+          "keySize": 2048,
+          "delayExistingRevokeInHours": 2,
+          "csr": "CSR1223238Value",
+          "isPrivateKeyExternal": false
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertificateOrderName/reissue?api-version=2022-03-01
+
+      {
+        "properties": {
+          "keySize": 2048,
+          "delayExistingRevokeInHours": 2,
+          "csr": "CSR1223238Value",
+          "isPrivateKeyExternal": false
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.ReissueCertificateOrderRequest;
+
+      /** Samples for AppServiceCertificateOrders Reissue. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ReissueAppServiceCertificateOrder.json
+           */
+          /**
+           * Sample code: Reissue App Service Certificate Order.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void reissueAppServiceCertificateOrder(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceCertificateOrders()
+                  .reissueWithResponse(
+                      "testrg123",
+                      "SampleCertificateOrderName",
+                      new ReissueCertificateOrderRequest()
+                          .withKeySize(2048)
+                          .withDelayExistingRevokeInHours(2)
+                          .withCsr("CSR1223238Value")
+                          .withIsPrivateKeyExternal(false),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ReissueAppServiceCertificateOrder.json
+      func ExampleCertificateOrdersClient_Reissue() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewCertificateOrdersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Reissue(ctx,
+      		"testrg123",
+      		"SampleCertificateOrderName",
+      		armappservice.ReissueCertificateOrderRequest{
+      			Properties: &armappservice.ReissueCertificateOrderRequestProperties{
+      				Csr:                        to.Ptr("CSR1223238Value"),
+      				DelayExistingRevokeInHours: to.Ptr[int32](2),
+      				IsPrivateKeyExternal:       to.Ptr(false),
+      				KeySize:                    to.Ptr[int32](2048),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Reissue an existing certificate order.
+       *
+       * @summary Description for Reissue an existing certificate order.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/ReissueAppServiceCertificateOrder.json
+       */
+      async function reissueAppServiceCertificateOrder() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const certificateOrderName = "SampleCertificateOrderName";
+        const reissueCertificateOrderRequest = {
+          csr: "CSR1223238Value",
+          delayExistingRevokeInHours: 2,
+          isPrivateKeyExternal: false,
+          keySize: 2048,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceCertificateOrders.reissue(
+          resourceGroupName,
+          certificateOrderName,
+          reissueCertificateOrderRequest
+        );
+        console.log(result);
+      }
+
+      reissueAppServiceCertificateOrder().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -120,5 +323,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Reissue an existing certificate order.
+  description: Learn more about App Service service - Description for Reissue an existing certificate order.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.kubeenvironments.update
 name: Update
 service: App Service
 groupName: Kube Environments
-apiVersion: 2021-02-01
-summary: Creates or updates a Kubernetes Environment.
+apiVersion: 2022-03-01
+summary: Description for Creates or updates a Kubernetes Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}?api-version=2021-02-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/kubeEnvironments/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,11 @@ requestBody:
       supported
     types:
     - uid: AppLogsConfiguration
+  - name: properties.containerAppsConfiguration
+    in: body
+    description: Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration
+    types:
+    - uid: ContainerAppsConfiguration
   - name: properties.aksResourceID
     in: body
     description: ''
@@ -137,6 +142,33 @@ definitions:
     description: ''
     types:
     - uid: LogAnalyticsConfiguration
+- name: ContainerAppsConfiguration
+  kind: object
+  properties:
+  - name: daprAIInstrumentationKey
+    description: Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: platformReservedCidr
+    description: IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
+    types:
+    - uid: string
+  - name: platformReservedDnsIP
+    description: An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server
+    types:
+    - uid: string
+  - name: controlPlaneSubnetResourceId
+    description: Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
+  - name: appSubnetResourceId
+    description: Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
+  - name: dockerBridgeCidr
+    description: CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
 - name: KubeEnvironment
   description: A Kubernetes cluster specialized for web workloads by Azure App Service
   kind: object
@@ -168,6 +200,10 @@ definitions:
     description: Static IP of the KubeEnvironment
     types:
     - uid: string
+  - name: properties.environmentType
+    description: Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed
+    types:
+    - uid: string
   - name: properties.arcConfiguration
     description: >-
       Cluster configuration which determines the ARC cluster
@@ -186,6 +222,10 @@ definitions:
       supported
     types:
     - uid: AppLogsConfiguration
+  - name: properties.containerAppsConfiguration
+    description: Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration
+    types:
+    - uid: ContainerAppsConfiguration
   - name: properties.aksResourceID
     description: ''
     types:
@@ -275,6 +315,10 @@ definitions:
       supported
     types:
     - uid: AppLogsConfiguration
+  - name: properties.containerAppsConfiguration
+    description: Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration
+    types:
+    - uid: ContainerAppsConfiguration
   - name: properties.aksResourceID
     description: ''
     types:
@@ -431,7 +475,7 @@ definitions:
 examples:
 - name: Update kube environments
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.Web/kubeEnvironments/testkubeenv?api-version=2021-02-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.Web/kubeEnvironments/testkubeenv?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -441,7 +485,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.Web/kubeEnvironments/testkubeenv?api-version=2021-02-01
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.Web/kubeEnvironments/testkubeenv?api-version=2022-03-01
 
       {
         "properties": {
@@ -451,6 +495,34 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.KubeEnvironmentPatchResource;
+
+      /** Samples for KubeEnvironments Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_Update.json
+           */
+          /**
+           * Sample code: Update kube environments.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateKubeEnvironments(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getKubeEnvironments()
+                  .updateWithResponse(
+                      "examplerg", "testkubeenv", new KubeEnvironmentPatchResource().withStaticIp("1.2.3.4"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -461,34 +533,70 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/KubeEnvironments_Update.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_Update.json
       func ExampleKubeEnvironmentsClient_Update() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewKubeEnvironmentsClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewKubeEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.Update(ctx,
-      		"<resource-group-name>",
-      		"<name>",
+      		"examplerg",
+      		"testkubeenv",
       		armappservice.KubeEnvironmentPatchResource{
       			Properties: &armappservice.KubeEnvironmentPatchResourceProperties{
-      				StaticIP: to.StringPtr("<static-ip>"),
+      				StaticIP: to.Ptr("1.2.3.4"),
       			},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("KubeEnvironment.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Creates or updates a Kubernetes Environment.
+       *
+       * @summary Description for Creates or updates a Kubernetes Environment.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_Update.json
+       */
+      async function updateKubeEnvironments() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "examplerg";
+        const name = "testkubeenv";
+        const kubeEnvironmentEnvelope = {
+          staticIp: "1.2.3.4",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.kubeEnvironments.update(
+          resourceGroupName,
+          name,
+          kubeEnvironmentEnvelope
+        );
+        console.log(result);
+      }
+
+      updateKubeEnvironments().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -546,5 +654,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Creates or updates a Kubernetes Environment.
+  description: Learn more about App Service service - Description for Creates or updates a Kubernetes Environment.
 errorCodes: []

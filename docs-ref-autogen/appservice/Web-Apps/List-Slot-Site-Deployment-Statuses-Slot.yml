@@ -1,0 +1,390 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.webapps.listslotsitedeploymentstatusesslot
+name: List Slot Site Deployment Statuses Slot
+service: App Service
+groupName: Web Apps
+apiVersion: 2022-03-01
+summary: List deployment statuses for an app (or deployment slot, if specified).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/deploymentStatus?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the app.
+  types:
+  - uid: string
+- name: slot
+  in: path
+  isRequired: true
+  description: Name of the deployment slot. If a slot is not specified, the API will get the deployment status for the production slot.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: CsmDeploymentStatusCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestHeader: []
+definitions:
+- name: CsmDeploymentStatusCollection
+  description: Deployment status collection ARM resource.
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resources.
+    types:
+    - uid: CsmDeploymentStatus
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to next page of resources.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: CsmDeploymentStatus
+  description: Deployment status response payload.
+  kind: object
+  properties:
+  - name: properties.deploymentId
+    description: Deployment operation id.
+    types:
+    - uid: string
+  - name: properties.status
+    description: Deployment build status.
+    types:
+    - uid: DeploymentBuildStatus
+  - name: properties.numberOfInstancesInProgress
+    description: Number of site instances currently being provisioned.
+    types:
+    - uid: integer
+  - name: properties.numberOfInstancesSuccessful
+    description: Number of site instances provisioned successfully.
+    types:
+    - uid: integer
+  - name: properties.numberOfInstancesFailed
+    description: Number of site instances failed to provision.
+    types:
+    - uid: integer
+  - name: properties.failedInstancesLogs
+    description: List of URLs pointing to logs for instances which failed to provision.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.errors
+    description: List of errors.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: DeploymentBuildStatus
+  description: Deployment build status.
+  kind: enum
+  properties:
+  - name: TimedOut
+    types:
+    - uid: string
+  - name: RuntimeFailed
+    types:
+    - uid: string
+  - name: BuildAborted
+    types:
+    - uid: string
+  - name: BuildFailed
+    types:
+    - uid: string
+  - name: BuildRequestReceived
+    types:
+    - uid: string
+  - name: BuildPending
+    types:
+    - uid: string
+  - name: BuildInProgress
+    types:
+    - uid: string
+  - name: BuildSuccessful
+    types:
+    - uid: string
+  - name: PostBuildRestartRequired
+    types:
+    - uid: string
+  - name: StartPolling
+    types:
+    - uid: string
+  - name: StartPollingWithRestart
+    types:
+    - uid: string
+  - name: RuntimeStarting
+    types:
+    - uid: string
+  - name: RuntimeSuccessful
+    types:
+    - uid: string
+- name: ErrorEntity
+  description: Body of the error response returned from the API.
+  kind: object
+  properties:
+  - name: extendedCode
+    description: Type of error.
+    types:
+    - uid: string
+  - name: messageTemplate
+    description: Message template.
+    types:
+    - uid: string
+  - name: parameters
+    description: Parameters for the template.
+    types:
+    - uid: string
+      isArray: true
+  - name: innerErrors
+    description: Inner errors.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: details
+    description: Error Details.
+    types:
+    - uid: ErrorEntity
+      isArray: true
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: code
+    description: Basic error code.
+    types:
+    - uid: string
+  - name: message
+    description: Any details of the error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: List Deployment Status Slot
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/deploymentStatus?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/deploymentStatus?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WebApps ListSlotSiteDeploymentStatusesSlot. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListSiteDeploymentStatusSlot.json
+           */
+          /**
+           * Sample code: List Deployment Status Slot.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listDeploymentStatusSlot(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getWebApps()
+                  .listSlotSiteDeploymentStatusesSlot("rg", "testSite", "stage", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListSiteDeploymentStatusSlot.json
+      func ExampleWebAppsClient_NewListSlotSiteDeploymentStatusesSlotPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewWebAppsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListSlotSiteDeploymentStatusesSlotPager("rg",
+      		"testSite",
+      		"stage",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List deployment statuses for an app (or deployment slot, if specified).
+       *
+       * @summary List deployment statuses for an app (or deployment slot, if specified).
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListSiteDeploymentStatusSlot.json
+       */
+      async function listDeploymentStatusSlot() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testSite";
+        const slot = "stage";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.webApps.listSlotSiteDeploymentStatusesSlot(
+          resourceGroupName,
+          name,
+          slot
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listDeploymentStatusSlot().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about App Service service - List deployment statuses for an app (or deployment slot, if specified).
+errorCodes: []

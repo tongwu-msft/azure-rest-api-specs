@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.listappserviceplans
 name: List App Service Plans
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
-summary: Get all App Service plans in an App Service Environment.
+apiVersion: 2022-03-01
+summary: Description for Get all App Service plans in an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/serverfarms?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -104,6 +104,11 @@ definitions:
   - name: properties.maximumNumberOfWorkers
     isReadyOnly: true
     description: Maximum number of instances that can be assigned to this App Service plan.
+    types:
+    - uid: integer
+  - name: properties.numberOfWorkers
+    isReadyOnly: true
+    description: The number of instances that are assigned to this App Service plan.
     types:
     - uid: integer
   - name: properties.geoRegion
@@ -426,7 +431,165 @@ definitions:
     description: Reason of the SKU capability.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get all App Service plans in an App Service Environment.
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/serverfarms?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/serverfarms?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceEnvironments ListAppServicePlans. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_ListAppServicePlans.json
+           */
+          /**
+           * Sample code: Get all App Service plans in an App Service Environment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAllAppServicePlansInAnAppServiceEnvironment(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .listAppServicePlans("test-rg", "test-ase", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_ListAppServicePlans.json
+      func ExampleEnvironmentsClient_NewListAppServicePlansPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListAppServicePlansPager("test-rg",
+      		"test-ase",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all App Service plans in an App Service Environment.
+       *
+       * @summary Description for Get all App Service plans in an App Service Environment.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_ListAppServicePlans.json
+       */
+      async function getAllAppServicePlansInAnAppServiceEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.appServiceEnvironments.listAppServicePlans(
+          resourceGroupName,
+          name
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getAllAppServicePlansInAnAppServiceEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/serverfarms/test-asp",
+            "name": "test-asp",
+            "type": "Microsoft.Web/serverfarms",
+            "kind": "app",
+            "location": "Central US EUAP",
+            "tags": {},
+            "properties": {
+              "workerTierName": null,
+              "status": "Ready",
+              "subscription": "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345",
+              "hostingEnvironmentProfile": {
+                "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase",
+                "name": "test-ase",
+                "type": "Microsoft.Web/hostingEnvironments"
+              },
+              "maximumNumberOfWorkers": 100,
+              "geoRegion": "Central US EUAP",
+              "perSiteScaling": false,
+              "elasticScaleEnabled": false,
+              "maximumElasticWorkerCount": 0,
+              "numberOfSites": 0,
+              "isSpot": false,
+              "spotExpirationTime": null,
+              "freeOfferExpirationTime": null,
+              "resourceGroup": "test-rg",
+              "reserved": false,
+              "isXenon": false,
+              "hyperV": false,
+              "targetWorkerCount": 1,
+              "targetWorkerSizeId": 0,
+              "provisioningState": null,
+              "kubeEnvironmentProfile": null,
+              "zoneRedundant": false
+            },
+            "sku": {
+              "name": "I1",
+              "tier": "Isolated",
+              "size": "I1",
+              "family": "I",
+              "capacity": 0
+            }
+          }
+        ],
+        "nextLink": null
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -437,5 +600,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get all App Service plans in an App Service Environment.
+  description: Learn more about App Service service - Description for Get all App Service plans in an App Service Environment.
 errorCodes: []

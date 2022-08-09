@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.updatestaticsiteuser
 name: Update Static Site User
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
-summary: Updates a user entry with the listed roles
+apiVersion: 2022-03-01
+summary: Description for Updates a user entry with the listed roles
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}?api-version=2021-02-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/authproviders/{authprovider}/users/{userid}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -174,7 +174,7 @@ definitions:
 examples:
 - name: Create or update a user for a static site
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/authproviders/aad/users/1234?api-version=2021-02-01
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/authproviders/aad/users/1234?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -184,7 +184,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/authproviders/aad/users/1234?api-version=2021-02-01
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/authproviders/aad/users/1234?api-version=2022-03-01
 
       {
         "properties": {
@@ -194,6 +194,39 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.StaticSiteUserArmResourceInner;
+
+      /** Samples for StaticSites UpdateStaticSiteUser. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdateStaticSiteUser.json
+           */
+          /**
+           * Sample code: Create or update a user for a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAUserForAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .updateStaticSiteUserWithResponse(
+                      "rg",
+                      "testStaticSite0",
+                      "aad",
+                      "1234",
+                      new StaticSiteUserArmResourceInner().withRoles("contributor"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -204,36 +237,76 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/UpdateStaticSiteUser.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdateStaticSiteUser.json
       func ExampleStaticSitesClient_UpdateStaticSiteUser() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewStaticSitesClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.UpdateStaticSiteUser(ctx,
-      		"<resource-group-name>",
-      		"<name>",
-      		"<authprovider>",
-      		"<userid>",
+      		"rg",
+      		"testStaticSite0",
+      		"aad",
+      		"1234",
       		armappservice.StaticSiteUserARMResource{
       			Properties: &armappservice.StaticSiteUserARMResourceProperties{
-      				Roles: to.StringPtr("<roles>"),
+      				Roles: to.Ptr("contributor"),
       			},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("StaticSiteUserARMResource.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Updates a user entry with the listed roles
+       *
+       * @summary Description for Updates a user entry with the listed roles
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdateStaticSiteUser.json
+       */
+      async function createOrUpdateAUserForAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const authprovider = "aad";
+        const userid = "1234";
+        const staticSiteUserEnvelope = {
+          roles: "contributor",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.updateStaticSiteUser(
+          resourceGroupName,
+          name,
+          authprovider,
+          userid,
+          staticSiteUserEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAUserForAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -255,5 +328,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Updates a user entry with the listed roles
+  description: Learn more about App Service service - Description for Updates a user entry with the listed roles
 errorCodes: []

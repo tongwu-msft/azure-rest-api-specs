@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.getstaticsitesbyresourcegroup
 name: Get Static Sites By Resource Group
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
-summary: Gets all static sites in the specified resource group.
+apiVersion: 2022-03-01
+summary: Description for Gets all static sites in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -138,9 +138,22 @@ definitions:
     types:
     - uid: StaticSiteUserProvidedFunctionApp
       isArray: true
-  - name: properties.provider
+  - name: properties.linkedBackends
     isReadyOnly: true
+    description: Backends linked to the static side
+    types:
+    - uid: StaticSiteLinkedBackend
+      isArray: true
+  - name: properties.provider
     description: The provider that submitted the last deployment to the primary environment of the static site.
+    types:
+    - uid: string
+  - name: properties.enterpriseGradeCdnStatus
+    description: State indicating the status of the enterprise grade CDN serving traffic to the static web app.
+    types:
+    - uid: EnterpriseGradeCdnStatus
+  - name: properties.publicNetworkAccess
+    description: "State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string."
     types:
     - uid: string
   - name: id
@@ -435,6 +448,44 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: StaticSiteLinkedBackend
+  description: Static Site Linked Backend ARM resource.
+  kind: object
+  properties:
+  - name: backendResourceId
+    description: The resource id of the backend linked to the static site
+    types:
+    - uid: string
+  - name: region
+    description: The region of the backend linked to the static site
+    types:
+    - uid: string
+  - name: createdOn
+    isReadyOnly: true
+    description: The date and time on which the backend was linked to the static site.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the linking process.
+    types:
+    - uid: string
+- name: EnterpriseGradeCdnStatus
+  description: State indicating the status of the enterprise grade CDN serving traffic to the static web app.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -655,13 +706,34 @@ definitions:
 examples:
 - name: Get static sites for a resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites?api-version=2022-03-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites?api-version=2021-02-01
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites?api-version=2022-03-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StaticSites ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSites.json
+           */
+          /**
+           * Sample code: Get static sites for a resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getStaticSitesForAResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getStaticSites().listByResourceGroup("rg", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -671,31 +743,63 @@ examples:
       	"log"
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/GetStaticSites.json
-      func ExampleStaticSitesClient_GetStaticSitesByResourceGroup() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSites.json
+      func ExampleStaticSitesClient_NewGetStaticSitesByResourceGroupPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewStaticSitesClient("<subscription-id>", cred, nil)
-      	pager := client.GetStaticSitesByResourceGroup("<resource-group-name>",
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewGetStaticSitesByResourceGroupPager("rg",
       		nil)
-      	for pager.NextPage(ctx) {
-      		if err := pager.Err(); err != nil {
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
       		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("StaticSiteARMResource.ID: %s\n", *v.ID)
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
       		}
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Gets all static sites in the specified resource group.
+       *
+       * @summary Description for Gets all static sites in the specified resource group.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSites.json
+       */
+      async function getStaticSitesForAResourceGroup() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.staticSites.listStaticSitesByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getStaticSitesForAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -714,7 +818,8 @@ examples:
               "privateEndpointConnections": [],
               "contentDistributionEndpoint": "",
               "keyVaultReferenceIdentity": "SystemAssigned",
-              "userProvidedFunctionApps": [],
+              "userProvidedFunctionApps": null,
+              "linkedBackends": [],
               "stagingEnvironmentPolicy": "Enabled",
               "allowConfigFileUpdates": true
             },
@@ -736,5 +841,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Gets all static sites in the specified resource group.
+  description: Learn more about App Service service - Description for Gets all static sites in the specified resource group.
 errorCodes: []

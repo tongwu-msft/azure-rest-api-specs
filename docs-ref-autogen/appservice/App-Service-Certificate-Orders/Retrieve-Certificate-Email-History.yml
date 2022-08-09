@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.retrievecertifi
 name: Retrieve Certificate Email History
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
-summary: Retrieve email history.
+apiVersion: 2022-03-01
+summary: Description for Retrieve email history.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory?api-version=2015-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveEmailHistory?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,40 +43,193 @@ responses:
   types:
   - uid: CertificateEmail
     isArray: true
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: CertificateEmail
   description: SSL certificate email.
   kind: object
   properties:
-  - name: properties.emailId
+  - name: emailId
     description: Email id.
     types:
     - uid: string
-  - name: properties.timeStamp
+  - name: timeStamp
     description: Time stamp.
     types:
     - uid: string
-  - name: id
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
     isReadyOnly: true
-    description: Resource Id.
+    description: Error model.
     types:
-    - uid: string
-  - name: name
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
     isReadyOnly: true
-    description: Resource Name.
+    description: Standardized string to programmatically identify the error.
     types:
     - uid: string
-  - name: kind
-    description: Kind of resource.
-    types:
-    - uid: string
-  - name: type
+  - name: message
     isReadyOnly: true
-    description: Resource type.
+    description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Retrieve Certificate Email History
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveEmailHistory?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveEmailHistory?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceCertificateOrders RetrieveCertificateEmailHistory. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateEmailHistory.json
+           */
+          /**
+           * Sample code: Retrieve Certificate Email History.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void retrieveCertificateEmailHistory(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceCertificateOrders()
+                  .retrieveCertificateEmailHistoryWithResponse("testrg123", "SampleCertOrder", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateEmailHistory.json
+      func ExampleCertificateOrdersClient_RetrieveCertificateEmailHistory() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewCertificateOrdersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.RetrieveCertificateEmailHistory(ctx,
+      		"testrg123",
+      		"SampleCertOrder",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Retrieve email history.
+       *
+       * @summary Description for Retrieve email history.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateEmailHistory.json
+       */
+      async function retrieveCertificateEmailHistory() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const name = "SampleCertOrder";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceCertificateOrders.retrieveCertificateEmailHistory(
+          resourceGroupName,
+          name
+        );
+        console.log(result);
+      }
+
+      retrieveCertificateEmailHistory().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "emailId": "customer@email.com",
+          "timeStamp": "2022-11-12T23:40:25+00:00"
+        },
+        {
+          "emailId": "customer@email.com",
+          "timeStamp": "2021-11-12T23:40:25+00:00"
+        }
+      ]
 security:
 - name: azure_auth
   type: oauth2
@@ -87,5 +240,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Retrieve email history.
+  description: Learn more about App Service service - Description for Retrieve email history.
 errorCodes: []

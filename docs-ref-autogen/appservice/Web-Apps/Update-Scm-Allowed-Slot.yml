@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.webapps.updatescmallowedslot
 name: Update Scm Allowed Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2021-02-01
-summary: Updates whether user publishing credentials are allowed on the site or not.
+apiVersion: 2022-03-01
+summary: Description for Updates whether user publishing credentials are allowed on the site or not.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/basicPublishingCredentialsPolicies/scm?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -153,7 +153,7 @@ definitions:
 examples:
 - name: Update SCM Allowed
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/basicPublishingCredentialsPolicies/scm?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/basicPublishingCredentialsPolicies/scm?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -163,7 +163,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/basicPublishingCredentialsPolicies/scm?api-version=2021-02-01
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/sites/testSite/slots/stage/basicPublishingCredentialsPolicies/scm?api-version=2022-03-01
 
       {
         "properties": {
@@ -173,6 +173,38 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.CsmPublishingCredentialsPoliciesEntityInner;
+
+      /** Samples for WebApps UpdateFtpAllowedSlot. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdatePublishingCredentialsPolicySlot.json
+           */
+          /**
+           * Sample code: Update FTP Allowed.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateFTPAllowed(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getWebApps()
+                  .updateFtpAllowedSlotWithResponse(
+                      "rg",
+                      "testSite",
+                      "stage",
+                      new CsmPublishingCredentialsPoliciesEntityInner().withAllow(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -183,35 +215,73 @@ examples:
 
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/UpdatePublishingCredentialsPolicySlot.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdatePublishingCredentialsPolicySlot.json
       func ExampleWebAppsClient_UpdateScmAllowedSlot() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewWebAppsClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewWebAppsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.UpdateScmAllowedSlot(ctx,
-      		"<resource-group-name>",
-      		"<name>",
-      		"<slot>",
+      		"rg",
+      		"testSite",
+      		"stage",
       		armappservice.CsmPublishingCredentialsPoliciesEntity{
       			Properties: &armappservice.CsmPublishingCredentialsPoliciesEntityProperties{
-      				Allow: to.BoolPtr(true),
+      				Allow: to.Ptr(true),
       			},
       		},
       		nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("CsmPublishingCredentialsPoliciesEntity.ID: %s\n", *res.ID)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Updates whether FTP is allowed on the site or not.
+       *
+       * @summary Description for Updates whether FTP is allowed on the site or not.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/UpdatePublishingCredentialsPolicySlot.json
+       */
+      async function updateFtpAllowed() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testSite";
+        const slot = "stage";
+        const csmPublishingAccessPoliciesEntity = {
+          allow: true,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.webApps.updateFtpAllowedSlot(
+          resourceGroupName,
+          name,
+          slot,
+          csmPublishingAccessPoliciesEntity
+        );
+        console.log(result);
+      }
+
+      updateFtpAllowed().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -230,5 +300,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Updates whether user publishing credentials are allowed on the site or not.
+  description: Learn more about App Service service - Description for Updates whether user publishing credentials are allowed on the site or not.
 errorCodes: []

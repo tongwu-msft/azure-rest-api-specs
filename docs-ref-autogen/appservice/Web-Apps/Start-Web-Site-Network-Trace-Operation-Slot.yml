@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.webapps.startwebsitenetworktraceoperationsl
 name: Start Web Site Network Trace Operation Slot
 service: App Service
 groupName: Web Apps
-apiVersion: 2021-02-01
-summary: Start capturing network packets for the site.
+apiVersion: 2022-03-01
+summary: Description for Start capturing network packets for the site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation?api-version=2021-02-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation?durationInSeconds={durationInSeconds}&maxFrameLength={maxFrameLength}&sasUrl={sasUrl}&api-version=2021-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation?api-version=2022-03-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/slots/{slot}/networkTrace/startOperation?durationInSeconds={durationInSeconds}&maxFrameLength={maxFrameLength}&sasUrl={sasUrl}&api-version=2022-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -154,13 +154,39 @@ definitions:
 examples:
 - name: Start a new network trace operation for a site
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/slots/Production/networkTrace/startOperation?durationInSeconds=60&api-version=2021-02-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/slots/Production/networkTrace/startOperation?durationInSeconds=60&api-version=2022-03-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/networkTrace/startOperation?durationInSeconds=60&api-version=2021-02-01
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Web/sites/SampleApp/networkTrace/startOperation?durationInSeconds=60&api-version=2022-03-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WebApps StartNetworkTrace. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StartWebSiteNetworkTraceOperation.json
+           */
+          /**
+           * Sample code: Start a new network trace operation for a site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void startANewNetworkTraceOperationForASite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getWebApps()
+                  .startNetworkTrace("testrg123", "SampleApp", 60, null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armappservice_test
@@ -169,39 +195,77 @@ examples:
       	"context"
       	"log"
 
-      	"time"
-
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
       )
 
-      // x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2021-02-01/examples/StartWebSiteNetworkTraceOperation.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StartWebSiteNetworkTraceOperation.json
       func ExampleWebAppsClient_BeginStartNetworkTrace() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armappservice.NewWebAppsClient("<subscription-id>", cred, nil)
+      	client, err := armappservice.NewWebAppsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	poller, err := client.BeginStartNetworkTrace(ctx,
-      		"<resource-group-name>",
-      		"<name>",
-      		&armappservice.WebAppsBeginStartNetworkTraceOptions{DurationInSeconds: to.Int32Ptr(60),
+      		"testrg123",
+      		"SampleApp",
+      		&armappservice.WebAppsClientBeginStartNetworkTraceOptions{DurationInSeconds: to.Ptr[int32](60),
       			MaxFrameLength: nil,
       			SasURL:         nil,
       		})
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	res, err := poller.PollUntilDone(ctx, nil)
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to pull the result: %v", err)
       	}
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv0.1.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Start capturing network packets for the site.
+       *
+       * @summary Description for Start capturing network packets for the site.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StartWebSiteNetworkTraceOperation.json
+       */
+      async function startANewNetworkTraceOperationForASite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const name = "SampleApp";
+        const durationInSeconds = 60;
+        const slot = "Production";
+        const options = {
+          durationInSeconds,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.webApps.beginStartWebSiteNetworkTraceOperationSlotAndWait(
+          resourceGroupName,
+          name,
+          slot,
+          options
+        );
+        console.log(result);
+      }
+
+      startANewNetworkTraceOperationForASite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -236,5 +300,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Start capturing network packets for the site.
+  description: Learn more about App Service service - Description for Start capturing network packets for the site.
 errorCodes: []
