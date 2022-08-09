@@ -14,7 +14,7 @@ ms.author: pemari
 > [!NOTE]
 >  Storage Analytics metrics are now Classic metrics. Microsoft recommends using [Storage Metrics in Azure Monitor](/azure/storage/common/storage-metrics-in-azure-monitor) instead of Storage Analytics metrics.
 
-Storage Analytics Metrics aggregates transaction data and capacity data for a storage account. Transactions metrics are recorded for the Blob, Table, Queue, and File services. Currently, capacity metrics are only recorded for the Blob service. Transaction data and capacity data is stored in well-known tables, as described in the following table:  
+Storage Analytics Metrics aggregates transaction data and capacity data for a storage account. Transactions metrics are recorded for the Blob, Table, Queue, and File services. Currently, capacity metrics are only recorded for the Blob service. Transaction data and capacity data are stored in well-known tables, as described in the following table:  
 
 |Metrics Level|Table Names|Supported for Versions|  
 |-------------------|-----------------|----------------------------|  
