@@ -3,14 +3,14 @@ uid: management.azure.com.media.liveoutputs.list
 name: List
 service: Media Services
 groupName: Live Outputs
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: "List Live Outputs  \nLists the live outputs of a live event."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -98,6 +98,10 @@ definitions:
     - uid: string
   - name: properties.archiveWindowLength
     description: ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window.
+    types:
+    - uid: string
+  - name: properties.rewindWindowLength
+    description: ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL.
     types:
     - uid: string
   - name: properties.manifestName
@@ -263,104 +267,13 @@ definitions:
 examples:
 - name: List all LiveOutputs
   request:
-    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs?api-version=2021-11-01
+      GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs?api-version=2022-08-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for LiveOutputs List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/liveoutput-list-all.json
-           */
-          /**
-           * Sample code: List all LiveOutputs.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void listAllLiveOutputs(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager.liveOutputs().list("mediaresources", "slitestmedia10", "myLiveEvent1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armmediaservices_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/liveoutput-list-all.json
-      func ExampleLiveOutputsClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armmediaservices.NewLiveOutputsClient("0a6ec948-5a62-437d-b9df-934dc7c1b722", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("mediaresources",
-      		"slitestmedia10",
-      		"myLiveEvent1",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Lists the live outputs of a live event.
-       *
-       * @summary Lists the live outputs of a live event.
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/liveoutput-list-all.json
-       */
-      async function listAllLiveOutputs() {
-        const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
-        const resourceGroupName = "mediaresources";
-        const accountName = "slitestmedia10";
-        const liveEventName = "myLiveEvent1";
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.liveOutputs.list(resourceGroupName, accountName, liveEventName)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      listAllLiveOutputs().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -373,7 +286,7 @@ examples:
             "properties": {
               "description": null,
               "assetName": "95dafce4-5320-464c-8597-909373854119",
-              "archiveWindowLength": "PT30S",
+              "archiveWindowLength": "PT5M",
               "manifestName": "c3a23d4b-02a6-4937-a1ad-6416f463fdca",
               "outputSnapTime": 0,
               "resourceState": "Running",
@@ -382,7 +295,16 @@ examples:
               "lastModified": "0001-01-01T00:00:00-08:00",
               "hls": {
                 "fragmentsPerTsSegment": 5
-              }
+              },
+              "rewindWindowLength": "PT4M"
+            },
+            "systemData": {
+              "createdBy": "example@microsoft.com",
+              "createdByType": "User",
+              "createdAt": "0001-01-01T00:00:00-08:00",
+              "lastModifiedBy": "example@microsoft.com",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "0001-01-01T00:00:00-08:00"
             }
           }
         ]

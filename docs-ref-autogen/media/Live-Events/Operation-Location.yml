@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.media.liveevents.get
-name: Get
+uid: management.azure.com.media.liveevents.operationlocation
+name: Operation Location
 service: Media Services
 groupName: Live Events
 apiVersion: 2022-08-01
-summary: "Get Live Event  \nGets properties of a live event."
+summary: "Get operation status.  \nGet a live event operation status."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/operationLocations/{operationId}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,6 +37,12 @@ uriParameters:
   types:
   - uid: string
   pattern: ^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$
+- name: operationId
+  in: path
+  isRequired: true
+  description: The ID of an ongoing async operation.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -48,6 +54,8 @@ responses:
   description: OK. The request has succeeded.
   types:
   - uid: LiveEvent
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously. See https://go.microsoft.com/fwlink/?linkid=2087017 for details on the monitoring asynchronous Azure Operations.
 - name: Other Status Codes
   description: The streaming error response describing why the operation failed.
   types:
@@ -506,16 +514,17 @@ definitions:
     types:
     - uid: integer
 examples:
-- name: Get a LiveEvent by name
+- name: Get the LiveEvent operation status
   request:
-    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2022-08-01
+    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/operationLocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2022-08-01
+      GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/operationLocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
       ```
 
   responses:
+  - statusCode: "202"
   - statusCode: "200"
     body: >-
       {
@@ -574,9 +583,17 @@ examples:
             "clientAccessPolicy": "<access-policy><cross-domain-access><policy><allow-from http-methods=\"*\"><domain uri=\"http://*\"/></allow-from><grant-to><resource path=\"/\" include-subpaths=\"true\"/></grant-to></policy></cross-domain-access></access-policy>",
             "crossDomainPolicy": "<cross-domain-policy><allow-access-from domain=\"*\" secure=\"false\" /></cross-domain-policy>"
           }
+        },
+        "systemData": {
+          "createdBy": "example@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2018-03-03T02:25:08.3474032Z",
+          "lastModifiedBy": "example@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-03-03T02:25:08.3474032Z"
         }
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Get Live Event  \nGets properties of a live event."
+  description: "Learn more about Media Services service - Get operation status.  \nGet a live event operation status."
 errorCodes: []
