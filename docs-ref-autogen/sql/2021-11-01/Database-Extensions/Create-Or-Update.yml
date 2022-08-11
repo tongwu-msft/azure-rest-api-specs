@@ -1,0 +1,524 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.databaseextensions.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Database Extensions
+apiVersion: 2021-11-01
+summary: Perform a database extension operation, like database import, database export, or polybase import
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/extensions/{extensionName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: extensionName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully completed import/export operation.
+  types:
+  - uid: ImportExportExtensionsOperationResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 MissingImportExportInputParameters - Missing ImportExport input parameters.
+
+     * 400 InvalidImportExportInputParameter - The import/export request failed due to an invalid input parameter.
+
+     * 400 PolybaseImportAuthenticationTypeNotSupported - Authentication type parameter is not support for PolybaseImport operation.
+
+     * 400 DatabaseExtensionsInvalidOperationMode - Invalid operationMode parameter for database extension.
+
+     * 400 DatabaseExtensionsInvalidStorageKeyType - The storage key type must by 'StorageAccessKey'.
+
+     * 400 DatabaseExtensionsMissingStorageUri - Storage URI cannot be empty.
+
+     * 400 InvalidSku - The user specified an invalid sku.
+
+     * 400 InvalidTierSkuCombination - The specified tier does not support the specified sku.
+
+     * 400 DatabaseInvalidSkuPropertyCombination - The properties of the requested sku are inconsistent. Please check that a valid combination is specified. See https://docs.microsoft.com/en-us/rest/api/sql/capabilities/listbylocation#serviceobjectivecapability for more details.
+
+     * 400 InvalidMaxSizeTierCombination - The specified tier does not support the specified database max size.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 400 InvalidImportExportParameter - The Import/Export request failed due to an invalid input parameter.
+
+     * 400 InvalidTier - The user specified an invalid tier.
+
+     * 400 InvalidOperationType - Provide a valid operation type.
+
+     * 400 ImportExportJobError - The ImportExport operation has failed.
+
+     * 400 BlockedByOutboundFirewall - The outbound firewall rules blocked the request.
+
+     * 404 ResourceNotFound - Invalid request specifying a non-existent resource.
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ImportExportOperationIdNotFound - The operation Id for import or export cannot be found.
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 ImportExportOperationInProgress - There is an import or export operation in progress on the database.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+- name: 202 Accepted
+  description: Import/Export operation is in progress.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.operationMode
+    in: body
+    isRequired: true
+    description: 'Operation mode of the operation: Import, Export, or PolybaseImport.'
+    types:
+    - uid: OperationMode
+  - name: properties.storageKeyType
+    in: body
+    isRequired: true
+    description: 'Storage key type: StorageAccessKey or SharedAccessKey.'
+    types:
+    - uid: StorageKeyType
+  - name: properties.storageKey
+    in: body
+    isRequired: true
+    description: Storage key for the storage account.
+    types:
+    - uid: string
+  - name: properties.storageUri
+    in: body
+    isRequired: true
+    description: Storage Uri for the storage account.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    in: body
+    description: Administrator login name.
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    in: body
+    description: Administrator login password.
+    types:
+    - uid: string
+  - name: properties.authenticationType
+    in: body
+    description: 'Authentication type: SQL authentication or AD password.'
+    types:
+    - uid: string
+  - name: properties.databaseEdition
+    in: body
+    description: Database edition for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.serviceObjectiveName
+    in: body
+    description: Database service level objective for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.maxSizeBytes
+    in: body
+    description: Database max size in bytes for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.networkIsolation
+    in: body
+    description: Optional resource information to enable network isolation for request.
+    types:
+    - uid: NetworkIsolationSettings
+requestHeader: []
+definitions:
+- name: NetworkIsolationSettings
+  description: Contains the ARM resources for which to create private endpoint connection.
+  kind: object
+  properties:
+  - name: storageAccountResourceId
+    description: The resource id for the storage account used to store BACPAC file. If set, private endpoint connection will be created for the storage account. Must match storage account used for StorageUri parameter.
+    types:
+    - uid: string
+  - name: sqlServerResourceId
+    description: The resource id for the SQL server which is the target of this request. If set, private endpoint connection will be created for the SQL server. Must match server which is target of the operation.
+    types:
+    - uid: string
+- name: ImportExportExtensionsOperationResult
+  description: An Extension operation result resource.
+  kind: object
+  properties:
+  - name: properties.requestId
+    isReadyOnly: true
+    description: Request Id.
+    types:
+    - uid: string
+  - name: properties.requestType
+    isReadyOnly: true
+    description: Request type.
+    types:
+    - uid: string
+  - name: properties.lastModifiedTime
+    isReadyOnly: true
+    description: Last modified time.
+    types:
+    - uid: string
+  - name: properties.serverName
+    isReadyOnly: true
+    description: Server name.
+    types:
+    - uid: string
+  - name: properties.databaseName
+    isReadyOnly: true
+    description: Database name.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Operation status.
+    types:
+    - uid: string
+  - name: properties.errorMessage
+    isReadyOnly: true
+    description: Error message.
+    types:
+    - uid: string
+  - name: properties.queuedTime
+    isReadyOnly: true
+    description: Queued time.
+    types:
+    - uid: string
+  - name: properties.blobUri
+    isReadyOnly: true
+    description: Blob URI.
+    types:
+    - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: Gets the status of private endpoints associated with this request.
+    types:
+    - uid: PrivateEndpointConnectionRequestStatus
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DatabaseExtensions
+  description: An Import, Export, or PolybaseImport resource.
+  kind: object
+  properties:
+  - name: properties.operationMode
+    description: 'Operation mode of the operation: Import, Export, or PolybaseImport.'
+    types:
+    - uid: OperationMode
+  - name: properties.storageKeyType
+    description: 'Storage key type: StorageAccessKey or SharedAccessKey.'
+    types:
+    - uid: StorageKeyType
+  - name: properties.storageKey
+    description: Storage key for the storage account.
+    types:
+    - uid: string
+  - name: properties.storageUri
+    description: Storage Uri for the storage account.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator login name.
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: Administrator login password.
+    types:
+    - uid: string
+  - name: properties.authenticationType
+    description: 'Authentication type: SQL authentication or AD password.'
+    types:
+    - uid: string
+  - name: properties.databaseEdition
+    description: Database edition for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.serviceObjectiveName
+    description: Database service level objective for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.maxSizeBytes
+    description: Database max size in bytes for the newly created database in the case of an import operation.
+    types:
+    - uid: string
+  - name: properties.networkIsolation
+    description: Optional resource information to enable network isolation for request.
+    types:
+    - uid: NetworkIsolationSettings
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionRequestStatus
+  description: Contains the private endpoint connection requests status.
+  kind: object
+  properties:
+  - name: privateLinkServiceId
+    isReadyOnly: true
+    description: Resource id for which the private endpoint is created.
+    types:
+    - uid: string
+  - name: privateEndpointConnectionName
+    isReadyOnly: true
+    description: The connection name for the private endpoint.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of this private endpoint connection.
+    types:
+    - uid: string
+- name: OperationMode
+  description: 'Operation mode of the operation: Import, Export, or PolybaseImport.'
+  kind: enum
+  properties:
+  - name: PolybaseImport
+    types:
+    - uid: string
+  - name: Import
+    types:
+    - uid: string
+  - name: Export
+    types:
+    - uid: string
+- name: StorageKeyType
+  description: 'Storage key type: StorageAccessKey or SharedAccessKey.'
+  kind: enum
+  properties:
+  - name: SharedAccessKey
+    types:
+    - uid: string
+  - name: StorageAccessKey
+    types:
+    - uid: string
+examples:
+- name: Create or Update database extensions.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/a1c0814d-3c18-4e1e-a247-c128c12b1677/resourceGroups/rg_20cbe0f0-c2d9-4522-9177-5469aad53029/providers/Microsoft.Sql/servers/srv_1ffd1cf8-9951-47fb-807d-a9c384763849/databases/878e303f-1ea0-4f17-aa3d-a22ac5e9da08/extensions/polybaseimport?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "operationMode": "PolybaseImport",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/a1c0814d-3c18-4e1e-a247-c128c12b1677/resourceGroups/rg_20cbe0f0-c2d9-4522-9177-5469aad53029/providers/Microsoft.Sql/servers/srv_1ffd1cf8-9951-47fb-807d-a9c384763849/databases/878e303f-1ea0-4f17-aa3d-a22ac5e9da08/extensions/polybaseimport?api-version=2021-11-01
+
+      {
+        "properties": {
+          "operationMode": "PolybaseImport",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "requestId": "10000000-0000-0000-0000-000000000002",
+          "requestType": "PolybaseImport",
+          "lastModifiedTime": "lastModifiedTime",
+          "serverName": "srv_1ffd1cf8-9951-47fb-807d-a9c384763849",
+          "databaseName": "878e303f-1ea0-4f17-aa3d-a22ac5e9da08",
+          "status": "succeeded"
+        },
+        "id": "10000000-0000-0000-0000-000000000002",
+        "name": "10000000-0000-0000-0000-000000000002",
+        "type": "Microsoft.Sql/servers/databases/extensions"
+      }
+- name: Import database using database extension.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/17ca4d13-bf7d-4c33-a60e-b87a2820a325/resourceGroups/rg_062866bf-c4f4-41f9-abf0-b59132ca7924/providers/Microsoft.Sql/servers/srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82/databases/db_2a47e946-e414-4c00-94ac-ed886bb78302/extensions/Import?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
+          "administratorLogin": "login",
+          "administratorLoginPassword": "password",
+          "authenticationType": "Sql"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/17ca4d13-bf7d-4c33-a60e-b87a2820a325/resourceGroups/rg_062866bf-c4f4-41f9-abf0-b59132ca7924/providers/Microsoft.Sql/servers/srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82/databases/db_2a47e946-e414-4c00-94ac-ed886bb78302/extensions/Import?api-version=2021-11-01
+
+      {
+        "properties": {
+          "operationMode": "Import",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
+          "administratorLogin": "login",
+          "administratorLoginPassword": "password",
+          "authenticationType": "Sql"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "requestId": "10000000-0000-0000-0000-000000000002",
+          "requestType": "Import",
+          "lastModifiedTime": "lastModifiedTime",
+          "serverName": "srv_2d6be2d2-26c8-4930-8fb6-82a5e95e0e82",
+          "databaseName": "db_2a47e946-e414-4c00-94ac-ed886bb78302",
+          "status": "Completed",
+          "queuedTime": "09/10/2021 18:35:10",
+          "blobUri": "https://teststorage.blob.core.windows.net/testcontainer/samplebacpac.bacpac",
+          "privateEndpointConnections": []
+        },
+        "id": "10000000-0000-0000-0000-000000000002",
+        "name": "10000000-0000-0000-0000-000000000002",
+        "type": "Microsoft.Sql/servers/databases/extensions"
+      }
+  - statusCode: "202"
+- name: Export database using database extension.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf/resourceGroups/rg_d1ef9eae-044d-4710-ba59-b82e84ad3157/providers/Microsoft.Sql/servers/srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c/databases/db_7fe424c8-23cf-4ac3-bdc3-e21f424bdb68/extensions/Export?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "operationMode": "Export",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
+          "administratorLogin": "login",
+          "administratorLoginPassword": "password",
+          "authenticationType": "Sql"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/0ca8cd24-0b47-4ad5-bc7e-d70e35c44adf/resourceGroups/rg_d1ef9eae-044d-4710-ba59-b82e84ad3157/providers/Microsoft.Sql/servers/srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c/databases/db_7fe424c8-23cf-4ac3-bdc3-e21f424bdb68/extensions/Export?api-version=2021-11-01
+
+      {
+        "properties": {
+          "operationMode": "Export",
+          "storageKeyType": "StorageAccessKey",
+          "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+          "storageUri": "https://teststorage.blob.core.windows.net/testcontainer/Manifest.xml",
+          "administratorLogin": "login",
+          "administratorLoginPassword": "password",
+          "authenticationType": "Sql"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "requestId": "10000000-0000-0000-0000-000000000002",
+          "requestType": "Export",
+          "lastModifiedTime": "lastModifiedTime",
+          "serverName": "srv_9243d320-ac4e-4f97-8e06-b1167dae5f4c",
+          "databaseName": "db_7fe424c8-23cf-4ac3-bdc3-e21f424bdb68",
+          "status": "Completed",
+          "queuedTime": "09/10/2021 18:35:10",
+          "blobUri": "https://teststorage.blob.core.windows.net/testcontainer/samplebacpac.bacpac",
+          "privateEndpointConnections": []
+        },
+        "id": "10000000-0000-0000-0000-000000000002",
+        "name": "10000000-0000-0000-0000-000000000002",
+        "type": "Microsoft.Sql/servers/databases/extensions"
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: Learn more about SQL Database service - Perform a database extension operation, like database import, database export, or polybase import
+errorCodes: []

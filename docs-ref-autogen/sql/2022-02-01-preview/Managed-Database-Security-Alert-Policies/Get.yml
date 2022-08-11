@@ -1,0 +1,204 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.manageddatabasesecurityalertpolicies.get
+name: Get
+service: SQL Database
+groupName: Managed Database Security Alert Policies
+apiVersion: 2022-02-01-preview
+summary: Gets a managed database's security alert policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/default?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the managed database for which the security alert policy is defined.
+  types:
+  - uid: string
+- name: securityAlertPolicyName
+  in: path
+  isRequired: true
+  description: The name of the security alert policy.
+  types:
+  - uid: SecurityAlertPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the managed database security alert policy.
+  types:
+  - uid: ManagedDatabaseSecurityAlertPolicy
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 SecurityAlertPoliciesInvalidStorageAccountName - The provided storage account is not valid or does not exist.
+
+     * 400 SecurityAlertPoliciesInvalidStorageAccountCredentials - The provided storage account access key is not valid.
+
+     * 400 UpdateNotAllowedOnServerContainingPausedDWDatabase - Setting server Threat Detection settings is not allowed on a server with a paused Data Warehouse database
+
+     * 400 SecurityAlertPoliciesInsufficientDiskSpace - Insufficient disk space to save security alert policy metadata in the database
+
+     * 400 SecurityAlertPoliciesInsufficientStorageAccountPermissions - Insufficient read or write permissions on the provided storage account.
+
+     * 400 SecurityAlertPoliciesStorageAccountIsDisabled - The storage account provided in the threat detection policy is disabled.
+
+     * 400 InvalidServerSecurityAlertPolicyCreateRequest - The create server Threat Detection security alert policy request does not exist or has no properties object.
+
+     * 400 DataSecurityInvalidUserSuppliedParameter - An invalid parameter value was provided by the client.
+
+     * 400 UpsertServerSecurityAlertPolicyFailed - An error has occurred while saving Threat detection settings, please try again later
+
+     * 400 UpsertServerSecurityAlertPolicyFailed - An error has occurred while saving Threat detection settings, please try again later
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 UpsertServerSecurityAlertPolicyFailed - An error has occurred while saving Threat detection settings, please try again later
+
+     * 409 ServerSecurityAlertPolicyInProgress - Set server security alert policy is already in progress
+
+     * 409 UpsertServerSecurityAlertPolicyFailed - An error has occurred while saving Threat detection settings, please try again later
+
+     * 500 DatabaseIsUnavailable - Loading failed. Please try again later.
+
+     * 500 UpsertServerSecurityAlertPolicyFailed - An error has occurred while saving Threat detection settings, please try again later
+
+     * 500 GetServerSecurityAlertPolicyFailed - Failed to get Threat Detection settings
+requestHeader: []
+definitions:
+- name: SecurityAlertPolicyName
+  description: The name of the security alert policy.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: ManagedDatabaseSecurityAlertPolicy
+  description: A managed database security alert policy.
+  kind: object
+  properties:
+  - name: properties.state
+    description: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database.
+    types:
+    - uid: SecurityAlertPolicyState
+  - name: properties.disabledAlerts
+    description: 'Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAddresses
+    description: Specifies an array of e-mail addresses to which the alert is sent.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAccountAdmins
+    description: Specifies that the alert is sent to the account administrators.
+    types:
+    - uid: boolean
+  - name: properties.storageEndpoint
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    description: Specifies the identifier key of the Threat Detection audit storage account.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    description: Specifies the number of days to keep in the Threat Detection audit logs.
+    types:
+    - uid: integer
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Specifies the UTC creation time of the policy.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SecurityAlertPolicyState
+  description: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database.
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Get a database's threat detection policy
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/managedInstances/securityalert-2080/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/managedInstances/securityalert-2080/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-6852/providers/Microsoft.Sql/managedInstances/securityalert-2080/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "test@contoso.com",
+            "user@contoso.com"
+          ],
+          "disabledAlerts": [
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 0,
+          "storageAccountAccessKey": "",
+          "storageEndpoint": ""
+        }
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a managed database's security alert policy.
+errorCodes: []

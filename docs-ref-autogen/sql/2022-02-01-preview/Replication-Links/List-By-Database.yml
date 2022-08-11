@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.replicationlinks.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Replication Links
+apiVersion: 2022-02-01-preview
+summary: Gets a list of replication links on database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of replication links.
+  types:
+  - uid: ReplicationLinkListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ReplicationLinksReplicationLinkNameIsInvalid - Replication link name should be a valid guid.
+
+     * 400 GeoReplicationDatabaseNotSecondary - The operation expects the database to be a replication target.
+
+     * 400 LedgerNoDropLink - Geo-replication cannot be stopped because the database has Ledger Digest Uploads enabled. Disable Ledger Digest Uploads and retry the operation.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+requestHeader: []
+definitions:
+- name: ReplicationLinkListResult
+  description: A list of replication links.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ReplicationLink
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ReplicationLink
+  description: A replication link.
+  kind: object
+  properties:
+  - name: properties.partnerServer
+    isReadyOnly: true
+    description: Resource partner server.
+    types:
+    - uid: string
+  - name: properties.partnerDatabase
+    isReadyOnly: true
+    description: Resource partner database.
+    types:
+    - uid: string
+  - name: properties.partnerLocation
+    isReadyOnly: true
+    description: Resource partner location.
+    types:
+    - uid: string
+  - name: properties.role
+    isReadyOnly: true
+    description: Local replication role.
+    types:
+    - uid: ReplicationRole
+  - name: properties.partnerRole
+    isReadyOnly: true
+    description: Partner replication role.
+    types:
+    - uid: ReplicationRole
+  - name: properties.replicationMode
+    isReadyOnly: true
+    description: Replication mode.
+    types:
+    - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: Time at which the link was created.
+    types:
+    - uid: string
+  - name: properties.percentComplete
+    isReadyOnly: true
+    description: Seeding completion percentage for the link.
+    types:
+    - uid: integer
+  - name: properties.replicationState
+    isReadyOnly: true
+    description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+    types:
+    - uid: ReplicationState
+  - name: properties.isTerminationAllowed
+    isReadyOnly: true
+    description: Whether the user is currently allowed to terminate the link.
+    types:
+    - uid: boolean
+  - name: properties.linkType
+    isReadyOnly: true
+    description: Link type (GEO, NAMED, STANDBY).
+    types:
+    - uid: ReplicationLinkType
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ReplicationRole
+  description: Local replication role.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+  - name: NonReadableSecondary
+    types:
+    - uid: string
+  - name: Source
+    types:
+    - uid: string
+  - name: Copy
+    types:
+    - uid: string
+- name: ReplicationState
+  description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+  kind: enum
+  properties:
+  - name: PENDING
+    types:
+    - uid: string
+  - name: SEEDING
+    types:
+    - uid: string
+  - name: CATCH_UP
+    types:
+    - uid: string
+  - name: SUSPENDED
+    types:
+    - uid: string
+- name: ReplicationLinkType
+  description: Link type (GEO, NAMED, STANDBY).
+  kind: enum
+  properties:
+  - name: GEO
+    types:
+    - uid: string
+  - name: NAMED
+    types:
+    - uid: string
+  - name: STANDBY
+    types:
+    - uid: string
+examples:
+- name: List replication links on server on database.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/tetha-db/replicationLinks?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/tetha-db/replicationLinks?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "partnerServer": "testsvr",
+              "partnerDatabase": "tetha-db",
+              "partnerLocation": "Japan East",
+              "role": "Primary",
+              "partnerRole": "Secondary",
+              "replicationMode": "ASYNC",
+              "startTime": "2018-06-21T08:11:46.907Z",
+              "percentComplete": 100,
+              "replicationState": "CATCH_UP",
+              "isTerminationAllowed": true,
+              "linkType": "GEO"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/tetha-db/replicationLinks/fb92de60-eb87-4a58-b250-3362d0cfdf26",
+            "name": "fb92de60-eb87-4a58-b250-3362d0cfdf26"
+          },
+          {
+            "properties": {
+              "partnerServer": "targetsvr",
+              "partnerDatabase": "tetha-db",
+              "partnerLocation": "Japan East",
+              "role": "Primary",
+              "partnerRole": "Secondary",
+              "replicationMode": "ASYNC",
+              "startTime": "2018-06-21T08:11:34.423Z",
+              "percentComplete": 100,
+              "replicationState": "CATCH_UP",
+              "isTerminationAllowed": true,
+              "linkType": "GEO"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/tetha-db/replicationLinks/6ad1eefc-18a2-4fcb-94f3-4b654ba788d7",
+            "name": "6ad1eefc-18a2-4fcb-94f3-4b654ba788d7"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a list of replication links on database.
+errorCodes: []

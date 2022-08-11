@@ -1,0 +1,474 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.manageddatabaserestoredetails.get
+name: Get
+service: SQL Database
+groupName: Managed Database Restore Details
+apiVersion: 2022-02-01-preview
+summary: Gets managed database restore details.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/Default?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: restoreDetailsName
+  in: path
+  isRequired: true
+  description: The name of the restore details to retrieve.
+  types:
+  - uid: RestoreDetailsName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved restore details.
+  types:
+  - uid: ManagedDatabaseRestoreDetailsResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 RestoreDetailsNotAvailableOrExpired - Requested restore details are not available, or have expired.
+
+     * 400 TargetServerDoesNotExist - The target server {0} does not exist or is not ready yet. Please check that it exists and retry the restore request.
+
+     * 400 TargetServerRestoreNotAllowed - The target server {0} is currently not in a state that allows a restore to be started.
+
+     * 400 BackupSetNotFound - No backups were found to restore the database. Please contact support to restore the database.
+
+     * 400 FullBackupNotFound - Full backup can not be found.
+
+     * 400 MissingThumbprint - Can not find server certificate.
+
+     * 400 RestoreFromStripedBackupsNotEnabled - Restoring from striped backups is not supported.
+
+     * 400 BackupSetBroken - Backup set is broken.
+
+     * 400 BrokenRestorePlanNoFullBackup - The restore plan is broken because there is no full backup.
+
+     * 400 SqlRestoreError - Non retriable error occurred while restoring backup with index {0} - {1} {2}
+
+     * 400 BrokenRestorePlanWrongLogBackupLSN - The restore plan is broken because firstLsn of current log backup is not <= lastLsn of next log backup.
+
+     * 400 BrokenRestorePlanWrongDiffBackupLSN - The restore plan is broken because firstLsn of diff backup is not >= firstLsn of full backup.
+
+     * 400 BrokenRestorePlanGapInLogBackups - The restore plan is broken because firstLsn of current log backup is not equal to lastLsn of prev log backup.
+
+     * 400 PartiallyContainedDatabaseUnsupported - "Backup for a partially contained database is not supported."
+
+     * 400 RequiredBackupIsNotLastRestored - Migration cannot be completed because provided backup file name is not the name of the last backup file that is restored.
+
+     * 400 XtpInitializedDuringRestore - Memory-optimized filegroup must be empty in order to be restored on General Purpose tier of SQL Database Managed Instance.
+
+     * 400 FullBackupMissingChecksum - Provided full backup is missing checksum.
+
+     * 400 FullBackupDamaged - Provided full backup is damaged.
+
+     * 400 MissingStripeInBackupSet - Provided backup set has one or more missing stripes.
+
+     * 400 BrokenRestorePlanWrongDiffBaseGUID - The restore plan is broken because DifferentialBaseGuid of diff backup does not match BackupSetGuid of full backup.
+
+     * 400 IncompatiblePhysicalLayoutTooFewDataFiles - Database backup contains incompatible physical layout. No data files are found in the backup.
+
+     * 400 CorruptedPagesInBackupSet - Operation was aborted because RESTORE detected one or more corrupted pages in the backup set.
+
+     * 400 IncompatiblePhysicalLayoutNonOnlineDataFilesExist - Database backup contains incompatible physical layout. Non-online data files exist.
+
+     * 400 CorruptedPagesListMaintenance - Operation was aborted because an internal error occurred while processing the backup taken without checksum.
+
+     * 400 IncompatiblePhysicalLayoutWrongNumberOfLogFiles - Database backup contains incompatible physical layout. Multiple log files are not supported.
+
+     * 400 IncompatiblePhysicalLayoutNonOnlineLogFilesExist - Database backup contains incompatible physical layout. Non-online log files exist.
+
+     * 400 IncompatiblePhysicalLayoutTooManyNonDataLogFiles - Database backup contains incompatible physical layout. Too many non-data/log files.
+
+     * 400 ExternalBackupAlreadySignaledToComplete - The restore request has already been signaled to complete.
+
+     * 400 ExternalBackupRestoreHasNotBeenStarted - The restore request can only be completed once the restore has started.
+
+     * 400 ExternalBackupUpgradeInProgress - The restore request cannot be completed, since upgrade is in progress.
+
+     * 400 IncompatiblePhysicalLayoutTooManyXTPFiles - Database backup contains incompatible physical layout. Multiple files found in the filegroup that contains MEMORY_OPTIMIZED_DATA.
+
+     * 400 BlobStorageFailure - Blob storage failure has occurred.
+
+     * 400 BackupsFromMultipleDatabasesDetectedInTheContainerFromTheStart - There are backups from multiple databases in the container. Please make sure the container has backups from a single database.{0}
+
+     * 400 ManagedIdentityIssueDetectedFromTheStart - Managed identity is not set up properly. Please verify and try again.
+
+     * 400 ManagedInstanceStorageLimitHit - The managed instance has reached its storage limit.
+
+     * 400 AutoCompleteMissingLastBackupName - Auto complete restore request must have lastBackupName parameter provided.
+
+     * 400 BlobStorageServerFailure - Blob storage server failure has occurred.
+
+     * 400 BackupsFromMultipleDatabasesDetectedInTheContainerWhileRestoreInProgress - There are backups from multiple databases in the container. Please make sure the container has backups from a single database.{0}
+
+     * 400 ManagedIdentityIssueDetectedWhileRestoreInProgress - Managed identity is not set up properly. Please verify and try again.
+
+     * 400 ManagedDatabaseNotInRestoringState - Managed database is not in Restoring state.
+requestHeader: []
+definitions:
+- name: RestoreDetailsName
+  description: The name of the restore details to retrieve.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+- name: ManagedDatabaseRestoreDetailsResult
+  description: A managed database restore details.
+  kind: object
+  properties:
+  - name: properties.type
+    isReadyOnly: true
+    description: Restore type.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Restore status.
+    types:
+    - uid: string
+  - name: properties.blockReason
+    isReadyOnly: true
+    description: The reason why restore is in Blocked state.
+    types:
+    - uid: string
+  - name: properties.lastUploadedFileName
+    isReadyOnly: true
+    description: Last uploaded file name.
+    types:
+    - uid: string
+  - name: properties.lastUploadedFileTime
+    isReadyOnly: true
+    description: Last uploaded file time.
+    types:
+    - uid: string
+  - name: properties.lastRestoredFileName
+    isReadyOnly: true
+    description: Last restored file name.
+    types:
+    - uid: string
+  - name: properties.lastRestoredFileTime
+    isReadyOnly: true
+    description: Last restored file time.
+    types:
+    - uid: string
+  - name: properties.percentCompleted
+    isReadyOnly: true
+    description: Percent completed.
+    types:
+    - uid: integer
+  - name: properties.currentRestoredSizeMB
+    isReadyOnly: true
+    description: Current restored size MB.
+    types:
+    - uid: integer
+  - name: properties.currentRestorePlanSizeMB
+    isReadyOnly: true
+    description: Current restore plan size MB.
+    types:
+    - uid: integer
+  - name: properties.currentBackupType
+    isReadyOnly: true
+    description: Current backup type.
+    types:
+    - uid: string
+  - name: properties.currentRestoringFileName
+    isReadyOnly: true
+    description: Current restoring file name.
+    types:
+    - uid: string
+  - name: properties.numberOfFilesDetected
+    isReadyOnly: true
+    description: Number of files detected.
+    types:
+    - uid: integer
+  - name: properties.numberOfFilesQueued
+    isReadyOnly: true
+    description: Number of files queued.
+    types:
+    - uid: integer
+  - name: properties.numberOfFilesSkipped
+    isReadyOnly: true
+    description: Number of files skipped.
+    types:
+    - uid: integer
+  - name: properties.numberOfFilesRestoring
+    isReadyOnly: true
+    description: Number of files restoring.
+    types:
+    - uid: integer
+  - name: properties.numberOfFilesRestored
+    isReadyOnly: true
+    description: Number of files restored.
+    types:
+    - uid: integer
+  - name: properties.numberOfFilesUnrestorable
+    isReadyOnly: true
+    description: Number of files unrestorable.
+    types:
+    - uid: integer
+  - name: properties.fullBackupSets
+    isReadyOnly: true
+    description: Full backup sets.
+    types:
+    - uid: ManagedDatabaseRestoreDetailsBackupSetProperties
+      isArray: true
+  - name: properties.diffBackupSets
+    isReadyOnly: true
+    description: Diff backup sets.
+    types:
+    - uid: ManagedDatabaseRestoreDetailsBackupSetProperties
+      isArray: true
+  - name: properties.logBackupSets
+    isReadyOnly: true
+    description: Log backup sets.
+    types:
+    - uid: ManagedDatabaseRestoreDetailsBackupSetProperties
+      isArray: true
+  - name: properties.unrestorableFiles
+    isReadyOnly: true
+    description: Unrestorable files.
+    types:
+    - uid: ManagedDatabaseRestoreDetailsUnrestorableFileProperties
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ManagedDatabaseRestoreDetailsBackupSetProperties
+  description: The managed database's restore details backup set properties.
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: Backup set status.
+    types:
+    - uid: string
+  - name: firstStripeName
+    isReadyOnly: true
+    description: First stripe name.
+    types:
+    - uid: string
+  - name: numberOfStripes
+    isReadyOnly: true
+    description: Number of stripes.
+    types:
+    - uid: integer
+  - name: backupSizeMB
+    isReadyOnly: true
+    description: Backup size.
+    types:
+    - uid: integer
+  - name: restoreStartedTimestampUtc
+    isReadyOnly: true
+    description: Last restored file time.
+    types:
+    - uid: string
+  - name: restoreFinishedTimestampUtc
+    isReadyOnly: true
+    description: Last restored file time.
+    types:
+    - uid: string
+- name: ManagedDatabaseRestoreDetailsUnrestorableFileProperties
+  description: The managed database's restore details unrestorable file properties.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: File name.
+    types:
+    - uid: string
+examples:
+- name: Managed database restore details.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/testdb/restoreDetails/Default?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/testdb/restoreDetails/Default?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "type": "LRSRestore",
+          "status": "Restoring",
+          "lastUploadedFileName": "RestoreDetailsFullBlownExampleLog11.bak",
+          "lastUploadedFileTime": "2022-03-01T07:54:21Z",
+          "lastRestoredFileName": "RestoreDetailsFullBlownExampleLog9_1.bak",
+          "lastRestoredFileTime": "2022-05-09T12:27:20.4936305Z",
+          "percentCompleted": 53,
+          "currentRestoredSizeMB": 25,
+          "currentRestorePlanSizeMB": 47,
+          "currentBackupType": "Log",
+          "currentRestoringFileName": "RestoreDetailsFullBlownExampleLog10.bak",
+          "numberOfFilesDetected": 25,
+          "numberOfFilesQueued": 1,
+          "numberOfFilesSkipped": 8,
+          "numberOfFilesRestoring": 1,
+          "numberOfFilesRestored": 14,
+          "numberOfFilesUnrestorable": 1,
+          "fullBackupSets": [
+            {
+              "status": "Skipped",
+              "firstStripeName": "RestoreDetailsFullBlownExampleFull2.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 2
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleFull3_1.bak",
+              "numberOfStripes": 3,
+              "backupSizeMB": 3,
+              "restoreStartedTimestampUtc": "2022-05-09T12:15:40.3143263Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:18:41.3785089Z"
+            }
+          ],
+          "diffBackupSets": [
+            {
+              "status": "Skipped",
+              "firstStripeName": "RestoreDetailsFullBlownExampleDiff2.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 0
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleDiff3_1.bak",
+              "numberOfStripes": 3,
+              "backupSizeMB": 1,
+              "restoreStartedTimestampUtc": "2022-05-09T12:19:40.5455092Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:20:21.3667454Z"
+            }
+          ],
+          "logBackupSets": [
+            {
+              "status": "Skipped",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog2.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 0
+            },
+            {
+              "status": "Skipped",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog3.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 8
+            },
+            {
+              "status": "Skipped",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog4.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 11
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog5.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 7,
+              "restoreStartedTimestampUtc": "2022-05-09T12:21:01.7717453Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:21:54.7557851Z"
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog6.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 3,
+              "restoreStartedTimestampUtc": "2022-05-09T12:22:41.8784062Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:23:03.709407Z"
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog7.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 4,
+              "restoreStartedTimestampUtc": "2022-05-09T12:23:36.6264066Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:23:52.9274047Z"
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog8.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 3,
+              "restoreStartedTimestampUtc": "2022-05-09T12:24:25.899407Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:24:37.9954063Z"
+            },
+            {
+              "status": "Restored",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog9_1.bak",
+              "numberOfStripes": 4,
+              "backupSizeMB": 4,
+              "restoreStartedTimestampUtc": "2022-05-09T12:25:10.8804065Z",
+              "restoreFinishedTimestampUtc": "2022-05-09T12:25:27.808409Z"
+            },
+            {
+              "status": "Restoring",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog10.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 15,
+              "restoreStartedTimestampUtc": "2022-05-09T12:26:00.7813103Z"
+            },
+            {
+              "status": "Queued",
+              "firstStripeName": "RestoreDetailsFullBlownExampleLog11.bak",
+              "numberOfStripes": 1,
+              "backupSizeMB": 7
+            }
+          ],
+          "unrestorableFiles": [
+            {
+              "name": "ImageFile.JPG"
+            }
+          ]
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/databases/testdb/restoreDetails/current",
+        "name": "current",
+        "type": "Microsoft.Sql/managedInstances/databases/restoreDetails"
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets managed database restore details.
+errorCodes: []

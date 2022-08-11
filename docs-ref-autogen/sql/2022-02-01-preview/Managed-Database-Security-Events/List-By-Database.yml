@@ -1,0 +1,351 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.manageddatabasesecurityevents.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Managed Database Security Events
+apiVersion: 2022-02-01-preview
+summary: Gets a list of security events.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityEvents?api-version=2022-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityEvents?$filter={$filter}&$skip={$skip}&$top={$top}&$skiptoken={$skiptoken}&api-version=2022-02-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the managed database for which the security events are retrieved.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An OData filter expression that filters elements in the collection.
+  types:
+  - uid: string
+- name: $skip
+  in: query
+  description: The number of elements in the collection to skip.
+  types:
+  - uid: integer
+  format: int64
+- name: $top
+  in: query
+  description: The number of elements to return from the collection.
+  types:
+  - uid: integer
+  format: int64
+- name: $skiptoken
+  in: query
+  description: An opaque token that identifies a starting point in the collection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of security events.
+  types:
+  - uid: SecurityEventCollection
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+requestHeader: []
+definitions:
+- name: SecurityEventCollection
+  description: A list of security events.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SecurityEvent
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SecurityEvent
+  description: A security event.
+  kind: object
+  properties:
+  - name: properties.eventTime
+    isReadyOnly: true
+    description: The time when the security event occurred.
+    types:
+    - uid: string
+  - name: properties.securityEventType
+    isReadyOnly: true
+    description: The type of the security event.
+    types:
+    - uid: SecurityEventType
+  - name: properties.subscription
+    isReadyOnly: true
+    description: The subscription name
+    types:
+    - uid: string
+  - name: properties.server
+    isReadyOnly: true
+    description: The server name
+    types:
+    - uid: string
+  - name: properties.database
+    isReadyOnly: true
+    description: The database name
+    types:
+    - uid: string
+  - name: properties.clientIp
+    isReadyOnly: true
+    description: The IP address of the client who executed the statement.
+    types:
+    - uid: string
+  - name: properties.applicationName
+    isReadyOnly: true
+    description: The application used to execute the statement.
+    types:
+    - uid: string
+  - name: properties.principalName
+    isReadyOnly: true
+    description: The principal user who executed the statement
+    types:
+    - uid: string
+  - name: properties.securityEventSqlInjectionAdditionalProperties
+    isReadyOnly: true
+    description: The sql injection additional properties, populated only if the type of the security event is sql injection.
+    types:
+    - uid: SecurityEventSqlInjectionAdditionalProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SecurityEventType
+  description: The type of the security event.
+  kind: enum
+  properties:
+  - name: Undefined
+    types:
+    - uid: string
+  - name: SqlInjectionVulnerability
+    types:
+    - uid: string
+  - name: SqlInjectionExploit
+    types:
+    - uid: string
+- name: SecurityEventSqlInjectionAdditionalProperties
+  description: The properties of a security event sql injection additional properties.
+  kind: object
+  properties:
+  - name: threatId
+    isReadyOnly: true
+    description: The threat ID.
+    types:
+    - uid: string
+  - name: statement
+    isReadyOnly: true
+    description: The statement
+    types:
+    - uid: string
+  - name: statementHighlightOffset
+    isReadyOnly: true
+    description: The statement highlight offset
+    types:
+    - uid: integer
+  - name: statementHighlightLength
+    isReadyOnly: true
+    description: The statement highlight length
+    types:
+    - uid: integer
+  - name: errorCode
+    isReadyOnly: true
+    description: The sql error code
+    types:
+    - uid: integer
+  - name: errorSeverity
+    isReadyOnly: true
+    description: The sql error severity
+    types:
+    - uid: integer
+  - name: errorMessage
+    isReadyOnly: true
+    description: The sql error message
+    types:
+    - uid: string
+examples:
+- name: Get the managed database's security events with minimal parameters
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents/06364798761800000000000000001",
+            "name": "06364798761800000000000000001",
+            "type": "Microsoft.Sql/servers/databases/securityEvents",
+            "properties": {
+              "eventTime": "2017-12-24T10:13:24.729Z",
+              "securityEventType": "SqlInjectionExploit",
+              "subscription": "00000000-1111-2222-3333-444444444444",
+              "server": "testcl",
+              "database": "database1",
+              "clientIp": "10.166.113.220",
+              "applicationName": "myApp",
+              "principalName": "maliciousUser",
+              "securityEventSqlInjectionAdditionalProperties": {
+                "threatId": "1",
+                "statement": "select * from sys.databases where database_id like '' or 1 = 1 --' and family = 'test11'",
+                "statementHighlightOffset": 52,
+                "statementHighlightLength": 13,
+                "errorCode": 0,
+                "errorSeverity": 0,
+                "errorMessage": ""
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents/06364798761800000000000000002",
+            "name": "06364798761800000000000000002",
+            "type": "Microsoft.Sql/servers/databases/securityEvents",
+            "properties": {
+              "eventTime": "2017-12-24T10:11:14.121Z",
+              "securityEventType": "SqlInjectionExploit",
+              "subscription": "00000000-1111-2222-3333-444444444444",
+              "server": "testcl",
+              "database": "database1",
+              "clientIp": "10.166.113.220",
+              "applicationName": "myApp",
+              "principalName": "maliciousUser",
+              "securityEventSqlInjectionAdditionalProperties": {
+                "threatId": "1",
+                "statement": "select * from sys.databases where database_id like '' or 1 = 1 --' and family = 'test10'",
+                "statementHighlightOffset": 52,
+                "statementHighlightLength": 13,
+                "errorCode": 0,
+                "errorSeverity": 0,
+                "errorMessage": ""
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents/06364798761800000000000000003",
+            "name": "06364798761800000000000000003",
+            "type": "Microsoft.Sql/servers/databases/securityEvents",
+            "properties": {
+              "eventTime": "2017-12-24T10:03:17.066Z",
+              "securityEventType": "SqlInjectionExploit",
+              "subscription": "00000000-1111-2222-3333-444444444444",
+              "server": "testcl",
+              "database": "database1",
+              "clientIp": "10.166.113.220",
+              "applicationName": "myApp",
+              "principalName": "maliciousUser",
+              "securityEventSqlInjectionAdditionalProperties": {
+                "threatId": "1",
+                "statement": "select * from sys.databases where database_id like '' or 1 = 1 --' and family = 'test9'",
+                "statementHighlightOffset": 52,
+                "statementHighlightLength": 13,
+                "errorCode": 0,
+                "errorSeverity": 0,
+                "errorMessage": ""
+              }
+            }
+          }
+        ]
+      }
+- name: Get the managed database's security events with maximal parameters
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents?$filter=ShowServerRecords eq true&$skip=0&$top=1&$skiptoken=eyJCbG9iTmFtZURhdGVUaW1lIjoiXC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbG92ZXJJbmRleCI6IjAiLCJFbmREYXRlIjoiXC9EYXRlKDE1MTI0NjYyMDA1MjkpXC8iLCJJc1NraXBUb2tlblNldCI6ZmFsc2UsIklzVjJCbG9iVGltZUZvcm1hdCI6dHJ1ZSwiU2hvd1NlcnZlclJlY29yZHMiOmZhbHNlLCJTa2lwVmFsdWUiOjAsIlRha2VWYWx1ZSI6MTB9&api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents?$filter=ShowServerRecords eq true&$skip=0&$top=1&$skiptoken=eyJCbG9iTmFtZURhdGVUaW1lIjoiXC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbG92ZXJJbmRleCI6IjAiLCJFbmREYXRlIjoiXC9EYXRlKDE1MTI0NjYyMDA1MjkpXC8iLCJJc1NraXBUb2tlblNldCI6ZmFsc2UsIklzVjJCbG9iVGltZUZvcm1hdCI6dHJ1ZSwiU2hvd1NlcnZlclJlY29yZHMiOmZhbHNlLCJTa2lwVmFsdWUiOjAsIlRha2VWYWx1ZSI6MTB9&api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": "https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents?$skipToken=C9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sbC9EYXRlKDE1MTIyODg4MTIwMTArMDIwMClcLyIsIkJsb2JOYW1lUm9sb&api-version=2017-10-01-preview",
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/databases/database1/securityEvents/06364798761800000000000000001",
+            "name": "06364798761800000000000000001",
+            "type": "Microsoft.Sql/servers/databases/securityEvents",
+            "properties": {
+              "eventTime": "2017-12-24T10:13:24.729Z",
+              "securityEventType": "SqlInjectionExploit",
+              "subscription": "00000000-1111-2222-3333-444444444444",
+              "server": "testcl",
+              "database": "database1",
+              "clientIp": "10.166.113.220",
+              "applicationName": "myApp",
+              "principalName": "maliciousUser",
+              "securityEventSqlInjectionAdditionalProperties": {
+                "threatId": "1",
+                "statement": "select * from sys.databases where database_id like '' or 1 = 1 --' and family = 'test11'",
+                "statementHighlightOffset": 52,
+                "statementHighlightLength": 13,
+                "errorCode": 0,
+                "errorSeverity": 0,
+                "errorMessage": ""
+              }
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a list of security events.
+errorCodes: []

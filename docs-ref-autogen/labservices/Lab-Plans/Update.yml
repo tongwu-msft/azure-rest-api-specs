@@ -3,14 +3,14 @@ uid: management.azure.com.labservices.labplans.update
 name: Update
 service: Lab Services
 groupName: Lab Plans
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: "Updates a Lab Plan resource.  \nOperation to update a Lab Plan resource."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}?api-version=2021-11-15-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: identity
+    in: body
+    description: Managed Identity Information
+    types:
+    - uid: Identity
   - name: properties.defaultConnectionProfile
     in: body
     description: The default lab connection profile. This can be changed on a lab resource and only provides a default profile.
@@ -96,6 +101,24 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
 - name: ConnectionProfile
   description: Connection profile for how users connect to lab virtual machines.
   kind: object
@@ -188,6 +211,10 @@ definitions:
     description: Metadata pertaining to creation and last modification of the lab plan.
     types:
     - uid: systemData
+  - name: identity
+    description: Managed Identity Information
+    types:
+    - uid: Identity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Current provisioning state of the lab plan.
@@ -261,6 +288,10 @@ definitions:
   description: Contains lab configuration and default settings. This variant is used for PATCH.
   kind: object
   properties:
+  - name: identity
+    description: Managed Identity Information
+    types:
+    - uid: Identity
   - name: properties.defaultConnectionProfile
     description: The default lab connection profile. This can be changed on a lab resource and only provides a default profile.
     types:
@@ -295,6 +326,13 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
 - name: ConnectionType
   description: The enabled access level for Web Access over SSH.
   kind: enum
@@ -454,7 +492,7 @@ definitions:
 examples:
 - name: patchLabPlan
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2021-11-15-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -469,7 +507,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2021-11-15-preview
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2022-08-01
 
       {
         "properties": {
@@ -484,124 +522,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.labservices.models.ConnectionProfile;
-      import com.azure.resourcemanager.labservices.models.ConnectionType;
-      import com.azure.resourcemanager.labservices.models.LabPlan;
-
-      /** Samples for LabPlans Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/LabPlans/patchLabPlan.json
-           */
-          /**
-           * Sample code: patchLabPlan.
-           *
-           * @param manager Entry point to LabServicesManager.
-           */
-          public static void patchLabPlan(com.azure.resourcemanager.labservices.LabServicesManager manager) {
-              LabPlan resource =
-                  manager.labPlans().getByResourceGroupWithResponse("testrg123", "testlabplan", Context.NONE).getValue();
-              resource
-                  .update()
-                  .withDefaultConnectionProfile(
-                      new ConnectionProfile()
-                          .withWebSshAccess(ConnectionType.NONE)
-                          .withWebRdpAccess(ConnectionType.NONE)
-                          .withClientSshAccess(ConnectionType.PUBLIC)
-                          .withClientRdpAccess(ConnectionType.PUBLIC))
-                  .apply();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.2/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armlabservices_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/LabPlans/patchLabPlan.json
-      func ExampleLabPlansClient_BeginUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armlabservices.NewLabPlansClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginUpdate(ctx,
-      		"testrg123",
-      		"testlabplan",
-      		armlabservices.LabPlanUpdate{
-      			Properties: &armlabservices.LabPlanUpdateProperties{
-      				DefaultConnectionProfile: &armlabservices.ConnectionProfile{
-      					ClientRdpAccess: to.Ptr(armlabservices.ConnectionTypePublic),
-      					ClientSSHAccess: to.Ptr(armlabservices.ConnectionTypePublic),
-      					WebRdpAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
-      					WebSSHAccess:    to.Ptr(armlabservices.ConnectionTypeNone),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv0.5.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { LabServicesClient } = require("@azure/arm-labservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Operation to update a Lab Plan resource.
-       *
-       * @summary Operation to update a Lab Plan resource.
-       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/LabPlans/patchLabPlan.json
-       */
-      async function patchLabPlan() {
-        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-        const resourceGroupName = "testrg123";
-        const labPlanName = "testlabplan";
-        const body = {
-          defaultConnectionProfile: {
-            clientRdpAccess: "Public",
-            clientSshAccess: "Public",
-            webRdpAccess: "None",
-            webSshAccess: "None",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new LabServicesClient(credential, subscriptionId);
-        const result = await client.labPlans.beginUpdateAndWait(resourceGroupName, labPlanName, body);
-        console.log(result);
-      }
-
-      patchLabPlan().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0-beta.3/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -630,9 +550,9 @@ examples:
             "shutdownOnDisconnect": "Enabled",
             "shutdownWhenNotConnected": "Enabled",
             "shutdownOnIdle": "UserAbsence",
-            "disconnectDelay": "00:05",
-            "noConnectDelay": "01:00",
-            "idleDelay": "01:00"
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
           },
           "defaultNetworkProfile": {
             "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
@@ -676,9 +596,9 @@ examples:
             "shutdownOnDisconnect": "Enabled",
             "shutdownWhenNotConnected": "Enabled",
             "shutdownOnIdle": "UserAbsence",
-            "disconnectDelay": "00:05",
-            "noConnectDelay": "01:00",
-            "idleDelay": "01:00"
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
           },
           "defaultNetworkProfile": {
             "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
