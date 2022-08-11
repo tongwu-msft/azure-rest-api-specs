@@ -3,14 +3,14 @@ uid: management.azure.com.labservices.users.update
 name: Update
 service: Lab Services
 groupName: Users
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: Operation to update a lab user.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: userName
@@ -296,124 +296,26 @@ definitions:
 examples:
 - name: patchUser
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
     body: >-
       {
         "properties": {
-          "additionalUsageQuota": "20:00"
+          "additionalUsageQuota": "PT10H"
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
 
       {
         "properties": {
-          "additionalUsageQuota": "20:00"
+          "additionalUsageQuota": "PT10H"
         }
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.labservices.models.User;
-      import java.time.Duration;
-
-      /** Samples for Users Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Users/patchUser.json
-           */
-          /**
-           * Sample code: patchUser.
-           *
-           * @param manager Entry point to LabServicesManager.
-           */
-          public static void patchUser(com.azure.resourcemanager.labservices.LabServicesManager manager) {
-              User resource = manager.users().getWithResponse("testrg123", "testlab", "testuser", Context.NONE).getValue();
-              resource.update().withAdditionalUsageQuota(Duration.parse("20:00")).apply();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.2/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armlabservices_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Users/patchUser.json
-      func ExampleUsersClient_BeginUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armlabservices.NewUsersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginUpdate(ctx,
-      		"testrg123",
-      		"testlab",
-      		"testuser",
-      		armlabservices.UserUpdate{
-      			Properties: &armlabservices.UserUpdateProperties{
-      				AdditionalUsageQuota: to.Ptr("20:00"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv0.5.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { LabServicesClient } = require("@azure/arm-labservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Operation to update a lab user.
-       *
-       * @summary Operation to update a lab user.
-       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Users/patchUser.json
-       */
-      async function patchUser() {
-        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-        const resourceGroupName = "testrg123";
-        const labName = "testlab";
-        const userName = "testuser";
-        const body = { additionalUsageQuota: "20:00" };
-        const credential = new DefaultAzureCredential();
-        const client = new LabServicesClient(credential, subscriptionId);
-        const result = await client.users.beginUpdateAndWait(resourceGroupName, labName, userName, body);
-        console.log(result);
-      }
-
-      patchUser().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0-beta.3/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -435,8 +337,8 @@ examples:
           "email": "testuser@contoso.com",
           "registrationState": "Registered",
           "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "20:00"
+          "totalUsage": "PT10H",
+          "additionalUsageQuota": "PT10H"
         }
       }
   - statusCode: "202"
@@ -462,8 +364,8 @@ examples:
           "email": "testuser@contoso.com",
           "registrationState": "Registered",
           "invitationState": "Sent",
-          "totalUsage": "23:59",
-          "additionalUsageQuota": "20:00"
+          "totalUsage": "PT10H",
+          "additionalUsageQuota": "PT10H"
         }
       }
 security: []

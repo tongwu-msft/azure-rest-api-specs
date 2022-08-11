@@ -8681,6 +8681,7 @@
 #### [List By Factory](datafactory/Managed-Virtual-Networks/List-By-Factory.yml)
 ### ManagedPrivateEndpoints(stable)
 #### [Overview](datafactory/ManagedPrivateEndpoints(stable).yml)
+#### [Create Or Update](datafactory/ManagedPrivateEndpoints(stable)/Create-Or-Update.yml)
 #### [Delete](datafactory/ManagedPrivateEndpoints(stable)/Delete.yml)
 #### [Get](datafactory/ManagedPrivateEndpoints(stable)/Get.yml)
 #### [List By Factory](datafactory/ManagedPrivateEndpoints(stable)/List-By-Factory.yml)
@@ -8721,9 +8722,6 @@
 #### [Stop](datafactory/Triggers/Stop.yml)
 #### [Subscribe To Events](datafactory/Triggers/Subscribe-To-Events.yml)
 #### [Unsubscribe From Events](datafactory/Triggers/Unsubscribe-From-Events.yml)
-### managed Private Endpoints
-#### [Overview](datafactory/managed-Private-Endpoints.yml)
-#### [Create Or Update](datafactory/managed-Private-Endpoints/Create-Or-Update.yml)
 ### private End Point Connections
 #### [Overview](datafactory/private-End-Point-Connections.yml)
 #### [List By Factory](datafactory/private-End-Point-Connections/List-By-Factory.yml)

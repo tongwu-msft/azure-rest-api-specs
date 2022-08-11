@@ -3,14 +3,14 @@ uid: management.azure.com.labservices.schedules.update
 name: Update
 service: Lab Services
 groupName: Schedules
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: Operation to update a lab schedule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/schedules/{scheduleName}?api-version=2021-11-15-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/schedules/{scheduleName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: scheduleName
@@ -316,150 +316,34 @@ definitions:
 examples:
 - name: patchSchedule
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2021-11-15-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2022-08-01
     body: >-
       {
         "properties": {
           "recurrencePattern": {
             "frequency": "Daily",
             "interval": 2,
-            "expirationDate": "2020-08-14"
+            "expirationDate": "2020-08-14T23:59:59Z"
           }
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2021-11-15-preview
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2022-08-01
 
       {
         "properties": {
           "recurrencePattern": {
             "frequency": "Daily",
             "interval": 2,
-            "expirationDate": "2020-08-14"
+            "expirationDate": "2020-08-14T23:59:59Z"
           }
         }
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.labservices.models.RecurrenceFrequency;
-      import com.azure.resourcemanager.labservices.models.RecurrencePattern;
-      import com.azure.resourcemanager.labservices.models.Schedule;
-      import java.time.LocalDate;
-
-      /** Samples for Schedules Update. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Schedules/patchSchedule.json
-           */
-          /**
-           * Sample code: patchSchedule.
-           *
-           * @param manager Entry point to LabServicesManager.
-           */
-          public static void patchSchedule(com.azure.resourcemanager.labservices.LabServicesManager manager) {
-              Schedule resource =
-                  manager.schedules().getWithResponse("testrg123", "testlab", "schedule1", Context.NONE).getValue();
-              resource
-                  .update()
-                  .withRecurrencePattern(
-                      new RecurrencePattern()
-                          .withFrequency(RecurrenceFrequency.DAILY)
-                          .withInterval(2)
-                          .withExpirationDate(LocalDate.parse("2020-08-14")))
-                  .apply();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.2/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armlabservices_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Schedules/patchSchedule.json
-      func ExampleSchedulesClient_Update() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armlabservices.NewSchedulesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Update(ctx,
-      		"testrg123",
-      		"testlab",
-      		"schedule1",
-      		armlabservices.ScheduleUpdate{
-      			Properties: &armlabservices.ScheduleUpdateProperties{
-      				RecurrencePattern: &armlabservices.RecurrencePattern{
-      					ExpirationDate: to.Ptr(func() time.Time { t, _ := time.Parse("2006-01-02", "2020-08-14"); return t }()),
-      					Frequency:      to.Ptr(armlabservices.RecurrenceFrequencyDaily),
-      					Interval:       to.Ptr[int32](2),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv0.5.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { LabServicesClient } = require("@azure/arm-labservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Operation to update a lab schedule.
-       *
-       * @summary Operation to update a lab schedule.
-       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/preview/2021-11-15-preview/examples/Schedules/patchSchedule.json
-       */
-      async function patchSchedule() {
-        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
-        const resourceGroupName = "testrg123";
-        const labName = "testlab";
-        const scheduleName = "schedule1";
-        const body = {
-          recurrencePattern: {
-            expirationDate: new Date("2020-08-14"),
-            frequency: "Daily",
-            interval: 2,
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new LabServicesClient(credential, subscriptionId);
-        const result = await client.schedules.update(resourceGroupName, labName, scheduleName, body);
-        console.log(result);
-      }
-
-      patchSchedule().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0-beta.3/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -482,7 +366,7 @@ examples:
           "recurrencePattern": {
             "frequency": "Daily",
             "interval": 2,
-            "expirationDate": "2020-08-14"
+            "expirationDate": "2020-08-14T23:59:59Z"
           },
           "timeZoneId": "America/Los_Angeles",
           "notes": "Schedule 1 for students"
