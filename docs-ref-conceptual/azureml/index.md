@@ -53,6 +53,7 @@ Uses REST API Version 2022-06-01-preview
 | Models | Provides operations for managing models. | [Model Containers](/rest/api/azureml/2022-06-01-preview/model-containers) <br /> [Model Versions](/rest/api/azureml/2022-06-01-preview/model-versions) |
 | Components | Provides operations for managing components. | [Component Containers](/rest/api/azureml/2022-06-01-preview/component-containers) <br /> [Component Versions](/rest/api/azureml/2022-06-01-preview/component-versions) |
 | [Jobs](/rest/api/azureml/2022-06-01-preview/jobs) | Provides operations for managing jobs. |
+| [Labeling Jobs](/rest/api/azureml/2022-06-01-preview/labeling-jobs) | Provides operations for managing labeling jobs. |
 | Online Endpoints | Provides operations for managing online endpoints. | [Online Endpoints](/rest/api/azureml/2022-06-01-preview/online-endpoints) <br /> [Online Deployments](/rest/api/azureml/2022-06-01-preview/online-deployments) |
 | Batch Endpoints | Provides operations for managing batch endpoints. | [Batch Endpoints](/rest/api/azureml/2022-06-01-preview/batch-endpoints) <br /> [Batch Deployments](/rest/api/azureml/2022-06-01-preview/batch-deployments) |
 | [Schedules](/rest/api/azureml/2022-06-01-preview/schedules) | Provides operations for managing schedules. |
