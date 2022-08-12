@@ -15,17 +15,17 @@ The Dev Center Management REST API provides operations for working with the Micr
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Attached Networks](xref:management.azure.com.devcenter.attachednetworks)          | Provides operations for attaching Network Connections to your Dev Center |
-| [DevCenters](xref:management.azure.com.devcenter.devcenters)  | Provides operations for IT Admins to manage with Dev Centers. |
-| [Dev Box Definitions](xref:management.azure.com.devcenter.devboxdefinitions)  | Provides operations for working with Dev Box Definitions accounts. |
-| [Galleries](xref:management.azure.com.devcenter.galleries)  | Provides operations for attaching Compute Galleries to your Dev Center. |
-| [Image Versions](xref:management.azure.com.devcenter.imageversions) | Gets information about image versions available for use. |
-| [Images](xref:management.azure.com.devcenter.images) | Gets information about images available for use |
-| [Network Connections](xref:management.azure.com.devcenter.networkconnections) | Provides operations for working with Network Connections to attach a VNet to a Dev Center |
-| [Operations](xref:management.azure.com.devcenter.operations) | Lists available operations for the Microsoft.DevCenter provider. |
-| [Pools](xref:management.azure.com.devcenter.pools) | Provides operations for working with pools in your Project. |
-| [Projects](xref:management.azure.com.devcenter.projects) | Provides operations for working with Projects. |
-| [Skus](xref:management.azure.com.devcenter.skus) | Gets information about Skus available to use. |
+| [Attached Networks](/rest/api/devcenter/attached-networks)          | Provides operations for attaching Network Connections to your Dev Center |
+| [DevCenters](/rest/api/devcenter/devcenters)  | Provides operations for IT Admins to manage with Dev Centers. |
+| [Dev Box Definitions](/rest/api/devcenter/devboxdefinitions)  | Provides operations for working with Dev Box Definitions accounts. |
+| [Galleries](/rest/api/devcenter/galleries)  | Provides operations for attaching Compute Galleries to your Dev Center. |
+| [Image Versions](/rest/api/devcenter/imageversions) | Gets information about image versions available for use. |
+| [Images](/rest/api/devcenter/images) | Gets information about images available for use |
+| [Network Connections](/rest/api/devcenter/networkconnections) | Provides operations for working with Network Connections to attach a VNet to a Dev Center |
+| [Operations](/rest/api/devcenter/operations) | Lists available operations for the Microsoft.DevCenter provider. |
+| [Pools](/rest/api/devcenter/pools) | Provides operations for working with pools in your Project. |
+| [Projects](/rest/api/devcenter/projects) | Provides operations for working with Projects. |
+| [Skus](/rest/api/devcenter/skus) | Gets information about Skus available to use. |
 
 ## See also
 
