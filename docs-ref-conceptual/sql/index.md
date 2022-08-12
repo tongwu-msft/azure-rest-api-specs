@@ -13,7 +13,7 @@ service_description: To be added
 
 The Azure SQL Database REST API includes operations for managing Azure SQL Database resources.
 
-## REST Operation Groups
+## REST Operation Groups for 2022-02-01 Preview
 
 
 
