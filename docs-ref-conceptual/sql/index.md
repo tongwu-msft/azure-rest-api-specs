@@ -139,3 +139,4 @@ The Azure SQL Database REST API includes operations for managing Azure SQL Datab
 - [Azure SQL Database](https://azure.microsoft.com/services/sql-database/)
 - [Azure SQL Data Warehouse](https://azure.microsoft.com/services/sql-data-warehouse/)
 - [Azure SQL Database Elastic Pool](https://azure.microsoft.com/documentation/articles/sql-database-elastic-pool/)
+- [Latest Stable Version of Azure SQL Database REST API](https://review.docs.microsoft.com/en-us/rest/api/sql/retirement?branch=sqlretirement#latest-stable-version-of-azure-sql-database-rest-api)
