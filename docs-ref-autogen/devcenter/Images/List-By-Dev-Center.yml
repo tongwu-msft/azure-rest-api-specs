@@ -1,0 +1,316 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.images.listbydevcenter
+name: List By Dev Center
+service: Dev Center
+groupName: Images
+apiVersion: 2022-08-01-preview
+summary: Lists images for a devcenter.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/images?api-version=2022-08-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/images?api-version=2022-08-01-preview&$top={$top}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: devCenterName
+  in: path
+  isRequired: true
+  description: The name of the devcenter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'."
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ImageListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ImageListResult
+  description: Results of the image list operation.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Current page of results.
+    types:
+    - uid: Image
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: Image
+  description: Represents an image.
+  kind: object
+  properties:
+  - name: properties.description
+    isReadyOnly: true
+    description: The description of the image.
+    types:
+    - uid: string
+  - name: properties.publisher
+    isReadyOnly: true
+    description: The publisher of the image.
+    types:
+    - uid: string
+  - name: properties.offer
+    isReadyOnly: true
+    description: The name of the image offer.
+    types:
+    - uid: string
+  - name: properties.sku
+    isReadyOnly: true
+    description: The SKU name for the image.
+    types:
+    - uid: string
+  - name: properties.recommendedMachineConfiguration
+    isReadyOnly: true
+    description: The recommended machine configuration to use with the image.
+    types:
+    - uid: RecommendedMachineConfiguration
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: RecommendedMachineConfiguration
+  description: Properties for a recommended machine configuration.
+  kind: object
+  properties:
+  - name: memory
+    isReadyOnly: true
+    description: Recommended memory range.
+    types:
+    - uid: ResourceRange
+  - name: vCPUs
+    isReadyOnly: true
+    description: Recommended vCPU range.
+    types:
+    - uid: ResourceRange
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ResourceRange
+  description: Properties for a range of values.
+  kind: object
+  properties:
+  - name: min
+    isReadyOnly: true
+    description: Minimum value.
+    types:
+    - uid: integer
+  - name: max
+    isReadyOnly: true
+    description: Maximum value.
+    types:
+    - uid: integer
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Images_ListByDevCenter
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/images?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/images?api-version=2022-08-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/DevGallery/images/{imageName}",
+            "name": "{imageName}",
+            "type": "Microsoft.DevCenter/devcenters/galleries/images",
+            "properties": {
+              "description": "Windows 10 Enterprise + OS Optimizations 1909",
+              "publisher": "MicrosoftWindowsDesktop",
+              "offer": "windows-ent-cpc",
+              "sku": "19h2-ent-cpc-os-g2",
+              "recommendedMachineConfiguration": {
+                "memory": {
+                  "min": 128,
+                  "max": 256
+                },
+                "vCPUs": {
+                  "min": 2,
+                  "max": 4
+                }
+              },
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-11-18T18:00:36.993Z",
+              "lastModifiedBy": "user1",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-11-18T18:30:36.993Z"
+            }
+          },
+          {
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/DevGallery/images/{imageName}",
+            "name": "{imageName}",
+            "type": "Microsoft.DevCenter/devcenters/galleries/images",
+            "properties": {
+              "description": "Standard Windows Dev/Test image.",
+              "publisher": "Contoso",
+              "offer": "Finance",
+              "sku": "Backend",
+              "recommendedMachineConfiguration": {
+                "memory": {
+                  "min": 256,
+                  "max": 512
+                },
+                "vCPUs": {
+                  "min": 4,
+                  "max": 8
+                }
+              }
+            },
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-11-18T18:00:36.993Z",
+              "lastModifiedBy": "user1",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-11-18T18:30:36.993Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Lists images for a devcenter.
+errorCodes: []

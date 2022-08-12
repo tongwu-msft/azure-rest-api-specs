@@ -1,0 +1,185 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.operations.list
+name: List
+service: Dev Center
+groupName: Operations
+apiVersion: 2022-08-01-preview
+summary: Lists all of the available resource provider operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.DevCenter/operations?api-version=2022-08-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: Resource Provider error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: A list of REST API operations supported by an Azure Resource Provider. It contains an URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of operations supported by the resource provider
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of operation list results (if there are any).
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: Operation
+  description: REST API Operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action"'
+    types:
+    - uid: string
+  - name: isDataAction
+    isReadyOnly: true
+    description: Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations.
+    types:
+    - uid: boolean
+  - name: display
+    description: Localized display information for this particular operation.
+    types:
+    - uid: Display
+  - name: origin
+    isReadyOnly: true
+    description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+    types:
+    - uid: Origin
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+    types:
+    - uid: ActionType
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Display
+  description: Localized display information for this particular operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute".
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections".
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine".
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The short, localized friendly description of the operation; suitable for tool tips and detailed views.
+    types:
+    - uid: string
+- name: Origin
+  description: The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system"
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
+    types:
+    - uid: string
+  - name: user,system
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
+examples:
+- name: Operations_Get
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.DevCenter/operations?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.DevCenter/operations?api-version=2022-08-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.DevCenter/devcenters/write",
+            "display": {
+              "provider": "Microsoft DevTest Center",
+              "resource": "Microsoft DevTest Center devcenter resource",
+              "operation": "write"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Lists all of the available resource provider operations.
+errorCodes: []
