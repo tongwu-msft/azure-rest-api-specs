@@ -1,21 +1,15 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.renderv2.getcopyrightfromboundingbox
-name: Get Copyright From Bounding Box
+uid: atlas.microsoft.com.maps.renderstable.render.getcopyrightcaption
+name: Get Copyright Caption
 service: Maps
-groupName: Render V2
-apiVersion: "2.1"
-summary: >-
-  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
-
-
-  Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude and latitude (EPSG-3857) coordinates
+groupName: Render
+apiVersion: 2022-08-01
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCopyrights API is designed to serve copyright information for Render Tile \nservice. In addition to basic copyright for the whole map, API is serving \nspecific groups of copyrights for some countries/regions.\n\nAs an alternative to copyrights for map request, one can receive captions\nfor displaying the map provider information on the map."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=2.1&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}
-- content: GET https://atlas.microsoft.com/map/copyright/bounding/{format}?api-version=2.1&mincoordinates={mincoordinates}&maxcoordinates={maxcoordinates}&text={text}
-  isOptional: true
+- content: GET https://atlas.microsoft.com/map/copyright/caption/{format}?api-version=2022-08-01
 uriParameters:
 - name: format
   in: path
@@ -26,31 +20,14 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 2.1
+  description: Version number of Azure Maps API. Current version is 2022-08-01
   types:
   - uid: string
-- name: mincoordinates
-  in: query
-  isRequired: true
-  description: Minimum coordinates (south-west point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228
-  types:
-  - uid: array
-- name: maxcoordinates
-  in: query
-  isRequired: true
-  description: Maximum coordinates (north-east point) of bounding box in latitude longitude coordinate system. E.g. 52.41064,4.84228
-  types:
-  - uid: array
-- name: text
-  in: query
-  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
-  types:
-  - uid: IncludeText
 responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: Copyright
+  - uid: CopyrightCaption
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -74,20 +51,8 @@ definitions:
     description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
     types:
     - uid: string
-- name: IncludeText
-  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
-  kind: enum
-  properties:
-  - name: yes
-    description: Include all textual data in response.
-    types:
-    - uid: string
-  - name: no
-    description: Exclude textual data from response. Only images and country names will be in response.
-    types:
-    - uid: string
-- name: Copyright
-  description: This object is returned from a successful copyright request
+- name: CopyrightCaption
+  description: This object is returned from a successful copyright call
   kind: object
   properties:
   - name: formatVersion
@@ -95,18 +60,11 @@ definitions:
     description: Format Version property
     types:
     - uid: string
-  - name: generalCopyrights
+  - name: copyrightsCaption
     isReadyOnly: true
-    description: General Copyrights array
+    description: Copyrights Caption property
     types:
     - uid: string
-      isArray: true
-  - name: regions
-    isReadyOnly: true
-    description: Regions array
-    types:
-    - uid: RegionCopyrights
-      isArray: true
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -115,20 +73,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: RegionCopyrights
-  kind: object
-  properties:
-  - name: copyrights
-    isReadyOnly: true
-    description: Copyrights array
-    types:
-    - uid: string
-      isArray: true
-  - name: country
-    isReadyOnly: true
-    description: Country property
-    types:
-    - uid: Country
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -160,20 +104,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Country
-  description: Country property
-  kind: object
-  properties:
-  - name: ISO3
-    isReadyOnly: true
-    description: ISO3 property
-    types:
-    - uid: string
-  - name: label
-    isReadyOnly: true
-    description: Label property
-    types:
-    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -189,13 +119,13 @@ definitions:
     types:
     - uid: object
 examples:
-- name: SuccessfulBoundingBoxCopyrightRequest
+- name: Successful Copyright Caption Request
   request:
-    uri: GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=2.1&mincoordinates=52.41064,4.84228&maxcoordinates=52.41072,4.84239&text=yes
+    uri: GET https://atlas.microsoft.com/map/copyright/caption/json?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://atlas.microsoft.com/map/copyright/bounding/json?api-version=2.1&mincoordinates=52.41064,4.84228&maxcoordinates=52.41072,4.84239&text=yes
+      GET https://atlas.microsoft.com/map/copyright/caption/json?api-version=2022-08-01
       ```
 
   responses:
@@ -203,22 +133,7 @@ examples:
     body: >-
       {
         "formatVersion": "0.0.1",
-        "generalCopyrights": [
-          "© 1992 – 2016 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
-          "Data Source © 2016 TomTom",
-          "based on"
-        ],
-        "regions": [
-          {
-            "copyrights": [
-              "Topografische onderground Copyright © dienst voor het kadaster en de openbare registers, Apeldoorn 2016."
-            ],
-            "country": {
-              "ISO3": "NLD",
-              "label": "Netherlands"
-            }
-          }
-        ]
+        "copyrightsCaption": "© 1992 - 2022 TomTom."
       }
 security:
 - name: AADToken
@@ -232,12 +147,12 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
+    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
 
-     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
+     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
 
-     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
-  in: query
+     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+  in: header
 - name: SAS Token
   type: apiKey
   description: >-
@@ -251,5 +166,7 @@ metadata:
   description: >-
     Applies to: see pricing tiers.
 
-    Returns copyright information for a given bounding box. Bounding-box requests should specify the minimum and maximum longitude an
+    Copyrights API is designed to serve copyright information for Render Tile
+
+    service.
 errorCodes: []

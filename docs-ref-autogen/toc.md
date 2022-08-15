@@ -13383,17 +13383,6 @@
 ### [Get Map Imagery Tile](maps/Render/Get-Map-Imagery-Tile.yml)
 ### [Get Map State Tile](maps/Render/Get-Map-State-Tile.yml)
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
-## Render V2
-### [Overview](maps/Render-V2.yml)
-### [Get Copyright Caption](maps/Render-V2/Get-Copyright-Caption.yml)
-### [Get Copyright For Tile](maps/Render-V2/Get-Copyright-For-Tile.yml)
-### [Get Copyright For World](maps/Render-V2/Get-Copyright-For-World.yml)
-### [Get Copyright From Bounding Box](maps/Render-V2/Get-Copyright-From-Bounding-Box.yml)
-### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
-### [Get Map State Tile](maps/Render-V2/Get-Map-State-Tile.yml)
-### [Get Map Static Image](maps/Render-V2/Get-Map-Static-Image.yml)
-### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
-### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)
@@ -13434,11 +13423,11 @@
 ### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
-### [Evaluate Point In Polygon](maps/Spatial/Evaluate-Point-In-Polygon.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
 ### [Get Closest Point](maps/Spatial/Get-Closest-Point.yml)
 ### [Get Geofence](maps/Spatial/Get-Geofence.yml)
 ### [Get Great Circle Distance](maps/Spatial/Get-Great-Circle-Distance.yml)
+### [Get Point In Polygon](maps/Spatial/Get-Point-In-Polygon.yml)
 ### [Post Buffer](maps/Spatial/Post-Buffer.yml)
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
@@ -13478,6 +13467,18 @@
 ### [Get Tropical Storm Locations](maps/Weather/Get-Tropical-Storm-Locations.yml)
 ### [Get Tropical Storm Search](maps/Weather/Get-Tropical-Storm-Search.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
+## Render Stable
+### Render
+#### [Overview](maps/renderstable/Render.yml)
+#### [Get Copyright Caption](maps/renderstable/Render/Get-Copyright-Caption.yml)
+#### [Get Copyright For Tile](maps/renderstable/Render/Get-Copyright-For-Tile.yml)
+#### [Get Copyright For World](maps/renderstable/Render/Get-Copyright-For-World.yml)
+#### [Get Copyright From Bounding Box](maps/renderstable/Render/Get-Copyright-From-Bounding-Box.yml)
+#### [Get Map Attribution](maps/renderstable/Render/Get-Map-Attribution.yml)
+#### [Get Map State Tile](maps/renderstable/Render/Get-Map-State-Tile.yml)
+#### [Get Map Static Image](maps/renderstable/Render/Get-Map-Static-Image.yml)
+#### [Get Map Tile](maps/renderstable/Render/Get-Map-Tile.yml)
+#### [Get Map Tileset](maps/renderstable/Render/Get-Map-Tileset.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## V2

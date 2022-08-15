@@ -1,0 +1,328 @@
+### YamlMime:RESTOperation
+uid: atlas.microsoft.com.maps.renderstable.render.getcopyrightfortile
+name: Get Copyright For Tile
+service: Maps
+groupName: Render
+apiVersion: 2022-08-01
+summary: >-
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+
+
+  Copyrights API is designed to serve copyright information for Render Tile  service. In addition to basic copyright for the whole map, API is serving  specific groups of copyrights for some countries/regions.
+
+  Returns the copyright information for a given tile. To obtain the copyright information for a particular tile, the request should specify the tile's zoom level and x and y coordinates (see: Zoom Levels and Tile Grid).
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://atlas.microsoft.com/map/copyright/tile/{format}?api-version=2022-08-01&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/copyright/tile/{format}?api-version=2022-08-01&zoom={zoom}&x={x}&y={y}&text={text}
+  isOptional: true
+uriParameters:
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  types:
+  - uid: ResponseFormat
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API. Current version is 2022-08-01
+  types:
+  - uid: string
+- name: zoom
+  in: query
+  isRequired: true
+  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
+  types:
+  - uid: integer
+  format: int32
+- name: x
+  in: query
+  isRequired: true
+  description: >-
+    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+  format: int32
+- name: y
+  in: query
+  isRequired: true
+  description: >-
+    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+  format: int32
+- name: text
+  in: query
+  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
+  types:
+  - uid: IncludeText
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Copyright
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  types:
+  - uid: string
+definitions:
+- name: ResponseFormat
+  description: Desired format of the response. Value can be either _json_ or _xml_.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+  - name: xml
+    description: '[The Extensible Markup Language](https://www.w3.org/TR/xml/)'
+    types:
+    - uid: string
+- name: IncludeText
+  description: Yes/no value to exclude textual data from response. Only images and country names will be in response.
+  kind: enum
+  properties:
+  - name: yes
+    description: Include all textual data in response.
+    types:
+    - uid: string
+  - name: no
+    description: Exclude textual data from response. Only images and country names will be in response.
+    types:
+    - uid: string
+- name: Copyright
+  description: This object is returned from a successful copyright request
+  kind: object
+  properties:
+  - name: formatVersion
+    isReadyOnly: true
+    description: Format Version property
+    types:
+    - uid: string
+  - name: generalCopyrights
+    isReadyOnly: true
+    description: General Copyrights array
+    types:
+    - uid: string
+      isArray: true
+  - name: regions
+    isReadyOnly: true
+    description: Regions array
+    types:
+    - uid: RegionCopyrights
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: RegionCopyrights
+  kind: object
+  properties:
+  - name: copyrights
+    isReadyOnly: true
+    description: Copyrights array
+    types:
+    - uid: string
+      isArray: true
+  - name: country
+    isReadyOnly: true
+    description: Country property
+    types:
+    - uid: Country
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Country
+  description: Country property
+  kind: object
+  properties:
+  - name: ISO3
+    isReadyOnly: true
+    description: ISO3 property
+    types:
+    - uid: string
+  - name: label
+    isReadyOnly: true
+    description: Label property
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Successful Tile Copyright Request
+  request:
+    uri: GET https://atlas.microsoft.com/map/copyright/tile/json?api-version=2022-08-01&zoom=6&x=9&y=22
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://atlas.microsoft.com/map/copyright/tile/json?api-version=2022-08-01&zoom=6&x=9&y=22
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "formatVersion": "0.0.1",
+        "generalCopyrights": [
+          "© 1992 - 2022 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection, database right protection and other intellectual property rights owned by TomTom or its suppliers. The use of this material is subject to the terms of a license agreement. Any unauthorized copying or disclosure of this material will lead to criminal and civil liabilities.",
+          "Data Source © 2022 TomTom",
+          "based on"
+        ],
+        "regions": [
+          {
+            "country": {
+              "ISO3": "CAN",
+              "label": "Canada"
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the “about box” of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: “Software ©2011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis).",
+              "© 1992 – 2021 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation. All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material.",
+              "The following copyright notice applies to the use of Post- FSA layer and 6-digit layer:  © 1992 – 2021 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material.  The following copyright notice applies to the use of Points of Interest:  © 1992 – 2021 TomTom. All rights reserved. Portions of the POI database contained in Points of Interest North America have been provided by Neustar Localeze  The following copyright notice applies to the use of Telecommunications:  © 2021 Pitney Bowes Software Inc. All rights reserved. This product contains information and/or data of iconectiv, licensed to be included herein. Copyright © 2021 iconectiv. All rights reserved.  The following copyright notice applies to the use of Logistics:  © 1992 – 2021 TomTom. Truck Attribute Data © 2004 - 2021 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom.",
+              "The 6-digit alpha/numeric Canadian Postal Codes contained in any Licensed Product cannot be used for bulk mailing of items through the Canadian postal system. Furthermore, the 6-digit alpha/numeric Canadian Postal Codes must be wholly contained in the Authorized Application and shall not be extractable. Canadian Postal Codes cannot be displayed or used for postal code look-up on the Internet, nor can they be extracted or exported from any application to be utilized in the creation of any other data set or application. Notwithstanding the above, an End User may optionally correct or derive Canadian Postal Codes using the Authorized Application, but only as part of the address information for locations (e.g.: of delivery points and depots) that have been set up in the Authorized Application, and optionally extract data for fleet management purposes.",
+              "This product contains information adapted from Statistics Canada: Boundary Files, 2016 Census; Road Network File, 2018; and Census Population and Dwelling Count Highlight Tables, 2016 Census. This does not constitute an endorsement by Statistics Canada of this product.",
+              "Contains information licensed under Open Government Licence – Canada.",
+              "Contains data made available by GeoNames licensed under CC-BY 4.0. For more information visit http://www.geonames.org/.",
+              "Contains information provided by TransLink (South Coast British Columbia Transportation Authority) under the modified open GTFS Data Terms of Use Agreement. For specifics: https://developer.translink.ca/ServicesGtfs/GtfsData",
+              "Contains information licensed under Open Government Licence:  * Vancouver  * City of Victoria  * British Columbia  * City of Surrey  * Kamloops  * Nanaimo  * City of Westminster  * City of Prince George  * Burnaby  * City of Kelowna  * Maple Ridge  * North Vancouver"
+            ]
+          },
+          {
+            "country": {
+              "ISO3": "OCP",
+              "label": ""
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the “about box” of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: “Software ©2011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis)."
+            ]
+          },
+          {
+            "country": {
+              "ISO3": "OUP",
+              "label": ""
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the “about box” of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: “Software ©2011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis)."
+            ]
+          },
+          {
+            "country": {
+              "ISO3": "USA",
+              "label": "United States"
+            },
+            "copyrights": [
+              "You agree to include as soon as practically possible, but no later than the first new release of the Authorized Application following Your receipt of any 3D Landmarks, any copyright notices related to the display of such landmarks on every Authorized Application and in the “about box” of the Authorized Application.  Notwithstanding the aforementioned, TomTom has the right to decide, at its sole discretion, to remove specific 3D Landmarks in subsequent releases of the Licensed Products. In such case, You will remove those 3D Landmarks from the Authorized Application as soon as practically possible, but not later than the first new release of the Authorized Application following Your receipt of the Update to the Licensed Product. TomTom shall not be held responsible for any possible damages, costs or expenses incurred by You related to such removal of a 3D Landmark by TomTom from the Licensed Product or failure to remove a 3D Landmark by You from the Authorized Application.",
+              "TomTom hereby grants to You a non-exclusive, non-transferable license to use the Software Licensed Products for the sole and limited purpose of assisting You in viewing, analyzing and sectioning the Licensed Products. In no event shall You use the Software Licensed Products to view, analyze, section or in any way manipulate spatial map data that is not provided by TomTom. You shall not derive or attempt to derive the source code of all or any portion of the Licensed Products by reverse engineering, disassembly, decompilation, translation or any other means. You shall affix the following copyright notice on any copy of the GDF Viewer, or any portion of the Licensed Products: “Software ©2011-2020 TomTom North America, Inc. All rights reserved.",
+              "Neither the Data nor the Licensed Products such as Speed Profiles or TomTom Traffic or any derivatives thereof shall be used for the purpose of enforcement of traffic laws including but not limited to the selection of potential locations for the installation of speed cameras, speed traps or other speed tracking devices. With regards to Speed Profiles, You acknowledge and agrees that the actual speeds may not reflect the legally imposed speed limits.",
+              "You specifically agree that it shall not: (i) store the data for more than twenty-four (24) hours on Your servers; (ii) broadcast or make Live Services Licensed Products available except to authorized End Users; and (iii) use the feed or information received via the feed for historical data purposes (including but not limited to collection or analysis).",
+              "The following copyright notice applies to the use of Post- FSA layer and 6-digit layer:  © 1992 – 2021 TomTom. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom. The product includes information copied with permission from Canadian authorities, including © Canada Post Corporation, All rights reserved. The use of this material is subject to the terms of a License Agreement. You will be held liable for any unauthorized copying or disclosure of this material.  The following copyright notice applies to the use of Points of Interest:  © 1992 – 2021 TomTom. All rights reserved. Portions of the POI database contained in Points of Interest North America have been provided by Neustar Localeze  The following copyright notice applies to the use of Telecommunications:  © 2021 Pitney Bowes Software Inc. All rights reserved. This product contains information and/or data of iconectiv, licensed to be included herein. Copyright © 2021 iconectiv. All rights reserved.  The following copyright notice applies to the use of Logistics:  © 1992 – 2021 TomTom. Truck Attribute Data © 2004 - 2021 ProMiles Software Development Corporation. All rights reserved. This material is proprietary and the subject of copyright protection and other intellectual property rights owned or licensed to TomTom.",
+              "© United States Postal Service 2021",
+              "You shall not use the Municipal Boundary layer of the Administrative Areas product to create or derive applications which are used by third parties for the purpose of tariff, tax jurisdiction, or tax rate determination for a particular address or range of addresses.",
+              "This product is built on basis on the following elevation data: SRTM, GTOPO, NED data available from the US Geological Survey: https://lta.cr.usgs.gov/products_overview",
+              "This product is built on basis on the following elevation data: 2-minute Gridded Global Relief Data (ETOPO2v2) available from U.S. Department of Commerce, National Oceanic and Atmospheric Administration, National Geophysical Data Center: http://www.ngdc.noaa.gov/mgg/fliers/06mgg01.html",
+              "Contains data made available by City of Everett, WA with the following disclaimer:",
+              "\"The data made available here has been modified for use from its original source, which is the City of Everett. Neither the City of Everett nor the Information Technology Department makes any claims as to the completeness, timeliness, accuracy or content of any data contained in this application; makes any representation of any kind, including, but not limited to, warranty of the accuracy or fitness for a particular use; nor are any such warranties to be implied or inferred with respect to the information or data furnished herein. The data is subject to change as modifications and updates are complete. It is understood that the information contained in the web feed is being used at one's own risk.\" For specifics, please reference: https://data.everettwa.gov/"
+            ]
+          }
+        ]
+      }
+security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://atlas.microsoft.com/.default
+    description: https://atlas.microsoft.com/.default
+- name: subscription-key
+  type: apiKey
+  description: >-
+    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+
+     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+  in: header
+- name: SAS Token
+  type: apiKey
+  description: >-
+    This is a shared access signature token is created from the List SAS operation on the [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this token, any application is authorized to access with Azure role-based access controls and fine-grain control to the expiration, rate, and region(s) of use for the particular token. In other words, the SAS Token can be used to allow applications to control access in a more secured way than the shared key.
+
+     For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
+  in: header
+metadata:
+  description: >-
+    Applies to: see pricing tiers.
+
+    Copyrights API is designed to serve copyright information for Render Tile  service.
+errorCodes: []
