@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.autoscalesettings.createorupdate
 name: Create Or Update
 service: Monitor
 groupName: Autoscale Settings
-apiVersion: 2015-04-01
+apiVersion: 2022-10-01
 summary: Creates or updates an autoscale setting.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}?api-version=2015-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: AutoscaleErrorResponse
 - name: 200 OK
   description: Successful request to create or update an autoscale setting
   types:
@@ -70,6 +70,11 @@ requestBody:
     description: the enabled flag. Specifies whether automatic scaling is enabled for the resource. The default value is 'false'.
     types:
     - uid: boolean
+  - name: properties.predictiveAutoscalePolicy
+    in: body
+    description: the predictive autoscale policy mode.
+    types:
+    - uid: PredictiveAutoscalePolicy
   - name: properties.name
     in: body
     description: the name of the autoscale setting.
@@ -93,7 +98,7 @@ requestBody:
     - uid: string
   - name: tags
     in: body
-    description: Resource tags
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.
     types:
     - uid: object
       isDictionary: true
@@ -144,18 +149,59 @@ definitions:
     types:
     - uid: WebhookNotification
       isArray: true
-- name: ErrorResponse
+- name: PredictiveAutoscalePolicy
+  description: The parameters for enabling predictive autoscale.
+  kind: object
+  properties:
+  - name: scaleMode
+    description: the predictive autoscale mode
+    types:
+    - uid: PredictiveAutoscalePolicyScaleMode
+  - name: scaleLookAheadTime
+    description: the amount of time to specify by which instances are launched in advance. It must be between 1 minute and 60 minutes in ISO 8601 format.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: AutoscaleErrorResponse
   description: Describes the format of Error response.
   kind: object
   properties:
-  - name: code
-    description: Error code
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    description: Error message indicating why the operation failed.
+    - uid: Error
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata related to the response.
     types:
-    - uid: string
+    - uid: systemData
 - name: AutoscaleSettingResource
   description: The autoscale setting resource.
   kind: object
@@ -175,6 +221,10 @@ definitions:
     types:
     - uid: boolean
     defaultValue: false
+  - name: properties.predictiveAutoscalePolicy
+    description: the predictive autoscale policy mode.
+    types:
+    - uid: PredictiveAutoscalePolicy
   - name: properties.name
     description: the name of the autoscale setting.
     types:
@@ -207,13 +257,18 @@ definitions:
     types:
     - uid: string
   - name: tags
-    description: Resource tags
+    description: Gets or sets a list of key value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater in length than 128 characters and a value no greater in length than 256 characters.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata related to the response.
+    types:
+    - uid: systemData
 - name: ScaleCapacity
   description: The number of instances that can be used during this profile.
   kind: object
@@ -312,6 +367,55 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: PredictiveAutoscalePolicyScaleMode
+  description: the predictive autoscale mode
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: ForecastOnly
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
 - name: MetricTrigger
   description: The trigger that results in a scaling action.
   kind: object
@@ -559,11 +663,14 @@ definitions:
 examples:
 - name: Create or update an autoscale setting
   request:
-    uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2015-04-01
+    uri: PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2022-10-01
     body: >-
       {
         "location": "West US",
-        "tags": {},
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
         "properties": {
           "profiles": [
             {
@@ -684,6 +791,9 @@ examples:
             }
           ],
           "enabled": true,
+          "predictiveAutoscalePolicy": {
+            "scaleMode": "Enabled"
+          },
           "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
           "notifications": [
             {
@@ -709,11 +819,14 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2015-04-01
+      PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2022-10-01
 
       {
         "location": "West US",
-        "tags": {},
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
         "properties": {
           "profiles": [
             {
@@ -834,6 +947,9 @@ examples:
             }
           ],
           "enabled": true,
+          "predictiveAutoscalePolicy": {
+            "scaleMode": "Enabled"
+          },
           "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
           "notifications": [
             {
@@ -859,181 +975,6 @@ examples:
 
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armmonitor_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/createOrUpdateAutoscaleSetting.json
-      func ExampleAutoscaleSettingsClient_CreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armmonitor.NewAutoscaleSettingsClient("b67f7fec-69fc-4974-9099-a26bd6ffeda3", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.CreateOrUpdate(ctx,
-      		"TestingMetricsScaleSet",
-      		"MySetting",
-      		armmonitor.AutoscaleSettingResource{
-      			Location: to.Ptr("West US"),
-      			Tags:     map[string]*string{},
-      			Properties: &armmonitor.AutoscaleSetting{
-      				Enabled: to.Ptr(true),
-      				Notifications: []*armmonitor.AutoscaleNotification{
-      					{
-      						Email: &armmonitor.EmailNotification{
-      							CustomEmails: []*string{
-      								to.Ptr("gu@ms.com"),
-      								to.Ptr("ge@ns.net")},
-      							SendToSubscriptionAdministrator:    to.Ptr(true),
-      							SendToSubscriptionCoAdministrators: to.Ptr(true),
-      						},
-      						Operation: to.Ptr("Scale"),
-      						Webhooks: []*armmonitor.WebhookNotification{
-      							{
-      								Properties: map[string]*string{},
-      								ServiceURI: to.Ptr("http://myservice.com"),
-      							}},
-      					}},
-      				Profiles: []*armmonitor.AutoscaleProfile{
-      					{
-      						Name: to.Ptr("adios"),
-      						Capacity: &armmonitor.ScaleCapacity{
-      							Default: to.Ptr("1"),
-      							Maximum: to.Ptr("10"),
-      							Minimum: to.Ptr("1"),
-      						},
-      						FixedDate: &armmonitor.TimeWindow{
-      							End:      to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2015-03-05T14:30:00Z"); return t }()),
-      							Start:    to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2015-03-05T14:00:00Z"); return t }()),
-      							TimeZone: to.Ptr("UTC"),
-      						},
-      						Rules: []*armmonitor.ScaleRule{
-      							{
-      								MetricTrigger: &armmonitor.MetricTrigger{
-      									DividePerInstance: to.Ptr(false),
-      									MetricName:        to.Ptr("Percentage CPU"),
-      									MetricResourceURI: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"),
-      									Operator:          to.Ptr(armmonitor.ComparisonOperationTypeGreaterThan),
-      									Statistic:         to.Ptr(armmonitor.MetricStatisticTypeAverage),
-      									Threshold:         to.Ptr[float64](10),
-      									TimeAggregation:   to.Ptr(armmonitor.TimeAggregationTypeAverage),
-      									TimeGrain:         to.Ptr("PT1M"),
-      									TimeWindow:        to.Ptr("PT5M"),
-      								},
-      								ScaleAction: &armmonitor.ScaleAction{
-      									Type:      to.Ptr(armmonitor.ScaleTypeChangeCount),
-      									Cooldown:  to.Ptr("PT5M"),
-      									Direction: to.Ptr(armmonitor.ScaleDirectionIncrease),
-      									Value:     to.Ptr("1"),
-      								},
-      							},
-      							{
-      								MetricTrigger: &armmonitor.MetricTrigger{
-      									DividePerInstance: to.Ptr(false),
-      									MetricName:        to.Ptr("Percentage CPU"),
-      									MetricResourceURI: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"),
-      									Operator:          to.Ptr(armmonitor.ComparisonOperationTypeGreaterThan),
-      									Statistic:         to.Ptr(armmonitor.MetricStatisticTypeAverage),
-      									Threshold:         to.Ptr[float64](15),
-      									TimeAggregation:   to.Ptr(armmonitor.TimeAggregationTypeAverage),
-      									TimeGrain:         to.Ptr("PT2M"),
-      									TimeWindow:        to.Ptr("PT5M"),
-      								},
-      								ScaleAction: &armmonitor.ScaleAction{
-      									Type:      to.Ptr(armmonitor.ScaleTypeChangeCount),
-      									Cooldown:  to.Ptr("PT6M"),
-      									Direction: to.Ptr(armmonitor.ScaleDirectionDecrease),
-      									Value:     to.Ptr("2"),
-      								},
-      							}},
-      					},
-      					{
-      						Name: to.Ptr("saludos"),
-      						Capacity: &armmonitor.ScaleCapacity{
-      							Default: to.Ptr("1"),
-      							Maximum: to.Ptr("10"),
-      							Minimum: to.Ptr("1"),
-      						},
-      						Recurrence: &armmonitor.Recurrence{
-      							Frequency: to.Ptr(armmonitor.RecurrenceFrequencyWeek),
-      							Schedule: &armmonitor.RecurrentSchedule{
-      								Days: []*string{
-      									to.Ptr("1")},
-      								Hours: []*int32{
-      									to.Ptr[int32](5)},
-      								Minutes: []*int32{
-      									to.Ptr[int32](15)},
-      								TimeZone: to.Ptr("UTC"),
-      							},
-      						},
-      						Rules: []*armmonitor.ScaleRule{
-      							{
-      								MetricTrigger: &armmonitor.MetricTrigger{
-      									DividePerInstance: to.Ptr(false),
-      									MetricName:        to.Ptr("Percentage CPU"),
-      									MetricResourceURI: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"),
-      									Operator:          to.Ptr(armmonitor.ComparisonOperationTypeGreaterThan),
-      									Statistic:         to.Ptr(armmonitor.MetricStatisticTypeAverage),
-      									Threshold:         to.Ptr[float64](10),
-      									TimeAggregation:   to.Ptr(armmonitor.TimeAggregationTypeAverage),
-      									TimeGrain:         to.Ptr("PT1M"),
-      									TimeWindow:        to.Ptr("PT5M"),
-      								},
-      								ScaleAction: &armmonitor.ScaleAction{
-      									Type:      to.Ptr(armmonitor.ScaleTypeChangeCount),
-      									Cooldown:  to.Ptr("PT5M"),
-      									Direction: to.Ptr(armmonitor.ScaleDirectionIncrease),
-      									Value:     to.Ptr("1"),
-      								},
-      							},
-      							{
-      								MetricTrigger: &armmonitor.MetricTrigger{
-      									DividePerInstance: to.Ptr(false),
-      									MetricName:        to.Ptr("Percentage CPU"),
-      									MetricResourceURI: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"),
-      									Operator:          to.Ptr(armmonitor.ComparisonOperationTypeGreaterThan),
-      									Statistic:         to.Ptr(armmonitor.MetricStatisticTypeAverage),
-      									Threshold:         to.Ptr[float64](15),
-      									TimeAggregation:   to.Ptr(armmonitor.TimeAggregationTypeAverage),
-      									TimeGrain:         to.Ptr("PT2M"),
-      									TimeWindow:        to.Ptr("PT5M"),
-      								},
-      								ScaleAction: &armmonitor.ScaleAction{
-      									Type:      to.Ptr(armmonitor.ScaleTypeChangeCount),
-      									Cooldown:  to.Ptr("PT6M"),
-      									Direction: to.Ptr(armmonitor.ScaleDirectionDecrease),
-      									Value:     to.Ptr("2"),
-      								},
-      							}},
-      					}},
-      				TargetResourceURI: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { MonitorClient } = require("@azure/arm-monitor");
@@ -1043,7 +984,7 @@ examples:
        * This sample demonstrates how to Creates or updates an autoscale setting.
        *
        * @summary Creates or updates an autoscale setting.
-       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2015-04-01/examples/createOrUpdateAutoscaleSetting.json
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/createOrUpdateAutoscaleSetting.json
        */
       async function createOrUpdateAnAutoscaleSetting() {
         const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
@@ -1063,6 +1004,7 @@ examples:
               webhooks: [{ properties: {}, serviceUri: "http://myservice.com" }],
             },
           ],
+          predictiveAutoscalePolicy: { scaleMode: "Enabled" },
           profiles: [
             {
               name: "adios",
@@ -1166,7 +1108,7 @@ examples:
               ],
             },
           ],
-          tags: {},
+          tags: { key1: "value1", key2: "value2" },
           targetResourceUri:
             "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
         };
@@ -1183,7 +1125,7 @@ examples:
       createOrUpdateAnAutoscaleSetting().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.1/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1193,7 +1135,8 @@ examples:
         "type": "Microsoft.Insights/autoscaleSettings",
         "location": "West US",
         "tags": {
-          "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+          "key1": "value1",
+          "key2": "value2"
         },
         "properties": {
           "profiles": [
@@ -1317,6 +1260,10 @@ examples:
           "enabled": true,
           "name": "MySetting",
           "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+          "predictiveAutoscalePolicy": {
+            "scaleMode": "Enabled",
+            "scaleLookAheadTime": null
+          },
           "notifications": [
             {
               "operation": "Scale",
@@ -1346,7 +1293,8 @@ examples:
         "type": "Microsoft.Insights/autoscaleSettings",
         "location": "West US",
         "tags": {
-          "$type": "Microsoft.WindowsAzure.Management.Common.Storage.CasePreservedDictionary, Microsoft.WindowsAzure.Management.Common.Storage"
+          "key1": "value1",
+          "key2": "value2"
         },
         "properties": {
           "profiles": [
@@ -1470,6 +1418,10 @@ examples:
           "enabled": true,
           "name": "MySetting",
           "targetResourceUri": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/TestingMetricsScaleSet/providers/Microsoft.Compute/virtualMachineScaleSets/testingsc",
+          "predictiveAutoscalePolicy": {
+            "scaleMode": "Enabled",
+            "scaleLookAheadTime": null
+          },
           "notifications": [
             {
               "operation": "Scale",
