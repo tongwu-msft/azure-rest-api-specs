@@ -2692,6 +2692,20 @@
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Default-Settings.yml)
 ##### [Get](authorization/accessreviewcalls/Access-Review-Default-Settings/Get.yml)
 ##### [Put](authorization/accessreviewcalls/Access-Review-Default-Settings/Put.yml)
+#### Access Review History Definition
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition.yml)
+##### [Create](authorization/accessreviewcalls/Access-Review-History-Definition/Create.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Access-Review-History-Definition/Delete-By-Id.yml)
+#### Access Review History Definition Instance
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition-Instance.yml)
+##### [Generate Download Uri](authorization/accessreviewcalls/Access-Review-History-Definition-Instance/Generate-Download-Uri.yml)
+#### Access Review History Definition Instances
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition-Instances.yml)
+##### [List](authorization/accessreviewcalls/Access-Review-History-Definition-Instances/List.yml)
+#### Access Review History Definitions
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definitions.yml)
+##### [Get By Id](authorization/accessreviewcalls/Access-Review-History-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Access-Review-History-Definitions/List.yml)
 #### Access Review Instance
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Instance.yml)
 ##### [Accept Recommendations](authorization/accessreviewcalls/Access-Review-Instance/Accept-Recommendations.yml)
@@ -2732,6 +2746,49 @@
 #### Operations
 ##### [Overview](authorization/accessreviewcalls/Operations.yml)
 ##### [List](authorization/accessreviewcalls/Operations/List.yml)
+#### Scope Access Review Default Settings
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings.yml)
+##### [Get](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings/Get.yml)
+##### [Put](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings/Put.yml)
+#### Scope Access Review History Definition
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition.yml)
+##### [Create](authorization/accessreviewcalls/Scope-Access-Review-History-Definition/Create.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Scope-Access-Review-History-Definition/Delete-By-Id.yml)
+#### Scope Access Review History Definition Instance
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instance.yml)
+##### [Generate Download Uri](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instance/Generate-Download-Uri.yml)
+#### Scope Access Review History Definition Instances
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instances.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instances/List.yml)
+#### Scope Access Review History Definitions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions/List.yml)
+#### Scope Access Review Instance
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance.yml)
+##### [Apply Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Apply-Decisions.yml)
+##### [Record All Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Record-All-Decisions.yml)
+##### [Reset Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Reset-Decisions.yml)
+##### [Send Reminders](authorization/accessreviewcalls/Scope-Access-Review-Instance/Send-Reminders.yml)
+##### [Stop](authorization/accessreviewcalls/Scope-Access-Review-Instance/Stop.yml)
+#### Scope Access Review Instance Contacted Reviewers
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance-Contacted-Reviewers.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instance-Contacted-Reviewers/List.yml)
+#### Scope Access Review Instance Decisions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance-Decisions.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instance-Decisions/List.yml)
+#### Scope Access Review Instances
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instances.yml)
+##### [Create](authorization/accessreviewcalls/Scope-Access-Review-Instances/Create.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-Instances/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instances/List.yml)
+#### Scope Access Review Schedule Definitions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions.yml)
+##### [Create Or Update By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Create-Or-Update-By-Id.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Delete-By-Id.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/List.yml)
+##### [Stop](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Stop.yml)
 #### Tenant Level Access Review Instance Contacted Reviewers
 ##### [Overview](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers.yml)
 ##### [List](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers/List.yml)
