@@ -23,3 +23,5 @@ The API reference for authoring and runtime APIs for Conversational Language Und
 |Conversational Language Understanding - Runtime|Runtime prediction calls to query your deployed CLU project|[Reference](/rest/api/language/conversation-analysis-runtime)|
 |Custom Text Classification & Custom Named Entity Recognition - Authoring|Authoring API calls to create, build, train, and deploy your projects Custom Text Classification or Custom Named Entity Recognition projects|[Reference](/rest/api/language/text-analysis-authoring)|
 |Custom Text Classification & Custom Named Entity Recognition - Runtime|Runtime prediction calls to query your deployed projects.|[Reference](/rest/api/language/text-analysis-runtime)|
+|Language - runtime|Runtime prediction calls to query language models.|[Reference](/rest/api/language/text-analysis-runtime)|
+
