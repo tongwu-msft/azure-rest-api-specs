@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.operationstatuses.get
+name: Get
+service: Dev Center
+groupName: Operation Statuses
+apiVersion: 2022-08-01-preview
+summary: "Get Operation Status  \nGets the current status of an async operation."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/operationStatuses/{operationId}?api-version=2022-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The Azure region
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: The ID of an ongoing async operation
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The requested operation status
+  types:
+  - uid: OperationStatus
+- name: 202 Accepted
+  description: The requested operation status
+  types:
+  - uid: OperationStatus
+- name: Other Status Codes
+  description: Resource Provider error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: OperationStatus
+  description: The current status of an async operation
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified ID for the operation status.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The operation id name
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Provisioning state of the resource.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: The start time of the operation
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time of the operation
+    types:
+    - uid: string
+  - name: percentComplete
+    isReadyOnly: true
+    description: Percent of the operation that is complete
+    types:
+    - uid: number
+  - name: properties
+    isReadyOnly: true
+    description: Custom operation properties, populated only for a successful operation.
+    types:
+    - uid: object
+  - name: error
+    description: Operation Error message
+    types:
+    - uid: Error
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: Error
+  description: Operation Error message
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get OperationStatus
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/operationStatuses/{operationId}?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/operationStatuses/{operationId}?api-version=2022-08-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "3fa1a29d-e807-488d-81d1-f1c5456a08cd",
+        "status": "Succeeded",
+        "startTime": "2020-12-01T15:16:29.500Z",
+        "endTime": "2020-12-01T15:16:55.100Z",
+        "percentComplete": 100
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "3fa1a29d-e807-488d-81d1-f1c5456a08cd",
+        "status": "Succeeded",
+        "startTime": "2020-12-01T15:16:29.500Z",
+        "endTime": "2020-12-01T15:16:55.100Z",
+        "percentComplete": 99
+      }
+  - statusCode: default
+    body: >-
+      {
+        "error": {
+          "code": "OperationNotFound",
+          "message": "The requested async operation was not found"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Get Operation Status
+
+    Gets the current status of an async operation.
+errorCodes: []

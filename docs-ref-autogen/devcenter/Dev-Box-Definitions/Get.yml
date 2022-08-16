@@ -1,0 +1,342 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.devboxdefinitions.get
+name: Get
+service: Dev Center
+groupName: Dev Box Definitions
+apiVersion: 2022-08-01-preview
+summary: Gets a Dev Box definition
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}/devboxdefinitions/{devBoxDefinitionName}?api-version=2022-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: devCenterName
+  in: path
+  isRequired: true
+  description: The name of the devcenter.
+  types:
+  - uid: string
+- name: devBoxDefinitionName
+  in: path
+  isRequired: true
+  description: The name of the Dev Box definition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: DevBoxDefinition
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: DevBoxDefinition
+  description: Represents a definition for a Developer Machine.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+  - name: properties.imageValidationStatus
+    isReadyOnly: true
+    description: Validation status of the configured image.
+    types:
+    - uid: ImageValidationStatus
+  - name: properties.imageValidationErrorDetails
+    isReadyOnly: true
+    description: Details for image validator error. Populated when the image validation is not successful.
+    types:
+    - uid: ImageValidationErrorDetails
+  - name: properties.activeImageReference
+    isReadyOnly: true
+    description: Image reference information for the currently active image (only populated during updates).
+    types:
+    - uid: ImageReference
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.imageReference
+    description: Image reference information.
+    types:
+    - uid: ImageReference
+  - name: properties.sku
+    description: The SKU for Dev Boxes created using this definition.
+    types:
+    - uid: Sku
+  - name: properties.osStorageType
+    description: The storage type used for the Operating System disk of Dev Boxes created using this definition.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: ImageValidationStatus
+  description: Image validation status
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: TimedOut
+    types:
+    - uid: string
+- name: ImageValidationErrorDetails
+  description: Image validation error details
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error.
+    types:
+    - uid: string
+- name: ImageReference
+  description: Image reference information
+  kind: object
+  properties:
+  - name: id
+    description: Image ID, or Image version ID. When Image ID is provided, its latest version will be used.
+    types:
+    - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: The actual version of the image after use. When id references a gallery image latest version, this will indicate the actual version in use.
+    types:
+    - uid: string
+  - name: publisher
+    description: The image publisher.
+    types:
+    - uid: string
+  - name: offer
+    description: The image offer.
+    types:
+    - uid: string
+  - name: sku
+    description: The image sku.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+examples:
+- name: DevBoxDefinitions_Get
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/devboxdefinitions/WebDevBox?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/devboxdefinitions/WebDevBox?api-version=2022-08-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso/devboxdefinitions/WebDevBox",
+        "name": "WebDevBox",
+        "type": "Microsoft.DevCenter/devcenters/devboxdefinitions",
+        "properties": {
+          "imageReference": {
+            "id": "/subscriptions/0ac520ee-14c0-480f-b6c9-0a90c58ffff/resourceGroups/Example/providers/Microsoft.DevCenter/devcenters/Contoso/galleries/contosogallery/images/exampleImage/version/1.0.0"
+          },
+          "sku": {
+            "name": "Preview"
+          },
+          "osStorageType": "SSD_1024",
+          "provisioningState": "Succeeded"
+        },
+        "location": "centralus",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-11-18T18:00:36.993Z",
+          "lastModifiedBy": "user1",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-11-18T18:30:36.993Z"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Gets a Dev Box definition
+errorCodes: []
