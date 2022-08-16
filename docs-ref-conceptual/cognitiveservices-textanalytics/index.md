@@ -15,6 +15,10 @@ ms.devlang: rest-api
 
 This article demonstrates how to call a REST API endpoint for Text Analytics, a service in Azure Cognitive Services suite. The Text Analytics API is a cloud-based service that provides Natural Language Processing (NLP) features for text mining and text analysis, including sentiment analysis, opinion mining, key phrase extraction, language detection, and named entity recognition.
 
+> [!IMPORTANT]
+> This article describes an outdated version of the REST API. For up-to-date information, see [Cognitive Service for Language REST API](https://docs.microsoft.com/en-us/rest/api/language/text-analysis-runtime).
+
+
 ## Call the Text Analytics endpoint
 
 1. Start by creating an Azure Cognitive Services resource, and within that specifically a Text Analytics resource. For instructions, see [Create a Cognitive Services resource using the portal](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account).
