@@ -1,0 +1,147 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.ledgerdigestuploads.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Ledger Digest Uploads
+apiVersion: 2022-02-01-preview
+summary: Gets all ledger digest upload settings on a database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/ledgerDigestUploads?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved ledger upload settings.
+  types:
+  - uid: LedgerDigestUploadsListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 LedgerInvalidDigestStorageTargetUpdateRequest - The database ledger digest storage upload request does not exist or has no properties object.
+
+     * 400 InvalidDigestStorageEndpoint - The specified digestStorageEndpoint is invalid. It must be an Azure blob storage or Azure Confidential Ledger endpoint.
+
+     * 400 MalformedDigestStorageEndpoint - The specified digest storage endpoint is a malformed URI.
+
+     * 400 InvalidLedgerDigestUploadsName - The ledger digest upload name is not supported. Please use the key name “current”.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: LedgerDigestUploadsListResult
+  description: A list of ledger digest upload settings.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: LedgerDigestUploads
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: LedgerDigestUploads
+  description: Azure SQL Database ledger digest upload settings.
+  kind: object
+  properties:
+  - name: properties.digestStorageEndpoint
+    description: The digest storage endpoint, which must be either an Azure blob storage endpoint or an URI for Azure Confidential Ledger.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: Specifies the state of ledger digest upload.
+    types:
+    - uid: LedgerDigestUploadsState
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: LedgerDigestUploadsState
+  description: Specifies the state of ledger digest upload.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Gets list of ledger digest upload settings on a database.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/ledgertestrg/providers/Microsoft.Sql/servers/ledgertestserver/databases/testdb/ledgerDigestUploads?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/ledgertestrg/providers/Microsoft.Sql/servers/ledgertestserver/databases/testdb/ledgerDigestUploads?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/ledgertestrg/providers/Microsoft.Sql/servers/ledgertestserver/databases/testdb/current",
+            "name": "current",
+            "type": "Microsoft.Sql/servers/databases/ledgerDigestUploads",
+            "properties": {
+              "digestStorageEndpoint": "https://mystorage.blob.core.windows.net",
+              "state": "Enabled"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets all ledger digest upload settings on a database.
+errorCodes: []

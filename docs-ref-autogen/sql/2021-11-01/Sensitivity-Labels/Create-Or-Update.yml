@@ -1,0 +1,302 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.sensitivitylabels.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Sensitivity Labels
+apiVersion: 2021-11-01
+summary: Creates or updates the sensitivity label of a given column
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/current?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: The name of the table.
+  types:
+  - uid: string
+- name: columnName
+  in: path
+  isRequired: true
+  description: The name of the column.
+  types:
+  - uid: string
+- name: sensitivityLabelSource
+  in: path
+  isRequired: true
+  description: The source of the sensitivity label.
+  types:
+  - uid: WritableSensitivityLabelSource
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the sensitivity label.
+  types:
+  - uid: SensitivityLabel
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 DatawarehouseDatabaseIsDeactivated - Could not execute Data Classification operation because the database is paused. Please resume it.
+
+     * 400 SensitivityLabelSourceNameNotSupported - The specified sensitivity label source is not valid
+
+     * 400 InvalidSensitivityLabelResource - The specified sensitivity label resource is not valid
+
+     * 400 SensitivityLabelLabelNameAndInfoTypeNotProvided - At least one of LabelName and InformationType must be specified
+
+     * 400 LabelNameTooLong - Label name cannot exceed {0} characters
+
+     * 400 InformationTypeTooLong - Information type cannot exceed {0} characters
+
+     * 400 LabelIdMustBeGuid - The provided ‘labelId’ is invalid. Value must be a GUID
+
+     * 400 InformationTypeIdMustBeGuid - The provided ‘informationTypeId’ is invalid. Value must be a GUID
+
+     * 400 LabelMissing - Label is required. At least one of ‘labelName’ or ‘labelId’ must be provided
+
+     * 400 InformationTypeMissing - Information type is required. At least one of ‘informationType’ or ‘informationTypeId’ must be provided
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SensitivityLabelsLabelNotFound - The specified sensitivity label could not be found
+
+     * 404 SensitivityLabelsSchemaNotFound - The schema {0} could not be found
+
+     * 404 SensitivityLabelsTableNotFound - The table {0} could not be found in schema {1}
+
+     * 404 SensitivityLabelsColumnNotFound - The column {0} could not be found in table {2}.{1}
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+- name: 201 Created
+  description: Successfully created the sensitivity label.
+  types:
+  - uid: SensitivityLabel
+requestBody:
+- name: default
+  parameters:
+  - name: properties.labelName
+    in: body
+    description: The label name.
+    types:
+    - uid: string
+  - name: properties.labelId
+    in: body
+    description: The label ID.
+    types:
+    - uid: string
+  - name: properties.informationType
+    in: body
+    description: The information type.
+    types:
+    - uid: string
+  - name: properties.informationTypeId
+    in: body
+    description: The information type ID.
+    types:
+    - uid: string
+  - name: properties.rank
+    in: body
+    description: ''
+    types:
+    - uid: SensitivityLabelRank
+requestHeader: []
+definitions:
+- name: WritableSensitivityLabelSource
+  description: The source of the sensitivity label.
+  kind: enum
+  properties:
+  - name: current
+    types:
+    - uid: string
+- name: SensitivityLabel
+  description: A sensitivity label.
+  kind: object
+  properties:
+  - name: managedBy
+    isReadyOnly: true
+    description: Resource that manages the sensitivity label.
+    types:
+    - uid: string
+  - name: properties.schemaName
+    isReadyOnly: true
+    description: The schema name.
+    types:
+    - uid: string
+  - name: properties.tableName
+    isReadyOnly: true
+    description: The table name.
+    types:
+    - uid: string
+  - name: properties.columnName
+    isReadyOnly: true
+    description: The column name.
+    types:
+    - uid: string
+  - name: properties.labelName
+    description: The label name.
+    types:
+    - uid: string
+  - name: properties.labelId
+    description: The label ID.
+    types:
+    - uid: string
+  - name: properties.informationType
+    description: The information type.
+    types:
+    - uid: string
+  - name: properties.informationTypeId
+    description: The information type ID.
+    types:
+    - uid: string
+  - name: properties.isDisabled
+    isReadyOnly: true
+    description: Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not.
+    types:
+    - uid: boolean
+  - name: properties.rank
+    description: ''
+    types:
+    - uid: SensitivityLabelRank
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SensitivityLabelRank
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+examples:
+- name: Updates the sensitivity label of a given column with all parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "informationType": "PhoneNumber",
+          "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+          "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+          "labelName": "PII",
+          "rank": "Low"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current?api-version=2021-11-01
+
+      {
+        "properties": {
+          "informationType": "PhoneNumber",
+          "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+          "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+          "labelName": "PII",
+          "rank": "Low"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
+        "properties": {
+          "schemaName": "dbo",
+          "tableName": "myTable",
+          "columnName": "myColumn",
+          "informationType": "PhoneNumber",
+          "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+          "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+          "labelName": "PII",
+          "rank": "Medium"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/schemas/tables/columns/sensitivityLabels",
+        "properties": {
+          "informationType": "PhoneNumber",
+          "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+          "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+          "labelName": "PII",
+          "rank": "High"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Creates or updates the sensitivity label of a given column
+errorCodes: []

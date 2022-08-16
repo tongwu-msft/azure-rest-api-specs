@@ -1,0 +1,696 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.managedinstances.list
+name: List
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2021-11-01
+summary: Gets a list of all managed instances in the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/managedInstances?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/managedInstances?$expand={$expand}&api-version=2021-11-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: $expand
+  in: query
+  description: The child resources to include in the response.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of managed instances.
+  types:
+  - uid: ManagedInstanceListResult
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: ManagedInstanceListResult
+  description: A list of managed instances.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ManagedInstance
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ManagedInstance
+  description: An Azure SQL managed instance.
+  kind: object
+  properties:
+  - name: identity
+    description: The Azure Active Directory identity of the managed instance.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    description: 'Managed instance SKU. Allowed values for sku.name: GP_Gen5, GP_G8IM, GP_G8IH, BC_Gen5, BC_G8IM, BC_G8IH'
+    types:
+    - uid: Sku
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: Creating
+    - uid: Deleting
+    - uid: Updating
+    - uid: Unknown
+    - uid: Succeeded
+    - uid: Failed
+    - uid: Accepted
+    - uid: Created
+    - uid: Deleted
+    - uid: Unrecognized
+    - uid: Running
+    - uid: Canceled
+    - uid: NotSpecified
+    - uid: Registering
+    - uid: TimedOut
+    typesTitle: enum
+  - name: properties.managedInstanceCreateMode
+    description: >-
+      Specifies the mode of database creation.
+
+
+      Default: Regular instance creation.
+
+
+      Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified.
+    types:
+    - uid: ManagedServerCreateMode
+  - name: properties.fullyQualifiedDomainName
+    isReadyOnly: true
+    description: The fully qualified domain name of the managed instance.
+    types:
+    - uid: string
+  - name: properties.administratorLogin
+    description: Administrator username for the managed instance. Can only be specified when the managed instance is being created (and is required for creation).
+    types:
+    - uid: string
+  - name: properties.administratorLoginPassword
+    description: The administrator login password (required for managed instance creation).
+    types:
+    - uid: string
+  - name: properties.subnetId
+    description: Subnet resource ID for the managed instance.
+    types:
+    - uid: string
+  - name: properties.state
+    isReadyOnly: true
+    description: The state of the managed instance.
+    types:
+    - uid: string
+  - name: properties.licenseType
+    description: The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses).
+    types:
+    - uid: ManagedInstanceLicenseType
+  - name: properties.vCores
+    description: 'The number of vCores. Allowed values: 8, 16, 24, 32, 40, 64, 80.'
+    types:
+    - uid: integer
+  - name: properties.storageSizeInGB
+    description: 'Storage size in GB. Minimum value: 32. Maximum value: 16384. Increments of 32 GB allowed only. Maximum value depends on the selected hardware family and number of vCores.'
+    types:
+    - uid: integer
+  - name: properties.collation
+    description: Collation of the managed instance.
+    types:
+    - uid: string
+  - name: properties.dnsZone
+    isReadyOnly: true
+    description: The Dns Zone that the managed instance is in.
+    types:
+    - uid: string
+  - name: properties.dnsZonePartner
+    description: The resource id of another managed instance whose DNS zone this managed instance will share after creation.
+    types:
+    - uid: string
+  - name: properties.publicDataEndpointEnabled
+    description: Whether or not the public data endpoint is enabled.
+    types:
+    - uid: boolean
+  - name: properties.sourceManagedInstanceId
+    description: The resource identifier of the source managed instance associated with create operation of this instance.
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    description: Specifies the point in time (ISO8601 format) of the source database that will be restored to create the new database.
+    types:
+    - uid: string
+  - name: properties.proxyOverride
+    description: Connection type used for connecting to the instance.
+    types:
+    - uid: ManagedInstanceProxyOverride
+  - name: properties.timezoneId
+    description: >-
+      Id of the timezone. Allowed values are timezones supported by Windows.
+
+      Windows keeps details on supported timezones, including the id, in registry under
+
+      KEY_LOCAL_MACHINE\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Time Zones.
+
+      You can get those registry values via SQL Server by querying SELECT name AS timezone_id FROM sys.time_zone_info.
+
+      List of Ids can also be obtained by executing [System.TimeZoneInfo]::GetSystemTimeZones() in PowerShell.
+
+      An example of valid timezone id is "Pacific Standard Time" or "W. Europe Standard Time".
+    types:
+    - uid: string
+  - name: properties.instancePoolId
+    description: The Id of the instance pool this managed server belongs to.
+    types:
+    - uid: string
+  - name: properties.maintenanceConfigurationId
+    description: Specifies maintenance configuration id to apply to this managed instance.
+    types:
+    - uid: string
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connections on a managed instance.
+    types:
+    - uid: ManagedInstancePecProperty
+      isArray: true
+  - name: properties.minimalTlsVersion
+    description: "Minimal TLS version. Allowed values: 'None', '1.0', '1.1', '1.2'"
+    types:
+    - uid: string
+  - name: properties.currentBackupStorageRedundancy
+    isReadyOnly: true
+    description: The storage account type used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage)
+    types:
+    - uid: BackupStorageRedundancy
+  - name: properties.requestedBackupStorageRedundancy
+    description: The storage account type to be used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage)
+    types:
+    - uid: BackupStorageRedundancy
+  - name: properties.zoneRedundant
+    description: Whether or not the multi-az is enabled.
+    types:
+    - uid: boolean
+  - name: properties.primaryUserAssignedIdentityId
+    description: The resource id of a user assigned identity to be used by default.
+    types:
+    - uid: string
+  - name: properties.keyId
+    description: A CMK URI of the key to use for encryption.
+    types:
+    - uid: string
+  - name: properties.administrators
+    description: The Azure Active Directory administrator of the server.
+    types:
+    - uid: ManagedInstanceExternalAdministrator
+  - name: properties.servicePrincipal
+    description: The managed instance's service principal.
+    types:
+    - uid: ServicePrincipal
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ResourceIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: userAssignedIdentities
+    description: The resource ids of the user assigned identities to use
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentity
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+    types:
+    - uid: IdentityType
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+- name: Sku
+  description: An ARM Resource SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier or edition of the particular SKU, e.g. Basic, Premium.
+    types:
+    - uid: string
+  - name: size
+    description: Size of the particular SKU
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: Capacity of the particular SKU.
+    types:
+    - uid: integer
+- name: ManagedServerCreateMode
+  description: >-
+    Specifies the mode of database creation.
+
+
+
+    Default: Regular instance creation.
+
+
+
+    Restore: Creates an instance by restoring a set of backups to specific point in time. RestorePointInTime and SourceManagedInstanceId must be specified.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: PointInTimeRestore
+    types:
+    - uid: string
+- name: ManagedInstanceLicenseType
+  description: The license type. Possible values are 'LicenseIncluded' (regular price inclusive of a new SQL license) and 'BasePrice' (discounted AHB price for bringing your own SQL licenses).
+  kind: enum
+  properties:
+  - name: LicenseIncluded
+    types:
+    - uid: string
+  - name: BasePrice
+    types:
+    - uid: string
+- name: ManagedInstanceProxyOverride
+  description: Connection type used for connecting to the instance.
+  kind: enum
+  properties:
+  - name: Proxy
+    types:
+    - uid: string
+  - name: Redirect
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: ManagedInstancePecProperty
+  description: A private endpoint connection under a managed instance
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Private endpoint connection properties
+    types:
+    - uid: ManagedInstancePrivateEndpointConnectionProperties
+- name: BackupStorageRedundancy
+  description: The storage account type used to store backups for this instance. The options are Local (LocallyRedundantStorage), Zone (ZoneRedundantStorage), Geo (GeoRedundantStorage) and GeoZone(GeoZoneRedundantStorage)
+  kind: enum
+  properties:
+  - name: Geo
+    types:
+    - uid: string
+  - name: Local
+    types:
+    - uid: string
+  - name: Zone
+    types:
+    - uid: string
+  - name: GeoZone
+    types:
+    - uid: string
+- name: ManagedInstanceExternalAdministrator
+  description: Properties of a active directory administrator.
+  kind: object
+  properties:
+  - name: administratorType
+    description: Type of the sever administrator.
+    types:
+    - uid: AdministratorType
+  - name: principalType
+    description: Principal Type of the sever administrator.
+    types:
+    - uid: PrincipalType
+  - name: login
+    description: Login name of the server administrator.
+    types:
+    - uid: string
+  - name: sid
+    description: SID (object ID) of the server administrator.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant ID of the administrator.
+    types:
+    - uid: string
+  - name: azureADOnlyAuthentication
+    description: Azure Active Directory only Authentication enabled.
+    types:
+    - uid: boolean
+- name: ServicePrincipal
+  description: The managed instance's service principal configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory application object id.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The Azure Active Directory application client id.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The Azure Active Directory tenant id.
+    types:
+    - uid: string
+  - name: type
+    description: Service principal type.
+    types:
+    - uid: ServicePrincipalType
+- name: UserIdentity
+  description: Azure Active Directory identity configuration for a resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The Azure Active Directory principal id.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The Azure Active Directory client id.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The identity type. Set this to 'SystemAssigned' in order to automatically create and assign an Azure Active Directory principal for the resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: ManagedInstancePrivateEndpointConnectionProperties
+  description: Properties of a private endpoint connection.
+  kind: object
+  properties:
+  - name: privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: ManagedInstancePrivateEndpointProperty
+  - name: privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  - name: provisioningState
+    isReadyOnly: true
+    description: State of the Private Endpoint Connection.
+    types:
+    - uid: string
+- name: AdministratorType
+  description: Type of the sever administrator.
+  kind: enum
+  properties:
+  - name: ActiveDirectory
+    types:
+    - uid: string
+- name: PrincipalType
+  description: Principal Type of the sever administrator.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Group
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+- name: ServicePrincipalType
+  description: Service principal type.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: ManagedInstancePrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The private link service connection description.
+    types:
+    - uid: string
+examples:
+- name: List managed instances
+  request:
+    uri: GET https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Sql/managedInstances?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Sql/managedInstances?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "japaneast",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testinstance1",
+            "name": "testinstance1",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "GP_Gen4",
+              "tier": "GeneralPurpose",
+              "capacity": 8,
+              "family": "Gen4"
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testinstance1.1b4e2caff2530.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+              "state": "Ready",
+              "provisioningState": "Succeeded",
+              "vCores": 8,
+              "storageSizeInGB": 1024,
+              "licenseType": "LicenseIncluded",
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "publicDataEndpointEnabled": false,
+              "proxyOverride": "Default",
+              "minimalTlsVersion": "1.2",
+              "dnsZone": "1b4e2caff2530",
+              "maintenanceConfigurationId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
+              "currentBackupStorageRedundancy": "Geo",
+              "requestedBackupStorageRedundancy": "Geo"
+            }
+          },
+          {
+            "location": "japaneast",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testinstance2",
+            "name": "testinstance2",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "BC_Gen5",
+              "tier": "BusinessCritical",
+              "capacity": 16,
+              "family": "Gen4"
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testinstance2.2c3d1bdae3412.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/subnet2",
+              "state": "Ready",
+              "provisioningState": "Succeeded",
+              "vCores": 16,
+              "storageSizeInGB": 1024,
+              "licenseType": "Full",
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "publicDataEndpointEnabled": false,
+              "proxyOverride": "Default",
+              "minimalTlsVersion": "1.2",
+              "dnsZone": "2c3d1bdae3412",
+              "maintenanceConfigurationId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
+              "currentBackupStorageRedundancy": "Geo",
+              "requestedBackupStorageRedundancy": "Geo"
+            }
+          }
+        ]
+      }
+- name: List managed instances with $expand=administrators/activedirectory
+  request:
+    uri: GET https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Sql/managedInstances?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Sql/managedInstances?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "japaneast",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testinstance1",
+            "name": "testinstance1",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "GP_Gen4",
+              "tier": "GeneralPurpose",
+              "capacity": 8,
+              "family": "Gen4"
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testinstance1.1b4e2caff2530.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet1/subnets/subnet1",
+              "state": "Ready",
+              "provisioningState": "Succeeded",
+              "vCores": 8,
+              "storageSizeInGB": 1024,
+              "licenseType": "LicenseIncluded",
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "publicDataEndpointEnabled": false,
+              "proxyOverride": "Default",
+              "minimalTlsVersion": "1.2",
+              "dnsZone": "1b4e2caff2530",
+              "maintenanceConfigurationId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_1",
+              "currentBackupStorageRedundancy": "Geo",
+              "requestedBackupStorageRedundancy": "Geo",
+              "administrators": {
+                "principalType": "User",
+                "login": "bob@contoso.com",
+                "sid": "00000011-1111-2222-2222-123456789111",
+                "tenantId": "00000011-1111-2222-2222-123456789111",
+                "azureADOnlyAuthentication": true
+              }
+            }
+          },
+          {
+            "location": "japaneast",
+            "id": "/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/testinstance2",
+            "name": "testinstance2",
+            "type": "Microsoft.Sql/managedInstances",
+            "sku": {
+              "name": "BC_Gen5",
+              "tier": "BusinessCritical",
+              "capacity": 16,
+              "family": "Gen4"
+            },
+            "properties": {
+              "fullyQualifiedDomainName": "testinstance2.2c3d1bdae3412.database.windows.net",
+              "administratorLogin": "dummylogin",
+              "subnetId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/resourceGroups/testrg/providers/Microsoft.Network/virtualNetworks/vnet2/subnets/subnet2",
+              "state": "Ready",
+              "provisioningState": "Succeeded",
+              "vCores": 16,
+              "storageSizeInGB": 1024,
+              "licenseType": "Full",
+              "collation": "SQL_Latin1_General_CP1_CI_AS",
+              "publicDataEndpointEnabled": false,
+              "proxyOverride": "Default",
+              "minimalTlsVersion": "1.2",
+              "dnsZone": "2c3d1bdae3412",
+              "maintenanceConfigurationId": "/subscriptions/20D7082A-0FC7-4468-82BD-542694D5042B/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_JapanEast_MI_2",
+              "currentBackupStorageRedundancy": "Geo",
+              "requestedBackupStorageRedundancy": "Geo",
+              "administrators": {
+                "principalType": "User",
+                "login": "bob@contoso.com",
+                "sid": "00000011-1111-2222-2222-123456789111",
+                "tenantId": "00000011-1111-2222-2222-123456789111",
+                "azureADOnlyAuthentication": true
+              }
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a list of all managed instances in the subscription.
+errorCodes: []

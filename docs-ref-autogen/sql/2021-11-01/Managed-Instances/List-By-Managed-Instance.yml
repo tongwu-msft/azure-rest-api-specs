@@ -1,0 +1,813 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.managedinstances.listbymanagedinstance
+name: List By Managed Instance
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2021-11-01
+summary: Get top resource consuming queries of a managed instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/topqueries?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/topqueries?numberOfQueries={numberOfQueries}&databases={databases}&startTime={startTime}&endTime={endTime}&interval={interval}&aggregationFunction={aggregationFunction}&observationMetric={observationMetric}&api-version=2021-11-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: numberOfQueries
+  in: query
+  description: How many 'top queries' to return. Default is 5.
+  types:
+  - uid: integer
+  format: int32
+- name: databases
+  in: query
+  description: Comma separated list of databases to be included into search. All DB's are included if this parameter is not specified.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: Start time for observed period.
+  types:
+  - uid: string
+- name: endTime
+  in: query
+  description: End time for observed period.
+  types:
+  - uid: string
+- name: interval
+  in: query
+  description: The time step to be used to summarize the metric values. Default value is PT1H
+  types:
+  - uid: QueryTimeGrainType
+- name: aggregationFunction
+  in: query
+  description: Aggregation function to be used, default value is 'sum'
+  types:
+  - uid: AggregationFunctionType
+- name: observationMetric
+  in: query
+  description: Metric to be used for ranking top queries. Default is 'cpu'
+  types:
+  - uid: MetricType
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved top queries for managed instance.
+  types:
+  - uid: TopQueriesListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: QueryTimeGrainType
+  description: Interval type (length).
+  kind: enum
+  properties:
+  - name: PT1H
+    types:
+    - uid: string
+  - name: P1D
+    types:
+    - uid: string
+- name: AggregationFunctionType
+  description: Aggregation function to be used, default value is 'sum'
+  kind: enum
+  properties:
+  - name: avg
+    types:
+    - uid: string
+  - name: min
+    types:
+    - uid: string
+  - name: max
+    types:
+    - uid: string
+  - name: stdev
+    types:
+    - uid: string
+  - name: sum
+    types:
+    - uid: string
+- name: MetricType
+  description: Metric to be used for ranking top queries. Default is 'cpu'
+  kind: enum
+  properties:
+  - name: cpu
+    types:
+    - uid: string
+  - name: io
+    types:
+    - uid: string
+  - name: logIo
+    types:
+    - uid: string
+  - name: duration
+    types:
+    - uid: string
+  - name: dtu
+    types:
+    - uid: string
+- name: TopQueriesListResult
+  description: A list of top resource consuming queries on managed instance
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: TopQueries
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: TopQueries
+  kind: object
+  properties:
+  - name: numberOfQueries
+    isReadyOnly: true
+    description: Requested number of top queries.
+    types:
+    - uid: integer
+  - name: aggregationFunction
+    isReadyOnly: true
+    description: Aggregation function used to calculate query metrics.
+    types:
+    - uid: string
+  - name: observationMetric
+    isReadyOnly: true
+    description: Metric used to rank queries.
+    types:
+    - uid: string
+  - name: intervalType
+    isReadyOnly: true
+    description: Interval type (length).
+    types:
+    - uid: QueryTimeGrainType
+  - name: startTime
+    isReadyOnly: true
+    description: The start time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: queries
+    description: List of top resource consuming queries with appropriate metric data
+    types:
+    - uid: QueryStatisticsProperties
+      isArray: true
+- name: QueryStatisticsProperties
+  description: Properties of a query execution statistics.
+  kind: object
+  properties:
+  - name: databaseName
+    isReadyOnly: true
+    description: Database name of the database in which this query was executed.
+    types:
+    - uid: string
+  - name: queryId
+    isReadyOnly: true
+    description: Unique query id (unique within one database).
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: The start time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: intervals
+    description: List of intervals with appropriate metric data
+    types:
+    - uid: QueryMetricInterval
+      isArray: true
+- name: QueryMetricInterval
+  description: Properties of a query metrics interval.
+  kind: object
+  properties:
+  - name: intervalStartTime
+    isReadyOnly: true
+    description: The start time for the metric interval (ISO-8601 format).
+    types:
+    - uid: string
+  - name: intervalType
+    isReadyOnly: true
+    description: Interval type (length).
+    types:
+    - uid: QueryTimeGrainType
+  - name: executionCount
+    isReadyOnly: true
+    description: Execution count of a query in this interval.
+    types:
+    - uid: integer
+  - name: metrics
+    description: List of metric objects for this interval
+    types:
+    - uid: QueryMetricProperties
+      isArray: true
+- name: QueryMetricProperties
+  description: Properties of a topquery metric in one interval.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: string
+  - name: displayName
+    isReadyOnly: true
+    description: The UI appropriate name for the metric.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: QueryMetricUnitType
+  - name: value
+    isReadyOnly: true
+    description: The value of the metric.
+    types:
+    - uid: number
+  - name: min
+    isReadyOnly: true
+    description: Metric value when min() aggregate function is used over the interval.
+    types:
+    - uid: number
+  - name: max
+    isReadyOnly: true
+    description: Metric value when max() aggregate function is used over the interval.
+    types:
+    - uid: number
+  - name: avg
+    isReadyOnly: true
+    description: Metric value when avg() aggregate function is used over the interval.
+    types:
+    - uid: number
+  - name: sum
+    isReadyOnly: true
+    description: Metric value when sum() aggregate function is used over the interval.
+    types:
+    - uid: number
+  - name: stdev
+    isReadyOnly: true
+    description: Metric value when stdev aggregate function is used over the interval.
+    types:
+    - uid: number
+- name: QueryMetricUnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: percentage
+    types:
+    - uid: string
+  - name: KB
+    types:
+    - uid: string
+  - name: microseconds
+    types:
+    - uid: string
+  - name: count
+    types:
+    - uid: string
+examples:
+- name: Obtain list of instance's top resource consuming queries. Minimal request and response.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "numberOfQueries": 5,
+            "aggregationFunction": "sum",
+            "observationMetric": "cpu",
+            "intervalType": "PT1H",
+            "startTime": "03/10/2020 12:00:00",
+            "endTime": "03/11/2020 12:24:07",
+            "queries": []
+          }
+        ]
+      }
+- name: Obtain list of instance's top resource consuming queries.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?interval=PT1H&observationMetric=duration&api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?interval=PT1H&observationMetric=duration&api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "numberOfQueries": 5,
+            "aggregationFunction": "sum",
+            "observationMetric": "cpu",
+            "intervalType": "P1D",
+            "startTime": "03/01/2020 00:00:00",
+            "endTime": "03/05/2020 13:00:00",
+            "queries": [
+              {
+                "databaseName": "db1",
+                "queryId": "25",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/03/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0015841714409722222
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 4.340277777777778E-06
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 8336
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 11306905
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db1",
+                "queryId": "21",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/03/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0009521432291666667
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 2.3148148148148148E-07
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 1024
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 6620020
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db3",
+                "queryId": "3",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/04/2020 00:00:00",
+                    "executionCount": 104,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0008006611689814815
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 0
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 5543088
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db2",
+                "queryId": "3",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/03/2020 00:00:00",
+                    "executionCount": 89,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0006882543402777778
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 0
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 4761877
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db3",
+                "queryId": "22",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/04/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0006220661168981482
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 1024
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 4454161
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+- name: Obtain list of instance's top resource consuming queries. Full-blown request and response.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?databases=db1,db2&startTime=2020-03-10T12:00:00Z&endTime=2020-03-12T12:00:00Z&interval=P1D&observationMetric=cpu&api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/sqlcrudtest-4645/topqueries?databases=db1,db2&startTime=2020-03-10T12:00:00Z&endTime=2020-03-12T12:00:00Z&interval=P1D&observationMetric=cpu&api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "numberOfQueries": 5,
+            "aggregationFunction": "sum",
+            "observationMetric": "cpu",
+            "intervalType": "P1D",
+            "startTime": "03/10/2020 00:00:00",
+            "endTime": "03/12/2020 13:00:00",
+            "queries": [
+              {
+                "databaseName": "db1",
+                "queryId": "28",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/11/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0015934667245370371
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 4.224537037037037E-06
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 8336
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 11091296
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db1",
+                "queryId": "24",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/11/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0009522783564814815
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 1.7361111111111112E-07
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 1024
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 6625562
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db1",
+                "queryId": "3",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/11/2020 00:00:00",
+                    "executionCount": 82,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0007183139467592593
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 0
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 4970199
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db1",
+                "queryId": "29",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/11/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0006494454571759259
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 5.034722222222222E-06
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 1024
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 4530668
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "databaseName": "db2",
+                "queryId": "25",
+                "intervals": [
+                  {
+                    "intervalStartTime": "03/11/2020 00:00:00",
+                    "executionCount": 1,
+                    "metrics": [
+                      {
+                        "name": "cpu",
+                        "displayName": "Cpu",
+                        "unit": "percentage",
+                        "value": 0.0006275368923611112
+                      },
+                      {
+                        "name": "io",
+                        "displayName": "Physical Io Reads",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "logIo",
+                        "displayName": "Log Writes",
+                        "unit": "percentage",
+                        "value": 0
+                      },
+                      {
+                        "name": "memory",
+                        "displayName": "Memory consumption",
+                        "unit": "KB",
+                        "value": 1024
+                      },
+                      {
+                        "name": "duration",
+                        "displayName": "Query duration",
+                        "unit": "microseconds",
+                        "value": 4349943
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Get top resource consuming queries of a managed instance.
+errorCodes: []

@@ -1,0 +1,310 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.workloadclassifiers.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Workload Classifiers
+apiVersion: 2022-02-01-preview
+summary: Creates or updates a workload classifier.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/workloadGroups/{workloadGroupName}/workloadClassifiers/{workloadClassifierName}?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: workloadGroupName
+  in: path
+  isRequired: true
+  description: The name of the workload group from which to receive the classifier from.
+  types:
+  - uid: string
+- name: workloadClassifierName
+  in: path
+  isRequired: true
+  description: The name of the workload classifier to create/update.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the workload classifier.
+  types:
+  - uid: WorkloadClassifier
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 OperationNotAllowedOnPausedDatabase - Operation is not allowed on a paused database.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 400 InvalidMemberNameParameter - Invalid member name parameter for this workload classifier.
+
+     * 400 InvalidStartTimeAndEndTimeParameters - Invalid start time and end time parameters for the workload classifier.
+
+     * 400 InvalidImportanceParameter - Importance must be one of the following strings: Low, Below_Normal, Normal, Above_Normal, High.
+
+     * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 ConflictingDatabaseOperation - There is already some operation on the database and the current operation should wait till it is done.
+
+     * 409 ConflictingSystemOperationInProgress - A system maintenance operation is in progress on the database and further operations need to wait until it is completed.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+- name: 202 Accepted
+  description: Create or update for the workload classifier is in progress.
+- name: 201 Created
+  description: Successfully created the workload classifier.
+  types:
+  - uid: WorkloadClassifier
+requestBody:
+- name: default
+  parameters:
+  - name: properties.memberName
+    in: body
+    isRequired: true
+    description: The workload classifier member name.
+    types:
+    - uid: string
+  - name: properties.label
+    in: body
+    description: The workload classifier label.
+    types:
+    - uid: string
+  - name: properties.context
+    in: body
+    description: The workload classifier context.
+    types:
+    - uid: string
+  - name: properties.startTime
+    in: body
+    description: The workload classifier start time for classification.
+    types:
+    - uid: string
+  - name: properties.endTime
+    in: body
+    description: The workload classifier end time for classification.
+    types:
+    - uid: string
+  - name: properties.importance
+    in: body
+    description: The workload classifier importance.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: WorkloadClassifier
+  description: Workload classifier operations for a data warehouse
+  kind: object
+  properties:
+  - name: properties.memberName
+    description: The workload classifier member name.
+    types:
+    - uid: string
+  - name: properties.label
+    description: The workload classifier label.
+    types:
+    - uid: string
+  - name: properties.context
+    description: The workload classifier context.
+    types:
+    - uid: string
+  - name: properties.startTime
+    description: The workload classifier start time for classification.
+    types:
+    - uid: string
+  - name: properties.endTime
+    description: The workload classifier end time for classification.
+    types:
+    - uid: string
+  - name: properties.importance
+    description: The workload classifier importance.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Create a workload group with the required properties specified.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier?api-version=2022-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier?api-version=2022-02-01-preview
+
+      {
+        "properties": {
+          "memberName": "dbo"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "",
+          "context": "",
+          "startTime": "",
+          "endTime": "",
+          "importance": ""
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier",
+        "name": "wlm_workloadclassifier",
+        "type": "Microsoft.Sql/servers/databases/workloadGroups/workloadClassifiers"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "",
+          "context": "",
+          "startTime": "",
+          "endTime": "",
+          "importance": ""
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier",
+        "name": "wlm_workloadclassifier",
+        "type": "Microsoft.Sql/servers/databases/workloadGroups/workloadClassifiers"
+      }
+  - statusCode: "202"
+- name: Create a workload group with all properties specified.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier?api-version=2022-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "test_label",
+          "context": "test_context",
+          "startTime": "12:00",
+          "endTime": "14:00",
+          "importance": "high"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier?api-version=2022-02-01-preview
+
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "test_label",
+          "context": "test_context",
+          "startTime": "12:00",
+          "endTime": "14:00",
+          "importance": "high"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "test_label",
+          "context": "test_context",
+          "startTime": "12:00",
+          "endTime": "14:00",
+          "importance": "high"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier",
+        "name": "wlm_workloadclassifier",
+        "type": "Microsoft.Sql/servers/databases/workloadGroups/workloadClassifiers"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "memberName": "dbo",
+          "label": "test_label",
+          "context": "test_context",
+          "startTime": "12:00",
+          "endTime": "14:00",
+          "importance": "high"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/workloadGroups/wlm_workloadgroup/workloadClassifiers/wlm_workloadclassifier",
+        "name": "wlm_workloadclassifier",
+        "type": "Microsoft.Sql/servers/databases/workloadGroups/workloadClassifiers"
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: Learn more about SQL Database service - Creates or updates a workload classifier.
+errorCodes: []

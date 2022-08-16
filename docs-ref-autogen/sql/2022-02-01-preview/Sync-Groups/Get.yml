@@ -1,0 +1,325 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.syncgroups.get
+name: Get
+service: SQL Database
+groupName: Sync Groups
+apiVersion: 2022-02-01-preview
+summary: Gets a sync group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/syncGroups/{syncGroupName}?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database on which the sync group is hosted.
+  types:
+  - uid: string
+- name: syncGroupName
+  in: path
+  isRequired: true
+  description: The name of the sync group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified sync group.
+  types:
+  - uid: SyncGroup
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidSyncGroupCreateOrUpdateRequest - The create or update sync group request body is empty.
+
+     * 400 InvalidSyncMemberCreateOrUpdateRequest - The create or update sync member request body is empty.
+
+     * 400 InvalidSyncAgentCreateOrUpdateRequest - The create or update sync agent request body is empty.
+
+     * 400 InvalidDatabaseResourceId - Invalid database resource identifier.
+
+     * 400 MismatchingSubscriptionWithUrl - The provided subscription did not match the subscription in the Url.
+
+     * 400 InvalidSyncAgentResourceId - Invalid sync agent resource identifier.
+
+     * 400 MismatchingResourceGroupNameWithUrl - The provided resource group name did not match the name in the Url.
+
+     * 400 MismatchingServerNameWithUrl - The provided server name did not match the name in the Url.
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 400 MissingServerName - The Server name is missing
+
+     * 400 MissingDatabaseName - The Database name is missing
+
+     * 400 MissingSyncGroupName - The Sync Group name is missing
+
+     * 400 MissingConflictResolutionPolicy - The Conflict Resolution Policy is missing
+
+     * 400 MissingSyncAgentName - The Sync Agent name is missing
+
+     * 400 SyncOperation_GenericFailure - Failed to perform data sync operation.
+
+     * 400 InvalidSyncGroup - Sync group is invalid.
+
+     * 400 FeatureDisabledOnSelectedEdition - User attempted to use a feature which is disabled on current database edition.
+
+     * 400 CannotCreateSyncGroupDueToQuotaExceeded - Cannot create sync group due to quota exceeded.
+
+     * 400 SyncOperation_DuplicateSyncGroupDrop - The sync group is already being dropped.
+
+     * 400 SyncOperation_WrongSyncDatabase - The sync database specified does not match the existing one.
+
+     * 400 SyncOperation_UpdateSyncGroupWhenDropping - Cannot update the sync group because it is currently being dropped.
+
+     * 400 SyncOperation_DwInSyncGroup - Cannot use datawarehouse edition in data sync.
+
+     * 400 SyncOperation_MasterDbInSyncGroup - Cannot use logical master in data sync.
+
+     * 400 SyncOperation_InvalidCredential - Credential of database is invalid.
+
+     * 400 InvalidSyncMetadataDatabase - Sync metadata database is invalid.
+
+     * 400 SyncOperation_InvalidSyncInterval - Cannot create or update sync group because the sync interval is invalid.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SyncOperation_HubServerNotFound - Hub logical server does not exist.
+
+     * 404 SyncOperation_InvalidHubDatabase - Hub database is invalid.
+
+     * 409 SyncOperation_DuplicateSyncGroupName - Cannot create sync group because the sync group with the same name already exists.
+requestHeader: []
+definitions:
+- name: SyncGroup
+  description: An Azure SQL Database sync group.
+  kind: object
+  properties:
+  - name: sku
+    description: The name and capacity of the SKU.
+    types:
+    - uid: Sku
+  - name: properties.interval
+    description: Sync interval of the sync group.
+    types:
+    - uid: integer
+  - name: properties.lastSyncTime
+    isReadyOnly: true
+    description: Last sync time of the sync group.
+    types:
+    - uid: string
+  - name: properties.conflictResolutionPolicy
+    description: Conflict resolution policy of the sync group.
+    types:
+    - uid: SyncConflictResolutionPolicy
+  - name: properties.syncDatabaseId
+    description: ARM resource id of the sync database in the sync group.
+    types:
+    - uid: string
+  - name: properties.hubDatabaseUserName
+    description: User name for the sync group hub database credential.
+    types:
+    - uid: string
+  - name: properties.hubDatabasePassword
+    description: Password for the sync group hub database credential.
+    types:
+    - uid: string
+  - name: properties.syncState
+    isReadyOnly: true
+    description: Sync state of the sync group.
+    types:
+    - uid: SyncGroupState
+  - name: properties.schema
+    description: Sync schema of the sync group.
+    types:
+    - uid: SyncGroupSchema
+  - name: properties.enableConflictLogging
+    description: If conflict logging is enabled.
+    types:
+    - uid: boolean
+  - name: properties.conflictLoggingRetentionInDays
+    description: Conflict logging retention period.
+    types:
+    - uid: integer
+  - name: properties.usePrivateLinkConnection
+    description: If use private link connection is enabled.
+    types:
+    - uid: boolean
+  - name: properties.privateEndpointName
+    isReadyOnly: true
+    description: Private endpoint name of the sync group if use private link connection is enabled.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: Sku
+  description: An ARM Resource SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier or edition of the particular SKU, e.g. Basic, Premium.
+    types:
+    - uid: string
+  - name: size
+    description: Size of the particular SKU
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: Capacity of the particular SKU.
+    types:
+    - uid: integer
+- name: SyncConflictResolutionPolicy
+  description: Conflict resolution policy of the sync group.
+  kind: enum
+  properties:
+  - name: HubWin
+    types:
+    - uid: string
+  - name: MemberWin
+    types:
+    - uid: string
+- name: SyncGroupState
+  description: Sync state of the sync group.
+  kind: enum
+  properties:
+  - name: NotReady
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Progressing
+    types:
+    - uid: string
+  - name: Good
+    types:
+    - uid: string
+- name: SyncGroupSchema
+  description: Properties of sync group schema.
+  kind: object
+  properties:
+  - name: tables
+    description: List of tables in sync group schema.
+    types:
+    - uid: SyncGroupSchemaTable
+      isArray: true
+  - name: masterSyncMemberName
+    description: Name of master sync member where the schema is from.
+    types:
+    - uid: string
+- name: SyncGroupSchemaTable
+  description: Properties of table in sync group schema.
+  kind: object
+  properties:
+  - name: columns
+    description: List of columns in sync group schema.
+    types:
+    - uid: SyncGroupSchemaTableColumn
+      isArray: true
+  - name: quotedName
+    description: Quoted name of sync group schema table.
+    types:
+    - uid: string
+- name: SyncGroupSchemaTableColumn
+  description: Properties of column in sync group table.
+  kind: object
+  properties:
+  - name: quotedName
+    description: Quoted name of sync group table column.
+    types:
+    - uid: string
+  - name: dataSize
+    description: Data size of the column.
+    types:
+    - uid: string
+  - name: dataType
+    description: Data type of the column.
+    types:
+    - uid: string
+examples:
+- name: Get a sync group
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-65440/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "interval": -1,
+          "lastSyncTime": "0001-01-01T08:00:00Z",
+          "conflictResolutionPolicy": "HubWin",
+          "syncDatabaseId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328",
+          "hubDatabaseUserName": "hubUser",
+          "syncState": "NotReady",
+          "usePrivateLinkConnection": true,
+          "privateEndpointName": "PE_67FDBBD6-B2D8-4014-9CC6-C68ABBCFD481_syncgroupcrud-3187"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/syncgroupcrud-3521/providers/Microsoft.Sql/servers/syncgroupcrud-8475/databases/syncgroupcrud-4328/syncGroups/syncgroupcrud-3187",
+        "name": "syncgroupcrud-3187",
+        "type": "Microsoft.Sql/servers/databases/syncGroups"
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a sync group.
+errorCodes: []

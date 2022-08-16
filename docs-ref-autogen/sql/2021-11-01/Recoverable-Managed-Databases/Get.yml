@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.recoverablemanageddatabases.get
+name: Get
+service: SQL Database
+groupName: Recoverable Managed Databases
+apiVersion: 2021-11-01
+summary: Gets a recoverable managed database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/recoverableDatabases/{recoverableDatabaseName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: recoverableDatabaseName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified recoverable managed database.
+  types:
+  - uid: RecoverableManagedDatabase
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidRecoverableDatabaseId - Invalid recoverable database identifier.
+
+     * 400 MiGeoRestoreWithWrongBackupStorageRedundancy - Geo-Restore is not allowed for managed instances with LRS/ZRS backup storage redundancy.
+
+     * 400 UpdatingInstanceAndBackupRedundancy - Instance zone redundancy and backup storage redundancy cannot be updated in the same request.
+
+     * 400 ProvisioningDisabled - Displays error message from resources operation authorizer as is, without changes
+
+     * 400 AadOnlyAuthenticationIsEnabled - Azure Active Directory Only Authentication is enabled. Please contact your system administrator.
+
+     * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 409 ConflictingManagedInstanceOperation - An operation is currently in progress for the managed instance.
+
+     * 409 BackupRedundancyUpdateAndInstanceRedundancyConflict - The instance is multi-az but backup storage is being updated from zone redundant to non-zone redundant.
+
+     * 409 InstanceRedundancyUpdateWhileBackupRedundancyUpdateInProgress - Cannot update instance redundancy because backup storage redundancy update is in progress.
+
+     * 409 InstanceRedundancyUpdateAndBackupRedundancyConflict - The backup storage is non-zone redundant but instance redundancy is being updated to zone redundant.
+
+     * 409 BackupRedundancyUpdateConflict - Cannot update backup storage redundancy because a backup storage redundancy update is already in progress.
+
+     * 409 MiDropFailedOnAuthLocks - User tried to drop last Managed Instance in subnet that has Lock applied on resource(s).
+
+     * 409 MiCreateFailedNonDelegatedSubnet - User tried to deploy Managed Instance or Managed Instance pool in subnet that is not delegated to Microsoft.Sql/managedInstances.
+
+     * 412 InstanceNotReadyForBackupRedundancyUpdate - Cannot update backup storage redundancy because the instance is not ready.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 ConflictingSubscriptionOperation - An operation is currently in progress for the subscription.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+requestHeader: []
+definitions:
+- name: RecoverableManagedDatabase
+  description: A recoverable managed database resource.
+  kind: object
+  properties:
+  - name: properties.lastAvailableBackupDate
+    isReadyOnly: true
+    description: The last available backup date.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Gets a recoverable databases by managed instances
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/managedInstance/recoverableDatabases/testdb?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Test1/providers/Microsoft.Sql/managedInstances/managedInstance/recoverableDatabases/testdb?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "lastAvailableBackupDate": "2017-05-26T01:06:29.78Z"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/recoverableDatabases/testdb",
+        "name": "testdb",
+        "type": "Microsoft.Sql/managedInstances/recoverableDatabases"
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets a recoverable managed database.
+errorCodes: []

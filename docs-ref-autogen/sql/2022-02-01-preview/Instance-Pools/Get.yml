@@ -1,0 +1,169 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.instancepools.get
+name: Get
+service: SQL Database
+groupName: Instance Pools
+apiVersion: 2022-02-01-preview
+summary: Gets an instance pool.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: instancePoolName
+  in: path
+  isRequired: true
+  description: The name of the instance pool to be retrieved.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified instance pool.
+  types:
+  - uid: InstancePool
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 InstancePoolNotFound - An instance pool cannot be found
+requestHeader: []
+definitions:
+- name: InstancePool
+  description: An Azure SQL instance pool.
+  kind: object
+  properties:
+  - name: sku
+    description: The name and tier of the SKU.
+    types:
+    - uid: Sku
+  - name: properties.subnetId
+    description: Resource ID of the subnet to place this instance pool in.
+    types:
+    - uid: string
+  - name: properties.vCores
+    description: Count of vCores belonging to this instance pool.
+    types:
+    - uid: integer
+  - name: properties.licenseType
+    description: The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price).
+    types:
+    - uid: InstancePoolLicenseType
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: Sku
+  description: An ARM Resource SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU, typically, a letter + Number code, e.g. P3.
+    types:
+    - uid: string
+  - name: tier
+    description: The tier or edition of the particular SKU, e.g. Basic, Premium.
+    types:
+    - uid: string
+  - name: size
+    description: Size of the particular SKU
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: Capacity of the particular SKU.
+    types:
+    - uid: integer
+- name: InstancePoolLicenseType
+  description: The license type. Possible values are 'LicenseIncluded' (price for SQL license is included) and 'BasePrice' (without SQL license price).
+  kind: enum
+  properties:
+  - name: LicenseIncluded
+    types:
+    - uid: string
+  - name: BasePrice
+    types:
+    - uid: string
+examples:
+- name: Get an instance pool
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "sku": {
+          "name": "GP_Gen5",
+          "tier": "GeneralPurpose",
+          "family": "Gen5"
+        },
+        "properties": {
+          "subnetId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Network/virtualNetwork/myvnet/subnets/mysubnet1",
+          "vCores": 8,
+          "licenseType": "LicenseIncluded"
+        },
+        "location": "japaneast",
+        "tags": {
+          "a": "b"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP",
+        "name": "testIP",
+        "type": "Microsoft.Sql/instancePools"
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets an instance pool.
+errorCodes: []

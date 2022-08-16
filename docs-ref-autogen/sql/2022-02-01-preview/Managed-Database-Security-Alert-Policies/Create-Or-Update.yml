@@ -1,0 +1,329 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.manageddatabasesecurityalertpolicies.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Managed Database Security Alert Policies
+apiVersion: 2022-02-01-preview
+summary: Creates or updates a database's security alert policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/securityAlertPolicies/default?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the managed database for which the security alert policy is defined.
+  types:
+  - uid: string
+- name: securityAlertPolicyName
+  in: path
+  isRequired: true
+  description: The name of the security alert policy.
+  types:
+  - uid: SecurityAlertPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully set the managed database security alert policy.
+  types:
+  - uid: ManagedDatabaseSecurityAlertPolicy
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+- name: 201 Created
+  description: Successfully created the managed database security alert policy.
+  types:
+  - uid: ManagedDatabaseSecurityAlertPolicy
+requestBody:
+- name: default
+  parameters:
+  - name: properties.state
+    in: body
+    isRequired: true
+    description: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database.
+    types:
+    - uid: SecurityAlertPolicyState
+  - name: properties.disabledAlerts
+    in: body
+    description: 'Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAddresses
+    in: body
+    description: Specifies an array of e-mail addresses to which the alert is sent.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAccountAdmins
+    in: body
+    description: Specifies that the alert is sent to the account administrators.
+    types:
+    - uid: boolean
+  - name: properties.storageEndpoint
+    in: body
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    in: body
+    description: Specifies the identifier key of the Threat Detection audit storage account.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    in: body
+    description: Specifies the number of days to keep in the Threat Detection audit logs.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: SecurityAlertPolicyName
+  description: The name of the security alert policy.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: ManagedDatabaseSecurityAlertPolicy
+  description: A managed database security alert policy.
+  kind: object
+  properties:
+  - name: properties.state
+    description: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database.
+    types:
+    - uid: SecurityAlertPolicyState
+  - name: properties.disabledAlerts
+    description: 'Specifies an array of alerts that are disabled. Allowed values are: Sql_Injection, Sql_Injection_Vulnerability, Access_Anomaly, Data_Exfiltration, Unsafe_Action, Brute_Force'
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAddresses
+    description: Specifies an array of e-mail addresses to which the alert is sent.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.emailAccountAdmins
+    description: Specifies that the alert is sent to the account administrators.
+    types:
+    - uid: boolean
+  - name: properties.storageEndpoint
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). This blob storage will hold all Threat Detection audit logs.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    description: Specifies the identifier key of the Threat Detection audit storage account.
+    types:
+    - uid: string
+  - name: properties.retentionDays
+    description: Specifies the number of days to keep in the Threat Detection audit logs.
+    types:
+    - uid: integer
+  - name: properties.creationTime
+    isReadyOnly: true
+    description: Specifies the UTC creation time of the policy.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SecurityAlertPolicyState
+  description: Specifies the state of the policy, whether it is enabled or disabled or a policy has not been applied yet on the specific database.
+  kind: enum
+  properties:
+  - name: New
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Update a database's threat detection policy with minimal parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+
+      {
+        "properties": {
+          "state": "Enabled"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/managedInstance/databases/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [],
+          "disabledAlerts": [],
+          "retentionDays": 0,
+          "storageAccountAccessKey": "",
+          "storageEndpoint": ""
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/managedInstance/databases/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [],
+          "disabledAlerts": [],
+          "retentionDays": 0,
+          "storageAccountAccessKey": "",
+          "storageEndpoint": ""
+        }
+      }
+- name: Update a database's threat detection policy with all parameters
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "test@contoso.com",
+            "user@contoso.com"
+          ],
+          "disabledAlerts": [
+            "Sql_Injection",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 6,
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb/securityAlertPolicies/default?api-version=2022-02-01-preview
+
+      {
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "test@contoso.com",
+            "user@contoso.com"
+          ],
+          "disabledAlerts": [
+            "Sql_Injection",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 6,
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "test@contoso.com",
+            "user@contoso.com"
+          ],
+          "disabledAlerts": [
+            "Sql_Injection",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 6,
+          "storageAccountAccessKey": "",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/securityalert-4799/providers/Microsoft.Sql/managedInstances/securityalert-6440/databases/testdb",
+        "name": "default",
+        "type": "Microsoft.Sql/managedInstances/databases/securityAlertPolicies",
+        "properties": {
+          "state": "Enabled",
+          "emailAccountAdmins": true,
+          "emailAddresses": [
+            "test@contoso.com",
+            "user@contoso.com"
+          ],
+          "disabledAlerts": [
+            "Access_Anomaly",
+            "Usage_Anomaly"
+          ],
+          "retentionDays": 6,
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Creates or updates a database's security alert policy.
+errorCodes: []

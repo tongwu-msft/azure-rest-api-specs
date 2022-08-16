@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.manageddatabasesensitivitylabels.listcurrentbydatabase
+name: List Current By Database
+service: SQL Database
+groupName: Managed Database Sensitivity Labels
+apiVersion: 2021-11-01
+summary: Gets the sensitivity labels of a given database
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/currentSensitivityLabels?$skipToken={$skipToken}&$count={$count}&$filter={$filter}&api-version=2021-11-01
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  types:
+  - uid: string
+- name: $count
+  in: query
+  types:
+  - uid: boolean
+- name: $filter
+  in: query
+  description: An OData filter expression that filters elements in the collection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the sensitivity labels.
+  types:
+  - uid: SensitivityLabelListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 DatawarehouseDatabaseIsDeactivated - Could not execute Data Classification operation because the database is paused. Please resume it.
+
+     * 400 SensitivityLabelsInvalidODataQuery - The specified OData query is either not valid or not supported
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+requestHeader: []
+definitions:
+- name: SensitivityLabelListResult
+  description: A list of sensitivity labels.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: SensitivityLabel
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: SensitivityLabel
+  description: A sensitivity label.
+  kind: object
+  properties:
+  - name: managedBy
+    isReadyOnly: true
+    description: Resource that manages the sensitivity label.
+    types:
+    - uid: string
+  - name: properties.schemaName
+    isReadyOnly: true
+    description: The schema name.
+    types:
+    - uid: string
+  - name: properties.tableName
+    isReadyOnly: true
+    description: The table name.
+    types:
+    - uid: string
+  - name: properties.columnName
+    isReadyOnly: true
+    description: The column name.
+    types:
+    - uid: string
+  - name: properties.labelName
+    description: The label name.
+    types:
+    - uid: string
+  - name: properties.labelId
+    description: The label ID.
+    types:
+    - uid: string
+  - name: properties.informationType
+    description: The information type.
+    types:
+    - uid: string
+  - name: properties.informationTypeId
+    description: The information type ID.
+    types:
+    - uid: string
+  - name: properties.isDisabled
+    isReadyOnly: true
+    description: Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not.
+    types:
+    - uid: boolean
+  - name: properties.rank
+    description: ''
+    types:
+    - uid: SensitivityLabelRank
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SensitivityLabelRank
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+examples:
+- name: Gets the current sensitivity labels of a given database in a managed database
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/managedInstances/myManagedInstanceName/databases/myDatabase/currentSensitivityLabels?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/managedInstances/myManagedInstanceName/databases/myDatabase/currentSensitivityLabels?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/managedInstances/myManagedInstanceName/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current",
+            "name": "current",
+            "type": "Microsoft.Sql/managedInstances/databases/schemas/tables/columns/sensitivityLabels",
+            "properties": {
+              "schemaName": "dbo",
+              "tableName": "myTable",
+              "columnName": "myColumn",
+              "informationType": "Financial",
+              "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+              "labelId": "05e6eaa1-075a-4fb4-a732-a92215a2444a",
+              "labelName": "Sensitive",
+              "rank": "Critical"
+            }
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/managedInstances/myManagedInstanceName/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn3/sensitivityLabels/current",
+            "name": "current",
+            "type": "Microsoft.Sql/managedInstances/databases/schemas/tables/columns/sensitivityLabels",
+            "properties": {
+              "schemaName": "dbo",
+              "tableName": "myTable",
+              "columnName": "myColumn3",
+              "informationType": "Email",
+              "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+              "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+              "labelName": "PII",
+              "rank": "High"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets the sensitivity labels of a given database
+errorCodes: []

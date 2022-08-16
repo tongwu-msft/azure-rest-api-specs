@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.maintenancewindows.get
+name: Get
+service: SQL Database
+groupName: Maintenance Windows
+apiVersion: 2021-11-01
+summary: Gets maintenance windows settings for a database.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/maintenanceWindows/current?maintenanceWindowName={maintenanceWindowName}&api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database to get maintenance windows for.
+  types:
+  - uid: string
+- name: maintenanceWindowName
+  in: query
+  isRequired: true
+  description: Maintenance window name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved maintenance windows settings.
+  types:
+  - uid: MaintenanceWindows
+- name: Other Status Codes
+  description: '*** Error Responses: ***'
+requestHeader: []
+definitions:
+- name: MaintenanceWindows
+  description: Maintenance windows.
+  kind: object
+  properties:
+  - name: properties.timeRanges
+    description: Maintenance window time range.
+    types:
+    - uid: MaintenanceWindowTimeRange
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: MaintenanceWindowTimeRange
+  description: Maintenance window time range.
+  kind: object
+  properties:
+  - name: dayOfWeek
+    description: Day of maintenance window.
+    types:
+    - uid: DayOfWeek
+  - name: startTime
+    description: Start time minutes offset from 12am.
+    types:
+    - uid: string
+  - name: duration
+    description: Duration of maintenance window in minutes.
+    types:
+    - uid: string
+- name: DayOfWeek
+  description: Day of maintenance window.
+  kind: enum
+  properties:
+  - name: Sunday
+    types:
+    - uid: string
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+examples:
+- name: Gets maintenance window settings for a selected database.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/maintenanceWindows/current?maintenanceWindowName=current&api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/maintenanceWindows/current?maintenanceWindowName=current&api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "timeRanges": [
+            {
+              "dayOfWeek": "Saturday",
+              "startTime": "00:00:00",
+              "duration": "PT60M"
+            }
+          ]
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/maintenancewindows/current",
+        "name": "current",
+        "type": "Microsoft.Sql/servers/databases/maintenancewindows"
+      }
+security: []
+metadata:
+  description: Learn more about SQL Database service - Gets maintenance windows settings for a database.
+errorCodes: []
