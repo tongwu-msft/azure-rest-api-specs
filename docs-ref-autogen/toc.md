@@ -13467,18 +13467,18 @@
 ### [Get Tropical Storm Locations](maps/Weather/Get-Tropical-Storm-Locations.yml)
 ### [Get Tropical Storm Search](maps/Weather/Get-Tropical-Storm-Search.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
-## Render Stable
+## Render V2
 ### Render
-#### [Overview](maps/renderstable/Render.yml)
-#### [Get Copyright Caption](maps/renderstable/Render/Get-Copyright-Caption.yml)
-#### [Get Copyright For Tile](maps/renderstable/Render/Get-Copyright-For-Tile.yml)
-#### [Get Copyright For World](maps/renderstable/Render/Get-Copyright-For-World.yml)
-#### [Get Copyright From Bounding Box](maps/renderstable/Render/Get-Copyright-From-Bounding-Box.yml)
-#### [Get Map Attribution](maps/renderstable/Render/Get-Map-Attribution.yml)
-#### [Get Map State Tile](maps/renderstable/Render/Get-Map-State-Tile.yml)
-#### [Get Map Static Image](maps/renderstable/Render/Get-Map-Static-Image.yml)
-#### [Get Map Tile](maps/renderstable/Render/Get-Map-Tile.yml)
-#### [Get Map Tileset](maps/renderstable/Render/Get-Map-Tileset.yml)
+#### [Overview](maps/renderv2/Render.yml)
+#### [Get Copyright Caption](maps/renderv2/Render/Get-Copyright-Caption.yml)
+#### [Get Copyright For Tile](maps/renderv2/Render/Get-Copyright-For-Tile.yml)
+#### [Get Copyright For World](maps/renderv2/Render/Get-Copyright-For-World.yml)
+#### [Get Copyright From Bounding Box](maps/renderv2/Render/Get-Copyright-From-Bounding-Box.yml)
+#### [Get Map Attribution](maps/renderv2/Render/Get-Map-Attribution.yml)
+#### [Get Map State Tile](maps/renderv2/Render/Get-Map-State-Tile.yml)
+#### [Get Map Static Image](maps/renderv2/Render/Get-Map-Static-Image.yml)
+#### [Get Map Tile](maps/renderv2/Render/Get-Map-Tile.yml)
+#### [Get Map Tileset](maps/renderv2/Render/Get-Map-Tileset.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## V2
