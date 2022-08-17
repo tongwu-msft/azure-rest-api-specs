@@ -1,0 +1,154 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.managedinstanceadministrators.listbyinstance
+name: List By Instance
+service: SQL Database
+groupName: Managed Instance Administrators
+apiVersion: 2022-02-01-preview
+summary: Gets a list of managed instance administrators.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the list of managed instance administrators.
+  types:
+  - uid: ManagedInstanceAdministratorListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 ServerNotInSubscription - Specified server does not exist on the specified subscription.
+
+     * 404 ManagedInstanceNotInSubscriptionResourceGroup - Specified managed instance does not exist in the specified resource group and subscription.
+
+     * 404 SubscriptionNotFound - The requested subscription was not found.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 504 RequestTimeout - Service request exceeded the allowed timeout.
+requestHeader: []
+definitions:
+- name: ManagedInstanceAdministratorListResult
+  description: A list of managed instance administrators.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ManagedInstanceAdministrator
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ManagedInstanceAdministrator
+  description: An Azure SQL managed instance administrator.
+  kind: object
+  properties:
+  - name: properties.administratorType
+    description: Type of the managed instance administrator.
+    types:
+    - uid: ManagedInstanceAdministratorType
+  - name: properties.login
+    description: Login name of the managed instance administrator.
+    types:
+    - uid: string
+  - name: properties.sid
+    description: SID (object ID) of the managed instance administrator.
+    types:
+    - uid: string
+  - name: properties.tenantId
+    description: Tenant ID of the managed instance administrator.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ManagedInstanceAdministratorType
+  description: Type of the managed instance administrator.
+  kind: enum
+  properties:
+  - name: ActiveDirectory
+    types:
+    - uid: string
+examples:
+- name: List administrators of managed instance
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/administrators?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/administrators?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/managedInstance/administrators/ActiveDirectory",
+            "name": "ActiveDirectory",
+            "properties": {
+              "administratorType": "ActiveDirectory",
+              "login": "bob@contoso.com",
+              "sid": "44444444-3333-2222-1111-000000000000",
+              "tenantId": "55555555-4444-3333-2222-111111111111"
+            },
+            "type": "Microsoft.Sql/managedInstances/administrators"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a list of managed instance administrators.
+errorCodes: []

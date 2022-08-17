@@ -1,0 +1,207 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.managedinstanceprivateendpointconnections.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Managed Instance Private Endpoint Connections
+apiVersion: 2021-11-01
+summary: Approve or reject a private endpoint connection with a given name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully approved or rejected private endpoint connection.
+  types:
+  - uid: ManagedInstancePrivateEndpointConnection
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 PrivateEndpointConnectionDoesNotExist - Private Endpoint Connection does not exist
+
+     * 400 PrivateEndpointConnectionStatusNotPending - Private Endpoint Connection Status is not Pending
+
+     * 400 NullRemotePrivateLinkServiceConnectionState - Remote Private Link Service Connection State is Null
+
+     * 400 NullPrivateEndpointConnectionProperties - Private Endpoint Connection Properties is Null
+
+     * 400 NullRemotePrivateLinkServiceConnectionStateStatus - Remote Private Link Service Connection State Status is Null
+
+     * 400 IncorrectPrivateLinkServiceConnectionStateStatus - Private Link Service Connection State Status must be "Approved" or "Rejected"
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 OperationIdNotFound - The operation with Id does not exist.
+
+     * 409 OperationCancelled - The operation has been cancelled by user.
+
+     * 409 OperationInterrupted - The operation on the resource could not be completed because it was interrupted by another operation on the same resource.
+
+     * 429 SubscriptionTooManyCreateUpdateRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 429 SubscriptionTooManyRequests - Requests beyond max requests that can be processed by available resources.
+
+     * 500 OperationTimedOut - The operation timed out and automatically rolled back. Please retry the operation.
+
+     * 503 TooManyRequests - Requests beyond max requests that can be processed by available resources.
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- name: default
+  parameters:
+  - name: properties.privateEndpoint
+    in: body
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: ManagedInstancePrivateEndpointProperty
+  - name: properties.privateLinkServiceConnectionState
+    in: body
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: ManagedInstancePrivateLinkServiceConnectionStateProperty
+requestHeader: []
+definitions:
+- name: ManagedInstancePrivateEndpointProperty
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The private link service connection description.
+    types:
+    - uid: string
+- name: ManagedInstancePrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: ManagedInstancePrivateEndpointProperty
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: ManagedInstancePrivateLinkServiceConnectionStateProperty
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: State of the Private Endpoint Connection.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Approve or reject a private endpoint connection with a given name.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/test-cl/privateEndpointConnections/private-endpoint-connection-name?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/test-cl/privateEndpointConnections/private-endpoint-connection-name?api-version=2021-11-01
+
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/managedInstances/test-cl/privateEndpointConnections/private-endpoint-connection-name",
+        "name": "private-endpoint-connection-name",
+        "type": "Microsoft.Sql/managedInstances/privateEndpointConnections",
+        "properties": {
+          "provisioningState": "Ready",
+          "privateEndpoint": {
+            "id": "/subscriptions/55555555-6666-7777-8888-999999999999/resourceGroups/Default-Network/providers/Microsoft.Network/privateEndpoints/private-endpoint-name"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com",
+            "actionsRequired": "None"
+          }
+        }
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Approve or reject a private endpoint connection with a given name.
+errorCodes: []

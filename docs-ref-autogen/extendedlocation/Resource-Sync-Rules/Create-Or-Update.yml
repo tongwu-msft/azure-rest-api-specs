@@ -1,0 +1,565 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.extendedlocation.resourcesyncrules.createorupdate
+name: Create Or Update
+service: Extended Location
+groupName: Resource Sync Rules
+apiVersion: 2021-08-31-preview
+summary: Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules/{childResourceName}?api-version=2021-08-31-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Custom Locations name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
+- name: childResourceName
+  in: path
+  isRequired: true
+  description: Resource Sync Rule name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: resourceSyncRule
+- name: 201 Created
+  description: Created
+  types:
+  - uid: resourceSyncRule
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.priority
+    in: body
+    description: Priority represents a priority of the Resource Sync Rule
+    types:
+    - uid: integer
+  - name: properties.selector
+    in: body
+    description: A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match.
+    types:
+    - uid: Selector
+  - name: properties.targetResourceGroup
+    in: body
+    description: For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Selector
+  description: A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match.
+  kind: object
+  properties:
+  - name: matchLabels
+    description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: matchExpressions.key
+    description: Key is the label key that the selector applies to.
+    types:
+    - uid: string
+  - name: matchExpressions.operator
+    description: The Operator field represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
+    types:
+    - uid: string
+  - name: matchExpressions.values
+    description: The label value
+    types:
+    - uid: string
+      isArray: true
+- name: resourceSyncRule
+  description: Resource Sync Rules definition.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource
+    types:
+    - uid: systemData
+  - name: properties.priority
+    description: Priority represents a priority of the Resource Sync Rule
+    types:
+    - uid: integer
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning State for the Resource Sync Rule.
+    types:
+    - uid: string
+  - name: properties.selector
+    description: A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match.
+    types:
+    - uid: Selector
+  - name: properties.targetResourceGroup
+    description: For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Create/Update Resource Sync Rule
+  request:
+    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourceSyncRules/resourceSyncRule01?api-version=2021-08-31-preview
+    body: >-
+      {
+        "location": "West US",
+        "properties": {
+          "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup",
+          "priority": 999,
+          "selector": {
+            "matchLabels": {
+              "key1": "value1"
+            },
+            "matchExpressions": [
+              {
+                "key": "key4",
+                "operator": "In",
+                "values": [
+                  "value4"
+                ]
+              }
+            ]
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourceSyncRules/resourceSyncRule01?api-version=2021-08-31-preview
+
+      {
+        "location": "West US",
+        "properties": {
+          "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup",
+          "priority": 999,
+          "selector": {
+            "matchLabels": {
+              "key1": "value1"
+            },
+            "matchExpressions": [
+              {
+                "key": "key4",
+                "operator": "In",
+                "values": [
+                  "value4"
+                ]
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.extendedlocation.models.MatchExpressionsProperties;
+      import com.azure.resourcemanager.extendedlocation.models.ResourceSyncRulePropertiesSelector;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ResourceSyncRules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesCreate_Update.json
+           */
+          /**
+           * Sample code: Create/Update Resource Sync Rule.
+           *
+           * @param manager Entry point to CustomLocationsManager.
+           */
+          public static void createUpdateResourceSyncRule(
+              com.azure.resourcemanager.extendedlocation.CustomLocationsManager manager) {
+              manager
+                  .resourceSyncRules()
+                  .define("resourceSyncRule01")
+                  .withRegion("West US")
+                  .withExistingCustomLocation("testresourcegroup", "customLocation01")
+                  .withPriority(999)
+                  .withSelector(
+                      new ResourceSyncRulePropertiesSelector()
+                          .withMatchExpressions(
+                              Arrays
+                                  .asList(
+                                      new MatchExpressionsProperties()
+                                          .withKey("key4")
+                                          .withOperator("In")
+                                          .withValues(Arrays.asList("value4"))))
+                          .withMatchLabels(mapOf("key1", "value1")))
+                  .withTargetResourceGroup(
+                      "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup")
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/azure-resourcemanager-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armextendedlocation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/extendedlocation/armextendedlocation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesCreate_Update.json
+      func ExampleResourceSyncRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armextendedlocation.NewResourceSyncRulesClient("11111111-2222-3333-4444-555555555555", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testresourcegroup",
+      		"customLocation01",
+      		"resourceSyncRule01",
+      		armextendedlocation.ResourceSyncRule{
+      			Location: to.Ptr("West US"),
+      			Properties: &armextendedlocation.ResourceSyncRuleProperties{
+      				Priority: to.Ptr[int32](999),
+      				Selector: &armextendedlocation.ResourceSyncRulePropertiesSelector{
+      					MatchExpressions: []*armextendedlocation.MatchExpressionsProperties{
+      						{
+      							Key:      to.Ptr("key4"),
+      							Operator: to.Ptr("In"),
+      							Values: []*string{
+      								to.Ptr("value4")},
+      						}},
+      					MatchLabels: map[string]*string{
+      						"key1": to.Ptr("value1"),
+      					},
+      				},
+      				TargetResourceGroup: to.Ptr("/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fextendedlocation%2Farmextendedlocation%2Fv1.1.0-beta.1/sdk/resourcemanager/extendedlocation/armextendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
+       *
+       * @summary Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
+       * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesCreate_Update.json
+       */
+      async function createOrUpdateResourceSyncRule() {
+        const subscriptionId = "11111111-2222-3333-4444-555555555555";
+        const resourceGroupName = "testresourcegroup";
+        const resourceName = "customLocation01";
+        const childResourceName = "resourceSyncRule01";
+        const parameters = {
+          location: "West US",
+          priority: 999,
+          selector: {
+            matchExpressions: [{ key: "key4", operator: "In", values: ["value4"] }],
+            matchLabels: { key1: "value1" },
+          },
+          targetResourceGroup:
+            "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CustomLocationsManagementClient(credential, subscriptionId);
+        const result = await client.resourceSyncRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          resourceName,
+          childResourceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateResourceSyncRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/arm-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourcesyncrules/resourceSyncRule01",
+        "name": "resourceSyncRule01",
+        "location": "West US",
+        "type": "Microsoft.ExtendedLocation/customLocations/resourceSyncRules",
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "Application",
+          "createdAt": "2021-07-15T18:53:29.0928001Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2021-07-15T18:53:29.0928001Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup",
+          "priority": 999,
+          "selector": {
+            "matchLabels": {
+              "key1": "value1"
+            },
+            "matchExpressions": [
+              {
+                "key": "key4",
+                "operator": "In",
+                "values": [
+                  "value4"
+                ]
+              }
+            ]
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourcesyncrules/resourceSyncRule01",
+        "name": "resourceSyncRule01",
+        "location": "West US",
+        "type": "Microsoft.ExtendedLocation/customLocations/resourceSyncRules",
+        "systemData": {
+          "createdBy": "string",
+          "createdByType": "Application",
+          "createdAt": "2021-07-16T18:53:29.0928001Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "Application",
+          "lastModifiedAt": "2021-07-16T18:53:29.0928001Z"
+        },
+        "properties": {
+          "provisioningState": "Creating",
+          "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup",
+          "priority": 999,
+          "selector": {
+            "matchLabels": {
+              "key1": "value1"
+            },
+            "matchExpressions": [
+              {
+                "key": "key4",
+                "operator": "In",
+                "values": [
+                  "value4"
+                ]
+              }
+            ]
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Creates or updates a Resource Sync Rule in the parent Custom Location, Subscription Id and Resource Group
+errorCodes: []
