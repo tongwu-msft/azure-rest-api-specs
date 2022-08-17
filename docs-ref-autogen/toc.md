@@ -13383,6 +13383,17 @@
 ### [Get Map Imagery Tile](maps/Render/Get-Map-Imagery-Tile.yml)
 ### [Get Map State Tile](maps/Render/Get-Map-State-Tile.yml)
 ### [Get Map Tile](maps/Render/Get-Map-Tile.yml)
+## Render V2
+### [Overview](maps/Render-V2.yml)
+### [Get Copyright Caption](maps/Render-V2/Get-Copyright-Caption.yml)
+### [Get Copyright For Tile](maps/Render-V2/Get-Copyright-For-Tile.yml)
+### [Get Copyright For World](maps/Render-V2/Get-Copyright-For-World.yml)
+### [Get Copyright From Bounding Box](maps/Render-V2/Get-Copyright-From-Bounding-Box.yml)
+### [Get Map Attribution](maps/Render-V2/Get-Map-Attribution.yml)
+### [Get Map State Tile](maps/Render-V2/Get-Map-State-Tile.yml)
+### [Get Map Static Image](maps/Render-V2/Get-Map-Static-Image.yml)
+### [Get Map Tile](maps/Render-V2/Get-Map-Tile.yml)
+### [Get Map Tileset](maps/Render-V2/Get-Map-Tileset.yml)
 ## Route
 ### [Overview](maps/Route.yml)
 ### [Get Route Directions](maps/Route/Get-Route-Directions.yml)
@@ -13467,18 +13478,6 @@
 ### [Get Tropical Storm Locations](maps/Weather/Get-Tropical-Storm-Locations.yml)
 ### [Get Tropical Storm Search](maps/Weather/Get-Tropical-Storm-Search.yml)
 ### [Get Weather Along Route](maps/Weather/Get-Weather-Along-Route.yml)
-## Render V2
-### Render
-#### [Overview](maps/renderv2/Render.yml)
-#### [Get Copyright Caption](maps/renderv2/Render/Get-Copyright-Caption.yml)
-#### [Get Copyright For Tile](maps/renderv2/Render/Get-Copyright-For-Tile.yml)
-#### [Get Copyright For World](maps/renderv2/Render/Get-Copyright-For-World.yml)
-#### [Get Copyright From Bounding Box](maps/renderv2/Render/Get-Copyright-From-Bounding-Box.yml)
-#### [Get Map Attribution](maps/renderv2/Render/Get-Map-Attribution.yml)
-#### [Get Map State Tile](maps/renderv2/Render/Get-Map-State-Tile.yml)
-#### [Get Map Static Image](maps/renderv2/Render/Get-Map-Static-Image.yml)
-#### [Get Map Tile](maps/renderv2/Render/Get-Map-Tile.yml)
-#### [Get Map Tileset](maps/renderv2/Render/Get-Map-Tileset.yml)
 # Maps Creator
 ## [Overview](../docs-ref-conceptual/maps-creator/index.md)
 ## V2

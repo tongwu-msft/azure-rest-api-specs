@@ -1,19 +1,25 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.renderv2.render.getmapattribution
-name: Get Map Attribution
+uid: atlas.microsoft.com.maps.renderv2.getmaptile
+name: Get Map Tile
 service: Maps
-groupName: Render
+groupName: Render V2
 apiVersion: 2022-08-01
 summary: >-
   **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
+  The Get Map Tiles API allows users to request map tiles in vector or raster formats typically to be integrated  into a map control or SDK. Some example tiles that can be requested are Azure Maps road tiles, real-time  Weather Radar tiles or the map tiles created using [Azure Maps Creator](https://aka.ms/amcreator). By default,  Azure Maps uses vector tiles for its web map control (Web SDK) and Android SDK.
 consumes: []
 produces:
 - application/json
+- image/jpeg
+- image/png
+- image/pbf
+- application/vnd.mapbox-vector-tile
 paths:
-- content: GET https://atlas.microsoft.com/map/attribution?api-version=2022-08-01&tilesetId={tilesetId}&zoom={zoom}&bounds={bounds}
+- content: GET https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId={tilesetId}&zoom={zoom}&x={x}&y={y}
+- content: GET https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId={tilesetId}&zoom={zoom}&x={x}&y={y}&timeStamp={timeStamp}&tileSize={tileSize}&language={language}&view={view}
+  isOptional: true
 uriParameters:
 - name: api-version
   in: query
@@ -30,21 +36,69 @@ uriParameters:
 - name: zoom
   in: query
   isRequired: true
-  description: Zoom level for the desired map attribution.
+  description: "Zoom level for the desired tile. \n\nPlease see [Zoom Levels and Tile Grid](https://docs.microsoft.com/en-us/azure/location-based-services/zoom-levels-and-tile-grid) for details."
   types:
   - uid: integer
   format: int32
-- name: bounds
+- name: x
   in: query
   isRequired: true
-  description: 'The string that represents the rectangular area of a bounding box. The bounds parameter is defined by the 4 bounding box coordinates, with WGS84 longitude and latitude of the southwest corner followed by  WGS84 longitude and latitude of the northeast corner. The string is presented in the following  format: `[SouthwestCorner_Longitude, SouthwestCorner_Latitude, NortheastCorner_Longitude,  NortheastCorner_Latitude]`.'
+  description: >-
+    X coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
   types:
-  - uid: array
+  - uid: integer
+  format: int32
+- name: y
+  in: query
+  isRequired: true
+  description: >-
+    Y coordinate of the tile on zoom grid. Value must be in the range [0, 2<sup>`zoom`</sup> -1].
+
+
+    Please see [Zoom Levels and Tile Grid](https://docs.microsoft.com/azure/location-based-services/zoom-levels-and-tile-grid) for details.
+  types:
+  - uid: integer
+  format: int32
+- name: timeStamp
+  in: query
+  description: "The desired date and time of the requested tile. This parameter must be specified in the standard date-time format (e.g. 2019-11-14T16:03:00-08:00), as defined by [ISO 8601](https://en.wikipedia.org/wiki/ISO_8601). This parameter is only supported when tilesetId parameter is set to one of the values below.\n  \n* microsoft.weather.infrared.main: We provide tiles up to 3 hours in the past. Tiles are available in 10-minute intervals. We round the timeStamp value to the nearest 10-minute time frame.\n* microsoft.weather.radar.main: We provide tiles up to 1.5 hours in the past and up to 2 hours in the future. Tiles are available in 5-minute intervals. We round the timeStamp value to the nearest 5-minute time frame."
+  types:
+  - uid: string
+  format: date-time
+- name: tileSize
+  in: query
+  description: The size of the returned map tile in pixels.
+  types:
+  - uid: MapTileSize
+- name: language
+  in: query
+  description: >-
+    Language in which search results should be returned. Should be one of supported IETF language tags, case insensitive. When data in specified language is not available for a specific field, default language is used.
+
+
+    Please refer to [Supported Languages](https://docs.microsoft.com/azure/azure-maps/supported-languages) for details.
+  types:
+  - uid: string
+- name: view
+  in: query
+  description: >-
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  types:
+  - uid: LocalizedMapView
 responses:
 - name: 200 OK
-  description: OK
+  headers:
+  - name: Content-Type
+    value: string
+  description: The tile returned from a successful API call.
   types:
-  - uid: MapAttribution
+  - uid: object
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -230,15 +284,98 @@ definitions:
     description: incident tiles in vector
     types:
     - uid: string
-- name: MapAttribution
-  description: Copyright attribution for the requested section of a tileset.
-  kind: object
+- name: MapTileSize
+  description: The size of the returned map tile in pixels.
+  kind: enum
   properties:
-  - name: copyrights
-    description: A list of copyright strings.
+  - name: "256"
+    description: Return a 256 by 256 pixel tile.
     types:
     - uid: string
-      isArray: true
+  - name: "512"
+    description: Return a 512 by 512 pixel tile.
+    types:
+    - uid: string
+- name: LocalizedMapView
+  description: >-
+    The View parameter (also called the "user region" parameter) allows you to show the correct maps for a certain country/region for geopolitically disputed regions. Different countries have different views of such regions, and the View parameter allows your application to comply with the view required by the country your application will be serving. By default, the View parameter is set to “Unified” even if you haven’t defined it in  the request. It is your responsibility to determine the location of your users, and then set the View parameter correctly for that location. Alternatively, you have the option to set ‘View=Auto’, which will return the map data based on the IP  address of the request. The View parameter in Azure Maps must be used in compliance with applicable laws, including those  regarding mapping, of the country where maps, images and other data and third party content that you are authorized to  access via Azure Maps is made available. Example: view=IN.
+
+
+    Please refer to [Supported Views](https://aka.ms/AzureMapsLocalizationViews) for details and to see the available Views.
+  kind: enum
+  properties:
+  - name: AE
+    description: United Arab Emirates (Arabic View)
+    types:
+    - uid: string
+  - name: AR
+    description: Argentina (Argentinian View)
+    types:
+    - uid: string
+  - name: BH
+    description: Bahrain (Arabic View)
+    types:
+    - uid: string
+  - name: IN
+    description: India (Indian View)
+    types:
+    - uid: string
+  - name: IQ
+    description: Iraq (Arabic View)
+    types:
+    - uid: string
+  - name: JO
+    description: Jordan (Arabic View)
+    types:
+    - uid: string
+  - name: KW
+    description: Kuwait (Arabic View)
+    types:
+    - uid: string
+  - name: LB
+    description: Lebanon (Arabic View)
+    types:
+    - uid: string
+  - name: MA
+    description: Morocco (Moroccan View)
+    types:
+    - uid: string
+  - name: OM
+    description: Oman (Arabic View)
+    types:
+    - uid: string
+  - name: PK
+    description: Pakistan (Pakistani View)
+    types:
+    - uid: string
+  - name: PS
+    description: Palestinian Authority (Arabic View)
+    types:
+    - uid: string
+  - name: QA
+    description: Qatar (Arabic View)
+    types:
+    - uid: string
+  - name: SA
+    description: Saudi Arabia (Arabic View)
+    types:
+    - uid: string
+  - name: SY
+    description: Syria (Arabic View)
+    types:
+    - uid: string
+  - name: YE
+    description: Yemen (Arabic View)
+    types:
+    - uid: string
+  - name: Auto
+    description: Return the map data based on the IP address of the request.
+    types:
+    - uid: string
+  - name: Unified
+    description: Unified View (Others)
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -293,23 +430,21 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Successful Attribution Request
+- name: Successful Tile Request
   request:
-    uri: GET https://atlas.microsoft.com/map/attribution?api-version=2022-08-01&tilesetId=microsoft.base&zoom=6&bounds=-122.414162,47.57949,-122.247157,47.668372
+    uri: GET https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base&zoom=6&x=10&y=22
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://atlas.microsoft.com/map/attribution?api-version=2022-08-01&tilesetId=microsoft.base&zoom=6&bounds=-122.414162,47.57949,-122.247157,47.668372
+      GET https://atlas.microsoft.com/map/tile?api-version=2022-08-01&tilesetId=microsoft.base&zoom=6&x=10&y=22
       ```
 
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "copyrights": [
-          "<a data-azure-maps-attribution-tileset=\"microsoft.base\">&copy;2022 TomTom</a>"
-        ]
-      }
+    headers:
+    - name: Content-Type
+      value: application/vnd.mapbox-vector-tile
+    body: "\"binary image string\""
 security:
 - name: AADToken
   type: oauth2
@@ -338,8 +473,8 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: >
+  description: >-
     Applies to: see pricing tiers.
 
-    The Get Map Attribution API allows users to request map copyright attribution information for a section of a tileset.
+    The Get Map Tiles API allows users to request map tiles in vector or raster formats typically to be integrated  into a map contro
 errorCodes: []
