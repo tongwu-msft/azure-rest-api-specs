@@ -1,0 +1,309 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.extendedlocation.customlocations.findtargetresourcegroup
+name: Find Target Resource Group
+service: Extended Location
+groupName: Custom Locations
+apiVersion: 2021-08-31-preview
+summary: "Gets matching target resource group for resource sync.  \nReturns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/findTargetResourceGroup?api-version=2021-08-31-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Custom Locations name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: customLocationFindTargetResourceGroupResult
+- name: 204 No Content
+  description: NoContent. The response indicates there was no matching target resource group for resource sync.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: labels
+    in: body
+    description: Labels of the custom resource, this is a map of {key,value} pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: customLocationFindTargetResourceGroupResult
+  description: The Find Target Resource Group operation response.
+  kind: object
+  properties:
+  - name: matchedResourceSyncRule
+    isReadyOnly: true
+    description: The matching resource sync rule is the particular resource sync rule that matched the match expressions and labels and had lowest priority. This is the rule responsible for mapping the target resource to the target resource group.
+    types:
+    - uid: string
+  - name: targetResourceGroup
+    isReadyOnly: true
+    description: The target resource group of matching resource sync rule. The labels from the request will be used to find out matching resource sync rule against the selector property of the resource sync rule. The one with highest priority will be returned if there are multiple matching rules.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: customLocationFindTargetResourceGroupProperties
+  description: The Find Target Resource Group operation request.
+  kind: object
+  properties:
+  - name: labels
+    description: Labels of the custom resource, this is a map of {key,value} pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Post Custom Location Find Target Resource Group
+  request:
+    uri: POST https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/findTargetResourceGroup?api-version=2021-08-31-preview
+    body: >-
+      {
+        "labels": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/findTargetResourceGroup?api-version=2021-08-31-preview
+
+      {
+        "labels": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.extendedlocation.models.CustomLocationFindTargetResourceGroupProperties;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for CustomLocations FindTargetResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsFindTargetResourceGroup.json
+           */
+          /**
+           * Sample code: Post Custom Location Find Target Resource Group.
+           *
+           * @param manager Entry point to CustomLocationsManager.
+           */
+          public static void postCustomLocationFindTargetResourceGroup(
+              com.azure.resourcemanager.extendedlocation.CustomLocationsManager manager) {
+              manager
+                  .customLocations()
+                  .findTargetResourceGroupWithResponse(
+                      "testresourcegroup",
+                      "customLocation01",
+                      new CustomLocationFindTargetResourceGroupProperties()
+                          .withLabels(mapOf("key1", "value1", "key2", "value2")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/azure-resourcemanager-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armextendedlocation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/extendedlocation/armextendedlocation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsFindTargetResourceGroup.json
+      func ExampleCustomLocationsClient_FindTargetResourceGroup() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armextendedlocation.NewCustomLocationsClient("11111111-2222-3333-4444-555555555555", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.FindTargetResourceGroup(ctx,
+      		"testresourcegroup",
+      		"customLocation01",
+      		armextendedlocation.CustomLocationFindTargetResourceGroupProperties{
+      			Labels: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      				"key2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fextendedlocation%2Farmextendedlocation%2Fv1.1.0-beta.1/sdk/resourcemanager/extendedlocation/armextendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request.
+       *
+       * @summary Returns the target resource group associated with the resource sync rules of the Custom Location that match the rules passed in with the Find Target Resource Group Request.
+       * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsFindTargetResourceGroup.json
+       */
+      async function postCustomLocationFindTargetResourceGroup() {
+        const subscriptionId = "11111111-2222-3333-4444-555555555555";
+        const resourceGroupName = "testresourcegroup";
+        const resourceName = "customLocation01";
+        const parameters = {
+          labels: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CustomLocationsManagementClient(credential, subscriptionId);
+        const result = await client.customLocations.findTargetResourceGroup(
+          resourceGroupName,
+          resourceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      postCustomLocationFindTargetResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/arm-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/target-resource-group/",
+        "matchedResourceSyncRule": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/tesla-customlocation-1-chumpishness/resourceSyncRules/test-resource-sync-rule"
+      }
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Gets matching target resource group for resource sync.
+
+    Returns the target resource group associated with the resource sync rules of the Custom Location that mat
+errorCodes: []

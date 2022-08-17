@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.extendedlocation.customlocations.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.extendedlocation.resourcesyncrules.listbycustomlocationid
+name: List By Custom Location ID
 service: Extended Location
-groupName: Custom Locations
+groupName: Resource Sync Rules
 apiVersion: 2021-08-31-preview
-summary: Gets a list of Custom Locations in the specified subscription and resource group. The operation returns properties of each Custom Location.
+summary: "Lists all Resource Sync Rules in a Custom Location.  \nGets a list of Resource Sync Rules in the specified subscription. The operation returns properties of each Resource Sync Rule"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations?api-version=2021-08-31-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}/resourceSyncRules?api-version=2021-08-31-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -24,6 +24,13 @@ uriParameters:
   description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Custom Locations name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]$|^[a-zA-Z0-9][-_a-zA-Z0-9]{0,61}[a-zA-Z0-9]$
 - name: api-version
   in: query
   isRequired: true
@@ -34,15 +41,15 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: customLocationListResult
+  - uid: resourceSyncRuleListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: customLocationListResult
-  description: The List Custom Locations operation response.
+- name: resourceSyncRuleListResult
+  description: The List Resource Sync Rules operation response.
   kind: object
   properties:
   - name: nextLink
@@ -52,9 +59,9 @@ definitions:
     - uid: string
   - name: value
     isReadyOnly: true
-    description: The list of Custom Locations.
+    description: The list of Resource Sync Rules.
     types:
-    - uid: customLocation
+    - uid: resourceSyncRule
       isArray: true
 - name: ErrorResponse
   description: Error response
@@ -64,46 +71,30 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: customLocation
-  description: Custom Locations definition.
+- name: resourceSyncRule
+  description: Resource Sync Rules definition.
   kind: object
   properties:
-  - name: identity
-    description: Identity for the resource.
-    types:
-    - uid: Identity
   - name: systemData
     isReadyOnly: true
     description: Metadata pertaining to creation and last modification of the resource
     types:
     - uid: systemData
-  - name: properties.authentication
-    description: This is optional input that contains the authentication that should be used to generate the namespace.
+  - name: properties.priority
+    description: Priority represents a priority of the Resource Sync Rule
     types:
-    - uid: Authentication
-  - name: properties.clusterExtensionIds
-    description: Contains the reference to the add-on that contains charts to deploy CRDs and operators.
-    types:
-    - uid: string
-      isArray: true
-  - name: properties.displayName
-    description: Display name for the Custom Locations location.
-    types:
-    - uid: string
-  - name: properties.hostResourceId
-    description: Connected Cluster or AKS Cluster. The Custom Locations RP will perform a checkAccess API for listAdminCredentials permissions.
-    types:
-    - uid: string
-  - name: properties.hostType
-    description: Type of host the Custom Locations is referencing (Kubernetes, etc...).
-    types:
-    - uid: HostType
-  - name: properties.namespace
-    description: Kubernetes namespace that will be created on the specified cluster.
-    types:
-    - uid: string
+    - uid: integer
   - name: properties.provisioningState
-    description: Provisioning State for the Custom Location.
+    isReadyOnly: true
+    description: Provisioning State for the Resource Sync Rule.
+    types:
+    - uid: string
+  - name: properties.selector
+    description: A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match.
+    types:
+    - uid: Selector
+  - name: properties.targetResourceGroup
+    description: For an unmapped custom resource, its labels will be used to find matching resource sync rules. If this resource sync rule is one of the matching rules with highest priority, then the unmapped custom resource will be projected to the target resource group associated with this resource sync rule. The user creating this resource sync rule should have write permissions on the target resource group and this write permission will be validated when creating the resource sync rule.
     types:
     - uid: string
   - name: tags
@@ -164,24 +155,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Identity
-  description: Identity for the resource.
-  kind: object
-  properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID of resource identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of resource.
-    types:
-    - uid: string
-  - name: type
-    description: The identity type.
-    types:
-    - uid: ResourceIdentityType
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -210,25 +183,31 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: Authentication
-  description: This is optional input that contains the authentication that should be used to generate the namespace.
+- name: Selector
+  description: A label selector is composed of two parts, matchLabels and matchExpressions. The first part, matchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'. The second part, matchExpressions is a list of resource selector requirements. Valid operators include In, NotIn, Exists, and DoesNotExist. The values set must be non-empty in the case of In and NotIn. The values set must be empty in the case of Exists and DoesNotExist. All of the requirements, from both matchLabels and matchExpressions must all be satisfied in order to match.
   kind: object
   properties:
-  - name: type
-    description: The type of the Custom Locations authentication
+  - name: matchLabels
+    description: MatchLabels is a map of {key,value} pairs. A single {key,value} in the matchLabels map is equivalent to an element of matchExpressions, whose key field is 'key', the operator is 'In', and the values array contains only 'value'.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: matchExpressions.key
+    description: Key is the label key that the selector applies to.
     types:
     - uid: string
-  - name: value
-    description: The kubeconfig value.
+  - name: matchExpressions.operator
+    description: The Operator field represents a key's relationship to a set of values. Valid operators are In, NotIn, Exists and DoesNotExist.
     types:
     - uid: string
-- name: HostType
-  description: Type of host the Custom Locations is referencing (Kubernetes, etc...).
-  kind: enum
-  properties:
-  - name: Kubernetes
+  - name: matchExpressions.values
+    description: The label value
     types:
     - uid: string
+      isArray: true
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -243,16 +222,6 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: ResourceIdentityType
-  description: The identity type.
-  kind: enum
-  properties:
-  - name: SystemAssigned
-    types:
-    - uid: string
-  - name: None
-    types:
-    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -270,32 +239,32 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List Custom Locations by resource group
+- name: List Resource Sync Rules by subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations?api-version=2021-08-31-preview
+    uri: GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourceSyncRules?api-version=2021-08-31-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations?api-version=2021-08-31-preview
+      GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourceSyncRules?api-version=2021-08-31-preview
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
 
-      /** Samples for CustomLocations ListByResourceGroup. */
+      /** Samples for ResourceSyncRules ListByCustomLocationId. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsListByResourceGroup.json
+           * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesListByCustomLocationID.json
            */
           /**
-           * Sample code: List Custom Locations by resource group.
+           * Sample code: List Resource Sync Rules by subscription.
            *
            * @param manager Entry point to CustomLocationsManager.
            */
-          public static void listCustomLocationsByResourceGroup(
+          public static void listResourceSyncRulesBySubscription(
               com.azure.resourcemanager.extendedlocation.CustomLocationsManager manager) {
-              manager.customLocations().listByResourceGroup("testresourcegroup", Context.NONE);
+              manager.resourceSyncRules().listByCustomLocationId("testresourcegroup", "customLocation01", Context.NONE);
           }
       }
 
@@ -313,18 +282,19 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/extendedlocation/armextendedlocation"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsListByResourceGroup.json
-      func ExampleCustomLocationsClient_NewListByResourceGroupPager() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesListByCustomLocationID.json
+      func ExampleResourceSyncRulesClient_NewListByCustomLocationIDPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armextendedlocation.NewCustomLocationsClient("11111111-2222-3333-4444-555555555555", cred, nil)
+      	client, err := armextendedlocation.NewResourceSyncRulesClient("11111111-2222-3333-4444-555555555555", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	pager := client.NewListByResourceGroupPager("testresourcegroup",
+      	pager := client.NewListByCustomLocationIDPager("testresourcegroup",
+      		"customLocation01",
       		nil)
       	for pager.More() {
       		nextResult, err := pager.NextPage(ctx)
@@ -346,24 +316,28 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Gets a list of Custom Locations in the specified subscription and resource group. The operation returns properties of each Custom Location.
+       * This sample demonstrates how to Gets a list of Resource Sync Rules in the specified subscription. The operation returns properties of each Resource Sync Rule
        *
-       * @summary Gets a list of Custom Locations in the specified subscription and resource group. The operation returns properties of each Custom Location.
-       * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsListByResourceGroup.json
+       * @summary Gets a list of Resource Sync Rules in the specified subscription. The operation returns properties of each Resource Sync Rule
+       * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/ResourceSyncRulesListByCustomLocationID.json
        */
-      async function listCustomLocationsByResourceGroup() {
+      async function listResourceSyncRulesBySubscription() {
         const subscriptionId = "11111111-2222-3333-4444-555555555555";
         const resourceGroupName = "testresourcegroup";
+        const resourceName = "customLocation01";
         const credential = new DefaultAzureCredential();
         const client = new CustomLocationsManagementClient(credential, subscriptionId);
         const resArray = new Array();
-        for await (let item of client.customLocations.listByResourceGroup(resourceGroupName)) {
+        for await (let item of client.resourceSyncRules.listByCustomLocationID(
+          resourceGroupName,
+          resourceName
+        )) {
           resArray.push(item);
         }
         console.log(resArray);
       }
 
-      listCustomLocationsByResourceGroup().catch(console.error);
+      listResourceSyncRulesBySubscription().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/arm-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
@@ -373,58 +347,43 @@ examples:
       {
         "value": [
           {
-            "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/",
-            "name": "customLocation01",
-            "type": "Microsoft.ExtendedLocation/customLocations",
+            "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01/resourcesyncrules",
+            "name": "resourceSyncRule01",
             "location": "West US",
-            "properties": {
-              "hostResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01",
-              "namespace": "namespace01",
-              "displayName": "customLocationLocation01",
-              "provisioningState": "Succeeded",
-              "clusterExtensionIds": [
-                "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension"
-              ],
-              "authentication": {
-                "type": "KubeConfig"
-              }
-            },
-            "identity": {
-              "type": "SystemAssigned",
-              "principalId": "11111111-1111-1111-1111-111111111111",
-              "tenantId": "111111-1111-1111-1111-111111111111"
-            },
+            "type": "Microsoft.ExtendedLocation/customLocations/resourceSyncRules",
             "systemData": {
               "createdBy": "string",
               "createdByType": "Application",
-              "createdAt": "2020-04-24T18:53:29.0928001Z",
+              "createdAt": "2021-07-16T18:53:29.0928001Z",
               "lastModifiedBy": "string",
               "lastModifiedByType": "Application",
-              "lastModifiedAt": "2020-04-24T18:53:29.0928001Z"
+              "lastModifiedAt": "2021-07-16T18:53:29.0928001Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testrg/",
+              "priority": 999,
+              "selector": {
+                "matchLabels": {
+                  "key1": "value1"
+                },
+                "matchExpressions": [
+                  {
+                    "key": "key4",
+                    "operator": "In",
+                    "values": [
+                      "value4"
+                    ]
+                  }
+                ]
+              }
             }
           },
           {
             "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/",
-            "name": "customLocation02",
-            "type": "Microsoft.ExtendedLocation/customLocations",
+            "name": "resourceSyncRule02",
             "location": "West US",
-            "properties": {
-              "hostResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster02",
-              "namespace": "namespace02",
-              "displayName": "customLocationLocation02",
-              "provisioningState": "Succeeded",
-              "clusterExtensionIds": [
-                "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster02/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension"
-              ],
-              "authentication": {
-                "type": "KubeConfig"
-              }
-            },
-            "identity": {
-              "type": "SystemAssigned",
-              "principalId": "11111111-1111-1111-1111-111111111111",
-              "tenantId": "111111-1111-1111-1111-111111111111"
-            },
+            "type": "Microsoft.ExtendedLocation/customLocations/resourceSyncRules",
             "systemData": {
               "createdBy": "string",
               "createdByType": "Application",
@@ -432,6 +391,25 @@ examples:
               "lastModifiedBy": "string",
               "lastModifiedByType": "Application",
               "lastModifiedAt": "2020-04-24T18:53:29.0928001Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "targetResourceGroup": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/amalladi-df-test/",
+              "priority": 999,
+              "selector": {
+                "matchLabels": {
+                  "key5": "value5"
+                },
+                "matchExpressions": [
+                  {
+                    "key": "key8",
+                    "operator": "In",
+                    "values": [
+                      "value8"
+                    ]
+                  }
+                ]
+              }
             }
           }
         ]
@@ -446,6 +424,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: >
-    Gets a list of Custom Locations in the specified subscription and resource group. The operation returns properties of each Custom Location.
+  description: >-
+    Lists all Resource Sync Rules in a Custom Location.
+
+    Gets a list of Resource Sync Rules in the specified subscription. The operation returns properties of each R
 errorCodes: []

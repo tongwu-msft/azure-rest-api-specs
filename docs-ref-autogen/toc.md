@@ -10798,12 +10798,20 @@
 ### [Overview](extendedlocation/Custom-Locations.yml)
 ### [Create Or Update](extendedlocation/Custom-Locations/Create-Or-Update.yml)
 ### [Delete](extendedlocation/Custom-Locations/Delete.yml)
+### [Find Target Resource Group](extendedlocation/Custom-Locations/Find-Target-Resource-Group.yml)
 ### [Get](extendedlocation/Custom-Locations/Get.yml)
 ### [List By Resource Group](extendedlocation/Custom-Locations/List-By-Resource-Group.yml)
 ### [List By Subscription](extendedlocation/Custom-Locations/List-By-Subscription.yml)
 ### [List Enabled Resource Types](extendedlocation/Custom-Locations/List-Enabled-Resource-Types.yml)
 ### [List Operations](extendedlocation/Custom-Locations/List-Operations.yml)
 ### [Update](extendedlocation/Custom-Locations/Update.yml)
+## Resource Sync Rules
+### [Overview](extendedlocation/Resource-Sync-Rules.yml)
+### [Create Or Update](extendedlocation/Resource-Sync-Rules/Create-Or-Update.yml)
+### [Delete](extendedlocation/Resource-Sync-Rules/Delete.yml)
+### [Get](extendedlocation/Resource-Sync-Rules/Get.yml)
+### [List By Custom Location ID](extendedlocation/Resource-Sync-Rules/List-By-Custom-Location-ID.yml)
+### [Update](extendedlocation/Resource-Sync-Rules/Update.yml)
 # Firewall
 ## [Overview](../docs-ref-conceptual/firewall/index.md)
 ## Azure Firewall Fqdn Tags
