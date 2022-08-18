@@ -35,7 +35,3 @@ The API reference for authoring and runtime APIs for Conversational Language Und
 | Question Answering - Runtime|Runtime prediction calls to query question answering models. |[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
 | Summarization for documents|Runtime prediction calls to query summarization for documents models.|[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
 | Summarization for conversation|Runtime prediction calls to query conversation summarization models.|[Reference](/rest/api/language/conversation-analysis-runtime)|
-
-
-
-
