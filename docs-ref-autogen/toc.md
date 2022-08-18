@@ -16650,9 +16650,11 @@
 ### [Simulate](securitycenter/Alerts/Simulate.yml)
 ### [Update Resource Group Level State To Activate](securitycenter/Alerts/Update-Resource-Group-Level-State-To-Activate.yml)
 ### [Update Resource Group Level State To Dismiss](securitycenter/Alerts/Update-Resource-Group-Level-State-To-Dismiss.yml)
+### [Update Resource Group Level State To In Progress](securitycenter/Alerts/Update-Resource-Group-Level-State-To-In-Progress.yml)
 ### [Update Resource Group Level State To Resolve](securitycenter/Alerts/Update-Resource-Group-Level-State-To-Resolve.yml)
 ### [Update Subscription Level State To Activate](securitycenter/Alerts/Update-Subscription-Level-State-To-Activate.yml)
 ### [Update Subscription Level State To Dismiss](securitycenter/Alerts/Update-Subscription-Level-State-To-Dismiss.yml)
+### [Update Subscription Level State To In Progress](securitycenter/Alerts/Update-Subscription-Level-State-To-In-Progress.yml)
 ### [Update Subscription Level State To Resolve](securitycenter/Alerts/Update-Subscription-Level-State-To-Resolve.yml)
 ## Alerts Suppression Rules
 ### [Overview](securitycenter/Alerts-Suppression-Rules.yml)

@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.alerts.list
 name: List
 service: Security Center
 groupName: Alerts
-apiVersion: 2021-01-01
+apiVersion: 2022-01-01
 summary: List all the alerts that are associated with the subscription
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/alerts?api-version=2021-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/alerts?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -85,6 +85,11 @@ definitions:
   description: Security alert
   kind: object
   properties:
+  - name: properties.version
+    isReadyOnly: true
+    description: Schema version.
+    types:
+    - uid: string
   - name: properties.alertType
     isReadyOnly: true
     description: Unique identifier for the detection logic (all alert instances from the same detection logic will have the same alertType).
@@ -210,6 +215,22 @@ definitions:
     description: The display name of the resource most related to this alert.
     types:
     - uid: string
+  - name: properties.techniques
+    isReadyOnly: true
+    description: kill chain related techniques behind the alert.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.subTechniques
+    isReadyOnly: true
+    description: Kill chain related sub-techniques behind the alert.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.supportingEvidence
+    description: Changing set of properties depending on the supportingEvidence type.
+    types:
+    - uid: SupportingEvidence
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -366,6 +387,10 @@ definitions:
     description: An alert which doesn't specify a value is assigned the status 'Active'
     types:
     - uid: string
+  - name: InProgress
+    description: An alert which is in handling state
+    types:
+    - uid: string
   - name: Resolved
     description: Alert closed after handling
     types:
@@ -381,6 +406,15 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Type of entity
+    types:
+    - uid: string
+- name: SupportingEvidence
+  description: Changing set of properties depending on the supportingEvidence type.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: Type of the supportingEvidence
     types:
     - uid: string
 - name: AzureResourceIdentifier
@@ -429,51 +463,13 @@ definitions:
 examples:
 - name: Get security alerts on a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/alerts?api-version=2021-01-01
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/alerts?api-version=2022-01-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/alerts?api-version=2021-01-01
+      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/alerts?api-version=2022-01-01
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armsecurity_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
-      )
-
-      // x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-01-01/examples/Alerts/GetAlertsSubscription_example.json
-      func ExampleAlertsClient_List() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client := armsecurity.NewAlertsClient("<subscription-id>",
-      		"<asc-location>", cred, nil)
-      	pager := client.List(nil)
-      	for {
-      		nextResult := pager.NextPage(ctx)
-      		if err := pager.Err(); err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		if !nextResult {
-      			break
-      		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("Pager result: %#v\n", v)
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.4.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -484,9 +480,10 @@ examples:
             "name": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
             "type": "Microsoft.Security/Locations/alerts",
             "properties": {
+              "version": "2022-01-01",
               "alertType": "VM_EICAR",
               "systemAlertId": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
-              "productComponentName": "",
+              "productComponentName": "testName",
               "alertDisplayName": "Azure Security Center test alert (not a threat)",
               "description": "This is a test alert generated by Azure Security Center. No further action is needed.",
               "severity": "High",
@@ -510,7 +507,7 @@ examples:
                 "No further action is needed."
               ],
               "vendorName": "Microsoft",
-              "status": "New",
+              "status": "Active",
               "extendedLinks": [
                 {
                   "Category": "threat_reports",
@@ -542,7 +539,51 @@ examples:
               "extendedProperties": {
                 "Property1": "Property1 information"
               },
-              "compromisedEntity": "vm1"
+              "compromisedEntity": "vm1",
+              "techniques": [
+                "T1059",
+                "T1053",
+                "T1072"
+              ],
+              "subTechniques": [
+                "T1059.001",
+                "T1059.006",
+                "T1053.002"
+              ],
+              "supportingEvidence": {
+                "type": "tabularEvidences",
+                "title": "Investigate activity test",
+                "columns": [
+                  "Date",
+                  "Activity",
+                  "User",
+                  "TestedText",
+                  "TestedValue"
+                ],
+                "rows": [
+                  [
+                    "2022-01-17T07:03:52.034Z",
+                    "Log on",
+                    "testUser",
+                    "false",
+                    false
+                  ],
+                  [
+                    "2022-01-17T07:03:52.034Z",
+                    "Log on",
+                    "testUser2",
+                    "false",
+                    false
+                  ],
+                  [
+                    "2022-01-17T07:03:52.034Z",
+                    "Log on",
+                    "testUser3",
+                    "true",
+                    true
+                  ]
+                ]
+              }
             }
           },
           {
@@ -550,9 +591,10 @@ examples:
             "name": "2518765996949954086_2325cf9e-42a2-4f72-ae7f-9b863cba2d22",
             "type": "Microsoft.Security/Locations/alerts",
             "properties": {
+              "version": "2022-01-01",
               "alertType": "VM_SuspiciousScreenSaver",
               "systemAlertId": "2518298467986649999_4d25bfef-2d77-4a08-adc0-3e35715cc92a",
-              "productComponentName": "",
+              "productComponentName": "testName2",
               "alertDisplayName": "Suspicious Screensaver process executed",
               "description": "The process ‘c:\\users\\contosoUser\\scrsave.scr’ was observed executing from an uncommon location. Files with the .scr extensions are screen saver files and are normally reside and execute from the Windows system directory.",
               "severity": "Medium",
@@ -581,7 +623,7 @@ examples:
                 "6. Escalate the alert to the information security team"
               ],
               "vendorName": "Microsoft",
-              "status": "New",
+              "status": "Active",
               "extendedLinks": [
                 {
                   "Category": "threat_reports",
@@ -648,6 +690,80 @@ examples:
                 "user SID": "S-1-5-21-2144575486-8928446540-5163864319-500",
                 "parent process id": "0x3c44",
                 "resourceType": "Virtual Machine"
+              },
+              "techniques": [
+                "T1059",
+                "T1053",
+                "T1072"
+              ],
+              "subTechniques": [
+                "T1059.001",
+                "T1059.006",
+                "T1053.002"
+              ],
+              "supportingEvidence": {
+                "supportingEvidenceList": [
+                  {
+                    "evidenceElements": [
+                      {
+                        "text": {
+                          "arguments": {
+                            "sensitiveEnumerationTypes": {
+                              "type": "string[]",
+                              "value": [
+                                "UseDesKey"
+                              ]
+                            },
+                            "domainName": {
+                              "type": "string",
+                              "value": "domainName"
+                            }
+                          },
+                          "localizationKey": "AATP_ALERTS_LDAP_SENSITIVE_ATTRIBUTE_RECONNAISSANCE_SECURITY_ALERT_EVIDENCE_ENUMERATION_DETAIL_A7C00BD7",
+                          "fallback": "Actor enumerated UseDesKey on domain1.test.local"
+                        },
+                        "type": "evidenceElement",
+                        "innerElements": null
+                      }
+                    ],
+                    "type": "nestedList"
+                  },
+                  {
+                    "type": "tabularEvidences",
+                    "title": "Investigate activity test",
+                    "columns": [
+                      "Date",
+                      "Activity",
+                      "User",
+                      "TestedText",
+                      "TestedValue"
+                    ],
+                    "rows": [
+                      [
+                        "2022-01-17T07:03:52.034Z",
+                        "Log on",
+                        "testUser",
+                        "false",
+                        false
+                      ],
+                      [
+                        "2022-01-17T07:03:52.034Z",
+                        "Log on",
+                        "testUser2",
+                        "false",
+                        false
+                      ],
+                      [
+                        "2022-01-17T07:03:52.034Z",
+                        "Log on",
+                        "testUser3",
+                        "true",
+                        true
+                      ]
+                    ]
+                  }
+                ],
+                "type": "supportingEvidenceList"
               }
             }
           }
