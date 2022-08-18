@@ -3,15 +3,15 @@ uid: management.azure.com.authorization.roleassignmentscheduleinstances.listfors
 name: List For Scope
 service: Authorization
 groupName: Role Assignment Schedule Instances
-apiVersion: 2020-10-01-preview
+apiVersion: 2020-10-01
 summary: Gets role assignment schedule instances of a role assignment schedule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01-preview
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?$filter={$filter}&api-version=2020-10-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?$filter={$filter}&api-version=2020-10-01
   isOptional: true
 uriParameters:
 - name: scope
@@ -345,7 +345,83 @@ definitions:
 examples:
 - name: GetRoleAssignmentScheduleInstancesByScope
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?$filter=assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')&api-version=2020-10-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?$filter=assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')&api-version=2020-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?$filter=assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')&api-version=2020-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for RoleAssignmentScheduleInstances ListForScope. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01/examples/GetRoleAssignmentScheduleInstancesByScope.json
+           */
+          /**
+           * Sample code: GetRoleAssignmentScheduleInstancesByScope.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getRoleAssignmentScheduleInstancesByScope(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .accessManagement()
+                  .roleAssignments()
+                  .manager()
+                  .roleServiceClient()
+                  .getRoleAssignmentScheduleInstances()
+                  .listForScope(
+                      "providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+                      "assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armauthorization_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/authorization/armauthorization"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01/examples/GetRoleAssignmentScheduleInstancesByScope.json
+      func ExampleRoleAssignmentScheduleInstancesClient_NewListForScopePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armauthorization.NewRoleAssignmentScheduleInstancesClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListForScopePager("providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+      		&armauthorization.RoleAssignmentScheduleInstancesClientListForScopeOptions{Filter: to.Ptr("assignedTo('a3bb8764-cb92-4276-9d2a-ca1e895e55ea')")})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fauthorization%2Farmauthorization%2Fv1.0.0/sdk/resourcemanager/authorization/armauthorization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -357,12 +433,12 @@ examples:
               "linkedRoleEligibilityScheduleId": "b1477448-2cc6-4ceb-93b4-54a202a89413",
               "linkedRoleEligibilityScheduleInstanceId": "21e4b59a-0499-4fe0-a3c3-43a3055b773a",
               "assignmentType": "Assigned",
-              "scope": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
+              "scope": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f",
               "roleDefinitionId": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/roleDefinitions/c8d4ff99-41c3-41a8-9f60-21dfdad59608",
               "principalId": "a3bb8764-cb92-4276-9d2a-ca1e895e55ea",
               "principalType": "User",
               "status": "Accepted",
-              "roleAssignmentScheduleId": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleAssignmentSchedules/c9e264ff-3133-4776-a81a-ebc7c33c8ec6",
+              "roleAssignmentScheduleId": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleAssignmentSchedules/c9e264ff-3133-4776-a81a-ebc7c33c8ec6",
               "startDateTime": "2020-09-09T21:35:27.91Z",
               "endDateTime": "2020-09-10T05:35:17.91Z",
               "memberType": "Direct",
@@ -389,7 +465,7 @@ examples:
               }
             },
             "name": "ed9b8180-cef7-4c77-a63c-b8566ecfc412",
-            "id": "/providers/Microsoft.Subscription/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleAssignmentScheduleInstances/ed9b8180-cef7-4c77-a63c-b8566ecfc412",
+            "id": "/subscriptions/dfa2a084-766f-4003-8ae1-c4aeb893a99f/providers/Microsoft.Authorization/RoleAssignmentScheduleInstances/ed9b8180-cef7-4c77-a63c-b8566ecfc412",
             "type": "Microsoft.Authorization/RoleAssignmentScheduleInstances"
           }
         ]
@@ -404,5 +480,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Authorization service - Gets role assignment schedule instances of a role assignment schedule.
+  description: >
+    Learn more about Authorization service - Gets role assignment schedule instances of a role assignment schedule.
 errorCodes: []

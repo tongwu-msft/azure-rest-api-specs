@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -129,6 +129,16 @@ requestBody:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    in: body
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
+  - name: properties.virtualRouterAutoScaleConfiguration
+    in: body
+    description: The VirtualHub Router autoscale configuration.
+    types:
+    - uid: VirtualRouterAutoScaleConfiguration
   - name: id
     in: body
     description: Resource ID.
@@ -200,6 +210,14 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: VirtualRouterAutoScaleConfiguration
+  description: The VirtualHub Router autoscale configuration.
+  kind: object
+  properties:
+  - name: minCapacity
+    description: The minimum number of scale units for VirtualHub Router.
+    types:
+    - uid: integer
 - name: VirtualHub
   description: VirtualHub Resource.
   kind: object
@@ -298,6 +316,14 @@ definitions:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
+  - name: properties.virtualRouterAutoScaleConfiguration
+    description: The VirtualHub Router autoscale configuration.
+    types:
+    - uid: VirtualRouterAutoScaleConfiguration
   - name: id
     description: Resource ID.
     types:
@@ -412,6 +438,19 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: HubRoutingPreference
+  description: The hub routing preference gateway types
+  kind: enum
+  properties:
+  - name: ExpressRoute
+    types:
+    - uid: string
+  - name: VpnGateway
+    types:
+    - uid: string
+  - name: ASPath
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -436,7 +475,7 @@ definitions:
 examples:
 - name: VirtualHubPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2022-01-01
     body: >-
       {
         "location": "West US",
@@ -451,6 +490,115 @@ examples:
           "sku": "Basic"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub2?api-version=2022-01-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "virtualWan": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"
+          },
+          "addressPrefix": "10.168.0.0/24",
+          "sku": "Basic"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualHubPut.json
+      func ExampleVirtualHubsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualHubsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "virtualHub2", armnetwork.VirtualHub{
+      		Location: to.Ptr("West US"),
+      		Tags: map[string]*string{
+      			"key1": to.Ptr("value1"),
+      		},
+      		Properties: &armnetwork.VirtualHubProperties{
+      			AddressPrefix: to.Ptr("10.168.0.0/24"),
+      			SKU:           to.Ptr("Basic"),
+      			VirtualWan: &armnetwork.SubResource{
+      				ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1"),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
+       *
+       * @summary Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualHubPut.json
+       */
+      async function virtualHubPut() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub2";
+        const virtualHubParameters = {
+          addressPrefix: "10.168.0.0/24",
+          location: "West US",
+          sku: "Basic",
+          tags: { key1: "value1" },
+          virtualWan: {
+            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualWans/virtualWan1",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualHubs.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualHubName,
+          virtualHubParameters
+        );
+        console.log(result);
+      }
+
+      virtualHubPut().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -475,7 +623,11 @@ examples:
             "10.10.1.13"
           ],
           "allowBranchToBranchTraffic": false,
-          "preferredRoutingGateway": "ExpressRoute"
+          "preferredRoutingGateway": "ExpressRoute",
+          "hubRoutingPreference": "ExpressRoute",
+          "virtualRouterAutoScaleConfiguration": {
+            "minCapacity": 2
+          }
         }
       }
   - statusCode: "201"
@@ -501,7 +653,11 @@ examples:
             "10.10.1.13"
           ],
           "allowBranchToBranchTraffic": false,
-          "preferredRoutingGateway": "ExpressRoute"
+          "preferredRoutingGateway": "ExpressRoute",
+          "hubRoutingPreference": "ExpressRoute",
+          "virtualRouterAutoScaleConfiguration": {
+            "minCapacity": 2
+          }
         }
       }
 security:
@@ -514,5 +670,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual WAN service - Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
+  description: >
+    Learn more about Virtual WAN service - Creates a VirtualHub resource if it doesn't exist else updates the existing VirtualHub.
 errorCodes: []

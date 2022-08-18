@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.profiles.create
 name: Create
 service: CDN
 groupName: Profiles
-apiVersion: 2019-12-31
-summary: Creates a new CDN profile with a profile name under the specified subscription and resource group.
+apiVersion: 2021-06-01
+summary: Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2019-12-31
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,13 +28,13 @@ uriParameters:
 - name: profileName
   in: path
   isRequired: true
-  description: Name of the CDN profile which is unique within the resource group.
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile which is unique within the resource group.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
   types:
   - uid: string
 responses:
@@ -60,9 +60,14 @@ requestBody:
   - name: sku
     in: body
     isRequired: true
-    description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+    description: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile.
     types:
     - uid: Sku
+  - name: properties.originResponseTimeoutSeconds
+    in: body
+    description: Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
   - name: location
     in: body
     isRequired: true
@@ -81,21 +86,79 @@ requestBody:
 requestHeader: []
 definitions:
 - name: Sku
-  description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+  description: >
+    Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+
+    Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
+
+    Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+
+    Standard_Akamai = The SKU name for an Akamai CDN profile.
+
+    Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing model.
+
+    Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+
+    Standard_AzureFrontDoor =  The SKU name for an Azure Front Door Standard profile.
+
+    Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile.
+
+    Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5 peak bandwidth billing model.
+
+    Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+
+    StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model.
+
+    StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing model.
+
+    StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak bandwidth billing model.
   kind: object
   properties:
   - name: name
     description: Name of the pricing tier.
     types:
     - uid: SkuName
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: Profile
-  description: CDN profile is a logical grouping of endpoints that share the same settings, such as CDN provider and pricing tier.
+  description: A profile is a logical grouping of endpoints that share the same settings.
   kind: object
   properties:
   - name: sku
-    description: The pricing tier (defines a CDN provider, feature list and rate) of the CDN profile.
+    description: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile.
     types:
     - uid: Sku
+  - name: kind
+    isReadyOnly: true
+    description: Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile.
+    types:
+    - uid: string
   - name: properties.resourceState
     isReadyOnly: true
     description: Resource status of the profile.
@@ -105,7 +168,16 @@ definitions:
     isReadyOnly: true
     description: Provisioning status of the profile.
     types:
+    - uid: ProfileProvisioningState
+  - name: properties.frontDoorId
+    isReadyOnly: true
+    description: The Id of the frontdoor.
+    types:
     - uid: string
+  - name: properties.originResponseTimeoutSeconds
+    description: Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
   - name: location
     description: Resource location.
     types:
@@ -133,20 +205,19 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
 - name: ErrorResponse
-  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: SkuName
   description: Name of the pricing tier.
   kind: enum
@@ -169,7 +240,41 @@ definitions:
   - name: Standard_Microsoft
     types:
     - uid: string
-  - name: Premium_ChinaCdn
+  - name: Standard_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Premium_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Standard_955BandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: Standard_AvgBandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_955BandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_AvgBandWidth_ChinaCdn
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
     types:
     - uid: string
 - name: ProfileResourceState
@@ -188,17 +293,206 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: ProfileProvisioningState
+  description: Provisioning status of the profile.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Profiles_Create
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1?api-version=2019-12-31
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1?api-version=2021-06-01
     body: >-
       {
-        "location": "WestCentralUs",
+        "location": "global",
         "sku": {
-          "name": "Standard_Verizon"
+          "name": "Premium_AzureFrontDoor"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1?api-version=2021-06-01
+
+      {
+        "location": "global",
+        "sku": {
+          "name": "Premium_AzureFrontDoor"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.fluent.models.ProfileInner;
+      import com.azure.resourcemanager.cdn.models.Sku;
+      import com.azure.resourcemanager.cdn.models.SkuName;
+
+      /** Samples for Profiles Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Profiles_Create.json
+           */
+          /**
+           * Sample code: Profiles_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void profilesCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getProfiles()
+                  .create(
+                      "RG",
+                      "profile1",
+                      new ProfileInner()
+                          .withLocation("WestCentralUs")
+                          .withSku(new Sku().withName(SkuName.PREMIUM_AZURE_FRONT_DOOR)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Profiles_Create.json
+      func ExampleProfilesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewProfilesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		armcdn.Profile{
+      			Location: to.Ptr("global"),
+      			SKU: &armcdn.SKU{
+      				Name: to.Ptr(armcdn.SKUNamePremiumAzureFrontDoor),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
+       *
+       * @summary Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Profiles_Create.json
+       */
+      async function profilesCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const profile = {
+          location: "WestCentralUs",
+          sku: { name: "Premium_AzureFrontDoor" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.profiles.beginCreateAndWait(resourceGroupName, profileName, profile);
+        console.log(result);
+      }
+
+      profilesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -207,13 +501,16 @@ examples:
         "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
         "type": "Microsoft.Cdn/profiles",
         "tags": {},
-        "location": "WestCentralUs",
+        "location": "global",
         "sku": {
-          "name": "Standard_Verizon"
+          "name": "Premium_AzureFrontDoor"
         },
+        "kind": "frontdoor",
         "properties": {
-          "provisioningState": "Creating",
-          "resourceState": "Creating"
+          "originResponseTimeoutSeconds": 30,
+          "frontDoorId": "3b4682da-b3e2-47a1-96ca-08ab3cb7294e",
+          "provisioningState": "Succeeded",
+          "resourceState": "Active"
         }
       }
   - statusCode: "201"
@@ -223,13 +520,16 @@ examples:
         "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
         "type": "Microsoft.Cdn/profiles",
         "tags": {},
-        "location": "WestCentralUs",
+        "location": "global",
         "sku": {
-          "name": "Standard_Verizon"
+          "name": "Premium_AzureFrontDoor"
         },
+        "kind": "frontdoor",
         "properties": {
-          "provisioningState": "Creating",
-          "resourceState": "Creating"
+          "originResponseTimeoutSeconds": 30,
+          "frontDoorId": "3b4682da-b3e2-47a1-96ca-08ab3cb7294e",
+          "provisioningState": "Succeeded",
+          "resourceState": "Active"
         }
       }
   - statusCode: "202"
@@ -239,11 +539,14 @@ examples:
         "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
         "type": "Microsoft.Cdn/profiles",
         "tags": {},
-        "location": "WestCentralUs",
+        "location": "global",
         "sku": {
-          "name": "Standard_Verizon"
+          "name": "Premium_AzureFrontDoor"
         },
+        "kind": "frontdoor",
         "properties": {
+          "originResponseTimeoutSeconds": 30,
+          "frontDoorId": "3b4682da-b3e2-47a1-96ca-08ab3cb7294e",
           "provisioningState": "Creating",
           "resourceState": "Creating"
         }
@@ -258,5 +561,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about CDN service - Creates a new CDN profile with a profile name under the specified subscription and resource group.
+  description: >
+    Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
 errorCodes: []

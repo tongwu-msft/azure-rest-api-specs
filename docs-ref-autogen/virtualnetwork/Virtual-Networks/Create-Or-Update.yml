@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.virtualnetworks.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Virtual Networks
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates a virtual network in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -268,10 +268,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -443,10 +445,12 @@ definitions:
     description: Indicates if DDoS protection is enabled for all the protected resources in the virtual network. It requires a DDoS protection plan associated with the resource.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.enableVmProtection
     description: Indicates if VM protection is enabled for all the subnets in the virtual network.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.ddosProtectionPlan
     description: The DDoS protection plan associated with the virtual network.
     types:
@@ -514,6 +518,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -831,6 +839,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -1272,7 +1281,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -1316,6 +1325,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -2053,6 +2066,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: RetentionPolicyParameters
   description: Parameters that define the retention policy for flow log.
   kind: object
@@ -2061,10 +2087,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -2077,6 +2105,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -2456,6 +2485,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -2878,6 +2911,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -2940,10 +2977,26 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 examples:
 - name: Create virtual network
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -2956,6 +3009,106 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "flowTimeoutInMinutes": 10
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreate.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			FlowTimeoutInMinutes: to.Ptr[int32](10),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreate.json
+       */
+      async function createVirtualNetwork() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          flowTimeoutInMinutes: 10,
+          location: "eastus",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetwork().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2997,7 +3150,7 @@ examples:
       }
 - name: Create virtual network with subnet
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3017,6 +3170,119 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnet.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateSubnet() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/24"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnet.json
+       */
+      async function createVirtualNetworkWithSubnet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithSubnet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3074,7 +3340,7 @@ examples:
       }
 - name: Create virtual network with subnet containing address prefixes
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3097,6 +3363,124 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-2",
+              "properties": {
+                "addressPrefixes": [
+                  "10.0.0.0/28",
+                  "10.0.1.0/28"
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateSubnetWithAddressPrefixes() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-2"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefixes: []*string{
+      							to.Ptr("10.0.0.0/28"),
+      							to.Ptr("10.0.1.0/28")},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnetWithAddressPrefixes.json
+       */
+      async function createVirtualNetworkWithSubnetContainingAddressPrefixes() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [{ name: "test-2", addressPrefixes: ["10.0.0.0/28", "10.0.1.0/28"] }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithSubnetContainingAddressPrefixes().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3160,7 +3544,7 @@ examples:
       }
 - name: Create virtual network with Bgp Communities
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3183,6 +3567,126 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ],
+          "bgpCommunities": {
+            "virtualNetworkCommunity": "12076:20000"
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateWithBgpCommunities() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			BgpCommunities: &armnetwork.VirtualNetworkBgpCommunities{
+      				VirtualNetworkCommunity: to.Ptr("12076:20000"),
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/24"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateWithBgpCommunities.json
+       */
+      async function createVirtualNetworkWithBgpCommunities() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          bgpCommunities: { virtualNetworkCommunity: "12076:20000" },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithBgpCommunities().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3248,7 +3752,7 @@ examples:
       }
 - name: Create virtual network with service endpoints
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3273,6 +3777,134 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/16",
+                "serviceEndpoints": [
+                  {
+                    "service": "Microsoft.Storage"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateServiceEndpoints.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateServiceEndpoints() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "vnetTest", "vnet1", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/16"),
+      						ServiceEndpoints: []*armnetwork.ServiceEndpointPropertiesFormat{
+      							{
+      								Service: to.Ptr("Microsoft.Storage"),
+      							}},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateServiceEndpoints.json
+       */
+      async function createVirtualNetworkWithServiceEndpoints() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "vnetTest";
+        const virtualNetworkName = "vnet1";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/16",
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithServiceEndpoints().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3354,7 +3986,7 @@ examples:
       }
 - name: Create virtual network with service endpoints and service endpoint policy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3384,6 +4016,148 @@ examples:
         },
         "location": "eastus2euap"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/virtualNetworks/vnet1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/16",
+                "serviceEndpoints": [
+                  {
+                    "service": "Microsoft.Storage"
+                  }
+                ],
+                "serviceEndpointPolicies": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "eastus2euap"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateServiceEndpointPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "vnetTest", "vnet1", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus2euap"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/16"),
+      						ServiceEndpointPolicies: []*armnetwork.ServiceEndpointPolicy{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1"),
+      							}},
+      						ServiceEndpoints: []*armnetwork.ServiceEndpointPropertiesFormat{
+      							{
+      								Service: to.Ptr("Microsoft.Storage"),
+      							}},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateServiceEndpointPolicy.json
+       */
+      async function createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "vnetTest";
+        const virtualNetworkName = "vnet1";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "eastus2euap",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/16",
+              serviceEndpointPolicies: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/vnetTest/providers/Microsoft.Network/serviceEndpointPolicies/ServiceEndpointPolicy1",
+                },
+              ],
+              serviceEndpoints: [{ service: "Microsoft.Storage" }],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithServiceEndpointsAndServiceEndpointPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3475,7 +4249,7 @@ examples:
       }
 - name: Create virtual network with delegated subnets
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3503,6 +4277,145 @@ examples:
         },
         "location": "westcentralus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24",
+                "delegations": [
+                  {
+                    "name": "myDelegation",
+                    "properties": {
+                      "serviceName": "Microsoft.Sql/managedInstances"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "location": "westcentralus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateSubnetWithDelegation() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("westcentralus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/24"),
+      						Delegations: []*armnetwork.Delegation{
+      							{
+      								Name: to.Ptr("myDelegation"),
+      								Properties: &armnetwork.ServiceDelegationPropertiesFormat{
+      									ServiceName: to.Ptr("Microsoft.Sql/managedInstances"),
+      								},
+      							}},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateSubnetWithDelegation.json
+       */
+      async function createVirtualNetworkWithDelegatedSubnets() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          location: "westcentralus",
+          subnets: [
+            {
+              name: "test-1",
+              addressPrefix: "10.0.0.0/24",
+              delegations: [
+                {
+                  name: "myDelegation",
+                  serviceName: "Microsoft.Sql/managedInstances",
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithDelegatedSubnets().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3584,7 +4497,7 @@ examples:
       }
 - name: Create virtual network with encryption
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -3608,6 +4521,128 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet?api-version=2022-01-01
+
+      {
+        "properties": {
+          "addressSpace": {
+            "addressPrefixes": [
+              "10.0.0.0/16"
+            ]
+          },
+          "subnets": [
+            {
+              "name": "test-1",
+              "properties": {
+                "addressPrefix": "10.0.0.0/24"
+              }
+            }
+          ],
+          "encryption": {
+            "enabled": true,
+            "enforcement": "AllowUnencrypted"
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateWithEncryption.json
+      func ExampleVirtualNetworksClient_BeginCreateOrUpdate_virtualNetworkCreateWithEncryption() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworksClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-vnet", armnetwork.VirtualNetwork{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.VirtualNetworkPropertiesFormat{
+      			AddressSpace: &armnetwork.AddressSpace{
+      				AddressPrefixes: []*string{
+      					to.Ptr("10.0.0.0/16")},
+      			},
+      			Encryption: &armnetwork.VirtualNetworkEncryption{
+      				Enabled:     to.Ptr(true),
+      				Enforcement: to.Ptr(armnetwork.VirtualNetworkEncryptionEnforcementAllowUnencrypted),
+      			},
+      			Subnets: []*armnetwork.Subnet{
+      				{
+      					Name: to.Ptr("test-1"),
+      					Properties: &armnetwork.SubnetPropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.0.0/24"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a virtual network in the specified resource group.
+       *
+       * @summary Creates or updates a virtual network in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkCreateWithEncryption.json
+       */
+      async function createVirtualNetworkWithEncryption() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkName = "test-vnet";
+        const parameters = {
+          addressSpace: { addressPrefixes: ["10.0.0.0/16"] },
+          encryption: { enabled: true, enforcement: "AllowUnencrypted" },
+          location: "eastus",
+          subnets: [{ name: "test-1", addressPrefix: "10.0.0.0/24" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworks.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualNetworkName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createVirtualNetworkWithEncryption().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3681,5 +4716,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Creates or updates a virtual network in the specified resource group.
+  description: >
+    Learn more about Virtual Networks service - Creates or updates a virtual network in the specified resource group.
 errorCodes: []

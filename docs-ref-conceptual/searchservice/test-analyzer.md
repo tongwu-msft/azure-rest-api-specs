@@ -4,7 +4,7 @@ description: Test predefined and custom analyzers used for breaking text into to
 ms.date: 09/08/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

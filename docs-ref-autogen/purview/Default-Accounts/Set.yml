@@ -172,6 +172,96 @@ examples:
         "resourceGroupName": "rg-1",
         "subscriptionId": "12345678-1234-1234-12345678aaa"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Purview/setDefaultAccount?api-version=2021-07-01
+
+      {
+        "scopeTenantId": "11733A4E-BA84-46FF-91D1-AFF1A3215A90",
+        "scopeType": "Tenant",
+        "scope": "11733A4E-BA84-46FF-91D1-AFF1A3215A90",
+        "accountName": "myDefaultAccount",
+        "resourceGroupName": "rg-1",
+        "subscriptionId": "12345678-1234-1234-12345678aaa"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armpurview_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/purview/armpurview"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Set.json
+      func ExampleDefaultAccountsClient_Set() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpurview.NewDefaultAccountsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Set(ctx,
+      		armpurview.DefaultAccountPayload{
+      			AccountName:       to.Ptr("myDefaultAccount"),
+      			ResourceGroupName: to.Ptr("rg-1"),
+      			Scope:             to.Ptr("11733A4E-BA84-46FF-91D1-AFF1A3215A90"),
+      			ScopeTenantID:     to.Ptr("11733A4E-BA84-46FF-91D1-AFF1A3215A90"),
+      			ScopeType:         to.Ptr(armpurview.ScopeTypeTenant),
+      			SubscriptionID:    to.Ptr("12345678-1234-1234-12345678aaa"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpurview%2Farmpurview%2Fv1.0.0/sdk/resourcemanager/purview/armpurview/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PurviewManagementClient } = require("@azure/arm-purview");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Sets the default account for the scope.
+       *
+       * @summary Sets the default account for the scope.
+       * x-ms-original-file: specification/purview/resource-manager/Microsoft.Purview/stable/2021-07-01/examples/DefaultAccounts_Set.json
+       */
+      async function defaultAccountsSet() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const defaultAccountPayload = {
+          accountName: "myDefaultAccount",
+          resourceGroupName: "rg-1",
+          scope: "12345678-1234-1234-12345678abc",
+          scopeTenantId: "12345678-1234-1234-12345678abc",
+          scopeType: "Tenant",
+          subscriptionId: "12345678-1234-1234-12345678aaa",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PurviewManagementClient(credential, subscriptionId);
+        const result = await client.defaultAccounts.set(defaultAccountPayload);
+        console.log(result);
+      }
+
+      defaultAccountsSet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-purview_1.0.1/sdk/purview/arm-purview/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -204,5 +294,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Sets the default account for the scope.
+  description: >
+    Learn more about Purview service - Sets the default account for the scope.
 errorCodes: []

@@ -1,0 +1,526 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.workloads.sapdiskconfigurations.sapdiskconfigurations
+name: SAP Disk Configurations
+service: Workloads
+groupName: SAP Disk Configurations
+apiVersion: 2021-12-01-preview
+summary: Get SAP Disk Configurations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getDiskConfigurations?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The name of Azure region.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: SAP Disk Configurations Result.
+  types:
+  - uid: SAPDiskConfigurationsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: appLocation
+    in: body
+    isRequired: true
+    description: The geo-location where the SAP resources will be created.
+    types:
+    - uid: string
+  - name: environment
+    in: body
+    isRequired: true
+    description: Defines the environment type - Production/Non Production.
+    types:
+    - uid: SAPEnvironmentType
+  - name: sapProduct
+    in: body
+    isRequired: true
+    description: Defines the SAP Product type.
+    types:
+    - uid: SAPProductType
+  - name: databaseType
+    in: body
+    isRequired: true
+    description: 'The database type. Eg: HANA, DB2, etc'
+    types:
+    - uid: SAPDatabaseType
+  - name: deploymentType
+    in: body
+    isRequired: true
+    description: 'The deployment type. Eg: SingleServer/ThreeTier'
+    types:
+    - uid: SAPDeploymentType
+  - name: dbVmSku
+    in: body
+    isRequired: true
+    description: The VM SKU for database instance.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SAPDiskConfigurationsResult
+  description: The list of disk configuration for vmSku which are part of SAP deployment.
+  kind: object
+  properties:
+  - name: diskConfigurations
+    description: Gets the list of Disk Configurations.
+    types:
+    - uid: SAPDiskConfiguration
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: SAPDiskConfigurationsRequest
+  description: The SAP request to get list of disk configurations.
+  kind: object
+  properties:
+  - name: appLocation
+    description: The geo-location where the SAP resources will be created.
+    types:
+    - uid: string
+  - name: environment
+    description: Defines the environment type - Production/Non Production.
+    types:
+    - uid: SAPEnvironmentType
+  - name: sapProduct
+    description: Defines the SAP Product type.
+    types:
+    - uid: SAPProductType
+  - name: databaseType
+    description: 'The database type. Eg: HANA, DB2, etc'
+    types:
+    - uid: SAPDatabaseType
+  - name: deploymentType
+    description: 'The deployment type. Eg: SingleServer/ThreeTier'
+    types:
+    - uid: SAPDeploymentType
+  - name: dbVmSku
+    description: The VM SKU for database instance.
+    types:
+    - uid: string
+- name: SAPDiskConfiguration
+  description: The SAP Disk Configuration.
+  kind: object
+  properties:
+  - name: volume
+    description: The volume name.
+    types:
+    - uid: string
+  - name: diskType
+    description: The disk type.
+    types:
+    - uid: string
+  - name: diskCount
+    description: The disk count.
+    types:
+    - uid: integer
+  - name: diskSizeGB
+    description: The disk size in GB.
+    types:
+    - uid: integer
+  - name: diskIopsReadWrite
+    description: The disk Iops.
+    types:
+    - uid: integer
+  - name: diskMBpsReadWrite
+    description: The disk provisioned throughput in MBps.
+    types:
+    - uid: integer
+  - name: diskStorageType
+    description: The disk storage type
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: SAPEnvironmentType
+  description: Defines the environment type - Production/Non Production.
+  kind: enum
+  properties:
+  - name: NonProd
+    types:
+    - uid: string
+  - name: Prod
+    types:
+    - uid: string
+- name: SAPProductType
+  description: Defines the SAP Product type.
+  kind: enum
+  properties:
+  - name: ECC
+    types:
+    - uid: string
+  - name: S4HANA
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+- name: SAPDatabaseType
+  description: Defines the supported SAP Database types.
+  kind: enum
+  properties:
+  - name: HANA
+    types:
+    - uid: string
+  - name: DB2
+    types:
+    - uid: string
+- name: SAPDeploymentType
+  description: 'The deployment type. Eg: SingleServer/ThreeTier'
+  kind: enum
+  properties:
+  - name: SingleServer
+    types:
+    - uid: string
+  - name: ThreeTier
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: SAPDiskConfigurations_Prod
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getDiskConfigurations?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getDiskConfigurations?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapDiskConfigurations. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
+           */
+          /**
+           * Sample code: SAPDiskConfigurations_Prod.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPDiskConfigurationsProd(com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapDiskConfigurationsWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP Disk Configurations.
+       *
+       * @summary Get SAP Disk Configurations.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_Prod.json
+       */
+      async function sapDiskConfigurationsProd() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPDiskConfigurations(location);
+        console.log(result);
+      }
+
+      sapDiskConfigurationsProd().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "diskConfigurations": [
+          {
+            "volume": "hana/data",
+            "diskType": "P10",
+            "diskCount": 4,
+            "diskSizeGB": 128,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 100,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "hana/log",
+            "diskType": "P10",
+            "diskCount": 3,
+            "diskSizeGB": 128,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 100,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "hana/shared",
+            "diskType": "P15",
+            "diskCount": 1,
+            "diskSizeGB": 256,
+            "diskIopsReadWrite": 1100,
+            "diskMBpsReadWrite": 125,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "usr/sap",
+            "diskType": "P6",
+            "diskCount": 1,
+            "diskSizeGB": 64,
+            "diskIopsReadWrite": 240,
+            "diskMBpsReadWrite": 50,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "backup",
+            "diskType": "P15",
+            "diskCount": 2,
+            "diskSizeGB": 256,
+            "diskIopsReadWrite": 1100,
+            "diskMBpsReadWrite": 125,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "os",
+            "diskType": "P6",
+            "diskCount": 1,
+            "diskSizeGB": 64,
+            "diskIopsReadWrite": 240,
+            "diskMBpsReadWrite": 50,
+            "diskStorageType": "Premium_LRS"
+          }
+        ]
+      }
+- name: SAPDiskConfigurations_NonProd
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getDiskConfigurations?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getDiskConfigurations?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapDiskConfigurations. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
+           */
+          /**
+           * Sample code: SAPDiskConfigurations_NonProd.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPDiskConfigurationsNonProd(com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapDiskConfigurationsWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armworkloads_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/workloads/armworkloads"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
+      func ExampleClient_SAPDiskConfigurations() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armworkloads.NewClient("8e17e36c-42e9-4cd5-a078-7b44883414e0", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.SAPDiskConfigurations(ctx,
+      		"centralus",
+      		&armworkloads.ClientSAPDiskConfigurationsOptions{SAPDiskConfigurations: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fworkloads%2Farmworkloads%2Fv0.2.0/sdk/resourcemanager/workloads/armworkloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP Disk Configurations.
+       *
+       * @summary Get SAP Disk Configurations.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPDiskConfigurations_NonProd.json
+       */
+      async function sapDiskConfigurationsNonProd() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPDiskConfigurations(location);
+        console.log(result);
+      }
+
+      sapDiskConfigurationsNonProd().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "diskConfigurations": [
+          {
+            "volume": "hana/data",
+            "diskType": "P10",
+            "diskCount": 4,
+            "diskSizeGB": 128,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 100,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "hana/log",
+            "diskType": "P10",
+            "diskCount": 3,
+            "diskSizeGB": 128,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 100,
+            "diskStorageType": "Premium_LRS"
+          },
+          {
+            "volume": "hana/shared",
+            "diskType": "E15",
+            "diskCount": 1,
+            "diskSizeGB": 256,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 60,
+            "diskStorageType": "StandardSSD_LRS"
+          },
+          {
+            "volume": "usr/sap",
+            "diskType": "E6",
+            "diskCount": 1,
+            "diskSizeGB": 64,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 60,
+            "diskStorageType": "StandardSSD_LRS"
+          },
+          {
+            "volume": "backup",
+            "diskType": "E15",
+            "diskCount": 2,
+            "diskSizeGB": 256,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 60,
+            "diskStorageType": "StandardSSD_LRS"
+          },
+          {
+            "volume": "os",
+            "diskType": "E6",
+            "diskCount": 1,
+            "diskSizeGB": 64,
+            "diskIopsReadWrite": 500,
+            "diskMBpsReadWrite": 60,
+            "diskStorageType": "StandardSSD_LRS"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Workloads service - Get SAP Disk Configurations.
+errorCodes: []

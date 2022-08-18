@@ -1,5 +1,6 @@
 ---
 title: "Application REST API (Azure HDInsight)"
+description: Learn how the Create operation creates a new node on the cluster (referred to as an edge node) and installs an application on that node.
 ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference
@@ -13,7 +14,7 @@ ms.author: jasonh
 Creates a new node on the cluster (referred to as an edge node) and installs an application on that node.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -145,7 +146,7 @@ Creates a new node on the cluster (referred to as an edge node) and installs an 
 Gets details about an HDInsight application.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  
@@ -224,7 +225,7 @@ Gets details about an HDInsight application.
 Removes an HDInsight application from the cluster.  
   
 ### Request  
- See [Common parameters and headers](index.md#bk_common) for headers and parameters that are used by clusters.  
+ See [Common parameters and headers](index.md#common-parameters-and-headers) for headers and parameters that are used by clusters.  
   
 |Method|Request URI|  
 |------------|-----------------|  

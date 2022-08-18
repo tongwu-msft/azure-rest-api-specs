@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.scalingplans.listbysubscription
 name: List By Subscription
 service: Desktop Virtualization
 groupName: Scaling Plans
-apiVersion: 2021-07-12
+apiVersion: 2022-02-10-preview
 summary: List scaling plans in subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans?api-version=2021-07-12
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DesktopVirtualization/scalingPlans?api-version=2022-02-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -50,16 +50,22 @@ definitions:
     types:
     - uid: string
 - name: CloudError
+  description: Cloud error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: Cloud error object properties.
     types:
     - uid: CloudErrorProperties
 - name: ScalingPlan
   description: ScalingPlan
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.objectId
     isReadyOnly: true
     description: ObjectId of scaling plan. (internal use)
@@ -80,7 +86,7 @@ definitions:
   - name: properties.hostPoolType
     description: HostPool type for desktop.
     types:
-    - uid: HostPoolType
+    - uid: ScalingHostPoolType
   - name: properties.exclusionTag
     description: Exclusion tag for scaling plan.
     types:
@@ -148,6 +154,7 @@ definitions:
     types:
     - uid: Plan
 - name: CloudErrorProperties
+  description: Cloud error object properties.
   kind: object
   properties:
   - name: code
@@ -158,20 +165,40 @@ definitions:
     description: Error message indicating why the operation failed.
     types:
     - uid: string
-- name: HostPoolType
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ScalingHostPoolType
   description: HostPool type for desktop.
   kind: enum
   properties:
-  - name: Personal
-    description: Users will be assigned a SessionHost either by administrators (PersonalDesktopAssignmentType = Direct) or upon connecting to the pool (PersonalDesktopAssignmentType = Automatic). They will always be redirected to their assigned SessionHost.
-    types:
-    - uid: string
   - name: Pooled
     description: Users get a new (random) SessionHost every time it connects to the HostPool.
-    types:
-    - uid: string
-  - name: BYODesktop
-    description: Users assign their own machines, load balancing logic remains the same as Personal. PersonalDesktopAssignmentType must be Direct.
     types:
     - uid: string
 - name: ScalingSchedule
@@ -190,7 +217,7 @@ definitions:
   - name: rampUpStartTime
     description: Starting time for ramp up period.
     types:
-    - uid: string
+    - uid: Time
   - name: rampUpLoadBalancingAlgorithm
     description: Load balancing algorithm for ramp up period.
     types:
@@ -206,7 +233,7 @@ definitions:
   - name: peakStartTime
     description: Starting time for peak period.
     types:
-    - uid: string
+    - uid: Time
   - name: peakLoadBalancingAlgorithm
     description: Load balancing algorithm for peak period.
     types:
@@ -214,7 +241,7 @@ definitions:
   - name: rampDownStartTime
     description: Starting time for ramp down period.
     types:
-    - uid: string
+    - uid: Time
   - name: rampDownLoadBalancingAlgorithm
     description: Load balancing algorithm for ramp down period.
     types:
@@ -246,7 +273,7 @@ definitions:
   - name: offPeakStartTime
     description: Starting time for off-peak period.
     types:
-    - uid: string
+    - uid: Time
   - name: offPeakLoadBalancingAlgorithm
     description: Load balancing algorithm for off-peak period.
     types:
@@ -326,6 +353,34 @@ definitions:
     description: The version of the desired product/artifact.
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Time
+  description: The time for a scaling action to occur.
+  kind: object
+  properties:
+  - name: hour
+    description: The hour.
+    types:
+    - uid: integer
+  - name: minute
+    description: The minute.
+    types:
+    - uid: integer
 - name: SessionHostLoadBalancingAlgorithm
   description: Load balancing algorithm for ramp up period.
   kind: enum
@@ -372,7 +427,51 @@ definitions:
 examples:
 - name: ScalingPlans_ListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/providers/Microsoft.DesktopVirtualization/scalingPlans?api-version=2021-07-12
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/providers/Microsoft.DesktopVirtualization/scalingPlans?api-version=2022-02-10-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/providers/Microsoft.DesktopVirtualization/scalingPlans?api-version=2022-02-10-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdesktopvirtualization_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2022-02-10-preview/examples/ScalingPlan_ListBySubscription.json
+      func ExampleScalingPlansClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdesktopvirtualization.NewScalingPlansClient("daefabc0-95b4-48b3-b645-8a753a63c4fa", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdesktopvirtualization%2Farmdesktopvirtualization%2Fv2.0.0-beta.1/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -387,12 +486,20 @@ examples:
               "key1": "value1",
               "key2": "value2"
             },
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
             "properties": {
-              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
-              "description": "des1",
-              "friendlyName": "friendly",
-              "timeZone": "",
-              "hostPoolType": "Personal",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "description": "Description of Scaling Plan",
+              "friendlyName": "Scaling Plan 1",
+              "timeZone": "Central Standard Time",
+              "hostPoolType": "Pooled",
               "exclusionTag": "value",
               "schedules": [
                 {
@@ -404,20 +511,32 @@ examples:
                     "Thursday",
                     "Friday"
                   ],
-                  "rampUpStartTime": "2020-11-10T06:00:00.000+00:00",
+                  "rampUpStartTime": {
+                    "hour": 6,
+                    "minute": 0
+                  },
                   "rampUpLoadBalancingAlgorithm": "DepthFirst",
                   "rampUpMinimumHostsPct": 20,
                   "rampUpCapacityThresholdPct": 80,
-                  "peakStartTime": "2020-11-10T08:00:00.000+00:00",
+                  "peakStartTime": {
+                    "hour": 8,
+                    "minute": 0
+                  },
                   "peakLoadBalancingAlgorithm": "BreadthFirst",
-                  "rampDownStartTime": "2020-11-10T18:00:00.000+00:00",
+                  "rampDownStartTime": {
+                    "hour": 18,
+                    "minute": 0
+                  },
                   "rampDownLoadBalancingAlgorithm": "DepthFirst",
                   "rampDownMinimumHostsPct": 20,
                   "rampDownCapacityThresholdPct": 50,
                   "rampDownForceLogoffUsers": true,
                   "rampDownWaitTimeMinutes": 30,
                   "rampDownNotificationMessage": "message",
-                  "offPeakStartTime": "2020-11-10T20:00:00.000+00:00",
+                  "offPeakStartTime": {
+                    "hour": 20,
+                    "minute": 0
+                  },
                   "offPeakLoadBalancingAlgorithm": "DepthFirst"
                 }
               ],
@@ -438,12 +557,20 @@ examples:
               "key1": "value1",
               "key2": "value2"
             },
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
             "properties": {
-              "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
-              "description": "des1",
-              "friendlyName": "friendly",
-              "timeZone": "",
-              "hostPoolType": "Personal",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "description": "Description of Scaling Plan",
+              "friendlyName": "Scaling Plan 1",
+              "timeZone": "Central Standard Time",
+              "hostPoolType": "Pooled",
               "exclusionTag": "value",
               "schedules": [
                 {
@@ -455,19 +582,31 @@ examples:
                     "Thursday",
                     "Friday"
                   ],
-                  "rampUpStartTime": "2020-11-10T06:00:00.000+00:00",
+                  "rampUpStartTime": {
+                    "hour": 6,
+                    "minute": 0
+                  },
                   "rampUpLoadBalancingAlgorithm": "DepthFirst",
                   "rampUpMinimumHostsPct": 20,
                   "rampUpCapacityThresholdPct": 80,
-                  "peakStartTime": "2020-11-10T08:00:00.000+00:00",
+                  "peakStartTime": {
+                    "hour": 8,
+                    "minute": 0
+                  },
                   "peakLoadBalancingAlgorithm": "BreadthFirst",
-                  "rampDownStartTime": "2020-11-10T18:00:00.000+00:00",
+                  "rampDownStartTime": {
+                    "hour": 18,
+                    "minute": 0
+                  },
                   "rampDownLoadBalancingAlgorithm": "DepthFirst",
                   "rampDownMinimumHostsPct": 20,
                   "rampDownCapacityThresholdPct": 50,
                   "rampDownForceLogoffUsers": false,
                   "rampDownStopHostsWhen": "ZeroActiveSessions",
-                  "offPeakStartTime": "2020-11-10T20:00:00.000+00:00",
+                  "offPeakStartTime": {
+                    "hour": 20,
+                    "minute": 0
+                  },
                   "offPeakLoadBalancingAlgorithm": "DepthFirst"
                 }
               ],
@@ -483,5 +622,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Desktop Virtualization service - List scaling plans in subscription.
+  description: >
+    Learn more about Desktop Virtualization service - List scaling plans in subscription.
 errorCodes: []

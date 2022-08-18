@@ -185,10 +185,12 @@ definitions:
     description: Flag indicating whether SSL certificate chain validation should be done when using self-signed certificates for this backend host.
     types:
     - uid: boolean
+    defaultValue: true
   - name: validateCertificateName
     description: Flag indicating whether SSL certificate name validation should be done when using self-signed certificates for this backend host.
     types:
     - uid: boolean
+    defaultValue: true
 - name: BackendContract
   description: Backend details.
   kind: object
@@ -371,6 +373,96 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/sfbackend?api-version=2021-08-01
+
+      {
+        "properties": {
+          "description": "Service Fabric Test App 1",
+          "protocol": "http",
+          "url": "fabric:/mytestapp/mytestservice",
+          "properties": {
+            "serviceFabricCluster": {
+              "managementEndpoints": [
+                "https://somecluster.com"
+              ],
+              "clientCertificateId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/cert1",
+              "serverX509Names": [
+                {
+                  "name": "ServerCommonName1",
+                  "issuerCertificateThumbprint": "IssuerCertificateThumbprint1"
+                }
+              ],
+              "maxPartitionResolutionRetries": 5
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.BackendProperties;
+      import com.azure.resourcemanager.apimanagement.models.BackendProtocol;
+      import com.azure.resourcemanager.apimanagement.models.BackendServiceFabricClusterProperties;
+      import com.azure.resourcemanager.apimanagement.models.X509CertificateName;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Backend CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateBackendServiceFabric.json
+           */
+          /**
+           * Sample code: ApiManagementCreateBackendServiceFabric.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateBackendServiceFabric(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .backends()
+                  .define("sfbackend")
+                  .withExistingService("rg1", "apimService1")
+                  .withUrl("fabric:/mytestapp/mytestservice")
+                  .withProtocol(BackendProtocol.HTTP)
+                  .withDescription("Service Fabric Test App 1")
+                  .withProperties(
+                      new BackendProperties()
+                          .withServiceFabricCluster(
+                              new BackendServiceFabricClusterProperties()
+                                  .withClientCertificateId(
+                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/cert1")
+                                  .withMaxPartitionResolutionRetries(5)
+                                  .withManagementEndpoints(Arrays.asList("https://somecluster.com"))
+                                  .withServerX509Names(
+                                      Arrays
+                                          .asList(
+                                              new X509CertificateName()
+                                                  .withName("ServerCommonName1")
+                                                  .withIssuerCertificateThumbprint("IssuerCertificateThumbprint1")))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -465,6 +557,179 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backends/proxybackend?api-version=2021-08-01
+
+      {
+        "properties": {
+          "description": "description5308",
+          "url": "https://backendname2644/",
+          "protocol": "http",
+          "tls": {
+            "validateCertificateChain": true,
+            "validateCertificateName": true
+          },
+          "proxy": {
+            "url": "http://192.168.1.1:8080",
+            "username": "Contoso\\admin",
+            "password": "<password>"
+          },
+          "credentials": {
+            "query": {
+              "sv": [
+                "xx",
+                "bb",
+                "cc"
+              ]
+            },
+            "header": {
+              "x-my-1": [
+                "val1",
+                "val2"
+              ]
+            },
+            "authorization": {
+              "scheme": "Basic",
+              "parameter": "opensesma"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.BackendAuthorizationHeaderCredentials;
+      import com.azure.resourcemanager.apimanagement.models.BackendCredentialsContract;
+      import com.azure.resourcemanager.apimanagement.models.BackendProtocol;
+      import com.azure.resourcemanager.apimanagement.models.BackendProxyContract;
+      import com.azure.resourcemanager.apimanagement.models.BackendTlsProperties;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Backend CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateBackendProxyBackend.json
+           */
+          /**
+           * Sample code: ApiManagementCreateBackendProxyBackend.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateBackendProxyBackend(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .backends()
+                  .define("proxybackend")
+                  .withExistingService("rg1", "apimService1")
+                  .withUrl("https://backendname2644/")
+                  .withProtocol(BackendProtocol.HTTP)
+                  .withDescription("description5308")
+                  .withCredentials(
+                      new BackendCredentialsContract()
+                          .withQuery(mapOf("sv", Arrays.asList("xx", "bb", "cc")))
+                          .withHeaderProperty(mapOf("x-my-1", Arrays.asList("val1", "val2")))
+                          .withAuthorization(
+                              new BackendAuthorizationHeaderCredentials().withScheme("Basic").withParameter("opensesma")))
+                  .withProxy(
+                      new BackendProxyContract()
+                          .withUrl("http://192.168.1.1:8080")
+                          .withUsername("Contoso\\admin")
+                          .withPassword("<password>"))
+                  .withTls(new BackendTlsProperties().withValidateCertificateChain(true).withValidateCertificateName(true))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateBackendProxyBackend.json
+      func ExampleBackendClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewBackendClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		"proxybackend",
+      		armapimanagement.BackendContract{
+      			Properties: &armapimanagement.BackendContractProperties{
+      				Description: to.Ptr("description5308"),
+      				Credentials: &armapimanagement.BackendCredentialsContract{
+      					Authorization: &armapimanagement.BackendAuthorizationHeaderCredentials{
+      						Parameter: to.Ptr("opensesma"),
+      						Scheme:    to.Ptr("Basic"),
+      					},
+      					Header: map[string][]*string{
+      						"x-my-1": {
+      							to.Ptr("val1"),
+      							to.Ptr("val2")},
+      					},
+      					Query: map[string][]*string{
+      						"sv": {
+      							to.Ptr("xx"),
+      							to.Ptr("bb"),
+      							to.Ptr("cc")},
+      					},
+      				},
+      				Proxy: &armapimanagement.BackendProxyContract{
+      					Password: to.Ptr("<password>"),
+      					URL:      to.Ptr("http://192.168.1.1:8080"),
+      					Username: to.Ptr("Contoso\\admin"),
+      				},
+      				TLS: &armapimanagement.BackendTLSProperties{
+      					ValidateCertificateChain: to.Ptr(true),
+      					ValidateCertificateName:  to.Ptr(true),
+      				},
+      				URL:      to.Ptr("https://backendname2644/"),
+      				Protocol: to.Ptr(armapimanagement.BackendProtocolHTTP),
+      			},
+      		},
+      		&armapimanagement.BackendClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -556,5 +821,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Creates or Updates a backend.
+  description: >
+    Learn more about API Management service - Creates or Updates a backend.
 errorCodes: []

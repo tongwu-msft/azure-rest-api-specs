@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.getinstanceview
 name: Get Instance View
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Gets the status of a virtual machine from a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView?api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/instanceView?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -412,7 +412,82 @@ definitions:
 examples:
 - name: Get instance view of a virtual machine from a VM scale set placed on a dedicated host group through automatic placement.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualMachines/0/instanceView?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualMachines/0/instanceView?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myVirtualMachineScaleSet/virtualMachines/0/instanceView?api-version=2022-03-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+      func ExampleVirtualMachineScaleSetVMsClient_GetInstanceView() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetVMsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetInstanceView(ctx,
+      		"myResourceGroup",
+      		"myVirtualMachineScaleSet",
+      		"0",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the status of a virtual machine from a VM scale set.
+       *
+       * @summary Gets the status of a virtual machine from a VM scale set.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_InstanceViewAutoPlacedOnDedicatedHostGroup.json
+       */
+      async function getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmScaleSetName = "myVirtualMachineScaleSet";
+        const instanceId = "0";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSetVMs.getInstanceView(
+          resourceGroupName,
+          vmScaleSetName,
+          instanceId
+        );
+        console.log(result);
+      }
+
+      getInstanceViewOfAVirtualMachineFromAVMScaleSetPlacedOnADedicatedHostGroupThroughAutomaticPlacement().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -428,7 +503,7 @@ examples:
               "level": "Warning",
               "displayStatus": "Not Ready",
               "message": "VM status blob is found but not yet populated.",
-              "time": "2021-11-01T05:00:32+00:00"
+              "time": "2022-03-01T05:00:32+00:00"
             }
           ],
           "extensionHandlers": null
@@ -443,7 +518,7 @@ examples:
                 "level": "Info",
                 "displayStatus": "Provisioning succeeded",
                 "message": null,
-                "time": "2021-11-01T04:58:58.0882815+00:00"
+                "time": "2022-03-01T04:58:58.0882815+00:00"
               }
             ]
           }
@@ -478,5 +553,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Gets the status of a virtual machine from a VM scale set.
+  description: >
+    Learn more about Compute service - Gets the status of a virtual machine from a VM scale set.
 errorCodes: []

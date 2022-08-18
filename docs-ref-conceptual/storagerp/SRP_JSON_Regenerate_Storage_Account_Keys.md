@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Regenerate Storage Account Keys (Azure Storage)"
+description: JSON request and response payloads for the Regenerate Storage Account Keys operation.
 ---
 # JSON payloads for Regenerate Storage Account Keys
 

@@ -1,0 +1,764 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2022-06-15.topics.createorupdate
+name: Create Or Update
+service: Event Grid
+groupName: Topics
+apiVersion: 2022-06-15
+summary: "Create a topic.  \nAsynchronously creates a new topic with the specified parameters."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/topics/{topicName}?api-version=2022-06-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: topicName
+  in: path
+  isRequired: true
+  description: Name of the topic.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Created
+  types:
+  - uid: Topic
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestBody:
+- name: default
+  parameters:
+  - name: identity
+    in: body
+    description: Identity information for the resource.
+    types:
+    - uid: IdentityInfo
+  - name: properties.inputSchema
+    in: body
+    description: This determines the format that Event Grid should expect for incoming events published to the topic.
+    types:
+    - uid: InputSchema
+  - name: properties.inputSchemaMapping
+    in: body
+    description: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema.
+    types:
+    - uid: JsonInputSchemaMapping
+    typesTitle: InputSchemaMapping
+  - name: properties.publicNetworkAccess
+    in: body
+    description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules\" />"
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.inboundIpRules
+    in: body
+    description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
+    types:
+    - uid: InboundIpRule
+      isArray: true
+  - name: properties.disableLocalAuth
+    in: body
+    description: This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic.
+    types:
+    - uid: boolean
+  - name: properties.dataResidencyBoundary
+    in: body
+    description: Data Residency Boundary of the resource.
+    types:
+    - uid: DataResidencyBoundary
+  - name: location
+    in: body
+    isRequired: true
+    description: Location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: IdentityInfo
+  description: The identity information for the resource.
+  kind: object
+  properties:
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+    types:
+    - uid: IdentityType
+  - name: principalId
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: >-
+      The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form:
+
+      '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
+
+      This property is currently not used and reserved for future usage.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentityProperties
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.groupIds
+    description: GroupIds from the private link service resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: ResourceProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: InboundIpRule
+  kind: object
+  properties:
+  - name: ipMask
+    description: IP Address in CIDR notation e.g., 10.0.0.0/8.
+    types:
+    - uid: string
+  - name: action
+    description: Action to perform based on the match or no match of the IpMask.
+    types:
+    - uid: IpActionType
+- name: Topic
+  description: EventGrid Topic
+  kind: object
+  properties:
+  - name: identity
+    description: Identity information for the resource.
+    types:
+    - uid: IdentityInfo
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to Topic resource.
+    types:
+    - uid: systemData
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the topic.
+    types:
+    - uid: TopicProvisioningState
+  - name: properties.endpoint
+    isReadyOnly: true
+    description: Endpoint for the topic.
+    types:
+    - uid: string
+  - name: properties.inputSchema
+    description: This determines the format that Event Grid should expect for incoming events published to the topic.
+    types:
+    - uid: InputSchema
+    defaultValue: EventGridSchema
+  - name: properties.inputSchemaMapping
+    description: This enables publishing using custom event schemas. An InputSchemaMapping can be specified to map various properties of a source schema to various required properties of the EventGridEvent schema.
+    types:
+    - uid: JsonInputSchemaMapping
+    typesTitle: InputSchemaMapping
+  - name: properties.metricResourceId
+    isReadyOnly: true
+    description: Metric resource id for the topic.
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: "This determines if traffic is allowed over public network. By default it is enabled. \nYou can further restrict to specific IPs by configuring <seealso cref=\"P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.TopicProperties.InboundIpRules\" />"
+    types:
+    - uid: PublicNetworkAccess
+    defaultValue: Enabled
+  - name: properties.inboundIpRules
+    description: 'This can be used to restrict traffic from specific IPs instead of all IPs. Note: These are considered only if PublicNetworkAccess is enabled.'
+    types:
+    - uid: InboundIpRule
+      isArray: true
+  - name: properties.disableLocalAuth
+    description: This boolean is used to enable or disable local auth. Default value is false. When the property is set to true, only AAD token will be used to authenticate if user is allowed to publish to the topic.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: properties.dataResidencyBoundary
+    description: Data Residency Boundary of the resource.
+    types:
+    - uid: DataResidencyBoundary
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identity.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserIdentityProperties
+  description: The information about the user identity.
+  kind: object
+  properties:
+  - name: principalId
+    description: The principal id of user assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    description: The client id of user assigned identity.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: PrivateEndpoint information.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM identifier for Private Endpoint.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: ConnectionState information.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the connection.
+    types:
+    - uid: PersistedConnectionStatus
+  - name: description
+    description: Description of the connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required (if any).
+    types:
+    - uid: string
+- name: ResourceProvisioningState
+  description: Provisioning state of the Private Endpoint Connection.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: JsonInputSchemaMapping
+  description: This enables publishing to Event Grid using a custom input schema. This can be used to map properties from a custom input JSON schema to the Event Grid event schema.
+  kind: object
+  properties:
+  - name: properties.id
+    description: The mapping information for the Id property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.topic
+    description: The mapping information for the Topic property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.eventTime
+    description: The mapping information for the EventTime property of the Event Grid Event.
+    types:
+    - uid: JsonField
+  - name: properties.eventType
+    description: The mapping information for the EventType property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: properties.subject
+    description: The mapping information for the Subject property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: properties.dataVersion
+    description: The mapping information for the DataVersion property of the Event Grid Event.
+    types:
+    - uid: JsonFieldWithDefault
+  - name: inputSchemaMappingType
+    description: Type of the custom mapping
+    types:
+    - uid: Json
+    typesTitle: string
+- name: IpActionType
+  description: Action to perform based on the match or no match of the IpMask.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+- name: TopicProvisioningState
+  description: Provisioning state of the topic.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: InputSchema
+  description: This determines the format that Event Grid should expect for incoming events published to the Event Grid Domain Resource.
+  kind: enum
+  properties:
+  - name: EventGridSchema
+    types:
+    - uid: string
+  - name: CustomEventSchema
+    types:
+    - uid: string
+  - name: CloudEventSchemaV1_0
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: >-
+    This determines if traffic is allowed over public network. By default it is enabled.
+
+    You can further restrict to specific IPs by configuring <seealso cref="P:Microsoft.Azure.Events.ResourceProvider.Common.Contracts.DomainProperties.InboundIpRules" />
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: DataResidencyBoundary
+  description: Data Residency Boundary of the resource.
+  kind: enum
+  properties:
+  - name: WithinGeopair
+    types:
+    - uid: string
+  - name: WithinRegion
+    types:
+    - uid: string
+- name: PersistedConnectionStatus
+  description: Status of the connection.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: JsonField
+  description: This is used to express the source of an input schema mapping for a single target field in the Event Grid Event schema. This is currently used in the mappings for the 'id', 'topic' and 'eventtime' properties. This represents a field in the input event schema.
+  kind: object
+  properties:
+  - name: sourceField
+    description: Name of a field in the input event schema that's to be used as the source of a mapping.
+    types:
+    - uid: string
+- name: JsonFieldWithDefault
+  description: >-
+    This is used to express the source of an input schema mapping for a single target field
+
+    in the Event Grid Event schema. This is currently used in the mappings for the 'subject',
+
+    'eventtype' and 'dataversion' properties. This represents a field in the input event schema
+
+    along with a default value to be used, and at least one of these two properties should be provided.
+  kind: object
+  properties:
+  - name: sourceField
+    description: Name of a field in the input event schema that's to be used as the source of a mapping.
+    types:
+    - uid: string
+  - name: defaultValue
+    description: The default value to be used for mapping when a SourceField is not provided or if there's no property with the specified name in the published JSON event payload.
+    types:
+    - uid: string
+examples:
+- name: Topics_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2022-06-15
+    body: >-
+      {
+        "location": "westus2",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1?api-version=2022-06-15
+
+      {
+        "location": "westus2",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.eventgrid.models.InboundIpRule;
+      import com.azure.resourcemanager.eventgrid.models.IpActionType;
+      import com.azure.resourcemanager.eventgrid.models.PublicNetworkAccess;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Topics CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Topics_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void topicsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .topics()
+                  .define("exampletopic1")
+                  .withRegion("westus2")
+                  .withExistingResourceGroup("examplerg")
+                  .withTags(mapOf("tag1", "value1", "tag2", "value2"))
+                  .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                  .withInboundIpRules(
+                      Arrays
+                          .asList(
+                              new InboundIpRule().withIpMask("12.18.30.15").withAction(IpActionType.ALLOW),
+                              new InboundIpRule().withIpMask("12.18.176.1").withAction(IpActionType.ALLOW)))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_CreateOrUpdate.json
+      func ExampleTopicsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewTopicsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"examplerg",
+      		"exampletopic1",
+      		armeventgrid.Topic{
+      			Location: to.Ptr("westus2"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      			Properties: &armeventgrid.TopicProperties{
+      				InboundIPRules: []*armeventgrid.InboundIPRule{
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("12.18.30.15"),
+      					},
+      					{
+      						Action: to.Ptr(armeventgrid.IPActionTypeAllow),
+      						IPMask: to.Ptr("12.18.176.1"),
+      					}},
+      				PublicNetworkAccess: to.Ptr(armeventgrid.PublicNetworkAccessEnabled),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Asynchronously creates a new topic with the specified parameters.
+       *
+       * @summary Asynchronously creates a new topic with the specified parameters.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Topics_CreateOrUpdate.json
+       */
+      async function topicsCreateOrUpdate() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const topicName = "exampletopic1";
+        const topicInfo = {
+          inboundIpRules: [
+            { action: "Allow", ipMask: "12.18.30.15" },
+            { action: "Allow", ipMask: "12.18.176.1" },
+          ],
+          location: "westus2",
+          publicNetworkAccess: "Enabled",
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.topics.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          topicName,
+          topicInfo
+        );
+        console.log(result);
+      }
+
+      topicsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "endpoint": "https://exampletopic1.westus2-1.eventgrid.azure.net/api/events",
+          "provisioningState": "Succeeded",
+          "publicNetworkAccess": "Enabled",
+          "inboundIpRules": [
+            {
+              "ipMask": "12.18.30.15",
+              "action": "Allow"
+            },
+            {
+              "ipMask": "12.18.176.1",
+              "action": "Allow"
+            }
+          ]
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1",
+        "location": "westus2",
+        "name": "exampletopic1",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "type": "Microsoft.EventGrid/topics"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Event Grid service - Create a topic.
+
+    Asynchronously creates a new topic with the specified parameters.
+errorCodes: []

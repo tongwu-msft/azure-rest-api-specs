@@ -1,6 +1,7 @@
 ---
 ms.assetid: 6bd963de-3f81-4e9a-b4b1-dae4b1b30d23
 title: Azure Logic Apps REST API | Microsoft Docs
+description: Learn how Azure Logic Apps helps you simplify and implement scalable integrations and workflows in the cloud.
 ms.service: logic-apps
 author: MandiOhlinger
 ms.author: mandia

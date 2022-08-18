@@ -1,5 +1,6 @@
 ---
 title: "Message Headers and Properties"
+description: Learn about message headers and properties, as well as how message properties are contained in the BrokerProperties HTTP header in a JSON-encoded format.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""

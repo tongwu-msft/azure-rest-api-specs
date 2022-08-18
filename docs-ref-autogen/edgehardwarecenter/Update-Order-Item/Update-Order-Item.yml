@@ -881,6 +881,133 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/YourSubscriptionId/resourceGroups/YourResourceGroupName/providers/Microsoft.EdgeOrder/orderItems/TestOrderItemName3?api-version=2021-12-01
+
+      {
+        "properties": {
+          "preferences": {
+            "transportPreferences": {
+              "preferredShipmentType": "CustomerManaged"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.edgeorder.fluent.models.AddressProperties;
+      import com.azure.resourcemanager.edgeorder.models.ContactDetails;
+      import com.azure.resourcemanager.edgeorder.models.OrderItemResource;
+      import com.azure.resourcemanager.edgeorder.models.Preferences;
+      import com.azure.resourcemanager.edgeorder.models.TransportPreferences;
+      import com.azure.resourcemanager.edgeorder.models.TransportShipmentTypes;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ResourceProvider UpdateOrderItem. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/UpdateOrderItem.json
+           */
+          /**
+           * Sample code: UpdateOrderItem.
+           *
+           * @param manager Entry point to EdgeOrderManager.
+           */
+          public static void updateOrderItem(com.azure.resourcemanager.edgeorder.EdgeOrderManager manager) {
+              OrderItemResource resource =
+                  manager
+                      .resourceProviders()
+                      .getOrderItemByNameWithResponse("TestOrderItemName01", "TestRG", null, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("ant", "insect", "pigeon", "bird", "tiger", "animal"))
+                  .withForwardAddress(
+                      new AddressProperties()
+                          .withContactDetails(
+                              new ContactDetails()
+                                  .withContactName("Updated contact name")
+                                  .withPhone("2222200000")
+                                  .withEmailList(Arrays.asList("testemail@microsoft.com"))))
+                  .withPreferences(
+                      new Preferences()
+                          .withTransportPreferences(
+                              new TransportPreferences().withPreferredShipmentType(TransportShipmentTypes.CUSTOMER_MANAGED)))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-edgeorder_1.0.0-beta.1/sdk/edgeorder/azure-resourcemanager-edgeorder/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armedgeorder_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/edgeorder/armedgeorder"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/edgeorder/resource-manager/Microsoft.EdgeOrder/stable/2021-12-01/examples/UpdateOrderItem.json
+      func ExampleManagementClient_BeginUpdateOrderItem() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armedgeorder.NewManagementClient("YourSubscriptionId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdateOrderItem(ctx,
+      		"TestOrderItemName3",
+      		"YourResourceGroupName",
+      		armedgeorder.OrderItemUpdateParameter{
+      			Properties: &armedgeorder.OrderItemUpdateProperties{
+      				Preferences: &armedgeorder.Preferences{
+      					TransportPreferences: &armedgeorder.TransportPreferences{
+      						PreferredShipmentType: to.Ptr(armedgeorder.TransportShipmentTypesCustomerManaged),
+      					},
+      				},
+      			},
+      		},
+      		&armedgeorder.ManagementClientBeginUpdateOrderItemOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fedgeorder%2Farmedgeorder%2Fv1.0.0/sdk/resourcemanager/edgeorder/armedgeorder/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -996,5 +1123,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Edge Hardware Center service - Updates the properties of an existing order item.
+  description: >
+    Learn more about Edge Hardware Center service - Updates the properties of an existing order item.
 errorCodes: []

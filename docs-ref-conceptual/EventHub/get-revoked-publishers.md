@@ -1,5 +1,6 @@
 ---
 title: "Get revoked publishers"
+description: Learn how the Get Revoked Publishers operation retrieves all revoked publishers within the specified Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""
@@ -14,7 +15,7 @@ ms.author: "spelluru"
 manager: "femila"
 ---
 # Get revoked publishers
-Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](https://docs.microsoft.com/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription?view=azure-dotnet#properties).  
+Retrieves all revoked publishers within the specified Event Hub. See [RevokedPublisherDescription Properties](/dotnet/api/microsoft.servicebus.messaging.revokedpublisherdescription.  
   
 ## Request  
   

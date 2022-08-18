@@ -1,5 +1,5 @@
 ---
-title: "PartitionScheme"
+title: Service Partition Scheme
 description: "PartitionScheme"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionScheme enum
+# Service Partition Scheme
 
 type: string
 

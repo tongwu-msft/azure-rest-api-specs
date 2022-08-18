@@ -1,0 +1,121 @@
+### YamlMime:RESTOperation
+uid: keyvault.keys.getrandombytes.getrandombytes
+name: Get Random Bytes
+service: Key Vault
+groupName: Get Random Bytes
+apiVersion: "7.3"
+summary: Get the requested number of bytes containing random values from a managed HSM.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/rng?api-version=7.3
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The bytes encoded as a base64url string.
+  types:
+  - uid: RandomBytes
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestBody:
+- name: default
+  parameters:
+  - name: count
+    in: body
+    isRequired: true
+    description: The requested number of random bytes.
+    types:
+    - uid: integer
+requestHeader: []
+definitions:
+- name: RandomBytes
+  description: The get random bytes response object containing the bytes.
+  kind: object
+  properties:
+  - name: value
+    description: The bytes encoded as a base64url string.
+    types:
+    - uid: string
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: GetRandomBytesRequest
+  description: The get random bytes request object.
+  kind: object
+  properties:
+  - name: count
+    description: The requested number of random bytes.
+    types:
+    - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+examples:
+- name: GetRandomBytes
+  request:
+    uri: POST https://myhsm.managedhsm.azure.net//rng?api-version=7.3
+    body: >-
+      {
+        "count": 4
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myhsm.managedhsm.azure.net//rng?api-version=7.3
+
+      {
+        "count": 4
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": "MTIzNA"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Key Vault service - Get the requested number of bytes containing random values from a managed HSM.
+errorCodes: []

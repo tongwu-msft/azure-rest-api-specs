@@ -1,5 +1,6 @@
 ---
 title: "CertificateDescription"
+description: "Describe the certificate details. Properties include thumbprint, thumbprintSecondary, and x509StoreName." 
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

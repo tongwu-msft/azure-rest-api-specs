@@ -1,5 +1,5 @@
 ---
-title: "ServiceCorrelationScheme"
+title: Service Correlation Scheme
 description: "ServiceCorrelationScheme"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceCorrelationScheme enum
+# Service Correlation Scheme
 
 type: string
 

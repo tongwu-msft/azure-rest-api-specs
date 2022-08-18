@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.domains.renew
 name: Renew
 service: App Service
 groupName: Domains
-apiVersion: 2015-04-01
-summary: Renew a domain.
+apiVersion: 2022-03-01
+summary: Description for Renew a domain.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew?api-version=2015-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DomainRegistration/domains/{domainName}/renew?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -45,27 +45,157 @@ responses:
 - name: 204 No Content
   description: Domain does not exist.
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: App Service error response.
   types:
-  - uid: ErrorResponse
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
-- name: ErrorResponse
-  description: Error Response.
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
   kind: object
   properties:
   - name: code
-    description: Error code.
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
     types:
     - uid: string
   - name: message
-    description: Error message indicating why the operation failed.
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
     types:
     - uid: string
 examples:
-- name: Renew an App Service Domain
+- name: Renew an existing domain
   request:
-    uri: POST https://management.azure.com/subscriptions/3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545/resourceGroups/RG/providers/Microsoft.DomainRegistration/domains/example.com/renew?api-version=2015-04-01
+    uri: POST https://management.azure.com/subscriptions/3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545/resourceGroups/RG/providers/Microsoft.DomainRegistration/domains/example.com/renew?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545/resourceGroups/RG/providers/Microsoft.DomainRegistration/domains/example.com/renew?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Domains Renew. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/RenewDomain.json
+           */
+          /**
+           * Sample code: Renew an existing domain.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void renewAnExistingDomain(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getDomains().renewWithResponse("RG", "example.com", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/RenewDomain.json
+      func ExampleDomainsClient_Renew() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewDomainsClient("3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Renew(ctx,
+      		"RG",
+      		"example.com",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Renew a domain.
+       *
+       * @summary Description for Renew a domain.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/RenewDomain.json
+       */
+      async function renewAnExistingDomain() {
+        const subscriptionId = "3dddfa4f-cedf-4dc0-ba29-b6d1a69ab545";
+        const resourceGroupName = "RG";
+        const domainName = "example.com";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.domains.renew(resourceGroupName, domainName);
+        console.log(result);
+      }
+
+      renewAnExistingDomain().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -80,5 +210,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Renew a domain.
+  description: >
+    Learn more about App Service service - Description for Renew a domain.
 errorCodes: []

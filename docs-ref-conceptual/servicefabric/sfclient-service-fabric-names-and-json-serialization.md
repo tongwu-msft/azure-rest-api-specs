@@ -1,5 +1,6 @@
 ---
 title: "Service Fabric Names and JSON Serialization"
+description: Learn about service fabric names and JSON serialization.
 ms.date: "11/23/2019"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,5 +1,6 @@
 ---
-title: "Models"
+title: Service Fabric Type Models (2017-07-01-preview)
+description: Learn about the Service Fabric Type Models that are available.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Type Models
+# Service Fabric Type Models (2017-07-01-preview)
 
 
 | Name | Description |

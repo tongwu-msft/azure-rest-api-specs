@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.list
 name: List
 service: Compute
 groupName: Disks
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Lists all the disks under a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/disks?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,10 @@ definitions:
     description: 'Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}'
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    description: List of supported capabilities for the image from which the OS disk was created.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -180,6 +184,18 @@ definitions:
     description: Contains the security related information for the resource.
     types:
     - uid: DiskSecurityProfile
+  - name: properties.completionPercent
+    description: Percentage complete for the background copy when a resource is created via the CopyStart operation.
+    types:
+    - uid: number
+  - name: properties.publicNetworkAccess
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.dataAccessAuthMode
+    description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+    types:
+    - uid: DataAccessAuthMode
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -272,6 +288,18 @@ definitions:
     description: The Offer Promotion Code.
     types:
     - uid: string
+- name: SupportedCapabilities
+  description: List of supported capabilities persisted on the disk resource for VM use.
+  kind: object
+  properties:
+  - name: acceleratedNetwork
+    description: True if the image from which the OS disk is created supports accelerated networking.
+    types:
+    - uid: boolean
+  - name: architecture
+    description: CPU architecture supported by an OS disk.
+    types:
+    - uid: Architecture
 - name: CreationData
   description: Data used when creating a disk.
   kind: object
@@ -313,6 +341,10 @@ definitions:
     description: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
     types:
     - uid: integer
+  - name: securityDataUri
+    description: If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state.
+    types:
+    - uid: string
 - name: EncryptionSettingsCollection
   description: Encryption settings for disk or snapshot
   kind: object
@@ -339,15 +371,23 @@ definitions:
     types:
     - uid: string
   - name: Attached
-    description: The disk is currently mounted to a running VM.
+    description: The disk is currently attached to a running VM.
     types:
     - uid: string
   - name: Reserved
-    description: The disk is mounted to a stopped-deallocated VM
+    description: The disk is attached to a stopped-deallocated VM.
+    types:
+    - uid: string
+  - name: Frozen
+    description: The disk is attached to a VM which is in hibernated state.
     types:
     - uid: string
   - name: ActiveSAS
     description: The disk currently has an Active SAS Uri associated with it.
+    types:
+    - uid: string
+  - name: ActiveSASFrozen
+    description: The disk is attached to a VM in hibernated state and has an active SAS URI associated with it.
     types:
     - uid: string
   - name: ReadyToUpload
@@ -410,6 +450,34 @@ definitions:
     description: Specifies the SecurityType of the VM. Applicable for OS disks only.
     types:
     - uid: DiskSecurityTypes
+  - name: secureVMDiskEncryptionSetId
+    description: ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Policy for controlling export on the disk.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: You can generate a SAS URI to access the underlying data of the disk publicly on the internet when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+  - name: Disabled
+    description: You cannot access the underlying data of the disk publicly on the internet even when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+- name: DataAccessAuthMode
+  description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+  kind: enum
+  properties:
+  - name: AzureActiveDirectory
+    description: When export/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export/upload the data. Please refer to aka.ms/DisksAzureADAuth.
+    types:
+    - uid: string
+  - name: None
+    description: No additional authentication would be performed when accessing export/upload URL.
+    types:
+    - uid: string
 - name: DiskStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -445,6 +513,16 @@ definitions:
   - name: EdgeZone
     types:
     - uid: string
+- name: Architecture
+  description: CPU architecture supported by an OS disk.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
+    types:
+    - uid: string
 - name: DiskCreateOption
   description: This enumerates the possible sources of a disk's creation.
   kind: enum
@@ -475,6 +553,18 @@ definitions:
     - uid: string
   - name: Upload
     description: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk.
+    types:
+    - uid: string
+  - name: CopyStart
+    description: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
+    types:
+    - uid: string
+  - name: ImportSecure
+    description: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId
+    types:
+    - uid: string
+  - name: UploadPreparedSecure
+    description: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
     types:
     - uid: string
 - name: ImageDiskReference
@@ -525,6 +615,18 @@ definitions:
     description: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
     types:
     - uid: string
+  - name: ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with only VM guest state encrypted
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithCustomerKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -560,7 +662,98 @@ definitions:
 examples:
 - name: List all managed disks in a subscription.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/disks?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/disks?api-version=2021-12-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/disks?api-version=2021-12-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Disks List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/ListManagedDisksInASubscription.json
+           */
+          /**
+           * Sample code: List all managed disks in a subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAllManagedDisksInASubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.virtualMachines().manager().serviceClient().getDisks().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/ListManagedDisksInASubscription.json
+      func ExampleDisksClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDisksClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the disks under a subscription.
+       *
+       * @summary Lists all the disks under a subscription.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/ListManagedDisksInASubscription.json
+       */
+      async function listAllManagedDisksInASubscription() {
+        const subscriptionId = "{subscription-id}";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.disks.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllManagedDisksInASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -683,5 +876,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Lists all the disks under a subscription.
+  description: >
+    Learn more about Compute service - Lists all the disks under a subscription.
 errorCodes: []

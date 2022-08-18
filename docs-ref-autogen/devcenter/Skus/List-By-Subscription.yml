@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.skus.listbysubscription
+name: List By Subscription
+service: Dev Center
+groupName: Skus
+apiVersion: 2022-08-01-preview
+summary: Lists the Microsoft.DevCenter SKUs available in a subscription
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus?api-version=2022-08-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus?api-version=2022-08-01-preview&$top={$top}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: "The maximum number of resources to return from the operation. Example: '$top=10'."
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: SkuListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: SkuListResult
+  description: Results of the Microsoft.DevCenter SKU list operation.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Current page of results.
+    types:
+    - uid: DevCenterSku
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: DevCenterSku
+  description: The resource model definition representing SKU for DevCenter resources
+  kind: object
+  properties:
+  - name: resourceType
+    isReadyOnly: true
+    description: The name of the resource type
+    types:
+    - uid: string
+  - name: locations
+    isReadyOnly: true
+    description: SKU supported locations.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    isReadyOnly: true
+    description: Collection of name/value pairs to describe the SKU capabilities.
+    types:
+    - uid: Capability
+      isArray: true
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: Capability
+  description: A name/value pair to describe a capability.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the capability.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: Value of the capability.
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+examples:
+- name: Skus_ListBySubscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/skus?api-version=2022-08-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Skus_ListBySubscription.json
+      func ExampleSKUsClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewSKUsClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(&armdevcenter.SKUsClientListBySubscriptionOptions{Top: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.1.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "projects/pools",
+            "name": "Large",
+            "tier": "Premium",
+            "locations": [
+              "CentralUS"
+            ]
+          },
+          {
+            "resourceType": "projects/pools",
+            "name": "Medium",
+            "tier": "Standard",
+            "locations": [
+              "CentralUS"
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Lists the Microsoft.DevCenter SKUs available in a subscription
+errorCodes: []

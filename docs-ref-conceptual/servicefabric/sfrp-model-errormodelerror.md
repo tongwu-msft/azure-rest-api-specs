@@ -1,5 +1,6 @@
 ---
-title: "ErrorModelError"
+title: "ErrorModelError model"
+description: "Describes the error details. Properties include code and message with code being the error code and message as the error message."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ErrorModelError
+# ErrorModelError model
 
 The error details.
 

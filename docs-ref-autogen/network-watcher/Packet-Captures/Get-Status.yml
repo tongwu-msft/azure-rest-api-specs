@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.packetcaptures.getstatus
 name: Get Status
 service: Network Watcher
 groupName: Packet Captures
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Query the status of a running packet capture session.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus?api-version=2021-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}/queryStatus?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -132,7 +132,80 @@ definitions:
 examples:
 - name: Query packet capture status
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1/queryStatus?api-version=2021-05-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1/queryStatus?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1/queryStatus?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
+      func ExamplePacketCapturesClient_BeginGetStatus() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPacketCapturesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGetStatus(ctx, "rg1", "nw1", "pc1", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Query the status of a running packet capture session.
+       *
+       * @summary Query the status of a running packet capture session.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherPacketCaptureQueryStatus.json
+       */
+      async function queryPacketCaptureStatus() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const networkWatcherName = "nw1";
+        const packetCaptureName = "pc1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.packetCaptures.beginGetStatusAndWait(
+          resourceGroupName,
+          networkWatcherName,
+          packetCaptureName
+        );
+        console.log(result);
+      }
+
+      queryPacketCaptureStatus().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -147,7 +220,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/troubleshoot?api-version=2021-05-01
+      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/troubleshoot?api-version=2022-01-01
     body: >-
       {
         "name": "pc1",
@@ -167,5 +240,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Watcher service - Query the status of a running packet capture session.
+  description: >
+    Learn more about Network Watcher service - Query the status of a running packet capture session.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.metadata.get
 name: Get
 service: Sentinel
 groupName: Metadata
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Get a Metadata.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}?api-version=2021-10-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/metadata/{metadataName}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -106,6 +106,38 @@ definitions:
     description: last publish date for the solution content item
     types:
     - uid: string
+  - name: properties.customVersion
+    description: The custom version of the content. A optional free text
+    types:
+    - uid: string
+  - name: properties.contentSchemaVersion
+    description: Schema version of the content. Can be used to distinguish between different flow based on the schema version
+    types:
+    - uid: string
+  - name: properties.icon
+    description: the icon identifier. this id can later be fetched from the solution template
+    types:
+    - uid: string
+  - name: properties.threatAnalysisTactics
+    description: the tactics the resource covers
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.threatAnalysisTechniques
+    description: the techniques the resource covers, these have to be aligned with the tactics being used
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.previewImages
+    description: preview image file names. These will be taken from the solution artifacts
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.previewImagesDark
+    description: preview image file names. These will be taken from the solution artifacts. used for dark theme support
+    types:
+    - uid: string
+      isArray: true
   - name: etag
     description: Etag of the azure resource
     types:
@@ -182,6 +214,15 @@ definitions:
     types:
     - uid: string
   - name: Solution
+    types:
+    - uid: string
+  - name: AzureFunction
+    types:
+    - uid: string
+  - name: LogicAppsCustomConnector
+    types:
+    - uid: string
+  - name: AutomationRule
     types:
     - uid: string
 - name: metadataSource
@@ -379,7 +420,39 @@ definitions:
 examples:
 - name: Get single metadata by name
   request:
-    uri: GET https://management.azure.com/subscriptions/2e1dc338-d04d-4443-b721-037eff4fdcac/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/metadata/metadataName?api-version=2021-10-01-preview
+    uri: GET https://management.azure.com/subscriptions/2e1dc338-d04d-4443-b721-037eff4fdcac/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/metadata/metadataName?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/2e1dc338-d04d-4443-b721-037eff4fdcac/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/metadata/metadataName?api-version=2022-07-01-preview
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get a Metadata.
+       *
+       * @summary Get a Metadata.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/metadata/GetMetadata.json
+       */
+      async function getSingleMetadataByName() {
+        const subscriptionId = "2e1dc338-d04d-4443-b721-037eff4fdcac";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const metadataName = "metadataName";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.metadata.get(resourceGroupName, workspaceName, metadataName);
+        console.log(result);
+      }
+
+      getSingleMetadataByName().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -453,7 +526,25 @@ examples:
             "Microsoft"
           ],
           "firstPublishDate": "2021-05-18",
-          "lastPublishDate": "2021-05-18"
+          "lastPublishDate": "2021-05-18",
+          "previewImages": [
+            "firstImage.png",
+            "secondImage.jpeg"
+          ],
+          "previewImagesDark": [
+            "firstImageDark.png",
+            "secondImageDark.jpeg"
+          ],
+          "contentSchemaVersion": "2.0",
+          "customVersion": "1.0",
+          "threatAnalysisTactics": [
+            "reconnaissance",
+            "commandandcontrol"
+          ],
+          "threatAnalysisTechniques": [
+            "T1548",
+            "T1548.001"
+          ]
         }
       }
 security:
@@ -466,5 +557,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Get a Metadata.
+  description: >
+    Learn more about Sentinel service - Get a Metadata.
 errorCodes: []

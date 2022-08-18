@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.hybridrunbookworkers.move
+name: Move
+service: Automation
+groupName: Hybrid Runbook Workers
+apiVersion: 2021-06-22
+summary: Move a hybrid worker to a different group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}/hybridRunbookWorkers/{hybridRunbookWorkerId}/move?api-version=2021-06-22
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: hybridRunbookWorkerGroupName
+  in: path
+  isRequired: true
+  description: The hybrid runbook worker group name
+  types:
+  - uid: string
+- name: hybridRunbookWorkerId
+  in: path
+  isRequired: true
+  description: The hybrid runbook worker id
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: hybridRunbookWorkerGroupName
+    in: body
+    description: Gets or sets the target hybrid runbook worker group.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: HybridRunbookWorkerMoveParameters
+  description: Parameters supplied to move hybrid worker operation.
+  kind: object
+  properties:
+  - name: hybridRunbookWorkerGroupName
+    description: Gets or sets the target hybrid runbook worker group.
+    types:
+    - uid: string
+examples:
+- name: Move a V2 hybrid worker to a different group
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup/hybridRunbookWorkers/c010ad12-ef14-4a2a-aa9e-ef22c4745ddd/move?api-version=2021-06-22
+    body: >-
+      {
+        "hybridRunbookWorkerGroupName": "TestHybridGroup2"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup/hybridRunbookWorkers/c010ad12-ef14-4a2a-aa9e-ef22c4745ddd/move?api-version=2021-06-22
+
+      {
+        "hybridRunbookWorkerGroupName": "TestHybridGroup2"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.automation.models.HybridRunbookWorkerMoveParameters;
+
+      /** Samples for HybridRunbookWorkers Move. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/moveHybridRunbookWorker.json
+           */
+          /**
+           * Sample code: Move a V2 hybrid worker to a different group.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void moveAV2HybridWorkerToADifferentGroup(
+              com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager
+                  .hybridRunbookWorkers()
+                  .moveWithResponse(
+                      "rg",
+                      "testaccount",
+                      "TestHybridGroup",
+                      "c010ad12-ef14-4a2a-aa9e-ef22c4745ddd",
+                      new HybridRunbookWorkerMoveParameters().withHybridRunbookWorkerGroupName("TestHybridGroup2"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/moveHybridRunbookWorker.json
+      func ExampleHybridRunbookWorkersClient_Move() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewHybridRunbookWorkersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Move(ctx,
+      		"rg",
+      		"testaccount",
+      		"TestHybridGroup",
+      		"c010ad12-ef14-4a2a-aa9e-ef22c4745ddd",
+      		armautomation.HybridRunbookWorkerMoveParameters{
+      			HybridRunbookWorkerGroupName: to.Ptr("TestHybridGroup2"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Automation service - Move a hybrid worker to a different group.
+errorCodes: []

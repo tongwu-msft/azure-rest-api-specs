@@ -4,7 +4,7 @@ description: Refresh content of an index by replacing, removing, or creating new
 ms.date: 03/05/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

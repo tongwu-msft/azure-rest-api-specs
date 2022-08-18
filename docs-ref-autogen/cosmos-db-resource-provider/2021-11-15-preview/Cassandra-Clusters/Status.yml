@@ -1,0 +1,419 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-11-15-preview.cassandraclusters.status
+name: Status
+service: Cosmos DB Resource Provider
+groupName: Cassandra Clusters
+apiVersion: 2021-11-15-preview
+summary: Gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}/status?api-version=2021-11-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: Managed Cassandra cluster name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully fetched the usage statistics of all nodes in the cluster.
+  types:
+  - uid: CassandraClusterPublicStatus
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CassandraClusterPublicStatus
+  description: Properties of a managed Cassandra cluster public status.
+  kind: object
+  properties:
+  - name: eTag
+    description: ''
+    types:
+    - uid: string
+  - name: reaperStatus
+    description: ''
+    types:
+    - uid: ManagedCassandraReaperStatus
+  - name: connectionErrors
+    description: List relevant information about any connection errors to the Datacenters.
+    types:
+    - uid: ConnectionError
+      isArray: true
+  - name: dataCenters
+    description: List of the status of each datacenter in this cluster.
+    types:
+    - uid: DataCenters
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: ManagedCassandraReaperStatus
+  kind: object
+  properties:
+  - name: healthy
+    description: ''
+    types:
+    - uid: boolean
+  - name: repairRunIds
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: repairSchedules
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ConnectionError
+  kind: object
+  properties:
+  - name: connectionState
+    description: The kind of connection error that occurred.
+    types:
+    - uid: ConnectionState
+  - name: iPFrom
+    description: The IP of host that originated the failed connection.
+    types:
+    - uid: string
+  - name: iPTo
+    description: The IP that the connection attempted to reach.
+    types:
+    - uid: string
+  - name: port
+    description: The TCP port the connection was attempted on.
+    types:
+    - uid: integer
+  - name: exception
+    description: Detailed error message about the failed connection.
+    types:
+    - uid: string
+- name: DataCenters
+  description: List of the status of each datacenter in this cluster.
+  kind: object
+  properties:
+  - name: name
+    description: The name of this Datacenter.
+    types:
+    - uid: string
+  - name: seedNodes
+    description: A list of all seed nodes in the cluster, managed and unmanaged.
+    types:
+    - uid: string
+      isArray: true
+  - name: nodes
+    description: ''
+    types:
+    - uid: Nodes
+      isArray: true
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: The kind of connection error that occurred.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: OK
+    types:
+    - uid: string
+  - name: OperatorToDataCenterNetworkError
+    types:
+    - uid: string
+  - name: DatacenterToDatacenterNetworkError
+    types:
+    - uid: string
+  - name: InternalOperatorToDataCenterCertificateError
+    types:
+    - uid: string
+  - name: InternalError
+    types:
+    - uid: string
+- name: Nodes
+  kind: object
+  properties:
+  - name: address
+    description: The node's IP address.
+    types:
+    - uid: string
+  - name: state
+    description: The state of the node in Cassandra ring.
+    types:
+    - uid: NodeState
+  - name: status
+    description: ''
+    types:
+    - uid: string
+  - name: load
+    description: The amount of file system data in the data directory (e.g., 47.66 kB), excluding all content in the snapshots subdirectories. Because all SSTable data files are included, any data that is not cleaned up (such as TTL-expired cells or tombstones) is counted.
+    types:
+    - uid: string
+  - name: tokens
+    description: List of tokens this node covers.
+    types:
+    - uid: string
+      isArray: true
+  - name: size
+    description: ''
+    types:
+    - uid: integer
+  - name: hostID
+    description: The network ID of the node.
+    types:
+    - uid: string
+  - name: rack
+    description: The rack this node is part of.
+    types:
+    - uid: string
+  - name: timestamp
+    description: The timestamp at which that snapshot of these usage statistics were taken.
+    types:
+    - uid: string
+  - name: diskUsedKB
+    description: The amount of disk used, in kB, of the directory /var/lib/cassandra.
+    types:
+    - uid: integer
+  - name: diskFreeKB
+    description: The amount of disk free, in kB, of the directory /var/lib/cassandra.
+    types:
+    - uid: integer
+  - name: memoryUsedKB
+    description: Used memory (calculated as total - free - buffers - cache), in kB.
+    types:
+    - uid: integer
+  - name: memoryBuffersAndCachedKB
+    description: Memory used by kernel buffers (Buffers in /proc/meminfo) and page cache and slabs (Cached and SReclaimable in /proc/meminfo), in kB.
+    types:
+    - uid: integer
+  - name: memoryFreeKB
+    description: Unused memory (MemFree and SwapFree in /proc/meminfo), in kB.
+    types:
+    - uid: integer
+  - name: memoryTotalKB
+    description: Total installed memory (MemTotal and SwapTotal in /proc/meminfo), in kB.
+    types:
+    - uid: integer
+  - name: cpuUsage
+    description: A float representing the current system-wide CPU utilization as a percentage.
+    types:
+    - uid: number
+- name: NodeState
+  description: The state of the node in Cassandra ring.
+  kind: enum
+  properties:
+  - name: Normal
+    types:
+    - uid: string
+  - name: Leaving
+    types:
+    - uid: string
+  - name: Joining
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Stopped
+    types:
+    - uid: string
+examples:
+- name: CosmosDBManagedCassandraStatus
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod/status?api-version=2021-11-15-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod/status?api-version=2021-11-15-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "eTag": "A350A2CE7E91B6D5A102A5E5EC222B882D981092",
+        "reaperStatus": {
+          "healthy": true,
+          "repairRunIds": {},
+          "repairSchedules": {
+            "00000000-0000-0001-0000-000000000000": "ACTIVE"
+          }
+        },
+        "connectionErrors": [],
+        "dataCenters": [
+          {
+            "name": "cassandra-westus2-vmss",
+            "seedNodes": [
+              "10.0.8.10",
+              "10.0.8.11",
+              "10.0.8.12"
+            ],
+            "nodes": [
+              {
+                "address": "10.0.8.10",
+                "state": "",
+                "status": "",
+                "load": "84.61 MiB",
+                "tokens": [
+                  "-7785254003841681178",
+                  "-6756518164561476165",
+                  "-4269720020504480060",
+                  "-2697657908817852783",
+                  "-2622387897201218249",
+                  "-2177258200443022948",
+                  "-129203941752875603",
+                  "1738406920822650025",
+                  "2598053056312400240",
+                  "3227346424117996872",
+                  "3644347038875498376",
+                  "4823546474906050895",
+                  "5293156680707616627",
+                  "5485806686603256557",
+                  "6250058817756969464",
+                  "7991328665766267709"
+                ],
+                "size": 16,
+                "hostID": "8ccc00a7-9e22-4ac2-aa63-e5327aa0dc51",
+                "rack": "rack1",
+                "timestamp": "10/05/2021, 14:35:20.028",
+                "diskUsedKB": 749836,
+                "diskFreeKB": 1001260056,
+                "memoryUsedKB": 11061032,
+                "memoryBuffersAndCachedKB": 10817580,
+                "memoryFreeKB": 35731832,
+                "memoryTotalKB": 57610444,
+                "cpuUsage": 0.9
+              },
+              {
+                "address": "10.0.8.11",
+                "state": "",
+                "status": "",
+                "load": "59.67 MiB",
+                "tokens": [
+                  "-8726238055665903210",
+                  "-6687985003871487470",
+                  "-5269140854976433359",
+                  "-3989177686905645288",
+                  "-3957362495277148220",
+                  "-2539287458896988944",
+                  "-2460716365393303466",
+                  "-1848370030729221440",
+                  "137707733677015122",
+                  "579467328507000597",
+                  "1698264534774619627",
+                  "1904235159942090722",
+                  "3312208865519999146",
+                  "4035940456270983993",
+                  "4412314431151736777",
+                  "8232565668795426078"
+                ],
+                "size": 16,
+                "hostID": "14092117-4f77-4ec0-8984-c5b860b88a47",
+                "rack": "rack2",
+                "timestamp": "10/05/2021, 14:35:20.028",
+                "diskUsedKB": 726864,
+                "diskFreeKB": 1001283028,
+                "memoryUsedKB": 11055676,
+                "memoryBuffersAndCachedKB": 10691520,
+                "memoryFreeKB": 35863248,
+                "memoryTotalKB": 57610444,
+                "cpuUsage": 1.2
+              },
+              {
+                "address": "10.0.8.12",
+                "state": "",
+                "status": "",
+                "load": "93.2 MiB",
+                "tokens": [
+                  "-5679481051867296621",
+                  "-4574115287969297989",
+                  "-3444578133211470522",
+                  "-2755931580714972271",
+                  "-2304431590844389550",
+                  "-1961946736975068713",
+                  "-940120277889446704",
+                  "554469308917912318",
+                  "1030447162050118004",
+                  "2745632329542596589",
+                  "4564547712926446283",
+                  "5185613478135944116",
+                  "7280237939830623824",
+                  "7504213835759531710",
+                  "7631994478195429959",
+                  "8139769477321226157"
+                ],
+                "size": 16,
+                "hostID": "e16ada14-39db-462b-9f9e-5b5f6beb8bbd",
+                "rack": "rack3",
+                "timestamp": "10/05/2021, 14:35:20.028",
+                "diskUsedKB": 757540,
+                "diskFreeKB": 1001252352,
+                "memoryUsedKB": 11051608,
+                "memoryBuffersAndCachedKB": 10453856,
+                "memoryFreeKB": 36104980,
+                "memoryTotalKB": 57610444,
+                "cpuUsage": 0.4
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Gets the CPU, memory, and disk usage statistics for each Cassandra node in a cluster.
+errorCodes: []

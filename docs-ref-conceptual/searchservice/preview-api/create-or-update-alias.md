@@ -5,7 +5,7 @@ description: Create an index alias to define a secondary name that can be used t
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: dereklegenzoff
@@ -19,7 +19,7 @@ ms.manager: nitinme
 > [!Important]
 > The entire API is a preview feature.
 
-In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations. 
+In Azure Cognitive Search, an alias is a secondary name that can be used to refer to an index for querying, indexing, and other operations.
 
 You can use either POST or PUT on a create request. For either one, the JSON document in the request body provides the object definition.
 
@@ -37,9 +37,9 @@ PUT https://[service name].search.windows.net/aliases/[alias name]?api-version=[
   api-key: [admin key]  
 ```  
 
- HTTPS is required for all service requests. In the case of PUT, if the alias doesn't exist, it is created. If it already exists, it is updated to the new definition.
+HTTPS is required for all service requests. In the case of PUT, if the alias doesn't exist, it is created. If it already exists, it is updated to the new definition.
 
- **Creating an alias** establishes a mapping between an alias name and an index name. If the request is successful, the alias can be used for indexing, querying, and other operations. 
+**Creating an alias** establishes a mapping between an alias name and an index name. If the request is successful, the alias can be used for indexing, querying, and other operations.
 
 **Updating an alias** allows you to map that alias to a different search index. When updating an existing alias, the entire definition is replaced with the contents of the request body. In general, the best pattern to use for updates is to retrieve the alias definition with a GET, modify it, and then update it with PUT.
 
@@ -103,3 +103,7 @@ For a successful update request, you should see "204 No Content".
   "indexes" : ["my-index"]
 }  
 ```  
+
+## See also  
+
++ [Create an index alias in Azure Cognitive Search](/azure/search/search-how-to-alias)   

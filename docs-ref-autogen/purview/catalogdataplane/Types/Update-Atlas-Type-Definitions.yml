@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.types.updateatlastypedefinitions
 name: Update Atlas Type Definitions
 service: Purview
 groupName: Types
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: Update all types in bulk, changes detected in the type definitions would be persisted.
 consumes:
 - application/json
@@ -31,6 +31,12 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: businessMetadataDefs
+    in: body
+    description: businessMetadataDefs
+    types:
+    - uid: AtlasBusinessMetadataDef
+      isArray: true
   - name: classificationDefs
     in: body
     description: An array of classification definitions.
@@ -69,6 +75,75 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: AtlasBusinessMetadataDef
+  description: AtlasBusinessMetadataDef
+  kind: object
+  properties:
+  - name: category
+    description: "TypeCategory  \nThe enum of type category."
+    types:
+    - uid: TypeCategory
+  - name: createTime
+    description: The created time of the record.
+    types:
+    - uid: number
+  - name: createdBy
+    description: The user who created the record.
+    types:
+    - uid: string
+  - name: dateFormatter
+    description: "DateFormat  \nThe date format."
+    types:
+    - uid: DateFormat
+  - name: description
+    description: The description of the type definition.
+    types:
+    - uid: string
+  - name: guid
+    description: The GUID of the type definition.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the type definition.
+    types:
+    - uid: string
+  - name: options
+    description: The options for the type definition.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: serviceType
+    description: The service type.
+    types:
+    - uid: string
+  - name: typeVersion
+    description: The version of the type.
+    types:
+    - uid: string
+  - name: updateTime
+    description: The update time of the record.
+    types:
+    - uid: number
+  - name: updatedBy
+    description: The user who updated the record.
+    types:
+    - uid: string
+  - name: version
+    description: The version of the record.
+    types:
+    - uid: number
+  - name: lastModifiedTS
+    description: "lastModifiedTS  \nETag for concurrency control."
+    types:
+    - uid: string
+  - name: attributeDefs
+    description: An array of attribute definitions.
+    types:
+    - uid: AtlasAttributeDef
+      isArray: true
 - name: AtlasClassificationDef
   description: AtlasClassificationDef
   kind: object
@@ -556,6 +631,11 @@ definitions:
   description: AtlasTypesDef
   kind: object
   properties:
+  - name: businessMetadataDefs
+    description: businessMetadataDefs
+    types:
+    - uid: AtlasBusinessMetadataDef
+      isArray: true
   - name: classificationDefs
     description: An array of classification definitions.
     types:
@@ -1133,6 +1213,127 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {Endpoint}/catalog/api/atlas/v2/types/typedefs
+
+      {
+        "enumDefs": [],
+        "structDefs": [],
+        "classificationDefs": [],
+        "entityDefs": [
+          {
+            "name": "azure_sql_server",
+            "superTypes": [
+              "azure_resource"
+            ],
+            "typeVersion": "1.0",
+            "attributeDefs": [
+              {
+                "name": "databases",
+                "typeName": "array<azure_sql_db>",
+                "cardinality": "SET",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              }
+            ]
+          },
+          {
+            "name": "azure_sql_db",
+            "superTypes": [
+              "azure_resource"
+            ],
+            "typeVersion": "1.0",
+            "attributeDefs": [
+              {
+                "name": "server",
+                "typeName": "azure_sql_server",
+                "cardinality": "SINGLE",
+                "constraints": [
+                  {
+                    "type": "inverseRef",
+                    "params": {
+                      "attribute": "databases"
+                    }
+                  }
+                ],
+                "isIndexable": false,
+                "isOptional": false,
+                "isUnique": false
+              },
+              {
+                "name": "schemas",
+                "typeName": "array<azure_sql_schema>",
+                "cardinality": "SET",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              },
+              {
+                "name": "collation",
+                "typeName": "string",
+                "cardinality": "SINGLE",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              },
+              {
+                "name": "compatibilityLevel",
+                "typeName": "int",
+                "cardinality": "SINGLE",
+                "isIndexable": false,
+                "isOptional": true,
+                "isUnique": false
+              }
+            ]
+          }
+        ],
+        "relationshipDefs": [
+          {
+            "name": "azure_sql_server_databases",
+            "typeVersion": "1.0",
+            "relationshipCategory": "COMPOSITION",
+            "endDef1": {
+              "type": "azure_sql_server",
+              "name": "databases",
+              "isContainer": true,
+              "cardinality": "SET",
+              "isLegacyAttribute": true
+            },
+            "endDef2": {
+              "type": "azure_sql_db",
+              "name": "server",
+              "isContainer": false,
+              "cardinality": "SINGLE",
+              "isLegacyAttribute": true
+            }
+          },
+          {
+            "name": "azure_sql_db_schemas",
+            "typeVersion": "1.0",
+            "relationshipCategory": "COMPOSITION",
+            "endDef1": {
+              "type": "azure_sql_db",
+              "name": "schemas",
+              "isContainer": true,
+              "cardinality": "SET",
+              "isLegacyAttribute": true
+            },
+            "endDef2": {
+              "type": "azure_sql_schema",
+              "name": "db",
+              "isContainer": false,
+              "cardinality": "SINGLE",
+              "isLegacyAttribute": true
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1312,5 +1513,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Update all types in bulk, changes detected in the type definitions would be persisted.
+  description: >
+    Learn more about Purview service - Update all types in bulk, changes detected in the type definitions would be persisted.
 errorCodes: []

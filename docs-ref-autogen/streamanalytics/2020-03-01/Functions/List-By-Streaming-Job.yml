@@ -86,6 +86,7 @@ definitions:
     description: The properties that are associated with a function.
     types:
     - uid: ScalarFunctionProperties
+    - uid: AggregateFunctionProperties
     typesTitle: FunctionProperties
   - name: id
     isReadyOnly: true
@@ -105,21 +106,6 @@ definitions:
   description: The properties that are associated with a scalar function.
   kind: object
   properties:
-  - name: properties.inputs
-    description: A list of inputs describing the parameters of the function.
-    types:
-    - uid: FunctionInput
-      isArray: true
-  - name: properties.output
-    description: The output of the function.
-    types:
-    - uid: FunctionOutput
-  - name: properties.binding
-    description: The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint.
-    types:
-    - uid: AzureMachineLearningWebServiceFunctionBinding
-    - uid: JavaScriptFunctionBinding
-    typesTitle: FunctionBinding
   - name: type
     description: Indicates the type of function.
     types:
@@ -130,6 +116,50 @@ definitions:
     description: The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
     types:
     - uid: string
+  - name: properties.inputs
+    description: Describes one input parameter of a function.
+    types:
+    - uid: FunctionInput
+      isArray: true
+  - name: properties.output
+    description: Describes the output of a function.
+    types:
+    - uid: FunctionOutput
+  - name: properties.binding
+    description: The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint.
+    types:
+    - uid: AzureMachineLearningWebServiceFunctionBinding
+    - uid: JavaScriptFunctionBinding
+    typesTitle: FunctionBinding
+- name: AggregateFunctionProperties
+  description: The properties that are associated with an aggregate function.
+  kind: object
+  properties:
+  - name: type
+    description: Indicates the type of function.
+    types:
+    - uid: Aggregate
+    typesTitle: string
+  - name: etag
+    isReadyOnly: true
+    description: The current entity tag for the function. This is an opaque string. You can use it to detect whether the resource has changed between requests. You can also use it in the If-Match or If-None-Match headers for write operations for optimistic concurrency.
+    types:
+    - uid: string
+  - name: properties.inputs
+    description: Describes one input parameter of a function.
+    types:
+    - uid: FunctionInput
+      isArray: true
+  - name: properties.output
+    description: Describes the output of a function.
+    types:
+    - uid: FunctionOutput
+  - name: properties.binding
+    description: The physical binding of the function. For example, in the Azure Machine Learning web service’s case, this describes the endpoint.
+    types:
+    - uid: AzureMachineLearningWebServiceFunctionBinding
+    - uid: JavaScriptFunctionBinding
+    typesTitle: FunctionBinding
 - name: FunctionInput
   description: Describes one input parameter of a function.
   kind: object
@@ -238,6 +268,102 @@ examples:
 - name: List all functions in a streaming job
   request:
     uri: GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg1637/providers/Microsoft.StreamAnalytics/streamingjobs/sj8653/functions?api-version=2020-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg1637/providers/Microsoft.StreamAnalytics/streamingjobs/sj8653/functions?api-version=2020-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Functions ListByStreamingJob. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_ListByStreamingJob.json
+           */
+          /**
+           * Sample code: List all functions in a streaming job.
+           *
+           * @param manager Entry point to StreamAnalyticsManager.
+           */
+          public static void listAllFunctionsInAStreamingJob(
+              com.azure.resourcemanager.streamanalytics.StreamAnalyticsManager manager) {
+              manager.functions().listByStreamingJob("sjrg1637", "sj8653", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-streamanalytics_1.0.0-beta.2/sdk/streamanalytics/azure-resourcemanager-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstreamanalytics_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/streamanalytics/armstreamanalytics"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_ListByStreamingJob.json
+      func ExampleFunctionsClient_NewListByStreamingJobPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstreamanalytics.NewFunctionsClient("56b5e0a9-b645-407d-99b0-c64f86013e3d", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByStreamingJobPager("sjrg1637",
+      		"sj8653",
+      		&armstreamanalytics.FunctionsClientListByStreamingJobOptions{Select: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstreamanalytics%2Farmstreamanalytics%2Fv1.0.0/sdk/resourcemanager/streamanalytics/armstreamanalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StreamAnalyticsManagementClient } = require("@azure/arm-streamanalytics");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the functions under the specified streaming job.
+       *
+       * @summary Lists all of the functions under the specified streaming job.
+       * x-ms-original-file: specification/streamanalytics/resource-manager/Microsoft.StreamAnalytics/stable/2020-03-01/examples/Function_ListByStreamingJob.json
+       */
+      async function listAllFunctionsInAStreamingJob() {
+        const subscriptionId = "56b5e0a9-b645-407d-99b0-c64f86013e3d";
+        const resourceGroupName = "sjrg1637";
+        const jobName = "sj8653";
+        const credential = new DefaultAzureCredential();
+        const client = new StreamAnalyticsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.functions.listByStreamingJob(resourceGroupName, jobName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllFunctionsInAStreamingJob().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-streamanalytics_4.0.1/sdk/streamanalytics/arm-streamanalytics/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -322,5 +448,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Stream Analytics service - Lists all of the functions under the specified streaming job.
+  description: >
+    Learn more about Stream Analytics service - Lists all of the functions under the specified streaming job.
 errorCodes: []

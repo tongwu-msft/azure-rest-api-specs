@@ -1,10 +1,11 @@
 ---
 
 title: Azure Key Vault REST API reference
+description: Learn how to use Key Vault to safeguard and manage cryptographic keys, certificates and secrets used by cloud applications and services.
 ms.service: key-vault
 author: msmbaldwin
 ms.author: mbaldwin
-ms.date: 02/12/2021
+ms.date: 04/15/2022
 ---
 
 # Azure Key Vault REST API reference
@@ -61,7 +62,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 | Operation | Description |
 |--|--|
-| [List By MHSM Resource](/rest/api/keyvault/managedhsm/mhsm-private-link-resources/list-by-mhsm-resource) | Gets the private link resources supported for the managed hsm pool.| 
+| [List By MHSM Resource](/rest/api/keyvault/managedhsm/mhsm-private-link-resources/list-by-mhsm-resource) | Gets the private link resources supported for the managed HSM pool.| 
 
 #### Private endpoint connections operations
 
@@ -138,8 +139,26 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Recover Deleted Key](/rest/api/keyvault/keys/Recover-Deleted-Key) | Recovers the deleted key to its latest version. |
 | [Backup Key](/rest/api/keyvault/keys/Backup-Key) | Requests that a backup of the specified key be downloaded to the client. |
 | [Restore Key](/rest/api/keyvault/keys/Restore-Key) | Restores a backed up key to a vault. |
+| [Release Key](/rest/api/keyvault/keys/release) | Releases a key. The release key operation is applicable to all key types. The target key must be marked exportable. This operation requires the keys/release permission. |
 
-### Cryptographic operations
+### Key operations (Key Vault only)
+
+| Operation | Description |
+|--|--|
+| [Rotate Key](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.  The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
+| [Get Key Rotation Policy](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key. The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. |
+| [Update  Key Rotation Policy](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key. Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
+
+### Key operations (Managed HSM only)
+
+| Operation | Description |
+|--|--|
+| [Get Random Bytes](/rest/api/keyvault/keys/get-random-bytes) | Get the requested number of bytes containing random values from a managed HSM. |
+| [Rotate Key (Preview)](/rest/api/keyvault/keys/Rotate-Key) | Creates a new key version, stores it, then returns key parameters, attributes and policy to the client. The operation will rotate the key based on the key policy. It requires the keys/rotate permission. |
+| [Get Key Rotation Policy (Preview)](/rest/api/keyvault/keys/get-key-rotation-policy) | Lists the policy for a key.The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission. (Managed HSM in Preview) |
+| [Update  Key Rotation Policy (Preview)](/rest/api/keyvault/keys/update-key-rotation-policy) | Updates the rotation policy for a key. Set specified members in the key policy. Leave others as undefined. This operation requires the keys/update permission. |
+
+### Cryptographic operations (Key Vault/Managed HSM)
 
 | Operation | Description |
 |--|--|
@@ -183,7 +202,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Purge Deleted Storage Account](/rest/api/keyvault/secrets-storageaccounts/Purge-Deleted-Storage-Account) | Permanently deletes the specified storage account. |
 | [Recover Deleted Storage Account](/rest/api/keyvault/secrets-storageaccounts/Recover-Deleted-Storage-Account) | Recovers the deleted storage account. |
 | [Backup Storage Account](/rest/api/keyvault/secrets-storageaccounts/Backup-Storage-Account) | Backs up the specified storage account. |
-| [Restore Storage Account](/rest/api/keyvault/secrets-storageaccounts/Restore-Storage-Account) | Restores a backed up storage account to a vault. |
+| [Restore Storage Account](/rest/api/keyvault/secrets-storageaccounts/Restore-Storage-Account) | Restores a backed-up storage account to a vault. |
 
 #### Storage Account key operations
 
@@ -224,7 +243,7 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 | [Purge Deleted Certificate](/rest/api/keyvault/certificates/Purge-Deleted-Certificate) | Permanently deletes the specified deleted certificate. |
 | [Recover Deleted Certificate](/rest/api/keyvault/certificates/Recover-Deleted-Certificate) | Recovers the deleted certificate back to its current version under /certificates. |
 | [Backup Certificate](/rest/api/keyvault/certificates/Backup-Certificate) | Backs up the specified certificate. |
-| [Restore Certificate](/rest/api/keyvault/certificates/Restore-Certificate) | Restores a backed up certificate to a vault. |
+| [Restore Certificate](/rest/api/keyvault/certificates/Restore-Certificate) | Restores a backed-up certificate to a vault. |
 
 ### Certificate policy operations
 
@@ -254,8 +273,8 @@ Use Key Vault to safeguard and manage cryptographic keys, certificates and secre
 
 ## See also
 
-- For concepts and detailed information about Key Vault, see [About Azure Key Vault](https://docs.microsoft.com/.azure/key-vault/general/overview).
-- For concepts and detailed information about Managed HSM, see [What is Azure Key Vault Managed HSM?](https://docs.microsoft.com/azure/key-vault/managed-hsm/overview)
+- For concepts and detailed information about Key Vault, see [About Azure Key Vault](/azure/key-vault/general/overview).
+- For concepts and detailed information about Managed HSM, see [What is Azure Key Vault Managed HSM?](/azure/key-vault/managed-hsm/overview)
 - For concepts and detailed information about data plane objects, see [About keys, secrets, and certificates](about-keys--secrets-and-certificates.md).
 - For general information on constructing Azure REST API requests, see the [Azure REST API reference](/rest/api/azure/)
 - For information specific to constructing Key Vault REST API requests, see

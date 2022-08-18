@@ -3,15 +3,15 @@ uid: management.azure.com.automation.softwareupdateconfigurations.list
 name: List
 service: Automation
 groupName: Software Update Configurations
-apiVersion: 2017-05-15-preview
+apiVersion: 2019-06-01
 summary: Get all software update configurations for the account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2017-05-15-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2017-05-15-preview&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2019-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/softwareUpdateConfigurations?api-version=2019-06-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -98,7 +98,11 @@ definitions:
   - name: properties.updateConfiguration
     description: Update specific properties of the software update configuration.
     types:
-    - uid: collectionItemUpdateConfiguration
+    - uid: updateConfiguration
+  - name: properties.tasks
+    description: Pre and Post Tasks defined
+    types:
+    - uid: softwareUpdateConfigurationTasks
   - name: properties.frequency
     description: execution frequency of the schedule associated with the software update configuration
     types:
@@ -126,19 +130,52 @@ definitions:
     description: ext run time of the update.
     types:
     - uid: string
-- name: collectionItemUpdateConfiguration
-  description: object returned when requesting a collection of software update configuration
+- name: updateConfiguration
+  description: Update specific properties of the software update configuration.
   kind: object
   properties:
+  - name: operatingSystem
+    description: operating system of target machines
+    types:
+    - uid: OperatingSystemType
+  - name: windows
+    description: Windows specific update configuration.
+    types:
+    - uid: WindowsProperties
+  - name: linux
+    description: Linux specific update configuration.
+    types:
+    - uid: LinuxProperties
+  - name: duration
+    description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
+    types:
+    - uid: string
   - name: azureVirtualMachines
     description: List of azure resource Ids for azure virtual machines targeted by the software update configuration.
     types:
     - uid: string
       isArray: true
-  - name: duration
-    description: Maximum time allowed for the software update configuration run. Duration needs to be specified using the format PT[n]H[n]M[n]S as per ISO8601
+  - name: nonAzureComputerNames
+    description: List of names of non-azure machines targeted by the software update configuration.
     types:
     - uid: string
+      isArray: true
+  - name: targets
+    description: Group targets for the software update configuration.
+    types:
+    - uid: TargetProperties
+- name: softwareUpdateConfigurationTasks
+  description: Task properties of the software update configuration.
+  kind: object
+  properties:
+  - name: preTask
+    description: Pre task properties.
+    types:
+    - uid: taskProperties
+  - name: postTask
+    description: Post task properties.
+    types:
+    - uid: taskProperties
 - name: ScheduleFrequency
   description: Gets or sets the frequency of the schedule.
   kind: enum
@@ -162,10 +199,263 @@ definitions:
     description: The minimum allowed interval for Minute schedules is 15 minutes.
     types:
     - uid: string
+- name: OperatingSystemType
+  description: operating system of target machines
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: WindowsProperties
+  description: Windows specific update configuration.
+  kind: object
+  properties:
+  - name: includedUpdateClassifications
+    description: Update classification included in the software update configuration. A comma separated string with required values
+    types:
+    - uid: WindowsUpdateClasses
+  - name: excludedKbNumbers
+    description: KB numbers excluded from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: includedKbNumbers
+    description: KB numbers included from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: rebootSetting
+    description: Reboot setting for the software update configuration.
+    types:
+    - uid: string
+- name: LinuxProperties
+  description: Linux specific update configuration.
+  kind: object
+  properties:
+  - name: includedPackageClassifications
+    description: Update classifications included in the software update configuration.
+    types:
+    - uid: LinuxUpdateClasses
+  - name: excludedPackageNameMasks
+    description: packages excluded from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: includedPackageNameMasks
+    description: packages included from the software update configuration.
+    types:
+    - uid: string
+      isArray: true
+  - name: rebootSetting
+    description: Reboot setting for the software update configuration.
+    types:
+    - uid: string
+- name: TargetProperties
+  description: Group specific to the update configuration.
+  kind: object
+  properties:
+  - name: azureQueries
+    description: List of Azure queries in the software update configuration.
+    types:
+    - uid: AzureQueryProperties
+      isArray: true
+  - name: nonAzureQueries
+    description: List of non Azure queries in the software update configuration.
+    types:
+    - uid: NonAzureQueryProperties
+      isArray: true
+- name: taskProperties
+  description: Task properties of the software update configuration.
+  kind: object
+  properties:
+  - name: parameters
+    description: Gets or sets the parameters of the task.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: source
+    description: Gets or sets the name of the runbook.
+    types:
+    - uid: string
+- name: WindowsUpdateClasses
+  description: Update classification included in the software update configuration. A comma separated string with required values
+  kind: enum
+  properties:
+  - name: Unclassified
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+  - name: Security
+    types:
+    - uid: string
+  - name: UpdateRollup
+    types:
+    - uid: string
+  - name: FeaturePack
+    types:
+    - uid: string
+  - name: ServicePack
+    types:
+    - uid: string
+  - name: Definition
+    types:
+    - uid: string
+  - name: Tools
+    types:
+    - uid: string
+  - name: Updates
+    types:
+    - uid: string
+- name: LinuxUpdateClasses
+  description: Update classifications included in the software update configuration.
+  kind: enum
+  properties:
+  - name: Unclassified
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+  - name: Security
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+- name: AzureQueryProperties
+  description: Azure query for the update configuration.
+  kind: object
+  properties:
+  - name: scope
+    description: List of Subscription or Resource Group ARM Ids.
+    types:
+    - uid: string
+      isArray: true
+  - name: locations
+    description: List of locations to scope the query to.
+    types:
+    - uid: string
+      isArray: true
+  - name: tagSettings
+    description: Tag settings for the VM.
+    types:
+    - uid: TagSettingsProperties
+- name: NonAzureQueryProperties
+  description: Non Azure query for the update configuration.
+  kind: object
+  properties:
+  - name: functionAlias
+    description: Log Analytics Saved Search name.
+    types:
+    - uid: string
+  - name: workspaceId
+    description: Workspace Id for Log Analytics in which the saved Search is resided.
+    types:
+    - uid: string
+- name: TagSettingsProperties
+  description: Tag filter information for the VM.
+  kind: object
+  properties:
+  - name: tags
+    description: Dictionary of tags with its list of values.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: filterOperator
+    description: Filter VMs by Any or All specified tags.
+    types:
+    - uid: TagOperators
+- name: TagOperators
+  description: Filter VMs by Any or All specified tags.
+  kind: enum
+  properties:
+  - name: All
+    types:
+    - uid: string
+  - name: Any
+    types:
+    - uid: string
 examples:
 - name: List software update configurations
   request:
-    uri: GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2017-05-15-preview
+    uri: GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2019-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2019-06-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SoftwareUpdateConfigurations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurations.json
+           */
+          /**
+           * Sample code: List software update configurations.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void listSoftwareUpdateConfigurations(
+              com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager.softwareUpdateConfigurations().listWithResponse("mygroup", "myaccount", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurations.json
+      func ExampleSoftwareUpdateConfigurationsClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewSoftwareUpdateConfigurationsClient("1a7d4044-286c-4acb-969a-96639265bf2e", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		"mygroup",
+      		"myaccount",
+      		&armautomation.SoftwareUpdateConfigurationsClientListOptions{ClientRequestID: nil,
+      			Filter: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -304,7 +594,43 @@ examples:
       }
 - name: List software update configurations Targeting a specific azure virtual machine
   request:
-    uri: "GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2017-05-15-preview&$filter=properties/updateConfiguration/azureVirtualMachines/any(m: m eq '/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01')"
+    uri: "GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2019-06-01&$filter=properties/updateConfiguration/azureVirtualMachines/any(m: m eq '/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01')"
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/mygroup/providers/Microsoft.Automation/automationAccounts/myaccount/softwareUpdateConfigurations?api-version=2019-06-01&$filter=properties/updateConfiguration/azureVirtualMachines/any(m: m eq '/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01')
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SoftwareUpdateConfigurations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/softwareUpdateConfiguration/listSoftwareUpdateConfigurationsByVm.json
+           */
+          /**
+           * Sample code: List software update configurations Targeting a specific azure virtual machine.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void listSoftwareUpdateConfigurationsTargetingASpecificAzureVirtualMachine(
+              com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager
+                  .softwareUpdateConfigurations()
+                  .listWithResponse(
+                      "mygroup",
+                      "myaccount",
+                      null,
+                      "properties/updateConfiguration/azureVirtualMachines/any(m: m eq"
+                          + " '/subscriptions/1a7d4044-286c-4acb-969a-96639265bf2e/resourceGroups/myresources/providers/Microsoft.Compute/virtualMachines/vm-01')",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -400,5 +726,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Automation service - Get all software update configurations for the account.
+  description: >
+    Learn more about Automation service - Get all software update configurations for the account.
 errorCodes: []

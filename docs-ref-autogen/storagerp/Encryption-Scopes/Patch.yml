@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.encryptionscopes.patch
 name: Patch
 service: Storage Resource Provider
 groupName: Encryption Scopes
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}?api-version=2021-04-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/encryptionScopes/{encryptionScopeName}?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -183,7 +183,7 @@ definitions:
 examples:
 - name: StorageAccountPatchEncryptionScope
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2021-04-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -193,6 +193,143 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes/{encryption-scope-name}?api-version=2021-09-01
+
+      {
+        "properties": {
+          "source": "Microsoft.KeyVault",
+          "keyVaultProperties": {
+            "keyUri": "https://testvault.vault.core.windows.net/keys/key1/863425f1358359c"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.EncryptionScopeInner;
+      import com.azure.resourcemanager.storage.models.EncryptionScopeKeyVaultProperties;
+      import com.azure.resourcemanager.storage.models.EncryptionScopeSource;
+
+      /** Samples for EncryptionScopes Patch. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountPatchEncryptionScope.json
+           */
+          /**
+           * Sample code: StorageAccountPatchEncryptionScope.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountPatchEncryptionScope(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getEncryptionScopes()
+                  .patchWithResponse(
+                      "resource-group-name",
+                      "{storage-account-name}",
+                      "{encryption-scope-name}",
+                      new EncryptionScopeInner()
+                          .withSource(EncryptionScopeSource.MICROSOFT_KEY_VAULT)
+                          .withKeyVaultProperties(
+                              new EncryptionScopeKeyVaultProperties()
+                                  .withKeyUri("https://testvault.vault.core.windows.net/keys/key1/863425f1358359c")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountPatchEncryptionScope.json
+      func ExampleEncryptionScopesClient_Patch() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewEncryptionScopesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Patch(ctx,
+      		"resource-group-name",
+      		"{storage-account-name}",
+      		"{encryption-scope-name}",
+      		armstorage.EncryptionScope{
+      			EncryptionScopeProperties: &armstorage.EncryptionScopeProperties{
+      				KeyVaultProperties: &armstorage.EncryptionScopeKeyVaultProperties{
+      					KeyURI: to.Ptr("https://testvault.vault.core.windows.net/keys/key1/863425f1358359c"),
+      				},
+      				Source: to.Ptr(armstorage.EncryptionScopeSourceMicrosoftKeyVault),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
+       *
+       * @summary Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountPatchEncryptionScope.json
+       */
+      async function storageAccountPatchEncryptionScope() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "resource-group-name";
+        const accountName = "{storage-account-name}";
+        const encryptionScopeName = "{encryption-scope-name}";
+        const encryptionScope = {
+          keyVaultProperties: {
+            keyUri: "https://testvault.vault.core.windows.net/keys/key1/863425f1358359c",
+          },
+          source: "Microsoft.KeyVault",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.encryptionScopes.patch(
+          resourceGroupName,
+          accountName,
+          encryptionScopeName,
+          encryptionScope
+        );
+        console.log(result);
+      }
+
+      storageAccountPatchEncryptionScope().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -222,5 +359,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
+  description: >
+    Update encryption scope properties as specified in the request body. Update fails if the specified encryption scope does not already exist.
 errorCodes: []

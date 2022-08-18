@@ -9,7 +9,8 @@ ms.topic: reference
 ms.author: rerdmann
 ---
 
-# Find Blobs by Tags
+# Find Blobs by Tags operation
+
 The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression.  
   
 ## Request  
@@ -27,7 +28,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 |---------------|-----------------|  
 |`expression`|Required. Filters the result set to only include blobs whose tags match the specified expression. <br /><br /> See the Remarks for more information on how to construct this expression.|  
 |`marker`|Optional. A string value that identifies the portion of the result set to be returned with the next operation. The operation returns a marker value within the response body if the result set returned was not complete. The marker value may then be used in a subsequent call to request the next set of items.<br /><br /> The marker value is opaque to the client.|  
-|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
+|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items. If there are additional results to return, the service returns a continuation token in the `NextMarker` response element. In certain cases, the service may return fewer results than specified by `maxresults` and also return a continuation token.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  
@@ -95,7 +96,7 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
  The response body is a well-formed UTF-8 XML document.
   
 ## Authorization  
- This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to find blobs by tags (the `f` SAS permission).  
+ This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to find blobs by tags (the `f` SAS permission). Note that an [account SAS](create-account-sas.md) is required for authorization.
   
  In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission can perform this operation.  
   

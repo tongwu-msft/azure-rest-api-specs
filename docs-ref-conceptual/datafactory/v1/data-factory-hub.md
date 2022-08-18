@@ -1,5 +1,7 @@
 ---
 title: "Hub (Azure Data Factory)"
+description: Learn how to create a new hub or update the content of an existing hub.
+
 ---
 # Hub version 1 (V1)
 

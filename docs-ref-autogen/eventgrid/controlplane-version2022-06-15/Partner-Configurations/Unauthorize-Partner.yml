@@ -1,0 +1,379 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2022-06-15.partnerconfigurations.unauthorizepartner
+name: Unauthorize Partner
+service: Event Grid
+groupName: Partner Configurations
+apiVersion: 2022-06-15
+summary: "Unauthorize a partner.  \nUnauthorize a single partner either by partner registration immutable Id or by partner name."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerConfigurations/default/unauthorizePartner?api-version=2022-06-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PartnerConfiguration
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestBody:
+- name: default
+  parameters:
+  - name: partnerRegistrationImmutableId
+    in: body
+    description: The immutableId of the corresponding partner registration.
+    types:
+    - uid: string
+  - name: partnerName
+    in: body
+    description: The partner name.
+    types:
+    - uid: string
+  - name: authorizationExpirationTimeInUtc
+    in: body
+    description: >-
+      Expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's
+
+      context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration.
+
+      If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: PartnerConfiguration
+  description: Partner configuration information
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to partner configuration resource.
+    types:
+    - uid: systemData
+  - name: location
+    description: Location of the resource.
+    types:
+    - uid: string
+  - name: tags
+    description: Tags of the resource.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.partnerAuthorization
+    description: The details of authorized partners.
+    types:
+    - uid: PartnerAuthorization
+  - name: properties.provisioningState
+    description: Provisioning state of the partner configuration.
+    types:
+    - uid: PartnerConfigurationProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: Partner
+  description: Information about the partner.
+  kind: object
+  properties:
+  - name: partnerRegistrationImmutableId
+    description: The immutableId of the corresponding partner registration.
+    types:
+    - uid: string
+  - name: partnerName
+    description: The partner name.
+    types:
+    - uid: string
+  - name: authorizationExpirationTimeInUtc
+    description: >-
+      Expiration time of the partner authorization. If this timer expires, any request from this partner to create, update or delete resources in subscriber's
+
+      context will fail. If specified, the allowed values are between 1 to the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration.
+
+      If not specified, the default value will be the value of defaultMaximumExpirationTimeInDays specified in PartnerConfiguration or 7 if this value is not specified.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: PartnerAuthorization
+  description: The partner authorization details.
+  kind: object
+  properties:
+  - name: defaultMaximumExpirationTimeInDays
+    description: >-
+      Time used to validate the authorization expiration time for each authorized partner. If DefaultMaximumExpirationTimeInDays is
+
+      not specified, the default is 7 days. Otherwise, allowed values are between 1 and 365 days.
+    types:
+    - uid: integer
+  - name: authorizedPartnersList
+    description: The list of authorized partners.
+    types:
+    - uid: Partner
+      isArray: true
+- name: PartnerConfigurationProvisioningState
+  description: Provisioning state of the partner configuration.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: PartnerConfigurations_UnauthorizePartner
+  request:
+    uri: POST https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerConfigurations/default/unauthorizePartner?api-version=2022-06-15
+    body: >-
+      {
+        "partnerRegistrationImmutableId": "941892bc-f5d0-4d1c-8fb5-477570fc2b71",
+        "partnerName": "Contoso.Finance",
+        "authorizationExpirationTimeInUtc": "2022-01-28T01:20:55.142Z"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerConfigurations/default/unauthorizePartner?api-version=2022-06-15
+
+      {
+        "partnerRegistrationImmutableId": "941892bc-f5d0-4d1c-8fb5-477570fc2b71",
+        "partnerName": "Contoso.Finance",
+        "authorizationExpirationTimeInUtc": "2022-01-28T01:20:55.142Z"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.Partner;
+      import java.time.OffsetDateTime;
+      import java.util.UUID;
+
+      /** Samples for PartnerConfigurations UnauthorizePartner. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerConfigurations_UnauthorizePartner.json
+           */
+          /**
+           * Sample code: PartnerConfigurations_UnauthorizePartner.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void partnerConfigurationsUnauthorizePartner(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .partnerConfigurations()
+                  .unauthorizePartnerWithResponse(
+                      "examplerg",
+                      new Partner()
+                          .withPartnerRegistrationImmutableId(UUID.fromString("941892bc-f5d0-4d1c-8fb5-477570fc2b71"))
+                          .withPartnerName("Contoso.Finance")
+                          .withAuthorizationExpirationTimeInUtc(OffsetDateTime.parse("2022-01-28T01:20:55.142Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerConfigurations_UnauthorizePartner.json
+      func ExamplePartnerConfigurationsClient_UnauthorizePartner() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewPartnerConfigurationsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UnauthorizePartner(ctx,
+      		"examplerg",
+      		armeventgrid.Partner{
+      			AuthorizationExpirationTimeInUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2022-01-28T01:20:55.142Z"); return t }()),
+      			PartnerName:                      to.Ptr("Contoso.Finance"),
+      			PartnerRegistrationImmutableID:   to.Ptr("941892bc-f5d0-4d1c-8fb5-477570fc2b71"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Unauthorize a single partner either by partner registration immutable Id or by partner name.
+       *
+       * @summary Unauthorize a single partner either by partner registration immutable Id or by partner name.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerConfigurations_UnauthorizePartner.json
+       */
+      async function partnerConfigurationsUnauthorizePartner() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const partnerInfo = {
+          authorizationExpirationTimeInUtc: new Date("2022-01-28T01:20:55.142Z"),
+          partnerName: "Contoso.Finance",
+          partnerRegistrationImmutableId: "941892bc-f5d0-4d1c-8fb5-477570fc2b71",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.partnerConfigurations.unauthorizePartner(
+          resourceGroupName,
+          partnerInfo
+        );
+        console.log(result);
+      }
+
+      partnerConfigurationsUnauthorizePartner().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "partnerAuthorization": {
+            "defaultMaximumExpirationTimeInDays": 10,
+            "authorizedPartnersList": [
+              {
+                "partnerRegistrationImmutableId": "5362bdb6-ce3e-4d0d-9a5b-3eb92c8aab38",
+                "partnerName": "fabrikam.HR",
+                "authorizationExpirationTimeInUtc": "2022-02-20T01:00:00.142Z"
+              }
+            ]
+          }
+        },
+        "location": "global",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerConfigurations/default",
+        "name": "default",
+        "type": "Microsoft.EventGrid/partnerConfigurations"
+      }
+security: []
+metadata:
+  description: >
+    Unauthorize a partner.
+
+    Unauthorize a single partner either by partner registration immutable Id or by partner name.
+errorCodes: []

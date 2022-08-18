@@ -1,5 +1,6 @@
 ---
 title: "Get Relays"
+description: API reference documentation for the operations available in the Get Relays REST API, a RESTful web service for managing Get Relays resources in Azure.
 ms.custom: ""
 ms.date: "05/15/2015"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Get Relays
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 This operation enumerates the publicly-available relay endpoints in a service namespace.  
   

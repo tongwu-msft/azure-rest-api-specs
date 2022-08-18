@@ -1,0 +1,2070 @@
+### YamlMime:RESTOperation
+uid: language.conversationanalysisruntime.analyzeconversation
+name: Analyze Conversation
+service: Cognitive Services - Language
+groupName: Conversation Analysis Runtime
+apiVersion: 2022-05-01
+summary: Analyzes the input conversation utterance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The conversation analysis response.
+  types:
+  - uid: ConversationalTaskResult
+  typesTitle: AnalyzeConversationTaskResult
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: ConversationalTask
+  description: The input for a custom conversation task.
+  parameters:
+  - name: analysisInput
+    in: body
+    isRequired: true
+    description: The input ConversationItem and its optional parameters
+    types:
+    - uid: ConversationAnalysisOptions
+  - name: parameters
+    in: body
+    isRequired: true
+    description: Input parameters necessary for a Conversation task.
+    types:
+    - uid: ConversationTaskParameters
+  - name: kind
+    in: body
+    isRequired: true
+    description: Enumeration of supported Conversation tasks.
+    types:
+    - uid: Conversation
+    typesTitle: string
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: ConversationalTask
+  description: The input for a custom conversation task.
+  kind: object
+  properties:
+  - name: analysisInput
+    description: The input ConversationItem and its optional parameters
+    types:
+    - uid: ConversationAnalysisOptions
+  - name: parameters
+    description: Input parameters necessary for a Conversation task.
+    types:
+    - uid: ConversationTaskParameters
+  - name: kind
+    description: Enumeration of supported Conversation tasks.
+    types:
+    - uid: Conversation
+    typesTitle: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: ConversationAnalysisOptions
+  description: The input ConversationItem and its optional parameters
+  kind: object
+  properties:
+  - name: conversationItem
+    description: The abstract base for a user input formatted conversation (e.g., Text, Transcript).
+    types:
+    - uid: ConversationItemBase
+- name: ConversationTaskParameters
+  description: Input parameters necessary for a Conversation task.
+  kind: object
+  properties:
+  - name: projectName
+    description: The name of the project to use.
+    types:
+    - uid: string
+  - name: deploymentName
+    description: The name of the deployment to use.
+    types:
+    - uid: string
+  - name: verbose
+    description: If true, the service will return more detailed information in the response.
+    types:
+    - uid: boolean
+  - name: isLoggingEnabled
+    description: If true, the service will keep the query for further review.
+    types:
+    - uid: boolean
+  - name: stringIndexType
+    description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
+    types:
+    - uid: StringIndexType
+    defaultValue: TextElements_v8
+  - name: directTarget
+    description: The name of a target project to forward the request to.
+    types:
+    - uid: string
+  - name: targetProjectParameters
+    description: A dictionary representing the parameters for each target project.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AnalysisParameters
+- name: AnalyzeConversationTaskKind
+  description: Enumeration of supported Conversation tasks.
+  kind: enum
+  properties:
+  - name: Conversation
+    types:
+    - uid: string
+- name: ConversationalTaskResult
+  description: The results of a Conversation task.
+  kind: object
+  properties:
+  - name: result
+    description: Represents a conversation analysis response.
+    types:
+    - uid: AnalyzeConversationResult
+  - name: kind
+    description: Enumeration of supported conversational task results
+    types:
+    - uid: ConversationResult
+    typesTitle: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: ConversationItemBase
+  description: The abstract base for a user input formatted conversation (e.g., Text, Transcript).
+  kind: object
+  properties:
+  - name: id
+    description: The ID of a conversation item.
+    types:
+    - uid: string
+  - name: participantId
+    description: The participant ID of a conversation item.
+    types:
+    - uid: string
+  - name: language
+    description: The override language of a conversation item in BCP 47 language representation.
+    types:
+    - uid: string
+  - name: modality
+    description: Enumeration of supported conversational modalities.
+    types:
+    - uid: InputModality
+- name: StringIndexType
+  description: Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets.
+  kind: enum
+  properties:
+  - name: TextElements_v8
+    description: Returned offset and length values will correspond to TextElements (Graphemes and Grapheme clusters) confirming to the Unicode 8.0.0 standard. Use this option if your application is written in .Net Framework or .Net Core and you will be using StringInfo.
+    types:
+    - uid: string
+  - name: UnicodeCodePoint
+    description: Returned offset and length values will correspond to Unicode code points. Use this option if your application is written in a language that support Unicode, for example Python.
+    types:
+    - uid: string
+  - name: Utf16CodeUnit
+    description: Returned offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+    types:
+    - uid: string
+- name: AnalyzeConversationResult
+  description: Represents a conversation analysis response.
+  kind: object
+  properties:
+  - name: query
+    description: The conversation utterance given by the caller.
+    types:
+    - uid: string
+  - name: detectedLanguage
+    description: The system detected language for the query in BCP 47 language representation..
+    types:
+    - uid: string
+  - name: prediction
+    description: The prediction result of a conversation project.
+    types:
+    - uid: ConversationPrediction
+    - uid: OrchestrationPrediction
+    typesTitle: BasePrediction
+- name: AnalyzeConversationTaskResultsKind
+  description: Enumeration of supported conversational task results
+  kind: enum
+  properties:
+  - name: ConversationResult
+    types:
+    - uid: string
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InputModality
+  description: Enumeration of supported conversational modalities.
+  kind: enum
+  properties:
+  - name: transcript
+    types:
+    - uid: string
+  - name: text
+    types:
+    - uid: string
+- name: LuisParameters
+  description: This is a set of request parameters for LUIS Generally Available projects.
+  kind: object
+  properties:
+  - name: query
+    description: The utterance to predict.
+    types:
+    - uid: string
+  - name: callingOptions
+    description: This customizes how the service calls LUIS Generally Available projects.
+    types:
+    - uid: LuisCallingOptions
+  - name: targetProjectKind
+    description: The type of a target service.
+    types:
+    - uid: Luis
+    typesTitle: string
+  - name: apiVersion
+    description: The API version to use when call a specific target service.
+    types:
+    - uid: string
+- name: ConversationParameters
+  description: This is a set of request parameters for Customized Conversation projects.
+  kind: object
+  properties:
+  - name: callingOptions
+    description: The option to set to call a Conversation project.
+    types:
+    - uid: ConversationCallingOptions
+  - name: targetProjectKind
+    description: The type of a target service.
+    types:
+    - uid: Conversation
+    typesTitle: string
+  - name: apiVersion
+    description: The API version to use when call a specific target service.
+    types:
+    - uid: string
+- name: QuestionAnsweringParameters
+  description: This is a set of request parameters for Question Answering knowledge bases.
+  kind: object
+  properties:
+  - name: callingOptions
+    description: The options sent to a Question Answering KB.
+    types:
+    - uid: AnswersOptions
+  - name: targetProjectKind
+    description: The type of a target service.
+    types:
+    - uid: QuestionAnswering
+    typesTitle: string
+  - name: apiVersion
+    description: The API version to use when call a specific target service.
+    types:
+    - uid: string
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: LuisCallingOptions
+  description: This customizes how the service calls LUIS Generally Available projects.
+  kind: object
+  properties:
+  - name: verbose
+    description: Enable verbose response.
+    types:
+    - uid: boolean
+  - name: log
+    description: Save log to add in training utterances later.
+    types:
+    - uid: boolean
+  - name: show-all-intents
+    description: Set true to show all intents.
+    types:
+    - uid: boolean
+  - name: timezoneOffset
+    description: The timezone offset for the location of the request.
+    types:
+    - uid: number
+  - name: spellCheck
+    description: Enable spell checking.
+    types:
+    - uid: boolean
+  - name: bing-spell-check-subscription-key
+    description: The subscription key to use when enabling Bing spell check
+    types:
+    - uid: string
+- name: ConversationCallingOptions
+  description: The option to set to call a Conversation project.
+  kind: object
+  properties:
+  - name: language
+    description: The language of the query in BCP 47 language representation..
+    types:
+    - uid: string
+  - name: verbose
+    description: If true, the service will return more detailed information.
+    types:
+    - uid: boolean
+  - name: isLoggingEnabled
+    description: If true, the query will be saved for customers to further review in authoring, to improve the model quality.
+    types:
+    - uid: boolean
+- name: AnswersOptions
+  description: Parameters to query a knowledge base.
+  kind: object
+  properties:
+  - name: qnaId
+    description: Exact QnA ID to fetch from the knowledge base, this field takes priority over question.
+    types:
+    - uid: integer
+  - name: question
+    description: User question to query against the knowledge base.
+    types:
+    - uid: string
+  - name: top
+    description: Max number of answers to be returned for the question.
+    types:
+    - uid: integer
+  - name: userId
+    description: Unique identifier for the user.
+    types:
+    - uid: string
+  - name: confidenceScoreThreshold
+    description: Minimum threshold score for answers, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: context
+    description: Context object with previous QnA's information.
+    types:
+    - uid: KnowledgeBaseAnswerContext
+  - name: rankerType
+    description: Type of ranker to be used.
+    types:
+    - uid: RankerKind
+  - name: filters
+    description: Filter QnAs based on given metadata list and knowledge base sources.
+    types:
+    - uid: QueryFilters
+  - name: answerSpanRequest
+    description: To configure Answer span prediction feature.
+    types:
+    - uid: ShortAnswerOptions
+  - name: includeUnstructuredSources
+    description: (Optional) Flag to enable Query over Unstructured Sources.
+    types:
+    - uid: boolean
+- name: ConversationPrediction
+  description: Represents the prediction section of a Conversation project.
+  kind: object
+  properties:
+  - name: intents
+    description: The intent classification results.
+    types:
+    - uid: ConversationIntent
+      isArray: true
+  - name: entities
+    description: The entity extraction results.
+    types:
+    - uid: ConversationEntity
+      isArray: true
+  - name: projectKind
+    description: The type of the project.
+    types:
+    - uid: Conversation
+    typesTitle: string
+  - name: topIntent
+    description: The intent with the highest score.
+    types:
+    - uid: string
+- name: OrchestrationPrediction
+  description: This represents the prediction result of an Orchestration project.
+  kind: object
+  properties:
+  - name: intents
+    description: A dictionary that contains all intents. A key is an intent name and a value is its confidence score and target type. The top intent's value also contains the actual response from the target project.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TargetIntentResult
+  - name: projectKind
+    description: The type of the project.
+    types:
+    - uid: Orchestration
+    typesTitle: string
+  - name: topIntent
+    description: The intent with the highest score.
+    types:
+    - uid: string
+- name: KnowledgeBaseAnswerContext
+  description: Context object with previous QnA's information.
+  kind: object
+  properties:
+  - name: previousQnaId
+    description: Previous turn top answer result QnA ID.
+    types:
+    - uid: integer
+  - name: previousUserQuery
+    description: Previous user query.
+    types:
+    - uid: string
+- name: RankerKind
+  description: Type of ranker to be used.
+  kind: enum
+  properties:
+  - name: Default
+    description: Default ranker.
+    types:
+    - uid: string
+  - name: QuestionOnly
+    description: Question only ranker.
+    types:
+    - uid: string
+- name: QueryFilters
+  description: filters over knowledge base.
+  kind: object
+  properties:
+  - name: metadataFilter
+    description: Find QnAs that are associated with the given list of metadata.
+    types:
+    - uid: MetadataFilter
+  - name: sourceFilter
+    description: Find QnAs that are associated with any of the given list of sources in knowledge base.
+    types:
+    - uid: string
+      isArray: true
+  - name: logicalOperation
+    description: Logical operation used to join metadata filter with source filter.
+    types:
+    - uid: LogicalOperationKind
+    defaultValue: AND
+- name: ShortAnswerOptions
+  description: To configure Answer span prediction feature.
+  kind: object
+  properties:
+  - name: enable
+    description: Enable or disable Answer Span prediction.
+    types:
+    - uid: enable
+  - name: confidenceScoreThreshold
+    description: Minimum threshold score required to include an answer span, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: topAnswersWithSpan
+    description: Number of Top answers to be considered for span prediction from 1 to 10.
+    types:
+    - uid: integer
+- name: ConversationIntent
+  description: The intent classification result of a Conversation project.
+  kind: object
+  properties:
+  - name: category
+    description: A predicted class.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: The confidence score of the class from 0.0 to 1.0.
+    types:
+    - uid: number
+- name: ConversationEntity
+  description: The entity extraction result of a Conversation project.
+  kind: object
+  properties:
+  - name: category
+    description: The entity category.
+    types:
+    - uid: string
+  - name: text
+    description: The predicted entity text.
+    types:
+    - uid: string
+  - name: offset
+    description: The starting index of this entity in the query.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the text.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: The entity confidence score.
+    types:
+    - uid: number
+  - name: resolutions
+    description: The collection of entity resolution objects.
+    types:
+    - uid: AgeResolution
+      isArray: true
+    - uid: VolumeResolution
+      isArray: true
+    - uid: SpeedResolution
+      isArray: true
+    - uid: AreaResolution
+      isArray: true
+    - uid: LengthResolution
+      isArray: true
+    - uid: InformationResolution
+      isArray: true
+    - uid: TemperatureResolution
+      isArray: true
+    - uid: WeightResolution
+      isArray: true
+    - uid: CurrencyResolution
+      isArray: true
+    - uid: BooleanResolution
+      isArray: true
+    - uid: DateTimeResolution
+      isArray: true
+    - uid: NumberResolution
+      isArray: true
+    - uid: OrdinalResolution
+      isArray: true
+    - uid: TemporalSpanResolution
+      isArray: true
+    - uid: NumericRangeResolution
+      isArray: true
+    typesTitle: BaseResolution[]
+  - name: extraInformation
+    description: The collection of entity extra information objects.
+    types:
+    - uid: EntitySubtype
+      isArray: true
+    - uid: ListKey
+      isArray: true
+    typesTitle: BaseExtraInformation[]
+- name: MetadataFilter
+  description: Find QnAs that are associated with the given list of metadata.
+  kind: object
+  properties:
+  - name: metadata
+    description: Object to provide the key value pair for each metadata.
+    types:
+    - uid: MetadataRecord
+      isArray: true
+  - name: logicalOperation
+    description: Operation used to join metadata filters.
+    types:
+    - uid: LogicalOperationKind
+    defaultValue: AND
+- name: LogicalOperationKind
+  description: Set to 'OR' or 'AND' for using corresponding logical operation.
+  kind: enum
+  properties:
+  - name: AND
+    types:
+    - uid: string
+  - name: OR
+    types:
+    - uid: string
+- name: enable
+  description: Enable or disable Answer Span prediction.
+  kind: enum
+  properties:
+  - name: "True"
+    types:
+    - uid: Boolean
+- name: NoneLinkedTargetIntentResult
+  description: A wrap up of non-linked intent response.
+  kind: object
+  properties:
+  - name: result
+    description: The actual response from a Conversation project.
+    types:
+    - uid: ConversationResult
+  - name: targetProjectKind
+    description: This discriminator property specifies the type of the target project that returns the response.
+    types:
+    - uid: NonLinked
+    typesTitle: string
+  - name: apiVersion
+    description: The API version used to call a target service.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: The prediction score and it ranges from 0.0 to 1.0.
+    types:
+    - uid: number
+- name: ConversationTargetIntentResult
+  description: A wrap up of Conversation project response.
+  kind: object
+  properties:
+  - name: result
+    description: The actual response from a Conversation project.
+    types:
+    - uid: ConversationResult
+  - name: targetProjectKind
+    description: This discriminator property specifies the type of the target project that returns the response.
+    types:
+    - uid: Conversation
+    typesTitle: string
+  - name: apiVersion
+    description: The API version used to call a target service.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: The prediction score and it ranges from 0.0 to 1.0.
+    types:
+    - uid: number
+- name: LuisTargetIntentResult
+  description: It is a wrap up of LUIS Generally Available response.
+  kind: object
+  properties:
+  - name: result
+    description: The actual response from a LUIS Generally Available application.
+    types:
+    - uid: object
+  - name: targetProjectKind
+    description: This discriminator property specifies the type of the target project that returns the response.
+    types:
+    - uid: Luis
+    typesTitle: string
+  - name: apiVersion
+    description: The API version used to call a target service.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: The prediction score and it ranges from 0.0 to 1.0.
+    types:
+    - uid: number
+- name: QuestionAnsweringTargetIntentResult
+  description: It is a wrap up a Question Answering KB response.
+  kind: object
+  properties:
+  - name: result
+    description: The generated answer by a Question Answering KB.
+    types:
+    - uid: AnswersResult
+  - name: targetProjectKind
+    description: This discriminator property specifies the type of the target project that returns the response.
+    types:
+    - uid: QuestionAnswering
+    typesTitle: string
+  - name: apiVersion
+    description: The API version used to call a target service.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: The prediction score and it ranges from 0.0 to 1.0.
+    types:
+    - uid: number
+- name: MetadataRecord
+  description: Object to provide the key value pair for each metadata.
+  kind: object
+  properties:
+  - name: key
+    description: Metadata Key from Metadata dictionary used in the QnA.
+    types:
+    - uid: string
+  - name: value
+    description: Metadata Value from Metadata dictionary used in the QnA.
+    types:
+    - uid: string
+- name: AgeResolution
+  description: Represents the Age entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The Age Unit of measurement
+    types:
+    - uid: AgeUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Age
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: VolumeResolution
+  description: Represents the volume entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The Volume Unit of measurement
+    types:
+    - uid: VolumeUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Volume
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: SpeedResolution
+  description: Represents the speed entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The speed Unit of measurement
+    types:
+    - uid: SpeedUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Speed
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: AreaResolution
+  description: Represents the area entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The area Unit of measurement
+    types:
+    - uid: AreaUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Area
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: LengthResolution
+  description: Represents the length entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The length Unit of measurement
+    types:
+    - uid: LengthUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Length
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: InformationResolution
+  description: Represents the information (data) entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The information (data) Unit of measurement.
+    types:
+    - uid: InformationUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Information
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: TemperatureResolution
+  description: Represents the temperature entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The temperature Unit of measurement.
+    types:
+    - uid: TemperatureUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Temperature
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: WeightResolution
+  description: Represents the weight entity resolution model.
+  kind: object
+  properties:
+  - name: unit
+    description: The weight Unit of measurement.
+    types:
+    - uid: WeightUnit
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Weight
+    typesTitle: string
+  - name: value
+    description: The numeric value that the extracted text denotes.
+    types:
+    - uid: number
+- name: CurrencyResolution
+  description: Represents the currency entity resolution model.
+  kind: object
+  properties:
+  - name: ISO4217
+    description: The alphabetic code based on another ISO standard, ISO 3166, which lists the codes for country names. The first two letters of the ISO 4217 three-letter code are the same as the code for the country name, and, where possible, the third letter corresponds to the first letter of the currency name.
+    types:
+    - uid: string
+  - name: value
+    description: The money amount captured in the extracted entity
+    types:
+    - uid: number
+  - name: unit
+    description: The unit of the amount captured in the extracted entity
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Currency
+    typesTitle: string
+- name: BooleanResolution
+  description: A resolution for boolean expressions
+  kind: object
+  properties:
+  - name: value
+    description: ''
+    types:
+    - uid: boolean
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Boolean
+    typesTitle: string
+- name: DateTimeResolution
+  description: A resolution for datetime entity instances.
+  kind: object
+  properties:
+  - name: timex
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: dateTimeSubKind
+    description: The DateTime SubKind
+    types:
+    - uid: DateTimeSubKind
+  - name: value
+    description: The actual time that the extracted text denote.
+    types:
+    - uid: string
+  - name: modifier
+    description: An optional modifier of a date/time instance.
+    types:
+    - uid: TemporalModifier
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: DateTime
+    typesTitle: string
+- name: NumberResolution
+  description: A resolution for numeric entity instances.
+  kind: object
+  properties:
+  - name: numberKind
+    description: The type of the extracted number entity.
+    types:
+    - uid: NumberKind
+  - name: value
+    description: A numeric representation of what the extracted text denotes.
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Number
+    typesTitle: string
+- name: OrdinalResolution
+  description: A resolution for ordinal numbers entity instances.
+  kind: object
+  properties:
+  - name: offset
+    description: The offset With respect to the reference (e.g., offset = -1 in "show me the second to last"
+    types:
+    - uid: string
+  - name: relativeTo
+    description: The reference point that the ordinal number denotes.
+    types:
+    - uid: RelativeTo
+  - name: value
+    description: A simple arithmetic expression that the ordinal denotes.
+    types:
+    - uid: string
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: Ordinal
+    typesTitle: string
+- name: TemporalSpanResolution
+  description: represents the resolution of a date and/or time span.
+  kind: object
+  properties:
+  - name: begin
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: end
+    description: An extended ISO 8601 date/time representation as described in (https://github.com/Microsoft/Recognizers-Text/blob/master/Patterns/English/English-DateTime.yaml)
+    types:
+    - uid: string
+  - name: duration
+    description: An optional duration value formatted based on the ISO 8601 (https://en.wikipedia.org/wiki/ISO_8601#Durations)
+    types:
+    - uid: string
+  - name: modifier
+    description: An optional modifier of a date/time instance.
+    types:
+    - uid: TemporalModifier
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: TemporalSpan
+    typesTitle: string
+- name: NumericRangeResolution
+  description: represents the resolution of numeric intervals.
+  kind: object
+  properties:
+  - name: rangeKind
+    description: The kind of range that the resolution object represents.
+    types:
+    - uid: RangeKind
+  - name: minimum
+    description: The beginning value of  the interval.
+    types:
+    - uid: number
+  - name: maximum
+    description: The ending value of the interval.
+    types:
+    - uid: number
+  - name: resolutionKind
+    description: The entity resolution object kind.
+    types:
+    - uid: NumericRange
+    typesTitle: string
+- name: EntitySubtype
+  description: The concrete entity Subtype model of extra information.
+  kind: object
+  properties:
+  - name: value
+    description: The Subtype of an extracted entity type.
+    types:
+    - uid: string
+  - name: extraInformationKind
+    description: The extra information object kind.
+    types:
+    - uid: EntitySubtype
+    typesTitle: string
+- name: ListKey
+  description: The list key extra data kind.
+  kind: object
+  properties:
+  - name: key
+    description: The canonical form of the extracted entity.
+    types:
+    - uid: string
+  - name: extraInformationKind
+    description: The extra information object kind.
+    types:
+    - uid: ListKey
+    typesTitle: string
+- name: ConversationResult
+  description: The response returned by a Conversation project.
+  kind: object
+  properties:
+  - name: query
+    description: The same query given in request.
+    types:
+    - uid: string
+  - name: detectedLanguage
+    description: The detected language from the query in BCP 47 language representation..
+    types:
+    - uid: string
+  - name: prediction
+    description: The predicted result for the query.
+    types:
+    - uid: ConversationPrediction
+- name: AnswersResult
+  description: Represents List of Question Answers.
+  kind: object
+  properties:
+  - name: answers
+    description: Represents Answer Result list.
+    types:
+    - uid: KnowledgeBaseAnswer
+      isArray: true
+- name: AgeUnit
+  description: The Age Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Year
+    types:
+    - uid: string
+  - name: Month
+    types:
+    - uid: string
+  - name: Week
+    types:
+    - uid: string
+  - name: Day
+    types:
+    - uid: string
+- name: VolumeUnit
+  description: The Volume Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: CubicMeter
+    types:
+    - uid: string
+  - name: CubicCentimeter
+    types:
+    - uid: string
+  - name: CubicMillimeter
+    types:
+    - uid: string
+  - name: Hectoliter
+    types:
+    - uid: string
+  - name: Decaliter
+    types:
+    - uid: string
+  - name: Liter
+    types:
+    - uid: string
+  - name: Centiliter
+    types:
+    - uid: string
+  - name: Milliliter
+    types:
+    - uid: string
+  - name: CubicYard
+    types:
+    - uid: string
+  - name: CubicInch
+    types:
+    - uid: string
+  - name: CubicFoot
+    types:
+    - uid: string
+  - name: CubicMile
+    types:
+    - uid: string
+  - name: FluidOunce
+    types:
+    - uid: string
+  - name: Teaspoon
+    types:
+    - uid: string
+  - name: Tablespoon
+    types:
+    - uid: string
+  - name: Pint
+    types:
+    - uid: string
+  - name: Quart
+    types:
+    - uid: string
+  - name: Cup
+    types:
+    - uid: string
+  - name: Gill
+    types:
+    - uid: string
+  - name: Pinch
+    types:
+    - uid: string
+  - name: FluidDram
+    types:
+    - uid: string
+  - name: Barrel
+    types:
+    - uid: string
+  - name: Minim
+    types:
+    - uid: string
+  - name: Cord
+    types:
+    - uid: string
+  - name: Peck
+    types:
+    - uid: string
+  - name: Bushel
+    types:
+    - uid: string
+  - name: Hogshead
+    types:
+    - uid: string
+- name: SpeedUnit
+  description: The speed Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: MetersPerSecond
+    types:
+    - uid: string
+  - name: KilometersPerHour
+    types:
+    - uid: string
+  - name: KilometersPerMinute
+    types:
+    - uid: string
+  - name: KilometersPerSecond
+    types:
+    - uid: string
+  - name: MilesPerHour
+    types:
+    - uid: string
+  - name: Knot
+    types:
+    - uid: string
+  - name: FootPerSecond
+    types:
+    - uid: string
+  - name: FootPerMinute
+    types:
+    - uid: string
+  - name: YardsPerMinute
+    types:
+    - uid: string
+  - name: YardsPerSecond
+    types:
+    - uid: string
+  - name: MetersPerMillisecond
+    types:
+    - uid: string
+  - name: CentimetersPerMillisecond
+    types:
+    - uid: string
+  - name: KilometersPerMillisecond
+    types:
+    - uid: string
+- name: AreaUnit
+  description: The area Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: SquareKilometer
+    types:
+    - uid: string
+  - name: SquareHectometer
+    types:
+    - uid: string
+  - name: SquareDecameter
+    types:
+    - uid: string
+  - name: SquareDecimeter
+    types:
+    - uid: string
+  - name: SquareMeter
+    types:
+    - uid: string
+  - name: SquareCentimeter
+    types:
+    - uid: string
+  - name: SquareMillimeter
+    types:
+    - uid: string
+  - name: SquareInch
+    types:
+    - uid: string
+  - name: SquareFoot
+    types:
+    - uid: string
+  - name: SquareMile
+    types:
+    - uid: string
+  - name: SquareYard
+    types:
+    - uid: string
+  - name: Acre
+    types:
+    - uid: string
+- name: LengthUnit
+  description: The length Unit of measurement
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Kilometer
+    types:
+    - uid: string
+  - name: Hectometer
+    types:
+    - uid: string
+  - name: Decameter
+    types:
+    - uid: string
+  - name: Meter
+    types:
+    - uid: string
+  - name: Decimeter
+    types:
+    - uid: string
+  - name: Centimeter
+    types:
+    - uid: string
+  - name: Millimeter
+    types:
+    - uid: string
+  - name: Micrometer
+    types:
+    - uid: string
+  - name: Nanometer
+    types:
+    - uid: string
+  - name: Picometer
+    types:
+    - uid: string
+  - name: Mile
+    types:
+    - uid: string
+  - name: Yard
+    types:
+    - uid: string
+  - name: Inch
+    types:
+    - uid: string
+  - name: Foot
+    types:
+    - uid: string
+  - name: LightYear
+    types:
+    - uid: string
+  - name: Pt
+    types:
+    - uid: string
+- name: InformationUnit
+  description: The information (data) Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Bit
+    types:
+    - uid: string
+  - name: Kilobit
+    types:
+    - uid: string
+  - name: Megabit
+    types:
+    - uid: string
+  - name: Gigabit
+    types:
+    - uid: string
+  - name: Terabit
+    types:
+    - uid: string
+  - name: Petabit
+    types:
+    - uid: string
+  - name: Byte
+    types:
+    - uid: string
+  - name: Kilobyte
+    types:
+    - uid: string
+  - name: Megabyte
+    types:
+    - uid: string
+  - name: Gigabyte
+    types:
+    - uid: string
+  - name: Terabyte
+    types:
+    - uid: string
+  - name: Petabyte
+    types:
+    - uid: string
+- name: TemperatureUnit
+  description: The temperature Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Fahrenheit
+    types:
+    - uid: string
+  - name: Kelvin
+    types:
+    - uid: string
+  - name: Rankine
+    types:
+    - uid: string
+  - name: Celsius
+    types:
+    - uid: string
+- name: WeightUnit
+  description: The weight Unit of measurement.
+  kind: enum
+  properties:
+  - name: Unspecified
+    types:
+    - uid: string
+  - name: Kilogram
+    types:
+    - uid: string
+  - name: Gram
+    types:
+    - uid: string
+  - name: Milligram
+    types:
+    - uid: string
+  - name: Gallon
+    types:
+    - uid: string
+  - name: MetricTon
+    types:
+    - uid: string
+  - name: Ton
+    types:
+    - uid: string
+  - name: Pound
+    types:
+    - uid: string
+  - name: Ounce
+    types:
+    - uid: string
+  - name: Grain
+    types:
+    - uid: string
+  - name: PennyWeight
+    types:
+    - uid: string
+  - name: LongTonBritish
+    types:
+    - uid: string
+  - name: ShortTonUS
+    types:
+    - uid: string
+  - name: ShortHundredWeightUS
+    types:
+    - uid: string
+  - name: Stone
+    types:
+    - uid: string
+  - name: Dram
+    types:
+    - uid: string
+- name: DateTimeSubKind
+  description: The DateTime SubKind
+  kind: enum
+  properties:
+  - name: Time
+    types:
+    - uid: string
+  - name: Date
+    types:
+    - uid: string
+  - name: DateTime
+    types:
+    - uid: string
+  - name: Duration
+    types:
+    - uid: string
+  - name: Set
+    types:
+    - uid: string
+- name: TemporalModifier
+  description: An optional modifier of a date/time instance.
+  kind: enum
+  properties:
+  - name: AfterApprox
+    types:
+    - uid: string
+  - name: Before
+    types:
+    - uid: string
+  - name: BeforeStart
+    types:
+    - uid: string
+  - name: Approx
+    types:
+    - uid: string
+  - name: ReferenceUndefined
+    types:
+    - uid: string
+  - name: SinceEnd
+    types:
+    - uid: string
+  - name: AfterMid
+    types:
+    - uid: string
+  - name: Start
+    types:
+    - uid: string
+  - name: After
+    types:
+    - uid: string
+  - name: BeforeEnd
+    types:
+    - uid: string
+  - name: Until
+    types:
+    - uid: string
+  - name: End
+    types:
+    - uid: string
+  - name: Less
+    types:
+    - uid: string
+  - name: Since
+    types:
+    - uid: string
+  - name: AfterStart
+    types:
+    - uid: string
+  - name: BeforeApprox
+    types:
+    - uid: string
+  - name: Mid
+    types:
+    - uid: string
+  - name: More
+    types:
+    - uid: string
+- name: NumberKind
+  description: The type of the extracted number entity.
+  kind: enum
+  properties:
+  - name: Integer
+    types:
+    - uid: string
+  - name: Decimal
+    types:
+    - uid: string
+  - name: Power
+    types:
+    - uid: string
+  - name: Fraction
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: Unspecified
+    types:
+    - uid: string
+- name: RelativeTo
+  description: The reference point that the ordinal number denotes.
+  kind: enum
+  properties:
+  - name: Current
+    types:
+    - uid: string
+  - name: End
+    types:
+    - uid: string
+  - name: Start
+    types:
+    - uid: string
+- name: RangeKind
+  description: The kind of range that the resolution object represents.
+  kind: enum
+  properties:
+  - name: Number
+    types:
+    - uid: string
+  - name: Speed
+    types:
+    - uid: string
+  - name: Weight
+    types:
+    - uid: string
+  - name: Length
+    types:
+    - uid: string
+  - name: Volume
+    types:
+    - uid: string
+  - name: Area
+    types:
+    - uid: string
+  - name: Age
+    types:
+    - uid: string
+  - name: Information
+    types:
+    - uid: string
+  - name: Temperature
+    types:
+    - uid: string
+  - name: Currency
+    types:
+    - uid: string
+- name: KnowledgeBaseAnswer
+  description: Represents knowledge base answer.
+  kind: object
+  properties:
+  - name: questions
+    description: List of questions associated with the answer.
+    types:
+    - uid: string
+      isArray: true
+  - name: answer
+    description: Answer text.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: Answer confidence score, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: id
+    description: ID of the QnA result.
+    types:
+    - uid: integer
+  - name: source
+    description: Source of QnA result.
+    types:
+    - uid: string
+  - name: metadata
+    description: Metadata associated with the answer, useful to categorize or filter question answers.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: dialog
+    description: Dialog associated with Answer.
+    types:
+    - uid: KnowledgeBaseAnswerDialog
+  - name: answerSpan
+    description: Answer span object of QnA with respect to user's question.
+    types:
+    - uid: AnswerSpan
+- name: KnowledgeBaseAnswerDialog
+  description: Dialog associated with Answer.
+  kind: object
+  properties:
+  - name: isContextOnly
+    description: To mark if a prompt is relevant only with a previous question or not. If true, do not include this QnA as search result for queries without context; otherwise, if false, ignores context and includes this QnA in search result.
+    types:
+    - uid: boolean
+  - name: prompts
+    description: List of prompts associated with the answer.
+    types:
+    - uid: KnowledgeBaseAnswerPrompt
+      isArray: true
+- name: AnswerSpan
+  description: Answer span object of QnA.
+  kind: object
+  properties:
+  - name: text
+    description: Predicted text of answer span.
+    types:
+    - uid: string
+  - name: confidenceScore
+    description: Predicted score of answer span, value ranges from 0 to 1.
+    types:
+    - uid: number
+  - name: offset
+    description: The answer span offset from the start of answer.
+    types:
+    - uid: integer
+  - name: length
+    description: The length of the answer span.
+    types:
+    - uid: integer
+- name: KnowledgeBaseAnswerPrompt
+  description: Prompt for an answer.
+  kind: object
+  properties:
+  - name: displayOrder
+    description: Index of the prompt - used in ordering of the prompts.
+    types:
+    - uid: integer
+  - name: qnaId
+    description: QnA ID corresponding to the prompt.
+    types:
+    - uid: integer
+  - name: displayText
+    description: Text displayed to represent a follow up question prompt.
+    types:
+    - uid: string
+examples:
+- name: Conversation project result
+  request:
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    body: >-
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "id": "1",
+            "participantId": "1",
+            "text": "play In the air tonight from Phil Collins"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "id": "1",
+            "participantId": "1",
+            "text": "play In the air tonight from Phil Collins"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "ConversationResult",
+        "result": {
+          "query": "play In the air tonight from Phil Collins",
+          "prediction": {
+            "topIntent": "PlayMusic",
+            "projectKind": "Conversation",
+            "intents": [
+              {
+                "category": "PlayMusic",
+                "confidenceScore": 1
+              },
+              {
+                "category": "SearchCreativeWork",
+                "confidenceScore": 0
+              },
+              {
+                "category": "AddToPlaylist",
+                "confidenceScore": 0
+              }
+            ],
+            "entities": [
+              {
+                "category": "Media.Artist",
+                "text": "Phil Collins",
+                "offset": 29,
+                "length": 12,
+                "confidenceScore": 1
+              }
+            ]
+          }
+        }
+      }
+- name: Orchestration result
+  request:
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    body: >-
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "participantId": "1",
+            "id": "1",
+            "modality": "text",
+            "language": "en-GB",
+            "text": "How do I integrate QnA Maker and LUIS?"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "verbose": true,
+          "isLoggingEnabled": false,
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "participantId": "1",
+            "id": "1",
+            "modality": "text",
+            "language": "en-GB",
+            "text": "How do I integrate QnA Maker and LUIS?"
+          }
+        },
+        "parameters": {
+          "projectName": "{project-name}",
+          "deploymentName": "{deployment-name}",
+          "verbose": true,
+          "isLoggingEnabled": false,
+          "stringIndexType": "TextElement_V8"
+        }
+      }
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "ConversationResult",
+        "result": {
+          "query": "trains from London",
+          "prediction": {
+            "topIntent": "Rail",
+            "projectKind": "Orchestration",
+            "intents": {
+              "Rail": {
+                "confidenceScore": 1,
+                "targetProjectKind": "Conversation",
+                "result": {
+                  "query": "trains from London",
+                  "prediction": {
+                    "topIntent": "Timetable",
+                    "projectKind": "Conversation",
+                    "intents": [
+                      {
+                        "category": "Timetable",
+                        "confidenceScore": 0.99968535
+                      },
+                      {
+                        "category": "Locomotive",
+                        "confidenceScore": 0.000314623
+                      }
+                    ],
+                    "entities": []
+                  }
+                }
+              },
+              "Tree": {
+                "confidenceScore": 0.2641529,
+                "targetProjectKind": "QuestionAnswering"
+              },
+              "None": {
+                "confidenceScore": 0,
+                "targetProjectKind": "NonLinked"
+              }
+            }
+          }
+        }
+      }
+- name: Orchestration direct target result
+  request:
+    uri: POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+    body: >-
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "text": "Ports and connectors",
+            "participantId": "1",
+            "id": "1"
+          }
+        },
+        "parameters": {
+          "projectName": "prj1",
+          "deploymentName": "dep1",
+          "directTarget": "qnaProject",
+          "targetProjectParameters": {
+            "qnaProject": {
+              "targetProjectKind": "QuestionAnswering",
+              "callingOptions": {
+                "context": {
+                  "previousUserQuery": "Meet Surface Pro 4",
+                  "previousQnaId": 4
+                },
+                "top": 1,
+                "question": "App Service overview"
+              }
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/:analyze-conversations?api-version=2022-05-01
+
+
+      {
+        "kind": "Conversation",
+        "analysisInput": {
+          "conversationItem": {
+            "text": "Ports and connectors",
+            "participantId": "1",
+            "id": "1"
+          }
+        },
+        "parameters": {
+          "projectName": "prj1",
+          "deploymentName": "dep1",
+          "directTarget": "qnaProject",
+          "targetProjectParameters": {
+            "qnaProject": {
+              "targetProjectKind": "QuestionAnswering",
+              "callingOptions": {
+                "context": {
+                  "previousUserQuery": "Meet Surface Pro 4",
+                  "previousQnaId": 4
+                },
+                "top": 1,
+                "question": "App Service overview"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "kind": "ConversationResult",
+        "result": {
+          "query": "App Service overview",
+          "prediction": {
+            "projectKind": "Orchestration",
+            "topIntent": "qnaTargetApp",
+            "intents": {
+              "qnaTargetApp": {
+                "targetProjectKind": "QuestionAnswering",
+                "confidenceScore": 1,
+                "result": {
+                  "answers": [
+                    {
+                      "questions": [
+                        "App Service overview"
+                      ],
+                      "answer": "The compute resources you use are determined by the *App Service plan* that you run your apps on.",
+                      "confidenceScore": 0.7384000000000001,
+                      "id": 1,
+                      "source": "https://docs.microsoft.com/en-us/azure/app-service/overview",
+                      "metadata": {},
+                      "dialog": {
+                        "isContextOnly": false,
+                        "prompts": []
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Learn more about Cognitive Services - Language service - Analyzes the input conversation utterance.
+errorCodes: []

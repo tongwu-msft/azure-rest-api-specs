@@ -1,5 +1,6 @@
 ---
 title: "ClientCertificateCommonName"
+description: "Describes the client certificate details using common name. Properties include isAdmin, certificateCommonName, and certificateIssuerThumbprint."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

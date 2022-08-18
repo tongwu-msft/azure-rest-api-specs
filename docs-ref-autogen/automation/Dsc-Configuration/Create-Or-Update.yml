@@ -3,7 +3,7 @@ uid: management.azure.com.automation.dscconfiguration.createorupdate
 name: Create Or Update
 service: Automation
 groupName: Dsc Configuration
-apiVersion: 2015-10-31
+apiVersion: 2019-06-01
 summary: Create the configuration identified by configuration name.
 consumes:
 - application/json
@@ -12,7 +12,7 @@ produces:
 - application/json
 - text/plain; charset=utf-8
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations/{configurationName}?api-version=2015-10-31
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/configurations/{configurationName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -332,7 +332,7 @@ definitions:
 examples:
 - name: Create or Update Configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/configurations/SetupServer?api-version=2015-10-31
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/configurations/SetupServer?api-version=2019-06-01
     body: >-
       {
         "properties": {
@@ -349,6 +349,75 @@ examples:
         "name": "SetupServer",
         "location": "East US 2"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount18/configurations/SetupServer?api-version=2019-06-01
+
+      {
+        "properties": {
+          "source": {
+            "hash": {
+              "algorithm": "sha256",
+              "value": "A9E5DB56BA21513F61E0B3868816FDC6D4DF5131F5617D7FF0D769674BD5072F"
+            },
+            "type": "embeddedContent",
+            "value": "Configuration SetupServer {\r\n    Node localhost {\r\n                               WindowsFeature IIS {\r\n                               Name = \"Web-Server\";\r\n            Ensure = \"Present\"\r\n        }\r\n    }\r\n}"
+          },
+          "description": "sample configuration"
+        },
+        "name": "SetupServer",
+        "location": "East US 2"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.automation.models.ContentHash;
+      import com.azure.resourcemanager.automation.models.ContentSource;
+      import com.azure.resourcemanager.automation.models.ContentSourceType;
+
+      /** Samples for DscConfiguration CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2019-06-01/examples/createOrUpdateDscConfiguration.json
+           */
+          /**
+           * Sample code: Create or Update Configuration.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void createOrUpdateConfiguration(com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager
+                  .dscConfigurations()
+                  .define("SetupServer")
+                  .withExistingAutomationAccount("rg", "myAutomationAccount18")
+                  .withSource(
+                      new ContentSource()
+                          .withHash(
+                              new ContentHash()
+                                  .withAlgorithm("sha256")
+                                  .withValue("A9E5DB56BA21513F61E0B3868816FDC6D4DF5131F5617D7FF0D769674BD5072F"))
+                          .withType(ContentSourceType.EMBEDDED_CONTENT)
+                          .withValue(
+                              "Configuration SetupServer {\r\n"
+                                  + "    Node localhost {\r\n"
+                                  + "                               WindowsFeature IIS {\r\n"
+                                  + "                               Name = \"Web-Server\";\r\n"
+                                  + "            Ensure = \"Present\"\r\n"
+                                  + "        }\r\n"
+                                  + "    }\r\n"
+                                  + "}"))
+                  .withRegion("East US 2")
+                  .withName("SetupServer")
+                  .withDescription("sample configuration")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -400,5 +469,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Automation service - Create the configuration identified by configuration name.
+  description: >
+    Learn more about Automation service - Create the configuration identified by configuration name.
 errorCodes: []

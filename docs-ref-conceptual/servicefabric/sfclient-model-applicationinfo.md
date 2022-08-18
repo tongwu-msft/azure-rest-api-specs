@@ -1,7 +1,7 @@
 ---
 title: "ApplicationInfo"
 description: "ApplicationInfo"
-ms.date: "01/28/2021"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -43,6 +43,7 @@ Information about a Service Fabric application.
 | [`HealthState`](#healthstate) | string (enum) | No |
 | [`ApplicationDefinitionKind`](#applicationdefinitionkind) | string (enum) | No |
 | [`ManagedApplicationIdentity`](#managedapplicationidentity) | [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md) | No |
+| [`ApplicationMetadata`](#applicationmetadata) | [ApplicationMetadata](sfclient-model-applicationmetadata.md) | No |
 
 ____
 ### `Id`
@@ -146,3 +147,10 @@ __Type__: [ManagedApplicationIdentityDescription](sfclient-model-managedapplicat
 __Required__: No<br/>
 <br/>
 Managed application identity description.
+
+____
+### `ApplicationMetadata`
+__Type__: [ApplicationMetadata](sfclient-model-applicationmetadata.md) <br/>
+__Required__: No<br/>
+<br/>
+Metadata associated with a specific application.

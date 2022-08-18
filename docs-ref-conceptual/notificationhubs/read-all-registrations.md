@@ -1,5 +1,6 @@
 ﻿---
 title: "Read all registrations"
+description: Use this API reference documentation to retrieve all registrations.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

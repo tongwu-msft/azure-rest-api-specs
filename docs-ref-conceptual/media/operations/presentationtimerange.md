@@ -1,5 +1,6 @@
 ---
 title: "PresentationTimeRange"
+description: Learn how PresentationTimeRange is used by manifest filters (AssetFilters and global Filters). 
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

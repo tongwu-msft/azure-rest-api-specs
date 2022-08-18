@@ -29,7 +29,7 @@ To create and use an API token:
 
 By default, 3 roles are available in your application. [Learn more about creating new roles](/azure/iot-central/core/howto-manage-users-roles#manage-roles).
 
-You can also create new API tokens programmatically. To make the API request to create a new API token, you will need an Authorization header containing an API token or bearer with permissions to create new API tokens. [See docs for API tokens operations](/rest/api/iotcentral/apitokens).
+You can also create new API tokens programmatically. To make the API request to create a new API token, you will need an Authorization header containing an API token or bearer with permissions to create new API tokens. [See docs for API tokens operations](/rest/api/iotcentral/1.1-previewdataplane/api-tokens).
 
 ## AAD bearer token
 A bearer token is associated with an Azure Active Directory user account that has been added to your IoT Central application. You can generate a bearer token in the Azure CLI command: 
@@ -52,7 +52,7 @@ To use an AAD service principal to authenticate against the API, first you will 
 5. Select **Grant admin consent for your directory**.
 
 Finally, add your service principal to your IoT Central application. This is possible through the APIs today. 
-1. Use the [*Create users* API](/rest/api/iotcentral/1.0/users/create) to add this service principal user. Make sure you use the **{tenantID}** and **{objectID}** when creating the new user.
+1. Use the [*Create users* API](/rest/api/iotcentral/1.1-previewdataplane/users/create) to add this service principal user. Make sure you use the **{tenantID}** and **{objectID}** when creating the new user.
 
 Now you can use the bearer token associated to this service principal user to make API requests, following the same steps as above.
 

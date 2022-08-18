@@ -1,6 +1,7 @@
 ---
 ms.assetid: 07ca5b1b-2f98-4ca8-bcb0-decaae6cf010
 title: Azure Cognitive Services REST API reference
+description: Learn how Azure Cognitive Services enables contextual interaction with tools that augment the users' experiences.
 ms.service: cognitive-services
 author: steved0x
 ms.author: sdanie

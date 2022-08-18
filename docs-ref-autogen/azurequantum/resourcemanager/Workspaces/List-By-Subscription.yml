@@ -3,14 +3,14 @@ uid: management.azure.com.azurequantum.resourcemanager.workspaces.listbysubscrip
 name: List By Subscription
 service: Azure Quantum
 groupName: Workspaces
-apiVersion: 2019-11-04-preview
+apiVersion: 2022-01-10-preview
 summary: Gets the list of Workspaces within a Subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/workspaces?api-version=2019-11-04-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/workspaces?api-version=2022-01-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -325,7 +325,51 @@ definitions:
 examples:
 - name: QuantumWorkspacesListBySubscription
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/workspaces?api-version=2019-11-04-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/workspaces?api-version=2022-01-10-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/workspaces?api-version=2022-01-10-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armquantum_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/quantum/armquantum"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesListSubscription.json
+      func ExampleWorkspacesClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armquantum.NewWorkspacesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fquantum%2Farmquantum%2Fv0.5.0/sdk/resourcemanager/quantum/armquantum/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -382,5 +426,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Quantum service - Gets the list of Workspaces within a Subscription.
+  description: >
+    Learn more about Azure Quantum service - Gets the list of Workspaces within a Subscription.
 errorCodes: []

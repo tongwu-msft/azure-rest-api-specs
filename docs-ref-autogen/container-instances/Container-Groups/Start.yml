@@ -3,14 +3,14 @@ uid: management.azure.com.container-instances.containergroups.start
 name: Start
 service: Container Instances
 groupName: Container Groups
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: Starts all containers in a container group. Compute resources will be allocated and billing will start.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start?api-version=2021-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/start?api-version=2021-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,6 +39,8 @@ uriParameters:
 responses:
 - name: 202 Accepted
   description: Started - the container group is starting.
+- name: 204 No Content
+  description: Started - the container group is already running or starting.
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -77,9 +79,103 @@ definitions:
 examples:
 - name: ContainerStart
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/start?api-version=2021-09-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/start?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/start?api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ContainerGroups Start. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsStart.json
+           */
+          /**
+           * Sample code: ContainerStart.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void containerStart(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.containerGroups().manager().serviceClient().getContainerGroups().start("demo", "demo1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerinstance_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsStart.json
+      func ExampleContainerGroupsClient_BeginStart() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerinstance.NewContainerGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginStart(ctx,
+      		"demo",
+      		"demo1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerinstance%2Farmcontainerinstance%2Fv1.0.0/sdk/resourcemanager/containerinstance/armcontainerinstance/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Starts all containers in a container group. Compute resources will be allocated and billing will start.
+       *
+       * @summary Starts all containers in a container group. Compute resources will be allocated and billing will start.
+       * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerGroupsStart.json
+       */
+      async function containerStart() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "demo";
+        const containerGroupName = "demo1";
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+        const result = await client.containerGroups.beginStartAndWait(
+          resourceGroupName,
+          containerGroupName
+        );
+        console.log(result);
+      }
+
+      containerStart().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerinstance_8.2.0/sdk/containerinstance/arm-containerinstance/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+  - statusCode: "204"
 security:
 - name: azure_auth
   type: oauth2
@@ -90,5 +186,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Starts all containers in a container group. Compute resources will be allocated and billing will start.
+  description: >
+    Starts all containers in a container group. Compute resources will be allocated and billing will start.
 errorCodes: []

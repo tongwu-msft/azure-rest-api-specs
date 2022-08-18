@@ -1,0 +1,1028 @@
+### YamlMime:RESTOperation
+uid: language.textanalysisruntime.jobstatus
+name: Job Status
+service: Cognitive Services - Language
+groupName: Text Analysis Runtime
+apiVersion: 2022-05-01
+summary: "Get analysis status and results  \nGet the status of an analysis job.  A job may consist of one or more tasks.  Once all tasks are succeeded, the job will transition to the succeeded state and results will be available for each task."
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/analyze-text/jobs/{jobId}?api-version=2022-05-01
+- content: GET {Endpoint}/language/analyze-text/jobs/{jobId}?api-version=2022-05-01&showStats={showStats}&top={top}&skip={skip}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: Job ID
+  types:
+  - uid: string
+  format: uuid
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: showStats
+  in: query
+  description: (Optional) if set to true, response will contain request and document level statistics.
+  types:
+  - uid: boolean
+- name: top
+  in: query
+  description: The maximum number of resources to return from the collection.
+  types:
+  - uid: integer
+  format: int32
+- name: skip
+  in: query
+  description: An offset into the collection of the first resource to be returned.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: Analysis job status and metadata.
+  types:
+  - uid: AnalyzeTextJobState
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: AnalyzeTextJobState
+  kind: object
+  properties:
+  - name: displayName
+    description: ''
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: expirationDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: jobId
+    description: ''
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: errors
+    description: The error object.
+    types:
+    - uid: Error
+      isArray: true
+  - name: nextLink
+    description: ''
+    types:
+    - uid: string
+  - name: tasks
+    description: ''
+    types:
+    - uid: Tasks
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: State
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: partiallyCompleted
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: Tasks
+  kind: object
+  properties:
+  - name: completed
+    description: ''
+    types:
+    - uid: integer
+  - name: failed
+    description: ''
+    types:
+    - uid: integer
+  - name: inProgress
+    description: ''
+    types:
+    - uid: integer
+  - name: total
+    description: ''
+    types:
+    - uid: integer
+  - name: items
+    description: ''
+    types:
+    - uid: EntityRecognitionLROResult
+      isArray: true
+    - uid: CustomEntityRecognitionLROResult
+      isArray: true
+    - uid: CustomSingleLabelClassificationLROResult
+      isArray: true
+    - uid: CustomMultiLabelClassificationLROResult
+      isArray: true
+    - uid: EntityLinkingLROResult
+      isArray: true
+    - uid: PiiEntityRecognitionLROResult
+      isArray: true
+    - uid: HealthcareLROResult
+      isArray: true
+    - uid: SentimentLROResult
+      isArray: true
+    - uid: KeyPhraseExtractionLROResult
+      isArray: true
+    typesTitle: AnalyzeTextLROResult[]
+- name: RequestStatistics
+  description: if showStats=true was specified in the request this field will contain information about the request payload.
+  kind: object
+  properties:
+  - name: documentsCount
+    description: Number of documents submitted in the request.
+    types:
+    - uid: integer
+  - name: validDocumentsCount
+    description: Number of valid documents. This excludes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: erroneousDocumentsCount
+    description: Number of invalid documents. This includes empty, over-size limit or non-supported languages documents.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the request.
+    types:
+    - uid: integer
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: EntityRecognitionLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: EntitiesResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: EntityRecognitionLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: CustomEntityRecognitionLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: CustomEntitiesResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: CustomEntityRecognitionLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: CustomSingleLabelClassificationLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: CustomLabelClassificationResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: CustomSingleLabelClassificationLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: CustomMultiLabelClassificationLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: CustomLabelClassificationResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: CustomMultiLabelClassificationLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: EntityLinkingLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: EntityLinkingResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: EntityLinkingLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: PiiEntityRecognitionLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: PiiResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: PiiEntityRecognitionLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: HealthcareLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: HealthcareResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: HealthcareLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: SentimentLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: SentimentResponse
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: SentimentAnalysisLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: KeyPhraseExtractionLROResult
+  kind: object
+  properties:
+  - name: results
+    description: ''
+    types:
+    - uid: KeyPhraseResult
+  - name: kind
+    description: Enumeration of supported Text Analysis long-running operation task results.
+    types:
+    - uid: KeyPhraseExtractionLROResults
+    typesTitle: string
+  - name: lastUpdateDateTime
+    description: ''
+    types:
+    - uid: string
+  - name: status
+    description: ''
+    types:
+    - uid: State
+  - name: taskName
+    description: ''
+    types:
+    - uid: string
+- name: EntitiesResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: AnalyzeTextLROResultsKind
+  description: Enumeration of supported Text Analysis long-running operation task results.
+  kind: enum
+  properties:
+  - name: SentimentAnalysisLROResults
+    types:
+    - uid: string
+  - name: EntityRecognitionLROResults
+    types:
+    - uid: string
+  - name: PiiEntityRecognitionLROResults
+    types:
+    - uid: string
+  - name: KeyPhraseExtractionLROResults
+    types:
+    - uid: string
+  - name: EntityLinkingLROResults
+    types:
+    - uid: string
+  - name: HealthcareLROResults
+    types:
+    - uid: string
+  - name: CustomEntityRecognitionLROResults
+    types:
+    - uid: string
+  - name: CustomSingleLabelClassificationLROResults
+    types:
+    - uid: string
+  - name: CustomMultiLabelClassificationLROResults
+    types:
+    - uid: string
+- name: CustomEntitiesResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: projectName
+    description: This field indicates the project name for the model.
+    types:
+    - uid: string
+  - name: deploymentName
+    description: This field indicates the deployment name for the model.
+    types:
+    - uid: string
+- name: CustomLabelClassificationResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: projectName
+    description: This field indicates the project name for the model.
+    types:
+    - uid: string
+  - name: deploymentName
+    description: This field indicates the deployment name for the model.
+    types:
+    - uid: string
+- name: EntityLinkingResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: PiiResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: HealthcareResult
+  kind: object
+  properties:
+  - name: documents
+    description: ''
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: SentimentResponse
+  kind: object
+  properties:
+  - name: documents
+    description: Sentiment analysis per document.
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: KeyPhraseResult
+  kind: object
+  properties:
+  - name: documents
+    description: Response by document
+    types:
+    - uid: Documents
+      isArray: true
+  - name: errors
+    description: Errors by document id.
+    types:
+    - uid: DocumentError
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the request payload.
+    types:
+    - uid: RequestStatistics
+  - name: modelVersion
+    description: This field indicates which model is used for scoring.
+    types:
+    - uid: string
+- name: Documents
+  description: Response by document
+  kind: object
+  properties:
+  - name: entities
+    description: Recognized entities in the document.
+    types:
+    - uid: Entity
+      isArray: true
+  - name: id
+    description: Unique, non-empty document identifier.
+    types:
+    - uid: string
+  - name: warnings
+    description: Warnings encountered while processing document.
+    types:
+    - uid: DocumentWarning
+      isArray: true
+  - name: statistics
+    description: if showStats=true was specified in the request this field will contain information about the document payload.
+    types:
+    - uid: DocumentStatistics
+- name: DocumentError
+  kind: object
+  properties:
+  - name: id
+    description: Document Id.
+    types:
+    - uid: string
+  - name: error
+    description: Document Error.
+    types:
+    - uid: Error
+- name: Entity
+  kind: object
+  properties:
+  - name: text
+    description: Entity text as appears in the request.
+    types:
+    - uid: string
+  - name: category
+    description: Entity type.
+    types:
+    - uid: string
+  - name: subcategory
+    description: (Optional) Entity sub type.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity text. Use of different 'stringIndexType' values can affect the offset returned.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity text. Use of different 'stringIndexType' values can affect the length returned.
+    types:
+    - uid: integer
+  - name: confidenceScore
+    description: Confidence score between 0 and 1 of the extracted entity.
+    types:
+    - uid: number
+- name: DocumentWarning
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: WarningCodeValue
+  - name: message
+    description: Warning message.
+    types:
+    - uid: string
+  - name: targetRef
+    description: A JSON pointer reference indicating the target object.
+    types:
+    - uid: string
+- name: DocumentStatistics
+  description: if showStats=true was specified in the request this field will contain information about the document payload.
+  kind: object
+  properties:
+  - name: charactersCount
+    description: Number of text elements recognized in the document.
+    types:
+    - uid: integer
+  - name: transactionsCount
+    description: Number of transactions for the document.
+    types:
+    - uid: integer
+- name: WarningCodeValue
+  description: Error code.
+  kind: enum
+  properties:
+  - name: LongWordsInDocument
+    types:
+    - uid: string
+  - name: DocumentTruncated
+    types:
+    - uid: string
+examples:
+- name: Successful Get Text Analysis Job Status Request
+  request:
+    uri: GET {Endpoint}/language/analyze-text/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/analyze-text/jobs/c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18?api-version=2022-05-01
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "createdDateTime": "2020-10-01T15:00:45Z",
+        "displayName": "Extracting Location & US Region",
+        "expirationDateTime": "2020-10-03T15:01:03Z",
+        "jobId": "c0f2a446-05d9-48fc-ba8f-3ef4af8d0b18",
+        "lastUpdatedDateTime": "2020-10-01T15:01:03Z",
+        "status": "succeeded",
+        "tasks": {
+          "completed": 2,
+          "failed": 0,
+          "inProgress": 0,
+          "total": 2,
+          "items": [
+            {
+              "kind": "EntityRecognitionLROResults",
+              "taskName": "Recognize Entities",
+              "lastUpdateDateTime": "2020-10-01T15:01:03Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "entities": [
+                      {
+                        "category": "Event",
+                        "confidenceScore": 0.61,
+                        "length": 4,
+                        "offset": 18,
+                        "text": "trip"
+                      },
+                      {
+                        "category": "Location",
+                        "confidenceScore": 0.82,
+                        "length": 7,
+                        "offset": 26,
+                        "subcategory": "GPE",
+                        "text": "Seattle"
+                      },
+                      {
+                        "category": "DateTime",
+                        "confidenceScore": 0.8,
+                        "length": 9,
+                        "offset": 34,
+                        "subcategory": "DateRange",
+                        "text": "last week"
+                      }
+                    ],
+                    "id": "1",
+                    "warnings": []
+                  },
+                  {
+                    "entities": [
+                      {
+                        "category": "Location",
+                        "confidenceScore": 0.52,
+                        "length": 3,
+                        "offset": 14,
+                        "subcategory": "GPE",
+                        "text": "NYC"
+                      },
+                      {
+                        "category": "DateTime",
+                        "confidenceScore": 0.8,
+                        "length": 8,
+                        "offset": 18,
+                        "subcategory": "Date",
+                        "text": "tomorrow"
+                      }
+                    ],
+                    "id": "2",
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "modelVersion": "2020-04-01"
+              }
+            },
+            {
+              "kind": "CustomEntityRecognitionLROResults",
+              "taskName": "Recognize US Regions",
+              "lastUpdateDateTime": "2020-10-01T15:01:03Z",
+              "status": "succeeded",
+              "results": {
+                "documents": [
+                  {
+                    "entities": [
+                      {
+                        "category": "USRegion",
+                        "confidenceScore": 0.85,
+                        "length": 17,
+                        "offset": 45,
+                        "text": "Pacific Northwest"
+                      }
+                    ],
+                    "id": "1",
+                    "warnings": []
+                  },
+                  {
+                    "entities": [
+                      {
+                        "category": "USRegion",
+                        "confidenceScore": 0.88,
+                        "length": 10,
+                        "offset": 63,
+                        "text": "East Coast"
+                      }
+                    ],
+                    "id": "2",
+                    "warnings": []
+                  }
+                ],
+                "errors": [],
+                "projectName": "MyProject",
+                "deploymentName": "MyDeployment"
+              }
+            }
+          ]
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >-
+    Get analysis status and results
+
+    Get the status of an analysis job.  A job may consist of one or more tasks.
+errorCodes: []

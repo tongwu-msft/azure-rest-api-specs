@@ -1,20 +1,20 @@
 ### YamlMime:RESTOperation
-uid: purview.scanningdataplane.scans.get
+uid: purview.azure.com.scan.purview.scanningdataplane.scans.get
 name: Get
 service: Purview
 groupName: Scans
-apiVersion: 2018-12-01-preview
+apiVersion: 2022-02-01-preview
 summary: Gets a scan information
 produces:
 - application/json
 paths:
-- content: GET {Endpoint}/datasources/{dataSourceName}/scans/{scanName}?api-version=2018-12-01-preview
+- content: GET {Endpoint}/scan/datasources/{dataSourceName}/scans/{scanName}?api-version=2022-02-01-preview
 uriParameters:
 - name: Endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.scan.purview.azure.com'
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com'
   types:
   - uid: string
 - name: dataSourceName
@@ -60,6 +60,7 @@ responses:
   - uid: AzureSqlDatabaseCredentialScan
   - uid: AzureSqlDatabaseMsiScan
   - uid: AmazonPostgreSqlCredentialScan
+  - uid: AmazonPostgreSqlRoleARNScan
   - uid: AzurePostgreSqlCredentialScan
   - uid: SqlServerDatabaseCredentialScan
   - uid: AzureSqlDatabaseManagedInstanceCredentialScan
@@ -721,6 +722,34 @@ definitions:
     description: ''
     types:
     - uid: AmazonPostgreSqlCredential
+    typesTitle: string
+  - name: scanResults
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ScanResult
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: AmazonPostgreSqlRoleARNScan
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: Properties
+  - name: kind
+    description: ''
+    types:
+    - uid: AmazonPostgreSqlRoleARN
     typesTitle: string
   - name: scanResults
     isReadyOnly: true
@@ -1572,7 +1601,13 @@ definitions:
 examples:
 - name: Scans_Get
   request:
-    uri: GET {Endpoint}/datasources/myDataSource/scans/myScanName?api-version=2018-12-01-preview
+    uri: GET {Endpoint}/scan/datasources/myDataSource/scans/myScanName?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/scan/datasources/myDataSource/scans/myScanName?api-version=2022-02-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1602,5 +1637,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Purview service - Gets a scan information
+  description: >
+    Learn more about Purview service - Gets a scan information
 errorCodes: []

@@ -3,14 +3,14 @@ uid: keyvault.managedhsm-backup.restore.fullbackup.fullbackup
 name: Full Backup
 service: Key Vault
 groupName: Full Backup
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: Creates a full backup using a user-provided SAS token to an Azure blob storage container. This operation is supported only by the Managed HSM service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/backup?api-version=7.2
+- content: POST {vaultBaseUrl}/backup?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -130,19 +130,31 @@ definitions:
 examples:
 - name: Create full backup
   request:
-    uri: POST https://myvault.managedhsm.azure.net//backup?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//backup?api-version=7.3
     body: >-
       {
         "storageResourceUri": "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
         "token": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCHYrBx0bhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//backup?api-version=7.3
+
+      {
+        "storageResourceUri": "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+        "token": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCHYrBx0bhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D"
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
     - name: Retry-After
       value: "5"
     - name: Azure-AsyncOperation
-      value: https://myvault.managedhsm.azure.net/backup/45aacd568ab049a2803861e8dd3ae21f/pending
+      value: https://myvault.vault.azure.net/backup/45aacd568ab049a2803861e8dd3ae21f/pending
     body: >-
       {
         "status": "InProgress",
@@ -154,5 +166,6 @@ examples:
       }
 security: []
 metadata:
-  description: Creates a full backup using a user-provided SAS token to an Azure blob storage container. This operation is supported only by the Managed HSM service.
+  description: >
+    Creates a full backup using a user-provided SAS token to an Azure blob storage container. This operation is supported only by the Managed HSM service.
 errorCodes: []

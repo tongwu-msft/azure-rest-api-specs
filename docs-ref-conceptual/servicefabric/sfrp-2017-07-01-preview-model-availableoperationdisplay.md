@@ -1,5 +1,6 @@
 ---
-title: "AvailableOperationDisplay"
+title: "Azure Resource Provider Operation"
+description: API reference documentation for the operations available in the AvailableOperationDisplay REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# AvailableOperationDisplay
+# Azure Resource Provider Operation
 
 Operation supported by the Service Fabric resource provider
 

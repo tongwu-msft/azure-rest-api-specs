@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.certificate.update
 name: Update
 service: Batch Management
 groupName: Certificate
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: Updates the properties of an existing certificate.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2022-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/certificates/{certificateName}?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -283,7 +283,7 @@ definitions:
 examples:
 - name: UpdateCertificate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e?api-version=2022-01-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e?api-version=2022-06-01
     body: >-
       {
         "properties": {
@@ -291,6 +291,55 @@ examples:
           "password": "<ExamplePassword>"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/certificates/sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e?api-version=2022-06-01
+
+      {
+        "properties": {
+          "data": "MIIJsgIBAzCCCW4GCSqGSIb3DQE...",
+          "password": "<ExamplePassword>"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates the properties of an existing certificate.
+       *
+       * @summary Updates the properties of an existing certificate.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/CertificateUpdate.json
+       */
+      async function updateCertificate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const certificateName = "sha1-0a0e4f50d51beadeac1d35afc5116098e7902e6e";
+        const parameters = {
+          data: "MIIJsgIBAzCCCW4GCSqGSIb3DQE...",
+          password: "<ExamplePassword>",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.certificateOperations.update(
+          resourceGroupName,
+          accountName,
+          certificateName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateCertificate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -321,5 +370,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Batch Management service - Updates the properties of an existing certificate.
+  description: >
+    Learn more about Batch Management service - Updates the properties of an existing certificate.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Get SB Regions"
+description: API reference documentation for the operations available in the Get SB Regions REST API, a RESTful web service for managing Get SB Regions resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Get SB Regions
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Retrieves the list of regions that support the creation and management of Service Bus service namespaces.  
   

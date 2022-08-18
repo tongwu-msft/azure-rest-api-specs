@@ -147,14 +147,17 @@ definitions:
     description: Type of application being monitored.
     types:
     - uid: ApplicationType
+    defaultValue: web
   - name: properties.Flow_Type
     description: Used by the Application Insights system to determine what kind of flow this component was created by. This is to be set to 'Bluefield' when creating/updating a component via the REST API.
     types:
     - uid: FlowType
+    defaultValue: Bluefield
   - name: properties.Request_Source
     description: Describes what tool created this Application Insights component. Customers using this API should set this to the default 'rest'.
     types:
     - uid: RequestSource
+    defaultValue: rest
   - name: properties.InstrumentationKey
     isReadyOnly: true
     description: Application Insights Instrumentation key. A read-only value that applications can use to identify the destination for all telemetry sent to Azure Application Insights. This value will be supplied upon construction of each new Application Insights component.
@@ -197,6 +200,7 @@ definitions:
     description: Retention period in days.
     types:
     - uid: integer
+    defaultValue: 90
   - name: properties.DisableIpMasking
     description: Disable IP masking.
     types:
@@ -215,6 +219,7 @@ definitions:
     description: Indicates the flow of the ingestion.
     types:
     - uid: IngestionMode
+    defaultValue: ApplicationInsights
   - name: id
     isReadyOnly: true
     description: Azure resource Id
@@ -293,6 +298,23 @@ examples:
           "Request_Source": "rest"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component?api-version=2015-05-01
+
+      {
+        "location": "South Central US",
+        "kind": "web",
+        "properties": {
+          "Application_Type": "web",
+          "Flow_Type": "Bluefield",
+          "Request_Source": "rest"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -335,6 +357,22 @@ examples:
           "BillingEntity": "Self"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/components/my-component?api-version=2015-05-01
+
+      {
+        "location": "South Central US",
+        "kind": "web",
+        "tags": {
+          "ApplicationGatewayType": "Internal-Only",
+          "BillingEntity": "Self"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -378,5 +416,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: 'Creates (or updates) an Application Insights component. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.'
+  description: >
+    Creates (or updates) an Application Insights component. Note: You cannot specify a different value for InstrumentationKey nor AppId in the Put operation.
 errorCodes: []

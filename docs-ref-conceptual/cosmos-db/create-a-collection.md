@@ -55,7 +55,7 @@ The `Create Collection` operation creates a new collection in a database.
 |--------------|--------------|----------|-----------------|  
 |**id**|Required|String|The user-generated unique name for the collection. No two collections can have the same IDs. It is a string that must not be more than 255 characters.|  
 |**indexingPolicy**|Optional|Object|This value is used to configure indexing policy. By default, the indexing is automatic for all document paths within the collection.|  
-|**partitionKey**|Required|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the REST API version is 2018-12-31 or higher, the collection must include a **partitionKey**  definition. In versions older than 2018-12-31, a legacy non-partitioned collection with manual throughput can be created by omitting the **partitionKey** definition and ensuring the throughput is between 400 - 10,000 RU/s. For best performance and scalability, it is recommended to always set a partition key.  <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview.md#choose-partitionkey).|
+|**partitionKey**|Required|Object|This value is used to configure the partition key to be used for partitioning data into multiple partitions.<br /><br /> To use large partition key, specify the version as 2 within the partitionKey property. <br /><br /> If the REST API version is 2018-12-31 or higher, the collection must include a **partitionKey**  definition. In versions older than 2018-12-31, a legacy non-partitioned collection with manual throughput can be created by omitting the **partitionKey** definition and ensuring the throughput is between 400 - 10,000 RU/s. For best performance and scalability, it is recommended to always set a partition key.  <br /><br />Learn about how to [choose a good partition key](/azure/cosmos-db/partitioning-overview#choose-partitionkey).|
 
 ### Example body payload  
 ```  
@@ -356,8 +356,8 @@ Expect: 100-continue
 ```  
 
 ## See Also  
-* [Azure Cosmos DB](https://docs.microsoft.com/azure/cosmos-db/introduction) 
-* [Azure Cosmos DB SQL API](https://docs.microsoft.com/azure/cosmos-db/sql-api-introduction)   
+* [Azure Cosmos DB](/azure/cosmos-db/introduction) 
+* [Azure Cosmos DB SQL API](/azure/cosmos-db/sql-api-introduction)   
 * [Azure Cosmos DB SQL API SDKs](/azure/cosmos-db/sql-api-sdk-dotnet)    
 * [REST from .NET Sample](https://github.com/Azure/azure-documentdb-dotnet/tree/master/samples/rest-from-.net)  
   

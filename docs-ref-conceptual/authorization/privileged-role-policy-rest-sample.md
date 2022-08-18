@@ -32,7 +32,7 @@ To list role management policies, you can use [Role Management Policies - List F
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies?api-version=2020-10-01&$filter={filter}
     ```    
     
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role management policies.
@@ -65,7 +65,7 @@ To list role management policies, you can use [Role Management Policies - List F
 1. Use the following request:
 
     ```http
-    PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01-preview
+    PATCH https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleManagementPolicies/{roleManagementPolicyId}?api-version=2020-10-01
     ```
 
     ```json

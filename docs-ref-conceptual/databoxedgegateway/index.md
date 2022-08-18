@@ -1,5 +1,6 @@
 ---
 title: Data Box Edge/Data Box Gateway REST API | Microsoft Docs
+description: Learn how Azure Data Box Edge and Azure Data Box Gateway are on-premises storage solutions that allow you to send the data over the network to Azure.
 ms.date: 03/19/2019
 ms.service: databox
 ms.topic: reference

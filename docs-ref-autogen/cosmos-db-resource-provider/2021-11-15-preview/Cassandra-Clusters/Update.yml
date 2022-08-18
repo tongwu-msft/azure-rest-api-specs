@@ -1,0 +1,504 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-11-15-preview.cassandraclusters.update
+name: Update
+service: Cosmos DB Resource Provider
+groupName: Cassandra Clusters
+apiVersion: 2021-11-15-preview
+summary: Updates some of the properties of a managed Cassandra cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/cassandraClusters/{clusterName}?api-version=2021-11-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: Managed Cassandra cluster name.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: The managed Cassandra cluster is being updated. Poll the provided operation for completion.
+  types:
+  - uid: ClusterResource
+- name: 200 OK
+  description: Completed synchronously. This will only happen if the fields changed by patch require no changes to the actual Cassandra data center.
+  types:
+  - uid: ClusterResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Properties of a managed Cassandra cluster.
+    types:
+    - uid: Properties
+  - name: location
+    in: body
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    in: body
+    description: Identity for the resource.
+    types:
+    - uid: ManagedCassandraManagedServiceIdentity
+requestHeader: []
+definitions:
+- name: Properties
+  description: Properties of a managed Cassandra cluster.
+  kind: object
+  properties:
+  - name: provisioningState
+    description: The status of the resource at the time the operation was called.
+    types:
+    - uid: ManagedCassandraProvisioningState
+  - name: restoreFromBackupId
+    description: To create an empty cluster, omit this field or set it to null. To restore a backup into a new cluster, set this field to the resource id of the backup.
+    types:
+    - uid: string
+  - name: delegatedManagementSubnetId
+    description: Resource id of a subnet that this cluster's management service should have its network interface attached to. The subnet must be routable to all subnets that will be delegated to data centers. The resource id must be of the form '/subscriptions/<subscription id>/resourceGroups/<resource group>/providers/Microsoft.Network/virtualNetworks/<virtual network>/subnets/<subnet>'
+    types:
+    - uid: string
+  - name: cassandraVersion
+    description: Which version of Cassandra should this cluster converge to running (e.g., 3.11). When updated, the cluster may take some time to migrate to the new version.
+    types:
+    - uid: string
+  - name: clusterNameOverride
+    description: If you need to set the clusterName property in cassandra.yaml to something besides the resource name of the cluster, set the value to use on this property.
+    types:
+    - uid: string
+  - name: authenticationMethod
+    description: Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. 'Ldap' is in preview.
+    types:
+    - uid: AuthenticationMethod
+  - name: initialCassandraAdminPassword
+    description: Initial password for clients connecting as admin to the cluster. Should be changed after cluster creation. Returns null on GET. This field only applies when the authenticationMethod field is 'Cassandra'.
+    types:
+    - uid: string
+  - name: prometheusEndpoint
+    description: Hostname or IP address where the Prometheus endpoint containing data about the managed Cassandra nodes can be reached.
+    types:
+    - uid: SeedNode
+  - name: repairEnabled
+    description: Should automatic repairs run on this cluster? If omitted, this is true, and should stay true unless you are running a hybrid cluster where you are already doing your own repairs.
+    types:
+    - uid: boolean
+  - name: clientCertificates
+    description: List of TLS certificates used to authorize clients connecting to the cluster. All connections are TLS encrypted whether clientCertificates is set or not, but if clientCertificates is set, the managed Cassandra cluster will reject all connections not bearing a TLS client certificate that can be validated from one or more of the public certificates in this property.
+    types:
+    - uid: Certificate
+      isArray: true
+  - name: externalGossipCertificates
+    description: List of TLS certificates used to authorize gossip from unmanaged data centers. The TLS certificates of all nodes in unmanaged data centers must be verifiable using one of the certificates provided in this property.
+    types:
+    - uid: Certificate
+      isArray: true
+  - name: gossipCertificates
+    isReadyOnly: true
+    description: List of TLS certificates that unmanaged nodes must trust for gossip with managed nodes. All managed nodes will present TLS client certificates that are verifiable using one of the certificates provided in this property.
+    types:
+    - uid: Certificate
+      isArray: true
+  - name: externalSeedNodes
+    description: List of IP addresses of seed nodes in unmanaged data centers. These will be added to the seed node lists of all managed nodes.
+    types:
+    - uid: SeedNode
+      isArray: true
+  - name: seedNodes
+    isReadyOnly: true
+    description: List of IP addresses of seed nodes in the managed data centers. These should be added to the seed node lists of all unmanaged nodes.
+    types:
+    - uid: SeedNode
+      isArray: true
+  - name: hoursBetweenBackups
+    description: Number of hours to wait between taking a backup of the cluster.
+    types:
+    - uid: integer
+  - name: deallocated
+    description: Whether the cluster and associated data centers has been deallocated.
+    types:
+    - uid: boolean
+  - name: cassandraAuditLoggingEnabled
+    description: Whether Cassandra audit logging is enabled
+    types:
+    - uid: boolean
+- name: ManagedCassandraManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The object id of the identity resource.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the resource.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the resource.
+    types:
+    - uid: ManagedCassandraResourceIdentityType
+- name: ClusterResource
+  description: Representation of a managed Cassandra cluster.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of a managed Cassandra cluster.
+    types:
+    - uid: Properties
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the ARM resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the ARM resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: tags
+    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: ManagedCassandraManagedServiceIdentity
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: ManagedCassandraProvisioningState
+  description: The status of the resource at the time the operation was called.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: AuthenticationMethod
+  description: Which authentication method Cassandra should use to authenticate clients. 'None' turns off authentication, so should not be used except in emergencies. 'Cassandra' is the default password based authentication. The default is 'Cassandra'. 'Ldap' is in preview.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Cassandra
+    types:
+    - uid: string
+  - name: Ldap
+    types:
+    - uid: string
+- name: SeedNode
+  kind: object
+  properties:
+  - name: ipAddress
+    description: IP address of this seed node.
+    types:
+    - uid: string
+- name: Certificate
+  kind: object
+  properties:
+  - name: pem
+    description: PEM formatted public key.
+    types:
+    - uid: string
+- name: ManagedCassandraResourceIdentityType
+  description: The type of the resource.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBManagedCassandraClusterPatch
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod?api-version=2021-11-15-preview
+    body: >-
+      {
+        "tags": {
+          "owner": "mike"
+        },
+        "properties": {
+          "externalSeedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            }
+          ],
+          "externalGossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "hoursBetweenBackups": 12,
+          "authenticationMethod": "None"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod?api-version=2021-11-15-preview
+
+      {
+        "tags": {
+          "owner": "mike"
+        },
+        "properties": {
+          "externalSeedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            }
+          ],
+          "externalGossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "hoursBetweenBackups": 12,
+          "authenticationMethod": "None"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus/operationsStatus/318653d0-3da5-4814-b8f6-429f2af0b2a4?api-version=2021-11-15-preview
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod",
+        "name": "cassandra-prod",
+        "type": "Microsoft.DocumentDB/cassandraClusters",
+        "location": "West US",
+        "tags": {
+          "owner": "mike"
+        },
+        "properties": {
+          "provisioningState": "Updating",
+          "delegatedManagementSubnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/management",
+          "cassandraVersion": "3.11",
+          "hoursBetweenBackups": 24,
+          "authenticationMethod": "Cassandra",
+          "externalSeedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            }
+          ],
+          "clusterNameOverride": "ClusterNameIllegalForAzureResource",
+          "seedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            },
+            {
+              "ipAddress": "192.168.12.2"
+            },
+            {
+              "ipAddress": "192.168.12.3"
+            },
+            {
+              "ipAddress": "192.168.12.4"
+            }
+          ],
+          "clientCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "externalGossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "gossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ]
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/cassandra-prod-rg/providers/Microsoft.DocumentDB/cassandraClusters/cassandra-prod",
+        "name": "cassandra-prod",
+        "type": "Microsoft.DocumentDB/cassandraClusters",
+        "location": "West US",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "delegatedManagementSubnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/customer-vnet-rg/providers/Microsoft.Network/virtualNetworks/customer-vnet/subnets/management",
+          "cassandraVersion": "3.11",
+          "hoursBetweenBackups": 24,
+          "authenticationMethod": "Cassandra",
+          "externalSeedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            }
+          ],
+          "clusterNameOverride": "ClusterNameIllegalForAzureResource",
+          "seedNodes": [
+            {
+              "ipAddress": "10.52.221.2"
+            },
+            {
+              "ipAddress": "10.52.221.3"
+            },
+            {
+              "ipAddress": "10.52.221.4"
+            },
+            {
+              "ipAddress": "192.168.12.2"
+            },
+            {
+              "ipAddress": "192.168.12.3"
+            },
+            {
+              "ipAddress": "192.168.12.4"
+            }
+          ],
+          "clientCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "externalGossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ],
+          "gossipCertificates": [
+            {
+              "pem": "-----BEGIN CERTIFICATE-----\n...Base64 encoded certificate...\n-----END CERTIFICATE-----"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Updates some of the properties of a managed Cassandra cluster.
+errorCodes: []

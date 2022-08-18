@@ -1,5 +1,6 @@
 ---
 title: "Event Hubs Management REST (classic)"
+description: Learn how these APIs enable you to perform management operations on Event Hubs.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

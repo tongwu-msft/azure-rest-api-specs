@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.expressroutegateways.get
 name: Get
 service: Virtual WAN
 groupName: Express Route Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Fetches the details of a ExpressRoute gateway in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,7 +61,6 @@ definitions:
     types:
     - uid: AutoScaleConfiguration
   - name: properties.expressRouteConnections
-    isReadyOnly: true
     description: List of ExpressRoute connections to the ExpressRoute gateway.
     types:
     - uid: ExpressRouteConnection
@@ -296,7 +295,71 @@ definitions:
 examples:
 - name: ExpressRouteGatewayGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/expressRouteGatewayName?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteGatewayGet.json
+      func ExampleExpressRouteGatewaysClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewExpressRouteGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx, "resourceGroupName", "expressRouteGatewayName", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Fetches the details of a ExpressRoute gateway in a resource group.
+       *
+       * @summary Fetches the details of a ExpressRoute gateway in a resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteGatewayGet.json
+       */
+      async function expressRouteGatewayGet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "resourceGroupName";
+        const expressRouteGatewayName = "expressRouteGatewayName";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRouteGateways.get(resourceGroupName, expressRouteGatewayName);
+        console.log(result);
+      }
+
+      expressRouteGatewayGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -323,5 +386,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual WAN service - Fetches the details of a ExpressRoute gateway in a resource group.
+  description: >
+    Learn more about Virtual WAN service - Fetches the details of a ExpressRoute gateway in a resource group.
 errorCodes: []

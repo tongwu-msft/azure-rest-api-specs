@@ -1,5 +1,6 @@
 ---
 title: "Program"
+description: Learn how a Program enables you to control the publishing and storage of segments in a live stream.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

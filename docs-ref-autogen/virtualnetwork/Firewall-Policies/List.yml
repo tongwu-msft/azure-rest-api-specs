@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicies.list
 name: List
 service: Virtual Networks
 groupName: Firewall Policies
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Lists all Firewall Policies in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,10 +126,10 @@ definitions:
     description: DNS Proxy Settings definition.
     types:
     - uid: DnsSettings
-  - name: properties.explicitProxySettings
+  - name: properties.explicitProxy
     description: Explicit Proxy Settings definition.
     types:
-    - uid: ExplicitProxySettings
+    - uid: ExplicitProxy
   - name: properties.intrusionDetection
     description: The configuration for Intrusion detection.
     types:
@@ -287,6 +287,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: autoLearnPrivateRanges
+    description: The operation mode for automatically learning private ranges to not be SNAT
+    types:
+    - uid: AutoLearnPrivateRangesMode
 - name: FirewallPolicySQL
   description: SQL Settings in Firewall Policy.
   kind: object
@@ -312,7 +316,7 @@ definitions:
     description: FQDNs in Network Rules are supported when set to true.
     types:
     - uid: boolean
-- name: ExplicitProxySettings
+- name: ExplicitProxy
   description: Explicit Proxy Settings in Firewall Policy.
   kind: object
   properties:
@@ -328,6 +332,10 @@ definitions:
     description: Port number for explicit proxy https protocol, cannot be greater than 64000.
     types:
     - uid: integer
+  - name: enablePacFile
+    description: When set to true, pac file port and url needs to be provided.
+    types:
+    - uid: boolean
   - name: pacFilePort
     description: Port number for firewall to serve PAC file.
     types:
@@ -401,6 +409,16 @@ definitions:
     description: The default workspace Id for Firewall Policy Insights.
     types:
     - uid: SubResource
+- name: AutoLearnPrivateRangesMode
+  description: The operation mode for automatically learning private ranges to not be SNAT
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: FirewallPolicyIntrusionDetectionStateType
   description: Intrusion detection general state.
   kind: enum
@@ -427,6 +445,11 @@ definitions:
     description: List of rules for traffic to bypass.
     types:
     - uid: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
+      isArray: true
+  - name: privateRanges
+    description: IDPS Private IP address ranges are used to identify traffic direction (i.e. inbound, outbound, etc.). By default, only ranges defined by IANA RFC 1918 are considered private IP addresses. To modify default ranges, specify your Private IP address ranges with this property
+    types:
+    - uid: string
       isArray: true
 - name: FirewallPolicyCertificateAuthority
   description: Trusted Root certificates properties for tls.
@@ -537,7 +560,78 @@ definitions:
 examples:
 - name: List all Firewall Policies for a given resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyListByResourceGroup.json
+      func ExampleFirewallPoliciesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rg1", nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all Firewall Policies in a resource group.
+       *
+       * @summary Lists all Firewall Policies in a resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyListByResourceGroup.json
+       */
+      async function listAllFirewallPoliciesForAGivenResourceGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.firewallPolicies.list(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAllFirewallPoliciesForAGivenResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -593,5 +687,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Lists all Firewall Policies in a resource group.
+  description: >
+    Learn more about Virtual Networks service - Lists all Firewall Policies in a resource group.
 errorCodes: []

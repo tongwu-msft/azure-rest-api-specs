@@ -132,6 +132,7 @@ definitions:
     description: 'Maximum number of responses that will be returned. Default: 5, minimum: 1 and maximum: 20.'
     types:
     - uid: integer
+    defaultValue: 5
   - name: addressLine
     description: The official street line of an address relative to the area, as specified by the locality, or postalCode, properties. Typical use of this element would be to provide a street address or any official address.
     types:
@@ -183,6 +184,7 @@ definitions:
     description: Restrict the geocoding result to the country or region that is specified in the countryRegion field and the state, province or territory specified in the adminDistrict field.
     types:
     - uid: StrictMatchEnum
+    defaultValue: notstrict
 - name: GeocodingBatchResponse
   description: This object is returned from a successful Geocoding Batch service call.
   kind: object
@@ -580,6 +582,29 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://atlas.microsoft.com/geocode/batch?api-version=2022-02-01-preview
+
+      {
+        "batchItems": [
+          {
+            "addressLine": "One, Microsoft Way, Redmond, WA 98052",
+            "top": 2,
+            "optionalId": "4C3681A6C8AA4AC3441412763A2A25C81444DC8B"
+          },
+          {
+            "addressLine": "Pike Pl",
+            "adminDistrict": "WA",
+            "locality": "Seattle",
+            "top": 3
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -656,7 +681,7 @@ examples:
                 },
                 "bbox": [
                   -122.1359181505759,
-                  47.635566282429323,
+                  47.63556628242932,
                   -122.1206318494241,
                   47.643291717570676
                 ]
@@ -718,7 +743,7 @@ examples:
                   -122.34961817972945,
                   47.605662632550924,
                   -122.33434061961856,
-                  47.613388067692277
+                  47.61338806769228
                 ]
               }
             ]
@@ -801,7 +826,7 @@ examples:
                 },
                 "bbox": [
                   -122.1359181505759,
-                  47.635566282429323,
+                  47.63556628242932,
                   -122.1206318494241,
                   47.643291717570676
                 ]
@@ -836,14 +861,9 @@ security:
   in: header
 metadata:
   description: >-
-    **Geocoding Batch API**
+    Geocoding Batch API
 
+    Applies to: see pricing tiers.
 
-
-    **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
-
-
-
-
-    The Geocoding Batch API sends batches of queries to [Geoc
+    The Geocoding Batch API sends batches of queries to Geocoding API using just a single API call.
 errorCodes: []

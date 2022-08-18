@@ -10,7 +10,7 @@ produces:
 - application/json
 paths:
 - content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2.0&datasetId={datasetId}
-- content: POST https://{geography}.atlas.microsoft.com/tilesets?subscription-key={subscription-key}&api-version=2.0&datasetId={datasetId}&description={description}
+- content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2.0&datasetId={datasetId}&description={description}
   isOptional: true
 uriParameters:
 - name: geography
@@ -19,15 +19,10 @@ uriParameters:
   description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
   types:
   - uid: string
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 2.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: datasetId
@@ -42,34 +37,22 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  headers:
+  - name: Resource-Location
+    value: string
+  description: The operation is running or complete. If the operation was successful, use the Resource-Location header to obtain the path to the result.
+  types:
+  - uid: LongRunningOperationResult
 - name: 202 Accepted
   headers:
   - name: Operation-Location
     value: string
   description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Operation-Location Header to obtain status.'
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -77,89 +60,132 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: LongRunningOperationResult
+  description: The response model for a Long-Running Operations API.
+  kind: object
+  properties:
+  - name: operationId
+    description: The Id for this long-running operation.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status state of the request.
+    types:
+    - uid: LroStatus
+  - name: created
+    isReadyOnly: true
+    description: The created timestamp.
+    types:
+    - uid: string
+  - name: error
+    description: The error detail.
+    types:
+    - uid: ErrorDetail
+  - name: warning
+    description: The error detail.
+    types:
+    - uid: ErrorDetail
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+    - uid: ErrorDetail
+- name: LroStatus
+  description: The status state of the request.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: The request has not started processing yet.
+    types:
+    - uid: string
+  - name: Running
+    description: The request has started processing.
+    types:
+    - uid: string
+  - name: Failed
+    description: The request has one or more failures.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The request has successfully completed.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: Create Tileset by providing a Dataset Id
   request:
-    uri: POST https://us.atlas.microsoft.com/tilesets?subscription-key=[subscription-key]&api-version=2.0&datasetId=[dataset-Id]
+    uri: POST https://us.atlas.microsoft.com/tilesets?api-version=2.0&datasetId=[dataset-Id]
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://us.atlas.microsoft.com/tilesets?api-version=2.0&datasetId=[dataset-Id]
+      ```
+
   responses:
+  - statusCode: "200"
+    headers:
+    - name: Resource-Location
+      value: https://us.atlas.microsoft.com/mapData/3e36b996-f6d1-b068-0fcb-dd6b014c3447?api-version=2.0
+    body: >-
+      {
+        "operationId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+        "created": "2021-04-20T22:43:14.9401559+00:00",
+        "status": "Succeeded"
+      }
   - statusCode: "202"
     headers:
     - name: Operation-Location
       value: https://us.atlas.microsoft.com/tilesets/operations/{operationId}?api-version=2.0
     - name: Access-Control-Expose-Headers
       value: Operation-Location
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "400 BadRequest",
-          "message": "Bad request: one or more parameters were incorrectly specified or are mutually exclusive."
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -172,11 +198,11 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
 
-     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
 
-     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
   in: query
 - name: SAS Token
   type: apiKey
@@ -189,8 +215,7 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+    Applies to: see pricing tiers.
 
-
-    Creator makes it possible to develop applications based on your private indoor map da
+    Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK.
 errorCodes: []

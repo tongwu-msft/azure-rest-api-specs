@@ -1,0 +1,286 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.compute.virtualmachines.runcommand
+name: Run Command
+service: Compute
+groupName: Virtual Machines
+apiVersion: 2022-03-01
+summary: Run command on the VM.
+consumes:
+- application/json
+- text/json
+produces:
+- application/json
+- text/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}/runCommand?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: vmName
+  in: path
+  isRequired: true
+  description: The name of the virtual machine.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: RunCommandResult
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- name: default
+  parameters:
+  - name: parameters
+    in: body
+    description: Parameters supplied to the Run command operation.
+    types:
+    - uid: RunCommandInput
+requestHeader: []
+definitions:
+- name: RunCommandInputParameter
+  description: The run command parameters.
+  kind: object
+  properties:
+  - name: name
+    description: The run command parameter name.
+    types:
+    - uid: string
+  - name: value
+    description: The run command parameter value.
+    types:
+    - uid: string
+- name: RunCommandResult
+  kind: object
+  properties:
+  - name: value
+    description: Run command operation response.
+    types:
+    - uid: InstanceViewStatus
+      isArray: true
+- name: RunCommandInput
+  description: Parameters supplied to the Run command operation.
+  kind: object
+  properties:
+  - name: commandId
+    description: The run command id.
+    types:
+    - uid: string
+  - name: script
+    description: Optional. The script to be executed.  When this value is given, the given script will override the default script of the command.
+    types:
+    - uid: string
+      isArray: true
+  - name: parameters
+    description: The run command parameters.
+    types:
+    - uid: RunCommandInputParameter
+      isArray: true
+- name: InstanceViewStatus
+  description: Instance view status.
+  kind: object
+  properties:
+  - name: code
+    description: The status code.
+    types:
+    - uid: string
+  - name: level
+    description: The level code.
+    types:
+    - uid: StatusLevelTypes
+  - name: displayStatus
+    description: The short localizable label for the status.
+    types:
+    - uid: string
+  - name: message
+    description: The detailed status message, including for alerts and error messages.
+    types:
+    - uid: string
+  - name: time
+    description: The time of the status.
+    types:
+    - uid: string
+- name: StatusLevelTypes
+  description: The level code.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+examples:
+- name: VirtualMachineRunCommand
+  request:
+    uri: POST https://management.azure.com/subscriptions/24fb23e3-6ba3-41f0-9b6e-e41131d5d61e/resourceGroups/crptestar98131/providers/Microsoft.Compute/virtualMachines/vm3036/runCommand?api-version=2022-03-01
+    body: >-
+      {
+        "commandId": "RunPowerShellScript"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/24fb23e3-6ba3-41f0-9b6e-e41131d5d61e/resourceGroups/crptestar98131/providers/Microsoft.Compute/virtualMachines/vm3036/runCommand?api-version=2022-03-01
+
+      {
+        "commandId": "RunPowerShellScript"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.RunCommandInput;
+
+      /** Samples for VirtualMachines RunCommand. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/runCommandExamples/VirtualMachineRunCommand.json
+           */
+          /**
+           * Sample code: VirtualMachineRunCommand.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineRunCommand(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachines()
+                  .runCommand(
+                      "crptestar98131", "vm3036", new RunCommandInput().withCommandId("RunPowerShellScript"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/runCommandExamples/VirtualMachineRunCommand.json
+      func ExampleVirtualMachinesClient_BeginRunCommand() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachinesClient("24fb23e3-6ba3-41f0-9b6e-e41131d5d61e", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRunCommand(ctx,
+      		"crptestar98131",
+      		"vm3036",
+      		armcompute.RunCommandInput{
+      			CommandID: to.Ptr("RunPowerShellScript"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Run command on the VM.
+       *
+       * @summary Run command on the VM.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/runCommandExamples/VirtualMachineRunCommand.json
+       */
+      async function virtualMachineRunCommand() {
+        const subscriptionId = "24fb23e3-6ba3-41f0-9b6e-e41131d5d61e";
+        const resourceGroupName = "crptestar98131";
+        const vmName = "vm3036";
+        const parameters = { commandId: "RunPowerShellScript" };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.beginRunCommandAndWait(
+          resourceGroupName,
+          vmName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      virtualMachineRunCommand().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "code": "ComponentStatus/StdOut/succeeded",
+            "level": "Info",
+            "displayStatus": "Provisioning succeeded",
+            "message": "This is a sample script with parameters value1 value2"
+          },
+          {
+            "code": "ComponentStatus/StdErr/succeeded",
+            "level": "Info",
+            "displayStatus": "Provisioning succeeded",
+            "message": ""
+          }
+        ]
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Compute service - Run command on the VM.
+errorCodes: []

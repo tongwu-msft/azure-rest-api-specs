@@ -1,0 +1,533 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.containerapps.managedenvironments.update
+name: Update
+service: Azure Container Apps
+groupName: Managed Environments
+apiVersion: 2022-03-01
+summary: "Update Managed Environment's properties.  \nPatches a Managed Environment using JSON Merge Patch"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.App/managedEnvironments/{environmentName}?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: environmentName
+  in: path
+  isRequired: true
+  description: Name of the Environment.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  description: Patch operation is in progress.
+- name: Other Status Codes
+  description: Common error response.
+  types:
+  - uid: DefaultErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.daprAIInstrumentationKey
+    in: body
+    description: Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: properties.daprAIConnectionString
+    in: body
+    description: Application Insights connection string used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: properties.vnetConfiguration
+    in: body
+    description: Vnet configuration for the environment
+    types:
+    - uid: VnetConfiguration
+  - name: properties.appLogsConfiguration
+    in: body
+    description: >-
+      Cluster configuration which enables the log daemon to export
+
+      app logs to a destination. Currently only "log-analytics" is
+
+      supported
+    types:
+    - uid: AppLogsConfiguration
+  - name: properties.zoneRedundant
+    in: body
+    description: Whether or not this Managed Environment is zone-redundant.
+    types:
+    - uid: boolean
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: VnetConfiguration
+  description: Configuration properties for apps environment to join a Virtual Network
+  kind: object
+  properties:
+  - name: internal
+    description: Boolean indicating the environment only has an internal load balancer. These environments do not have a public static IP resource. They must provide runtimeSubnetId and infrastructureSubnetId if enabling this property
+    types:
+    - uid: boolean
+  - name: infrastructureSubnetId
+    description: Resource ID of a subnet for infrastructure components. This subnet must be in the same VNET as the subnet defined in runtimeSubnetId. Must not overlap with any other provided IP ranges.
+    types:
+    - uid: string
+  - name: runtimeSubnetId
+    description: Resource ID of a subnet that Container App containers are injected into. This subnet must be in the same VNET as the subnet defined in infrastructureSubnetId. Must not overlap with any other provided IP ranges.
+    types:
+    - uid: string
+  - name: dockerBridgeCidr
+    description: CIDR notation IP range assigned to the Docker bridge, network. Must not overlap with any other provided IP ranges.
+    types:
+    - uid: string
+  - name: platformReservedCidr
+    description: IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. Must not overlap with any other provided IP ranges.
+    types:
+    - uid: string
+  - name: platformReservedDnsIP
+    description: " An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server."
+    types:
+    - uid: string
+- name: AppLogsConfiguration
+  description: Configuration of application logs
+  kind: object
+  properties:
+  - name: destination
+    description: Logs destination
+    types:
+    - uid: string
+  - name: logAnalyticsConfiguration
+    description: Log Analytics configuration
+    types:
+    - uid: LogAnalyticsConfiguration
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: ManagedEnvironment
+  description: An environment for hosting container apps
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Environment.
+    types:
+    - uid: EnvironmentProvisioningState
+  - name: properties.daprAIInstrumentationKey
+    description: Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: properties.daprAIConnectionString
+    description: Application Insights connection string used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: properties.vnetConfiguration
+    description: Vnet configuration for the environment
+    types:
+    - uid: VnetConfiguration
+  - name: properties.deploymentErrors
+    isReadyOnly: true
+    description: Any errors that occurred during deployment or deployment validation
+    types:
+    - uid: string
+  - name: properties.defaultDomain
+    isReadyOnly: true
+    description: Default Domain Name for the cluster
+    types:
+    - uid: string
+  - name: properties.staticIp
+    isReadyOnly: true
+    description: Static IP of the Environment
+    types:
+    - uid: string
+  - name: properties.appLogsConfiguration
+    description: >-
+      Cluster configuration which enables the log daemon to export
+
+      app logs to a destination. Currently only "log-analytics" is
+
+      supported
+    types:
+    - uid: AppLogsConfiguration
+  - name: properties.zoneRedundant
+    description: Whether or not this Managed Environment is zone-redundant.
+    types:
+    - uid: boolean
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: LogAnalyticsConfiguration
+  description: Log analytics configuration
+  kind: object
+  properties:
+  - name: customerId
+    description: Log analytics customer id
+    types:
+    - uid: string
+  - name: sharedKey
+    description: Log analytics customer key
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Details or the error
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: EnvironmentProvisioningState
+  description: Provisioning state of the Environment.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Waiting
+    types:
+    - uid: string
+  - name: InitializationInProgress
+    types:
+    - uid: string
+  - name: InfrastructureSetupInProgress
+    types:
+    - uid: string
+  - name: InfrastructureSetupComplete
+    types:
+    - uid: string
+  - name: ScheduledForDelete
+    types:
+    - uid: string
+  - name: UpgradeRequested
+    types:
+    - uid: string
+  - name: UpgradeFailed
+    types:
+    - uid: string
+- name: Details
+  description: Details or the error
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Patch Managed Environment
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv?api-version=2022-03-01
+    body: >-
+      {
+        "location": "East US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/examplerg/providers/Microsoft.App/managedEnvironments/testcontainerenv?api-version=2022-03-01
+
+      {
+        "location": "East US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appcontainers.fluent.models.ManagedEnvironmentInner;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ManagedEnvironments Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_Patch.json
+           */
+          /**
+           * Sample code: Patch Managed Environment.
+           *
+           * @param manager Entry point to ContainerAppsApiManager.
+           */
+          public static void patchManagedEnvironment(
+              com.azure.resourcemanager.appcontainers.ContainerAppsApiManager manager) {
+              manager
+                  .managedEnvironments()
+                  .update(
+                      "examplerg",
+                      "testcontainerenv",
+                      new ManagedEnvironmentInner()
+                          .withLocation("East US")
+                          .withTags(mapOf("tag1", "value1", "tag2", "value2")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appcontainers_1.0.0-beta.3/sdk/appcontainers/azure-resourcemanager-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappcontainers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appcontainers/armappcontainers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_Patch.json
+      func ExampleManagedEnvironmentsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappcontainers.NewManagedEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"examplerg",
+      		"testcontainerenv",
+      		armappcontainers.ManagedEnvironment{
+      			Location: to.Ptr("East US"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappcontainers%2Farmappcontainers%2Fv1.0.0/sdk/resourcemanager/appcontainers/armappcontainers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerAppsAPIClient } = require("@azure/arm-appcontainers");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patches a Managed Environment using JSON Merge Patch
+       *
+       * @summary Patches a Managed Environment using JSON Merge Patch
+       * x-ms-original-file: specification/app/resource-manager/Microsoft.App/stable/2022-03-01/examples/ManagedEnvironments_Patch.json
+       */
+      async function patchManagedEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "examplerg";
+        const environmentName = "testcontainerenv";
+        const environmentEnvelope = {
+          location: "East US",
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerAppsAPIClient(credential, subscriptionId);
+        const result = await client.managedEnvironments.beginUpdateAndWait(
+          resourceGroupName,
+          environmentName,
+          environmentEnvelope
+        );
+        console.log(result);
+      }
+
+      patchManagedEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appcontainers_1.0.0/sdk/appcontainers/arm-appcontainers/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.App/locations/eastus/managedEnvironmentOperationResults/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-03-01
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Container Apps service - Update Managed Environment's properties.
+
+    Patches a Managed Environment using JSON Merge Patch
+errorCodes: []

@@ -149,6 +149,112 @@ examples:
       {
         "keyType": "Primary"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/regenerateKey?api-version=2021-06-01
+
+      {
+        "keyType": "Primary"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redis.models.RedisKeyType;
+      import com.azure.resourcemanager.redis.models.RedisRegenerateKeyParameters;
+
+      /** Samples for Redis RegenerateKey. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheRegenerateKey.json
+           */
+          /**
+           * Sample code: RedisCacheRegenerateKey.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void redisCacheRegenerateKey(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .redisCaches()
+                  .manager()
+                  .serviceClient()
+                  .getRedis()
+                  .regenerateKeyWithResponse(
+                      "rg1", "cache1", new RedisRegenerateKeyParameters().withKeyType(RedisKeyType.PRIMARY), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheRegenerateKey.json
+      func ExampleClient_RegenerateKey() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredis.NewClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.RegenerateKey(ctx,
+      		"rg1",
+      		"cache1",
+      		armredis.RegenerateKeyParameters{
+      			KeyType: to.Ptr(armredis.RedisKeyTypePrimary),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisManagementClient } = require("@azure/arm-rediscache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
+       *
+       * @summary Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
+       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheRegenerateKey.json
+       */
+      async function redisCacheRegenerateKey() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const name = "cache1";
+        const parameters = { keyType: "Primary" };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisManagementClient(credential, subscriptionId);
+        const result = await client.redis.regenerateKey(resourceGroupName, name, parameters);
+        console.log(result);
+      }
+
+      redisCacheRegenerateKey().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -166,5 +272,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
+  description: >
+    Regenerate Redis cache's access keys. This operation requires write permission to the cache resource.
 errorCodes: []

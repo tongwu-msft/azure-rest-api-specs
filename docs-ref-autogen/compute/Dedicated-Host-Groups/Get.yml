@@ -3,15 +3,15 @@ uid: management.azure.com.compute.dedicatedhostgroups.get
 name: Get
 service: Compute
 groupName: Dedicated Host Groups
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Retrieves information about a dedicated host group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2021-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?$expand={$expand}&api-version=2021-11-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}?$expand={$expand}&api-version=2022-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -92,6 +92,10 @@ definitions:
     description: "Specifies whether virtual machines or virtual machine scale sets can be placed automatically on the dedicated host group. Automatic placement means resources are allocated on dedicated hosts, that are chosen by Azure, under the dedicated host group. The value is defaulted to 'false' when not provided. <br><br>Minimum api-version: 2020-06-01."
     types:
     - uid: boolean
+  - name: properties.additionalCapabilities
+    description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+    types:
+    - uid: AdditionalCapabilities
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -143,6 +147,14 @@ definitions:
     types:
     - uid: DedicatedHostInstanceViewWithName
       isArray: true
+- name: AdditionalCapabilities
+  description: 'Enables or disables a capability on the dedicated host group.<br><br>Minimum api-version: 2022-03-01.'
+  kind: object
+  properties:
+  - name: ultraSSDEnabled
+    description: "The flag that enables or disables a capability to have UltraSSD Enabled Virtual Machines on Dedicated Hosts of the Dedicated Host Group. For the Virtual Machines to be UltraSSD Enabled, UltraSSDEnabled flag for the resource needs to be set true as well. The value is defaulted to 'false' when not provided. Please refer to https://docs.microsoft.com/en-us/azure/virtual-machines/disks-enable-ultra-ssd for more details on Ultra SSD feature. <br><br>NOTE: The ultraSSDEnabled setting can only be enabled for Host Groups that are created as zonal. <br><br>Minimum api-version: 2022-03-01."
+    types:
+    - uid: boolean
 - name: ApiError
   description: Api error.
   kind: object
@@ -280,7 +292,100 @@ definitions:
 examples:
 - name: Create a dedicated host group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DedicatedHostGroups GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+           */
+          /**
+           * Sample code: Create a dedicated host group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createADedicatedHostGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDedicatedHostGroups()
+                  .getByResourceGroupWithResponse("myResourceGroup", "myDedicatedHostGroup", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+      func ExampleDedicatedHostGroupsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDedicatedHostGroupsClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myDedicatedHostGroup",
+      		&armcompute.DedicatedHostGroupsClientGetOptions{Expand: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about a dedicated host group.
+       *
+       * @summary Retrieves information about a dedicated host group.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get.json
+       */
+      async function createADedicatedHostGroup() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "myResourceGroup";
+        const hostGroupName = "myDedicatedHostGroup";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.dedicatedHostGroups.get(resourceGroupName, hostGroupName);
+        console.log(result);
+      }
+
+      createADedicatedHostGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -358,6 +463,119 @@ examples:
           "3"
         ]
       }
+- name: Create an ultraSSDEnabled dedicated host group.
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DedicatedHostGroups GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+           */
+          /**
+           * Sample code: Create an ultraSSDEnabled dedicated host group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAnUltraSSDEnabledDedicatedHostGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDedicatedHostGroups()
+                  .getByResourceGroupWithResponse("myResourceGroup", "myDedicatedHostGroup", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves information about a dedicated host group.
+       *
+       * @summary Retrieves information about a dedicated host group.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHostGroup_Get_UltraSSDEnabledDedicatedHostGroup.json
+       */
+      async function createAnUltraSsdEnabledDedicatedHostGroup() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "myResourceGroup";
+        const hostGroupName = "myDedicatedHostGroup";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.dedicatedHostGroups.get(resourceGroupName, hostGroupName);
+        console.log(result);
+      }
+
+      createAnUltraSsdEnabledDedicatedHostGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "platformFaultDomainCount": 3,
+          "hosts": [
+            {
+              "id": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/myDedicatedHostGroup/myHostGroup/Hosts/myHost"
+            }
+          ],
+          "supportAutomaticPlacement": true,
+          "additionalCapabilities": {
+            "ultraSSDEnabled": true
+          },
+          "instanceView": {
+            "hosts": [
+              {
+                "name": "myHost",
+                "assetId": "eb3f58b8-b4e8-4882-b69f-301a01812407",
+                "availableCapacity": {
+                  "allocatableVMs": [
+                    {
+                      "vmSize": "Standard_A1",
+                      "count": 10
+                    }
+                  ]
+                },
+                "statuses": [
+                  {
+                    "code": "ProvisioningState/succeeded",
+                    "level": "Info",
+                    "displayStatus": "Provisioning succeeded"
+                  },
+                  {
+                    "code": "HealthState/available",
+                    "level": "Info",
+                    "displayStatus": "Host available"
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        "location": "westus",
+        "tags": {
+          "{tagName}": "{tagValue}"
+        },
+        "name": "myDedicatedHostGroup",
+        "zones": [
+          "3"
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -368,5 +586,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Retrieves information about a dedicated host group.
+  description: >
+    Learn more about Compute service - Retrieves information about a dedicated host group.
 errorCodes: []

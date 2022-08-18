@@ -3,14 +3,14 @@ uid: management.azure.com.media.streamingendpoints.update
 name: Update
 service: Media Services
 groupName: Streaming Endpoints
-apiVersion: 2021-06-01
+apiVersion: 2022-08-01
 summary: "Update StreamingEndpoint  \nUpdates a existing streaming endpoint."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2021-06-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -59,6 +59,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The streaming endpoint sku.
+    types:
+    - uid: ArmStreamingEndpointCurrentSku
   - name: properties.description
     in: body
     description: The streaming endpoint description.
@@ -156,6 +161,19 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: ArmStreamingEndpointCurrentSku
+  description: The streaming endpoint current sku.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The streaming endpoint sku name.
+    types:
+    - uid: string
+  - name: capacity
+    description: The streaming endpoint sku capacity.
+    types:
+    - uid: integer
 - name: StreamingEndpointAccessControl
   description: Streaming endpoint access control definition.
   kind: object
@@ -189,6 +207,10 @@ definitions:
     description: The system metadata relating to this resource.
     types:
     - uid: systemData
+  - name: sku
+    description: The streaming endpoint sku.
+    types:
+    - uid: ArmStreamingEndpointCurrentSku
   - name: properties.description
     description: The streaming endpoint description.
     types:
@@ -437,7 +459,7 @@ definitions:
 examples:
 - name: Update a streaming endpoint
   request:
-    uri: PATCH https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2021-06-01
+    uri: PATCH https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2022-08-01
     body: >-
       {
         "location": "West US",
@@ -451,6 +473,26 @@ examples:
           "availabilitySetName": "availableset"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2022-08-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "tag3": "value3",
+          "tag5": "value5"
+        },
+        "properties": {
+          "description": "test event 2",
+          "scaleUnits": 5,
+          "availabilitySetName": "availableset"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -481,6 +523,11 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingendpointoperations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
+    - name: location
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingendpoints/myStreamingEndpoint1/operationlocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
     body: >-
       {
         "name": "myStreamingEndpoint1",
@@ -510,5 +557,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Update StreamingEndpoint  \nUpdates a existing streaming endpoint."
+  description: >
+    Learn more about Media Services service - Update StreamingEndpoint
+
+    Updates a existing streaming endpoint.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: Azure Custom Providers REST API | Microsoft Docs
+description: Learn how Azure Custom Providers enable you define to custom APIs that can be used to enrich the default Azure experience.
 ms.service: managed-applications
 ms.date: 08/14/2019
 author: tfitzmac

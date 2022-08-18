@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.entity.createorupdateentities
 name: Create Or Update Entities
 service: Purview
 groupName: Entity
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: >-
   Create or update entities in Atlas in bulk.
 
@@ -69,6 +69,14 @@ definitions:
     description: "lastModifiedTS  \nETag for concurrency control."
     types:
     - uid: string
+  - name: businessAttributes
+    description: Business Attributes
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: classifications
     description: An array of classifications.
     types:
@@ -82,6 +90,14 @@ definitions:
     description: The user who created the record.
     types:
     - uid: string
+  - name: customAttributes
+    description: Custom Attribute
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: guid
     description: The GUID of the entity.
     types:
@@ -90,6 +106,15 @@ definitions:
     description: The home ID of the entity.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meanings
     description: An array of term assignment headers indicating the meanings of the entity.
     types:
@@ -350,6 +375,15 @@ definitions:
     description: The GUID of the record.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meaningNames
     description: An array of meanings.
     types:
@@ -475,6 +509,79 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/atlas/v2/entity/bulk
+
+      {
+        "referredEntities": {},
+        "entities": [
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "owner": "ExampleOwner",
+              "modifiedTime": 0,
+              "createTime": 0,
+              "qualifiedName": "exampleaccount1",
+              "name": "ExampleStorageAccount1",
+              "description": null,
+              "publicAccessLevel": null
+            },
+            "contacts": {
+              "Expert": [
+                {
+                  "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                  "info": "Example Expert Info"
+                }
+              ],
+              "Owner": [
+                {
+                  "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                  "info": "Example Owner Info"
+                }
+              ]
+            },
+            "status": "ACTIVE",
+            "createdBy": "ExampleCreator",
+            "updatedBy": "ExampleUpdator",
+            "version": 0
+          },
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "owner": "ExampleOwner",
+              "modifiedTime": 0,
+              "createTime": 0,
+              "qualifiedName": "exampleaccount2",
+              "name": "ExampleStorageAccount2",
+              "description": "Example Description",
+              "publicAccessLevel": null
+            },
+            "contacts": {
+              "Expert": [
+                {
+                  "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                  "info": "Example Expert Info"
+                }
+              ],
+              "Owner": [
+                {
+                  "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                  "info": "Example Owner Info"
+                }
+              ]
+            },
+            "status": "ACTIVE",
+            "createdBy": "ExampleCreator",
+            "updatedBy": "ExampleUpdator",
+            "version": 0
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

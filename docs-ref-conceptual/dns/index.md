@@ -1,6 +1,7 @@
 ---
 ms.assetid: 0aeaf25a-c694-4199-b940-7e773d613fc5
 title: Azure DNS REST API Reference
+description: Learn how the Microsoft Azure DNS Resource Provider REST API allows you to create and modify DNS zones and records hosted within Azure.
 ms.service: dns
 author: georgewallace
 ms.author: gwallace

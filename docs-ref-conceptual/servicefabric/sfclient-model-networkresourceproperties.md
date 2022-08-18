@@ -1,5 +1,5 @@
 ---
-title: "NetworkResourceProperties"
+title: Network Resource Properties
 description: "NetworkResourceProperties"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# NetworkResourceProperties
+# Network Resource Properties
 
 Describes properties of a network resource.
 

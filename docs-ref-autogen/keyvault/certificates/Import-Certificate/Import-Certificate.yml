@@ -3,14 +3,14 @@ uid: keyvault.certificates.importcertificate.importcertificate
 name: Import Certificate
 service: Key Vault
 groupName: Import Certificate
-apiVersion: "7.2"
-summary: "Imports a certificate into a specified key vault.  \nImports an existing valid certificate, containing a private key, into Azure Key Vault. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. This operation requires the certificates/import permission."
+apiVersion: "7.3"
+summary: "Imports a certificate into a specified key vault.  \nImports an existing valid certificate, containing a private key, into Azure Key Vault. This operation requires the certificates/import permission. The certificate to be imported can be in either PFX or PEM format. If the certificate is in PEM format the PEM file must contain the key as well as x509 certificates. Key Vault will only accept a key in PKCS#8 format."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/certificates/{certificate-name}/import?api-version=7.2
+- content: POST {vaultBaseUrl}/certificates/{certificate-name}/import?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -180,7 +180,7 @@ definitions:
     types:
     - uid: string
   - name: contentType
-    description: The content type of the secret.
+    description: "The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', "
     types:
     - uid: string
   - name: attributes
@@ -237,7 +237,7 @@ definitions:
   kind: object
   properties:
   - name: exportable
-    description: Not supported in this version. Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: kty
@@ -459,10 +459,10 @@ definitions:
 examples:
 - name: ImportCertificate
   request:
-    uri: POST https://myvault.vault.azure.net//certificates/importCert01/import?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//certificates/importCert01/import?api-version=7.3
     body: >-
       {
-        "value": "<value>",
+        "value": "MIIJ...",
         "pwd": "123",
         "policy": {
           "key_props": {
@@ -476,6 +476,29 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//certificates/importCert01/import?api-version=7.3
+
+      {
+        "value": "MIIJ...",
+        "pwd": "123",
+        "policy": {
+          "key_props": {
+            "exportable": true,
+            "kty": "RSA",
+            "key_size": 2048,
+            "reuse_key": false
+          },
+          "secret_props": {
+            "contentType": "application/x-pkcs12"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -484,7 +507,7 @@ examples:
         "kid": "https://myvault.vault.azure.net/keys/importCert01/f00e72f0ddee4dddadc27c0f605d84d7",
         "sid": "https://myvault.vault.azure.net/secrets/importCert01/f00e72f0ddee4dddadc27c0f605d84d7",
         "x5t": "fLi3U52HunIVNXubkEnf8tP6Wbo",
-        "cer": "MIICODCCAeagAwIBAgIQqHmpBAv+CY9IJFoUhlbziTAJBgUrDgMCHQUAMBYxFDASBgNVBAMTC1Jvb3QgQWdlbmN5MB4XDTE1MDQyOTIxNTM0MVoXDTM5MTIzMTIzNTk1OVowFzEVMBMGA1UEAxMMS2V5VmF1bHRUZXN0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA5bVAT73zr4+N4WVv2+SvTunAw08ksS4BrJW/nNliz3S9XuzMBMXvmYzU5HJ8TtEgluBiZZYd5qsMJD+OXHSNbsLdmMhni0jYX09h3XlC2VJw2sGKeYF+xEaavXm337aZZaZyjrFBrrUl51UePaN+kVFXNlBb3N3TYpqa7KokXenJQuR+i9Gv9a77c0UsSsDSryxppYhKK7HvTZCpKrhVtulF5iPMswWe9np3uggfMamyIsK/0L7X9w9B2qN7993RR0A00nOk4H6CnkuwO77dSsD0KJsk6FyAoZBzRXDZh9+d9R76zCL506NcQy/jl0lCiQYwsUX73PG5pxOh02OwKwIDAQABo0swSTBHBgNVHQEEQDA+gBAS5AktBh0dTwCNYSHcFmRjoRgwFjEUMBIGA1UEAxMLUm9vdCBBZ2VuY3mCEAY3bACqAGSKEc+41KpcNfQwCQYFKw4DAh0FAANBAGqIjo2geVagzuzaZOe1ClGKhZeiCKfWAxklaGN+qlGUbVS4IN4V1lot3VKnzabasmkEHeNxPwLn1qvSD0cX9CE=",
+        "cer": "MIIC...",
         "attributes": {
           "enabled": true,
           "nbf": 1430344421,
@@ -532,5 +555,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Imports a certificate into a specified key vault.  \nImports an existing valid certificate, containing a private key, into Azure Key Vault."
+  description: >-
+    Imports a certificate into a specified key vault.
+
+    Imports an existing valid certificate, containing a private key, into Azure Key Vault.
 errorCodes: []

@@ -51,6 +51,7 @@ definitions:
     description: The kind of web test that this web test watches. Choices are ping and multistep.
     types:
     - uid: WebTestKind
+    defaultValue: ping
   - name: properties.SyntheticMonitorId
     description: Unique ID of this WebTest. This is typically the same value as the Name field.
     types:
@@ -71,14 +72,17 @@ definitions:
     description: Interval in seconds between test runs for this WebTest. Default value is 300.
     types:
     - uid: integer
+    defaultValue: 300
   - name: properties.Timeout
     description: Seconds until this WebTest will timeout and fail. Default value is 30.
     types:
     - uid: integer
+    defaultValue: 30
   - name: properties.Kind
     description: The kind of web test this is, valid choices are ping and multistep.
     types:
     - uid: WebTestKind
+    defaultValue: ping
   - name: properties.RetryEnabled
     description: Allow for retries should this WebTest fail.
     types:
@@ -154,6 +158,71 @@ examples:
 - name: webTestGet
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/webtests/my-webtest-01-mywebservice?api-version=2015-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/my-resource-group/providers/Microsoft.Insights/webtests/my-webtest-01-mywebservice?api-version=2015-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WebTests GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestGet.json
+           */
+          /**
+           * Sample code: webTestGet.
+           *
+           * @param manager Entry point to ApplicationInsightsManager.
+           */
+          public static void webTestGet(com.azure.resourcemanager.applicationinsights.ApplicationInsightsManager manager) {
+              manager
+                  .webTests()
+                  .getByResourceGroupWithResponse("my-resource-group", "my-webtest-01-mywebservice", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-applicationinsights_1.0.0-beta.5/sdk/applicationinsights/azure-resourcemanager-applicationinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapplicationinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/applicationinsights/armapplicationinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/applicationinsights/resource-manager/Microsoft.Insights/stable/2015-05-01/examples/WebTestGet.json
+      func ExampleWebTestsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapplicationinsights.NewWebTestsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"my-resource-group",
+      		"my-webtest-01-mywebservice",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapplicationinsights%2Farmapplicationinsights%2Fv2.0.0-beta.1/sdk/resourcemanager/applicationinsights/armapplicationinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -200,5 +269,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Insights service - Get a specific Application Insights web test definition.
+  description: >
+    Learn more about Application Insights service - Get a specific Application Insights web test definition.
 errorCodes: []

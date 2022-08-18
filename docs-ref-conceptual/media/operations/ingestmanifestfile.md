@@ -1,5 +1,6 @@
 ---
 title: "IngestManifestFile"
+description: Learn how an IngestManifestFile represents an actual video or audio blob object that will be uploaded as part of bulk ingesting.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

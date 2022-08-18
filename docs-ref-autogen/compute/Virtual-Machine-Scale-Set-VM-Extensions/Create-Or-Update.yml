@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetvmextensions.createorupd
 name: Create Or Update
 service: Compute
 groupName: Virtual Machine Scale Set VM Extensions
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: The operation to create or update the VMSS VM extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}/extensions/{vmExtensionName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -316,7 +316,7 @@ definitions:
 examples:
 - name: Create VirtualMachineScaleSet VM extension.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -329,6 +329,165 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/extensions/myVMExtension?api-version=2022-03-01
+
+      {
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "publisher": "extPublisher",
+          "type": "extType",
+          "typeHandlerVersion": "1.2",
+          "settings": {
+            "UserName": "xyz@microsoft.com"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.compute.fluent.models.VirtualMachineScaleSetVMExtensionInner;
+      import java.io.IOException;
+
+      /** Samples for VirtualMachineScaleSetVMExtensions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtensions_Create.json
+           */
+          /**
+           * Sample code: Create VirtualMachineScaleSet VM extension.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualMachineScaleSetVMExtension(com.azure.resourcemanager.AzureResourceManager azure)
+              throws IOException {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetVMExtensions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myvmScaleSet",
+                      "0",
+                      "myVMExtension",
+                      new VirtualMachineScaleSetVMExtensionInner()
+                          .withPublisher("extPublisher")
+                          .withTypePropertiesType("extType")
+                          .withTypeHandlerVersion("1.2")
+                          .withAutoUpgradeMinorVersion(true)
+                          .withSettings(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize(
+                                      "{\"UserName\":\"xyz@microsoft.com\"}", Object.class, SerializerEncoding.JSON)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtensions_Create.json
+      func ExampleVirtualMachineScaleSetVMExtensionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetVMExtensionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myvmScaleSet",
+      		"0",
+      		"myVMExtension",
+      		armcompute.VirtualMachineScaleSetVMExtension{
+      			Properties: &armcompute.VirtualMachineExtensionProperties{
+      				Type:                    to.Ptr("extType"),
+      				AutoUpgradeMinorVersion: to.Ptr(true),
+      				Publisher:               to.Ptr("extPublisher"),
+      				Settings: map[string]interface{}{
+      					"UserName": "xyz@microsoft.com",
+      				},
+      				TypeHandlerVersion: to.Ptr("1.2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to create or update the VMSS VM extension.
+       *
+       * @summary The operation to create or update the VMSS VM extension.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVMExtensions_Create.json
+       */
+      async function createVirtualMachineScaleSetVMExtension() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmScaleSetName = "myvmScaleSet";
+        const instanceId = "0";
+        const vmExtensionName = "myVMExtension";
+        const extensionParameters = {
+          typePropertiesType: "extType",
+          autoUpgradeMinorVersion: true,
+          publisher: "extPublisher",
+          settings: { UserName: "xyz@microsoft.com" },
+          typeHandlerVersion: "1.2",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSetVMExtensions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          instanceId,
+          vmExtensionName,
+          extensionParameters
+        );
+        console.log(result);
+      }
+
+      createVirtualMachineScaleSetVMExtension().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -374,5 +533,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - The operation to create or update the VMSS VM extension.
+  description: >
+    Learn more about Compute service - The operation to create or update the VMSS VM extension.
 errorCodes: []

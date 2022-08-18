@@ -32,10 +32,10 @@ To list eligible role assignments (list access), you can use one of the [Role El
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleInstances?api-version=2020-10-01&$filter={filter}
     ```    
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilitySchedules?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilitySchedules?api-version=2020-10-01&$filter={filter}
     ```    
 
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.
@@ -69,7 +69,7 @@ To create an eligible role assignment (grant access), you use the [Role Eligibil
 1. Start with the following request and body:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01
     ```
 
     ```json
@@ -116,7 +116,7 @@ To remove an eligible role assignment (remove access), use the [Role Eligibility
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleEligibilityScheduleRequests/{roleEligibilityScheduleRequestName}?api-version=2020-10-01
     ```
     
     ```json

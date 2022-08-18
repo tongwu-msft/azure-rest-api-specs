@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.packetcaptures.create
 name: Create
 service: Network Watcher
 groupName: Packet Captures
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Create and start a packet capture on the specified VM.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/packetCaptures/{packetCaptureName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -57,9 +57,19 @@ requestBody:
   - name: properties.target
     in: body
     isRequired: true
-    description: The ID of the targeted resource, only VM is currently supported.
+    description: The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.
     types:
     - uid: string
+  - name: properties.scope
+    in: body
+    description: A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS.
+    types:
+    - uid: PacketCaptureMachineScope
+  - name: properties.targetType
+    in: body
+    description: Target type of the resource provided.
+    types:
+    - uid: PacketCaptureTargetType
   - name: properties.bytesToCapturePerPacket
     in: body
     description: Number of bytes captured per packet, the remaining bytes are truncated.
@@ -89,6 +99,20 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
+- name: PacketCaptureMachineScope
+  description: A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS.
+  kind: object
+  properties:
+  - name: include
+    description: List of AzureVMSS instances to run packet capture on.
+    types:
+    - uid: string
+      isArray: true
+  - name: exclude
+    description: List of AzureVMSS instances which has to be excluded from the AzureVMSS from running packet capture.
+    types:
+    - uid: string
+      isArray: true
 - name: PacketCaptureStorageLocation
   description: The storage location for a packet capture session.
   kind: object
@@ -113,6 +137,7 @@ definitions:
     description: Protocol to be filtered on.
     types:
     - uid: PcProtocol
+    defaultValue: Any
   - name: localIPAddress
     description: 'Local IP Address to be filtered on. Notation: "127.0.0.1" for single address entry. "127.0.0.1-127.0.0.255" for range. "127.0.0.1;127.0.0.5"? for multiple entries. Multiple ranges not currently supported. Mixing ranges with multiple entries not currently supported. Default = null.'
     types:
@@ -154,21 +179,32 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.target
-    description: The ID of the targeted resource, only VM is currently supported.
+    description: The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.
     types:
     - uid: string
+  - name: properties.scope
+    description: A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS.
+    types:
+    - uid: PacketCaptureMachineScope
+  - name: properties.targetType
+    description: Target type of the resource provided.
+    types:
+    - uid: PacketCaptureTargetType
   - name: properties.bytesToCapturePerPacket
     description: Number of bytes captured per packet, the remaining bytes are truncated.
     types:
     - uid: integer
+    defaultValue: 0
   - name: properties.totalBytesPerSession
     description: Maximum size of the capture output.
     types:
     - uid: integer
+    defaultValue: 1073741824
   - name: properties.timeLimitInSeconds
     description: Maximum duration of the capture session in seconds.
     types:
     - uid: integer
+    defaultValue: 18000
   - name: properties.storageLocation
     description: The storage location for a packet capture session.
     types:
@@ -191,21 +227,32 @@ definitions:
   kind: object
   properties:
   - name: properties.target
-    description: The ID of the targeted resource, only VM is currently supported.
+    description: The ID of the targeted resource, only AzureVM and AzureVMSS as target type are currently supported.
     types:
     - uid: string
+  - name: properties.scope
+    description: A list of AzureVMSS instances which can be included or excluded to run packet capture. If both included and excluded are empty, then the packet capture will run on all instances of AzureVMSS.
+    types:
+    - uid: PacketCaptureMachineScope
+  - name: properties.targetType
+    description: Target type of the resource provided.
+    types:
+    - uid: PacketCaptureTargetType
   - name: properties.bytesToCapturePerPacket
     description: Number of bytes captured per packet, the remaining bytes are truncated.
     types:
     - uid: integer
+    defaultValue: 0
   - name: properties.totalBytesPerSession
     description: Maximum size of the capture output.
     types:
     - uid: integer
+    defaultValue: 1073741824
   - name: properties.timeLimitInSeconds
     description: Maximum duration of the capture session in seconds.
     types:
     - uid: integer
+    defaultValue: 18000
   - name: properties.storageLocation
     description: The storage location for a packet capture session.
     types:
@@ -244,6 +291,16 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: PacketCaptureTargetType
+  description: Target type of the resource provided.
+  kind: enum
+  properties:
+  - name: AzureVM
+    types:
+    - uid: string
+  - name: AzureVMSS
+    types:
+    - uid: string
 - name: ErrorDetails
   description: Common error details representation.
   kind: object
@@ -263,7 +320,7 @@ definitions:
 examples:
 - name: Create packet capture
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -285,6 +342,133 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/packetCaptures/pc1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "target": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+          "bytesToCapturePerPacket": 10000,
+          "totalBytesPerSession": 100000,
+          "timeLimitInSeconds": 100,
+          "storageLocation": {
+            "storageId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
+            "storagePath": "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
+            "filePath": "D:\\capture\\pc1.cap"
+          },
+          "filters": [
+            {
+              "protocol": "TCP",
+              "localIPAddress": "10.0.0.4",
+              "localPort": "80"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherPacketCaptureCreate.json
+      func ExamplePacketCapturesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPacketCapturesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx, "rg1", "nw1", "pc1", armnetwork.PacketCapture{
+      		Properties: &armnetwork.PacketCaptureParameters{
+      			BytesToCapturePerPacket: to.Ptr[int64](10000),
+      			Filters: []*armnetwork.PacketCaptureFilter{
+      				{
+      					LocalIPAddress: to.Ptr("10.0.0.4"),
+      					LocalPort:      to.Ptr("80"),
+      					Protocol:       to.Ptr(armnetwork.PcProtocolTCP),
+      				}},
+      			StorageLocation: &armnetwork.PacketCaptureStorageLocation{
+      				FilePath:    to.Ptr("D:\\capture\\pc1.cap"),
+      				StorageID:   to.Ptr("/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore"),
+      				StoragePath: to.Ptr("https://mytestaccountname.blob.core.windows.net/capture/pc1.cap"),
+      			},
+      			Target:               to.Ptr("/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"),
+      			TimeLimitInSeconds:   to.Ptr[int32](100),
+      			TotalBytesPerSession: to.Ptr[int64](100000),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create and start a packet capture on the specified VM.
+       *
+       * @summary Create and start a packet capture on the specified VM.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherPacketCaptureCreate.json
+       */
+      async function createPacketCapture() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const networkWatcherName = "nw1";
+        const packetCaptureName = "pc1";
+        const parameters = {
+          bytesToCapturePerPacket: 10000,
+          filters: [{ localIPAddress: "10.0.0.4", localPort: "80", protocol: "TCP" }],
+          storageLocation: {
+            filePath: "D:capturepc1.cap",
+            storageId:
+              "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Storage/storageAccounts/pcstore",
+            storagePath: "https://mytestaccountname.blob.core.windows.net/capture/pc1.cap",
+          },
+          target:
+            "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+          timeLimitInSeconds: 100,
+          totalBytesPerSession: 100000,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.packetCaptures.beginCreateAndWait(
+          resourceGroupName,
+          networkWatcherName,
+          packetCaptureName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPacketCapture().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -321,5 +505,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Watcher service - Create and start a packet capture on the specified VM.
+  description: >
+    Learn more about Network Watcher service - Create and start a packet capture on the specified VM.
 errorCodes: []

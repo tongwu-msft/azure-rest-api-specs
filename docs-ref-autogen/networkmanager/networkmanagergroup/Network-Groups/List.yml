@@ -3,15 +3,15 @@ uid: management.azure.com.networkmanager.networkmanagergroup.networkgroups.list
 name: List
 service: Network Manager
 groupName: Network Groups
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Lists the specified network group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups?api-version=2021-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups?api-version=2021-02-01-preview&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups?api-version=2022-01-01&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -90,25 +90,8 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network group.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network group.
-    types:
-    - uid: string
-  - name: properties.memberType
-    description: Group member type.
-    types:
-    - uid: string
-  - name: properties.groupMembers
-    description: Group members of network group.
-    types:
-    - uid: groupMembersItem
-      isArray: true
-  - name: properties.conditionalMembership
-    description: Network group conditional filter.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -185,14 +168,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: groupMembersItem
-  description: GroupMembers Item.
-  kind: object
-  properties:
-  - name: resourceId
-    description: Resource Id.
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -228,15 +203,89 @@ definitions:
 examples:
 - name: NetworkGroupsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups?api-version=2021-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerGroupList.json
+      func ExampleGroupsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewGroupsClient("subscriptionC", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rg1", "testNetworkManager", &armnetwork.GroupsClientListOptions{Top: nil,
+      		SkipToken: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the specified network group.
+       *
+       * @summary Lists the specified network group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerGroupList.json
+       */
+      async function networkGroupsList() {
+        const subscriptionId = "subscriptionC";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.networkGroups.list(resourceGroupName, networkManagerName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      networkGroupsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "TestNetworkGroup",
-            "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup",
+            "name": "testNetworkGroup",
+            "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup",
             "type": "Microsoft.Network/networkManagers/networkGroups",
             "systemData": {
               "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
@@ -247,20 +296,12 @@ examples:
               "lastModifiedAt": "2021-01-11T18:52:27Z"
             },
             "properties": {
-              "displayName": "My Network Group",
               "description": "A sample group",
-              "memberType": "VirtualNetwork",
-              "groupMembers": [
-                {
-                  "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"
-                }
-              ],
-              "conditionalMembership": "",
               "provisioningState": "Succeeded"
             }
           }
         ],
-        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups?api-version=2021-02-01-preview&$skipToken=10"
+        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups?api-version=2022-01-01&$skipToken=10"
       }
 security:
 - name: azure_auth
@@ -272,5 +313,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Lists the specified network group.
+  description: >
+    Learn more about Network Manager service - Lists the specified network group.
 errorCodes: []

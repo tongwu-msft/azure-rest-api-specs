@@ -4,7 +4,7 @@ description: "A content of a synonym map can be retrieved using REST API in Azur
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

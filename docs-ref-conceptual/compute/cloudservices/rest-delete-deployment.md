@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Delete Deployment | Microsoft Docs"
+description: Learn how the Delete Deployment asynchronous operation deletes the specified deployment.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

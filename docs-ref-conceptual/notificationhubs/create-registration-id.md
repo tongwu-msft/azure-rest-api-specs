@@ -1,5 +1,6 @@
 ﻿---
 title: "Create a registration ID"
+description: Use this API reference documentation to return a registration ID (without creating a registration) and how you can use the generated registration ID to create a registration.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

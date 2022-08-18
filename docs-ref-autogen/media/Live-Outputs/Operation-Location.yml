@@ -1,0 +1,313 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.liveoutputs.operationlocation
+name: Operation Location
+service: Media Services
+groupName: Live Outputs
+apiVersion: 2022-08-01
+summary: "Get operation status.  \nGet a Live Output operation status."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}/operationLocations/{operationId}?api-version=2022-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: liveEventName
+  in: path
+  isRequired: true
+  description: The name of the live event, maximum length is 32.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$
+- name: liveOutputName
+  in: path
+  isRequired: true
+  description: The name of the live output.
+  types:
+  - uid: string
+  pattern: ^([a-zA-Z0-9])+(-*[a-zA-Z0-9])*$
+- name: operationId
+  in: path
+  isRequired: true
+  description: The ID of an ongoing async operation.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: LiveOutput
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously. See https://go.microsoft.com/fwlink/?linkid=2087017 for details on the monitoring asynchronous Azure Operations.
+- name: Other Status Codes
+  description: The streaming error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LiveOutput
+  description: The Live Output.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata relating to this resource.
+    types:
+    - uid: systemData
+  - name: properties.description
+    description: The description of the live output.
+    types:
+    - uid: string
+  - name: properties.assetName
+    description: The asset that the live output will write to.
+    types:
+    - uid: string
+  - name: properties.archiveWindowLength
+    description: ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window.
+    types:
+    - uid: string
+  - name: properties.rewindWindowLength
+    description: ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL.
+    types:
+    - uid: string
+  - name: properties.manifestName
+    description: The manifest file name. If not provided, the service will generate one automatically.
+    types:
+    - uid: string
+  - name: properties.hls
+    description: HTTP Live Streaming (HLS) packing setting for the live output.
+    types:
+    - uid: Hls
+  - name: properties.outputSnapTime
+    description: The initial timestamp that the live output will start at, any content before this value will not be archived.
+    types:
+    - uid: integer
+  - name: properties.created
+    isReadyOnly: true
+    description: The creation time the live output.
+    types:
+    - uid: string
+  - name: properties.lastModified
+    isReadyOnly: true
+    description: The time the live output was last modified.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the live output.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: The resource state of the live output.
+    types:
+    - uid: LiveOutputResourceState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Hls
+  description: HTTP Live Streaming (HLS) packing setting for the live output.
+  kind: object
+  properties:
+  - name: fragmentsPerTsSegment
+    description: The number of fragments in an HTTP Live Streaming (HLS) TS segment in the output of the live event. This value does not affect the packing ratio for HLS CMAF output.
+    types:
+    - uid: integer
+- name: LiveOutputResourceState
+  description: The resource state of the live output.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Live output is being created. No content is archived in the asset until the live output is in running state.
+    types:
+    - uid: string
+  - name: Running
+    description: Live output is running and archiving live streaming content to the asset if there is valid input from a contribution encoder.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Live output is being deleted. The live asset is being converted from live to on-demand asset. Any streaming URLs created on the live output asset continue to work.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get the LiveOutput operation status
+  request:
+    uri: GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1/operationLocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1/operationLocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
+      ```
+
+  responses:
+  - statusCode: "202"
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myLiveOutput1",
+        "id": "/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveevents/myLiveEvent1/liveoutputs/myLiveOutput1",
+        "type": "Microsoft.Media/mediaservices/liveevents/liveoutputs",
+        "properties": {
+          "description": null,
+          "assetName": "cb2ae0bc-677a-4830-9c8e-06ce4c4cb607",
+          "archiveWindowLength": "PT5M",
+          "manifestName": "fc7096f5-c488-4b86-8302-f3bfde53fc27",
+          "outputSnapTime": 0,
+          "resourceState": "Running",
+          "provisioningState": "Succeeded",
+          "created": "0001-01-01T00:00:00-08:00",
+          "lastModified": "0001-01-01T00:00:00-08:00",
+          "hls": {
+            "fragmentsPerTsSegment": 5
+          },
+          "rewindWindowLength": "PT5M"
+        },
+        "systemData": {
+          "createdBy": "example@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "0001-01-01T00:00:00-08:00",
+          "lastModifiedBy": "example@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "0001-01-01T00:00:00-08:00"
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Media Services service - Get operation status.
+
+    Get a Live Output operation status.
+errorCodes: []

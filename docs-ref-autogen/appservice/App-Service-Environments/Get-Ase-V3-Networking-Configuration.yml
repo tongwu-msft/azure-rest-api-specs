@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.getasev3networkingco
 name: Get Ase V3 Networking Configuration
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Get networking configuration of an App Service Environment
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/configurations/networking?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,6 +80,18 @@ definitions:
     description: Property to enable and disable new private endpoint connection creation on ASE
     types:
     - uid: boolean
+  - name: properties.ftpEnabled
+    description: Property to enable and disable FTP on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.remoteDebugEnabled
+    description: Property to enable and disable Remote Debug on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.inboundIpAddressOverride
+    description: Customer provided Inbound IP Address. Only able to be set on Ase create.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -155,7 +167,133 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+examples:
+- name: Get networking configuration of an App Service Environment.
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/configurations/networking?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/configurations/networking?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceEnvironments GetAseV3NetworkingConfiguration. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_GetAseV3NetworkingConfiguration.json
+           */
+          /**
+           * Sample code: Get networking configuration of an App Service Environment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getNetworkingConfigurationOfAnAppServiceEnvironment(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .getAseV3NetworkingConfigurationWithResponse("test-rg", "test-ase", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_GetAseV3NetworkingConfiguration.json
+      func ExampleEnvironmentsClient_GetAseV3NetworkingConfiguration() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetAseV3NetworkingConfiguration(ctx,
+      		"test-rg",
+      		"test-ase",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get networking configuration of an App Service Environment
+       *
+       * @summary Description for Get networking configuration of an App Service Environment
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_GetAseV3NetworkingConfiguration.json
+       */
+      async function getNetworkingConfigurationOfAnAppServiceEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceEnvironments.getAseV3NetworkingConfiguration(
+          resourceGroupName,
+          name
+        );
+        console.log(result);
+      }
+
+      getNetworkingConfigurationOfAnAppServiceEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/configurations/networking",
+        "name": "networking",
+        "type": "Microsoft.Web/hostingEnvironments/configurations/networking",
+        "properties": {
+          "windowsOutboundIpAddresses": [
+            "20.88.241.56",
+            "20.88.241.9"
+          ],
+          "linuxOutboundIpAddresses": [
+            "20.88.241.56",
+            "20.88.241.9"
+          ],
+          "externalInboundIpAddresses": [
+            "52.153.248.36"
+          ],
+          "internalInboundIpAddresses": [],
+          "allowNewPrivateEndpointConnections": false,
+          "ftpEnabled": false,
+          "remoteDebugEnabled": false,
+          "inboundIpAddressOverride": null
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -166,5 +304,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Get networking configuration of an App Service Environment
+  description: >
+    Learn more about App Service service - Description for Get networking configuration of an App Service Environment
 errorCodes: []

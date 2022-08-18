@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.devices.getmodulecommandhistory
+name: Get Module Command History
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-06-30-preview
+summary: Get module command history
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/devices/{deviceId}/modules/{moduleName}/commands/{commandName}?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceId
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: moduleName
+  in: path
+  isRequired: true
+  description: Name of the device module.
+  types:
+  - uid: string
+- name: commandName
+  in: path
+  isRequired: true
+  description: Name of this device command.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceCommandCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: DeviceCommandCollection
+  description: The paged results of device command executions.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of device command executions.
+    types:
+    - uid: DeviceCommand
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of device command executions.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: DeviceCommand
+  description: The device command definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The request ID of the device command execution.
+    types:
+    - uid: string
+  - name: connectionTimeout
+    description: Connection timeout in seconds to wait for a disconnected device to come online. Defaults to 0 seconds.
+    types:
+    - uid: integer
+  - name: responseTimeout
+    description: Response timeout in seconds to wait for a command completion on a device. Defaults to 30 seconds.
+    types:
+    - uid: integer
+  - name: request
+    description: The payload for the device command, support any primitive types or object.
+    types:
+    - {}
+  - name: response
+    isReadyOnly: true
+    description: The payload of the device command response, support any primitive types or object.
+    types:
+    - {}
+  - name: responseCode
+    isReadyOnly: true
+    description: The status code of the device command response.
+    types:
+    - uid: integer
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Get command history within module
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/devices/mx1/modules/camera/commands/AdjustFrameRate?api-version=2022-06-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/devices/mx1/modules/camera/components/componentA/commands/AdjustFrameRate?api-version=2022-06-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "response": "Success",
+            "responseCode": 200
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Get module command history
+errorCodes: []

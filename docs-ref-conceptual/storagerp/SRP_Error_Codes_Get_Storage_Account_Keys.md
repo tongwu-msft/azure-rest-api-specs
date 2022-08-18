@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Get Storage Account Keys (Azure Storage)"
+description: Error codes and HTTP status for the Get Storage Account Keys operation.
 ---
 # Error Codes for Get Storage Account Keys
 

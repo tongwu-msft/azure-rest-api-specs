@@ -1,5 +1,6 @@
 ---
 title: "Delete Subscription"
+description: API reference documentation for the operations available in the Delete Subscription REST API, a RESTful web service for managing Delete Subscription resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -27,7 +28,7 @@ translation.priority.mt:
 # Delete Subscription
 
 > [!IMPORTANT]
-> This API is [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> This API is [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 Deletes an existing subscription.  
   

@@ -1,0 +1,292 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.azurefrontdoorstandardpremium.afdendpoints.validatecustomdomain
+name: Validate Custom Domain
+service: Front Door Service
+groupName: AFD Endpoints
+apiVersion: 2021-06-01
+summary: Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.This api isn't work for apex domain.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/validateCustomDomain?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium profile which is unique within the resource group.
+  types:
+  - uid: string
+- name: endpointName
+  in: path
+  isRequired: true
+  description: Name of the endpoint under the profile which is unique globally.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ValidateCustomDomainOutput
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: AfdErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: hostName
+    in: body
+    isRequired: true
+    description: The host name of the custom domain. Must be a domain name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ValidateCustomDomainOutput
+  description: Output of custom domain validation.
+  kind: object
+  properties:
+  - name: customDomainValidated
+    isReadyOnly: true
+    description: Indicates whether the custom domain is valid or not.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: The reason why the custom domain is not valid.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message describing why the custom domain is not valid.
+    types:
+    - uid: string
+- name: AfdErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ValidateCustomDomainInput
+  description: Input of the custom domain to be validated for DNS mapping.
+  kind: object
+  properties:
+  - name: hostName
+    description: The host name of the custom domain. Must be a domain name.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Endpoints_ValidateCustomDomain
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1/validateCustomDomain?api-version=2021-06-01
+    body: >-
+      {
+        "hostName": "www.someDomain.com"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1/validateCustomDomain?api-version=2021-06-01
+
+      {
+        "hostName": "www.someDomain.com"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.ValidateCustomDomainInput;
+
+      /** Samples for AfdEndpoints ValidateCustomDomain. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_ValidateCustomDomain.json
+           */
+          /**
+           * Sample code: Endpoints_ValidateCustomDomain.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void endpointsValidateCustomDomain(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getAfdEndpoints()
+                  .validateCustomDomainWithResponse(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      new ValidateCustomDomainInput().withHostname("www.someDomain.com"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_ValidateCustomDomain.json
+      func ExampleAFDEndpointsClient_ValidateCustomDomain() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewAFDEndpointsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ValidateCustomDomain(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		armcdn.ValidateCustomDomainInput{
+      			HostName: to.Ptr("www.someDomain.com"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
+       *
+       * @summary Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_ValidateCustomDomain.json
+       */
+      async function endpointsValidateCustomDomain() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const customDomainProperties = {
+          hostName: "www.someDomain.com",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.afdEndpoints.validateCustomDomain(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          customDomainProperties
+        );
+        console.log(result);
+      }
+
+      endpointsValidateCustomDomain().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "customDomainValidated": true,
+        "message": null,
+        "reason": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Validates the custom domain mapping to ensure it maps to the correct CDN endpoint in DNS.This api isn't work for apex domain.
+errorCodes: []

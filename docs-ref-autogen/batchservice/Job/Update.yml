@@ -203,6 +203,7 @@ definitions:
     description: "The maximum number of tasks that can be executed in parallel for the job.  \nThe value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API."
     types:
     - uid: integer
+    defaultValue: -1
   - name: allowTaskPreemption
     description: "Whether Tasks in this job can be preempted by other high priority jobs  \nIf the value is set to True, other high priority jobs submitted to the system will take precedence and will be able requeue tasks from this job. You can update a job's allowTaskPreemption after it has been created using the update job API."
     types:
@@ -1235,6 +1236,26 @@ examples:
           "poolId": "poolId"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT account.region.batch.azure.com/jobs/jobId?api-version=2022-01-01.15.0
+
+
+
+      {
+        "priority": 100,
+        "constraints": {
+          "maxWallClockTime": "PT1H",
+          "maxTaskRetryCount": -1
+        },
+        "poolInfo": {
+          "poolId": "poolId"
+        }
+      }
+
+      ```
+
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -1255,5 +1276,8 @@ security:
   type: apiKey
   in: header
 metadata:
-  description: "Updates the properties of the specified Job.  \nThis fully replaces all the updatable properties of the Job."
+  description: >-
+    Updates the properties of the specified Job.
+
+    This fully replaces all the updatable properties of the Job.
 errorCodes: []

@@ -1,0 +1,1140 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.healthcareapis.fhirservices.createorupdate
+name: Create Or Update
+service: Healthcare Apis
+groupName: Fhir Services
+apiVersion: 2021-11-01
+summary: Creates or updates a FHIR Service resource with the specified parameters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HealthcareApis/workspaces/{workspaceName}/fhirservices/{fhirServiceName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription identifier.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the service instance.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: The name of workspace resource.
+  types:
+  - uid: string
+- name: fhirServiceName
+  in: path
+  isRequired: true
+  description: The name of FHIR Service resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Updated - Put request accepted and an existing resource is updated.
+  types:
+  - uid: FhirService
+- name: 201 Created
+  description: Created - Put request accepted and an existing resource is being created asynchronously.
+  types:
+  - uid: FhirService
+- name: 202 Accepted
+  description: Accepted - Put request accepted and an existing resource is being updated asynchronously.
+  types:
+  - uid: FhirService
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorDetails
+requestBody:
+- name: default
+  parameters:
+  - name: kind
+    in: body
+    description: The kind of the service.
+    types:
+    - uid: fhirServiceKind
+  - name: properties.accessPolicies
+    in: body
+    description: Fhir Service access policies.
+    types:
+    - uid: FhirServiceAccessPolicyEntry
+      isArray: true
+  - name: properties.acrConfiguration
+    in: body
+    description: Fhir Service Azure container registry configuration.
+    types:
+    - uid: FhirServiceAcrConfiguration
+  - name: properties.authenticationConfiguration
+    in: body
+    description: Fhir Service authentication configuration.
+    types:
+    - uid: FhirServiceAuthenticationConfiguration
+  - name: properties.corsConfiguration
+    in: body
+    description: Fhir Service Cors configuration.
+    types:
+    - uid: FhirServiceCorsConfiguration
+  - name: properties.exportConfiguration
+    in: body
+    description: Fhir Service export configuration.
+    types:
+    - uid: FhirServiceExportConfiguration
+  - name: properties.resourceVersionPolicyConfiguration
+    in: body
+    description: Determines tracking of history for resources.
+    types:
+    - uid: ResourceVersionPolicyConfiguration
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    description: The resource location.
+    types:
+    - uid: string
+  - name: etag
+    in: body
+    description: An etag associated with the resource, used for optimistic concurrency when editing it.
+    types:
+    - uid: string
+  - name: identity
+    in: body
+    description: Setting indicating whether the service has a managed identity associated with it.
+    types:
+    - uid: Identity
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: FhirServiceAccessPolicyEntry
+  description: An access policy entry.
+  kind: object
+  properties:
+  - name: objectId
+    description: An Azure AD object ID (User or Apps) that is allowed access to the FHIR service.
+    types:
+    - uid: string
+- name: FhirServiceAcrConfiguration
+  description: Azure container registry configuration information
+  kind: object
+  properties:
+  - name: loginServers
+    description: The list of the Azure container registry login servers.
+    types:
+    - uid: string
+      isArray: true
+  - name: ociArtifacts
+    description: The list of Open Container Initiative (OCI) artifacts.
+    types:
+    - uid: ServiceOciArtifactEntry
+      isArray: true
+- name: FhirServiceAuthenticationConfiguration
+  description: Authentication configuration information
+  kind: object
+  properties:
+  - name: authority
+    description: The authority url for the service
+    types:
+    - uid: string
+  - name: audience
+    description: The audience url for the service
+    types:
+    - uid: string
+  - name: smartProxyEnabled
+    description: If the SMART on FHIR proxy is enabled
+    types:
+    - uid: boolean
+- name: FhirServiceCorsConfiguration
+  description: The settings for the CORS configuration of the service instance.
+  kind: object
+  properties:
+  - name: origins
+    description: The origins to be allowed via CORS.
+    types:
+    - uid: string
+      isArray: true
+  - name: headers
+    description: The headers to be allowed via CORS.
+    types:
+    - uid: string
+      isArray: true
+  - name: methods
+    description: The methods to be allowed via CORS.
+    types:
+    - uid: string
+      isArray: true
+  - name: maxAge
+    description: The max age to be allowed via CORS.
+    types:
+    - uid: integer
+  - name: allowCredentials
+    description: If credentials are allowed via CORS.
+    types:
+    - uid: boolean
+- name: FhirServiceExportConfiguration
+  description: Export operation configuration information
+  kind: object
+  properties:
+  - name: storageAccountName
+    description: The name of the default export storage account.
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ResourceVersionPolicyConfiguration
+  description: The settings for history tracking for FHIR resources.
+  kind: object
+  properties:
+  - name: default
+    description: The default value for tracking history across all resources.
+    types:
+    - uid: FhirResourceVersionPolicy
+  - name: resourceTypeOverrides
+    description: A list of FHIR Resources and their version policy overrides.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Identity
+  description: Setting indicating whether the service has a managed identity associated with it.
+  kind: object
+  properties:
+  - name: type
+    description: Type of identity being specified, currently SystemAssigned and None are allowed.
+    types:
+    - uid: ServiceManagedIdentityType
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: FhirService
+  description: The description of Fhir Service
+  kind: object
+  properties:
+  - name: kind
+    description: The kind of the service.
+    types:
+    - uid: fhirServiceKind
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state.
+    types:
+    - uid: provisioningState
+  - name: properties.accessPolicies
+    description: Fhir Service access policies.
+    types:
+    - uid: FhirServiceAccessPolicyEntry
+      isArray: true
+  - name: properties.acrConfiguration
+    description: Fhir Service Azure container registry configuration.
+    types:
+    - uid: FhirServiceAcrConfiguration
+  - name: properties.authenticationConfiguration
+    description: Fhir Service authentication configuration.
+    types:
+    - uid: FhirServiceAuthenticationConfiguration
+  - name: properties.corsConfiguration
+    description: Fhir Service Cors configuration.
+    types:
+    - uid: FhirServiceCorsConfiguration
+  - name: properties.exportConfiguration
+    description: Fhir Service export configuration.
+    types:
+    - uid: FhirServiceExportConfiguration
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections that are set up for this resource.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.publicNetworkAccess
+    isReadyOnly: true
+    description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.eventState
+    isReadyOnly: true
+    description: Fhir Service event support status.
+    types:
+    - uid: ServiceEventState
+  - name: properties.resourceVersionPolicyConfiguration
+    description: Determines tracking of history for resources.
+    types:
+    - uid: ResourceVersionPolicyConfiguration
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The resource location.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource identifier.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: etag
+    description: An etag associated with the resource, used for optimistic concurrency when editing it.
+    types:
+    - uid: string
+  - name: identity
+    description: Setting indicating whether the service has a managed identity associated with it.
+    types:
+    - uid: Identity
+- name: ErrorDetails
+  description: Error details.
+  kind: object
+  properties:
+  - name: error
+    description: Error details
+    types:
+    - uid: ErrorDetailsInternal
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ServiceOciArtifactEntry
+  description: An Open Container Initiative (OCI) artifact.
+  kind: object
+  properties:
+  - name: loginServer
+    description: The Azure Container Registry login server.
+    types:
+    - uid: string
+  - name: imageName
+    description: The artifact name.
+    types:
+    - uid: string
+  - name: digest
+    description: The artifact digest.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: FhirResourceVersionPolicy
+  description: Controls how resources are versioned on the FHIR service
+  kind: enum
+  properties:
+  - name: no-version
+    types:
+    - uid: string
+  - name: versioned
+    types:
+    - uid: string
+  - name: versioned-update
+    types:
+    - uid: string
+- name: ServiceManagedIdentityType
+  description: Type of identity being specified, currently SystemAssigned and None are allowed.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: fhirServiceKind
+  description: The kind of the service.
+  kind: enum
+  properties:
+  - name: fhir-Stu3
+    types:
+    - uid: string
+  - name: fhir-R4
+    types:
+    - uid: string
+- name: provisioningState
+  description: The provisioning state.
+  kind: enum
+  properties:
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Verifying
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Deprovisioned
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Warned
+    types:
+    - uid: string
+  - name: SystemMaintenance
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ServiceEventState
+  description: Fhir Service event support status.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+- name: ErrorDetailsInternal
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+examples:
+- name: Create or update a Fhir Service
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/fhirservices/fhirservice1?api-version=2021-11-01
+    body: >-
+      {
+        "location": "westus",
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "kind": "fhir-R4",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "accessPolicies": [
+            {
+              "objectId": "c487e7d1-3210-41a3-8ccc-e9372b78da47"
+            },
+            {
+              "objectId": "5b307da8-43d4-492b-8b66-b0294ade872f"
+            }
+          ],
+          "acrConfiguration": {
+            "loginServers": [
+              "test1.azurecr.io"
+            ]
+          },
+          "authenticationConfiguration": {
+            "authority": "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            "audience": "https://azurehealthcareapis.com",
+            "smartProxyEnabled": true
+          },
+          "corsConfiguration": {
+            "origins": [
+              "*"
+            ],
+            "headers": [
+              "*"
+            ],
+            "methods": [
+              "DELETE",
+              "GET",
+              "OPTIONS",
+              "PATCH",
+              "POST",
+              "PUT"
+            ],
+            "maxAge": 1440,
+            "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/fhirservices/fhirservice1?api-version=2021-11-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "kind": "fhir-R4",
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "accessPolicies": [
+            {
+              "objectId": "c487e7d1-3210-41a3-8ccc-e9372b78da47"
+            },
+            {
+              "objectId": "5b307da8-43d4-492b-8b66-b0294ade872f"
+            }
+          ],
+          "acrConfiguration": {
+            "loginServers": [
+              "test1.azurecr.io"
+            ]
+          },
+          "authenticationConfiguration": {
+            "authority": "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            "audience": "https://azurehealthcareapis.com",
+            "smartProxyEnabled": true
+          },
+          "corsConfiguration": {
+            "origins": [
+              "*"
+            ],
+            "headers": [
+              "*"
+            ],
+            "methods": [
+              "DELETE",
+              "GET",
+              "OPTIONS",
+              "PATCH",
+              "POST",
+              "PUT"
+            ],
+            "maxAge": 1440,
+            "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAccessPolicyEntry;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAcrConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceAuthenticationConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceCorsConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceExportConfiguration;
+      import com.azure.resourcemanager.healthcareapis.models.FhirServiceKind;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityIdentity;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityType;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for FhirServices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+           */
+          /**
+           * Sample code: Create or update a Fhir Service.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void createOrUpdateAFhirService(
+              com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              manager
+                  .fhirServices()
+                  .define("fhirservice1")
+                  .withExistingWorkspace("testRG", "workspace1")
+                  .withRegion("westus")
+                  .withTags(mapOf("additionalProp1", "string", "additionalProp2", "string", "additionalProp3", "string"))
+                  .withKind(FhirServiceKind.FHIR_R4)
+                  .withIdentity(new ServiceManagedIdentityIdentity().withType(ServiceManagedIdentityType.SYSTEM_ASSIGNED))
+                  .withAccessPolicies(
+                      Arrays
+                          .asList(
+                              new FhirServiceAccessPolicyEntry().withObjectId("c487e7d1-3210-41a3-8ccc-e9372b78da47"),
+                              new FhirServiceAccessPolicyEntry().withObjectId("5b307da8-43d4-492b-8b66-b0294ade872f")))
+                  .withAcrConfiguration(new FhirServiceAcrConfiguration().withLoginServers(Arrays.asList("test1.azurecr.io")))
+                  .withAuthenticationConfiguration(
+                      new FhirServiceAuthenticationConfiguration()
+                          .withAuthority("https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc")
+                          .withAudience("https://azurehealthcareapis.com")
+                          .withSmartProxyEnabled(true))
+                  .withCorsConfiguration(
+                      new FhirServiceCorsConfiguration()
+                          .withOrigins(Arrays.asList("*"))
+                          .withHeaders(Arrays.asList("*"))
+                          .withMethods(Arrays.asList("DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"))
+                          .withMaxAge(1440)
+                          .withAllowCredentials(false))
+                  .withExportConfiguration(
+                      new FhirServiceExportConfiguration().withStorageAccountName("existingStorageAccount"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+      func ExampleFhirServicesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewFhirServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testRG",
+      		"workspace1",
+      		"fhirservice1",
+      		armhealthcareapis.FhirService{
+      			Identity: &armhealthcareapis.ServiceManagedIdentityIdentity{
+      				Type: to.Ptr(armhealthcareapis.ServiceManagedIdentityTypeSystemAssigned),
+      			},
+      			Location: to.Ptr("westus"),
+      			Tags: map[string]*string{
+      				"additionalProp1": to.Ptr("string"),
+      				"additionalProp2": to.Ptr("string"),
+      				"additionalProp3": to.Ptr("string"),
+      			},
+      			Kind: to.Ptr(armhealthcareapis.FhirServiceKindFhirR4),
+      			Properties: &armhealthcareapis.FhirServiceProperties{
+      				AccessPolicies: []*armhealthcareapis.FhirServiceAccessPolicyEntry{
+      					{
+      						ObjectID: to.Ptr("c487e7d1-3210-41a3-8ccc-e9372b78da47"),
+      					},
+      					{
+      						ObjectID: to.Ptr("5b307da8-43d4-492b-8b66-b0294ade872f"),
+      					}},
+      				AcrConfiguration: &armhealthcareapis.FhirServiceAcrConfiguration{
+      					LoginServers: []*string{
+      						to.Ptr("test1.azurecr.io")},
+      				},
+      				AuthenticationConfiguration: &armhealthcareapis.FhirServiceAuthenticationConfiguration{
+      					Audience:          to.Ptr("https://azurehealthcareapis.com"),
+      					Authority:         to.Ptr("https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc"),
+      					SmartProxyEnabled: to.Ptr(true),
+      				},
+      				CorsConfiguration: &armhealthcareapis.FhirServiceCorsConfiguration{
+      					AllowCredentials: to.Ptr(false),
+      					Headers: []*string{
+      						to.Ptr("*")},
+      					MaxAge: to.Ptr[int32](1440),
+      					Methods: []*string{
+      						to.Ptr("DELETE"),
+      						to.Ptr("GET"),
+      						to.Ptr("OPTIONS"),
+      						to.Ptr("PATCH"),
+      						to.Ptr("POST"),
+      						to.Ptr("PUT")},
+      					Origins: []*string{
+      						to.Ptr("*")},
+      				},
+      				ExportConfiguration: &armhealthcareapis.FhirServiceExportConfiguration{
+      					StorageAccountName: to.Ptr("existingStorageAccount"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a FHIR Service resource with the specified parameters.
+       *
+       * @summary Creates or updates a FHIR Service resource with the specified parameters.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/fhirservices/FhirServices_Create.json
+       */
+      async function createOrUpdateAFhirService() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const workspaceName = "workspace1";
+        const fhirServiceName = "fhirservice1";
+        const fhirservice = {
+          accessPolicies: [
+            { objectId: "c487e7d1-3210-41a3-8ccc-e9372b78da47" },
+            { objectId: "5b307da8-43d4-492b-8b66-b0294ade872f" },
+          ],
+          acrConfiguration: { loginServers: ["test1.azurecr.io"] },
+          authenticationConfiguration: {
+            audience: "https://azurehealthcareapis.com",
+            authority: "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            smartProxyEnabled: true,
+          },
+          corsConfiguration: {
+            allowCredentials: false,
+            headers: ["*"],
+            maxAge: 1440,
+            methods: ["DELETE", "GET", "OPTIONS", "PATCH", "POST", "PUT"],
+            origins: ["*"],
+          },
+          exportConfiguration: { storageAccountName: "existingStorageAccount" },
+          identity: { type: "SystemAssigned" },
+          kind: "fhir-R4",
+          location: "westus",
+          tags: {
+            additionalProp1: "string",
+            additionalProp2: "string",
+            additionalProp3: "string",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.fhirServices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          fhirServiceName,
+          fhirservice
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAFhirService().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "fhirservice1",
+        "id": "/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/fhirservices/fhirservice1",
+        "location": "westus",
+        "type": "Microsoft.HealthcareApis/workspaces/fhirservices",
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "kind": "fhir-R4",
+        "etag": "etagvalue",
+        "properties": {
+          "accessPolicies": [
+            {
+              "objectId": "c487e7d1-3210-41a3-8ccc-e9372b78da47"
+            },
+            {
+              "objectId": "5b307da8-43d4-492b-8b66-b0294ade872f"
+            }
+          ],
+          "authenticationConfiguration": {
+            "authority": "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            "audience": "https://azurehealthcareapis.com",
+            "smartProxyEnabled": true
+          },
+          "corsConfiguration": {
+            "origins": [
+              "*"
+            ],
+            "headers": [
+              "*"
+            ],
+            "methods": [
+              "DELETE",
+              "GET",
+              "OPTIONS",
+              "PATCH",
+              "POST",
+              "PUT"
+            ],
+            "maxAge": 1440,
+            "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
+          },
+          "eventState": "Disabled",
+          "provisioningState": "Succeeded"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "fhirservice1",
+        "id": "/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/fhirservices/fhirservice1",
+        "location": "westus",
+        "type": "Microsoft.HealthcareApis/workspaces/fhirservices",
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "kind": "fhir-R4",
+        "etag": "etagvalue",
+        "properties": {
+          "accessPolicies": [
+            {
+              "objectId": "c487e7d1-3210-41a3-8ccc-e9372b78da47"
+            },
+            {
+              "objectId": "5b307da8-43d4-492b-8b66-b0294ade872f"
+            }
+          ],
+          "authenticationConfiguration": {
+            "authority": "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            "audience": "https://azurehealthcareapis.com",
+            "smartProxyEnabled": true
+          },
+          "corsConfiguration": {
+            "origins": [
+              "*"
+            ],
+            "headers": [
+              "*"
+            ],
+            "methods": [
+              "DELETE",
+              "GET",
+              "OPTIONS",
+              "PATCH",
+              "POST",
+              "PUT"
+            ],
+            "maxAge": 1440,
+            "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
+          },
+          "eventState": "Disabled",
+          "provisioningState": "Creating"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "fhirservice1",
+        "id": "/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/fhirservices/fhirservice1",
+        "location": "westus",
+        "type": "Microsoft.HealthcareApis/workspaces/fhirservices",
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "kind": "fhir-R4",
+        "etag": "etagvalue",
+        "properties": {
+          "accessPolicies": [
+            {
+              "objectId": "c487e7d1-3210-41a3-8ccc-e9372b78da47"
+            },
+            {
+              "objectId": "5b307da8-43d4-492b-8b66-b0294ade872f"
+            }
+          ],
+          "authenticationConfiguration": {
+            "authority": "https://login.microsoftonline.com/abfde7b2-df0f-47e6-aabf-2462b07508dc",
+            "audience": "https://azurehealthcareapis.com",
+            "smartProxyEnabled": true
+          },
+          "corsConfiguration": {
+            "origins": [
+              "*"
+            ],
+            "headers": [
+              "*"
+            ],
+            "methods": [
+              "DELETE",
+              "GET",
+              "OPTIONS",
+              "PATCH",
+              "POST",
+              "PUT"
+            ],
+            "maxAge": 1440,
+            "allowCredentials": false
+          },
+          "exportConfiguration": {
+            "storageAccountName": "existingStorageAccount"
+          },
+          "eventState": "Disabled",
+          "provisioningState": "Accepted"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Healthcare Apis service - Creates or updates a FHIR Service resource with the specified parameters.
+errorCodes: []

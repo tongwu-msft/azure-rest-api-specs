@@ -1,5 +1,6 @@
 ﻿---
 title: "Updates a registration"
+description: Use this API reference documentation to update an existing registration.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

@@ -1,0 +1,655 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurespringapps.apps.list
+name: List
+service: Azure Spring Apps
+groupName: Apps
+apiVersion: 2022-05-01-preview
+summary: Handles requests to list all resources in a Service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the Service resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes the list of Apps in the Service.
+  types:
+  - uid: AppResourceCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AppResourceCollection
+  description: Object that includes an array of App resources and a possible link for next set
+  kind: object
+  properties:
+  - name: value
+    description: Collection of App resources
+    types:
+    - uid: AppResource
+      isArray: true
+  - name: nextLink
+    description: >-
+      URL client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: AppResource
+  description: App resource payload
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the App resource
+    types:
+    - uid: AppResourceProperties
+  - name: identity
+    description: The Managed Identity type of the app resource
+    types:
+    - uid: ManagedIdentityProperties
+  - name: location
+    description: The GEO location of the application, always the same with its parent resource
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: AppResourceProperties
+  description: App resource properties payload
+  kind: object
+  properties:
+  - name: public
+    description: Indicates whether the App exposes public endpoint
+    types:
+    - uid: boolean
+  - name: url
+    isReadyOnly: true
+    description: URL of the App
+    types:
+    - uid: string
+  - name: addonConfigs
+    description: Collection of addons
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the App
+    types:
+    - uid: AppResourceProvisioningState
+  - name: fqdn
+    description: Fully qualified dns Name.
+    types:
+    - uid: string
+  - name: httpsOnly
+    description: Indicate if only https is allowed.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: temporaryDisk
+    description: Temporary disk settings
+    types:
+    - uid: TemporaryDisk
+  - name: persistentDisk
+    description: Persistent disk settings
+    types:
+    - uid: PersistentDisk
+  - name: customPersistentDisks
+    description: List of custom persistent disks
+    types:
+    - uid: CustomPersistentDiskResource
+      isArray: true
+  - name: enableEndToEndTLS
+    description: Indicate if end to end TLS is enabled.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: loadedCertificates
+    description: Collection of loaded certificates
+    types:
+    - uid: LoadedCertificate
+      isArray: true
+  - name: vnetAddons
+    description: Additional App settings in vnet injection instance
+    types:
+    - uid: AppVNetAddons
+- name: ManagedIdentityProperties
+  description: Managed identity properties retrieved from ARM request headers.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the managed identity
+    types:
+    - uid: ManagedIdentityType
+  - name: principalId
+    description: Principal Id of system-assigned managed identity.
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant Id of system-assigned managed identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: Properties of user-assigned managed identities
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
+- name: AppResourceProvisioningState
+  description: Provisioning state of the App
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: TemporaryDisk
+  description: Temporary disk payload
+  kind: object
+  properties:
+  - name: sizeInGB
+    description: Size of the temporary disk in GB
+    types:
+    - uid: integer
+  - name: mountPath
+    description: Mount path of the temporary disk
+    types:
+    - uid: string
+    defaultValue: /tmp
+- name: PersistentDisk
+  description: Persistent disk payload
+  kind: object
+  properties:
+  - name: sizeInGB
+    description: Size of the persistent disk in GB
+    types:
+    - uid: integer
+  - name: usedInGB
+    isReadyOnly: true
+    description: Size of the used persistent disk in GB
+    types:
+    - uid: integer
+  - name: mountPath
+    description: Mount path of the persistent disk
+    types:
+    - uid: string
+- name: CustomPersistentDiskResource
+  description: Custom persistent disk resource payload.
+  kind: object
+  properties:
+  - name: customPersistentDiskProperties
+    description: Properties of the custom persistent disk resource payload.
+    types:
+    - uid: AzureFileVolume
+    typesTitle: CustomPersistentDiskProperties
+  - name: storageId
+    description: The resource id of Azure Spring Apps Storage resource.
+    types:
+    - uid: string
+- name: LoadedCertificate
+  description: Loaded certificate payload
+  kind: object
+  properties:
+  - name: resourceId
+    description: Resource Id of loaded certificate
+    types:
+    - uid: string
+  - name: loadTrustStore
+    description: Indicate whether the certificate will be loaded into default trust store, only work for Java runtime.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: AppVNetAddons
+  description: Additional App settings in vnet injection instance
+  kind: object
+  properties:
+  - name: publicEndpoint
+    description: Indicates whether the App in vnet injection instance exposes endpoint which could be accessed from internet.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: publicEndpointUrl
+    isReadyOnly: true
+    description: URL of the App in vnet injection instance which could be accessed from internet
+    types:
+    - uid: string
+- name: ManagedIdentityType
+  description: Type of the managed identity
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  description: The details of the user-assigned managed identity assigned to an App.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: Principal Id of user-assigned managed identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: Client Id of user-assigned managed identity.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: AzureFileVolume
+  description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
+  kind: object
+  properties:
+  - name: shareName
+    description: The share name of the Azure File share.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the underlying resource to mount as a persistent disk.
+    types:
+    - uid: AzureFileVolume
+    typesTitle: string
+  - name: mountPath
+    description: The mount path of the persistent disk.
+    types:
+    - uid: string
+  - name: readOnly
+    description: Indicates whether the persistent disk is a readOnly one.
+    types:
+    - uid: boolean
+  - name: mountOptions
+    description: These are the mount options for a persistent disk.
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: Apps_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Apps_List.json
+      func ExampleAppsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewAppsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"myservice",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "public": true,
+              "url": "myapp.myservice.azuremicroservices.io",
+              "provisioningState": "Succeeded",
+              "fqdn": "myapp.mydomain.com",
+              "httpsOnly": false,
+              "enableEndToEndTLS": false,
+              "temporaryDisk": {
+                "sizeInGB": 2,
+                "mountPath": "/mytemporarydisk"
+              },
+              "persistentDisk": {
+                "sizeInGB": 2,
+                "usedInGB": 1,
+                "mountPath": "/mypersistentdisk"
+              },
+              "loadedCertificates": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert1",
+                  "loadTrustStore": false
+                },
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert2",
+                  "loadTrustStore": true
+                }
+              ],
+              "customPersistentDisks": [
+                {
+                  "customPersistentDiskProperties": {
+                    "type": "AzureFileVolume",
+                    "mountPath": "/mypath1/mypath2",
+                    "mountOptions": [
+                      "uid=0",
+                      "gid=0",
+                      "dir_mode=0777",
+                      "file_mode=0777"
+                    ],
+                    "shareName": "myFileShare"
+                  },
+                  "storageId": "myASCStorageID"
+                }
+              ]
+            },
+            "systemData": {
+              "createdBy": "sample-user",
+              "createdByType": "User",
+              "createdAt": "2021-08-11T03:16:03.944Z",
+              "lastModifiedBy": "sample-user",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+            },
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "identity": {
+              "type": "SystemAssigned,UserAssigned",
+              "principalId": "principalid",
+              "tenantId": "tenantid",
+              "userAssignedIdentities": {
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+                  "clientId": "clientId1",
+                  "principalId": "principalId1"
+                },
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+                  "clientId": "clientId2",
+                  "principalId": "principalId2"
+                }
+              }
+            },
+            "location": "eastus",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
+            "name": "myapp"
+          }
+        ]
+      }
+- name: Apps_List_VNetInjection
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "public": true,
+              "url": "myapp.myservice.private.azuremicroservices.io",
+              "provisioningState": "Succeeded",
+              "fqdn": "myapp.mydomain.com",
+              "httpsOnly": false,
+              "enableEndToEndTLS": false,
+              "vnetAddons": {
+                "publicEndpoint": true,
+                "publicEndpointUrl": "myapp.myservice.azuremicroservices.io"
+              },
+              "temporaryDisk": {
+                "sizeInGB": 2,
+                "mountPath": "/mytemporarydisk"
+              },
+              "persistentDisk": {
+                "sizeInGB": 2,
+                "usedInGB": 1,
+                "mountPath": "/mypersistentdisk"
+              },
+              "loadedCertificates": [
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert1",
+                  "loadTrustStore": false
+                },
+                {
+                  "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert2",
+                  "loadTrustStore": true
+                }
+              ],
+              "customPersistentDisks": [
+                {
+                  "customPersistentDiskProperties": {
+                    "type": "AzureFileVolume",
+                    "mountPath": "/mypath1/mypath2",
+                    "mountOptions": [
+                      "uid=0",
+                      "gid=0",
+                      "dir_mode=0777",
+                      "file_mode=0777"
+                    ],
+                    "shareName": "myFileShare"
+                  },
+                  "storageId": "myASCStorageID"
+                }
+              ]
+            },
+            "systemData": {
+              "createdBy": "sample-user",
+              "createdByType": "User",
+              "createdAt": "2021-08-11T03:16:03.944Z",
+              "lastModifiedBy": "sample-user",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+            },
+            "type": "Microsoft.AppPlatform/Spring/apps",
+            "identity": {
+              "type": "SystemAssigned,UserAssigned",
+              "principalId": "principalid",
+              "tenantId": "tenantid",
+              "userAssignedIdentities": {
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+                  "clientId": "clientId1",
+                  "principalId": "principalId1"
+                },
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+                  "clientId": "clientId2",
+                  "principalId": "principalId2"
+                }
+              }
+            },
+            "location": "eastus",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp",
+            "name": "myapp"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Spring Apps service - Handles requests to list all resources in a Service.
+errorCodes: []

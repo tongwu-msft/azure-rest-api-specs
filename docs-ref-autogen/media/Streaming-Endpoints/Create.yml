@@ -3,15 +3,15 @@ uid: management.azure.com.media.streamingendpoints.create
 name: Create
 service: Media Services
 groupName: Streaming Endpoints
-apiVersion: 2021-06-01
+apiVersion: 2022-08-01
 summary: "Create StreamingEndpoint  \nCreates a streaming endpoint."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2021-06-01
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2021-06-01&autoStart={autoStart}
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2022-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/streamingEndpoints/{streamingEndpointName}?api-version=2022-08-01&autoStart={autoStart}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -66,6 +66,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: sku
+    in: body
+    description: The streaming endpoint sku.
+    types:
+    - uid: ArmStreamingEndpointCurrentSku
   - name: properties.description
     in: body
     description: The streaming endpoint description.
@@ -163,6 +168,19 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: ArmStreamingEndpointCurrentSku
+  description: The streaming endpoint current sku.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The streaming endpoint sku name.
+    types:
+    - uid: string
+  - name: capacity
+    description: The streaming endpoint sku capacity.
+    types:
+    - uid: integer
 - name: StreamingEndpointAccessControl
   description: Streaming endpoint access control definition.
   kind: object
@@ -196,6 +214,10 @@ definitions:
     description: The system metadata relating to this resource.
     types:
     - uid: systemData
+  - name: sku
+    description: The streaming endpoint sku.
+    types:
+    - uid: ArmStreamingEndpointCurrentSku
   - name: properties.description
     description: The streaming endpoint description.
     types:
@@ -444,7 +466,7 @@ definitions:
 examples:
 - name: Create a streaming endpoint
   request:
-    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2021-06-01
+    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2022-08-01
     body: >-
       {
         "location": "West US",
@@ -483,8 +505,58 @@ examples:
           "cdnEnabled": false
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingEndpoints/myStreamingEndpoint1?api-version=2022-08-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "description": "test event 1",
+          "scaleUnits": 1,
+          "availabilitySetName": "availableset",
+          "accessControl": {
+            "akamai": {
+              "akamaiSignatureHeaderAuthenticationKeyList": [
+                {
+                  "identifier": "id1",
+                  "expiration": "2029-12-31T16:00:00-08:00",
+                  "base64Key": "dGVzdGlkMQ=="
+                },
+                {
+                  "identifier": "id2",
+                  "expiration": "2030-12-31T16:00:00-08:00",
+                  "base64Key": "dGVzdGlkMQ=="
+                }
+              ]
+            },
+            "ip": {
+              "allow": [
+                {
+                  "name": "AllowedIp",
+                  "address": "192.168.1.1"
+                }
+              ]
+            }
+          },
+          "cdnEnabled": false
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingendpointoperations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
+    - name: location
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/streamingendpoints/myStreamingEndpoint1/operationlocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
     body: >-
       {
         "name": "myStreamingEndpoint1",
@@ -592,5 +664,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Create StreamingEndpoint  \nCreates a streaming endpoint."
+  description: >
+    Learn more about Media Services service - Create StreamingEndpoint
+
+    Creates a streaming endpoint.
 errorCodes: []

@@ -3,315 +3,840 @@ uid: management.azure.com.labservices.labs.update
 name: Update
 service: Lab Services
 groupName: Labs
-apiVersion: 2018-10-15
-summary: Modify properties of labs.
+apiVersion: 2022-08-01
+summary: Operation to update a lab resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
-  types:
-  - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client API version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: The resource was updated; response contains the Lab.
+  types:
+  - uid: Lab
+- name: 202 Accepted
+  description: The resource was update and has a long running operation; response contains the Lab.
   types:
   - uid: Lab
 - name: Other Status Codes
-  description: BadRequest
+  description: The default error response.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
-  - name: properties.maxUsersInLab
+  - name: properties.autoShutdownProfile
     in: body
-    description: Maximum number of users allowed in the lab.
+    description: The resource auto shutdown configuration for the lab. This controls whether actions are taken on resources that are sitting idle.
     types:
-    - uid: integer
-  - name: properties.usageQuota
+    - uid: AutoShutdownProfile
+  - name: properties.connectionProfile
     in: body
-    description: Maximum duration a user can use an environment for in the lab.
+    description: The connection profile for the lab. This controls settings such as web access to lab resources or whether RDP or SSH ports are open.
+    types:
+    - uid: ConnectionProfile
+  - name: properties.virtualMachineProfile
+    in: body
+    description: The profile used for creating lab virtual machines.
+    types:
+    - uid: VirtualMachineProfile
+  - name: properties.securityProfile
+    in: body
+    description: The lab security profile.
+    types:
+    - uid: SecurityProfile
+  - name: properties.rosterProfile
+    in: body
+    description: The lab user list management profile.
+    types:
+    - uid: RosterProfile
+  - name: properties.labPlanId
+    in: body
+    description: The ID of the lab plan. Used during resource creation to provide defaults and acts as a permission container when creating a lab via labs.azure.com. Setting a labPlanId on an existing lab provides organization..
     types:
     - uid: string
-  - name: properties.userAccessMode
+  - name: properties.title
     in: body
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
-  - name: properties.provisioningState
-    in: body
-    description: The provisioning status of the resource.
+    description: The title of the lab.
     types:
     - uid: string
-  - name: properties.uniqueIdentifier
+  - name: properties.description
     in: body
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: location
-    in: body
-    description: The location of the resource.
+    description: The description of the lab.
     types:
     - uid: string
   - name: tags
     in: body
-    description: The tags of the resource.
+    description: Resource tags.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: AutoShutdownProfile
+  description: Profile for how to handle shutting down virtual machines.
+  kind: object
+  properties:
+  - name: shutdownOnDisconnect
+    description: Whether shutdown on disconnect is enabled
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+  - name: shutdownWhenNotConnected
+    description: Whether a VM will get shutdown when it hasn't been connected to after a period of time.
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+  - name: shutdownOnIdle
+    description: Whether a VM will get shutdown when it has idled for a period of time.
+    types:
+    - uid: shutdownOnIdleMode
+    defaultValue: None
+  - name: disconnectDelay
+    description: The amount of time a VM will stay running after a user disconnects if this behavior is enabled.
+    types:
+    - uid: string
+  - name: noConnectDelay
+    description: The amount of time a VM will stay running before it is shutdown if no connection is made and this behavior is enabled.
+    types:
+    - uid: string
+  - name: idleDelay
+    description: The amount of time a VM will idle before it is shutdown if this behavior is enabled.
+    types:
+    - uid: string
+- name: ConnectionProfile
+  description: Connection profile for how users connect to lab virtual machines.
+  kind: object
+  properties:
+  - name: webSshAccess
+    description: The enabled access level for Web Access over SSH.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: webRdpAccess
+    description: The enabled access level for Web Access over RDP.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: clientSshAccess
+    description: The enabled access level for Client Access over SSH.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: clientRdpAccess
+    description: The enabled access level for Client Access over RDP.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+- name: VirtualMachineProfile
+  description: The base virtual machine configuration for a lab.
+  kind: object
+  properties:
+  - name: createOption
+    description: Indicates what lab virtual machines are created from.
+    types:
+    - uid: CreateOption
+  - name: imageReference
+    description: The image configuration for lab virtual machines.
+    types:
+    - uid: ImageReference
+  - name: osType
+    isReadyOnly: true
+    description: The OS type of the image
+    types:
+    - uid: OsType
+  - name: sku
+    description: The SKU for the lab. Defines the type of virtual machines used in the lab.
+    types:
+    - uid: Sku
+  - name: additionalCapabilities
+    description: Additional VM capabilities.
+    types:
+    - uid: VirtualMachineAdditionalCapabilities
+  - name: usageQuota
+    description: The initial quota alloted to each lab user. Must be a time span between 0 and 9999 hours.
+    types:
+    - uid: string
+  - name: useSharedPassword
+    description: Enabling this option will use the same password for all user VMs.
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+  - name: adminUser
+    description: Credentials for the admin user on the VM.
+    types:
+    - uid: Credentials
+  - name: nonAdminUser
+    description: Credentials for the non-admin user on the VM, if one exists.
+    types:
+    - uid: Credentials
+- name: SecurityProfile
+  description: The lab security profile.
+  kind: object
+  properties:
+  - name: registrationCode
+    isReadyOnly: true
+    description: The registration code for the lab.
+    types:
+    - uid: string
+  - name: openAccess
+    description: Whether any user or only specified users can register to a lab.
+    types:
+    - uid: EnableState
+- name: RosterProfile
+  description: The lab user list management profile.
+  kind: object
+  properties:
+  - name: activeDirectoryGroupId
+    description: The AAD group ID which this lab roster is populated from. Having this set enables AAD sync mode.
+    types:
+    - uid: string
+  - name: ltiContextId
+    description: The unique context identifier for the lab in the lms.
+    types:
+    - uid: string
+  - name: lmsInstance
+    description: The base URI identifying the lms instance.
+    types:
+    - uid: string
+  - name: ltiClientId
+    description: The unique id of the azure lab services tool in the lms.
+    types:
+    - uid: string
+  - name: ltiRosterEndpoint
+    description: The uri of the names and roles service endpoint on the lms for the class attached to this lab.
+    types:
+    - uid: string
+- name: Lab
+  description: The lab resource.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the lab.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning state of the lab.
+    types:
+    - uid: ProvisioningState
+  - name: properties.networkProfile
+    description: The network profile for the lab, typically applied via a lab plan. This profile cannot be modified once a lab has been created.
+    types:
+    - uid: LabNetworkProfile
+  - name: properties.state
+    isReadyOnly: true
+    description: The lab state.
+    types:
+    - uid: LabState
+  - name: tags
+    description: Resource tags.
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-requestHeader: []
-definitions:
-- name: Lab
-  description: Represents a lab.
-  kind: object
-  properties:
-  - name: properties.maxUsersInLab
-    description: Maximum number of users allowed in the lab.
-    types:
-    - uid: integer
-  - name: properties.userQuota
-    isReadyOnly: true
-    description: Maximum value MaxUsersInLab can be set to, as specified by the service
-    types:
-    - uid: integer
-  - name: properties.invitationCode
-    isReadyOnly: true
-    description: Invitation code that users can use to join a lab.
+  - name: location
+    description: The geo-location where the resource lives
     types:
     - uid: string
-  - name: properties.createdByObjectId
-    isReadyOnly: true
-    description: Object id of the user that created the lab.
-    types:
-    - uid: string
-  - name: properties.usageQuota
-    description: Maximum duration a user can use an environment for in the lab.
-    types:
-    - uid: string
-  - name: properties.userAccessMode
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
-    types:
-    - uid: LabUserAccessMode
-  - name: properties.createdByUserPrincipalName
-    isReadyOnly: true
-    description: Lab creator name
-    types:
-    - uid: string
-  - name: properties.createdDate
-    isReadyOnly: true
-    description: Creation date for the lab
-    types:
-    - uid: string
-  - name: properties.provisioningState
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: properties.latestOperationResult
-    isReadyOnly: true
-    description: 'The details of the latest operation. ex: status, error'
-    types:
-    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
-    description: The identifier of the resource.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-  - name: location
-    description: The location of the resource.
+  - name: properties.autoShutdownProfile
+    description: The resource auto shutdown configuration for the lab. This controls whether actions are taken on resources that are sitting idle.
+    types:
+    - uid: AutoShutdownProfile
+  - name: properties.connectionProfile
+    description: The connection profile for the lab. This controls settings such as web access to lab resources or whether RDP or SSH ports are open.
+    types:
+    - uid: ConnectionProfile
+  - name: properties.virtualMachineProfile
+    description: The profile used for creating lab virtual machines.
+    types:
+    - uid: VirtualMachineProfile
+  - name: properties.securityProfile
+    description: The lab security profile.
+    types:
+    - uid: SecurityProfile
+  - name: properties.rosterProfile
+    description: The lab user list management profile.
+    types:
+    - uid: RosterProfile
+  - name: properties.labPlanId
+    description: The ID of the lab plan. Used during resource creation to provide defaults and acts as a permission container when creating a lab via labs.azure.com. Setting a labPlanId on an existing lab provides organization..
     types:
     - uid: string
-  - name: tags
-    description: The tags of the resource.
+  - name: properties.title
+    description: The title of the lab.
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: CloudError
-  description: Error from a REST request.
+    - uid: string
+  - name: properties.description
+    description: The description of the lab.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The error object.
     types:
-    - uid: CloudErrorBody
-- name: LabFragment
-  description: Represents a lab.
+    - uid: ErrorDetail
+- name: LabUpdate
+  description: The lab resource for updates.
   kind: object
   properties:
-  - name: properties.maxUsersInLab
-    description: Maximum number of users allowed in the lab.
+  - name: properties.autoShutdownProfile
+    description: The resource auto shutdown configuration for the lab. This controls whether actions are taken on resources that are sitting idle.
     types:
-    - uid: integer
-  - name: properties.usageQuota
-    description: Maximum duration a user can use an environment for in the lab.
+    - uid: AutoShutdownProfile
+  - name: properties.connectionProfile
+    description: The connection profile for the lab. This controls settings such as web access to lab resources or whether RDP or SSH ports are open.
     types:
-    - uid: string
-  - name: properties.userAccessMode
-    description: Lab user access mode (open to all vs. restricted to those listed on the lab).
+    - uid: ConnectionProfile
+  - name: properties.virtualMachineProfile
+    description: The profile used for creating lab virtual machines.
     types:
-    - uid: LabUserAccessMode
-  - name: properties.provisioningState
-    description: The provisioning status of the resource.
+    - uid: VirtualMachineProfile
+  - name: properties.securityProfile
+    description: The lab security profile.
     types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    description: The unique immutable identifier of a resource (Guid).
+    - uid: SecurityProfile
+  - name: properties.rosterProfile
+    description: The lab user list management profile.
     types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: The identifier of the resource.
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: The name of the resource.
+    - uid: RosterProfile
+  - name: properties.labPlanId
+    description: The ID of the lab plan. Used during resource creation to provide defaults and acts as a permission container when creating a lab via labs.azure.com. Setting a labPlanId on an existing lab provides organization..
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: The type of the resource.
+  - name: properties.title
+    description: The title of the lab.
     types:
     - uid: string
-  - name: location
-    description: The location of the resource.
+  - name: properties.description
+    description: The description of the lab.
     types:
     - uid: string
   - name: tags
-    description: The tags of the resource.
+    description: Resource tags.
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: LabUserAccessMode
-  description: Lab user access mode (open to all vs. restricted to those listed on the lab).
+    - uid: string
+      isArray: true
+- name: EnableState
+  description: Whether shutdown on disconnect is enabled
   kind: enum
   properties:
-  - name: Restricted
-    description: Only users registered with the lab can access VMs.
+  - name: Enabled
     types:
     - uid: string
-  - name: Open
-    description: Any user can register with the lab and access its VMs.
+  - name: Disabled
     types:
     - uid: string
-- name: LatestOperationResult
-  description: Details of the status of an operation.
+- name: shutdownOnIdleMode
+  description: Defines whether to shut down VM on idle and the criteria for idle detection.
+  kind: enum
+  properties:
+  - name: None
+    description: The VM won't be shut down when it is idle.
+    types:
+    - uid: string
+  - name: UserAbsence
+    description: The VM will be considered as idle when there is no keyboard or mouse input.
+    types:
+    - uid: string
+  - name: LowUsage
+    description: The VM will be considered as idle when user is absent and the resource (CPU and disk) consumption is low.
+    types:
+    - uid: string
+- name: ConnectionType
+  description: The enabled access level for Web Access over SSH.
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: CreateOption
+  description: Indicates what lab virtual machines are created from.
+  kind: enum
+  properties:
+  - name: Image
+    description: An image is used to create all lab user virtual machines. When this option is set, no template VM will be created.
+    types:
+    - uid: string
+  - name: TemplateVM
+    description: A template VM will be used to create all lab user virtual machines.
+    types:
+    - uid: string
+- name: ImageReference
+  description: Image reference information. Used in the virtual machine profile.
   kind: object
   properties:
-  - name: status
-    isReadyOnly: true
-    description: The current status of the operation.
+  - name: id
+    description: Image resource ID
     types:
     - uid: string
-  - name: errorCode
-    isReadyOnly: true
-    description: Error code on failure.
+  - name: offer
+    description: The image offer if applicable.
     types:
     - uid: string
-  - name: errorMessage
+  - name: publisher
+    description: The image publisher
+    types:
+    - uid: string
+  - name: sku
+    description: The image SKU
+    types:
+    - uid: string
+  - name: version
+    description: The image version specified on creation.
+    types:
+    - uid: string
+  - name: exactVersion
+    isReadyOnly: true
+    description: The actual version of the image after use.
+    types:
+    - uid: string
+- name: OsType
+  description: The OS type of the image
+  kind: enum
+  properties:
+  - name: Windows
+    types:
+    - uid: string
+  - name: Linux
+    types:
+    - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: VirtualMachineAdditionalCapabilities
+  description: The additional capabilities for a lab VM.
+  kind: object
+  properties:
+  - name: installGpuDrivers
+    description: Flag to pre-install dedicated GPU drivers.
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+- name: Credentials
+  description: Credentials for a user on a lab VM.
+  kind: object
+  properties:
+  - name: username
+    description: The username to use when signing in to lab VMs.
+    types:
+    - uid: string
+  - name: password
+    description: The password for the user. This is required for the TemplateVM createOption.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Current provisioning state of the lab.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Resource is in the process of being created.
+    types:
+    - uid: string
+  - name: Updating
+    description: New property values are being applied to the resource.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Resource is in healthy state after creation or update operation.
+    types:
+    - uid: string
+  - name: Failed
+    description: Previous operation on the resource has failed leaving resource in unhealthy state.
+    types:
+    - uid: string
+  - name: Locked
+    description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
+    types:
+    - uid: string
+- name: LabNetworkProfile
+  description: Profile for how to handle networking for Labs.
+  kind: object
+  properties:
+  - name: subnetId
+    description: The external subnet resource id
+    types:
+    - uid: string
+  - name: loadBalancerId
+    description: The external load balancer resource id
+    types:
+    - uid: string
+  - name: publicIpId
+    description: The external public IP resource id
+    types:
+    - uid: string
+- name: LabState
+  description: The state of a virtual machine.
+  kind: enum
+  properties:
+  - name: Draft
+    description: The lab is currently in draft (has not been published).
+    types:
+    - uid: string
+  - name: Publishing
+    description: The lab is publishing.
+    types:
+    - uid: string
+  - name: Scaling
+    description: The lab is scaling.
+    types:
+    - uid: string
+  - name: Syncing
+    description: The lab is syncing users.
+    types:
+    - uid: string
+  - name: Published
+    description: The lab has been published.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: requestUri
-    isReadyOnly: true
-    description: Request URI of the operation.
-    types:
-    - uid: string
-  - name: httpMethod
-    isReadyOnly: true
-    description: The HttpMethod - PUT/POST/DELETE for the operation.
-    types:
-    - uid: string
-  - name: operationUrl
-    isReadyOnly: true
-    description: The URL to use to check long-running operation status
-    types:
-    - uid: string
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - name: code
-    description: ''
-    types:
-    - uid: string
-  - name: message
-    description: ''
-    types:
-    - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Inner errors.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: CloudErrorBody
+    - uid: ErrorDetail
       isArray: true
-examples: []
-security:
-- name: azure_auth
-  type: oauth2
-  description: OAuth2 Implicit Grant
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: Access Microsoft Azure
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: patchLab
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
+    body: >-
+      {
+        "properties": {
+          "securityProfile": {
+            "openAccess": "Enabled"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
+
+      {
+        "properties": {
+          "securityProfile": {
+            "openAccess": "Enabled"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab",
+        "name": "testlabplan",
+        "type": "Microsoft.LabServices/Lab",
+        "location": "westus",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "connectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          },
+          "autoShutdownProfile": {
+            "shutdownOnDisconnect": "Enabled",
+            "shutdownWhenNotConnected": "Enabled",
+            "shutdownOnIdle": "UserAbsence",
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
+          },
+          "securityProfile": {
+            "registrationCode": "fAkEcodE",
+            "openAccess": "Enabled"
+          },
+          "networkProfile": {
+            "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/id"
+          },
+          "virtualMachineProfile": {
+            "createOption": "TemplateVM",
+            "imageReference": {
+              "offer": "WindowsServer",
+              "publisher": "Microsoft",
+              "sku": "2019-Datacenter",
+              "version": "2019.0.20190410"
+            },
+            "sku": {
+              "name": "Medium",
+              "capacity": 20
+            },
+            "additionalCapabilities": {
+              "installGpuDrivers": "Disabled"
+            },
+            "usageQuota": "PT10H",
+            "useSharedPassword": "Disabled",
+            "adminUser": {
+              "username": "test-user"
+            }
+          },
+          "title": "Test Lab",
+          "description": "This is a test lab.",
+          "labPlanId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
+          "state": "Draft"
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/operationresults/a64149d8-84cb-4566-ab8e-b4ee1a074174
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab",
+        "name": "testlabplan",
+        "type": "Microsoft.LabServices/Lab",
+        "location": "westus",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Updating",
+          "connectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          },
+          "autoShutdownProfile": {
+            "shutdownOnDisconnect": "Enabled",
+            "shutdownWhenNotConnected": "Enabled",
+            "shutdownOnIdle": "UserAbsence",
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
+          },
+          "securityProfile": {
+            "registrationCode": "fAkEcodE",
+            "openAccess": "Enabled"
+          },
+          "networkProfile": {
+            "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
+          },
+          "virtualMachineProfile": {
+            "createOption": "TemplateVM",
+            "imageReference": {
+              "offer": "WindowsServer",
+              "publisher": "Microsoft",
+              "sku": "2019-Datacenter",
+              "version": "2019.0.20190410"
+            },
+            "osType": "Windows",
+            "sku": {
+              "name": "Medium",
+              "capacity": 20
+            },
+            "additionalCapabilities": {
+              "installGpuDrivers": "Disabled"
+            },
+            "usageQuota": "PT10H",
+            "useSharedPassword": "Disabled",
+            "adminUser": {
+              "username": "test-user"
+            }
+          },
+          "title": "Test Lab",
+          "description": "This is a test lab.",
+          "labPlanId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
+          "state": "Draft"
+        }
+      }
+security: []
 metadata:
-  description: Learn more about Lab Services service - Modify properties of labs.
+  description: >
+    Learn more about Lab Services service - Operation to update a lab resource.
 errorCodes: []

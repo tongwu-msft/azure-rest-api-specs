@@ -1,7 +1,7 @@
 ---
-title: "Application Client APIs"
+title: "Client Application"
 description: "Application"
-ms.date: "10/20/2021"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Application Client APIs
+# Client Application APIs
 
 | Name | Description |
 | --- | --- |

@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.createuserrolesinvitationlink
 name: Create User Roles Invitation Link
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Creates an invitation link for a user with the role
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation?api-version=2021-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/createUserInvitation?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -216,7 +216,7 @@ definitions:
 examples:
 - name: Create an invitation link for a user for a static site
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/createUserInvitation?api-version=2021-02-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/createUserInvitation?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -227,6 +227,142 @@ examples:
           "numHoursToExpiration": 1
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/createUserInvitation?api-version=2022-03-01
+
+      {
+        "properties": {
+          "domain": "happy-sea-15afae3e.azurestaticwebsites.net",
+          "provider": "aad",
+          "userDetails": "username",
+          "roles": "admin,contributor",
+          "numHoursToExpiration": 1
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.StaticSiteUserInvitationRequestResource;
+
+      /** Samples for StaticSites CreateUserRolesInvitationLink. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateUserRolesInvitationLink.json
+           */
+          /**
+           * Sample code: Create an invitation link for a user for a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAnInvitationLinkForAUserForAStaticSite(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .createUserRolesInvitationLinkWithResponse(
+                      "rg",
+                      "testStaticSite0",
+                      new StaticSiteUserInvitationRequestResource()
+                          .withDomain("happy-sea-15afae3e.azurestaticwebsites.net")
+                          .withProvider("aad")
+                          .withUserDetails("username")
+                          .withRoles("admin,contributor")
+                          .withNumHoursToExpiration(1),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateUserRolesInvitationLink.json
+      func ExampleStaticSitesClient_CreateUserRolesInvitationLink() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateUserRolesInvitationLink(ctx,
+      		"rg",
+      		"testStaticSite0",
+      		armappservice.StaticSiteUserInvitationRequestResource{
+      			Properties: &armappservice.StaticSiteUserInvitationRequestResourceProperties{
+      				Domain:               to.Ptr("happy-sea-15afae3e.azurestaticwebsites.net"),
+      				NumHoursToExpiration: to.Ptr[int32](1),
+      				Provider:             to.Ptr("aad"),
+      				Roles:                to.Ptr("admin,contributor"),
+      				UserDetails:          to.Ptr("username"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Creates an invitation link for a user with the role
+       *
+       * @summary Description for Creates an invitation link for a user with the role
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateUserRolesInvitationLink.json
+       */
+      async function createAnInvitationLinkForAUserForAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const staticSiteUserRolesInvitationEnvelope = {
+          domain: "happy-sea-15afae3e.azurestaticwebsites.net",
+          numHoursToExpiration: 1,
+          provider: "aad",
+          roles: "admin,contributor",
+          userDetails: "username",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.createUserRolesInvitationLink(
+          resourceGroupName,
+          name,
+          staticSiteUserRolesInvitationEnvelope
+        );
+        console.log(result);
+      }
+
+      createAnInvitationLinkForAUserForAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -246,5 +382,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Creates an invitation link for a user with the role
+  description: >
+    Learn more about App Service service - Description for Creates an invitation link for a user with the role
 errorCodes: []

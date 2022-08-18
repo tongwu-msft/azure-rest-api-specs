@@ -1,0 +1,309 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.usages.listbyinstancepool
+name: List By Instance Pool
+service: SQL Database
+groupName: Usages
+apiVersion: 2021-11-01-preview
+summary: Gets all instance pool usage metrics
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages?api-version=2021-11-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/instancePools/{instancePoolName}/usages?expandChildren={expandChildren}&api-version=2021-11-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: instancePoolName
+  in: path
+  isRequired: true
+  description: The name of the instance pool to be retrieved.
+  types:
+  - uid: string
+- name: expandChildren
+  in: query
+  description: Optional request parameter to include managed instance usages within the instance pool.
+  types:
+  - uid: boolean
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the instance pool usages.
+  types:
+  - uid: UsageListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InstancePoolWrongUsageName - Request for an instance pool's usage has an unsupported usage name
+
+     * 400 InstancePoolManagedInstanceInfoUnavailable - Information for managed instances inside this instance pool is not available
+
+     * 404 InstancePoolNotFound - An instance pool cannot be found
+requestHeader: []
+definitions:
+- name: UsageListResult
+  description: A list of usages.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: Usage
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: Usage
+  description: ARM usage.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: Name
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: Usage unit.
+    types:
+    - uid: string
+  - name: currentValue
+    isReadyOnly: true
+    description: Usage current value.
+    types:
+    - uid: integer
+  - name: limit
+    isReadyOnly: true
+    description: Usage limit.
+    types:
+    - uid: integer
+  - name: requestedLimit
+    isReadyOnly: true
+    description: Usage requested limit.
+    types:
+    - uid: integer
+- name: Name
+  description: ARM Usage Name
+  kind: object
+  properties:
+  - name: value
+    description: Usage name value
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Usage name localized value.
+    types:
+    - uid: string
+examples:
+- name: List instance pool usages.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages?api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages?api-version=2021-11-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/vcore_utilization",
+            "name": {
+              "value": "VCore utilization",
+              "localizedValue": "VCore utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "VCores",
+            "currentValue": 12,
+            "limit": 16,
+            "requestedLimit": 40
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/storage_utilization",
+            "name": {
+              "value": "Storage utilization",
+              "localizedValue": "Storage utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "VCores",
+            "currentValue": 384,
+            "limit": 8196,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/database_utilization",
+            "name": {
+              "value": "Database utilization",
+              "localizedValue": "Database utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "Number Of Databases",
+            "currentValue": 5,
+            "limit": 100,
+            "requestedLimit": null
+          }
+        ]
+      }
+- name: List instance pool usages expanded with children.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages?expandChildren=True&api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages?expandChildren=True&api-version=2021-11-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/vcore_utilization",
+            "name": {
+              "value": "VCore utilization",
+              "localizedValue": "VCore utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "VCores",
+            "currentValue": 12,
+            "limit": 16,
+            "requestedLimit": 40
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/storage_utilization",
+            "name": {
+              "value": "Storage utilization",
+              "localizedValue": "Storage utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "VCores",
+            "currentValue": 384,
+            "limit": 8196,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/usages/database_utilization",
+            "name": {
+              "value": "Database utilization",
+              "localizedValue": "Database utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/usages",
+            "unit": "Number Of Databases",
+            "currentValue": 5,
+            "limit": 100,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance1/usages/vcore_utilization",
+            "name": {
+              "value": "VCore utilization",
+              "localizedValue": "VCore utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "VCores",
+            "currentValue": null,
+            "limit": 4,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance2/usages/vcore_utilization",
+            "name": {
+              "value": "VCore utilization",
+              "localizedValue": "VCore utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "VCores",
+            "currentValue": null,
+            "limit": 4,
+            "requestedLimit": 8
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance1/usages/storage_utilization",
+            "name": {
+              "value": "Storage utilization",
+              "localizedValue": "Storage utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "Gigabytes",
+            "currentValue": null,
+            "limit": 128,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance2/usages/storage_utilization",
+            "name": {
+              "value": "VCore utilization",
+              "localizedValue": "VCore utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "Gigabytes",
+            "currentValue": null,
+            "limit": 128,
+            "requestedLimit": 256
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance1/usages/database_utilization",
+            "name": {
+              "value": "Database utilization",
+              "localizedValue": "Database utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "Number Of Databases",
+            "currentValue": 2,
+            "limit": 100,
+            "requestedLimit": null
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/instancePools/testIP/managedInstances/managedInstance2/usages/database_utilization",
+            "name": {
+              "value": "Database utilization",
+              "localizedValue": "Database utilization"
+            },
+            "type": "Microsoft.Sql/instancePools/managedInstances/usages",
+            "unit": "Number Of Databases",
+            "currentValue": 3,
+            "limit": 100,
+            "requestedLimit": null
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets all instance pool usage metrics
+errorCodes: []

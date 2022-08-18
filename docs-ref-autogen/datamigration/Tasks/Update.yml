@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.tasks.update
 name: Update
 service: Data Migration
 groupName: Tasks
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Create or update task  \nThe tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. The PATCH method updates an existing task, but since tasks have no mutable custom properties, there is little reason to do so."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}?api-version=2018-04-19
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: groupName
@@ -69,30 +69,70 @@ requestBody:
     in: body
     description: Custom task properties
     types:
+    - uid: ConnectToMongoDbTaskProperties
     - uid: ConnectToSourceSqlServerTaskProperties
     - uid: ConnectToSourceSqlServerSyncTaskProperties
     - uid: ConnectToSourcePostgreSqlSyncTaskProperties
+    - uid: ConnectToSourceMySqlTaskProperties
+    - uid: ConnectToSourceOracleSyncTaskProperties
     - uid: ConnectToTargetSqlDbTaskProperties
     - uid: ConnectToTargetSqlSqlDbSyncTaskProperties
     - uid: ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
+    - uid: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: GetUserTablesSqlTaskProperties
     - uid: GetUserTablesSqlSyncTaskProperties
+    - uid: GetUserTablesOracleTaskProperties
+    - uid: GetUserTablesPostgreSqlTaskProperties
+    - uid: GetUserTablesMySqlTaskProperties
     - uid: ConnectToTargetSqlMITaskProperties
     - uid: ConnectToTargetSqlMISyncTaskProperties
     - uid: ConnectToTargetAzureDbForMySqlTaskProperties
+    - uid: MigrateMongoDbTaskProperties
     - uid: MigrateSqlServerSqlMITaskProperties
     - uid: MigrateSqlServerSqlMISyncTaskProperties
     - uid: MigrateSqlServerSqlDbTaskProperties
     - uid: MigrateSqlServerSqlDbSyncTaskProperties
     - uid: MigrateMySqlAzureDbForMySqlSyncTaskProperties
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskProperties
     - uid: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
+    - uid: MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
     - uid: ValidateMigrationInputSqlServerSqlMITaskProperties
     - uid: ValidateMigrationInputSqlServerSqlMISyncTaskProperties
+    - uid: ValidateMongoDbTaskProperties
+    - uid: ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: GetTdeCertificatesSqlTaskProperties
+    - uid: MigrateSsisTaskProperties
     typesTitle: ProjectTaskProperties
 requestHeader: []
 definitions:
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
 - name: ProjectTask
   description: A task resource
   kind: object
@@ -104,28 +144,46 @@ definitions:
   - name: properties
     description: Custom task properties
     types:
+    - uid: ConnectToMongoDbTaskProperties
     - uid: ConnectToSourceSqlServerTaskProperties
     - uid: ConnectToSourceSqlServerSyncTaskProperties
     - uid: ConnectToSourcePostgreSqlSyncTaskProperties
+    - uid: ConnectToSourceMySqlTaskProperties
+    - uid: ConnectToSourceOracleSyncTaskProperties
     - uid: ConnectToTargetSqlDbTaskProperties
     - uid: ConnectToTargetSqlSqlDbSyncTaskProperties
     - uid: ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
+    - uid: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: GetUserTablesSqlTaskProperties
     - uid: GetUserTablesSqlSyncTaskProperties
+    - uid: GetUserTablesOracleTaskProperties
+    - uid: GetUserTablesPostgreSqlTaskProperties
+    - uid: GetUserTablesMySqlTaskProperties
     - uid: ConnectToTargetSqlMITaskProperties
     - uid: ConnectToTargetSqlMISyncTaskProperties
     - uid: ConnectToTargetAzureDbForMySqlTaskProperties
+    - uid: MigrateMongoDbTaskProperties
     - uid: MigrateSqlServerSqlMITaskProperties
     - uid: MigrateSqlServerSqlMISyncTaskProperties
     - uid: MigrateSqlServerSqlDbTaskProperties
     - uid: MigrateSqlServerSqlDbSyncTaskProperties
     - uid: MigrateMySqlAzureDbForMySqlSyncTaskProperties
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskProperties
     - uid: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
+    - uid: MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
     - uid: ValidateMigrationInputSqlServerSqlMITaskProperties
     - uid: ValidateMigrationInputSqlServerSqlMISyncTaskProperties
+    - uid: ValidateMongoDbTaskProperties
+    - uid: ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
     - uid: GetTdeCertificatesSqlTaskProperties
+    - uid: MigrateSsisTaskProperties
     typesTitle: ProjectTaskProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -149,6 +207,58 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: ConnectToMongoDbTaskProperties
+  description: Properties for the task that validates the connection to and provides information about a MongoDB server
+  kind: object
+  properties:
+  - name: input
+    description: Describes a connection to a MongoDB data source
+    types:
+    - uid: MongoDbConnectionInfo
+  - name: output
+    isReadyOnly: true
+    description: An array containing a single MongoDbClusterInfo object
+    types:
+    - uid: MongoDbClusterInfo
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Connect.MongoDb
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToSourceSqlServerTaskProperties
   description: Properties for the task that validates connection to SQL Server and also validates source server requirements
   kind: object
@@ -170,6 +280,10 @@ definitions:
     - uid: ConnectToSourceSqlServerTaskOutputAgentJobLevel
       isArray: true
     typesTitle: ConnectToSourceSqlServerTaskOutput[]
+  - name: taskId
+    description: 'Task id '
+    types:
+    - uid: string
   - name: taskType
     description: Task type.
     types:
@@ -195,6 +309,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToSourceSqlServerSyncTaskProperties
   description: Properties for the task that validates connection to SQL Server and source server requirements for online migration
   kind: object
@@ -241,6 +363,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToSourcePostgreSqlSyncTaskProperties
   description: Properties for the task that validates connection to PostgreSQL server and source server requirements for online migration
   kind: object
@@ -280,6 +410,108 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ConnectToSourceMySqlTaskProperties
+  description: Properties for the task that validates MySQL database connection
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: ConnectToSourceMySqlTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: ConnectToSourceNonSqlTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: ConnectToSource.MySql
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ConnectToSourceOracleSyncTaskProperties
+  description: Properties for the task that validates Oracle database connection
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: ConnectToSourceOracleSyncTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: ConnectToSourceOracleSyncTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: ConnectToSource.Oracle.Sync
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetSqlDbTaskProperties
   description: Properties for the task that validates connection to SQL DB and target server requirements
   kind: object
@@ -294,6 +526,10 @@ definitions:
     types:
     - uid: ConnectToTargetSqlDbTaskOutput
       isArray: true
+  - name: createdOn
+    description: DateTime in UTC when the task was created
+    types:
+    - uid: string
   - name: taskType
     description: Task type.
     types:
@@ -319,6 +555,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetSqlSqlDbSyncTaskProperties
   description: Properties for the task that validates connection to SQL DB and target server requirements for online migration
   kind: object
@@ -358,6 +602,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetAzureDbForPostgreSqlSyncTaskProperties
   description: Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration
   kind: object
@@ -397,6 +649,61 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskProperties
+  description: Properties for the task that validates connection to Azure Database For PostgreSQL server and target server requirements for online migration for Oracle source.
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: ConnectToTarget.Oracle.AzureDbForPostgreSql.Sync
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: GetUserTablesSqlTaskProperties
   description: Properties for the task that collects user tables for the given list of databases
   kind: object
@@ -411,6 +718,10 @@ definitions:
     types:
     - uid: GetUserTablesSqlTaskOutput
       isArray: true
+  - name: taskId
+    description: 'Task id '
+    types:
+    - uid: string
   - name: taskType
     description: Task type.
     types:
@@ -436,6 +747,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: GetUserTablesSqlSyncTaskProperties
   description: Properties for the task that collects user tables for the given list of databases
   kind: object
@@ -475,6 +794,155 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: GetUserTablesOracleTaskProperties
+  description: Properties for the task that collects user tables for the given list of Oracle schemas
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: GetUserTablesOracleTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: GetUserTablesOracleTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: GetUserTablesOracle
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: GetUserTablesPostgreSqlTaskProperties
+  description: Properties for the task that collects user tables for the given list of databases
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: GetUserTablesPostgreSqlTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: GetUserTablesPostgreSqlTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: GetUserTablesPostgreSql
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: GetUserTablesMySqlTaskProperties
+  description: Properties for the task that collects user tables for the given list of databases
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: GetUserTablesMySqlTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: GetUserTablesMySqlTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: GetUserTablesMySql
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetSqlMITaskProperties
   description: Properties for the task that validates connection to Azure SQL Database Managed Instance
   kind: object
@@ -514,6 +982,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetSqlMISyncTaskProperties
   description: Properties for the task that validates connection to Azure SQL Database Managed Instance
   kind: object
@@ -553,6 +1029,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ConnectToTargetAzureDbForMySqlTaskProperties
   description: Properties for the task that validates connection to Azure Database for MySQL and target server requirements
   kind: object
@@ -592,6 +1076,66 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MigrateMongoDbTaskProperties
+  description: Properties for the task that migrates data between MongoDB data sources
+  kind: object
+  properties:
+  - name: input
+    description: Describes how a MongoDB data migration should be performed
+    types:
+    - uid: MongoDbMigrationSettings
+  - name: output
+    isReadyOnly: true
+    description: Base class for MongoDB migration outputs
+    types:
+    - uid: MongoDbCollectionProgress
+      isArray: true
+    - uid: MongoDbDatabaseProgress
+      isArray: true
+    - uid: MongoDbMigrationProgress
+      isArray: true
+    typesTitle: MongoDbProgress[]
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Migrate.MongoDb
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigrateSqlServerSqlMITaskProperties
   description: Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance
   kind: object
@@ -615,6 +1159,22 @@ definitions:
     - uid: MigrateSqlServerSqlMITaskOutputError
       isArray: true
     typesTitle: MigrateSqlServerSqlMITaskOutput[]
+  - name: taskId
+    description: task id
+    types:
+    - uid: string
+  - name: createdOn
+    description: DateTime in UTC when the task was created
+    types:
+    - uid: string
+  - name: parentTaskId
+    description: parent task id
+    types:
+    - uid: string
+  - name: isCloneable
+    description: whether the task can be cloned or not
+    types:
+    - uid: boolean
   - name: taskType
     description: Task type.
     types:
@@ -640,6 +1200,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigrateSqlServerSqlMISyncTaskProperties
   description: Properties for task that migrates SQL Server databases to Azure SQL Database Managed Instance sync scenario
   kind: object
@@ -659,6 +1227,10 @@ definitions:
     - uid: MigrateSqlServerSqlMISyncTaskOutputError
       isArray: true
     typesTitle: MigrateSqlServerSqlMISyncTaskOutput[]
+  - name: createdOn
+    description: DateTime in UTC when the task was created
+    types:
+    - uid: string
   - name: taskType
     description: Task type.
     types:
@@ -684,6 +1256,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigrateSqlServerSqlDbTaskProperties
   description: Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database
   kind: object
@@ -709,6 +1289,18 @@ definitions:
     - uid: MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
       isArray: true
     typesTitle: MigrateSqlServerSqlDbTaskOutput[]
+  - name: taskId
+    description: task id
+    types:
+    - uid: string
+  - name: isCloneable
+    description: whether the task can be cloned or not
+    types:
+    - uid: boolean
+  - name: createdOn
+    description: DateTime in UTC when the task was created
+    types:
+    - uid: string
   - name: taskType
     description: Task type.
     types:
@@ -734,6 +1326,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigrateSqlServerSqlDbSyncTaskProperties
   description: Properties for the task that migrates on-prem SQL Server databases to Azure SQL Database for online migrations
   kind: object
@@ -782,6 +1382,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigrateMySqlAzureDbForMySqlSyncTaskProperties
   description: Properties for the task that migrates MySQL databases to Azure Database for MySQL for online migrations
   kind: object
@@ -830,6 +1438,76 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskProperties
+  description: Properties for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
+      isArray: true
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
+      isArray: true
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
+      isArray: true
+    - uid: MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
+      isArray: true
+    typesTitle: MigrateMySqlAzureDbForMySqlOfflineTaskOutput[]
+  - name: isCloneable
+    description: whether the task can be cloned or not
+    types:
+    - uid: boolean
+  - name: taskId
+    description: 'Task id '
+    types:
+    - uid: string
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Migrate.MySql.AzureDbForMySql
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskProperties
   description: Properties for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations
   kind: object
@@ -853,10 +1531,22 @@ definitions:
     - uid: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputDatabaseError
       isArray: true
     typesTitle: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutput[]
+  - name: taskId
+    description: task id
+    types:
+    - uid: string
+  - name: createdOn
+    description: DateTime in UTC when the task was created
+    types:
+    - uid: string
+  - name: isCloneable
+    description: whether the task can be cloned or not
+    types:
+    - uid: boolean
   - name: taskType
     description: Task type.
     types:
-    - uid: Migrate.PostgreSql.AzureDbForPostgreSql.Sync
+    - uid: Migrate.PostgreSql.AzureDbForPostgreSql.SyncV2
     typesTitle: string
   - name: errors
     isReadyOnly: true
@@ -878,6 +1568,70 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MigrateOracleAzureDbForPostgreSqlSyncTaskProperties
+  description: Properties for the task that migrates Oracle to Azure Database for PostgreSQL for online migrations
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
+      isArray: true
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+      isArray: true
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+      isArray: true
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+      isArray: true
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
+      isArray: true
+    typesTitle: MigrateOracleAzureDbPostgreSqlSyncTaskOutput[]
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Migrate.Oracle.AzureDbForPostgreSql.Sync
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ValidateMigrationInputSqlServerSqlDbSyncTaskProperties
   description: Properties for task that validates migration input for SQL to Azure SQL DB sync migrations
   kind: object
@@ -917,6 +1671,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ValidateMigrationInputSqlServerSqlMITaskProperties
   description: Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance
   kind: object
@@ -956,6 +1718,14 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: ValidateMigrationInputSqlServerSqlMISyncTaskProperties
   description: Properties for task that validates migration input for SQL to Azure SQL Database Managed Instance sync scenario
   kind: object
@@ -995,6 +1765,108 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ValidateMongoDbTaskProperties
+  description: Properties for the task that validates a migration between MongoDB data sources
+  kind: object
+  properties:
+  - name: input
+    description: Describes how a MongoDB data migration should be performed
+    types:
+    - uid: MongoDbMigrationSettings
+  - name: output
+    isReadyOnly: true
+    description: An array containing a single MongoDbMigrationProgress object
+    types:
+    - uid: MongoDbMigrationProgress
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Validate.MongoDb
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ValidateOracleAzureDbForPostgreSqlSyncTaskProperties
+  description: Properties for the task that validates a migration for Oracle to Azure Database for PostgreSQL for online migrations
+  kind: object
+  properties:
+  - name: input
+    description: Input for the task that migrates Oracle databases to Azure Database for PostgreSQL for online migrations
+    types:
+    - uid: MigrateOracleAzureDbPostgreSqlSyncTaskInput
+  - name: output
+    isReadyOnly: true
+    description: An array containing a single validation error response object
+    types:
+    - uid: ValidateOracleAzureDbPostgreSqlSyncTaskOutput
+      isArray: true
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Validate.Oracle.AzureDbPostgreSql.Sync
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
 - name: GetTdeCertificatesSqlTaskProperties
   description: Properties for the task that gets TDE certificates in Base64 encoded format.
   kind: object
@@ -1034,46 +1906,170 @@ definitions:
     - uid: MigrateMISyncCompleteCommandProperties
       isArray: true
     typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MigrateSsisTaskProperties
+  description: Properties for task that migrates SSIS packages from SQL Server databases to Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: input
+    description: Task input
+    types:
+    - uid: MigrateSsisTaskInput
+  - name: output
+    isReadyOnly: true
+    description: Task output. This is ignored if submitted.
+    types:
+    - uid: MigrateSsisTaskOutputMigrationLevel
+      isArray: true
+    - uid: MigrateSsisTaskOutputProjectLevel
+      isArray: true
+    typesTitle: MigrateSsisTaskOutput[]
+  - name: taskType
+    description: Task type.
+    types:
+    - uid: Migrate.Ssis
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the task. This is ignored if submitted.
+    types:
+    - uid: TaskState
+  - name: commands
+    isReadyOnly: true
+    description: Array of command properties.
+    types:
+    - uid: MigrateSyncCompleteCommandProperties
+      isArray: true
+    - uid: MigrateMISyncCompleteCommandProperties
+      isArray: true
+    typesTitle: CommandProperties[]
+  - name: clientData
+    description: Key value pairs of client data to attach meta data information to task
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ODataError
   description: Error information in OData format.
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
-- name: ConnectToSourceSqlServerTaskInput
-  description: Input for the task that validates connection to SQL Server and also validates source server requirements
+- name: MongoDbConnectionInfo
+  description: Describes a connection to a MongoDB data source
   kind: object
   properties:
-  - name: sourceConnectionInfo
-    description: Connection information for Source SQL Server
+  - name: connectionString
+    description: A MongoDB connection string or blob container URL. The user name and password can be specified here or in the userName and password properties
     types:
-    - uid: SqlConnectionInfo
-  - name: checkPermissionsGroup
-    description: Permission group for validations
+    - uid: string
+  - name: dataSource
+    description: 'Data source '
     types:
-    - uid: ServerLevelPermissionsGroup
-  - name: collectLogins
-    description: Flag for whether to collect logins from source server.
-    types:
-    - uid: boolean
-  - name: collectAgentJobs
-    description: Flag for whether to collect agent jobs from source server.
+    - uid: string
+  - name: encryptConnection
+    description: Whether to encrypt the connection
     types:
     - uid: boolean
+  - name: serverBrandVersion
+    description: server brand version
+    types:
+    - uid: string
+  - name: serverVersion
+    description: server version
+    types:
+    - uid: string
+  - name: trustServerCertificate
+    description: Whether to trust the server certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enforceSSL
+    description: ''
+    types:
+    - uid: boolean
+  - name: port
+    description: port for server
+    types:
+    - uid: integer
+  - name: additionalSettings
+    description: Additional connection settings
+    types:
+    - uid: string
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: MongoDbClusterInfo
+  description: Describes a MongoDB data source
+  kind: object
+  properties:
+  - name: databases
+    description: A list of non-system databases in the cluster
+    types:
+    - uid: MongoDbDatabaseInfo
+      isArray: true
+  - name: supportsSharding
+    description: Whether the cluster supports sharded collections
+    types:
+    - uid: boolean
+  - name: type
+    description: The type of data source
+    types:
+    - uid: MongoDbClusterType
+  - name: version
+    description: The version of the data source in the form x.y.z (e.g. 3.6.7). Not used if Type is BlobContainer.
+    types:
+    - uid: string
 - name: TaskState
   description: The state of the task. This is ignored if submitted.
   kind: enum
@@ -1100,6 +2096,47 @@ definitions:
     types:
     - uid: string
   - name: Faulted
+    types:
+    - uid: string
+- name: ConnectToSourceSqlServerTaskInput
+  description: Input for the task that validates connection to SQL Server and also validates source server requirements
+  kind: object
+  properties:
+  - name: sourceConnectionInfo
+    description: Connection information for Source SQL Server
+    types:
+    - uid: SqlConnectionInfo
+  - name: checkPermissionsGroup
+    description: Permission group for validations
+    types:
+    - uid: ServerLevelPermissionsGroup
+  - name: collectDatabases
+    description: Flag for whether to collect databases from source server.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: collectLogins
+    description: Flag for whether to collect logins from source server.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: collectAgentJobs
+    description: Flag for whether to collect agent jobs from source server.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: collectTdeCertificateInfo
+    description: Flag for whether to collect TDE Certificate names from source server.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: validateSsisCatalogOnly
+    description: Flag for whether to validate SSIS catalog is reachable on the source server.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
     types:
     - uid: string
 - name: ConnectToSourcePostgreSqlSyncTaskInput
@@ -1141,6 +2178,92 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: ConnectToSourceMySqlTaskInput
+  description: Input for the task that validates MySQL database connection
+  kind: object
+  properties:
+  - name: sourceConnectionInfo
+    description: Information for connecting to MySQL source
+    types:
+    - uid: MySqlConnectionInfo
+  - name: targetPlatform
+    description: Target Platform for the migration
+    types:
+    - uid: MySqlTargetPlatformType
+  - name: checkPermissionsGroup
+    description: Permission group for validations
+    types:
+    - uid: ServerLevelPermissionsGroup
+  - name: isOfflineMigration
+    description: Flag for whether or not the migration is offline
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: ConnectToSourceNonSqlTaskOutput
+  description: Output for connect to MySQL type source
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: sourceServerBrandVersion
+    isReadyOnly: true
+    description: Server brand version
+    types:
+    - uid: string
+  - name: serverProperties
+    isReadyOnly: true
+    description: Server properties
+    types:
+    - uid: ServerProperties
+  - name: databases
+    isReadyOnly: true
+    description: List of databases on the server
+    types:
+    - uid: string
+      isArray: true
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors associated with the task
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: ConnectToSourceOracleSyncTaskInput
+  description: Input for the task that validates Oracle database connection
+  kind: object
+  properties:
+  - name: sourceConnectionInfo
+    description: Information for connecting to Oracle source
+    types:
+    - uid: OracleConnectionInfo
+- name: ConnectToSourceOracleSyncTaskOutput
+  description: Output for the task that validates Oracle database connection
+  kind: object
+  properties:
+  - name: sourceServerVersion
+    isReadyOnly: true
+    description: Version of the source server
+    types:
+    - uid: string
+  - name: databases
+    isReadyOnly: true
+    description: List of schemas on source server
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceServerBrandVersion
+    isReadyOnly: true
+    description: Source server brand version
+    types:
+    - uid: string
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors associated with the task
+    types:
+    - uid: ReportableException
+      isArray: true
 - name: ConnectToTargetSqlDbTaskInput
   description: Input for the task that validates connection to SQL DB and target server requirements
   kind: object
@@ -1149,6 +2272,10 @@ definitions:
     description: Connection information for target SQL DB
     types:
     - uid: SqlConnectionInfo
+  - name: queryObjectCounts
+    description: Boolean flag indicating whether to query object counts for each database on the target server
+    types:
+    - uid: boolean
 - name: ConnectToTargetSqlDbTaskOutput
   description: Output for the task that validates connection to SQL DB and target server requirements
   kind: object
@@ -1232,6 +2359,45 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskInput
+  description: Input for the task that validates connection to Azure Database for PostgreSQL and target server requirements for Oracle source.
+  kind: object
+  properties:
+  - name: targetConnectionInfo
+    description: Connection information for target Azure Database for PostgreSQL server
+    types:
+    - uid: PostgreSqlConnectionInfo
+- name: ConnectToTargetOracleAzureDbForPostgreSqlSyncTaskOutput
+  description: Output for the task that validates connection to Azure Database for PostgreSQL and target server requirements for Oracle source.
+  kind: object
+  properties:
+  - name: targetServerVersion
+    isReadyOnly: true
+    description: Version of the target server
+    types:
+    - uid: string
+  - name: databases
+    isReadyOnly: true
+    description: List of databases on target server
+    types:
+    - uid: string
+      isArray: true
+  - name: targetServerBrandVersion
+    isReadyOnly: true
+    description: Target server brand version
+    types:
+    - uid: string
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors associated with the task
+    types:
+    - uid: ReportableException
+      isArray: true
+  - name: databaseSchemaMap
+    description: Mapping of schemas per database
+    types:
+    - uid: DatabaseSchemaMap
+      isArray: true
 - name: GetUserTablesSqlTaskInput
   description: Input for the task that collects user tables for the given list of databases
   kind: object
@@ -1245,6 +2411,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
+    types:
+    - uid: string
 - name: GetUserTablesSqlTaskOutput
   description: Output of the task that collects user tables for the given list of databases
   kind: object
@@ -1328,6 +2498,111 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: GetUserTablesOracleTaskInput
+  description: Input for the task that gets the list of tables contained within a provided list of Oracle schemas.
+  kind: object
+  properties:
+  - name: connectionInfo
+    description: Information for connecting to Oracle source
+    types:
+    - uid: OracleConnectionInfo
+  - name: selectedSchemas
+    description: List of Oracle schemas for which to collect tables
+    types:
+    - uid: string
+      isArray: true
+- name: GetUserTablesOracleTaskOutput
+  description: Output for the task that gets the list of tables contained within a provided list of Oracle schemas.
+  kind: object
+  properties:
+  - name: schemaName
+    isReadyOnly: true
+    description: The schema this result is for
+    types:
+    - uid: string
+  - name: tables
+    isReadyOnly: true
+    description: List of valid tables found for this schema
+    types:
+    - uid: DatabaseTable
+      isArray: true
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors associated with the task
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: GetUserTablesPostgreSqlTaskInput
+  description: Input for the task that gets the list of tables for a provided list of PostgreSQL databases.
+  kind: object
+  properties:
+  - name: connectionInfo
+    description: Information for connecting to PostgreSQL source
+    types:
+    - uid: PostgreSqlConnectionInfo
+  - name: selectedDatabases
+    description: List of PostgreSQL databases for which to collect tables
+    types:
+    - uid: string
+      isArray: true
+- name: GetUserTablesPostgreSqlTaskOutput
+  description: Output for the task that gets the list of tables for a provided list of PostgreSQL databases.
+  kind: object
+  properties:
+  - name: databaseName
+    isReadyOnly: true
+    description: The database this result is for
+    types:
+    - uid: string
+  - name: tables
+    isReadyOnly: true
+    description: List of valid tables found for this database
+    types:
+    - uid: DatabaseTable
+      isArray: true
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors associated with the task
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: GetUserTablesMySqlTaskInput
+  description: Input for the task that collects user tables for the given list of databases
+  kind: object
+  properties:
+  - name: connectionInfo
+    description: Connection information for SQL Server
+    types:
+    - uid: MySqlConnectionInfo
+  - name: selectedDatabases
+    description: List of database names to collect tables for
+    types:
+    - uid: string
+      isArray: true
+- name: GetUserTablesMySqlTaskOutput
+  description: Output of the task that collects user tables for the given list of databases
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: databasesToTables
+    isReadyOnly: true
+    description: Mapping from database name to list of tables
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors
+    types:
+    - uid: ReportableException
+      isArray: true
 - name: ConnectToTargetSqlMITaskInput
   description: Input for the task that validates connection to Azure SQL Database Managed Instance.
   kind: object
@@ -1336,6 +2611,21 @@ definitions:
     description: Connection information for target SQL Server
     types:
     - uid: SqlConnectionInfo
+  - name: collectLogins
+    description: Flag for whether to collect logins from target SQL MI server.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: collectAgentJobs
+    description: Flag for whether to collect agent jobs from target SQL MI server.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: validateSsisCatalogOnly
+    description: Flag for whether to validate SSIS catalog is reachable on the target SQL MI server.
+    types:
+    - uid: boolean
+    defaultValue: false
 - name: ConnectToTargetSqlMITaskOutput
   description: Output for the task that validates connection to Azure SQL Database Managed Instance.
   kind: object
@@ -1417,6 +2707,11 @@ definitions:
     description: Connection information for target Azure Database for MySQL server
     types:
     - uid: MySqlConnectionInfo
+  - name: isOfflineMigration
+    description: Flag for whether or not the migration is offline
+    types:
+    - uid: boolean
+    defaultValue: false
 - name: ConnectToTargetAzureDbForMySqlTaskOutput
   description: Output for the task that validates connection to Azure Database for MySQL and target server requirements
   kind: object
@@ -1448,6 +2743,38 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: MongoDbMigrationSettings
+  description: Describes how a MongoDB data migration should be performed
+  kind: object
+  properties:
+  - name: boostRUs
+    description: The RU limit on a CosmosDB target that collections will be temporarily increased to (if lower) during the initial copy of a migration, from 10,000 to 1,000,000, or 0 to use the default boost (which is generally the maximum), or null to not boost the RUs. This setting has no effect on non-CosmosDB targets.
+    types:
+    - uid: integer
+  - name: databases
+    description: The databases on the source cluster to migrate to the target. The keys are the names of the databases.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbDatabaseSettings
+  - name: replication
+    description: Describes how changes will be replicated from the source to the target. The default is OneTime.
+    types:
+    - uid: MongoDbReplication
+  - name: source
+    description: Settings used to connect to the source cluster
+    types:
+    - uid: MongoDbConnectionInfo
+  - name: target
+    description: Settings used to connect to the target cluster
+    types:
+    - uid: MongoDbConnectionInfo
+  - name: throttling
+    description: Settings used to limit the resource usage of the migration
+    types:
+    - uid: MongoDbThrottlingSettings
 - name: MigrateSqlServerSqlMITaskInput
   description: Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance.
   kind: object
@@ -1457,6 +2784,10 @@ definitions:
     types:
     - uid: MigrateSqlServerSqlMIDatabaseInput
       isArray: true
+  - name: startedOn
+    description: Date and time relative to UTC when the migration was started on
+    types:
+    - uid: string
   - name: selectedLogins
     description: Logins to migrate.
     types:
@@ -1479,6 +2810,14 @@ definitions:
     description: Backup Mode to specify whether to use existing backup or create new backup. If using existing backups, backup file paths are required to be provided in selectedDatabases.
     types:
     - uid: BackupMode
+  - name: aadDomainName
+    description: Azure Active Directory domain name in the format of 'contoso.com' for federated Azure AD or 'contoso.onmicrosoft.com' for managed domain, required if and only if Windows logins are selected
+    types:
+    - uid: string
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
+    types:
+    - uid: string
   - name: sourceConnectionInfo
     description: Information for connecting to source
     types:
@@ -1491,6 +2830,10 @@ definitions:
   description: Input for task that migrates SQL Server databases to Azure SQL Database Managed Instance online scenario.
   kind: object
   properties:
+  - name: numberOfParallelDatabaseMigrations
+    description: Number of database migrations to start in parallel
+    types:
+    - uid: number
   - name: selectedDatabases
     description: Databases to migrate
     types:
@@ -1529,6 +2872,14 @@ definitions:
     description: "Options for enabling various post migration validations. Available options, \n 1.) Data Integrity Check: Performs a checksum based comparison on source and target tables after the migration to ensure the correctness of the data. \n 2.) Schema Validation: Performs a thorough schema comparison between the source and target tables and provides a list of differences between the source and target database, 3.) Query Analysis: Executes a set of queries picked up automatically either from the Query Plan Cache or Query Store and execute them and compares the execution time between the source and target database."
     types:
     - uid: MigrationValidationOptions
+  - name: startedOn
+    description: Date and time relative to UTC when the migration was started on
+    types:
+    - uid: string
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
+    types:
+    - uid: string
   - name: sourceConnectionInfo
     description: Information for connecting to source
     types:
@@ -1575,6 +2926,44 @@ definitions:
     types:
     - uid: MigrateMySqlAzureDbForMySqlSyncDatabaseInput
       isArray: true
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskInput
+  description: Input for the task that migrates MySQL databases to Azure Database for MySQL for offline migrations
+  kind: object
+  properties:
+  - name: sourceConnectionInfo
+    description: Connection information for source MySQL
+    types:
+    - uid: MySqlConnectionInfo
+  - name: targetConnectionInfo
+    description: Connection information for target Azure Database for MySQL
+    types:
+    - uid: MySqlConnectionInfo
+  - name: selectedDatabases
+    description: Databases to migrate
+    types:
+    - uid: MigrateMySqlAzureDbForMySqlOfflineDatabaseInput
+      isArray: true
+  - name: makeSourceServerReadOnly
+    description: Setting to set the source server read only
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: startedOn
+    description: Parameter to specify when the migration started
+    types:
+    - uid: string
+  - name: optionalAgentSettings
+    description: Optional parameters for fine tuning the data transfer rate during migration
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
+    types:
+    - uid: string
 - name: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskInput
   description: Input for the task that migrates PostgreSQL databases to Azure Database for PostgreSQL for online migrations
   kind: object
@@ -1592,6 +2981,32 @@ definitions:
     description: Connection information for source PostgreSQL
     types:
     - uid: PostgreSqlConnectionInfo
+  - name: encryptedKeyForSecureFields
+    description: encrypted key for secure fields
+    types:
+    - uid: string
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskInput
+  description: Input for the task that migrates Oracle databases to Azure Database for PostgreSQL for online migrations
+  kind: object
+  properties:
+  - name: selectedDatabases
+    description: Databases to migrate
+    types:
+    - uid: MigrateOracleAzureDbPostgreSqlSyncDatabaseInput
+      isArray: true
+  - name: targetConnectionInfo
+    description: Connection information for target Azure Database for PostgreSQL
+    types:
+    - uid: PostgreSqlConnectionInfo
+  - name: sourceConnectionInfo
+    description: Connection information for source Oracle
+    types:
+    - uid: OracleConnectionInfo
 - name: ValidateSyncMigrationInputSqlServerTaskInput
   description: Input for task that validates migration input for SQL sync migrations
   kind: object
@@ -1760,6 +3175,89 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: MongoDbMigrationProgress
+  description: Describes the progress of the overall migration
+  kind: object
+  properties:
+  - name: databases
+    description: The progress of the databases in the migration. The keys are the names of the databases
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbDatabaseProgress
+  - name: bytesCopied
+    description: The number of document bytes copied during the Copying stage
+    types:
+    - uid: integer
+  - name: documentsCopied
+    description: The number of documents copied during the Copying stage
+    types:
+    - uid: integer
+  - name: elapsedTime
+    description: The elapsed time in the format [ddd.]hh:mm:ss[.fffffff] (i.e. TimeSpan format)
+    types:
+    - uid: string
+  - name: errors
+    description: The errors and warnings that have occurred for the current object. The keys are the error codes.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbError
+  - name: eventsPending
+    description: The number of oplog events awaiting replay
+    types:
+    - uid: integer
+  - name: eventsReplayed
+    description: The number of oplog events replayed so far
+    types:
+    - uid: integer
+  - name: lastEventTime
+    description: The timestamp of the last oplog event received, or null if no oplog event has been received yet
+    types:
+    - uid: string
+  - name: lastReplayTime
+    description: The timestamp of the last oplog event replayed, or null if no oplog event has been replayed yet
+    types:
+    - uid: string
+  - name: name
+    description: The name of the progress object. For a collection, this is the unqualified collection name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the progress object. For a collection, this is the database-qualified name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: resultType
+    description: The type of progress object
+    types:
+    - uid: Migration
+    typesTitle: string
+  - name: state
+    description: ''
+    types:
+    - uid: MongoDbMigrationState
+  - name: totalBytes
+    description: The total number of document bytes on the source at the beginning of the Copying stage, or -1 if the total size was unknown
+    types:
+    - uid: integer
+  - name: totalDocuments
+    description: The total number of documents on the source at the beginning of the Copying stage, or -1 if the total count was unknown
+    types:
+    - uid: integer
+- name: ValidateOracleAzureDbPostgreSqlSyncTaskOutput
+  description: Output for task that validates migration input for Oracle to Azure Database for PostgreSQL for online migrations
+  kind: object
+  properties:
+  - name: validationErrors
+    isReadyOnly: true
+    description: Errors associated with a selected database object
+    types:
+    - uid: ReportableException
+      isArray: true
 - name: GetTdeCertificatesSqlTaskInput
   description: Input for the task that gets TDE certificates in Base64 encoded format.
   kind: object
@@ -1796,12 +3294,156 @@ definitions:
     types:
     - uid: ReportableException
       isArray: true
+- name: MigrateSsisTaskInput
+  description: Input for task that migrates SSIS packages from SQL Server to Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: ssisMigrationInfo
+    description: SSIS package migration information.
+    types:
+    - uid: SsisMigrationInfo
+  - name: sourceConnectionInfo
+    description: Information for connecting to source
+    types:
+    - uid: SqlConnectionInfo
+  - name: targetConnectionInfo
+    description: Information for connecting to target
+    types:
+    - uid: SqlConnectionInfo
+- name: MongoDbDatabaseInfo
+  description: Describes a database within a MongoDB data source
+  kind: object
+  properties:
+  - name: collections
+    description: A list of supported collections in a MongoDB database
+    types:
+    - uid: MongoDbCollectionInfo
+      isArray: true
+  - name: supportsSharding
+    description: Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary.
+    types:
+    - uid: boolean
+  - name: averageDocumentSize
+    description: The average document size, or -1 if the average size is unknown
+    types:
+    - uid: integer
+  - name: dataSize
+    description: The estimated total data size, in bytes, or -1 if the size is unknown.
+    types:
+    - uid: integer
+  - name: documentCount
+    description: The estimated total number of documents, or -1 if the document count is unknown
+    types:
+    - uid: integer
+  - name: name
+    description: The unqualified name of the database or collection
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the database or collection. For a collection, this is the database-qualified name.
+    types:
+    - uid: string
+- name: MongoDbClusterType
+  description: The type of data source
+  kind: enum
+  properties:
+  - name: BlobContainer
+    types:
+    - uid: string
+  - name: CosmosDb
+    types:
+    - uid: string
+  - name: MongoDb
+    types:
+    - uid: string
+- name: MigrateSyncCompleteCommandProperties
+  description: Properties for the command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: input
+    description: Command input
+    types:
+    - uid: MigrateSyncCompleteCommandInput
+  - name: output
+    isReadyOnly: true
+    description: Command output. This is ignored if submitted.
+    types:
+    - uid: MigrateSyncCompleteCommandOutput
+  - name: commandId
+    description: Command id
+    types:
+    - uid: string
+  - name: commandType
+    description: Command type.
+    types:
+    - uid: Migrate.Sync.Complete.Database
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the command. This is ignored if submitted.
+    types:
+    - uid: CommandState
+- name: MigrateMISyncCompleteCommandProperties
+  description: Properties for the command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: input
+    description: Command input
+    types:
+    - uid: MigrateMISyncCompleteCommandInput
+  - name: output
+    isReadyOnly: true
+    description: Command output. This is ignored if submitted.
+    types:
+    - uid: MigrateMISyncCompleteCommandOutput
+  - name: commandType
+    description: Command type.
+    types:
+    - uid: Migrate.SqlServer.AzureDbSqlMi.Complete
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the command. This is ignored if submitted.
+    types:
+    - uid: CommandState
 - name: SqlConnectionInfo
   description: Information for connecting to SQL database server
   kind: object
   properties:
   - name: dataSource
     description: Data source in the format Protocol:MachineName\SQLServerInstanceName,PortNumber
+    types:
+    - uid: string
+  - name: serverName
+    description: name of the server
+    types:
+    - uid: string
+  - name: port
+    description: Port for Server
+    types:
+    - uid: integer
+  - name: serverVersion
+    description: server version
+    types:
+    - uid: string
+  - name: serverBrandVersion
+    description: server brand version
+    types:
+    - uid: string
+  - name: resourceId
+    description: Represents the ID of an HTTP resource represented by an Azure resource provider.
     types:
     - uid: string
   - name: authentication
@@ -1812,6 +3454,7 @@ definitions:
     description: Whether to encrypt the connection
     types:
     - uid: boolean
+    defaultValue: true
   - name: additionalSettings
     description: Additional connection settings
     types:
@@ -1820,6 +3463,7 @@ definitions:
     description: Whether to trust the server certificate
     types:
     - uid: boolean
+    defaultValue: false
   - name: platform
     description: Server platform type for connection
     types:
@@ -1853,6 +3497,9 @@ definitions:
   - name: MigrationFromMySQLToAzureDBForMySQL
     types:
     - uid: string
+  - name: MigrationFromSqlServerToAzureVM
+    types:
+    - uid: string
 - name: ConnectToSourceSqlServerTaskOutputTaskLevel
   description: Task level output for the task that validates connection to SQL Server and also validates source server requirements
   kind: object
@@ -1878,6 +3525,15 @@ definitions:
   - name: agentJobs
     isReadyOnly: true
     description: Source agent jobs as a map from agent job name to id.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: databaseTdeCertificateMapping
+    isReadyOnly: true
+    description: Mapping from database name to TDE certificate name, if applicable
     types:
     - uid: object
       isDictionary: true
@@ -1990,34 +3646,40 @@ definitions:
     - uid: LoginLevelOutput
     typesTitle: string
 - name: ConnectToSourceSqlServerTaskOutputAgentJobLevel
-  description: AgentJob level output for the task that validates connection to SQL Server and also validates source server requirements
+  description: Agent Job level output for the task that validates connection to SQL Server and also validates source server requirements
   kind: object
   properties:
   - name: name
     isReadyOnly: true
-    description: AgentJob name
+    description: Agent Job name
     types:
     - uid: string
   - name: jobCategory
     isReadyOnly: true
-    description: The type of AgentJob.
+    description: The type of Agent Job.
     types:
     - uid: string
   - name: isEnabled
     isReadyOnly: true
-    description: The state of the original AgentJob.
+    description: The state of the original Agent Job.
     types:
     - uid: boolean
   - name: jobOwner
     isReadyOnly: true
-    description: The owner of the AgentJob
+    description: The owner of the Agent Job
     types:
     - uid: string
   - name: lastExecutedOn
     isReadyOnly: true
-    description: UTC Date and time when the AgentJob was last executed.
+    description: UTC Date and time when the Agent Job was last executed.
     types:
     - uid: string
+  - name: validationErrors
+    isReadyOnly: true
+    description: Validation errors
+    types:
+    - uid: ReportableException
+      isArray: true
   - name: migrationEligibility
     isReadyOnly: true
     description: Information about eligibility of agent job for migration.
@@ -2033,70 +3695,20 @@ definitions:
     types:
     - uid: AgentJobLevelOutput
     typesTitle: string
-- name: MigrateSyncCompleteCommandProperties
-  description: Properties for the command that completes sync migration for a database.
-  kind: object
-  properties:
-  - name: input
-    description: Command input
-    types:
-    - uid: MigrateSyncCompleteCommandInput
-  - name: output
-    isReadyOnly: true
-    description: Command output. This is ignored if submitted.
-    types:
-    - uid: MigrateSyncCompleteCommandOutput
-  - name: commandType
-    description: Command type.
-    types:
-    - uid: Migrate.Sync.Complete.Database
-    typesTitle: string
-  - name: errors
-    isReadyOnly: true
-    description: Array of errors. This is ignored if submitted.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: state
-    isReadyOnly: true
-    description: The state of the command. This is ignored if submitted.
-    types:
-    - uid: CommandState
-- name: MigrateMISyncCompleteCommandProperties
-  description: Properties for the command that completes online migration for an Azure SQL Database Managed Instance.
-  kind: object
-  properties:
-  - name: input
-    description: Command input
-    types:
-    - uid: MigrateMISyncCompleteCommandInput
-  - name: output
-    isReadyOnly: true
-    description: Command output. This is ignored if submitted.
-    types:
-    - uid: MigrateMISyncCompleteCommandOutput
-  - name: commandType
-    description: Command type.
-    types:
-    - uid: Migrate.SqlServer.AzureDbSqlMi.Complete
-    typesTitle: string
-  - name: errors
-    isReadyOnly: true
-    description: Array of errors. This is ignored if submitted.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: state
-    isReadyOnly: true
-    description: The state of the command. This is ignored if submitted.
-    types:
-    - uid: CommandState
 - name: PostgreSqlConnectionInfo
   description: Information for connecting to PostgreSQL server
   kind: object
   properties:
   - name: serverName
     description: Name of the server
+    types:
+    - uid: string
+  - name: dataSource
+    description: 'Data source '
+    types:
+    - uid: string
+  - name: serverVersion
+    description: server version
     types:
     - uid: string
   - name: databaseName
@@ -2107,6 +3719,28 @@ definitions:
     description: Port for Server
     types:
     - uid: integer
+  - name: encryptConnection
+    description: Whether to encrypt the connection
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: trustServerCertificate
+    description: Whether to trust the server certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: additionalSettings
+    description: Additional connection settings
+    types:
+    - uid: string
+  - name: serverBrandVersion
+    description: server brand version
+    types:
+    - uid: string
+  - name: authentication
+    description: Authentication type to use for connection
+    types:
+    - uid: AuthenticationType
   - name: type
     description: Type of connection info
     types:
@@ -2125,7 +3759,6 @@ definitions:
   kind: object
   properties:
   - name: message
-    isReadyOnly: true
     description: Error message
     types:
     - uid: string
@@ -2134,23 +3767,149 @@ definitions:
     types:
     - uid: string
   - name: filePath
-    isReadyOnly: true
     description: The path to the file where exception occurred
     types:
     - uid: string
   - name: lineNumber
-    isReadyOnly: true
     description: The line number where exception occurred
     types:
     - uid: string
   - name: hResult
-    isReadyOnly: true
     description: Coded numerical value that is assigned to a specific exception
     types:
     - uid: integer
   - name: stackTrace
-    isReadyOnly: true
     description: Stack trace
+    types:
+    - uid: string
+- name: MySqlConnectionInfo
+  description: Information for connecting to MySQL server
+  kind: object
+  properties:
+  - name: serverName
+    description: Name of the server
+    types:
+    - uid: string
+  - name: dataSource
+    description: 'Data source '
+    types:
+    - uid: string
+  - name: port
+    description: Port for Server
+    types:
+    - uid: integer
+  - name: encryptConnection
+    description: Whether to encrypt the connection
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: authentication
+    description: Authentication type to use for connection
+    types:
+    - uid: AuthenticationType
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: MySqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: MySqlTargetPlatformType
+  description: Target Platform for the migration
+  kind: enum
+  properties:
+  - name: SqlServer
+    types:
+    - uid: string
+  - name: AzureDbForMySQL
+    types:
+    - uid: string
+- name: ServerProperties
+  description: Server properties for MySQL type source
+  kind: object
+  properties:
+  - name: serverPlatform
+    isReadyOnly: true
+    description: Name of the server platform
+    types:
+    - uid: string
+  - name: serverName
+    isReadyOnly: true
+    description: Name of the server
+    types:
+    - uid: string
+  - name: serverVersion
+    isReadyOnly: true
+    description: Version of the database server
+    types:
+    - uid: string
+  - name: serverEdition
+    isReadyOnly: true
+    description: Edition of the database server
+    types:
+    - uid: string
+  - name: serverOperatingSystemVersion
+    isReadyOnly: true
+    description: Version of the operating system
+    types:
+    - uid: string
+  - name: serverDatabaseCount
+    isReadyOnly: true
+    description: Number of databases in the server
+    types:
+    - uid: integer
+- name: OracleConnectionInfo
+  description: Information for connecting to Oracle server
+  kind: object
+  properties:
+  - name: dataSource
+    description: EZConnect or TNSName connection string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: OracleConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: DatabaseSchemaMap
+  description: Mapping of schemas per database
+  kind: object
+  properties:
+  - name: database
+    description: ''
+    types:
+    - uid: string
+  - name: schemas
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+- name: DatabaseTable
+  description: Table properties
+  kind: object
+  properties:
+  - name: hasRows
+    isReadyOnly: true
+    description: Indicates whether table is empty or not
+    types:
+    - uid: boolean
+  - name: name
+    isReadyOnly: true
+    description: Schema-qualified name of the table
     types:
     - uid: string
 - name: MiSqlConnectionInfo
@@ -2190,31 +3949,193 @@ definitions:
     description: Tenant id of the customer
     types:
     - uid: string
-- name: MySqlConnectionInfo
-  description: Information for connecting to MySQL server
+  - name: ignoreAzurePermissions
+    description: Ignore checking azure permissions on the AAD app
+    types:
+    - uid: boolean
+- name: MongoDbDatabaseSettings
+  description: Describes how an individual MongoDB database should be migrated
   kind: object
   properties:
-  - name: serverName
-    description: Name of the server
+  - name: collections
+    description: The collections on the source database to migrate to the target. The keys are the unqualified names of the collections.
     types:
-    - uid: string
-  - name: port
-    description: Port for Server
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbCollectionSettings
+  - name: targetRUs
+    description: The RUs that should be configured on a CosmosDB target, or null to use the default, or 0 if throughput should not be provisioned for the database. This has no effect on non-CosmosDB targets.
     types:
     - uid: integer
-  - name: type
-    description: Type of connection info
+- name: MongoDbReplication
+  description: Describes how changes will be replicated from the source to the target. The default is OneTime.
+  kind: enum
+  properties:
+  - name: Disabled
     types:
-    - uid: MySqlConnectionInfo
+    - uid: string
+  - name: OneTime
+    types:
+    - uid: string
+  - name: Continuous
+    types:
+    - uid: string
+- name: MongoDbThrottlingSettings
+  description: Specifies resource limits for the migration
+  kind: object
+  properties:
+  - name: minFreeCpu
+    description: The percentage of CPU time that the migrator will try to avoid using, from 0 to 100
+    types:
+    - uid: integer
+  - name: minFreeMemoryMb
+    description: The number of megabytes of RAM that the migrator will try to avoid using
+    types:
+    - uid: integer
+  - name: maxParallelism
+    description: The maximum number of work items (e.g. collection copies) that will be processed in parallel
+    types:
+    - uid: integer
+- name: MongoDbCollectionProgress
+  description: Describes the progress of a collection
+  kind: object
+  properties:
+  - name: bytesCopied
+    description: The number of document bytes copied during the Copying stage
+    types:
+    - uid: integer
+  - name: documentsCopied
+    description: The number of documents copied during the Copying stage
+    types:
+    - uid: integer
+  - name: elapsedTime
+    description: The elapsed time in the format [ddd.]hh:mm:ss[.fffffff] (i.e. TimeSpan format)
+    types:
+    - uid: string
+  - name: errors
+    description: The errors and warnings that have occurred for the current object. The keys are the error codes.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbError
+  - name: eventsPending
+    description: The number of oplog events awaiting replay
+    types:
+    - uid: integer
+  - name: eventsReplayed
+    description: The number of oplog events replayed so far
+    types:
+    - uid: integer
+  - name: lastEventTime
+    description: The timestamp of the last oplog event received, or null if no oplog event has been received yet
+    types:
+    - uid: string
+  - name: lastReplayTime
+    description: The timestamp of the last oplog event replayed, or null if no oplog event has been replayed yet
+    types:
+    - uid: string
+  - name: name
+    description: The name of the progress object. For a collection, this is the unqualified collection name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the progress object. For a collection, this is the database-qualified name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: resultType
+    description: The type of progress object
+    types:
+    - uid: Collection
     typesTitle: string
-  - name: userName
-    description: User name
+  - name: state
+    description: ''
+    types:
+    - uid: MongoDbMigrationState
+  - name: totalBytes
+    description: The total number of document bytes on the source at the beginning of the Copying stage, or -1 if the total size was unknown
+    types:
+    - uid: integer
+  - name: totalDocuments
+    description: The total number of documents on the source at the beginning of the Copying stage, or -1 if the total count was unknown
+    types:
+    - uid: integer
+- name: MongoDbDatabaseProgress
+  description: Describes the progress of a database
+  kind: object
+  properties:
+  - name: collections
+    description: The progress of the collections in the database. The keys are the unqualified names of the collections
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: bytesCopied
+    description: The number of document bytes copied during the Copying stage
+    types:
+    - uid: integer
+  - name: documentsCopied
+    description: The number of documents copied during the Copying stage
+    types:
+    - uid: integer
+  - name: elapsedTime
+    description: The elapsed time in the format [ddd.]hh:mm:ss[.fffffff] (i.e. TimeSpan format)
     types:
     - uid: string
-  - name: password
-    description: Password credential.
+  - name: errors
+    description: The errors and warnings that have occurred for the current object. The keys are the error codes.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MongoDbError
+  - name: eventsPending
+    description: The number of oplog events awaiting replay
+    types:
+    - uid: integer
+  - name: eventsReplayed
+    description: The number of oplog events replayed so far
+    types:
+    - uid: integer
+  - name: lastEventTime
+    description: The timestamp of the last oplog event received, or null if no oplog event has been received yet
     types:
     - uid: string
+  - name: lastReplayTime
+    description: The timestamp of the last oplog event replayed, or null if no oplog event has been replayed yet
+    types:
+    - uid: string
+  - name: name
+    description: The name of the progress object. For a collection, this is the unqualified collection name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the progress object. For a collection, this is the database-qualified name. For a database, this is the database name. For the overall migration, this is null.
+    types:
+    - uid: string
+  - name: resultType
+    description: The type of progress object
+    types:
+    - uid: Database
+    typesTitle: string
+  - name: state
+    description: ''
+    types:
+    - uid: MongoDbMigrationState
+  - name: totalBytes
+    description: The total number of document bytes on the source at the beginning of the Copying stage, or -1 if the total size was unknown
+    types:
+    - uid: integer
+  - name: totalDocuments
+    description: The total number of documents on the source at the beginning of the Copying stage, or -1 if the total count was unknown
+    types:
+    - uid: integer
 - name: MigrateSqlServerSqlMIDatabaseInput
   description: Database specific information for SQL to Azure SQL DB Managed Instance migration task inputs
   kind: object
@@ -2236,6 +4157,10 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: id
+    description: id of the database
+    types:
+    - uid: string
 - name: FileShare
   description: File share information with Path, Username, and Password.
   kind: object
@@ -2372,7 +4297,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: MigrationLevelOutput
@@ -2427,7 +4351,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelOutput
@@ -2477,7 +4400,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: AgentJobLevelOutput
@@ -2527,7 +4449,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: LoginLevelOutput
@@ -2546,7 +4467,6 @@ definitions:
     types:
     - uid: ReportableException
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: ErrorOutput
@@ -2615,7 +4535,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: MigrationLevelOutput
@@ -2686,7 +4605,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelOutput
@@ -2705,7 +4623,6 @@ definitions:
     types:
     - uid: ReportableException
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: ErrorOutput
@@ -2734,6 +4651,14 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: schemaSetting
+    description: Settings selected for DB schema migration.
+    types:
+    - uid: object
+  - name: id
+    description: id of the database
+    types:
+    - uid: string
 - name: MigrationValidationOptions
   description: Types of validations to run after the migration
   kind: object
@@ -2751,7 +4676,6 @@ definitions:
     types:
     - uid: boolean
 - name: MigrateSqlServerSqlDbTaskOutputMigrationLevel
-  description: Migration level result for Sql server to Azure Sql DB migration.
   kind: object
   properties:
   - name: startedOn
@@ -2802,8 +4726,12 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: DatabaseSummaryResult
-  - name: migrationReport
-    isReadyOnly: true
+  - name: migrationValidationResult
+    description: Migration Validation Results
+    types:
+    - uid: MigrateSqlServerSqlDbTaskOutputValidationResult
+    typesTitle: MigrationValidationResult
+  - name: migrationReportResult
     description: Migration Report Result, provides unique url for downloading your migration report.
     types:
     - uid: MigrationReportResult
@@ -2844,7 +4772,6 @@ definitions:
     - uid: MigrationLevelOutput
     typesTitle: string
 - name: MigrateSqlServerSqlDbTaskOutputDatabaseLevel
-  description: Database level result for Sql Server to Azure Sql DB migration.
   kind: object
   properties:
   - name: databaseName
@@ -2933,7 +4860,6 @@ definitions:
     - uid: DatabaseLevelOutput
     typesTitle: string
 - name: MigrateSqlServerSqlDbTaskOutputTableLevel
-  description: Table level result for Sql Server to Azure Sql DB migration.
   kind: object
   properties:
   - name: objectName
@@ -2992,7 +4918,6 @@ definitions:
     - uid: TableLevelOutput
     typesTitle: string
 - name: MigrateSqlServerSqlDbTaskOutputError
-  description: Task errors for Sql Server to Azure Sql DB migration.
   kind: object
   properties:
   - name: id
@@ -3011,9 +4936,18 @@ definitions:
     - uid: ErrorOutput
     typesTitle: string
 - name: MigrateSqlServerSqlDbTaskOutputValidationResult
-  description: Validation result for Sql Server to Azure Sql DB migration.
   kind: object
   properties:
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: MigrationValidationOutput
+    typesTitle: string
   - name: migrationId
     isReadyOnly: true
     description: Migration Identifier
@@ -3032,6 +4966,9 @@ definitions:
     description: Current status of validation at the migration level. Status from the database validation result status will be aggregated here.
     types:
     - uid: ValidationStatus
+- name: MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
+  kind: object
+  properties:
   - name: id
     isReadyOnly: true
     description: Result identifier
@@ -3040,12 +4977,8 @@ definitions:
   - name: resultType
     description: Result type
     types:
-    - uid: MigrationValidationOutput
+    - uid: MigrationDatabaseLevelValidationOutput
     typesTitle: string
-- name: MigrateSqlServerSqlDbTaskOutputDatabaseLevelValidationResult
-  description: Database validation result for Sql Server to Azure Sql DB migration.
-  kind: object
-  properties:
   - name: migrationId
     isReadyOnly: true
     description: Migration Identifier
@@ -3091,16 +5024,6 @@ definitions:
     description: Current status of validation at the database level
     types:
     - uid: ValidationStatus
-  - name: id
-    isReadyOnly: true
-    description: Result identifier
-    types:
-    - uid: string
-  - name: resultType
-    description: Result type
-    types:
-    - uid: MigrationDatabaseLevelValidationOutput
-    typesTitle: string
 - name: MigrateSqlServerSqlDbSyncDatabaseInput
   description: Database specific information for SQL to Azure SQL DB sync migration task inputs
   kind: object
@@ -3197,7 +5120,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: MigrationLevelOutput
@@ -3286,7 +5208,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelOutput
@@ -3365,7 +5286,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: TableLevelOutput
@@ -3384,7 +5304,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: ErrorOutput
@@ -3407,7 +5326,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelErrorOutput
@@ -3442,6 +5360,14 @@ definitions:
       - uid: string
   - name: targetSetting
     description: Target settings to tune target endpoint migration behavior
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tableMap
+    description: Mapping of source to target tables
     types:
     - uid: object
       isDictionary: true
@@ -3487,7 +5413,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: MigrationLevelOutput
@@ -3576,7 +5501,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelOutput
@@ -3655,7 +5579,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: TableLevelOutput
@@ -3674,7 +5597,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: ErrorOutput
@@ -3697,13 +5619,12 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelErrorOutput
     typesTitle: string
-- name: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput
-  description: Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs
+- name: MigrateMySqlAzureDbForMySqlOfflineDatabaseInput
+  description: Database specific information for offline MySQL to Azure Database for MySQL migration task inputs
   kind: object
   properties:
   - name: name
@@ -3714,14 +5635,304 @@ definitions:
     description: 'Name of target database. Note: Target database will be truncated before starting migration.'
     types:
     - uid: string
-  - name: migrationSetting
-    description: Migration settings which tune the migration behavior
+  - name: tableMap
+    description: Mapping of source to target tables
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskOutputMigrationLevel
+  kind: object
+  properties:
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: durationInSeconds
+    isReadyOnly: true
+    description: Duration of task execution in seconds.
+    types:
+    - uid: integer
+  - name: status
+    isReadyOnly: true
+    description: Current status of migration
+    types:
+    - uid: MigrationStatus
+  - name: statusMessage
+    isReadyOnly: true
+    description: Migration status message
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Migration progress message
+    types:
+    - uid: string
+  - name: databases
+    description: Selected databases as a map from database name to database id
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: databaseSummary
+    isReadyOnly: true
+    description: Summary of database results in the migration
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: DatabaseSummaryResult
+  - name: migrationReportResult
+    description: Migration Report Result, provides unique url for downloading your migration report.
+    types:
+    - uid: MigrationReportResult
+  - name: sourceServerVersion
+    isReadyOnly: true
+    description: Source server version
+    types:
+    - uid: string
+  - name: sourceServerBrandVersion
+    isReadyOnly: true
+    description: Source server brand version
+    types:
+    - uid: string
+  - name: targetServerVersion
+    isReadyOnly: true
+    description: Target server version
+    types:
+    - uid: string
+  - name: targetServerBrandVersion
+    isReadyOnly: true
+    description: Target server brand version
+    types:
+    - uid: string
+  - name: exceptionsAndWarnings
+    isReadyOnly: true
+    description: Migration exceptions and warnings.
+    types:
+    - uid: ReportableException
+      isArray: true
+  - name: lastStorageUpdate
+    isReadyOnly: true
+    description: Last time the storage was updated
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: MigrationLevelOutput
+    typesTitle: string
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskOutputDatabaseLevel
+  kind: object
+  properties:
+  - name: databaseName
+    isReadyOnly: true
+    description: Name of the database
+    types:
+    - uid: string
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: Current state of migration
+    types:
+    - uid: MigrationState
+  - name: stage
+    isReadyOnly: true
+    description: Migration stage that this database is in
+    types:
+    - uid: DatabaseMigrationStage
+  - name: statusMessage
+    isReadyOnly: true
+    description: Status message
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Migration progress message
+    types:
+    - uid: string
+  - name: numberOfObjects
+    isReadyOnly: true
+    description: Number of objects
+    types:
+    - uid: integer
+  - name: numberOfObjectsCompleted
+    isReadyOnly: true
+    description: Number of successfully completed objects
+    types:
+    - uid: integer
+  - name: errorCount
+    isReadyOnly: true
+    description: Number of database/object errors.
+    types:
+    - uid: integer
+  - name: errorPrefix
+    isReadyOnly: true
+    description: Wildcard string prefix to use for querying all errors of the item
+    types:
+    - uid: string
+  - name: resultPrefix
+    isReadyOnly: true
+    description: Wildcard string prefix to use for querying all sub-tem results of the item
+    types:
+    - uid: string
+  - name: exceptionsAndWarnings
+    isReadyOnly: true
+    description: Migration exceptions and warnings.
+    types:
+    - uid: ReportableException
+      isArray: true
+  - name: lastStorageUpdate
+    isReadyOnly: true
+    description: Last time the storage was updated
+    types:
+    - uid: string
+  - name: objectSummary
+    isReadyOnly: true
+    description: Summary of object results in the migration
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: DataItemMigrationSummaryResult
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: DatabaseLevelOutput
+    typesTitle: string
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskOutputTableLevel
+  kind: object
+  properties:
+  - name: objectName
+    isReadyOnly: true
+    description: Name of the item
+    types:
+    - uid: string
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: Current state of migration
+    types:
+    - uid: MigrationState
+  - name: statusMessage
+    isReadyOnly: true
+    description: Status message
+    types:
+    - uid: string
+  - name: itemsCount
+    isReadyOnly: true
+    description: Number of items
+    types:
+    - uid: integer
+  - name: itemsCompletedCount
+    isReadyOnly: true
+    description: Number of successfully completed items
+    types:
+    - uid: integer
+  - name: errorPrefix
+    isReadyOnly: true
+    description: Wildcard string prefix to use for querying all errors of the item
+    types:
+    - uid: string
+  - name: resultPrefix
+    isReadyOnly: true
+    description: Wildcard string prefix to use for querying all sub-tem results of the item
+    types:
+    - uid: string
+  - name: lastStorageUpdate
+    isReadyOnly: true
+    description: Last time the storage was updated
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: TableLevelOutput
+    typesTitle: string
+- name: MigrateMySqlAzureDbForMySqlOfflineTaskOutputError
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique identifier for the exception
+    types:
+    - uid: string
+  - name: error
+    isReadyOnly: true
+    description: Migration error
+    types:
+    - uid: ReportableException
+  - name: resultType
+    description: Result type
+    types:
+    - uid: ErrorOutput
+    typesTitle: string
+- name: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseInput
+  description: Database specific information for PostgreSQL to Azure Database for PostgreSQL migration task inputs
+  kind: object
+  properties:
+  - name: name
+    description: Name of the database
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: targetDatabaseName
+    description: 'Name of target database. Note: Target database will be truncated before starting migration.'
+    types:
+    - uid: string
+  - name: migrationSetting
+    description: Migration settings which tune the migration behavior
+    types:
+    - {}
   - name: sourceSetting
     description: Source settings to tune source endpoint migration behavior
     types:
@@ -3738,6 +5949,11 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: selectedTables
+    description: Tables selected for migration
+    types:
+    - uid: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput
+      isArray: true
 - name: MigratePostgreSqlAzureDbForPostgreSqlSyncTaskOutputMigrationLevel
   kind: object
   properties:
@@ -3771,13 +5987,31 @@ definitions:
     description: Target server name
     types:
     - uid: string
+  - name: sourceServerType
+    isReadyOnly: true
+    description: Source server type.
+    types:
+    - uid: ScenarioSource
+  - name: targetServerType
+    isReadyOnly: true
+    description: Target server type.
+    types:
+    - uid: ScenarioTarget
+  - name: state
+    isReadyOnly: true
+    description: Migration status
+    types:
+    - uid: ReplicateMigrationState
+  - name: databaseCount
+    description: Number of databases to include
+    types:
+    - uid: number
   - name: id
     isReadyOnly: true
     description: Result identifier
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: MigrationLevelOutput
@@ -3866,7 +6100,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: DatabaseLevelOutput
@@ -3945,7 +6178,6 @@ definitions:
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: TableLevelOutput
@@ -3958,13 +6190,17 @@ definitions:
     description: Migration error
     types:
     - uid: ReportableException
+  - name: events
+    description: List of error events
+    types:
+    - uid: SyncMigrationDatabaseErrorEvent
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Result identifier
     types:
     - uid: string
   - name: resultType
-    isReadyOnly: true
     description: Result type
     types:
     - uid: ErrorOutput
@@ -3987,7 +6223,307 @@ definitions:
     types:
     - uid: string
   - name: resultType
+    description: Result type
+    types:
+    - uid: DatabaseLevelErrorOutput
+    typesTitle: string
+- name: MigrateOracleAzureDbPostgreSqlSyncDatabaseInput
+  description: Database specific information for Oracle to Azure Database for PostgreSQL migration task inputs
+  kind: object
+  properties:
+  - name: caseManipulation
+    description: 'How to handle object name casing: either Preserve or ToLower'
+    types:
+    - uid: string
+  - name: name
+    description: Name of the migration pipeline
+    types:
+    - uid: string
+  - name: schemaName
+    description: Name of the source schema
+    types:
+    - uid: string
+  - name: tableMap
+    description: Mapping of source to target tables
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetDatabaseName
+    description: 'Name of target database. Note: Target database will be truncated before starting migration.'
+    types:
+    - uid: string
+  - name: migrationSetting
+    description: Migration settings which tune the migration behavior
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: sourceSetting
+    description: Source settings to tune source endpoint migration behavior
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: targetSetting
+    description: Target settings to tune target endpoint migration behavior
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskOutputMigrationLevel
+  kind: object
+  properties:
+  - name: startedOn
     isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: sourceServerVersion
+    isReadyOnly: true
+    description: Source server version
+    types:
+    - uid: string
+  - name: sourceServer
+    isReadyOnly: true
+    description: Source server name
+    types:
+    - uid: string
+  - name: targetServerVersion
+    isReadyOnly: true
+    description: Target server version
+    types:
+    - uid: string
+  - name: targetServer
+    isReadyOnly: true
+    description: Target server name
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: MigrationLevelOutput
+    typesTitle: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseLevel
+  kind: object
+  properties:
+  - name: databaseName
+    isReadyOnly: true
+    description: Name of the database
+    types:
+    - uid: string
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: migrationState
+    isReadyOnly: true
+    description: Migration state that this database is in
+    types:
+    - uid: SyncDatabaseMigrationReportingState
+  - name: incomingChanges
+    isReadyOnly: true
+    description: Number of incoming changes
+    types:
+    - uid: integer
+  - name: appliedChanges
+    isReadyOnly: true
+    description: Number of applied changes
+    types:
+    - uid: integer
+  - name: cdcInsertCounter
+    isReadyOnly: true
+    description: Number of cdc inserts
+    types:
+    - uid: integer
+  - name: cdcDeleteCounter
+    isReadyOnly: true
+    description: Number of cdc deletes
+    types:
+    - uid: integer
+  - name: cdcUpdateCounter
+    isReadyOnly: true
+    description: Number of cdc updates
+    types:
+    - uid: integer
+  - name: fullLoadCompletedTables
+    isReadyOnly: true
+    description: Number of tables completed in full load
+    types:
+    - uid: integer
+  - name: fullLoadLoadingTables
+    isReadyOnly: true
+    description: Number of tables loading in full load
+    types:
+    - uid: integer
+  - name: fullLoadQueuedTables
+    isReadyOnly: true
+    description: Number of tables queued in full load
+    types:
+    - uid: integer
+  - name: fullLoadErroredTables
+    isReadyOnly: true
+    description: Number of tables errored in full load
+    types:
+    - uid: integer
+  - name: initializationCompleted
+    isReadyOnly: true
+    description: Indicates if initial load (full load) has been completed
+    types:
+    - uid: boolean
+  - name: latency
+    isReadyOnly: true
+    description: CDC apply latency
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: DatabaseLevelOutput
+    typesTitle: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskOutputTableLevel
+  kind: object
+  properties:
+  - name: tableName
+    isReadyOnly: true
+    description: Name of the table
+    types:
+    - uid: string
+  - name: databaseName
+    isReadyOnly: true
+    description: Name of the database
+    types:
+    - uid: string
+  - name: cdcInsertCounter
+    isReadyOnly: true
+    description: Number of applied inserts
+    types:
+    - uid: integer
+  - name: cdcUpdateCounter
+    isReadyOnly: true
+    description: Number of applied updates
+    types:
+    - uid: integer
+  - name: cdcDeleteCounter
+    isReadyOnly: true
+    description: Number of applied deletes
+    types:
+    - uid: integer
+  - name: fullLoadEstFinishTime
+    isReadyOnly: true
+    description: Estimate to finish full load
+    types:
+    - uid: string
+  - name: fullLoadStartedOn
+    isReadyOnly: true
+    description: Full load start time
+    types:
+    - uid: string
+  - name: fullLoadEndedOn
+    isReadyOnly: true
+    description: Full load end time
+    types:
+    - uid: string
+  - name: fullLoadTotalRows
+    isReadyOnly: true
+    description: Number of rows applied in full load
+    types:
+    - uid: integer
+  - name: state
+    isReadyOnly: true
+    description: Current state of the table migration
+    types:
+    - uid: SyncTableMigrationState
+  - name: totalChangesApplied
+    isReadyOnly: true
+    description: Total number of applied changes
+    types:
+    - uid: integer
+  - name: dataErrorsCounter
+    isReadyOnly: true
+    description: Number of data errors occurred
+    types:
+    - uid: integer
+  - name: lastModifiedTime
+    isReadyOnly: true
+    description: Last modified time on target
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: TableLevelOutput
+    typesTitle: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskOutputError
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Migration error
+    types:
+    - uid: ReportableException
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: ErrorOutput
+    typesTitle: string
+- name: MigrateOracleAzureDbPostgreSqlSyncTaskOutputDatabaseError
+  kind: object
+  properties:
+  - name: errorMessage
+    description: Error message
+    types:
+    - uid: string
+  - name: events
+    description: List of error events.
+    types:
+    - uid: SyncMigrationDatabaseErrorEvent
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
     description: Result type
     types:
     - uid: DatabaseLevelErrorOutput
@@ -4037,6 +6573,62 @@ definitions:
     description: Date and time when the backup operation finished.
     types:
     - uid: string
+- name: MongoDbError
+  description: Describes an error or warning that occurred during a MongoDB migration
+  kind: object
+  properties:
+  - name: code
+    description: The non-localized, machine-readable code that describes the error or warning
+    types:
+    - uid: string
+  - name: count
+    description: The number of times the error or warning has occurred
+    types:
+    - uid: integer
+  - name: message
+    description: The localized, human-readable message that describes the error or warning
+    types:
+    - uid: string
+  - name: type
+    description: The type of error or warning
+    types:
+    - uid: MongoDbErrorType
+- name: MongoDbMigrationState
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: ValidatingInput
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: Restarting
+    types:
+    - uid: string
+  - name: Copying
+    types:
+    - uid: string
+  - name: InitialReplay
+    types:
+    - uid: string
+  - name: Replaying
+    types:
+    - uid: string
+  - name: Finalizing
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: SelectedCertificateInput
   description: Info for certificate to be exported for TDE enabled databases.
   kind: object
@@ -4049,6 +6641,255 @@ definitions:
     description: Password to use for encrypting the exported certificate.
     types:
     - uid: string
+- name: SsisMigrationInfo
+  description: SSIS migration info with SSIS store type, overwrite policy.
+  kind: object
+  properties:
+  - name: ssisStoreType
+    description: The SSIS store type of source, only SSIS catalog is supported now in DMS
+    types:
+    - uid: SsisStoreType
+  - name: projectOverwriteOption
+    description: The overwrite option for the SSIS project migration
+    types:
+    - uid: SsisMigrationOverwriteOption
+  - name: environmentOverwriteOption
+    description: The overwrite option for the SSIS environment migration
+    types:
+    - uid: SsisMigrationOverwriteOption
+- name: MigrateSsisTaskOutputMigrationLevel
+  kind: object
+  properties:
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Current status of migration
+    types:
+    - uid: MigrationStatus
+  - name: message
+    isReadyOnly: true
+    description: Migration progress message
+    types:
+    - uid: string
+  - name: sourceServerVersion
+    isReadyOnly: true
+    description: Source server version
+    types:
+    - uid: string
+  - name: sourceServerBrandVersion
+    isReadyOnly: true
+    description: Source server brand version
+    types:
+    - uid: string
+  - name: targetServerVersion
+    isReadyOnly: true
+    description: Target server version
+    types:
+    - uid: string
+  - name: targetServerBrandVersion
+    isReadyOnly: true
+    description: Target server brand version
+    types:
+    - uid: string
+  - name: exceptionsAndWarnings
+    isReadyOnly: true
+    description: Migration exceptions and warnings.
+    types:
+    - uid: ReportableException
+      isArray: true
+  - name: stage
+    isReadyOnly: true
+    description: Stage of SSIS migration.
+    types:
+    - uid: SsisMigrationStage
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: MigrationLevelOutput
+    typesTitle: string
+- name: MigrateSsisTaskOutputProjectLevel
+  kind: object
+  properties:
+  - name: folderName
+    isReadyOnly: true
+    description: Name of the folder
+    types:
+    - uid: string
+  - name: projectName
+    isReadyOnly: true
+    description: Name of the project
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: Current state of migration
+    types:
+    - uid: MigrationState
+  - name: stage
+    isReadyOnly: true
+    description: Stage of SSIS migration.
+    types:
+    - uid: SsisMigrationStage
+  - name: startedOn
+    isReadyOnly: true
+    description: Migration start time
+    types:
+    - uid: string
+  - name: endedOn
+    isReadyOnly: true
+    description: Migration end time
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Migration progress message
+    types:
+    - uid: string
+  - name: exceptionsAndWarnings
+    isReadyOnly: true
+    description: Migration exceptions and warnings
+    types:
+    - uid: ReportableException
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: resultType
+    description: Result type
+    types:
+    - uid: SsisProjectLevelOutput
+    typesTitle: string
+- name: MongoDbCollectionInfo
+  description: Describes a supported collection within a MongoDB database
+  kind: object
+  properties:
+  - name: databaseName
+    description: The name of the database containing the collection
+    types:
+    - uid: string
+  - name: isCapped
+    description: Whether the collection is a capped collection (i.e. whether it has a fixed size and acts like a circular buffer)
+    types:
+    - uid: boolean
+  - name: isSystemCollection
+    description: Whether the collection is system collection
+    types:
+    - uid: boolean
+  - name: isView
+    description: Whether the collection is a view of another collection
+    types:
+    - uid: boolean
+  - name: shardKey
+    description: The shard key on the collection, or null if the collection is not sharded
+    types:
+    - uid: MongoDbShardKeyInfo
+  - name: supportsSharding
+    description: Whether the database has sharding enabled. Note that the migration task will enable sharding on the target if necessary.
+    types:
+    - uid: boolean
+  - name: viewOf
+    description: The name of the collection that this is a view of, if IsView is true
+    types:
+    - uid: string
+  - name: averageDocumentSize
+    description: The average document size, or -1 if the average size is unknown
+    types:
+    - uid: integer
+  - name: dataSize
+    description: The estimated total data size, in bytes, or -1 if the size is unknown.
+    types:
+    - uid: integer
+  - name: documentCount
+    description: The estimated total number of documents, or -1 if the document count is unknown
+    types:
+    - uid: integer
+  - name: name
+    description: The unqualified name of the database or collection
+    types:
+    - uid: string
+  - name: qualifiedName
+    description: The qualified name of the database or collection. For a collection, this is the database-qualified name.
+    types:
+    - uid: string
+- name: MigrateSyncCompleteCommandInput
+  description: Input for command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: databaseName
+    description: Name of database
+    types:
+    - uid: string
+  - name: commitTimeStamp
+    description: Time stamp to complete
+    types:
+    - uid: string
+- name: MigrateSyncCompleteCommandOutput
+  description: Output for command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: errors
+    isReadyOnly: true
+    description: List of errors that happened during the command execution
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: CommandState
+  description: The state of the command. This is ignored if submitted.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: MigrateMISyncCompleteCommandInput
+  description: Input for command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: sourceDatabaseName
+    description: Name of managed instance database
+    types:
+    - uid: string
+- name: MigrateMISyncCompleteCommandOutput
+  description: Output for command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: errors
+    description: List of errors that happened during the command execution
+    types:
+    - uid: ReportableException
+      isArray: true
 - name: AuthenticationType
   description: An enumeration of possible authentication types when connecting
   kind: enum
@@ -4203,69 +7044,22 @@ definitions:
     types:
     - uid: string
       isArray: true
-- name: MigrateSyncCompleteCommandInput
-  description: Input for command that completes sync migration for a database.
+- name: MongoDbCollectionSettings
+  description: Describes how an individual MongoDB collection should be migrated
   kind: object
   properties:
-  - name: databaseName
-    description: Name of database
+  - name: canDelete
+    description: Whether the migrator is allowed to drop the target collection in the course of performing a migration. The default is true.
     types:
-    - uid: string
-  - name: commitTimeStamp
-    description: Time stamp to complete
+    - uid: boolean
+  - name: shardKey
+    description: Describes a MongoDB shard key
     types:
-    - uid: string
-- name: MigrateSyncCompleteCommandOutput
-  description: Output for command that completes sync migration for a database.
-  kind: object
-  properties:
-  - name: id
-    isReadyOnly: true
-    description: Result identifier
+    - uid: MongoDbShardKeySetting
+  - name: targetRUs
+    description: The RUs that should be configured on a CosmosDB target, or null to use the default. This has no effect on non-CosmosDB targets.
     types:
-    - uid: string
-  - name: errors
-    isReadyOnly: true
-    description: List of errors that happened during the command execution
-    types:
-    - uid: ReportableException
-      isArray: true
-- name: CommandState
-  description: The state of the command. This is ignored if submitted.
-  kind: enum
-  properties:
-  - name: Unknown
-    types:
-    - uid: string
-  - name: Accepted
-    types:
-    - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-- name: MigrateMISyncCompleteCommandInput
-  description: Input for command that completes online migration for an Azure SQL Database Managed Instance.
-  kind: object
-  properties:
-  - name: sourceDatabaseName
-    description: Name of managed instance database
-    types:
-    - uid: string
-- name: MigrateMISyncCompleteCommandOutput
-  description: Output for command that completes online migration for an Azure SQL Database Managed Instance.
-  kind: object
-  properties:
-  - name: errors
-    description: List of errors that happened during the command execution
-    types:
-    - uid: ReportableException
-      isArray: true
+    - uid: integer
 - name: MigrationStatus
   description: Current status of migration
   kind: enum
@@ -4543,8 +7337,8 @@ definitions:
     description: Wildcard string prefix to use for querying all sub-tem results of the item
     types:
     - uid: string
-- name: MigrationReportResult
-  description: Migration validation report result, contains the url for downloading the generated report.
+- name: MigrationValidationResult
+  description: Migration Validation Result
   kind: object
   properties:
   - name: id
@@ -4552,8 +7346,33 @@ definitions:
     description: Migration validation result identifier
     types:
     - uid: string
-  - name: reportUrl
+  - name: migrationId
     isReadyOnly: true
+    description: Migration Identifier
+    types:
+    - uid: string
+  - name: summaryResults
+    description: Validation summary results for each database
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: MigrationValidationDatabaseSummaryResult
+  - name: status
+    isReadyOnly: true
+    description: Current status of validation at the migration level. Status from the database validation result status will be aggregated here.
+    types:
+    - uid: ValidationStatus
+- name: MigrationReportResult
+  description: Migration validation report result, contains the url for downloading the generated report.
+  kind: object
+  properties:
+  - name: id
+    description: Migration validation result identifier
+    types:
+    - uid: string
+  - name: reportUrl
     description: The url of the report.
     types:
     - uid: string
@@ -4667,10 +7486,10 @@ definitions:
   - name: CompletedWithIssues
     types:
     - uid: string
-  - name: Failed
+  - name: Stopped
     types:
     - uid: string
-  - name: Stopped
+  - name: Failed
     types:
     - uid: string
 - name: DataIntegrityValidationResult
@@ -4678,7 +7497,6 @@ definitions:
   kind: object
   properties:
   - name: failedObjects
-    isReadyOnly: true
     description: List of failed table names of source and target pair
     types:
     - uid: object
@@ -4687,7 +7505,6 @@ definitions:
       - uid: string
       - uid: string
   - name: validationErrors
-    isReadyOnly: true
     description: List of errors that happened while performing data integrity validation
     types:
     - uid: ValidationError
@@ -4696,12 +7513,10 @@ definitions:
   kind: object
   properties:
   - name: schemaDifferences
-    isReadyOnly: true
     description: List of schema differences between the source and target databases
     types:
     - uid: SchemaComparisonValidationResultType
   - name: validationErrors
-    isReadyOnly: true
     description: List of errors that happened while performing schema compare validation
     types:
     - uid: ValidationError
@@ -4726,12 +7541,10 @@ definitions:
   kind: object
   properties:
   - name: queryResults
-    isReadyOnly: true
     description: List of queries executed and it's execution results in source and target
     types:
     - uid: QueryExecutionResult
   - name: validationErrors
-    isReadyOnly: true
     description: Errors that are part of the execution
     types:
     - uid: ValidationError
@@ -4770,6 +7583,27 @@ definitions:
     types:
     - uid: string
   - name: FAILED
+    types:
+    - uid: string
+  - name: VALIDATING
+    types:
+    - uid: string
+  - name: VALIDATION_COMPLETE
+    types:
+    - uid: string
+  - name: VALIDATION_FAILED
+    types:
+    - uid: string
+  - name: RESTORE_IN_PROGRESS
+    types:
+    - uid: string
+  - name: RESTORE_COMPLETED
+    types:
+    - uid: string
+  - name: BACKUP_IN_PROGRESS
+    types:
+    - uid: string
+  - name: BACKUP_COMPLETED
     types:
     - uid: string
 - name: SyncTableMigrationState
@@ -4813,6 +7647,98 @@ definitions:
     description: Event text.
     types:
     - uid: string
+- name: MigratePostgreSqlAzureDbForPostgreSqlSyncDatabaseTableInput
+  description: Selected tables for the migration
+  kind: object
+  properties:
+  - name: name
+    description: Name of the table to migrate
+    types:
+    - uid: string
+- name: ScenarioSource
+  description: An enumeration of source type
+  kind: enum
+  properties:
+  - name: Access
+    types:
+    - uid: string
+  - name: DB2
+    types:
+    - uid: string
+  - name: MySQL
+    types:
+    - uid: string
+  - name: Oracle
+    types:
+    - uid: string
+  - name: SQL
+    types:
+    - uid: string
+  - name: Sybase
+    types:
+    - uid: string
+  - name: PostgreSQL
+    types:
+    - uid: string
+  - name: MongoDB
+    types:
+    - uid: string
+  - name: SQLRDS
+    types:
+    - uid: string
+  - name: MySQLRDS
+    types:
+    - uid: string
+  - name: PostgreSQLRDS
+    types:
+    - uid: string
+- name: ScenarioTarget
+  description: An enumeration of target type
+  kind: enum
+  properties:
+  - name: SQLServer
+    types:
+    - uid: string
+  - name: SQLDB
+    types:
+    - uid: string
+  - name: SQLDW
+    types:
+    - uid: string
+  - name: SQLMI
+    types:
+    - uid: string
+  - name: AzureDBForMySql
+    types:
+    - uid: string
+  - name: AzureDBForPostgresSQL
+    types:
+    - uid: string
+  - name: MongoDB
+    types:
+    - uid: string
+- name: ReplicateMigrationState
+  description: Wrapper for replicate reported migration states.
+  kind: enum
+  properties:
+  - name: UNDEFINED
+    types:
+    - uid: string
+  - name: VALIDATING
+    types:
+    - uid: string
+  - name: PENDING
+    types:
+    - uid: string
+  - name: COMPLETE
+    types:
+    - uid: string
+  - name: ACTION_REQUIRED
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
 - name: BackupType
   description: Enum of the different backup types.
   kind: enum
@@ -4838,6 +7764,65 @@ definitions:
   - name: DifferentialPartial
     types:
     - uid: string
+- name: MongoDbErrorType
+  description: The type of error or warning
+  kind: enum
+  properties:
+  - name: Error
+    types:
+    - uid: string
+  - name: ValidationError
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: SsisStoreType
+  description: An enumeration of supported source SSIS store type in DMS
+  kind: enum
+  properties:
+  - name: SsisCatalog
+    types:
+    - uid: string
+- name: SsisMigrationOverwriteOption
+  description: The overwrite option for SSIS object migration, only ignore and overwrite are supported in DMS now and future may add Reuse option for container object
+  kind: enum
+  properties:
+  - name: Ignore
+    types:
+    - uid: string
+  - name: Overwrite
+    types:
+    - uid: string
+- name: SsisMigrationStage
+  description: Current stage of SSIS migration
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Initialize
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+- name: MongoDbShardKeyInfo
+  description: Describes a MongoDB shard key
+  kind: object
+  properties:
+  - name: fields
+    description: The fields within the shard key
+    types:
+    - uid: MongoDbShardKeyField
+      isArray: true
+  - name: isUnique
+    description: Whether the shard key is unique
+    types:
+    - uid: boolean
 - name: DatabaseFileType
   description: An enumeration of SQL Server database file types
   kind: enum
@@ -4857,6 +7842,19 @@ definitions:
   - name: Fulltext
     types:
     - uid: string
+- name: MongoDbShardKeySetting
+  description: Describes a MongoDB shard key
+  kind: object
+  properties:
+  - name: fields
+    description: The fields within the shard key
+    types:
+    - uid: MongoDbShardKeyField
+      isArray: true
+  - name: isUnique
+    description: Whether the shard key is unique
+    types:
+    - uid: boolean
 - name: BackupFileInfo
   description: Information of the backup file
   kind: object
@@ -4878,12 +7876,10 @@ definitions:
   kind: object
   properties:
   - name: text
-    isReadyOnly: true
     description: Error Text
     types:
     - uid: string
   - name: severity
-    isReadyOnly: true
     description: Severity of the error
     types:
     - uid: Severity
@@ -4892,17 +7888,14 @@ definitions:
   kind: object
   properties:
   - name: objectName
-    isReadyOnly: true
     description: Name of the object that has the difference
     types:
     - uid: string
   - name: objectType
-    isReadyOnly: true
     description: Type of the object that has the difference. e.g (Table/View/StoredProcedure)
     types:
     - uid: ObjectType
   - name: updateAction
-    isReadyOnly: true
     description: Update action type with respect to target
     types:
     - uid: UpdateActionType
@@ -4911,25 +7904,33 @@ definitions:
   kind: object
   properties:
   - name: queryText
-    isReadyOnly: true
     description: Query text retrieved from the source server
     types:
     - uid: string
   - name: statementsInBatch
-    isReadyOnly: true
     description: Total no. of statements in the batch
     types:
     - uid: integer
   - name: sourceResult
-    isReadyOnly: true
     description: Query analysis result from the source
     types:
     - uid: ExecutionStatistics
   - name: targetResult
-    isReadyOnly: true
     description: Query analysis result from the target
     types:
     - uid: ExecutionStatistics
+- name: MongoDbShardKeyField
+  description: Describes a field reference within a MongoDB shard key
+  kind: object
+  properties:
+  - name: name
+    description: The name of the field
+    types:
+    - uid: string
+  - name: order
+    description: The field ordering
+    types:
+    - uid: MongoDbShardKeyOrder
 - name: BackupFileStatus
   description: An enumeration of Status of the log backup file.
   kind: enum
@@ -5005,17 +8006,14 @@ definitions:
   kind: object
   properties:
   - name: executionCount
-    isReadyOnly: true
     description: No. of query executions
     types:
     - uid: integer
   - name: cpuTimeMs
-    isReadyOnly: true
     description: CPU Time in millisecond(s) for the query execution
     types:
     - uid: number
   - name: elapsedTimeMs
-    isReadyOnly: true
     description: Time taken in millisecond(s) for executing the query
     types:
     - uid: number
@@ -5028,39 +8026,48 @@ definitions:
       - uid: string
       - uid: WaitStatistics
   - name: hasErrors
-    isReadyOnly: true
     description: Indicates whether the query resulted in an error
     types:
     - uid: boolean
   - name: sqlErrors
-    isReadyOnly: true
     description: List of sql Errors
     types:
     - uid: string
       isArray: true
+- name: MongoDbShardKeyOrder
+  description: The field ordering
+  kind: enum
+  properties:
+  - name: Forward
+    types:
+    - uid: string
+  - name: Reverse
+    types:
+    - uid: string
+  - name: Hashed
+    types:
+    - uid: string
 - name: WaitStatistics
   description: Wait statistics gathered during query batch execution
   kind: object
   properties:
   - name: waitType
-    isReadyOnly: true
     description: Type of the Wait
     types:
     - uid: string
   - name: waitTimeMs
-    isReadyOnly: true
-    description: Total wait time in millisecond(s)
+    description: 'Total wait time in millisecond(s) '
     types:
     - uid: number
+    defaultValue: 0
   - name: waitCount
-    isReadyOnly: true
     description: Total no. of waits
     types:
     - uid: integer
 examples:
 - name: Tasks_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/tasks/DmsSdkTask?api-version=2018-04-19
+    uri: PATCH https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/tasks/DmsSdkTask?api-version=2022-01-30-preview
     body: >-
       {
         "properties": {
@@ -5078,6 +8085,30 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/tasks/DmsSdkTask?api-version=2022-01-30-preview
+
+      {
+        "properties": {
+          "taskType": "ConnectToTarget.SqlDb",
+          "input": {
+            "targetConnectionInfo": {
+              "type": "SqlConnectionInfo",
+              "dataSource": "ssma-test-server.database.windows.net",
+              "authentication": "SqlAuthentication",
+              "encryptConnection": true,
+              "trustServerCertificate": true,
+              "userName": "testuser",
+              "password": "testpassword"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -5111,5 +8142,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Create or update task  \nThe tasks resource is a nested, proxy-only resource representing work performed by a DMS instance."
+  description: >-
+    Create or update task
+
+    The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance.
 errorCodes: []

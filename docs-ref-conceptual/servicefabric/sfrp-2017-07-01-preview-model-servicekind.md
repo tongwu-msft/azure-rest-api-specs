@@ -1,5 +1,6 @@
 ---
-title: "ServiceKind"
+title: "Service kinds and values"
+description: API reference documentation for the operations available in the ServiceKind REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServiceKind enum
+# Service kinds and values
 
 type: string
 

@@ -13,57 +13,61 @@ ms.author: pemari
 
 The `Create Container` operation creates a new container under the specified account. If the container with the same name already exists, the operation fails.  
   
- The container resource includes metadata and properties for that container. It does not include a list of the blobs contained by the container.  
+ The container resource includes metadata and properties for that container. It doesn't include a list of the blobs in the container.  
   
 ## Request  
- The `Create Container` request may be constructed as follows. HTTPS is recommended. Your *mycontainer* value can only include lower-case characters. Replace *myaccount* with the name of your storage account:  
+
+ You can construct the `Create Container` request as shown here. We recommend that you use HTTPS. Your *mycontainer* value can include only lowercase characters. In the URL, replace *myaccount* with the name of your storage account.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`https://myaccount.blob.core.windows.net/mycontainer?restype=container`|HTTP/1.1|  
   
-### Emulated Storage Service Request  
- When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
+### Emulated storage service request  
+
+ When you make a request against the emulated storage service, specify the emulator hostname and Blob Storage port as `127.0.0.1:10000`, followed by the emulated storage account name.  
   
-|Method|Request URI|HTTP Version|  
+|Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
 |`PUT`|`http://127.0.0.1:10000/devstoreaccount1/mycontainer?restype=container`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator) and [Differences Between the Storage Emulator and Azure Storage Services](/azure/storage/storage-use-emulator#differences-between-the-storage-emulator-and-azure-storage).  
+For more information, see [Use the Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).  
   
 ### URI parameters
   
- The following additional parameters may be specified on the request URI.  
+ You can specify the following additional parameters on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Set time-outs for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers  
+
+ The required and optional request headers are described in the following table:  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) time for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the container as metadata.<br /><br /> Note that beginning with version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
-|`x-ms-blob-public-access`|Optional. Specifies whether data in the container may be accessed publicly and the level of access. Possible values include:<br /><br /> -   `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but cannot enumerate containers within the storage account.<br />-   `blob:` Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data is not available. Clients cannot enumerate blobs within the container via anonymous request.<br /><br /> If this header is not included in the request, container data is private to the account owner.|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-meta-name:value`|Optional. A name-value pair to associate with the container as metadata. **Note**: As of version 2009-09-19, metadata names must adhere to the naming rules for [C# identifiers](/dotnet/csharp/language-reference).|  
+|`x-ms-blob-public-access`|Optional. Specifies whether data in the container can be accessed publicly and the level of access. Possible values include:<br /><br /> - `container`: Specifies full public read access for container and blob data. Clients can enumerate blobs within the container via anonymous request, but they can't enumerate containers within the storage account.<br />- `blob:` Specifies public read access for blobs. Blob data within this container can be read via anonymous request, but container data isn't available. Clients can't enumerate blobs within the container via anonymous request.<br /><br /> If this header isn't included in the request, container data is private to the account owner.|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|  
   
-### Request Headers (Encryption scopes)
+### Request headers (encryption scopes)
   
-Beginning with version 2019-02-02, the following headers may be specified on the request to set a default encryption scope on the container. If set, this encryption scope is automatically used to encrypt all blobs uploaded to the container.  
+As of version 2019-02-02, you can specify the following headers on a request to set a default encryption scope on a container. If you set an encryption scope, it is automatically used to encrypt all blobs that are uploaded to the container.  
   
 |Request header|Description|  
 |--------------------|-----------------|  
 |`x-ms-default-encryption-scope`|Required. The encryption scope to set as the default on the container.|  
-|`x-ms-deny-encryption-scope-override`|Required. `true` or `false`. If `true`, prevents any blob upload from specifying a different encryption scope.|  
+|`x-ms-deny-encryption-scope-override`|Required. Values are `true` or `false`. Setting this header to `true` ensures that every blob that's uploaded to this container uses the default encryption scope. When this header is `false`, a client can upload a blob with an encryption scope other than the default scope.|  
   
-### Request Body  
+### Request body  
+
  None.  
   
-### Sample Request  
+### Sample request  
   
 ```  
 Request Syntax:  
@@ -77,35 +81,38 @@ Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=
 ```  
   
 ## Response  
+
  The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
+### Status code  
+
  A successful operation returns status code 201 (Created).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+ For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers  
+
+ The response for this operation includes the headers that are described in the following table. The response can also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`ETag`|The ETag for the container. If the request version is 2011-08-18 or newer, the ETag value will be in quotes.|  
-|`Last-Modified`|Returns the date and time the container was last modified. The date format follows RFC 1123. For more information, see [Representation of Date-Time Values in Headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the container or its properties or metadata updates the last modified time. Operations on blobs do not affect the last modified time of the container.|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md)|  
-|`x-ms-version`|Indicates the version of the Blob service used to execute the request. This header is returned for requests made against version 2009-09-19 and later.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`ETag`|The ETag for the container. If the request version is 2011-08-18 or later, the ETag value is enclosed in quotation marks.|  
+|`Last-Modified`|Returns the date and time when the container was last modified. The date format follows RFC 1123. For more information, see [Representation of date/time values in headers](Representation-of-Date-Time-Values-in-Headers.md).<br /><br /> Any operation that modifies the container or its properties or metadata updates the last modified time. Operations on blobs do not affect the last modified time of the container.|  
+|`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md)|  
+|`x-ms-version`|Indicates the Blob Storage version that's used to execute the request. This header is returned for requests made against version 2009-09-19 or later.|  
+|`Date`|The UTC date/time value generated by the service, which indicates the time at which the response was initiated.|  
+|`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request, and the value contains no more than 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, the header won't be present in the response.|  
   
-### Response Body  
+### Response body  
  None.  
   
-### Sample Response  
+### Sample response  
   
 ```  
-Response Status:  
+Response status:  
 HTTP/1.1 201 Created  
   
-Response Headers:  
+Response headers:  
 Transfer-Encoding: chunked  
 Date: Sun, 25 Sep 2011 23:00:12 GMT  
 ETag: “0x8CB14C3E29B7E82”  
@@ -115,12 +122,14 @@ Server: Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0
 ```  
   
 ## Authorization  
+
  Only the account owner may call this operation.  
   
 ## Remarks  
- Containers are created immediately beneath the storage account. It's not possible to nest one container beneath another.  
+
+ Containers are created immediately within the storage account. It isn't possible to nest one container within another.  
   
- You can optionally create a default or root container for your storage account. The root container may be inferred from a URL requesting a blob resource. The root container makes it possible to reference a blob from the top level of the storage account hierarchy, without referencing the container name.  
+ You can optionally create a default or root container for your storage account. The root container makes it possible to reference a blob from the top level of the storage account hierarchy, without referencing the container name.  
   
  To add the root container to your storage account, create a container named `$root`. Construct the request as follows:  
   
@@ -135,14 +144,14 @@ x-ms-meta-Name: StorageSample
 Authorization: SharedKey myaccount:Z5043vY9MesKNh0PNtksNc9nbXSSqGHueE00JdjidOQ=  
 ```  
   
- You can specify metadata for a container at the time it is created by including one or more metadata headers on the request. The format for the metadata header is `x-ms-meta-name:value`.  
+ You can specify metadata for a container when you're creating it by including one or more metadata headers on the request. The format for the metadata header is `x-ms-meta-name:value`.  
   
- If a container by the same name is being deleted when `Create Container` is called, the server will return status code 409 (Conflict), with additional error information indicating that the container is being deleted.  
+ If a container by the same name is being deleted when `Create Container` is called, the server returns status code 409 (Conflict), and it provides additional error information that indicates that the container is being deleted.  
   
 ## See also  
  [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)   
- [Blob Service Error Codes](Blob-Service-Error-Codes.md)   
- [Naming and Referencing Containers, Blobs, and Metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)   
- [Setting and Retrieving Properties and Metadata for Blob Resources](Setting-and-Retrieving-Properties-and-Metadata-for-Blob-Resources.md)   
+ [Status and error codes](Status-and-Error-Codes2.md)   
+ [Blob Storage error codes](Blob-Service-Error-Codes.md)   
+ [Name and reference containers, blobs, and metadata](Naming-and-Referencing-Containers--Blobs--and-Metadata.md)   
+ [Set and retrieve properties and metadata for blob resources](Setting-and-Retrieving-Properties-and-Metadata-for-Blob-Resources.md)   
  [Set Container ACL](Set-Container-ACL.md)

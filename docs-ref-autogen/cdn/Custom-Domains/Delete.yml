@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.customdomains.delete
 name: Delete
 service: CDN
 groupName: Custom Domains
-apiVersion: 2019-12-31
+apiVersion: 2021-06-01
 summary: Deletes an existing custom domain within an endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}?api-version=2019-12-31
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/customDomains/{customDomainName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
   types:
   - uid: string
 responses:
@@ -79,7 +79,7 @@ definitions:
     - uid: CustomDomainResourceState
   - name: properties.customHttpsProvisioningState
     isReadyOnly: true
-    description: Provisioning status of Custom Https of the custom domain.
+    description: Provisioning status of the custom domain.
     types:
     - uid: CustomHttpsProvisioningState
   - name: properties.customHttpsProvisioningSubstate
@@ -99,9 +99,9 @@ definitions:
     - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
-    description: Provisioning status of the custom domain.
+    description: Provisioning status of Custom Https of the custom domain.
     types:
-    - uid: string
+    - uid: CustomHttpsProvisioningState
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -117,20 +117,19 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
 - name: ErrorResponse
-  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: CustomDomainResourceState
   description: Resource status of the custom domain.
   kind: enum
@@ -145,7 +144,7 @@ definitions:
     types:
     - uid: string
 - name: CustomHttpsProvisioningState
-  description: Provisioning status of Custom Https of the custom domain.
+  description: Provisioning status of the custom domain.
   kind: enum
   properties:
   - name: Enabling
@@ -197,6 +196,65 @@ definitions:
   - name: CertificateDeleted
     types:
     - uid: string
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: CdnManagedHttpsParameters
   description: Defines the certificate source parameters using CDN managed certificate for enabling SSL.
   kind: object
@@ -239,14 +297,44 @@ definitions:
     description: TLS protocol version that will be used for Https
     types:
     - uid: MinimumTlsVersion
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: CdnCertificateSourceParameters
   description: Defines the parameters for using CDN managed certificate for securing custom domain.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.CdnCertificateSourceParameters'
+    - uid: CdnCertificateSourceParameters
     typesTitle: enum
   - name: certificateType
     description: Type of certificate used
@@ -279,10 +367,10 @@ definitions:
   description: Describes the parameters for using a user's KeyVault certificate for securing custom domain.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.KeyVaultCertificateSourceParameters'
+    - uid: KeyVaultCertificateSourceParameters
     typesTitle: enum
   - name: subscriptionId
     description: Subscription Id of the user's Key Vault containing the SSL certificate
@@ -339,10 +427,117 @@ definitions:
 examples:
 - name: CustomDomains_Delete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net?api-version=2019-12-31
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net?api-version=2021-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/customDomains/www-someDomain-net?api-version=2021-06-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for CustomDomains Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_Delete.json
+           */
+          /**
+           * Sample code: CustomDomains_Delete.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void customDomainsDelete(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getCustomDomains()
+                  .delete("RG", "profile1", "endpoint1", "www-someDomain-net", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_Delete.json
+      func ExampleCustomDomainsClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewCustomDomainsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"www-someDomain-net",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes an existing custom domain within an endpoint.
+       *
+       * @summary Deletes an existing custom domain within an endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/CustomDomains_Delete.json
+       */
+      async function customDomainsDelete() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const customDomainName = "www-someDomain-net";
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.customDomains.beginDeleteAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          customDomainName
+        );
+        console.log(result);
+      }
+
+      customDomainsDelete().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/resourceGroupName/providers/Microsoft.Cdn/operationresults/operationId?api-version=2021-06-01
     body: >-
       {
         "name": "www-someDomain-net",
@@ -368,5 +563,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about CDN service - Deletes an existing custom domain within an endpoint.
+  description: >
+    Learn more about CDN service - Deletes an existing custom domain within an endpoint.
 errorCodes: []

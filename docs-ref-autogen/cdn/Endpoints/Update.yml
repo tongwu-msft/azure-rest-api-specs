@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.endpoints.update
 name: Update
 service: CDN
 groupName: Endpoints
-apiVersion: 2019-12-31
-summary: Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin Group operation. To update custom domains, use the Update Custom Domain operation.
+apiVersion: 2021-06-01
+summary: Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}?api-version=2019-12-31
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
   types:
   - uid: string
 responses:
@@ -81,7 +81,7 @@ requestBody:
       isArray: true
   - name: properties.originHostHeader
     in: body
-    description: The host header value sent to the origin with each request. This property at Endpoint can only be set allowed when endpoint uses single origin. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
+    description: The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.isCompressionEnabled
@@ -125,11 +125,22 @@ requestBody:
     description: A reference to the origin group.
     types:
     - uid: ResourceReference
+  - name: properties.urlSigningKeys
+    in: body
+    description: List of keys used to validate the signed URL hashes.
+    types:
+    - uid: UrlSigningKey
+      isArray: true
   - name: properties.deliveryPolicy
     in: body
     description: A policy that specifies the delivery rules to be used for an endpoint.
     types:
     - uid: DeliveryPolicy
+  - name: properties.webApplicationFirewallPolicyLink
+    in: body
+    description: Defines the Web Application Firewall policy for the endpoint (if applicable)
+    types:
+    - uid: WebApplicationFirewallPolicyLink
 requestHeader: []
 definitions:
 - name: GeoFilter
@@ -145,7 +156,7 @@ definitions:
     types:
     - uid: GeoFilterActions
   - name: countryCodes
-    description: Two letter country codes defining user country access in a geo filter, e.g. AU, MX, US.
+    description: Two letter country or region codes defining user country or region access in a geo filter, e.g. AU, MX, US.
     types:
     - uid: string
       isArray: true
@@ -157,6 +168,18 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: UrlSigningKey
+  description: Url signing key
+  kind: object
+  properties:
+  - name: keyId
+    description: Defines the customer defined key Id. This id will exist in the incoming request to indicate the key used to form the hash.
+    types:
+    - uid: string
+  - name: keySourceParameters
+    description: Defines the parameters for using customer key vault for Url Signing Key.
+    types:
+    - uid: KeyVaultSigningKeyParameters
 - name: DeliveryPolicy
   description: A policy that specifies the delivery rules to be used for an endpoint.
   kind: object
@@ -170,6 +193,14 @@ definitions:
     types:
     - uid: DeliveryRule
       isArray: true
+- name: WebApplicationFirewallPolicyLink
+  description: Defines the Web Application Firewall policy for the endpoint (if applicable)
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: Endpoint
   description: CDN endpoint is the entity within a CDN profile containing configuration information such as origin, protocol, content caching and delivery behavior. The CDN endpoint uses the URL format <endpointname>.azureedge.net.
   kind: object
@@ -189,6 +220,12 @@ definitions:
     types:
     - uid: DeepCreatedOriginGroup
       isArray: true
+  - name: properties.customDomains
+    isReadyOnly: true
+    description: The custom domains under the endpoint.
+    types:
+    - uid: DeepCreatedCustomDomain
+      isArray: true
   - name: properties.resourceState
     isReadyOnly: true
     description: Resource status of the endpoint.
@@ -198,7 +235,7 @@ definitions:
     isReadyOnly: true
     description: Provisioning status of the endpoint.
     types:
-    - uid: string
+    - uid: EndpointProvisioningState
   - name: location
     description: Resource location.
     types:
@@ -226,6 +263,11 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
   - name: properties.originPath
     description: A directory path on the origin that CDN can use to retrieve content from, e.g. contoso.cloudapp.net/originpath.
     types:
@@ -236,7 +278,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.originHostHeader
-    description: The host header value sent to the origin with each request. This property at Endpoint can only be set allowed when endpoint uses single origin. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
+    description: The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.isCompressionEnabled
@@ -272,24 +314,27 @@ definitions:
     description: A reference to the origin group.
     types:
     - uid: ResourceReference
+  - name: properties.urlSigningKeys
+    description: List of keys used to validate the signed URL hashes.
+    types:
+    - uid: UrlSigningKey
+      isArray: true
   - name: properties.deliveryPolicy
     description: A policy that specifies the delivery rules to be used for an endpoint.
     types:
     - uid: DeliveryPolicy
+  - name: properties.webApplicationFirewallPolicyLink
+    description: Defines the Web Application Firewall policy for the endpoint (if applicable)
+    types:
+    - uid: WebApplicationFirewallPolicyLink
 - name: ErrorResponse
-  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: EndpointUpdateParameters
   description: Properties required to create or update an endpoint.
   kind: object
@@ -312,7 +357,7 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.originHostHeader
-    description: The host header value sent to the origin with each request. This property at Endpoint can only be set allowed when endpoint uses single origin. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
+    description: The host header value sent to the origin with each request. This property at Endpoint is only allowed when endpoint uses single origin and can be overridden by the same property specified at origin.If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.isCompressionEnabled
@@ -348,10 +393,19 @@ definitions:
     description: A reference to the origin group.
     types:
     - uid: ResourceReference
+  - name: properties.urlSigningKeys
+    description: List of keys used to validate the signed URL hashes.
+    types:
+    - uid: UrlSigningKey
+      isArray: true
   - name: properties.deliveryPolicy
     description: A policy that specifies the delivery rules to be used for an endpoint.
     types:
     - uid: DeliveryPolicy
+  - name: properties.webApplicationFirewallPolicyLink
+    description: Defines the Web Application Firewall policy for the endpoint (if applicable)
+    types:
+    - uid: WebApplicationFirewallPolicyLink
 - name: GeoFilterActions
   description: Action of the geo filter, i.e. allow or block access.
   kind: enum
@@ -360,6 +414,35 @@ definitions:
     types:
     - uid: string
   - name: Allow
+    types:
+    - uid: string
+- name: KeyVaultSigningKeyParameters
+  description: Describes the parameters for using a user's KeyVault for URL Signing Key.
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: KeyVaultSigningKeyParameters
+    typesTitle: enum
+  - name: subscriptionId
+    description: Subscription Id of the user's Key Vault containing the secret
+    types:
+    - uid: string
+  - name: resourceGroupName
+    description: Resource group of the user's Key Vault containing the secret
+    types:
+    - uid: string
+  - name: vaultName
+    description: The name of the user's Key Vault containing the secret
+    types:
+    - uid: string
+  - name: secretName
+    description: The name of secret in Key Vault.
+    types:
+    - uid: string
+  - name: secretVersion
+    description: The version(GUID) of secret in Key Vault.
     types:
     - uid: string
 - name: DeliveryRule
@@ -405,15 +488,27 @@ definitions:
       isArray: true
     - uid: DeliveryRuleIsDeviceCondition
       isArray: true
+    - uid: DeliveryRuleSocketAddrCondition
+      isArray: true
+    - uid: DeliveryRuleClientPortCondition
+      isArray: true
+    - uid: DeliveryRuleServerPortCondition
+      isArray: true
+    - uid: DeliveryRuleHostNameCondition
+      isArray: true
+    - uid: DeliveryRuleSslProtocolCondition
+      isArray: true
     typesTitle: DeliveryRuleCondition[]
   - name: actions
     description: A list of actions that are executed when all the conditions of a rule are satisfied.
     types:
     - uid: UrlRedirectAction
       isArray: true
-    - uid: UrlRewriteAction
+    - uid: UrlSigningAction
       isArray: true
     - uid: OriginGroupOverrideAction
+      isArray: true
+    - uid: UrlRewriteAction
       isArray: true
     - uid: DeliveryRuleRequestHeaderAction
       isArray: true
@@ -422,6 +517,8 @@ definitions:
     - uid: DeliveryRuleCacheExpirationAction
       isArray: true
     - uid: DeliveryRuleCacheKeyQueryStringAction
+      isArray: true
+    - uid: DeliveryRuleRouteConfigurationOverrideAction
       isArray: true
     typesTitle: DeliveryRuleAction[]
 - name: DeepCreatedOrigin
@@ -445,7 +542,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.originHostHeader
-    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. If endpoint uses multiple origins for load balancing, then the host header at endpoint is ignored and this one is considered.
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default.
     types:
     - uid: string
   - name: properties.priority
@@ -460,6 +557,27 @@ definitions:
     description: Origin is enabled for load balancing or not. By default, origin is always enabled.
     types:
     - uid: boolean
+  - name: properties.privateLinkAlias
+    description: The Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'
+    types:
+    - uid: string
+  - name: properties.privateLinkResourceId
+    description: The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'
+    types:
+    - uid: string
+  - name: properties.privateLinkLocation
+    description: The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated
+    types:
+    - uid: string
+  - name: properties.privateLinkApprovalMessage
+    description: A custom message to be included in the approval request to connect to the Private Link.
+    types:
+    - uid: string
+  - name: properties.privateEndpointStatus
+    isReadyOnly: true
+    description: The approval status for the connection to the Private Link
+    types:
+    - uid: PrivateEndpointStatus
 - name: DeepCreatedOriginGroup
   description: The origin group for CDN content which is added when creating a CDN endpoint. Traffic is sent to the origins within the origin group based on origin health.
   kind: object
@@ -485,6 +603,22 @@ definitions:
     description: The JSON object that contains the properties to determine origin health using real requests/responses.This property is currently not supported.
     types:
     - uid: ResponseBasedOriginErrorDetectionParameters
+- name: DeepCreatedCustomDomain
+  description: Custom domains created on the CDN endpoint.
+  kind: object
+  properties:
+  - name: name
+    description: Custom domain name.
+    types:
+    - uid: string
+  - name: properties.hostName
+    description: The host name of the custom domain. Must be a domain name.
+    types:
+    - uid: string
+  - name: properties.validationData
+    description: Special validation or data may be required when delivering CDN to some regions due to local compliance reasons. E.g. ICP license number of a custom domain is required to deliver content in China.
+    types:
+    - uid: string
 - name: EndpointResourceState
   description: Resource status of the endpoint.
   kind: enum
@@ -505,6 +639,53 @@ definitions:
     types:
     - uid: string
   - name: Stopping
+    types:
+    - uid: string
+- name: EndpointProvisioningState
+  description: Provisioning status of the endpoint.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: QueryStringCachingBehavior
@@ -540,6 +721,56 @@ definitions:
     types:
     - uid: string
   - name: DynamicSiteAcceleration
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: PrivateEndpointStatus
+  description: The approval status for the connection to the Private Link
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Timeout
     types:
     - uid: string
 - name: HealthProbeParameters
@@ -579,6 +810,36 @@ definitions:
     types:
     - uid: HttpErrorRangeParameters
       isArray: true
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 - name: DeliveryRuleRemoteAddressCondition
   description: Defines the RemoteAddress condition for the delivery rule.
   kind: object
@@ -761,6 +1022,71 @@ definitions:
     types:
     - uid: IsDevice
     typesTitle: string
+- name: DeliveryRuleSocketAddrCondition
+  description: Defines the SocketAddress condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: SocketAddrMatchConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: SocketAddr
+    typesTitle: string
+- name: DeliveryRuleClientPortCondition
+  description: Defines the ClientPort condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: ClientPortMatchConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: ClientPort
+    typesTitle: string
+- name: DeliveryRuleServerPortCondition
+  description: Defines the ServerPort condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: ServerPortMatchConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: ServerPort
+    typesTitle: string
+- name: DeliveryRuleHostNameCondition
+  description: Defines the HostName condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: HostNameMatchConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: HostName
+    typesTitle: string
+- name: DeliveryRuleSslProtocolCondition
+  description: Defines the SslProtocol condition for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the condition.
+    types:
+    - uid: SslProtocolMatchConditionParameters
+  - name: name
+    description: The name of the condition for the delivery rule.
+    types:
+    - uid: SslProtocol
+    typesTitle: string
 - name: UrlRedirectAction
   description: Defines the url redirect action for the delivery rule.
   kind: object
@@ -774,6 +1100,32 @@ definitions:
     types:
     - uid: UrlRedirect
     typesTitle: string
+- name: UrlSigningAction
+  description: Defines the url signing action for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the action.
+    types:
+    - uid: UrlSigningActionParameters
+  - name: name
+    description: The name of the action for the delivery rule.
+    types:
+    - uid: UrlSigning
+    typesTitle: string
+- name: OriginGroupOverrideAction
+  description: Defines the origin group override action for the delivery rule.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the action.
+    types:
+    - uid: OriginGroupOverrideActionParameters
+  - name: name
+    description: The name of the action for the delivery rule.
+    types:
+    - uid: OriginGroupOverride
+    typesTitle: string
 - name: UrlRewriteAction
   description: Defines the url rewrite action for the delivery rule.
   kind: object
@@ -786,19 +1138,6 @@ definitions:
     description: The name of the action for the delivery rule.
     types:
     - uid: UrlRewrite
-    typesTitle: string
-- name: OriginGroupOverrideAction
-  description: Defines the Origin Group override action for the delivery rule.
-  kind: object
-  properties:
-  - name: parameters
-    description: Defines the parameters for the action.
-    types:
-    - uid: OriginGroupOverrideActionParameters
-  - name: name
-    description: The name of the action for the delivery rule.
-    types:
-    - uid: OriginGroupOverride
     typesTitle: string
 - name: DeliveryRuleRequestHeaderAction
   description: Defines the request header action for the delivery rule.
@@ -851,6 +1190,19 @@ definitions:
     description: The name of the action for the delivery rule.
     types:
     - uid: CacheKeyQueryString
+    typesTitle: string
+- name: DeliveryRuleRouteConfigurationOverrideAction
+  description: Defines the route configuration override action for the delivery rule. Only applicable to Frontdoor Standard/Premium Profiles.
+  kind: object
+  properties:
+  - name: parameters
+    description: Defines the parameters for the action.
+    types:
+    - uid: RouteConfigurationOverrideActionParameters
+  - name: name
+    description: The name of the action for the delivery rule.
+    types:
+    - uid: RouteConfigurationOverride
     typesTitle: string
 - name: HealthProbeRequestType
   description: The type of health probe request that is made.
@@ -907,10 +1259,10 @@ definitions:
   description: Defines the parameters for RemoteAddress match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters'
+    - uid: DeliveryRuleRemoteAddressConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -934,10 +1286,10 @@ definitions:
   description: Defines the parameters for RequestMethod match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestMethodConditionParameters'
+    - uid: DeliveryRuleRequestMethodConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -947,6 +1299,11 @@ definitions:
     description: Describes if this is negate condition or not
     types:
     - uid: boolean
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
   - name: matchValues
     description: The match value for the condition of the delivery rule
     types:
@@ -956,10 +1313,10 @@ definitions:
   description: Defines the parameters for QueryString match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters'
+    - uid: DeliveryRuleQueryStringConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -983,10 +1340,10 @@ definitions:
   description: Defines the parameters for PostArgs match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters'
+    - uid: DeliveryRulePostArgsConditionParameters
     typesTitle: enum
   - name: selector
     description: Name of PostArg to be matched
@@ -1014,10 +1371,10 @@ definitions:
   description: Defines the parameters for RequestUri match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters'
+    - uid: DeliveryRuleRequestUriConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1041,10 +1398,10 @@ definitions:
   description: Defines the parameters for RequestHeader match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters'
+    - uid: DeliveryRuleRequestHeaderConditionParameters
     typesTitle: enum
   - name: selector
     description: Name of Header to be matched
@@ -1072,10 +1429,10 @@ definitions:
   description: Defines the parameters for RequestBody match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters'
+    - uid: DeliveryRuleRequestBodyConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1099,10 +1456,10 @@ definitions:
   description: 'Defines the parameters for RequestScheme match conditions '
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestSchemeConditionParameters'
+    - uid: DeliveryRuleRequestSchemeConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1113,6 +1470,11 @@ definitions:
     description: Describes if this is negate condition or not
     types:
     - uid: boolean
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
   - name: matchValues
     description: The match value for the condition of the delivery rule
     types:
@@ -1122,10 +1484,10 @@ definitions:
   description: Defines the parameters for UrlPath match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters'
+    - uid: DeliveryRuleUrlPathMatchConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1149,10 +1511,10 @@ definitions:
   description: Defines the parameters for UrlFileExtension match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters'
+    - uid: DeliveryRuleUrlFileExtensionMatchConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1176,10 +1538,10 @@ definitions:
   description: Defines the parameters for UrlFilename match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFilenameConditionParameters'
+    - uid: DeliveryRuleUrlFilenameConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1203,10 +1565,10 @@ definitions:
   description: Defines the parameters for HttpVersion match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleHttpVersionConditionParameters'
+    - uid: DeliveryRuleHttpVersionConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1221,14 +1583,19 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
 - name: CookiesMatchConditionParameters
   description: Defines the parameters for Cookies match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCookiesConditionParameters'
+    - uid: DeliveryRuleCookiesConditionParameters
     typesTitle: enum
   - name: selector
     description: Name of Cookies to be matched
@@ -1256,10 +1623,10 @@ definitions:
   description: Defines the parameters for IsDevice match conditions
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleIsDeviceConditionParameters'
+    - uid: DeliveryRuleIsDeviceConditionParameters
     typesTitle: enum
   - name: operator
     description: Describes operator to be matched
@@ -1279,14 +1646,149 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: SocketAddrMatchConditionParameters
+  description: Defines the parameters for SocketAddress match conditions
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleSocketAddrConditionParameters
+    typesTitle: enum
+  - name: operator
+    description: Describes operator to be matched
+    types:
+    - uid: SocketAddrOperator
+  - name: negateCondition
+    description: Describes if this is negate condition or not
+    types:
+    - uid: boolean
+  - name: matchValues
+    description: The match value for the condition of the delivery rule
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
+- name: ClientPortMatchConditionParameters
+  description: Defines the parameters for ClientPort match conditions
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleClientPortConditionParameters
+    typesTitle: enum
+  - name: operator
+    description: Describes operator to be matched
+    types:
+    - uid: ClientPortOperator
+  - name: negateCondition
+    description: Describes if this is negate condition or not
+    types:
+    - uid: boolean
+  - name: matchValues
+    description: The match value for the condition of the delivery rule
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
+- name: ServerPortMatchConditionParameters
+  description: Defines the parameters for ServerPort match conditions
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleServerPortConditionParameters
+    typesTitle: enum
+  - name: operator
+    description: Describes operator to be matched
+    types:
+    - uid: ServerPortOperator
+  - name: negateCondition
+    description: Describes if this is negate condition or not
+    types:
+    - uid: boolean
+  - name: matchValues
+    description: The match value for the condition of the delivery rule
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
+- name: HostNameMatchConditionParameters
+  description: Defines the parameters for HostName match conditions
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleHostNameConditionParameters
+    typesTitle: enum
+  - name: operator
+    description: Describes operator to be matched
+    types:
+    - uid: HostNameOperator
+  - name: negateCondition
+    description: Describes if this is negate condition or not
+    types:
+    - uid: boolean
+  - name: matchValues
+    description: The match value for the condition of the delivery rule
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
+- name: SslProtocolMatchConditionParameters
+  description: Defines the parameters for SslProtocol match conditions
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleSslProtocolConditionParameters
+    typesTitle: enum
+  - name: operator
+    description: Describes operator to be matched
+    types:
+    - uid: SslProtocolOperator
+  - name: negateCondition
+    description: Describes if this is negate condition or not
+    types:
+    - uid: boolean
+  - name: matchValues
+    description: The match value for the condition of the delivery rule
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms
+    types:
+    - uid: string
+      isArray: true
 - name: UrlRedirectActionParameters
   description: Defines the parameters for the url redirect action.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRedirectActionParameters'
+    - uid: DeliveryRuleUrlRedirectActionParameters
     typesTitle: enum
   - name: redirectType
     description: The redirect type the rule will use when redirecting traffic.
@@ -1312,14 +1814,45 @@ definitions:
     description: 'Fragment to add to the redirect URL. Fragment is the part of the URL that comes after #. Do not include the #.'
     types:
     - uid: string
+- name: UrlSigningActionParameters
+  description: Defines the parameters for the Url Signing action.
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleUrlSigningActionParameters
+    typesTitle: enum
+  - name: algorithm
+    description: Algorithm to use for URL signing
+    types:
+    - uid: algorithm
+  - name: parameterNameOverride
+    description: 'Defines which query string parameters in the url to be considered for expires, key id etc. '
+    types:
+    - uid: UrlSigningParamIdentifier
+      isArray: true
+- name: OriginGroupOverrideActionParameters
+  description: Defines the parameters for the origin group override action.
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleOriginGroupOverrideActionParameters
+    typesTitle: enum
+  - name: originGroup
+    description: defines the OriginGroup that would override the DefaultOriginGroup.
+    types:
+    - uid: ResourceReference
 - name: UrlRewriteActionParameters
   description: Defines the parameters for the url rewrite action.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRewriteActionParameters'
+    - uid: DeliveryRuleUrlRewriteActionParameters
     typesTitle: enum
   - name: sourcePattern
     description: define a request URI pattern that identifies the type of requests that may be rewritten. If value is blank, all strings are matched.
@@ -1333,27 +1866,14 @@ definitions:
     description: Whether to preserve unmatched path. Default value is true.
     types:
     - uid: boolean
-- name: OriginGroupOverrideActionParameters
-  description: Defines the parameters for the Origin Group override action.
-  kind: object
-  properties:
-  - name: '@odata.type'
-    description: ''
-    types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleOriginGroupOverrideActionParameters'
-    typesTitle: enum
-  - name: originGroup
-    description: A reference to the origin group from where the content will be fetched from when CDN does not have it
-    types:
-    - uid: ResourceReference
 - name: HeaderActionParameters
   description: Defines the parameters for the request header action.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters'
+    - uid: DeliveryRuleHeaderActionParameters
     typesTitle: enum
   - name: headerAction
     description: Action to perform
@@ -1371,10 +1891,10 @@ definitions:
   description: Defines the parameters for the cache expiration action.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters'
+    - uid: DeliveryRuleCacheExpirationActionParameters
     typesTitle: enum
   - name: cacheBehavior
     description: Caching behavior for the requests
@@ -1392,10 +1912,10 @@ definitions:
   description: Defines the parameters for the cache-key query string action.
   kind: object
   properties:
-  - name: '@odata.type'
+  - name: typeName
     description: ''
     types:
-    - uid: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheKeyQueryStringBehaviorActionParameters'
+    - uid: DeliveryRuleCacheKeyQueryStringBehaviorActionParameters
     typesTitle: enum
   - name: queryStringBehavior
     description: Caching behavior for the requests
@@ -1405,6 +1925,23 @@ definitions:
     description: query parameters to include or exclude (comma separated).
     types:
     - uid: string
+- name: RouteConfigurationOverrideActionParameters
+  description: Defines the parameters for the route configuration override action.
+  kind: object
+  properties:
+  - name: typeName
+    description: ''
+    types:
+    - uid: DeliveryRuleRouteConfigurationOverrideActionParameters
+    typesTitle: enum
+  - name: originGroupOverride
+    description: A reference to the origin group override configuration. Leave empty to use the default origin group on route.
+    types:
+    - uid: OriginGroupOverride
+  - name: cacheConfiguration
+    description: The caching configuration associated with this rule. To disable caching, do not provide a cacheConfiguration object.
+    types:
+    - uid: CacheConfiguration
 - name: RemoteAddressOperator
   description: Describes operator to be matched
   kind: enum
@@ -1456,6 +1993,9 @@ definitions:
   - name: GreaterThanOrEqual
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: PostArgsOperator
   description: Describes operator to be matched
   kind: enum
@@ -1485,6 +2025,9 @@ definitions:
     types:
     - uid: string
   - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
     types:
     - uid: string
 - name: RequestUriOperator
@@ -1518,6 +2061,9 @@ definitions:
   - name: GreaterThanOrEqual
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: RequestHeaderOperator
   description: Describes operator to be matched
   kind: enum
@@ -1549,6 +2095,9 @@ definitions:
   - name: GreaterThanOrEqual
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: RequestBodyOperator
   description: Describes operator to be matched
   kind: enum
@@ -1578,6 +2127,9 @@ definitions:
     types:
     - uid: string
   - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
     types:
     - uid: string
 - name: UrlPathOperator
@@ -1614,6 +2166,9 @@ definitions:
   - name: Wildcard
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: UrlFileExtensionOperator
   description: Describes operator to be matched
   kind: enum
@@ -1645,6 +2200,9 @@ definitions:
   - name: GreaterThanOrEqual
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: UrlFileNameOperator
   description: Describes operator to be matched
   kind: enum
@@ -1674,6 +2232,9 @@ definitions:
     types:
     - uid: string
   - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
     types:
     - uid: string
 - name: HttpVersionOperator
@@ -1714,7 +2275,129 @@ definitions:
   - name: GreaterThanOrEqual
     types:
     - uid: string
+  - name: RegEx
+    types:
+    - uid: string
 - name: IsDeviceOperator
+  description: Describes operator to be matched
+  kind: enum
+  properties:
+  - name: Equal
+    types:
+    - uid: string
+- name: SocketAddrOperator
+  description: Describes operator to be matched
+  kind: enum
+  properties:
+  - name: Any
+    types:
+    - uid: string
+  - name: IPMatch
+    types:
+    - uid: string
+- name: ClientPortOperator
+  description: Describes operator to be matched
+  kind: enum
+  properties:
+  - name: Any
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: BeginsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: LessThanOrEqual
+    types:
+    - uid: string
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
+    types:
+    - uid: string
+- name: ServerPortOperator
+  description: Describes operator to be matched
+  kind: enum
+  properties:
+  - name: Any
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: BeginsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: LessThanOrEqual
+    types:
+    - uid: string
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
+    types:
+    - uid: string
+- name: HostNameOperator
+  description: Describes operator to be matched
+  kind: enum
+  properties:
+  - name: Any
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: BeginsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: LessThanOrEqual
+    types:
+    - uid: string
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: RegEx
+    types:
+    - uid: string
+- name: SslProtocolOperator
   description: Describes operator to be matched
   kind: enum
   properties:
@@ -1748,6 +2431,25 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+- name: algorithm
+  description: Algorithm to use for URL signing
+  kind: enum
+  properties:
+  - name: SHA256
+    types:
+    - uid: string
+- name: UrlSigningParamIdentifier
+  description: Defines how to identify a parameter for a specific purpose e.g. expires
+  kind: object
+  properties:
+  - name: paramIndicator
+    description: Indicates the purpose of the parameter
+    types:
+    - uid: paramIndicator
+  - name: paramName
+    description: Parameter name
     types:
     - uid: string
 - name: HeaderAction
@@ -1799,16 +2501,256 @@ definitions:
   - name: ExcludeAll
     types:
     - uid: string
+- name: OriginGroupOverride
+  description: Defines the parameters for the origin group override configuration.
+  kind: object
+  properties:
+  - name: originGroup
+    description: defines the OriginGroup that would override the DefaultOriginGroup on route.
+    types:
+    - uid: ResourceReference
+  - name: forwardingProtocol
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: ForwardingProtocol
+- name: CacheConfiguration
+  description: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+  kind: object
+  properties:
+  - name: queryStringCachingBehavior
+    description: Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.
+    types:
+    - uid: ruleQueryStringCachingBehavior
+  - name: queryParameters
+    description: query parameters to include or exclude (comma separated).
+    types:
+    - uid: string
+  - name: isCompressionEnabled
+    description: Indicates whether content compression is enabled. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB.
+    types:
+    - uid: ruleIsCompressionEnabled
+  - name: cacheBehavior
+    description: Caching behavior for the requests
+    types:
+    - uid: ruleCacheBehavior
+  - name: cacheDuration
+    description: The duration for which the content needs to be cached. Allowed format is [d.]hh:mm:ss
+    types:
+    - uid: string
+- name: paramIndicator
+  description: Indicates the purpose of the parameter
+  kind: enum
+  properties:
+  - name: Expires
+    types:
+    - uid: string
+  - name: KeyId
+    types:
+    - uid: string
+  - name: Signature
+    types:
+    - uid: string
+- name: ForwardingProtocol
+  description: Protocol this rule will use when forwarding traffic to backends.
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: ruleQueryStringCachingBehavior
+  description: Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.
+  kind: enum
+  properties:
+  - name: IgnoreQueryString
+    types:
+    - uid: string
+  - name: UseQueryString
+    types:
+    - uid: string
+  - name: IgnoreSpecifiedQueryStrings
+    types:
+    - uid: string
+  - name: IncludeSpecifiedQueryStrings
+    types:
+    - uid: string
+- name: ruleIsCompressionEnabled
+  description: Indicates whether content compression is enabled. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ruleCacheBehavior
+  description: Caching behavior for the requests
+  kind: enum
+  properties:
+  - name: HonorOrigin
+    types:
+    - uid: string
+  - name: OverrideAlways
+    types:
+    - uid: string
+  - name: OverrideIfOriginMissing
+    types:
+    - uid: string
 examples:
 - name: Endpoints_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1?api-version=2019-12-31
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1?api-version=2021-06-01
     body: >-
       {
         "tags": {
           "additionalProperties": "Tag1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "additionalProperties": "Tag1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.EndpointUpdateParameters;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Endpoints Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Update.json
+           */
+          /**
+           * Sample code: Endpoints_Update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void endpointsUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getEndpoints()
+                  .update(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      new EndpointUpdateParameters().withTags(mapOf("additionalProperties", "Tag1")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Update.json
+      func ExampleEndpointsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewEndpointsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		armcdn.EndpointUpdateParameters{
+      			Tags: map[string]*string{
+      				"additionalProperties": to.Ptr("Tag1"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
+       *
+       * @summary Updates an existing CDN endpoint with the specified endpoint name under the specified subscription, resource group and profile. Only tags can be updated after creating an endpoint. To update origins, use the Update Origin operation. To update origin groups, use the Update Origin group operation. To update custom domains, use the Update Custom Domain operation.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Endpoints_Update.json
+       */
+      async function endpointsUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const endpointUpdateProperties = {
+          tags: { additionalProperties: "Tag1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.endpoints.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          endpointUpdateProperties
+        );
+        console.log(result);
+      }
+
+      endpointsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1872,6 +2814,9 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/resourceGroupName/providers/Microsoft.Cdn/operationresults/operationId?api-version=2021-06-01
     body: >-
       {
         "name": "endpoint1",

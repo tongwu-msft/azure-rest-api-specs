@@ -1,5 +1,6 @@
 ---
 title: "Identify Azure Media Services Entities"
+description: Learn how Microsoft Azure Media Services uses a specific naming structure to identify resources such as Assets, ContentKeys, and so on.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

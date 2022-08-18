@@ -1,5 +1,6 @@
 ---
 title: Azure Blockchain Service REST API
+description: Learn how Azure Blockchain Service is a fully managed ledger service that enables you to operate blockchain networks at scale in Azure.
 author: PatAltimore
 ms.author: patricka
 ms.date: 04/28/2019

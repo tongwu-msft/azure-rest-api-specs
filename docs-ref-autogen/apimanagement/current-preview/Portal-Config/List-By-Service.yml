@@ -1,0 +1,302 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.apimanagement.current-preview.portalconfig.listbyservice
+name: List By Service
+service: API Management
+groupName: Portal Config
+apiVersion: 2021-12-01-preview
+summary: Lists the developer portal configurations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/portalconfigs?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the API Management service.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The developer portal configuration.
+  types:
+  - uid: PortalConfigCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PortalConfigCollection
+  description: The collection of the developer portal configurations.
+  kind: object
+  properties:
+  - name: value
+    description: The developer portal configurations.
+    types:
+    - uid: PortalConfigContract
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Next page link if any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Service-defined error code. This code serves as a sub-status for the HTTP error code specified in the response.
+    types:
+    - uid: string
+  - name: error.message
+    description: Human-readable representation of the error.
+    types:
+    - uid: string
+  - name: error.details
+    description: The list of invalid fields send in request, in case of validation error.
+    types:
+    - uid: ErrorFieldContract
+      isArray: true
+- name: PortalConfigContract
+  description: The developer portal configuration contract.
+  kind: object
+  properties:
+  - name: properties.enableBasicAuth
+    description: Enable or disable Basic authentication method.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: properties.signin
+    description: ''
+    types:
+    - uid: Signin
+  - name: properties.signup
+    description: ''
+    types:
+    - uid: Signup
+  - name: properties.delegation
+    description: The developer portal delegation settings.
+    types:
+    - uid: PortalConfigDelegationProperties
+  - name: properties.cors
+    description: The developer portal Cross-Origin Resource Sharing (CORS) settings.
+    types:
+    - uid: PortalConfigCorsProperties
+  - name: properties.csp
+    description: The developer portal Content Security Policy (CSP) settings.
+    types:
+    - uid: PortalConfigCspProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorFieldContract
+  description: Error Field contract.
+  kind: object
+  properties:
+  - name: code
+    description: Property level error code.
+    types:
+    - uid: string
+  - name: message
+    description: Human-readable representation of property-level error.
+    types:
+    - uid: string
+  - name: target
+    description: Property name.
+    types:
+    - uid: string
+- name: Signin
+  kind: object
+  properties:
+  - name: require
+    description: Redirect anonymous users to the sign-in page.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: Signup
+  kind: object
+  properties:
+  - name: termsOfService
+    description: Terms of service settings.
+    types:
+    - uid: PortalConfigTermsOfServiceProperties
+- name: PortalConfigDelegationProperties
+  kind: object
+  properties:
+  - name: delegateRegistration
+    description: Enable or disable delegation for user registration.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: delegateSubscription
+    description: Enable or disable delegation for product subscriptions.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: delegationUrl
+    description: A delegation endpoint URL.
+    types:
+    - uid: string
+  - name: validationKey
+    description: A base64-encoded validation key to ensure requests originate from Azure API Management service.
+    types:
+    - uid: string
+- name: PortalConfigCorsProperties
+  description: The developer portal Cross-Origin Resource Sharing (CORS) settings.
+  kind: object
+  properties:
+  - name: allowedOrigins
+    description: Allowed origins, e.g. `https://trusted.com`.
+    types:
+    - uid: string
+      isArray: true
+- name: PortalConfigCspProperties
+  description: The developer portal Content Security Policy (CSP) settings.
+  kind: object
+  properties:
+  - name: mode
+    description: The mode of the developer portal Content Security Policy (CSP).
+    types:
+    - uid: PortalSettingsCspMode
+    defaultValue: disabled
+  - name: reportUri
+    description: The URLs used by the browser to report CSP violations.
+    types:
+    - uid: string
+      isArray: true
+  - name: allowedSources
+    description: Allowed sources, e.g. `*.trusted.com`, `trusted.com`, `https://`.
+    types:
+    - uid: string
+      isArray: true
+- name: PortalConfigTermsOfServiceProperties
+  description: Terms of service contract properties.
+  kind: object
+  properties:
+  - name: text
+    description: A terms of service text.
+    types:
+    - uid: string
+  - name: requireConsent
+    description: Ask user for consent to the terms of service.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: PortalSettingsCspMode
+  description: The mode of the developer portal Content Security Policy (CSP).
+  kind: enum
+  properties:
+  - name: enabled
+    description: The browser will block requests not matching allowed origins.
+    types:
+    - uid: string
+  - name: disabled
+    description: The browser will not apply the origin restrictions.
+    types:
+    - uid: string
+  - name: reportOnly
+    description: The browser will report requests not matching allowed origins without blocking them.
+    types:
+    - uid: string
+examples:
+- name: ApiManagementListPortalConfig
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalconfigs?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalconfigs?api-version=2021-12-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalconfigs/default",
+            "type": "Microsoft.ApiManagement/service/portalconfigs",
+            "name": "default",
+            "properties": {
+              "enableBasicAuth": true,
+              "signin": {
+                "require": false
+              },
+              "signup": {
+                "termsOfService": {
+                  "text": "I agree to the service terms and conditions.",
+                  "requireConsent": false
+                }
+              },
+              "delegation": {
+                "delegateRegistration": false,
+                "delegateSubscription": false,
+                "delegationUrl": null,
+                "validationKey": null
+              },
+              "csp": {
+                "mode": "reportOnly",
+                "reportUri": [
+                  "https://report.contoso.com"
+                ],
+                "allowedSources": [
+                  "*.contoso.com"
+                ]
+              },
+              "cors": {
+                "allowedOrigins": [
+                  "https://contoso.com"
+                ]
+              }
+            }
+          }
+        ],
+        "nextLink": ""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about API Management service - Lists the developer portal configurations.
+errorCodes: []

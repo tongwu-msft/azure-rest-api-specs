@@ -1,5 +1,5 @@
 ---
-title: "ResourceRequirements"
+title: Container and Service Resource Requirements
 description: "ResourceRequirements"
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ResourceRequirements
+# Container and Service Resource Requirements
 
 This type describes the resource requirements for a container or a service.
 

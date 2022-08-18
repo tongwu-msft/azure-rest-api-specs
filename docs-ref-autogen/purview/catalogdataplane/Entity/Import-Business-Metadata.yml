@@ -1,0 +1,90 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.entity.importbusinessmetadata
+name: Import Business Metadata
+service: Purview
+groupName: Entity
+apiVersion: 2022-03-01-preview
+summary: Upload the file for creating Business Metadata in BULK
+consumes:
+- multipart/form-data
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/catalog/api/atlas/v2/entity/businessmetadata/import
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: If Business Metadata creation was successful
+  types:
+  - uid: BulkImportResponse
+- name: 400 Bad Request
+  description: If Business Metadata definition has invalid or missing information
+- name: Other Status Codes
+  description: If Business Metadata already exists (duplicate qualifiedName)
+requestHeader: []
+definitions:
+- name: BulkImportResponse
+  description: BulkImportResponse
+  kind: object
+  properties:
+  - name: failedImportInfoList
+    description: failed importInfoList
+    types:
+    - uid: ImportInfo
+      isArray: true
+  - name: successImportInfoList
+    description: successful importInfoList
+    types:
+    - uid: ImportInfo
+      isArray: true
+- name: ImportInfo
+  description: ImportInfo
+  kind: object
+  properties:
+  - name: childObjectName
+    description: childObjectName
+    types:
+    - uid: string
+  - name: importStatus
+    description: "ImportStatus  \nimportStatus"
+    types:
+    - uid: ImportStatus
+  - name: parentObjectName
+    description: parentObjectName
+    types:
+    - uid: string
+  - name: remarks
+    description: remarks
+    types:
+    - uid: string
+- name: ImportStatus
+  description: ImportStatus
+  kind: enum
+  properties:
+  - name: SUCCESS
+    types:
+    - uid: string
+  - name: FAILED
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Purview service - Upload the file for creating Business Metadata in BULK
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.automation.automationaccount.listbyresourcegroup
 name: List By Resource Group
 service: Automation
 groupName: Automation Account
-apiVersion: 2015-10-31
+apiVersion: 2021-06-22
 summary: Retrieve a list of accounts within a given resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts?api-version=2021-06-22
 uriParameters:
 - name: subscriptionId
   in: path
@@ -75,6 +75,15 @@ definitions:
     description: Gets or sets the etag of the resource.
     types:
     - uid: string
+  - name: identity
+    description: Identity for the resource.
+    types:
+    - uid: Identity
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
   - name: properties.sku
     description: Gets or sets the SKU of account.
     types:
@@ -102,6 +111,27 @@ definitions:
     description: Gets or sets the description.
     types:
     - uid: string
+  - name: properties.encryption
+    description: Encryption properties for the automation account
+    types:
+    - uid: EncryptionProperties
+  - name: properties.privateEndpointConnections
+    description: List of Automation operations supported by the Automation resource provider.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.publicNetworkAccess
+    description: Indicates whether traffic on the non-ARM endpoint (Webhook/Agent) is allowed from the public internet
+    types:
+    - uid: boolean
+  - name: properties.disableLocalAuth
+    description: Indicates whether requests using non-AAD authentication are blocked
+    types:
+    - uid: boolean
+  - name: properties.automationHybridServiceUrl
+    description: URL of automation hybrid service which is used for hybrid worker on-boarding.
+    types:
+    - uid: string
   - name: tags
     description: Resource tags.
     types:
@@ -127,6 +157,56 @@ definitions:
   - name: type
     isReadyOnly: true
     description: The type of the resource.
+    types:
+    - uid: string
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: Sku
@@ -158,6 +238,94 @@ definitions:
   - name: Suspended
     types:
     - uid: string
+- name: EncryptionProperties
+  description: The encryption settings for automation account
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: Key vault properties.
+    types:
+    - uid: KeyVaultProperties
+  - name: keySource
+    description: Encryption Key Source
+    types:
+    - uid: EncryptionKeySourceType
+  - name: identity
+    description: User identity used for CMK.
+    types:
+    - uid: Identity
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: Private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpointProperty
+  - name: properties.groupIds
+    description: Gets the groupIds.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection State of the Private Endpoint Connection.
+    types:
+    - uid: PrivateLinkServiceConnectionStateProperty
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with the resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: SkuNameEnum
   description: Gets or sets the SKU name of the account.
   kind: enum
@@ -168,10 +336,128 @@ definitions:
   - name: Basic
     types:
     - uid: string
+- name: KeyVaultProperties
+  description: Settings concerning key vault encryption for a configuration store.
+  kind: object
+  properties:
+  - name: keyvaultUri
+    description: The URI of the key vault key used to encrypt data.
+    types:
+    - uid: string
+  - name: keyName
+    description: The name of key used to encrypt data.
+    types:
+    - uid: string
+  - name: keyVersion
+    description: The key version of the key used to encrypt data.
+    types:
+    - uid: string
+- name: EncryptionKeySourceType
+  description: Encryption Key Source
+  kind: enum
+  properties:
+  - name: Microsoft.Automation
+    types:
+    - uid: string
+  - name: Microsoft.Keyvault
+    types:
+    - uid: string
+- name: PrivateEndpointProperty
+  description: Private endpoint which the connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionStateProperty
+  description: Connection State of the Private Endpoint Connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: string
 examples:
 - name: List automation accounts by resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts?api-version=2015-10-31
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts?api-version=2021-06-22
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts?api-version=2021-06-22
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AutomationAccount ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/listAutomationAccountsByResourceGroup.json
+           */
+          /**
+           * Sample code: List automation accounts by resource group.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void listAutomationAccountsByResourceGroup(
+              com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager.automationAccounts().listByResourceGroup("rg", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2021-06-22/examples/listAutomationAccountsByResourceGroup.json
+      func ExampleAccountClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewAccountClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("rg",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -309,5 +595,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Automation service - Retrieve a list of accounts within a given resource group.
+  description: >
+    Learn more about Automation service - Retrieve a list of accounts within a given resource group.
 errorCodes: []

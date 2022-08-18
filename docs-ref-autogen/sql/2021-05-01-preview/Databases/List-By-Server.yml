@@ -302,10 +302,6 @@ definitions:
     description: The Client id used for cross tenant per database CMK scenario
     types:
     - uid: string
-  - name: properties.primaryDelegatedIdentityClientId
-    description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
-    types:
-    - uid: string
   - name: properties.sourceResourceId
     description: "The resource identifier of the source associated with the create operation of this database.\n\nWhen sourceResourceId is specified, sourceDatabaseId, recoverableDatabaseId, restorableDroppedDatabaseId and sourceDatabaseDeletionDate must not be specified and CreateMode must be PointInTimeRestore, Restore or Recover.\n\nWhen createMode is PointInTimeRestore, sourceResourceId must be the resource ID of an existing database or existing sql pool, and restorePointInTime must be specified.\n\nWhen createMode is Restore, sourceResourceId must be the resource ID of restorable dropped database or restorable dropped sql pool.\n\nWhen createMode is Recover, sourceResourceId must be the resource ID of recoverable database or recoverable sql pool.\n\nThis property allows to restore across subscriptions which is only supported for DataWarehouse edition.\n\nWhen source subscription belongs to a different tenant than target subscription, “x-ms-authorization-auxiliary” header must contain authentication token for the source tenant. For more details about “x-ms-authorization-auxiliary” header see https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/authenticate-multi-tenant "
     types:
@@ -382,14 +378,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: DatabaseUserIdentity
-  - name: delegatedResources
-    description: Resources delegated to the database - Internal Use Only
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: Delegation
 - name: CreateMode
   description: >-
     Specifies the mode of database creation.
@@ -626,23 +614,84 @@ definitions:
     description: The Azure Active Directory client id.
     types:
     - uid: string
-- name: Delegation
-  description: Delegated Resource Properties - Internal Use Only
-  kind: object
-  properties:
-  - name: resourceId
-    description: The resource id of the source resource - Internal Use Only
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: AAD tenant guid of the source resource identity - Internal Use Only.
-    types:
-    - uid: string
 examples:
 - name: Gets a list of databases.
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases?api-version=2021-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases?api-version=2021-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ListVCoreDatabasesByServer.json
+      func ExampleDatabasesClient_NewListByServerPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewDatabasesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByServerPager("Default-SQL-SouthEastAsia",
+      		"testsvr",
+      		&armsql.DatabasesClientListByServerOptions{SkipToken: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of databases.
+       *
+       * @summary Gets a list of databases.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ListVCoreDatabasesByServer.json
+       */
+      async function getsAListOfDatabases() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.databases.listByServer(resourceGroupName, serverName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getsAListOfDatabases().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -723,5 +772,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about SQL Database service - Gets a list of databases.
+  description: >
+    Learn more about SQL Database service - Gets a list of databases.
 errorCodes: []

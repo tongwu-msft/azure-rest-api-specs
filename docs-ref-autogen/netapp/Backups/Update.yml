@@ -158,6 +158,7 @@ definitions:
     description: Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups
     types:
     - uid: boolean
+    defaultValue: false
 - name: backupPatch
   description: Backup patch
   kind: object
@@ -213,6 +214,7 @@ definitions:
     description: Manual backup an already existing snapshot. This will always be false for scheduled backups and true/false for manual backups
     types:
     - uid: boolean
+    defaultValue: false
 - name: backupType
   description: backupType
   kind: enum
@@ -230,6 +232,122 @@ examples:
   request:
     uri: PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2021-10-01
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1/volumes/volume1/backups/backup1?api-version=2021-10-01
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.netapp.models.Backup;
+
+      /** Samples for Backups Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Backups_Update.json
+           */
+          /**
+           * Sample code: Backups_Update.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void backupsUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              Backup resource =
+                  manager
+                      .backups()
+                      .getWithResponse("myRG", "account1", "pool1", "volume1", "backup1", Context.NONE)
+                      .getValue();
+              resource.update().apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Backups_Update.json
+      func ExampleBackupsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewBackupsClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myRG",
+      		"account1",
+      		"pool1",
+      		"volume1",
+      		"backup1",
+      		&armnetapp.BackupsClientBeginUpdateOptions{Body: &armnetapp.BackupPatch{}})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patch a backup for the volume
+       *
+       * @summary Patch a backup for the volume
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Backups_Update.json
+       */
+      async function backupsUpdate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const poolName = "pool1";
+        const volumeName = "volume1";
+        const backupName = "backup1";
+        const body = {};
+        const options = { body };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.backups.beginUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          poolName,
+          volumeName,
+          backupName,
+          options
+        );
+        console.log(result);
+      }
+
+      backupsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -274,5 +392,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure NetApp Files service - Patch a backup for the volume
+  description: >
+    Learn more about Azure NetApp Files service - Patch a backup for the volume
 errorCodes: []

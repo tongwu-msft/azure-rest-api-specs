@@ -1,7 +1,8 @@
 ---
 ms.assetid: 0c725cba-40fa-4ff3-8be5-cef3f5cc5443
 title: Request quota increase via Support API 
-ms.service: Support
+description: Learn how to request a quota increase using the Azure Support REST API.
+ms.service: azure
 author: gangan
 ms.author: gangan
 ms.date: 02/10/2020
@@ -33,14 +34,14 @@ To request a quota increase for Azure Virtual Machines (cores/vCPU), provide add
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you're requesting the quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you're requesting the quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of _Payload_ object|As described below.|
 
 ### Payload details
 
 |Property|Required|Type|Description|Example|
 | :---: |:---|:---|:---| :---|
-|VmFamily|True|string|Microsoft.Compute [SKU family list](https://docs.microsoft.com/rest/api/compute/resourceskus/list) |ESv3 Series|
+|VmFamily|True|string|Microsoft.Compute [SKU family list](/rest/api/compute/resourceskus/list) |ESv3 Series|
 |VmFamily|True|string|regional quota |\*|
 |VmFamily|True|string|spot vCPU|All Series|
 |NewLimit|True|integer|Desired new quota limit|200|
@@ -65,7 +66,7 @@ To request a quota increase for Azure Virtual Machines (cores/vCPU), provide add
 }
 ```
 
-View the complete request and response body for [Quota increase for Azure Virtual Machines (cores/vCPU)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-compute-vm-cores).
+View the complete request and response body for [Quota increase for Azure Virtual Machines (cores/vCPU)](/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-compute-vm-cores).
 
 
 2. The following example illustrate the payload for requesting a quota increase across all VM series in a given region (regional quota):
@@ -98,7 +99,7 @@ View the complete request and response body for [Quota increase for Azure Virtua
 
 ## Azure Batch
 
-For [Azure Batch](https://docs.microsoft.com/azure/batch/), you can request a quota increase at the subscription level or at the batch account level.
+For [Azure Batch](/azure/batch/), you can request a quota increase at the subscription level or at the batch account level.
 
 ### Objects
 
@@ -116,7 +117,7 @@ _QuotaChangeRequest_ includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Request quota at the subscription level
@@ -147,7 +148,7 @@ To request a quota increase for Azure Batch accounts at the subscription level:
 }
 ```
 
-View the complete request and response body for [Quota increase for Azure Batch account (subscription)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-batch-accounts-for-a-subscription).
+View the complete request and response body for [Quota increase for Azure Batch account (subscription)](/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-batch-accounts-for-a-subscription).
 
 ### Request quota at the account level
 
@@ -159,7 +160,7 @@ To request quota at the account level, set _quotaChangeRequestSubType_ to "Accou
 | :--- |:---|:---|:---| :---|
 |AccountName|True|string|Unique account name in the Batch service|testBatchAccount|
 |Type|string|True|Desired sub-resource type|Jobs|
-|VM Family|True|string| Microsoft.Compute [SKU family](https://docs.microsoft.com/rest/api/compute/resourceskus/list). Specify only for **Dedicated** core sub-resource.|standardDv3Family|
+|VM Family|True|string| Microsoft.Compute [SKU family](/rest/api/compute/resourceskus/list). Specify only for **Dedicated** core sub-resource.|standardDv3Family|
 |NewLimit|True|integer|Desired new quota limit|5|
 
 Supported _sub-resource_ types for Batch Account:
@@ -188,7 +189,7 @@ To request a quota increase for _Dedicated Cores_ for an Azure Batch account:
 }
 ```
 
-View the complete request and response body for [Quota increase for Batch account (Account) and Type: Dedicated](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-specific-vm-family-cores-for-a-batch-account)
+View the complete request and response body for [Quota increase for Batch account (Account) and Type: Dedicated](/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-specific-vm-family-cores-for-a-batch-account)
 
 To request a quota increase for _Jobs_ for an Azure Batch account:
 
@@ -205,7 +206,7 @@ To request a quota increase for _Jobs_ for an Azure Batch account:
 }
 ```
 
-View complete request and response body for [Quota increase for Batch account (Jobs)](https://docs.microsoft.com/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-active-jobs-and-job-schedules-for-a-batch-account)
+View complete request and response body for [Quota increase for Batch account (Jobs)](/rest/api/support/supporttickets/create?branch=support#create-a-ticket-to-request-quota-increase-for-active-jobs-and-job-schedules-for-a-batch-account)
 
 To request a quota increase for both _Dedicated Cores_ and _LowPriority Cores_ for an Azure Batch account:
 
@@ -228,7 +229,7 @@ To request a quota increase for both _Dedicated Cores_ and _LowPriority Cores_ f
 
 ## Azure SQL Database
 
-For [Azure SQL Database](https://docs.microsoft.com/azure/sql-database/), you can request a quota increase based on Database Throughput Units (DTUs) or number of servers.
+For [Azure SQL Database](/azure/sql-database/), you can request a quota increase based on Database Throughput Units (DTUs) or number of servers.
 
 ### Objects
 
@@ -246,7 +247,7 @@ The _QuotaChangeRequest_ object includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region Sub resource type for which you are requesting a quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region Sub resource type for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Quota increase for DTUs
@@ -306,7 +307,7 @@ To request a quota increase for servers:
 
 ## Azure Synapse Analytics
 
-For [Azure Synapse Analytics](https://docs.microsoft.com/azure/sql-data-warehouse), you can request a quota increase based on Database Throughput Units (DTUs) or number of servers.
+For [Azure Synapse Analytics](/azure/sql-data-warehouse), you can request a quota increase based on Database Throughput Units (DTUs) or number of servers.
 
 ### Objects
 
@@ -324,7 +325,7 @@ _QuotaChangeRequest_ includes two properties:
 
 |Property Name|Required|Type|Description|Supported Values|
 | :--- |:---|:---| :---|:---|
-|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](https://docs.microsoft.com/rest/api/apimanagement/2019-12-01/region/listbyservice)|
+|region|True|string|Azure location or region for which you are requesting a quota increase|Get [region list by service.](/rest/api/apimanagement/current-preview/region/list-by-service)|
 |payload|True|string|Serialized value of Payload object|As described below.|
 
 ### Quota increase for DTUs

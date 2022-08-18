@@ -1,5 +1,6 @@
 ---
 title: Azure HDInsight Spark Remote Job Submission REST API
+description: Learn how to use these APIs to submit remote job to HDInsight Spark clusters.
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

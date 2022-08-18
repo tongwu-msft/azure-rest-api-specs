@@ -4,7 +4,7 @@ description: A query request composed of partial query input, returning matching
 ms.date: 03/23/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh
@@ -104,7 +104,6 @@ A query accepts several parameters on the URL when called with GET, and as JSON 
 | highlightPreTag | string | Optional. Defaults to an empty string. A string tag that prepends to the highlighted term. Must be set with highlightPostTag. When called using GET, the reserved characters in the URL must be percent-encoded (for example, %23 instead of #).|
 | $orderby | string | Optional. A list of comma-separated expressions to sort the results by. Each expression can be either a field name or a call to the `geo.distance()` function. Each expression can be followed by "asc" (ascending) or "desc" (descending). The default is ascending order. There is a limit of 32 clauses for $orderby. When called with POST, this parameter is named order instead of $orderby.| 
 | minimumCoverage | integer | Optional. Defaults to 80. A number between 0 and 100 indicating the percentage of the index that must be available to service the query before it can be reported as a success. </br></br>The default reflects a bias towards speed and efficiency over full coverage. Reducing coverage constrains query expansion, allowing results to come back faster. It also allows the query to succeed on partial index availability, even if one shard is slow to respond or unavailable due to service health issues or index maintenance. </br></br>Whatever the value of minimumCoverage, that percentage of the index must be available or Suggestions returns HTTP status code 503. If Suggestions succeed at the minimumCoverage level, it returns HTTP 200 and includes a @search.coverage value in the response indicating the percentage of the index that was available when servicing the query. </br></br>Lowering this value might be helpful if 503 errors are occurring. Otherwise, you might consider raising the value if the response is providing insufficient matches.|  
-| search | string | Required. The text to search for. The search text to complete. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |
 | search | string | Required. The search text to use to suggest queries. Must be at least 1 character, and no more than 100 characters. It cannot contain operators, query syntax, or quoted phrases. |  
 | searchFields | string | Optional. The list of comma-separated field names to search for the specified search text. Target fields must be listed in the [Suggesters](/azure/search/index-add-suggesters) definition in the index. |  
 |$select | string | Optional. A list of comma-separated fields to retrieve. If unspecified, only the document key and suggestion text are returned. You can explicitly request all fields by setting this parameter to `*`. When calling with POST, this parameter is named select instead of $select.|  

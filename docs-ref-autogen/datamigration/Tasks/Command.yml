@@ -1,0 +1,374 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.tasks.command
+name: Command
+service: Data Migration
+groupName: Tasks
+apiVersion: 2022-01-30-preview
+summary: "Execute a command on a task  \nThe tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. This method executes a command on a running task."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/tasks/{taskName}/command?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of the service
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the project
+  types:
+  - uid: string
+- name: taskName
+  in: path
+  isRequired: true
+  description: Name of the Task
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Command executed
+  types:
+  - uid: MigrateSyncCompleteCommandProperties
+  - uid: MigrateMISyncCompleteCommandProperties
+  typesTitle: CommandProperties
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestBody:
+- name: MigrateSyncCompleteCommandProperties
+  description: Properties for the command that completes sync migration for a database.
+  parameters:
+  - name: input
+    in: body
+    description: Command input
+    types:
+    - uid: MigrateSyncCompleteCommandInput
+  - name: commandId
+    in: body
+    description: Command id
+    types:
+    - uid: string
+  - name: commandType
+    in: body
+    isRequired: true
+    description: Command type.
+    types:
+    - uid: Migrate.Sync.Complete.Database
+    typesTitle: string
+- name: MigrateMISyncCompleteCommandProperties
+  description: Properties for the command that completes online migration for an Azure SQL Database Managed Instance.
+  parameters:
+  - name: input
+    in: body
+    description: Command input
+    types:
+    - uid: MigrateMISyncCompleteCommandInput
+  - name: commandType
+    in: body
+    isRequired: true
+    description: Command type.
+    types:
+    - uid: Migrate.SqlServer.AzureDbSqlMi.Complete
+    typesTitle: string
+requestHeader: []
+definitions:
+- name: MigrateSyncCompleteCommandProperties
+  description: Properties for the command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: input
+    description: Command input
+    types:
+    - uid: MigrateSyncCompleteCommandInput
+  - name: output
+    isReadyOnly: true
+    description: Command output. This is ignored if submitted.
+    types:
+    - uid: MigrateSyncCompleteCommandOutput
+  - name: commandId
+    description: Command id
+    types:
+    - uid: string
+  - name: commandType
+    description: Command type.
+    types:
+    - uid: Migrate.Sync.Complete.Database
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the command. This is ignored if submitted.
+    types:
+    - uid: CommandState
+- name: MigrateMISyncCompleteCommandProperties
+  description: Properties for the command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: input
+    description: Command input
+    types:
+    - uid: MigrateMISyncCompleteCommandInput
+  - name: output
+    isReadyOnly: true
+    description: Command output. This is ignored if submitted.
+    types:
+    - uid: MigrateMISyncCompleteCommandOutput
+  - name: commandType
+    description: Command type.
+    types:
+    - uid: Migrate.SqlServer.AzureDbSqlMi.Complete
+    typesTitle: string
+  - name: errors
+    isReadyOnly: true
+    description: Array of errors. This is ignored if submitted.
+    types:
+    - uid: ODataError
+      isArray: true
+  - name: state
+    isReadyOnly: true
+    description: The state of the command. This is ignored if submitted.
+    types:
+    - uid: CommandState
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: MigrateSyncCompleteCommandInput
+  description: Input for command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: databaseName
+    description: Name of database
+    types:
+    - uid: string
+  - name: commitTimeStamp
+    description: Time stamp to complete
+    types:
+    - uid: string
+- name: MigrateSyncCompleteCommandOutput
+  description: Output for command that completes sync migration for a database.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Result identifier
+    types:
+    - uid: string
+  - name: errors
+    isReadyOnly: true
+    description: List of errors that happened during the command execution
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: CommandState
+  description: The state of the command. This is ignored if submitted.
+  kind: enum
+  properties:
+  - name: Unknown
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: MigrateMISyncCompleteCommandInput
+  description: Input for command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: sourceDatabaseName
+    description: Name of managed instance database
+    types:
+    - uid: string
+- name: MigrateMISyncCompleteCommandOutput
+  description: Output for command that completes online migration for an Azure SQL Database Managed Instance.
+  kind: object
+  properties:
+  - name: errors
+    description: List of errors that happened during the command execution
+    types:
+    - uid: ReportableException
+      isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
+- name: ReportableException
+  description: Exception object for all custom exceptions
+  kind: object
+  properties:
+  - name: message
+    description: Error message
+    types:
+    - uid: string
+  - name: actionableMessage
+    description: Actionable steps for this exception
+    types:
+    - uid: string
+  - name: filePath
+    description: The path to the file where exception occurred
+    types:
+    - uid: string
+  - name: lineNumber
+    description: The line number where exception occurred
+    types:
+    - uid: string
+  - name: hResult
+    description: Coded numerical value that is assigned to a specific exception
+    types:
+    - uid: integer
+  - name: stackTrace
+    description: Stack trace
+    types:
+    - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Tasks_Command
+  request:
+    uri: POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/tasks/DmsSdkTask/command?api-version=2022-01-30-preview
+    body: >-
+      {
+        "input": {
+          "databaseName": "TestDatabase"
+        },
+        "commandType": "Migrate.Sync.Complete.Database"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/tasks/DmsSdkTask/command?api-version=2022-01-30-preview
+
+      {
+        "input": {
+          "databaseName": "TestDatabase"
+        },
+        "commandType": "Migrate.Sync.Complete.Database"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "input": {
+          "databaseName": "TestDatabase"
+        },
+        "commandType": "Migrate.Sync.Complete.Database",
+        "state": "Accepted"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Execute a command on a task
+
+    The tasks resource is a nested, proxy-only resource representing work performed by a DMS instance. This method executes a command on
+errorCodes: []

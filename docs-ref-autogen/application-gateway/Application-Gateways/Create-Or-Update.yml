@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.createorupdate
 name: Create Or Update
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates the specified application gateway.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -133,11 +133,23 @@ requestBody:
     types:
     - uid: ApplicationGatewayBackendHttpSettings
       isArray: true
+  - name: properties.backendSettingsCollection
+    in: body
+    description: Backend settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayBackendSettings
+      isArray: true
   - name: properties.httpListeners
     in: body
     description: Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
     types:
     - uid: ApplicationGatewayHttpListener
+      isArray: true
+  - name: properties.listeners
+    in: body
+    description: Listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayListener
       isArray: true
   - name: properties.sslProfiles
     in: body
@@ -156,6 +168,12 @@ requestBody:
     description: Request routing rules of the application gateway resource.
     types:
     - uid: ApplicationGatewayRequestRoutingRule
+      isArray: true
+  - name: properties.routingRules
+    in: body
+    description: Routing rules of the application gateway resource.
+    types:
+    - uid: ApplicationGatewayRoutingRule
       isArray: true
   - name: properties.rewriteRuleSets
     in: body
@@ -613,6 +631,10 @@ definitions:
     description: Whether the host header should be picked from the backend http settings. Default value is false.
     types:
     - uid: boolean
+  - name: properties.pickHostNameFromBackendSettings
+    description: Whether the server name indication should be picked from the backend settings for Tls protocol. Default value is false.
+    types:
+    - uid: boolean
   - name: properties.minServers
     description: Minimum number of servers that are always marked healthy. Default value is 0.
     types:
@@ -753,6 +775,62 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: ApplicationGatewayBackendSettings
+  description: Backend address pool settings of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend settings that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.port
+    description: The destination port on the backend.
+    types:
+    - uid: integer
+  - name: properties.protocol
+    description: The protocol used to communicate with the backend.
+    types:
+    - uid: ApplicationGatewayProtocol
+  - name: properties.timeout
+    description: Connection timeout in seconds. Application Gateway will fail the request if response is not received within ConnectionTimeout. Acceptable values are from 1 second to 86400 seconds.
+    types:
+    - uid: integer
+  - name: properties.probe
+    description: Probe resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.trustedRootCertificates
+    description: Array of references to application gateway trusted root certificates.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.hostName
+    description: Server name indication to be sent to the backend servers for Tls protocol.
+    types:
+    - uid: string
+  - name: properties.pickHostNameFromBackendAddress
+    description: Whether to pick server name indication from the host name of the backend server for Tls protocol. Default value is false.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the backend HTTP settings resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ApplicationGatewayHttpListener
   description: Http listener of an application gateway.
   kind: object
@@ -818,6 +896,53 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayListener
+  description: Listener of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the listener that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.frontendIPConfiguration
+    description: Frontend IP configuration resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.frontendPort
+    description: Frontend port resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.protocol
+    description: Protocol of the listener.
+    types:
+    - uid: ApplicationGatewayProtocol
+  - name: properties.sslCertificate
+    description: SSL certificate resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.sslProfile
+    description: SSL profile resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the listener resource.
+    types:
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -966,6 +1091,53 @@ definitions:
     - uid: SubResource
   - name: properties.loadDistributionPolicy
     description: Load Distribution Policy resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the request routing rule resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayRoutingRule
+  description: Routing rule of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the routing rule that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.ruleType
+    description: Rule type.
+    types:
+    - uid: ApplicationGatewayRequestRoutingRuleType
+  - name: properties.priority
+    description: Priority of the routing rule.
+    types:
+    - uid: integer
+  - name: properties.backendAddressPool
+    description: Backend address pool resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.backendSettings
+    description: Backend settings resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.listener
+    description: Listener resource of the application gateway.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -1341,10 +1513,20 @@ definitions:
     types:
     - uid: ApplicationGatewayBackendHttpSettings
       isArray: true
+  - name: properties.backendSettingsCollection
+    description: Backend settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayBackendSettings
+      isArray: true
   - name: properties.httpListeners
     description: Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
     types:
     - uid: ApplicationGatewayHttpListener
+      isArray: true
+  - name: properties.listeners
+    description: Listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayListener
       isArray: true
   - name: properties.sslProfiles
     description: SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
@@ -1360,6 +1542,11 @@ definitions:
     description: Request routing rules of the application gateway resource.
     types:
     - uid: ApplicationGatewayRequestRoutingRule
+      isArray: true
+  - name: properties.routingRules
+    description: Routing rules of the application gateway resource.
+    types:
+    - uid: ApplicationGatewayRoutingRule
       isArray: true
   - name: properties.rewriteRuleSets
     description: Rewrite rules for the application gateway resource.
@@ -1539,6 +1726,9 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: CustomV2
+    types:
+    - uid: string
 - name: ApplicationGatewaySslPolicyName
   description: Name of Ssl predefined policy.
   kind: enum
@@ -1552,6 +1742,12 @@ definitions:
   - name: AppGwSslPolicy20170401S
     types:
     - uid: string
+  - name: AppGwSslPolicy20220101
+    types:
+    - uid: string
+  - name: AppGwSslPolicy20220101S
+    types:
+    - uid: string
 - name: ApplicationGatewaySslProtocol
   description: Minimum version of Ssl protocol to be supported on application gateway.
   kind: enum
@@ -1563,6 +1759,9 @@ definitions:
     types:
     - uid: string
   - name: TLSv1_2
+    types:
+    - uid: string
+  - name: TLSv1_3
     types:
     - uid: string
 - name: ProvisioningState
@@ -1599,6 +1798,12 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Tls
     types:
     - uid: string
 - name: ApplicationGatewayProbeHealthResponseMatch
@@ -2243,6 +2448,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -2431,10 +2640,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -2733,7 +2944,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2777,6 +2988,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -3060,6 +3275,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -3082,6 +3301,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -3316,6 +3539,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -3840,6 +4064,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: GatewayLoadBalancerTunnelProtocol
   description: Protocol of gateway load balancer tunnel interface.
   kind: enum
@@ -3882,6 +4119,22 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -4318,10 +4571,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -4334,6 +4589,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -4402,7 +4658,7 @@ definitions:
 examples:
 - name: Create Application Gateway
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2022-01-01
     body: >-
       {
         "identity": {
@@ -4731,6 +4987,942 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw?api-version=2022-01-01
+
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
+          }
+        },
+        "location": "eastus",
+        "properties": {
+          "sku": {
+            "name": "Standard_v2",
+            "tier": "Standard_v2",
+            "capacity": 3
+          },
+          "gatewayIPConfigurations": [
+            {
+              "name": "appgwipc",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet/subnets/appgwsubnet"
+                }
+              }
+            }
+          ],
+          "sslCertificates": [
+            {
+              "name": "sslcert",
+              "properties": {
+                "data": "****",
+                "password": "****"
+              }
+            },
+            {
+              "name": "sslcert2",
+              "properties": {
+                "keyVaultSecretId": "https://kv/secret"
+              }
+            }
+          ],
+          "trustedRootCertificates": [
+            {
+              "name": "rootcert",
+              "properties": {
+                "data": "****"
+              }
+            },
+            {
+              "name": "rootcert1",
+              "properties": {
+                "keyVaultSecretId": "https://kv/secret"
+              }
+            }
+          ],
+          "trustedClientCertificates": [
+            {
+              "name": "clientcert",
+              "properties": {
+                "data": "****"
+              }
+            }
+          ],
+          "frontendIPConfigurations": [
+            {
+              "name": "appgwfip",
+              "properties": {
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/appgwpip"
+                }
+              }
+            }
+          ],
+          "frontendPorts": [
+            {
+              "name": "appgwfp",
+              "properties": {
+                "port": 443
+              }
+            },
+            {
+              "name": "appgwfp80",
+              "properties": {
+                "port": 80
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "appgwpool",
+              "properties": {
+                "backendAddresses": [
+                  {
+                    "ipAddress": "10.0.1.1"
+                  },
+                  {
+                    "ipAddress": "10.0.1.2"
+                  }
+                ]
+              }
+            },
+            {
+              "name": "appgwpool1",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1",
+              "properties": {
+                "backendAddresses": [
+                  "10.0.0.1",
+                  "10.0.0.2"
+                ]
+              }
+            }
+          ],
+          "backendHttpSettingsCollection": [
+            {
+              "name": "appgwbhs",
+              "properties": {
+                "port": 80,
+                "protocol": "Http",
+                "cookieBasedAffinity": "Disabled",
+                "requestTimeout": 30
+              }
+            }
+          ],
+          "sslProfiles": [
+            {
+              "name": "sslProfile1",
+              "properties": {
+                "sslPolicy": {
+                  "policyType": "Custom",
+                  "minProtocolVersion": "TLSv1_1",
+                  "cipherSuites": [
+                    "TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"
+                  ]
+                },
+                "clientAuthConfiguration": {
+                  "verifyClientCertIssuerDN": true
+                },
+                "trustedClientCertificates": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/trustedClientCertificates/clientcert"
+                  }
+                ]
+              }
+            }
+          ],
+          "httpListeners": [
+            {
+              "name": "appgwhl",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"
+                },
+                "frontendPort": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp"
+                },
+                "protocol": "Https",
+                "sslCertificate": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslCertificates/sslcert"
+                },
+                "sslProfile": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslProfiles/sslProfile1"
+                },
+                "requireServerNameIndication": false
+              }
+            },
+            {
+              "name": "appgwhttplistener",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"
+                },
+                "frontendPort": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80"
+                },
+                "protocol": "Http"
+              }
+            }
+          ],
+          "urlPathMaps": [
+            {
+              "name": "pathMap1",
+              "properties": {
+                "defaultBackendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                },
+                "defaultBackendHttpSettings": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                },
+                "defaultRewriteRuleSet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                },
+                "defaultLoadDistributionPolicy": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                },
+                "pathRules": [
+                  {
+                    "name": "apiPaths",
+                    "properties": {
+                      "paths": [
+                        "/api",
+                        "/v1/api"
+                      ],
+                      "backendAddressPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                      },
+                      "backendHttpSettings": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                      },
+                      "rewriteRuleSet": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                      },
+                      "loadDistributionPolicy": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "requestRoutingRules": [
+            {
+              "name": "appgwrule",
+              "properties": {
+                "ruleType": "Basic",
+                "priority": 10,
+                "httpListener": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhl"
+                },
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                },
+                "backendHttpSettings": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"
+                },
+                "rewriteRuleSet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"
+                },
+                "loadDistributionPolicy": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"
+                }
+              }
+            },
+            {
+              "name": "appgwPathBasedRule",
+              "properties": {
+                "ruleType": "PathBasedRouting",
+                "priority": 20,
+                "httpListener": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener"
+                },
+                "urlPathMap": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1"
+                }
+              }
+            }
+          ],
+          "rewriteRuleSets": [
+            {
+              "name": "rewriteRuleSet1",
+              "properties": {
+                "rewriteRules": [
+                  {
+                    "name": "Set X-Forwarded-For",
+                    "ruleSequence": 102,
+                    "conditions": [
+                      {
+                        "variable": "http_req_Authorization",
+                        "pattern": "^Bearer",
+                        "ignoreCase": true,
+                        "negate": false
+                      }
+                    ],
+                    "actionSet": {
+                      "requestHeaderConfigurations": [
+                        {
+                          "headerName": "X-Forwarded-For",
+                          "headerValue": "{var_add_x_forwarded_for_proxy}"
+                        }
+                      ],
+                      "responseHeaderConfigurations": [
+                        {
+                          "headerName": "Strict-Transport-Security",
+                          "headerValue": "max-age=31536000"
+                        }
+                      ],
+                      "urlConfiguration": {
+                        "modifiedPath": "/abc"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "loadDistributionPolicies": [
+            {
+              "name": "ldp1",
+              "properties": {
+                "loadDistributionAlgorithm": "RoundRobin",
+                "loadDistributionTargets": [
+                  {
+                    "name": "ld11",
+                    "properties": {
+                      "weightPerServer": 40,
+                      "backendAddressPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"
+                      }
+                    }
+                  },
+                  {
+                    "name": "ld11",
+                    "properties": {
+                      "weightPerServer": 60,
+                      "backendAddressPool": {
+                        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "globalConfiguration": {
+            "enableRequestBuffering": true,
+            "enableResponseBuffering": true
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayCreate.json
+      func ExampleApplicationGatewaysClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewApplicationGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "appgw", armnetwork.ApplicationGateway{
+      		Location: to.Ptr("eastus"),
+      		Identity: &armnetwork.ManagedServiceIdentity{
+      			Type: to.Ptr(armnetwork.ResourceIdentityTypeUserAssigned),
+      			UserAssignedIdentities: map[string]*armnetwork.Components1Jq1T4ISchemasManagedserviceidentityPropertiesUserassignedidentitiesAdditionalproperties{
+      				"/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {},
+      			},
+      		},
+      		Properties: &armnetwork.ApplicationGatewayPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.ApplicationGatewayBackendAddressPool{
+      				{
+      					Name: to.Ptr("appgwpool"),
+      					Properties: &armnetwork.ApplicationGatewayBackendAddressPoolPropertiesFormat{
+      						BackendAddresses: []*armnetwork.ApplicationGatewayBackendAddress{
+      							{
+      								IPAddress: to.Ptr("10.0.1.1"),
+      							},
+      							{
+      								IPAddress: to.Ptr("10.0.1.2"),
+      							}},
+      					},
+      				},
+      				{
+      					ID:   to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1"),
+      					Name: to.Ptr("appgwpool1"),
+      					Properties: &armnetwork.ApplicationGatewayBackendAddressPoolPropertiesFormat{
+      						BackendAddresses: []*armnetwork.ApplicationGatewayBackendAddress{
+      							{},
+      							{}},
+      					},
+      				}},
+      			BackendHTTPSettingsCollection: []*armnetwork.ApplicationGatewayBackendHTTPSettings{
+      				{
+      					Name: to.Ptr("appgwbhs"),
+      					Properties: &armnetwork.ApplicationGatewayBackendHTTPSettingsPropertiesFormat{
+      						CookieBasedAffinity: to.Ptr(armnetwork.ApplicationGatewayCookieBasedAffinityDisabled),
+      						Port:                to.Ptr[int32](80),
+      						RequestTimeout:      to.Ptr[int32](30),
+      						Protocol:            to.Ptr(armnetwork.ApplicationGatewayProtocolHTTP),
+      					},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.ApplicationGatewayFrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("appgwfip"),
+      					Properties: &armnetwork.ApplicationGatewayFrontendIPConfigurationPropertiesFormat{
+      						PublicIPAddress: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/appgwpip"),
+      						},
+      					},
+      				}},
+      			FrontendPorts: []*armnetwork.ApplicationGatewayFrontendPort{
+      				{
+      					Name: to.Ptr("appgwfp"),
+      					Properties: &armnetwork.ApplicationGatewayFrontendPortPropertiesFormat{
+      						Port: to.Ptr[int32](443),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("appgwfp80"),
+      					Properties: &armnetwork.ApplicationGatewayFrontendPortPropertiesFormat{
+      						Port: to.Ptr[int32](80),
+      					},
+      				}},
+      			GatewayIPConfigurations: []*armnetwork.ApplicationGatewayIPConfiguration{
+      				{
+      					Name: to.Ptr("appgwipc"),
+      					Properties: &armnetwork.ApplicationGatewayIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet/subnets/appgwsubnet"),
+      						},
+      					},
+      				}},
+      			GlobalConfiguration: &armnetwork.ApplicationGatewayGlobalConfiguration{
+      				EnableRequestBuffering:  to.Ptr(true),
+      				EnableResponseBuffering: to.Ptr(true),
+      			},
+      			HTTPListeners: []*armnetwork.ApplicationGatewayHTTPListener{
+      				{
+      					Name: to.Ptr("appgwhl"),
+      					Properties: &armnetwork.ApplicationGatewayHTTPListenerPropertiesFormat{
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"),
+      						},
+      						FrontendPort: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp"),
+      						},
+      						RequireServerNameIndication: to.Ptr(false),
+      						SSLCertificate: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslCertificates/sslcert"),
+      						},
+      						SSLProfile: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslProfiles/sslProfile1"),
+      						},
+      						Protocol: to.Ptr(armnetwork.ApplicationGatewayProtocolHTTPS),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("appgwhttplistener"),
+      					Properties: &armnetwork.ApplicationGatewayHTTPListenerPropertiesFormat{
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip"),
+      						},
+      						FrontendPort: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80"),
+      						},
+      						Protocol: to.Ptr(armnetwork.ApplicationGatewayProtocolHTTP),
+      					},
+      				}},
+      			LoadDistributionPolicies: []*armnetwork.ApplicationGatewayLoadDistributionPolicy{
+      				{
+      					Name: to.Ptr("ldp1"),
+      					Properties: &armnetwork.ApplicationGatewayLoadDistributionPolicyPropertiesFormat{
+      						LoadDistributionAlgorithm: to.Ptr(armnetwork.ApplicationGatewayLoadDistributionAlgorithmRoundRobin),
+      						LoadDistributionTargets: []*armnetwork.ApplicationGatewayLoadDistributionTarget{
+      							{
+      								Name: to.Ptr("ld11"),
+      								Properties: &armnetwork.ApplicationGatewayLoadDistributionTargetPropertiesFormat{
+      									BackendAddressPool: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"),
+      									},
+      									WeightPerServer: to.Ptr[int32](40),
+      								},
+      							},
+      							{
+      								Name: to.Ptr("ld11"),
+      								Properties: &armnetwork.ApplicationGatewayLoadDistributionTargetPropertiesFormat{
+      									BackendAddressPool: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1"),
+      									},
+      									WeightPerServer: to.Ptr[int32](60),
+      								},
+      							}},
+      					},
+      				}},
+      			RequestRoutingRules: []*armnetwork.ApplicationGatewayRequestRoutingRule{
+      				{
+      					Name: to.Ptr("appgwrule"),
+      					Properties: &armnetwork.ApplicationGatewayRequestRoutingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"),
+      						},
+      						BackendHTTPSettings: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"),
+      						},
+      						HTTPListener: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhl"),
+      						},
+      						LoadDistributionPolicy: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"),
+      						},
+      						Priority: to.Ptr[int32](10),
+      						RewriteRuleSet: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"),
+      						},
+      						RuleType: to.Ptr(armnetwork.ApplicationGatewayRequestRoutingRuleTypeBasic),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("appgwPathBasedRule"),
+      					Properties: &armnetwork.ApplicationGatewayRequestRoutingRulePropertiesFormat{
+      						HTTPListener: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener"),
+      						},
+      						Priority: to.Ptr[int32](20),
+      						RuleType: to.Ptr(armnetwork.ApplicationGatewayRequestRoutingRuleTypePathBasedRouting),
+      						URLPathMap: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1"),
+      						},
+      					},
+      				}},
+      			RewriteRuleSets: []*armnetwork.ApplicationGatewayRewriteRuleSet{
+      				{
+      					Name: to.Ptr("rewriteRuleSet1"),
+      					Properties: &armnetwork.ApplicationGatewayRewriteRuleSetPropertiesFormat{
+      						RewriteRules: []*armnetwork.ApplicationGatewayRewriteRule{
+      							{
+      								Name: to.Ptr("Set X-Forwarded-For"),
+      								ActionSet: &armnetwork.ApplicationGatewayRewriteRuleActionSet{
+      									RequestHeaderConfigurations: []*armnetwork.ApplicationGatewayHeaderConfiguration{
+      										{
+      											HeaderName:  to.Ptr("X-Forwarded-For"),
+      											HeaderValue: to.Ptr("{var_add_x_forwarded_for_proxy}"),
+      										}},
+      									ResponseHeaderConfigurations: []*armnetwork.ApplicationGatewayHeaderConfiguration{
+      										{
+      											HeaderName:  to.Ptr("Strict-Transport-Security"),
+      											HeaderValue: to.Ptr("max-age=31536000"),
+      										}},
+      									URLConfiguration: &armnetwork.ApplicationGatewayURLConfiguration{
+      										ModifiedPath: to.Ptr("/abc"),
+      									},
+      								},
+      								Conditions: []*armnetwork.ApplicationGatewayRewriteRuleCondition{
+      									{
+      										IgnoreCase: to.Ptr(true),
+      										Negate:     to.Ptr(false),
+      										Pattern:    to.Ptr("^Bearer"),
+      										Variable:   to.Ptr("http_req_Authorization"),
+      									}},
+      								RuleSequence: to.Ptr[int32](102),
+      							}},
+      					},
+      				}},
+      			SKU: &armnetwork.ApplicationGatewaySKU{
+      				Name:     to.Ptr(armnetwork.ApplicationGatewaySKUNameStandardV2),
+      				Capacity: to.Ptr[int32](3),
+      				Tier:     to.Ptr(armnetwork.ApplicationGatewayTierStandardV2),
+      			},
+      			SSLCertificates: []*armnetwork.ApplicationGatewaySSLCertificate{
+      				{
+      					Name: to.Ptr("sslcert"),
+      					Properties: &armnetwork.ApplicationGatewaySSLCertificatePropertiesFormat{
+      						Data:     to.Ptr("****"),
+      						Password: to.Ptr("****"),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("sslcert2"),
+      					Properties: &armnetwork.ApplicationGatewaySSLCertificatePropertiesFormat{
+      						KeyVaultSecretID: to.Ptr("https://kv/secret"),
+      					},
+      				}},
+      			SSLProfiles: []*armnetwork.ApplicationGatewaySSLProfile{
+      				{
+      					Name: to.Ptr("sslProfile1"),
+      					Properties: &armnetwork.ApplicationGatewaySSLProfilePropertiesFormat{
+      						ClientAuthConfiguration: &armnetwork.ApplicationGatewayClientAuthConfiguration{
+      							VerifyClientCertIssuerDN: to.Ptr(true),
+      						},
+      						SSLPolicy: &armnetwork.ApplicationGatewaySSLPolicy{
+      							CipherSuites: []*armnetwork.ApplicationGatewaySSLCipherSuite{
+      								to.Ptr(armnetwork.ApplicationGatewaySSLCipherSuiteTLSECDHERSAWITHAES128CBCSHA256)},
+      							MinProtocolVersion: to.Ptr(armnetwork.ApplicationGatewaySSLProtocolTLSv11),
+      							PolicyType:         to.Ptr(armnetwork.ApplicationGatewaySSLPolicyTypeCustom),
+      						},
+      						TrustedClientCertificates: []*armnetwork.SubResource{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/trustedClientCertificates/clientcert"),
+      							}},
+      					},
+      				}},
+      			TrustedClientCertificates: []*armnetwork.ApplicationGatewayTrustedClientCertificate{
+      				{
+      					Name: to.Ptr("clientcert"),
+      					Properties: &armnetwork.ApplicationGatewayTrustedClientCertificatePropertiesFormat{
+      						Data: to.Ptr("****"),
+      					},
+      				}},
+      			TrustedRootCertificates: []*armnetwork.ApplicationGatewayTrustedRootCertificate{
+      				{
+      					Name: to.Ptr("rootcert"),
+      					Properties: &armnetwork.ApplicationGatewayTrustedRootCertificatePropertiesFormat{
+      						Data: to.Ptr("****"),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("rootcert1"),
+      					Properties: &armnetwork.ApplicationGatewayTrustedRootCertificatePropertiesFormat{
+      						KeyVaultSecretID: to.Ptr("https://kv/secret"),
+      					},
+      				}},
+      			URLPathMaps: []*armnetwork.ApplicationGatewayURLPathMap{
+      				{
+      					Name: to.Ptr("pathMap1"),
+      					Properties: &armnetwork.ApplicationGatewayURLPathMapPropertiesFormat{
+      						DefaultBackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"),
+      						},
+      						DefaultBackendHTTPSettings: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"),
+      						},
+      						DefaultLoadDistributionPolicy: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"),
+      						},
+      						DefaultRewriteRuleSet: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"),
+      						},
+      						PathRules: []*armnetwork.ApplicationGatewayPathRule{
+      							{
+      								Name: to.Ptr("apiPaths"),
+      								Properties: &armnetwork.ApplicationGatewayPathRulePropertiesFormat{
+      									BackendAddressPool: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool"),
+      									},
+      									BackendHTTPSettings: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs"),
+      									},
+      									LoadDistributionPolicy: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1"),
+      									},
+      									Paths: []*string{
+      										to.Ptr("/api"),
+      										to.Ptr("/v1/api")},
+      									RewriteRuleSet: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1"),
+      									},
+      								},
+      							}},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified application gateway.
+       *
+       * @summary Creates or updates the specified application gateway.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayCreate.json
+       */
+      async function createApplicationGateway() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const applicationGatewayName = "appgw";
+        const parameters = {
+          backendAddressPools: [
+            {
+              name: "appgwpool",
+              backendAddresses: [{ ipAddress: "10.0.1.1" }, { ipAddress: "10.0.1.2" }],
+            },
+            {
+              name: "appgwpool1",
+              backendAddresses: [{}, {}],
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1",
+            },
+          ],
+          backendHttpSettingsCollection: [
+            {
+              name: "appgwbhs",
+              cookieBasedAffinity: "Disabled",
+              port: 80,
+              requestTimeout: 30,
+              protocol: "Http",
+            },
+          ],
+          frontendIPConfigurations: [
+            {
+              name: "appgwfip",
+              publicIPAddress: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/appgwpip",
+              },
+            },
+          ],
+          frontendPorts: [
+            { name: "appgwfp", port: 443 },
+            { name: "appgwfp80", port: 80 },
+          ],
+          gatewayIPConfigurations: [
+            {
+              name: "appgwipc",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnet/subnets/appgwsubnet",
+              },
+            },
+          ],
+          globalConfiguration: {
+            enableRequestBuffering: true,
+            enableResponseBuffering: true,
+          },
+          httpListeners: [
+            {
+              name: "appgwhl",
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip",
+              },
+              frontendPort: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp",
+              },
+              requireServerNameIndication: false,
+              sslCertificate: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslCertificates/sslcert",
+              },
+              sslProfile: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/sslProfiles/sslProfile1",
+              },
+              protocol: "Https",
+            },
+            {
+              name: "appgwhttplistener",
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendIPConfigurations/appgwfip",
+              },
+              frontendPort: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/frontendPorts/appgwfp80",
+              },
+              protocol: "Http",
+            },
+          ],
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/subid/resourceGroups/rg1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+                {},
+            },
+          },
+          loadDistributionPolicies: [
+            {
+              name: "ldp1",
+              loadDistributionAlgorithm: "RoundRobin",
+              loadDistributionTargets: [
+                {
+                  name: "ld11",
+                  backendAddressPool: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
+                  },
+                  weightPerServer: 40,
+                },
+                {
+                  name: "ld11",
+                  backendAddressPool: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool1",
+                  },
+                  weightPerServer: 60,
+                },
+              ],
+            },
+          ],
+          location: "eastus",
+          requestRoutingRules: [
+            {
+              name: "appgwrule",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
+              },
+              backendHttpSettings: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
+              },
+              httpListener: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhl",
+              },
+              loadDistributionPolicy: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
+              },
+              priority: 10,
+              rewriteRuleSet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
+              },
+              ruleType: "Basic",
+            },
+            {
+              name: "appgwPathBasedRule",
+              httpListener: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/httpListeners/appgwhttplistener",
+              },
+              priority: 20,
+              ruleType: "PathBasedRouting",
+              urlPathMap: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/urlPathMaps/pathMap1",
+              },
+            },
+          ],
+          rewriteRuleSets: [
+            {
+              name: "rewriteRuleSet1",
+              rewriteRules: [
+                {
+                  name: "Set X-Forwarded-For",
+                  actionSet: {
+                    requestHeaderConfigurations: [
+                      {
+                        headerName: "X-Forwarded-For",
+                        headerValue: "{var_add_x_forwarded_for_proxy}",
+                      },
+                    ],
+                    responseHeaderConfigurations: [
+                      {
+                        headerName: "Strict-Transport-Security",
+                        headerValue: "max-age=31536000",
+                      },
+                    ],
+                    urlConfiguration: { modifiedPath: "/abc" },
+                  },
+                  conditions: [
+                    {
+                      ignoreCase: true,
+                      negate: false,
+                      pattern: "^Bearer",
+                      variable: "http_req_Authorization",
+                    },
+                  ],
+                  ruleSequence: 102,
+                },
+              ],
+            },
+          ],
+          sku: { name: "Standard_v2", capacity: 3, tier: "Standard_v2" },
+          sslCertificates: [
+            { name: "sslcert", data: "****", password: "****" },
+            { name: "sslcert2", keyVaultSecretId: "https://kv/secret" },
+          ],
+          sslProfiles: [
+            {
+              name: "sslProfile1",
+              clientAuthConfiguration: { verifyClientCertIssuerDN: true },
+              sslPolicy: {
+                cipherSuites: ["TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256"],
+                minProtocolVersion: "TLSv1_1",
+                policyType: "Custom",
+              },
+              trustedClientCertificates: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/trustedClientCertificates/clientcert",
+                },
+              ],
+            },
+          ],
+          trustedClientCertificates: [{ name: "clientcert", data: "****" }],
+          trustedRootCertificates: [
+            { name: "rootcert", data: "****" },
+            { name: "rootcert1", keyVaultSecretId: "https://kv/secret" },
+          ],
+          urlPathMaps: [
+            {
+              name: "pathMap1",
+              defaultBackendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
+              },
+              defaultBackendHttpSettings: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
+              },
+              defaultLoadDistributionPolicy: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
+              },
+              defaultRewriteRuleSet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
+              },
+              pathRules: [
+                {
+                  name: "apiPaths",
+                  backendAddressPool: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendAddressPools/appgwpool",
+                  },
+                  backendHttpSettings: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/appgwbhs",
+                  },
+                  loadDistributionPolicy: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/loadDistributionPolicies/ldp1",
+                  },
+                  paths: ["/api", "/v1/api"],
+                  rewriteRuleSet: {
+                    id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/rewriteRuleSets/rewriteRuleSet1",
+                  },
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.applicationGateways.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          applicationGatewayName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createApplicationGateway().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -5421,5 +6613,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Gateway service - Creates or updates the specified application gateway.
+  description: >
+    Learn more about Application Gateway service - Creates or updates the specified application gateway.
 errorCodes: []

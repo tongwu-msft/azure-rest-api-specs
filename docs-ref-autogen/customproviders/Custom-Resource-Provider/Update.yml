@@ -245,6 +245,56 @@ examples:
       {
         "tags": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/testRG/providers/Microsoft.CustomProviders/resourceProviders/newrp?api-version=2018-09-01-preview
+
+      {
+        "tags": {}
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armcustomproviders_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/customproviders/armcustomproviders"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/customproviders/resource-manager/Microsoft.CustomProviders/preview/2018-09-01-preview/examples/updateCustomRP.json
+      func ExampleCustomResourceProviderClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcustomproviders.NewCustomResourceProviderClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"testRG",
+      		"newrp",
+      		armcustomproviders.ResourceProvidersUpdate{
+      			Tags: map[string]*string{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcustomproviders%2Farmcustomproviders%2Fv0.5.0/sdk/resourcemanager/customproviders/armcustomproviders/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -281,5 +331,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Updates an existing custom resource provider. The only value that can be updated via PATCH currently is the tags.
+  description: >
+    Updates an existing custom resource provider. The only value that can be updated via PATCH currently is the tags.
 errorCodes: []

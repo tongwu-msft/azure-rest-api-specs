@@ -1,7 +1,7 @@
 ---
 title: "ApplicationType"
 description: "ApplicationType"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -35,5 +35,7 @@ translation.priority.mt:
 | [Get Application Type Info List By Name](sfclient-api-getapplicationtypeinfolistbyname.md) | Gets the list of application types in the Service Fabric cluster matching exactly the specified name.<br/> |
 | [Provision Application Type](sfclient-api-provisionapplicationtype.md) | Provisions or registers a Service Fabric application type with the cluster using the '.sfpkg' package in the external store or using the application package in the image store.<br/> |
 | [Unprovision Application Type](sfclient-api-unprovisionapplicationtype.md) | Removes or unregisters a Service Fabric application type from the cluster.<br/> |
+| [Update Application Type Arm Metadata](sfclient-api-updateapplicationtypearmmetadata.md) | Updates the Arm Metadata for a specific Application Type.<br/> |
 | [Get Application Manifest](sfclient-api-getapplicationmanifest.md) | Gets the manifest describing an application type.<br/> |
+| [Update Application Arm Metadata](sfclient-api-updateapplicationarmmetadata.md) | Updates the Arm Metadata for a specific Application.<br/> |
 

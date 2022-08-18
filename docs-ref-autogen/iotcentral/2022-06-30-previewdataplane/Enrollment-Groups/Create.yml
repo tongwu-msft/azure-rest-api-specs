@@ -1,0 +1,306 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.enrollmentgroups.create
+name: Create
+service: IoT Central
+groupName: Enrollment Groups
+apiVersion: 2022-06-30-preview
+summary: Create an enrollment group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/enrollmentGroups/{enrollmentGroupId}?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: enrollmentGroupId
+  in: path
+  isRequired: true
+  description: Unique ID of the enrollment group.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: EnrollmentGroup
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: displayName
+    in: body
+    isRequired: true
+    description: Display name of the enrollment group.
+    types:
+    - uid: string
+  - name: enabled
+    in: body
+    description: Whether the devices using the group are allowed to connect to IoT Central.
+    types:
+    - uid: boolean
+  - name: type
+    in: body
+    isRequired: true
+    description: Type of devices that connect through the group.
+    types:
+    - uid: EnrollmentGroupType
+  - name: attestation
+    in: body
+    isRequired: true
+    description: The attestation mechanism for the enrollment group.
+    types:
+    - uid: GroupSymmetricKeyAttestation
+    - uid: GroupX509Attestation
+    typesTitle: GroupAttestation
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict in enrollment group updates.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: EnrollmentGroup
+  description: The enrollment group definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the enrollment group.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the enrollment group.
+    types:
+    - uid: string
+  - name: enabled
+    description: Whether the devices using the group are allowed to connect to IoT Central.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: type
+    description: Type of devices that connect through the group.
+    types:
+    - uid: EnrollmentGroupType
+  - name: attestation
+    description: The attestation mechanism for the enrollment group.
+    types:
+    - uid: GroupSymmetricKeyAttestation
+    - uid: GroupX509Attestation
+    typesTitle: GroupAttestation
+  - name: etag
+    description: ETag used to prevent conflict in enrollment group updates.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: GroupSymmetricKeyAttestation
+  description: The symmetric key attestation definition.
+  kind: object
+  properties:
+  - name: symmetricKey
+    description: The symmetric key credentials for this attestation.
+    types:
+    - uid: SymmetricKey
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: symmetricKey
+    typesTitle: string
+- name: GroupX509Attestation
+  description: The X509 attestation definition.
+  kind: object
+  properties:
+  - name: x509
+    description: The X.509 credentials for this attestation.
+    types:
+    - uid: SigningX509
+  - name: type
+    description: Type of the attestation.
+    types:
+    - uid: x509
+    typesTitle: string
+- name: EnrollmentGroupType
+  description: Type of devices that connect through the group.
+  kind: enum
+  properties:
+  - name: iot
+    description: Regular (non-Edge) IoT devices
+    types:
+    - uid: string
+  - name: iotEdge
+    description: IoT Edge devices
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: SymmetricKey
+  description: The symmetric key definition.
+  kind: object
+  properties:
+  - name: primaryKey
+    description: The primary key for this credential.
+    types:
+    - uid: string
+  - name: secondaryKey
+    description: The secondary key for this credential.
+    types:
+    - uid: string
+- name: SigningX509
+  description: The X509 definition.
+  kind: object
+  properties:
+  - name: signingCertificates
+    description: The X.509 signing certificates for this credential.
+    types:
+    - uid: SigningX509Certificates
+- name: SigningX509Certificates
+  description: The X509 certificates definition.
+  kind: object
+  properties:
+  - name: primary
+    description: The primary X.509 certificate for this credential.
+    types:
+    - uid: SigningX509Certificate
+  - name: secondary
+    description: The secondary X.509 certificate for this credential.
+    types:
+    - uid: SigningX509Certificate
+- name: SigningX509Certificate
+  description: The X509 certificate definition.
+  kind: object
+  properties:
+  - name: verified
+    description: Whether the certificate has been verified.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: certificate
+    description: The string representation of this certificate.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: Information about this certificate.
+    types:
+    - uid: X509CertificateInfo
+  - name: etag
+    description: ETag used to prevent conflict across multiple updates
+    types:
+    - uid: string
+- name: X509CertificateInfo
+  description: The X509 certificate info.
+  kind: object
+  properties:
+  - name: sha1Thumbprint
+    description: The SHA-1 hash value of the certificate.
+    types:
+    - uid: string
+examples:
+- name: Get an enrollment group
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/enrollmentGroups/myEnrollmentGroupId?api-version=2022-06-30-preview
+    body: >-
+      {
+        "displayName": "My group",
+        "enabled": true,
+        "type": "iot",
+        "attestation": {
+          "type": "symmetricKey"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://appsubdomain.azureiotcentral.com/api/enrollmentGroups/myEnrollmentGroupId?api-version=2022-06-30-preview
+
+      {
+        "displayName": "My group",
+        "enabled": true,
+        "type": "iot",
+        "attestation": {
+          "type": "symmetricKey"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "myEnrollmentGroupId",
+        "displayName": "My group",
+        "enabled": true,
+        "type": "iot",
+        "attestation": {
+          "type": "symmetricKey",
+          "symmetricKey": {
+            "primaryKey": "<primary-symmetric-key>",
+            "secondaryKey": "<secondary-symmetric-key>"
+          }
+        },
+        "etag": "IjA4MDUwMTJiLTAwMDAtMDcwMC0wMDAwLTYyODJhOWVjMDAwMCI="
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Create an enrollment group.
+errorCodes: []

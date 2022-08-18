@@ -1,20 +1,21 @@
 ---
 title: Azure Automated Quota Management REST API Reference
+description: API reference documentation for the operations available in the Azure Automated Quota Management REST API, a RESTful web service for managing Azure Automated Quota Management resources in Azure.
 author: onkarb
-ms.author: onkarb
+ms.author: v-jutao
 ms.date: 05/27/2020
 ms.topic: reference
-ms.service: Azure
+ms.service: api-management
 ms.devlang: rest-api
 ---
 
 # Azure Automated Quota Management REST API (Preview)
 
-Automated Quota Management allows Azure to automatically adjust the [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for enrolled subscriptions based on customer resource usage.
+Automated Quota Management allows Azure to automatically adjust the [service limits (quota)](/azure/azure-resource-manager/management/azure-subscription-service-limits) for enrolled subscriptions based on customer resource usage.
 
-The Azure Automated Quota Management REST API allows to enroll for automatic management of [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for the resources programmatically. 
+The Azure Automated Quota Management REST API allows to enroll for automatic management of [service limits (quota)](/azure/azure-resource-manager/management/azure-subscription-service-limits) for the resources programmatically. 
 
-After subscription is enabled, Azure will manage [service limits (quota)](https://docs.microsoft.com/en-us/azure/azure-resource-manager/management/azure-subscription-service-limits) for your resources.
+After subscription is enabled, Azure will manage [service limits (quota)](/azure/azure-resource-manager/management/azure-subscription-service-limits) for your resources.
 
 > [!IMPORTANT]
 > The APIs currently support Azure Virtual Machines (cores/vCPU) service limits (quota).
@@ -27,7 +28,7 @@ Using the API, you can:
 
 ## Private Preview
 
-Automated Quota Management API is in **private preview**. Review the [reference](xref:management.azure.com.reserved-vm-instances.autoquotaincrease)  documentation for API details.
+Automated Quota Management API is in **private preview**. Review the [reference](xref:management.azure.com.reserved-vm-instances.quota)  documentation for API details.
 
 > [!IMPORTANT]
 > Automated quota management is in limited preview with select partners and customers through **invitation** only.
@@ -45,6 +46,6 @@ Apart from support in [REST API](https://github.com/Azure/azure-rest-api-specs/t
 
 ## See also
 
-* [How to create a support ticket via Azure portal](https://docs.microsoft.com/azure/azure-portal/supportability/how-to-create-azure-support-request)
+* [How to create a support ticket via Azure portal](/azure/azure-portal/supportability/how-to-create-azure-support-request)
 * [Azure severity and levels](https://azure.microsoft.com/support/plans/response/)
 * [Azure Support FAQs](https://azure.microsoft.com/support/faq/)

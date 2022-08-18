@@ -1,5 +1,6 @@
 ---
-title: "Create"
+title: Service Fabric Create Service
+description: API reference documentation for the operations available in the Service Fabric Create Service REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create
+# Service Fabric Create Service
+
 Creates or updates a Service Fabric service resource.
 
 Create or update a Service Fabric service resource with the specified name.

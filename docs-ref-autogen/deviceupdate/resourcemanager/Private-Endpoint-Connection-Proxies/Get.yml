@@ -58,6 +58,11 @@ definitions:
   description: Private endpoint connection proxy details.
   kind: object
   properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection proxy resource.
+    types:
+    - uid: PrivateEndpointConnectionProxyProvisioningState
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -87,11 +92,6 @@ definitions:
     description: Remote private endpoint details.
     types:
     - uid: RemotePrivateEndpoint
-  - name: provisioningState
-    isReadyOnly: true
-    description: The provisioning state of the private endpoint connection proxy resource.
-    types:
-    - uid: PrivateEndpointConnectionProxyProvisioningState
   - name: status
     description: Operation status.
     types:
@@ -104,6 +104,22 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: PrivateEndpointConnectionProxyProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -140,8 +156,19 @@ definitions:
     description: Remote endpoint resource ID.
     types:
     - uid: string
+  - name: location
+    description: ARM location of the remote private endpoint.
+    types:
+    - uid: string
+  - name: immutableSubscriptionId
+    description: Original subscription ID needed by Microsoft.Network.
+    types:
+    - uid: string
+  - name: immutableResourceId
+    description: Original resource ID needed by Microsoft.Network.
+    types:
+    - uid: string
   - name: vnetTrafficTag
-    isReadyOnly: true
     description: Virtual network traffic tag.
     types:
     - uid: string
@@ -165,22 +192,6 @@ definitions:
     types:
     - uid: ConnectionDetails
       isArray: true
-- name: PrivateEndpointConnectionProxyProvisioningState
-  description: The current provisioning state.
-  kind: enum
-  properties:
-  - name: Succeeded
-    types:
-    - uid: string
-  - name: Creating
-    types:
-    - uid: string
-  - name: Deleting
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -383,6 +394,52 @@ examples:
 - name: PrivateEndpointConnectionProxyGet
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01?api-version=2020-03-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01?api-version=2020-03-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdeviceupdate_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceupdate/armdeviceupdate"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/preview/2020-03-01-preview/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Get.json
+      func ExamplePrivateEndpointConnectionProxiesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armdeviceupdate.NewPrivateEndpointConnectionProxiesClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.Get(ctx,
+      		"<resource-group-name>",
+      		"<account-name>",
+      		"<private-endpoint-connection-proxy-id>",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv0.4.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -391,7 +448,10 @@ examples:
         "name": "peexample01",
         "type": "Microsoft.DeviceUpdate/accounts/privateEndpointConnectionProxies",
         "remotePrivateEndpoint": {
-          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}",
+          "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{peName}",
+          "location": "westus2",
+          "immutableSubscriptionId": "00000000-0000-0000-0000-000000000000",
+          "immutableResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{peName}",
           "manualPrivateLinkServiceConnections": [
             {
               "name": "{plsConnectionName}",
@@ -424,5 +484,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: (INTERNAL - DO NOT USE) Get the specified private endpoint connection proxy associated with the device update account.
+  description: >
+    (INTERNAL - DO NOT USE) Get the specified private endpoint connection proxy associated with the device update account.
 errorCodes: []

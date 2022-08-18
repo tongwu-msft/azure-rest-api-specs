@@ -1,5 +1,6 @@
 ---
 title: "Asynchronous REST operations (Azure HDInsight)"
+description: Learn how Operations that complete asynchronously return HTTP 202 (Accepted) with a Location header and an optional Retry-After header.
 ms.date: 11/16/2016
 ms.service: hdinsight
 ms.topic: reference

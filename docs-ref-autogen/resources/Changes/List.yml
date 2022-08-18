@@ -1,0 +1,475 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.resources.changes.list
+name: List
+service: Resource Management
+groupName: Changes
+apiVersion: 2022-05-01
+summary: Obtains a list of change resources from the past 14 days for the target resource
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Resources/changes?api-version=2022-05-01&$top={$top}&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000)
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: resourceProviderNamespace
+  in: path
+  isRequired: true
+  description: The name of the resource provider namespace.
+  types:
+  - uid: string
+- name: resourceType
+  in: path
+  isRequired: true
+  description: The name of the resource type.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: (Optional) Set the maximum number of results per response.
+  types:
+  - uid: integer
+  format: int64
+- name: $skipToken
+  in: query
+  description: (Optional) The page-continuation token
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+  types:
+  - uid: ChangeResourceListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ChangeResourceListResult
+  description: The list of resources
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of Change Resources
+    types:
+    - uid: string
+  - name: value
+    description: The list of resources
+    types:
+    - uid: ChangeResourceResult
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ChangeResourceResult
+  description: Change Resource
+  kind: object
+  properties:
+  - name: properties
+    description: The properties of a change
+    types:
+    - uid: ChangeProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ChangeProperties
+  description: The properties of a change
+  kind: object
+  properties:
+  - name: targetResourceId
+    isReadyOnly: true
+    description: The fully qualified ID of the target resource that was changed
+    types:
+    - uid: string
+  - name: targetResourceType
+    isReadyOnly: true
+    description: The namespace and type of the resource
+    types:
+    - uid: string
+  - name: changeType
+    isReadyOnly: true
+    description: The type of change that was captured in the resource
+    types:
+    - uid: ChangeType
+  - name: changeAttributes
+    description: Details about the change resource
+    types:
+    - uid: ChangeAttributes
+  - name: changes
+    description: A dictionary with changed property name as a key and the change details as the value
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ChangeBase
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ChangeType
+  description: The type of change that was captured in the resource
+  kind: enum
+  properties:
+  - name: Update
+    description: An existing resource underwent a change
+    types:
+    - uid: string
+  - name: Delete
+    description: An existing resource was deleted
+    types:
+    - uid: string
+  - name: Create
+    description: A newly created resource
+    types:
+    - uid: string
+- name: ChangeAttributes
+  description: Details about the change resource
+  kind: object
+  properties:
+  - name: correlationId
+    isReadyOnly: true
+    description: The ARM correlation ID of the change resource
+    types:
+    - uid: string
+  - name: timestamp
+    isReadyOnly: true
+    description: The time the change(s) on the target resource ocurred
+    types:
+    - uid: string
+  - name: changesCount
+    isReadyOnly: true
+    description: The number of changes this resource captures
+    types:
+    - uid: integer
+  - name: previousResourceSnapshotId
+    isReadyOnly: true
+    description: The GUID of the previous snapshot
+    types:
+    - uid: string
+  - name: newResourceSnapshotId
+    isReadyOnly: true
+    description: The GUID of the new snapshot
+    types:
+    - uid: string
+- name: ChangeBase
+  description: An individual change on the target resource
+  kind: object
+  properties:
+  - name: propertyChangeType
+    isReadyOnly: true
+    description: The type of change that occurred
+    types:
+    - uid: PropertyChangeType
+  - name: changeCategory
+    isReadyOnly: true
+    description: The entity that made the change
+    types:
+    - uid: ChangeCategory
+  - name: previousValue
+    isReadyOnly: true
+    description: The target resource property value before the change
+    types:
+    - uid: string
+  - name: newValue
+    isReadyOnly: true
+    description: The target resource property value after the change
+    types:
+    - uid: string
+- name: PropertyChangeType
+  description: The type of change that occurred
+  kind: enum
+  properties:
+  - name: Insert
+    description: A property was newly created
+    types:
+    - uid: string
+  - name: Update
+    description: An existing property underwent a change
+    types:
+    - uid: string
+  - name: Remove
+    description: An existing property was deleted
+    types:
+    - uid: string
+- name: ChangeCategory
+  description: The entity that made the change
+  kind: enum
+  properties:
+  - name: User
+    description: User initiated change
+    types:
+    - uid: string
+  - name: System
+    description: System initiated change
+    types:
+    - uid: string
+examples:
+- name: ListChanges
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/providers/Microsoft.Resources/changes?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/providers/Microsoft.Resources/changes?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Changes List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/ListChanges.json
+           */
+          /**
+           * Sample code: ListChanges.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listChanges(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .genericResources()
+                  .manager()
+                  .resourceChangeClient()
+                  .getChanges()
+                  .list("resourceGroup1", "resourceProvider1", "resourceType1", "resourceName1", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armchanges_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armchanges"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/ListChanges.json
+      func ExampleClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armchanges.NewClient("subscriptionId1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("resourceGroup1",
+      		"resourceProvider1",
+      		"resourceType1",
+      		"resourceName1",
+      		&armchanges.ClientListOptions{Top: nil,
+      			SkipToken: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmchanges%2Fv1.0.0/sdk/resourcemanager/resources/armchanges/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ChangesClient } = require("@azure/arm-changes");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Obtains a list of change resources from the past 14 days for the target resource
+       *
+       * @summary Obtains a list of change resources from the past 14 days for the target resource
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2022-05-01/examples/ListChanges.json
+       */
+      async function listChanges() {
+        const subscriptionId = "subscriptionId1";
+        const resourceGroupName = "resourceGroup1";
+        const resourceProviderNamespace = "resourceProvider1";
+        const resourceType = "resourceType1";
+        const resourceName = "resourceName1";
+        const credential = new DefaultAzureCredential();
+        const client = new ChangesClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.changes.list(
+          resourceGroupName,
+          resourceProviderNamespace,
+          resourceType,
+          resourceName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listChanges().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-changes_1.0.0/sdk/changes/arm-changes/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/Microsoft.Resources/changes/a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "name": "a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "type": "Microsoft.Resources/changes",
+            "properties": {
+              "targetResourceId": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1",
+              "targetResourceType": "resourceProvider1/resourceType1",
+              "changeType": "Update",
+              "changeAttributes": {
+                "correlationId": "88420d5d-8d0e-471f-9115-10d34750c617",
+                "timestamp": "2021-11-19T14:29:09.9210000Z",
+                "changesCount": 2,
+                "previousResourceSnapshotId": "ed90e35a-1661-42cc-a44c-e27f508005be",
+                "newResourceSnapshotId": "6eac9d0f-63b4-4e7f-97a5-740c73757efb"
+              },
+              "changes": {
+                "properties.provisioningState": {
+                  "propertyChangeType": "Update",
+                  "changeCategory": "System",
+                  "previousValue": "Updating",
+                  "newValue": "Succeeded"
+                },
+                "tags.key1": {
+                  "propertyChangeType": "Insert",
+                  "changeCategory": "User",
+                  "previousValue": "null",
+                  "newValue": "someValue"
+                }
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1/Microsoft.Resources/changes/a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "name": "a9f34285-13a2-e79c-f468-cfb71c7bd227",
+            "type": "Microsoft.Resources/changes",
+            "properties": {
+              "targetResourceId": "/subscriptions/subscriptionId1/resourceGroups/resourceGroup1/providers/resourceProvider1/resourceType1/resourceName1",
+              "targetResourceType": "resourceProvider1/resourceType1",
+              "changeType": "Create",
+              "changeAttributes": {
+                "changesCount": 0,
+                "correlationId": "88420d5d-8d0e-471f-9115-10d34750c617",
+                "timestamp": "2021-11-19T14:29:09.9210000Z",
+                "previousResourceSnapshotId": "b09f5e52-0b46-4d13-84a9-08653d39fed6",
+                "newResourceSnapshotId": "4db20fc0-de17-4cdd-92d8-fd6bf94b9fd9"
+              },
+              "changes": {}
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Resource Management service - Obtains a list of change resources from the past 14 days for the target resource
+errorCodes: []

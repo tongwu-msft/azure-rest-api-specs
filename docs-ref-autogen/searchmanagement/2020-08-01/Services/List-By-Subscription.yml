@@ -80,18 +80,22 @@ definitions:
     description: The number of replicas in the search service. If specified, it must be a value between 1 and 12 inclusive for standard SKUs or between 1 and 3 inclusive for basic SKU.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.partitionCount
     description: The number of partitions in the search service; if specified, it can be 1, 2, 3, 4, 6, or 12. Values greater than 1 are only valid for standard SKUs. For 'standard3' services with hostingMode set to 'highDensity', the allowed values are between 1 and 3.
     types:
     - uid: integer
+    defaultValue: 1
   - name: properties.hostingMode
     description: Applicable only for the standard3 SKU. You can set this property to enable up to 3 high density partitions that allow up to 1000 indexes, which is much higher than the maximum indexes allowed for any other SKU. For the standard3 SKU, the value is either 'default' or 'highDensity'. For all other SKUs, this value must be 'default'.
     types:
     - uid: HostingMode
+    defaultValue: default
   - name: properties.publicNetworkAccess
     description: This value can be set to 'enabled' to avoid breaking changes on existing customer resources and templates. If set to 'disabled', traffic over public interface is not allowed, and private endpoint connections would be the exclusive access method.
     types:
     - uid: PublicNetworkAccess
+    defaultValue: enabled
   - name: properties.status
     isReadyOnly: true
     description: "The status of the search service. Possible values include: 'running': The search service is running and no provisioning operations are underway. 'provisioning': The search service is being provisioned or scaled up or down. 'deleting': The search service is being deleted. 'degraded': The search service is degraded. This can occur when the underlying search units are not healthy. The search service is most likely operational, but performance might be slow and some requests might be dropped. 'disabled': The search service is disabled. In this state, the service will reject all API requests. 'error': The search service is in an error state. If your service is in the degraded, disabled, or error states, it means the Azure Cognitive Search team is actively investigating the underlying issue. Dedicated services in these states are still chargeable based on the number of search units provisioned."
@@ -414,6 +418,7 @@ definitions:
     description: A description of any extra actions that may be required.
     types:
     - uid: string
+    defaultValue: None
 - name: SharedPrivateLinkResourceStatus
   description: Status of the shared private link resource. Can be Pending, Approved, Rejected or Disconnected.
   kind: enum
@@ -469,6 +474,98 @@ examples:
 - name: SearchListServicesBySubscription
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Search/searchServices?api-version=2020-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Search/searchServices?api-version=2020-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Services List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesBySubscription.json
+           */
+          /**
+           * Sample code: SearchListServicesBySubscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchListServicesBySubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.searchServices().manager().serviceClient().getServices().list(null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsearch_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesBySubscription.json
+      func ExampleServicesClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsearch.NewServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(&armsearch.SearchManagementRequestOptions{ClientRequestID: nil},
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsearch%2Farmsearch%2Fv1.0.0/sdk/resourcemanager/search/armsearch/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all search services in the given subscription.
+       *
+       * @summary Gets a list of all search services in the given subscription.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesBySubscription.json
+       */
+      async function searchListServicesBySubscription() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.services.listBySubscription()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      searchListServicesBySubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -536,5 +633,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Search Management service - Gets a list of all search services in the given subscription.
+  description: >
+    Learn more about Search Management service - Gets a list of all search services in the given subscription.
 errorCodes: []

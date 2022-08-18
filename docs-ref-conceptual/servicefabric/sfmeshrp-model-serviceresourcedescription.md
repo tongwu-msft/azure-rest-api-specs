@@ -1,8 +1,8 @@
 ---
-title: "ServiceResourceDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Service Fabric Mesh ServiceResourceDescription"
+description: Describes the service resource and provides the names, types, and requirement statuses for the properties for service resources.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ServiceResourceDescription
+# Service Fabric Mesh ServiceResourceDescription
 
 This type describes a service resource.
 

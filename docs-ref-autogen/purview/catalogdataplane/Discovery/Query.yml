@@ -3,14 +3,14 @@ uid: catalog.api.purview.catalogdataplane.discovery.query
 name: Query
 service: Purview
 groupName: Discovery
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: Gets data using search.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+- content: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
 uriParameters:
 - name: Endpoint
   in: path
@@ -340,7 +340,7 @@ definitions:
 examples:
 - name: Discovery_Query
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": "examplefile.csv",
@@ -421,6 +421,93 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": "examplefile.csv",
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  {
+                    "attributeName": "size",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  },
+                  {
+                    "attributeName": "fileSize",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  }
+                ]
+              }
+            },
+            {
+              "not": {
+                "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+              }
+            },
+            {
+              "not": {
+                "or": [
+                  {
+                    "entityType": "AtlasGlossaryTerm"
+                  },
+                  {
+                    "entityType": "AtlasGlossary"
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "limit": 10,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 0,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "classification",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "contactId",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "label",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          },
+          {
+            "facet": "term",
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -473,7 +560,7 @@ examples:
       }
 - name: Discovery_Query_And
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -491,6 +578,30 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path"
+            },
+            {
+              "attributeName": "qualifiedName",
+              "operator": "contains",
+              "attributeValue": ".csv"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -547,7 +658,7 @@ examples:
       }
 - name: Discovery_Query_Not
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -558,6 +669,23 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "not": {
+            "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -600,7 +728,7 @@ examples:
       }
 - name: Discovery_Query_AndOrNested
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -632,6 +760,44 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path"
+            },
+            {
+              "attributeName": "qualifiedName",
+              "operator": "contains",
+              "attributeValue": ".csv"
+            },
+            {
+              "or": [
+                {
+                  "attributeName": "name",
+                  "operator": "eq",
+                  "attributeValue": "exampledata.csv"
+                },
+                {
+                  "attributeName": "name",
+                  "operator": "startswith",
+                  "attributeValue": "AllTypes"
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -692,22 +858,67 @@ examples:
       }
 - name: Discovery_Query_Attribute
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
         "limit": 10,
         "filter": {
-          "attributeName": "name",
-          "operator": "eq",
-          "attributeValue": "exampledata.csv"
+          "or": [
+            {
+              "attributeName": "name",
+              "operator": "eq",
+              "attributeValue": "exampledata.csv"
+            },
+            {
+              "attributeName": "createTime",
+              "operator": "ge",
+              "attributeValue": 1545580800000
+            },
+            {
+              "attributeName": "modifiedTime",
+              "operator": "timerange",
+              "attributeValue": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "attributeName": "name",
+              "operator": "eq",
+              "attributeValue": "exampledata.csv"
+            },
+            {
+              "attributeName": "createTime",
+              "operator": "ge",
+              "attributeValue": 1545580800000
+            },
+            {
+              "attributeName": "modifiedTime",
+              "operator": "timerange",
+              "attributeValue": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
       {
-        "@search.count": 3,
+        "@search.count": 4,
         "value": [
           {
             "@search.score": 1,
@@ -744,12 +955,32 @@ examples:
             ],
             "term": [],
             "contact": []
+          },
+          {
+            "@search.score": 1,
+            "id": "55ceaddf-30ac-40f3-b656-71f6f6f60000",
+            "entityType": "azure_sql_mi_table",
+            "name": "exampleData_v1",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampleData_v1",
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ]
+          },
+          {
+            "@search.score": 1,
+            "id": "89416661-5269-4f3d-ba35-e0f6f6f60000",
+            "entityType": "azure_sql_mi_table",
+            "name": "exampleData_v2",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampleData_v2",
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ]
           }
         ]
       }
 - name: Discovery_Query_Classification
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -759,6 +990,22 @@ examples:
           "includeSubClassifications": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "classification": "MICROSOFT.PERSONAL.EMAIL",
+          "includeSubClassifications": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -812,7 +1059,7 @@ examples:
       }
 - name: Discovery_Query_FileExtension
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -825,6 +1072,25 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "and": [
+            {
+              "fileExtension": "txt"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -867,7 +1133,7 @@ examples:
       }
 - name: Discovery_Query_Id
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -880,6 +1146,25 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "and": [
+            {
+              "id": "bfecbcc3-1838-45fe-96d6-112de8a170f9"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -904,9 +1189,9 @@ examples:
           }
         ]
       }
-- name: Discovery_Query_Type
+- name: Discovery_Query_EntityType
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -920,6 +1205,26 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "and": [
+            {
+              "entityType": "azure_blob_path",
+              "includeSubTypes": false
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -966,7 +1271,7 @@ examples:
       }
 - name: Discovery_Query_AssetType
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -1057,6 +1362,103 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "assetType": "SQL Server"
+            },
+            {
+              "assetType": "Azure SQL Server"
+            },
+            {
+              "assetType": "Azure SQL Database"
+            },
+            {
+              "assetType": "Azure SQL Data Warehouse"
+            },
+            {
+              "assetType": "Azure SQL Managed Instance"
+            },
+            {
+              "assetType": "Azure Storage Account"
+            },
+            {
+              "assetType": "Azure Blob Storage"
+            },
+            {
+              "assetType": "Azure Files"
+            },
+            {
+              "assetType": "Azure Table Storage"
+            },
+            {
+              "assetType": "Azure Data Lake Storage Gen1"
+            },
+            {
+              "assetType": "Azure Data Lake Storage Gen2"
+            },
+            {
+              "assetType": "Azure Cosmos DB"
+            },
+            {
+              "assetType": "Azure Data Factory"
+            },
+            {
+              "assetType": "Azure Cognitive Search"
+            },
+            {
+              "assetType": "Power BI"
+            },
+            {
+              "assetType": "Azure Data Explorer"
+            },
+            {
+              "assetType": "Amazon S3"
+            },
+            {
+              "assetType": "Azure Data Share"
+            },
+            {
+              "assetType": "Teradata"
+            },
+            {
+              "assetType": "SAP S4HANA"
+            },
+            {
+              "assetType": "SAP ECC"
+            },
+            {
+              "assetType": "SQL Server Integration Services"
+            },
+            {
+              "assetType": "hive"
+            },
+            {
+              "assetType": "Azure Database for MySQL"
+            },
+            {
+              "assetType": "Azure Database for MariaDB"
+            },
+            {
+              "assetType": "Azure Database for PostgreSQL"
+            },
+            {
+              "assetType": "Azure Synapse Analytics"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1099,7 +1501,7 @@ examples:
       }
 - name: Discovery_Query_Term
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -1112,6 +1514,25 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 3,
+        "filter": {
+          "and": [
+            {
+              "term": "ExampleTerm"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1145,7 +1566,7 @@ examples:
       }
 - name: Discovery_Query_TermOfGlossary
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -1159,6 +1580,26 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 3,
+        "filter": {
+          "and": [
+            {
+              "term": "ExampleTerm",
+              "glossaryName": "Glossary"
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1192,7 +1633,7 @@ examples:
       }
 - name: Discovery_Query_Facet
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -1227,6 +1668,47 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "entityType": "AtlasGlossaryTerm",
+                "includeSubTypes": false
+              }
+            }
+          ]
+        },
+        "limit": 10,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 10
+          },
+          {
+            "facet": "classification",
+            "count": 10
+          },
+          {
+            "facet": "term",
+            "count": 10
+          },
+          {
+            "facet": "label",
+            "count": 10
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1343,7 +1825,7 @@ examples:
       }
 - name: Discovery_Query_Taxonomy
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": "example",
@@ -1406,6 +1888,75 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": "example",
+        "filter": {
+          "and": [
+            {
+              "not": {
+                "or": [
+                  {
+                    "attributeName": "size",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  },
+                  {
+                    "attributeName": "fileSize",
+                    "operator": "eq",
+                    "attributeValue": 0
+                  }
+                ]
+              }
+            },
+            {
+              "not": {
+                "classification": "MICROSOFT.SYSTEM.TEMP_FILE"
+              }
+            },
+            {
+              "not": {
+                "entityType": "AtlasGlossaryTerm",
+                "includeSubTypes": false
+              }
+            }
+          ]
+        },
+        "limit": 10,
+        "offset": 0,
+        "facets": [
+          {
+            "facet": "assetType",
+            "count": 0
+          },
+          {
+            "facet": "classification",
+            "count": 10
+          },
+          {
+            "facet": "terms",
+            "count": 10
+          }
+        ],
+        "taxonomySetting": {
+          "assetTypes": [
+            "Azure Blob Storage"
+          ],
+          "facet": {
+            "count": 10,
+            "sort": {
+              "count": "desc"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1458,7 +2009,7 @@ examples:
       }
 - name: Discovery_Query_Collection
   request:
-    uri: POST {Endpoint}/catalog/api/search/query?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
     body: >-
       {
         "keywords": null,
@@ -1467,6 +2018,21 @@ examples:
           "collectionId": "collectionName"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "collectionId": "collectionName"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1518,6 +2084,163 @@ examples:
           }
         ]
       }
+- name: Discovery_Query_SystemTime
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+    body: >-
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "createTime": {
+                "operator": "lt",
+                "timeThreshold": 1545580800000
+              }
+            },
+            {
+              "updateTime": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "createTime": {
+                "operator": "lt",
+                "timeThreshold": 1545580800000
+              }
+            },
+            {
+              "updateTime": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 2,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "55ceaddf-30ac-40f3-b656-71f6f6f60000",
+            "entityType": "azure_sql_mi_table",
+            "name": "exampleData_v1",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampleData_v1",
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ]
+          },
+          {
+            "@search.score": 1,
+            "id": "89416661-5269-4f3d-ba35-e0f6f6f60000",
+            "entityType": "azure_sql_mi_table",
+            "name": "exampleData_v2",
+            "qualifiedName": "mssql://exampleaccount.database.windows.net:3342/examplesqlmidb/dbo/exampleData_v2",
+            "assetType": [
+              "Azure SQL Managed Instance"
+            ]
+          }
+        ]
+      }
+- name: Discovery_Query_BusinessMetadataAttribute
+  request:
+    uri: POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+    body: >-
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "attributeName": "<BusinessMetadataName>.<StringAttributeName>",
+              "operator": "eq|ne|contains|startswith",
+              "attributeValue": "string value"
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<NumberAttributeName>",
+              "operator": "eq|ne|gt|ge|lt|le",
+              "attributeValue": 123
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<BooleanAttributeName>",
+              "operator": "eq|ne",
+              "attributeValue": true
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<DateAttributeName>",
+              "operator": "timerange",
+              "attributeValue": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/search/query?api-version=2022-03-01-preview
+
+      {
+        "keywords": null,
+        "limit": 10,
+        "filter": {
+          "or": [
+            {
+              "attributeName": "<BusinessMetadataName>.<StringAttributeName>",
+              "operator": "eq|ne|contains|startswith",
+              "attributeValue": "string value"
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<NumberAttributeName>",
+              "operator": "eq|ne|gt|ge|lt|le",
+              "attributeValue": 123
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<BooleanAttributeName>",
+              "operator": "eq|ne",
+              "attributeValue": true
+            },
+            {
+              "attributeName": "<BusinessMetadataName>.<DateAttributeName>",
+              "operator": "timerange",
+              "attributeValue": "LAST_24H|LAST_7D|LAST_30D|LAST_365D|MORE_THAN_365D"
+            }
+          ]
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "@search.count": 1,
+        "value": [
+          {
+            "@search.score": 1,
+            "id": "63b92968-c9ac-4af8-8cff-f61d147bbf88",
+            "qualifiedName": "https://exampleaccount.blob.core.windows.net/examplepath/csv/exampledata.csv",
+            "name": "exampledata.csv",
+            "entityType": "azure_blob_path"
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -1528,5 +2251,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Gets data using search.
+  description: >
+    Learn more about Purview service - Gets data using search.
 errorCodes: []

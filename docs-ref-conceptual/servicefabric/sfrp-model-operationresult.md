@@ -1,5 +1,6 @@
 ---
-title: "OperationResult"
+title: "OperationResult model"
+description: "OperationResult describes a list of available operation list result. Properties include name, display, origin, and nextLink."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# OperationResult
+# OperationResult model
 
 Available operation list result
 

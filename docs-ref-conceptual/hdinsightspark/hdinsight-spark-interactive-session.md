@@ -1,5 +1,6 @@
 ---
 title: "Sessions - REST API (Azure HDInsight)"
+description: Learn how to use the Sessions REST API to start a new interactive session.
 ms.service: hdinsight
 ms.topic: reference
 author: jasonwhowell

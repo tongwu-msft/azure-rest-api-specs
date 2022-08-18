@@ -296,6 +296,10 @@ definitions:
     description: Schema linked service reference.
     types:
     - uid: LinkedServiceReference
+  - name: rejectedDataLinkedService
+    description: Rejected data linked service reference.
+    types:
+    - uid: LinkedServiceReference
   - name: flowlet
     description: Flowlet Reference
     types:
@@ -400,8 +404,7 @@ definitions:
   - name: type
     description: Linked service reference type.
     types:
-    - uid: LinkedServiceReference
-    typesTitle: enum
+    - uid: Type
   - name: referenceName
     description: Reference LinkedService name.
     types:
@@ -421,8 +424,7 @@ definitions:
   - name: type
     description: Data flow reference type.
     types:
-    - uid: DataFlowReference
-    typesTitle: enum
+    - uid: DataFlowReferenceType
   - name: referenceName
     description: Reference data flow name.
     types:
@@ -439,6 +441,20 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: object
+- name: Type
+  description: Linked service reference type.
+  kind: enum
+  properties:
+  - name: LinkedServiceReference
+    types:
+    - uid: string
+- name: DataFlowReferenceType
+  description: Data flow reference type.
+  kind: enum
+  properties:
+  - name: DataFlowReference
+    types:
+    - uid: string
 examples:
 - name: DataFlows_Create
   request:
@@ -485,6 +501,263 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/dataflows/exampleDataFlow?api-version=2018-06-01
+
+      {
+        "properties": {
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "type": "MappingDataFlow",
+          "typeProperties": {
+            "sources": [
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetUSD",
+                  "type": "DatasetReference"
+                },
+                "name": "USDCurrency"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetCAD",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSource"
+              }
+            ],
+            "sinks": [
+              {
+                "dataset": {
+                  "referenceName": "USDOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "USDSink"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CADOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSink"
+              }
+            ],
+            "script": "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.datafactory.models.DataFlowSink;
+      import com.azure.resourcemanager.datafactory.models.DataFlowSource;
+      import com.azure.resourcemanager.datafactory.models.DatasetReference;
+      import com.azure.resourcemanager.datafactory.models.MappingDataFlow;
+      import java.util.Arrays;
+
+      /** Samples for DataFlows CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Create.json
+           */
+          /**
+           * Sample code: DataFlows_Create.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void dataFlowsCreate(com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
+              manager
+                  .dataFlows()
+                  .define("exampleDataFlow")
+                  .withExistingFactory("exampleResourceGroup", "exampleFactoryName")
+                  .withProperties(
+                      new MappingDataFlow()
+                          .withDescription(
+                              "Sample demo data flow to convert currencies showing usage of union, derive and conditional"
+                                  + " split transformation.")
+                          .withSources(
+                              Arrays
+                                  .asList(
+                                      new DataFlowSource()
+                                          .withName("USDCurrency")
+                                          .withDataset(new DatasetReference().withReferenceName("CurrencyDatasetUSD")),
+                                      new DataFlowSource()
+                                          .withName("CADSource")
+                                          .withDataset(new DatasetReference().withReferenceName("CurrencyDatasetCAD"))))
+                          .withSinks(
+                              Arrays
+                                  .asList(
+                                      new DataFlowSink()
+                                          .withName("USDSink")
+                                          .withDataset(new DatasetReference().withReferenceName("USDOutput")),
+                                      new DataFlowSink()
+                                          .withName("CADSink")
+                                          .withDataset(new DatasetReference().withReferenceName("CADOutput"))))
+                          .withScript(
+                              "source(output(PreviousConversionRate as double,Country as string,DateTime1 as"
+                                  + " string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false)"
+                                  + " ~> USDCurrency\n"
+                                  + "source(output(PreviousConversionRate as double,Country as string,DateTime1 as"
+                                  + " string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false)"
+                                  + " ~> CADSource\n"
+                                  + "USDCurrency, CADSource union(byName: true)~> Union\n"
+                                  + "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\n"
+                                  + "NewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~>"
+                                  + " ConditionalSplit1@(USD, CAD)\n"
+                                  + "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\n"
+                                  + "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Create.json
+      func ExampleDataFlowsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewDataFlowsClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		"exampleDataFlow",
+      		armdatafactory.DataFlowResource{
+      			Properties: &armdatafactory.MappingDataFlow{
+      				Type:        to.Ptr("MappingDataFlow"),
+      				Description: to.Ptr("Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation."),
+      				TypeProperties: &armdatafactory.MappingDataFlowTypeProperties{
+      					Script: to.Ptr("source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"),
+      					Sinks: []*armdatafactory.DataFlowSink{
+      						{
+      							Name: to.Ptr("USDSink"),
+      							Dataset: &armdatafactory.DatasetReference{
+      								Type:          to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      								ReferenceName: to.Ptr("USDOutput"),
+      							},
+      						},
+      						{
+      							Name: to.Ptr("CADSink"),
+      							Dataset: &armdatafactory.DatasetReference{
+      								Type:          to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      								ReferenceName: to.Ptr("CADOutput"),
+      							},
+      						}},
+      					Sources: []*armdatafactory.DataFlowSource{
+      						{
+      							Name: to.Ptr("USDCurrency"),
+      							Dataset: &armdatafactory.DatasetReference{
+      								Type:          to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      								ReferenceName: to.Ptr("CurrencyDatasetUSD"),
+      							},
+      						},
+      						{
+      							Name: to.Ptr("CADSource"),
+      							Dataset: &armdatafactory.DatasetReference{
+      								Type:          to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      								ReferenceName: to.Ptr("CurrencyDatasetCAD"),
+      							},
+      						}},
+      				},
+      			},
+      		},
+      		&armdatafactory.DataFlowsClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a data flow.
+       *
+       * @summary Creates or updates a data flow.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Create.json
+       */
+      async function dataFlowsCreate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const dataFlowName = "exampleDataFlow";
+        const dataFlow = {
+          properties: {
+            type: "MappingDataFlow",
+            description:
+              "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+            script:
+              "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+            sinks: [
+              {
+                name: "USDSink",
+                dataset: { type: "DatasetReference", referenceName: "USDOutput" },
+              },
+              {
+                name: "CADSink",
+                dataset: { type: "DatasetReference", referenceName: "CADOutput" },
+              },
+            ],
+            sources: [
+              {
+                name: "USDCurrency",
+                dataset: {
+                  type: "DatasetReference",
+                  referenceName: "CurrencyDatasetUSD",
+                },
+              },
+              {
+                name: "CADSource",
+                dataset: {
+                  type: "DatasetReference",
+                  referenceName: "CurrencyDatasetCAD",
+                },
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.dataFlows.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          dataFlowName,
+          dataFlow
+        );
+        console.log(result);
+      }
+
+      dataFlowsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -589,6 +862,191 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/dataflows/exampleDataFlow?api-version=2018-06-01
+
+      {
+        "properties": {
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "type": "MappingDataFlow",
+          "typeProperties": {
+            "sources": [
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetUSD",
+                  "type": "DatasetReference"
+                },
+                "name": "USDCurrency"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetCAD",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSource"
+              }
+            ],
+            "sinks": [
+              {
+                "dataset": {
+                  "referenceName": "USDOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "USDSink"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CADOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSink"
+              }
+            ],
+            "script": "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.datafactory.models.DataFlowResource;
+      import com.azure.resourcemanager.datafactory.models.DataFlowSink;
+      import com.azure.resourcemanager.datafactory.models.DataFlowSource;
+      import com.azure.resourcemanager.datafactory.models.DatasetReference;
+      import com.azure.resourcemanager.datafactory.models.MappingDataFlow;
+      import java.util.Arrays;
+
+      /** Samples for DataFlows CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Update.json
+           */
+          /**
+           * Sample code: DataFlows_Update.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void dataFlowsUpdate(com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
+              DataFlowResource resource =
+                  manager
+                      .dataFlows()
+                      .getWithResponse("exampleResourceGroup", "exampleFactoryName", "exampleDataFlow", null, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withProperties(
+                      new MappingDataFlow()
+                          .withDescription(
+                              "Sample demo data flow to convert currencies showing usage of union, derive and conditional"
+                                  + " split transformation.")
+                          .withSources(
+                              Arrays
+                                  .asList(
+                                      new DataFlowSource()
+                                          .withName("USDCurrency")
+                                          .withDataset(new DatasetReference().withReferenceName("CurrencyDatasetUSD")),
+                                      new DataFlowSource()
+                                          .withName("CADSource")
+                                          .withDataset(new DatasetReference().withReferenceName("CurrencyDatasetCAD"))))
+                          .withSinks(
+                              Arrays
+                                  .asList(
+                                      new DataFlowSink()
+                                          .withName("USDSink")
+                                          .withDataset(new DatasetReference().withReferenceName("USDOutput")),
+                                      new DataFlowSink()
+                                          .withName("CADSink")
+                                          .withDataset(new DatasetReference().withReferenceName("CADOutput"))))
+                          .withScript(
+                              "source(output(PreviousConversionRate as double,Country as string,DateTime1 as"
+                                  + " string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false)"
+                                  + " ~> USDCurrency\n"
+                                  + "source(output(PreviousConversionRate as double,Country as string,DateTime1 as"
+                                  + " string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false)"
+                                  + " ~> CADSource\n"
+                                  + "USDCurrency, CADSource union(byName: true)~> Union\n"
+                                  + "Union derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\n"
+                                  + "NewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~>"
+                                  + " ConditionalSplit1@(USD, CAD)\n"
+                                  + "ConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\n"
+                                  + "ConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a data flow.
+       *
+       * @summary Creates or updates a data flow.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/DataFlows_Update.json
+       */
+      async function dataFlowsUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const dataFlowName = "exampleDataFlow";
+        const dataFlow = {
+          properties: {
+            type: "MappingDataFlow",
+            description:
+              "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+            script:
+              "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink",
+            sinks: [
+              {
+                name: "USDSink",
+                dataset: { type: "DatasetReference", referenceName: "USDOutput" },
+              },
+              {
+                name: "CADSink",
+                dataset: { type: "DatasetReference", referenceName: "CADOutput" },
+              },
+            ],
+            sources: [
+              {
+                name: "USDCurrency",
+                dataset: {
+                  type: "DatasetReference",
+                  referenceName: "CurrencyDatasetUSD",
+                },
+              },
+              {
+                name: "CADSource",
+                dataset: {
+                  type: "DatasetReference",
+                  referenceName: "CurrencyDatasetCAD",
+                },
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.dataFlows.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          dataFlowName,
+          dataFlow
+        );
+        console.log(result);
+      }
+
+      dataFlowsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -658,5 +1116,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Data Factory service - Creates or updates a data flow.
+  description: >
+    Learn more about Data Factory service - Creates or updates a data flow.
 errorCodes: []

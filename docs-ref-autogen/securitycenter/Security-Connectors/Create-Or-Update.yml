@@ -3,14 +3,14 @@ uid: management.azure.com.securitycenter.securityconnectors.createorupdate
 name: Create Or Update
 service: Security Center
 groupName: Security Connectors
-apiVersion: 2021-07-01-preview
+apiVersion: 2021-12-01-preview
 summary: Creates or updates a security connector. If a security connector is already created and a subsequent request is issued for the same security connector id, then it will be updated.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}?api-version=2021-07-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/securityConnectors/{securityConnectorName}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -56,10 +56,10 @@ requestBody:
   parameters:
   - name: properties.hierarchyIdentifier
     in: body
-    description: The multi cloud resource identifier (account id in case of AWS connector).
+    description: The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector).
     types:
     - uid: string
-  - name: properties.cloudName
+  - name: properties.environmentName
     in: body
     description: The multi cloud resource's cloud name.
     types:
@@ -76,12 +76,23 @@ requestBody:
       isArray: true
     - uid: informationProtectionAwsOffering
       isArray: true
+    - uid: cspmMonitorGcpOffering
+      isArray: true
+    - uid: defenderForServersGcpOffering
+      isArray: true
+    - uid: defenderForContainersGcpOffering
+      isArray: true
+    - uid: cspmMonitorGithubOffering
+      isArray: true
     typesTitle: cloudOffering[]
-  - name: properties.organizationalData
+  - name: properties.environmentData
     in: body
-    description: The multi cloud account's organizational data
+    description: The security connector environment data.
     types:
-    - uid: OrganizationalData
+    - uid: AWSEnvironmentData
+    - uid: GcpProjectEnvironmentData
+    - uid: GithubScopeEnvironmentData
+    typesTitle: EnvironmentData
   - name: location
     in: body
     description: Location where the resource is stored
@@ -136,27 +147,6 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: OrganizationalData
-  description: The multi cloud account's organizational data
-  kind: object
-  properties:
-  - name: organizationMembershipType
-    description: The multi cloud account's membership type in the organization
-    types:
-    - uid: organizationMembershipType
-  - name: parentHierarchyId
-    description: If the multi cloud account is not of membership type organization, this will be the ID of the account's parent
-    types:
-    - uid: string
-  - name: stacksetName
-    description: If the multi cloud account is of membership type organization, this will be the name of the onboarding stackset
-    types:
-    - uid: string
-  - name: excludedAccountIds
-    description: If the multi cloud account is of membership type organization, list of accounts excluded from offering
-    types:
-    - uid: string
-      isArray: true
 - name: SecurityConnector
   description: The security connector resource.
   kind: object
@@ -167,10 +157,10 @@ definitions:
     types:
     - uid: systemData
   - name: properties.hierarchyIdentifier
-    description: The multi cloud resource identifier (account id in case of AWS connector).
+    description: The multi cloud resource identifier (account id in case of AWS connector, project number in case of GCP connector).
     types:
     - uid: string
-  - name: properties.cloudName
+  - name: properties.environmentName
     description: The multi cloud resource's cloud name.
     types:
     - uid: cloudName
@@ -185,11 +175,22 @@ definitions:
       isArray: true
     - uid: informationProtectionAwsOffering
       isArray: true
+    - uid: cspmMonitorGcpOffering
+      isArray: true
+    - uid: defenderForServersGcpOffering
+      isArray: true
+    - uid: defenderForContainersGcpOffering
+      isArray: true
+    - uid: cspmMonitorGithubOffering
+      isArray: true
     typesTitle: cloudOffering[]
-  - name: properties.organizationalData
-    description: The multi cloud account's organizational data
+  - name: properties.environmentData
+    description: The security connector environment data.
     types:
-    - uid: OrganizationalData
+    - uid: AWSEnvironmentData
+    - uid: GcpProjectEnvironmentData
+    - uid: GithubScopeEnvironmentData
+    typesTitle: EnvironmentData
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -273,7 +274,7 @@ definitions:
     types:
     - uid: string
 - name: cspmMonitorAwsOffering
-  description: The CSPM monitoring for AWS offering configurations
+  description: The CSPM monitoring for AWS offering
   kind: object
   properties:
   - name: nativeCloudConnection
@@ -291,7 +292,7 @@ definitions:
     types:
     - uid: string
 - name: defenderForContainersAwsOffering
-  description: The Defender for Containers AWS offering configurations
+  description: The Defender for Containers AWS offering
   kind: object
   properties:
   - name: kubernetesService
@@ -321,7 +322,7 @@ definitions:
     types:
     - uid: string
 - name: defenderForServersAwsOffering
-  description: The Defender for Servers AWS offering configurations
+  description: The Defender for Servers AWS offering
   kind: object
   properties:
   - name: defenderForServers
@@ -332,6 +333,18 @@ definitions:
     description: The ARC autoprovisioning configuration
     types:
     - uid: ArcAutoProvisioning
+  - name: vaAutoProvisioning
+    description: The Vulnerability Assessment autoprovisioning configuration
+    types:
+    - uid: VaAutoProvisioning
+  - name: mdeAutoProvisioning
+    description: The Microsoft Defender for Endpoint autoprovisioning configuration
+    types:
+    - uid: MdeAutoProvisioning
+  - name: subPlan
+    description: configuration for the servers offering subPlan
+    types:
+    - uid: SubPlan
   - name: offeringType
     description: The type of the security offering.
     types:
@@ -343,7 +356,7 @@ definitions:
     types:
     - uid: string
 - name: informationProtectionAwsOffering
-  description: The information protection for AWS offering configurations
+  description: The information protection for AWS offering
   kind: object
   properties:
   - name: informationProtection
@@ -360,16 +373,149 @@ definitions:
     description: The offering description.
     types:
     - uid: string
-- name: organizationMembershipType
-  description: The multi cloud account's membership type in the organization
-  kind: enum
+- name: cspmMonitorGcpOffering
+  description: The CSPM monitoring for GCP offering
+  kind: object
   properties:
-  - name: Member
+  - name: nativeCloudConnection
+    description: The native cloud connection configuration
+    types:
+    - uid: NativeCloudConnection
+  - name: offeringType
+    description: The type of the security offering.
+    types:
+    - uid: CspmMonitorGcp
+    typesTitle: string
+  - name: description
+    isReadyOnly: true
+    description: The offering description.
     types:
     - uid: string
-  - name: Organization
+- name: defenderForServersGcpOffering
+  description: The Defender for Servers GCP offering configurations
+  kind: object
+  properties:
+  - name: defenderForServers
+    description: The Defender for servers connection configuration
+    types:
+    - uid: DefenderForServers
+  - name: arcAutoProvisioning
+    description: The ARC autoprovisioning configuration
+    types:
+    - uid: ArcAutoProvisioning
+  - name: vaAutoProvisioning
+    description: The Vulnerability Assessment autoprovisioning configuration
+    types:
+    - uid: VaAutoProvisioning
+  - name: mdeAutoProvisioning
+    description: The Microsoft Defender for Endpoint autoprovisioning configuration
+    types:
+    - uid: MdeAutoProvisioning
+  - name: subPlan
+    description: configuration for the servers offering subPlan
+    types:
+    - uid: SubPlan
+  - name: offeringType
+    description: The type of the security offering.
+    types:
+    - uid: DefenderForServersGcp
+    typesTitle: string
+  - name: description
+    isReadyOnly: true
+    description: The offering description.
     types:
     - uid: string
+- name: defenderForContainersGcpOffering
+  description: The containers GCP offering
+  kind: object
+  properties:
+  - name: nativeCloudConnection
+    description: The native cloud connection configuration
+    types:
+    - uid: NativeCloudConnection
+  - name: dataPipelineNativeCloudConnection
+    description: The native cloud connection configuration
+    types:
+    - uid: DataPipelineNativeCloudConnection
+  - name: auditLogsAutoProvisioningFlag
+    description: Is audit logs data collection enabled
+    types:
+    - uid: boolean
+  - name: defenderAgentAutoProvisioningFlag
+    description: Is Microsoft Defender for Cloud Kubernetes agent auto provisioning enabled
+    types:
+    - uid: boolean
+  - name: policyAgentAutoProvisioningFlag
+    description: Is Policy Kubernetes agent auto provisioning enabled
+    types:
+    - uid: boolean
+  - name: offeringType
+    description: The type of the security offering.
+    types:
+    - uid: DefenderForContainersGcp
+    typesTitle: string
+  - name: description
+    isReadyOnly: true
+    description: The offering description.
+    types:
+    - uid: string
+- name: cspmMonitorGithubOffering
+  description: The CSPM monitoring for github offering
+  kind: object
+  properties:
+  - name: offeringType
+    description: The type of the security offering.
+    types:
+    - uid: CspmMonitorGithub
+    typesTitle: string
+  - name: description
+    isReadyOnly: true
+    description: The offering description.
+    types:
+    - uid: string
+- name: AWSEnvironmentData
+  description: The aws connector environment data
+  kind: object
+  properties:
+  - name: organizationalData
+    description: The AWS account's organizational data
+    types:
+    - uid: AwsOrganizationalDataMaster
+    - uid: AwsOrganizationalDataMember
+    typesTitle: AwsOrganizationalData
+  - name: environmentType
+    description: The type of the environment data.
+    types:
+    - uid: AwsAccount
+    typesTitle: string
+- name: GcpProjectEnvironmentData
+  description: The GCP project connector environment data
+  kind: object
+  properties:
+  - name: organizationalData
+    description: The Gcp project's organizational data
+    types:
+    - uid: GcpOrganizationalDataOrganization
+    - uid: GcpOrganizationalDataMember
+    typesTitle: GcpOrganizationalData
+  - name: projectDetails
+    description: The Gcp project's details
+    types:
+    - uid: GcpProjectDetails
+  - name: environmentType
+    description: The type of the environment data.
+    types:
+    - uid: GcpProject
+    typesTitle: string
+- name: GithubScopeEnvironmentData
+  description: The github scope connector's environment data
+  kind: object
+  properties:
+  - name: environmentType
+    description: The type of the environment data.
+    types:
+    - uid: GithubScope
+    typesTitle: string
 - name: cloudName
   description: The multi cloud resource's cloud name.
   kind: enum
@@ -381,6 +527,9 @@ definitions:
     types:
     - uid: string
   - name: GCP
+    types:
+    - uid: string
+  - name: Github
     types:
     - uid: string
 - name: CloudErrorBody
@@ -488,12 +637,73 @@ definitions:
     description: Metadata of Service Principal secret for autoprovisioning
     types:
     - uid: ServicePrincipalSecretMetadata
+- name: VaAutoProvisioning
+  description: The Vulnerability Assessment autoprovisioning configuration
+  kind: object
+  properties:
+  - name: enabled
+    description: Is Vulnerability Assessment auto provisioning enabled
+    types:
+    - uid: boolean
+  - name: configuration
+    description: configuration for Vulnerability Assessment autoprovisioning
+    types:
+    - uid: Configuration
+- name: MdeAutoProvisioning
+  description: The Microsoft Defender for Endpoint autoprovisioning configuration
+  kind: object
+  properties:
+  - name: enabled
+    description: Is Microsoft Defender for Endpoint auto provisioning enabled
+    types:
+    - uid: boolean
+  - name: configuration
+    description: configuration for Microsoft Defender for Endpoint autoprovisioning
+    types:
+    - uid: mdeAutoProvisioning.Configuration
+- name: SubPlan
+  description: configuration for the servers offering subPlan
+  kind: object
+  properties:
+  - name: type
+    description: The available sub plans
+    types:
+    - uid: subPlan
 - name: InformationProtection
   description: The native cloud connection configuration
   kind: object
   properties:
   - name: cloudRoleArn
     description: The cloud role ARN in AWS for this feature
+    types:
+    - uid: string
+- name: DataPipelineNativeCloudConnection
+  description: The native cloud connection configuration
+  kind: object
+  properties:
+  - name: serviceAccountEmailAddress
+    description: The data collection service account email address in GCP for this offering
+    types:
+    - uid: string
+  - name: workloadIdentityProviderId
+    description: The data collection GCP workload identity provider id for this offering
+    types:
+    - uid: string
+- name: GcpProjectDetails
+  description: The details about the project represented by the security connector
+  kind: object
+  properties:
+  - name: projectNumber
+    description: The unique GCP Project number
+    types:
+    - uid: string
+  - name: projectId
+    description: The GCP Project id
+    types:
+    - uid: string
+  - name: workloadIdentityPoolId
+    isReadyOnly: true
+    description: The GCP workload identity federation pool id
     types:
     - uid: string
 - name: ServicePrincipalSecretMetadata
@@ -512,10 +722,108 @@ definitions:
     description: name of secret resource in parameter store
     types:
     - uid: string
+- name: Configuration
+  description: configuration for Vulnerability Assessment autoprovisioning
+  kind: object
+  properties:
+  - name: type
+    description: The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys'
+    types:
+    - uid: type
+- name: mdeAutoProvisioning.Configuration
+  description: configuration for Microsoft Defender for Endpoint autoprovisioning
+  kind: object
+  properties: []
+- name: subPlan
+  description: The available sub plans
+  kind: enum
+  properties:
+  - name: P1
+    types:
+    - uid: string
+  - name: P2
+    types:
+    - uid: string
+- name: AwsOrganizationalDataMaster
+  description: The awsOrganization data for the master account
+  kind: object
+  properties:
+  - name: stacksetName
+    description: If the multi cloud account is of membership type organization, this will be the name of the onboarding stackset
+    types:
+    - uid: string
+  - name: excludedAccountIds
+    description: If the multi cloud account is of membership type organization, list of accounts excluded from offering
+    types:
+    - uid: string
+      isArray: true
+  - name: organizationMembershipType
+    description: The multi cloud account's membership type in the organization
+    types:
+    - uid: Organization
+    typesTitle: string
+- name: AwsOrganizationalDataMember
+  description: The awsOrganization data for the member account
+  kind: object
+  properties:
+  - name: parentHierarchyId
+    description: If the multi cloud account is not of membership type organization, this will be the ID of the account's parent
+    types:
+    - uid: string
+  - name: organizationMembershipType
+    description: The multi cloud account's membership type in the organization
+    types:
+    - uid: Member
+    typesTitle: string
+- name: GcpOrganizationalDataOrganization
+  description: The gcpOrganization data for the parent account
+  kind: object
+  properties:
+  - name: excludedProjectNumbers
+    description: If the multi cloud account is of membership type organization, list of accounts excluded from offering
+    types:
+    - uid: string
+      isArray: true
+  - name: serviceAccountEmailAddress
+    description: The service account email address which represents the organization level permissions container.
+    types:
+    - uid: string
+  - name: workloadIdentityProviderId
+    description: The GCP workload identity provider id which represents the permissions required to auto provision security connectors
+    types:
+    - uid: string
+  - name: organizationMembershipType
+    description: The multi cloud account's membership type in the organization
+    types:
+    - uid: Organization
+    typesTitle: string
+- name: GcpOrganizationalDataMember
+  description: The gcpOrganization data for the member account
+  kind: object
+  properties:
+  - name: parentHierarchyId
+    description: If the multi cloud account is not of membership type organization, this will be the ID of the project's parent
+    types:
+    - uid: string
+  - name: organizationMembershipType
+    description: The multi cloud account's membership type in the organization
+    types:
+    - uid: Member
+    typesTitle: string
+- name: type
+  description: The Vulnerability Assessment solution to be provisioned. Can be either 'TVM' or 'Qualys'
+  kind: enum
+  properties:
+  - name: Qualys
+    types:
+    - uid: string
+  - name: TVM
+    types:
+    - uid: string
 examples:
 - name: Create or update a security connector
   request:
-    uri: PUT https://management.azure.com/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/exampleResourceGroup/providers/Microsoft.Security/securityConnectors/exampleSecurityConnectorName?api-version=2021-07-01-preview
+    uri: PUT https://management.azure.com/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/exampleResourceGroup/providers/Microsoft.Security/securityConnectors/exampleSecurityConnectorName?api-version=2021-12-01-preview
     body: >-
       {
         "location": "Central US",
@@ -523,7 +831,10 @@ examples:
         "tags": {},
         "properties": {
           "hierarchyIdentifier": "exampleHierarchyId",
-          "cloudName": "AWS",
+          "environmentName": "AWS",
+          "environmentData": {
+            "environmentType": "AwsAccount"
+          },
           "offerings": [
             {
               "offeringType": "CspmMonitorAws",
@@ -534,6 +845,34 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/a5caac9c-5c04-49af-b3d0-e204f40345d5/resourceGroups/exampleResourceGroup/providers/Microsoft.Security/securityConnectors/exampleSecurityConnectorName?api-version=2021-12-01-preview
+
+      {
+        "location": "Central US",
+        "etag": "etag value (must be supplied for update)",
+        "tags": {},
+        "properties": {
+          "hierarchyIdentifier": "exampleHierarchyId",
+          "environmentName": "AWS",
+          "environmentData": {
+            "environmentType": "AwsAccount"
+          },
+          "offerings": [
+            {
+              "offeringType": "CspmMonitorAws",
+              "nativeCloudConnection": {
+                "cloudRoleArn": "arn:aws:iam::00000000:role/ASCMonitor"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -555,8 +894,10 @@ examples:
         },
         "properties": {
           "hierarchyIdentifier": "exampleHierarchyId",
-          "organizationalData": null,
-          "cloudName": "AWS",
+          "environmentData": {
+            "environmentType": "AwsAccount"
+          },
+          "environmentName": "AWS",
           "offerings": [
             {
               "offeringType": "CspmMonitorAws",
@@ -587,8 +928,10 @@ examples:
         },
         "properties": {
           "hierarchyIdentifier": "exampleHierarchyId",
-          "organizationalData": null,
-          "cloudName": "AWS",
+          "environmentData": {
+            "environmentType": "AwsAccount"
+          },
+          "environmentName": "AWS",
           "offerings": [
             {
               "offeringType": "CspmMonitorAws",

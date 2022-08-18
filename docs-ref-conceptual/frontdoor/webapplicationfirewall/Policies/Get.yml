@@ -1,0 +1,744 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.webapplicationfirewall.policies.get1
+name: Get
+service: Front Door Service
+groupName: Policies
+apiVersion: 2020-11-01
+summary: Retrieve protection policy with specified name within a resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/{policyName}?api-version=2020-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: policyName
+  in: path
+  isRequired: true
+  description: The name of the Web Application Firewall Policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: WebApplicationFirewallPolicy
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: WebApplicationFirewallPolicy
+  description: Defines web application firewall policy.
+  kind: object
+  properties:
+  - name: etag
+    description: Gets a unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: sku
+    description: The pricing tier of web application firewall policy. Defaults to Classic_AzureFrontDoor if not specified.
+    types:
+    - uid: Sku
+  - name: properties.policySettings
+    description: Describes settings for the policy.
+    types:
+    - uid: PolicySettings
+  - name: properties.customRules
+    description: Describes custom rules inside the policy.
+    types:
+    - uid: CustomRuleList
+  - name: properties.managedRules
+    description: Describes managed rules inside the policy.
+    types:
+    - uid: ManagedRuleSetList
+  - name: properties.frontendEndpointLinks
+    isReadyOnly: true
+    description: Describes Frontend Endpoints associated with this Web Application Firewall policy.
+    types:
+    - uid: FrontendEndpointLink
+      isArray: true
+  - name: properties.routingRuleLinks
+    isReadyOnly: true
+    description: Describes Routing Rules associated with this Web Application Firewall policy.
+    types:
+    - uid: RoutingRuleLink
+      isArray: true
+  - name: properties.securityPolicyLinks
+    isReadyOnly: true
+    description: Describes Security Policy associated with this Web Application Firewall policy.
+    types:
+    - uid: SecurityPolicyLink
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the policy.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: Resource status of the policy.
+    types:
+    - uid: PolicyResourceState
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Sku
+  description: The pricing tier of the web application firewall policy.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the pricing tier.
+    types:
+    - uid: SkuName
+- name: PolicySettings
+  description: Defines top-level WebApplicationFirewallPolicy configuration settings.
+  kind: object
+  properties:
+  - name: enabledState
+    description: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.
+    types:
+    - uid: PolicyEnabledState
+  - name: mode
+    description: Describes if it is in detection mode or prevention mode at policy level.
+    types:
+    - uid: PolicyMode
+  - name: redirectUrl
+    description: If action type is redirect, this field represents redirect URL for the client.
+    types:
+    - uid: string
+  - name: customBlockResponseStatusCode
+    description: If the action type is block, customer can override the response status code.
+    types:
+    - uid: integer
+  - name: customBlockResponseBody
+    description: If the action type is block, customer can override the response body. The body must be specified in base64 encoding.
+    types:
+    - uid: string
+  - name: requestBodyCheck
+    description: Describes if policy managed rules will inspect the request body content.
+    types:
+    - uid: PolicyRequestBodyCheck
+- name: CustomRuleList
+  description: Defines contents of custom rules
+  kind: object
+  properties:
+  - name: rules
+    description: List of rules
+    types:
+    - uid: CustomRule
+      isArray: true
+- name: ManagedRuleSetList
+  description: Defines the list of managed rule sets for the policy.
+  kind: object
+  properties:
+  - name: managedRuleSets
+    description: List of rule sets.
+    types:
+    - uid: ManagedRuleSet
+      isArray: true
+- name: FrontendEndpointLink
+  description: Defines the Resource ID for a Frontend Endpoint.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: RoutingRuleLink
+  description: Defines the Resource ID for a Routing Rule.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SecurityPolicyLink
+  description: Defines the Resource ID for a Security Policy.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: PolicyResourceState
+  description: Resource status of the policy.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+- name: SkuName
+  description: Name of the pricing tier.
+  kind: enum
+  properties:
+  - name: Classic_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Standard_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Premium_AzureFrontDoor
+    types:
+    - uid: string
+- name: PolicyEnabledState
+  description: Describes if the policy is in enabled or disabled state. Defaults to Enabled if not specified.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: PolicyMode
+  description: Describes if it is in detection mode or prevention mode at policy level.
+  kind: enum
+  properties:
+  - name: Prevention
+    types:
+    - uid: string
+  - name: Detection
+    types:
+    - uid: string
+- name: PolicyRequestBodyCheck
+  description: Describes if policy managed rules will inspect the request body content.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: CustomRule
+  description: Defines contents of a web application rule
+  kind: object
+  properties:
+  - name: name
+    description: Describes the name of the rule.
+    types:
+    - uid: string
+  - name: priority
+    description: Describes priority of the rule. Rules with a lower value will be evaluated before rules with a higher value.
+    types:
+    - uid: integer
+  - name: enabledState
+    description: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.
+    types:
+    - uid: CustomRuleEnabledState
+  - name: ruleType
+    description: Describes type of rule.
+    types:
+    - uid: RuleType
+  - name: rateLimitDurationInMinutes
+    description: Time window for resetting the rate limit count. Default is 1 minute.
+    types:
+    - uid: integer
+  - name: rateLimitThreshold
+    description: Number of allowed requests per client within the time window.
+    types:
+    - uid: integer
+  - name: matchConditions
+    description: List of match conditions.
+    types:
+    - uid: MatchCondition
+      isArray: true
+  - name: action
+    description: Describes what action to be applied when rule matches.
+    types:
+    - uid: ActionType
+- name: ManagedRuleSet
+  description: Defines a managed rule set.
+  kind: object
+  properties:
+  - name: ruleSetType
+    description: Defines the rule set type to use.
+    types:
+    - uid: string
+  - name: ruleSetVersion
+    description: Defines the version of the rule set to use.
+    types:
+    - uid: string
+  - name: ruleSetAction
+    description: Defines the action to take when a managed rule set score threshold is met.
+    types:
+    - uid: ManagedRuleSetActionType
+  - name: exclusions
+    description: Describes the exclusions that are applied to all rules in the set.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
+  - name: ruleGroupOverrides
+    description: Defines the rule group overrides to apply to the rule set.
+    types:
+    - uid: ManagedRuleGroupOverride
+      isArray: true
+- name: CustomRuleEnabledState
+  description: Describes if the custom rule is in enabled or disabled state. Defaults to Enabled if not specified.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: RuleType
+  description: Describes type of rule.
+  kind: enum
+  properties:
+  - name: MatchRule
+    types:
+    - uid: string
+  - name: RateLimitRule
+    types:
+    - uid: string
+- name: MatchCondition
+  description: Define a match condition.
+  kind: object
+  properties:
+  - name: matchVariable
+    description: Request variable to compare with.
+    types:
+    - uid: MatchVariable
+  - name: selector
+    description: Match against a specific key from the QueryString, PostArgs, RequestHeader or Cookies variables. Default is null.
+    types:
+    - uid: string
+  - name: operator
+    description: Comparison type to use for matching with the variable value.
+    types:
+    - uid: Operator
+  - name: negateCondition
+    description: Describes if the result of this condition should be negated.
+    types:
+    - uid: boolean
+  - name: matchValue
+    description: List of possible match values.
+    types:
+    - uid: string
+      isArray: true
+  - name: transforms
+    description: List of transforms.
+    types:
+    - uid: string
+      isArray: true
+- name: ActionType
+  description: Defines the action to take on rule match.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Redirect
+    types:
+    - uid: string
+- name: ManagedRuleSetActionType
+  description: Defines the action to take when a managed rule set score threshold is met.
+  kind: enum
+  properties:
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Redirect
+    types:
+    - uid: string
+- name: ManagedRuleExclusion
+  description: Exclude variables from managed rule evaluation.
+  kind: object
+  properties:
+  - name: matchVariable
+    description: The variable type to be excluded.
+    types:
+    - uid: ManagedRuleExclusionMatchVariable
+  - name: selectorMatchOperator
+    description: Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to.
+    types:
+    - uid: ManagedRuleExclusionSelectorMatchOperator
+  - name: selector
+    description: Selector value for which elements in the collection this exclusion applies to.
+    types:
+    - uid: string
+- name: ManagedRuleGroupOverride
+  description: Defines a managed rule group override setting.
+  kind: object
+  properties:
+  - name: ruleGroupName
+    description: Describes the managed rule group to override.
+    types:
+    - uid: string
+  - name: exclusions
+    description: Describes the exclusions that are applied to all rules in the group.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
+  - name: rules
+    description: List of rules that will be disabled. If none specified, all rules in the group will be disabled.
+    types:
+    - uid: ManagedRuleOverride
+      isArray: true
+- name: MatchVariable
+  description: Request variable to compare with.
+  kind: enum
+  properties:
+  - name: RemoteAddr
+    types:
+    - uid: string
+  - name: RequestMethod
+    types:
+    - uid: string
+  - name: QueryString
+    types:
+    - uid: string
+  - name: PostArgs
+    types:
+    - uid: string
+  - name: RequestUri
+    types:
+    - uid: string
+  - name: RequestHeader
+    types:
+    - uid: string
+  - name: RequestBody
+    types:
+    - uid: string
+  - name: Cookies
+    types:
+    - uid: string
+  - name: SocketAddr
+    types:
+    - uid: string
+- name: Operator
+  description: Comparison type to use for matching with the variable value.
+  kind: enum
+  properties:
+  - name: Any
+    types:
+    - uid: string
+  - name: IPMatch
+    types:
+    - uid: string
+  - name: GeoMatch
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: LessThan
+    types:
+    - uid: string
+  - name: GreaterThan
+    types:
+    - uid: string
+  - name: LessThanOrEqual
+    types:
+    - uid: string
+  - name: GreaterThanOrEqual
+    types:
+    - uid: string
+  - name: BeginsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: RegEx
+    types:
+    - uid: string
+- name: ManagedRuleExclusionMatchVariable
+  description: The variable type to be excluded.
+  kind: enum
+  properties:
+  - name: RequestHeaderNames
+    types:
+    - uid: string
+  - name: RequestCookieNames
+    types:
+    - uid: string
+  - name: QueryStringArgNames
+    types:
+    - uid: string
+  - name: RequestBodyPostArgNames
+    types:
+    - uid: string
+  - name: RequestBodyJsonArgNames
+    types:
+    - uid: string
+- name: ManagedRuleExclusionSelectorMatchOperator
+  description: Comparison operator to apply to the selector when specifying which elements in the collection this exclusion applies to.
+  kind: enum
+  properties:
+  - name: Equals
+    types:
+    - uid: string
+  - name: Contains
+    types:
+    - uid: string
+  - name: StartsWith
+    types:
+    - uid: string
+  - name: EndsWith
+    types:
+    - uid: string
+  - name: EqualsAny
+    types:
+    - uid: string
+- name: ManagedRuleOverride
+  description: Defines a managed rule group override setting.
+  kind: object
+  properties:
+  - name: ruleId
+    description: Identifier for the managed rule.
+    types:
+    - uid: string
+  - name: enabledState
+    description: Describes if the managed rule is in enabled or disabled state. Defaults to Disabled if not specified.
+    types:
+    - uid: ManagedRuleEnabledState
+  - name: action
+    description: Describes the override action to be applied when rule matches.
+    types:
+    - uid: ActionType
+  - name: exclusions
+    description: Describes the exclusions that are applied to this specific rule.
+    types:
+    - uid: ManagedRuleExclusion
+      isArray: true
+- name: ManagedRuleEnabledState
+  description: Describes if the managed rule is in enabled or disabled state.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+examples:
+- name: Get Policy
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/Policy1?api-version=2020-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "Policy1",
+        "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/FrontDoorWebApplicationFirewallPolicies/Policy1",
+        "type": "Microsoft.Network/frontdoorwebapplicationfirewallpolicies",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "location": "WestUs",
+        "properties": {
+          "resourceState": "Enabled",
+          "provisioningState": "Succeeded",
+          "policySettings": {
+            "enabledState": "Enabled",
+            "mode": "Prevention",
+            "redirectUrl": "http://www.bing.com",
+            "customBlockResponseStatusCode": 499,
+            "customBlockResponseBody": "PGh0bWw+CjxoZWFkZXI+PHRpdGxlPkhlbGxvPC90aXRsZT48L2hlYWRlcj4KPGJvZHk+CkhlbGxvIHdvcmxkCjwvYm9keT4KPC9odG1sPg==",
+            "requestBodyCheck": "Disabled"
+          },
+          "customRules": {
+            "rules": [
+              {
+                "name": "Rule1",
+                "priority": 1,
+                "enabledState": "Enabled",
+                "ruleType": "RateLimitRule",
+                "rateLimitDurationInMinutes": 0,
+                "rateLimitThreshold": 1000,
+                "matchConditions": [
+                  {
+                    "matchVariable": "RemoteAddr",
+                    "selector": null,
+                    "operator": "IPMatch",
+                    "negateCondition": false,
+                    "matchValue": [
+                      "192.168.1.0/24",
+                      "10.0.0.0/24"
+                    ],
+                    "transforms": []
+                  }
+                ],
+                "action": "Block"
+              },
+              {
+                "name": "Rule2",
+                "priority": 2,
+                "enabledState": "Enabled",
+                "ruleType": "MatchRule",
+                "rateLimitDurationInMinutes": 0,
+                "rateLimitThreshold": 0,
+                "matchConditions": [
+                  {
+                    "matchVariable": "RemoteAddr",
+                    "selector": null,
+                    "operator": "GeoMatch",
+                    "negateCondition": false,
+                    "matchValue": [
+                      "CH"
+                    ]
+                  },
+                  {
+                    "matchVariable": "RequestHeader",
+                    "selector": "UserAgent",
+                    "operator": "Contains",
+                    "negateCondition": false,
+                    "matchValue": [
+                      "windows"
+                    ],
+                    "transforms": [
+                      "Lowercase"
+                    ]
+                  }
+                ],
+                "action": "Block"
+              }
+            ]
+          },
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "DefaultRuleSet",
+                "ruleSetVersion": "1.0",
+                "ruleSetAction": "Block",
+                "exclusions": [
+                  {
+                    "matchVariable": "RequestHeaderNames",
+                    "selectorMatchOperator": "Equals",
+                    "selector": "User-Agent"
+                  }
+                ],
+                "ruleGroupOverrides": [
+                  {
+                    "ruleGroupName": "SQLI",
+                    "exclusions": [],
+                    "rules": [
+                      {
+                        "ruleId": "942100",
+                        "enabledState": "Enabled",
+                        "action": "Redirect",
+                        "exclusions": []
+                      },
+                      {
+                        "ruleId": "942110",
+                        "enabledState": "Disabled"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "frontendEndpointLinks": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontdoors/fd1/frontendendpoints/fd1-azurefd-net"
+            }
+          ],
+          "securityPolicyLinks": []
+        },
+        "sku": {
+          "name": "Classic_AzureFrontDoor"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Retrieve protection policy with specified name within a resource group.
+errorCodes: []

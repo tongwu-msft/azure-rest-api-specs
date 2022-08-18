@@ -4,7 +4,7 @@ description: Preview version of get statistics about the usage of service-level 
 ms.date: 03/01/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

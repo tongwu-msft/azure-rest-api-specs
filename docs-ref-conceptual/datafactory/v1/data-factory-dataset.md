@@ -1,5 +1,6 @@
 ---
 title: "Dataset (Azure Data Factory)"
+description: Learn how to create a new dataset or update content of an existing dataset.
 ---
 # Dataset version 1 (V1)
 
@@ -706,16 +707,14 @@ Lists the first page of activity window instances associated with a dataset alon
 ### Request  
  The Get Activity window request may be constructed as follows (HTTPS is recommended):  
   
-||||  
+|HTTP Verb|Request URI|HTTP Version|  
 |-|-|-|  
-|**HTTP Verb**|**Request URI**|**HTTP Version**|  
 |POST|https://management.azure.com/subscriptions/{SubscriptionID}/resourcegroups/{ResourceGroupName}/providers/Microsoft.DataFactory/datafactories/{DataFactoryName/datasets/{DatasetName}/activitywindows?api-version={api-version}|HTTP/1.1|  
   
 #### URI Parameters  
   
-||||  
-|-|-|-|  
-|**URI Parameter**|**Required**|**Description**|  
+|URI Parameter|Required|Description|  
+|-|-|-|   
 |SubscriptionID|Yes|Your Azure subscription ID.|  
 |ResourceGroupName|Yes| Name of the resource group that hosts your Azure data factory.|  
 |DataFactoryName|Yes| Name of the data factory.|  
@@ -725,16 +724,14 @@ Lists the first page of activity window instances associated with a dataset alon
 #### Request Headers  
  The following table describes the request headers.  
   
-||||  
-|-|-|-|  
-|**Request Header**|**Required**|**Description**|  
+|Request Header|Required|Description|  
+|-|-|-|   
 |x-ms-client-request-id|Yes|The operation id for this request.|  
   
 #### Request Body  
   
-||||  
+|Element Name|Description|Required|  
 |-|-|-|  
-|**Element name**|**Description**|**Required**|  
 |Filter|The activity window filter specified using Azure Search filter grammar.  See  [https://msdn.microsoft.com/library/azure/dn798921.aspx](https://msdn.microsoft.com/library/azure/dn798921.aspx) for details.|No|  
 |OrderBy|Order the response by specified activity window properties. This is a list of comma separated properties. For example: WindowStart, PercentComplete. By befault, the order is ascending order (ASC). Specify DESC if you want the list to be ordered in descending order.|No|  
 |Top|The number of activity windows to be listed.|No|  
@@ -759,9 +756,8 @@ Lists the first page of activity window instances associated with a dataset alon
 #### Response Headers  
  The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
-|||  
+|Response Header|Description|  
 |-|-|  
-|**Response Header**|**Description**|  
 |x-ms-request-id|A unique identifier for the current operation, service generated.|  
 |x-ms-ratelimit-remaining-subscription-writes|The remaining limit for current subscription.|  
 |x-ms-correlation-request-id|Specifies the tracing correlation Id for the request. The resource provider must log this so that end-to-end requests can be correlated across Azure.|  

@@ -497,6 +497,7 @@ definitions:
     description: Indicates whether or not resource disk encryption is enabled.
     types:
     - uid: boolean
+    defaultValue: false
 - name: EncryptionInTransitProperties
   description: The encryption-in-transit properties.
   kind: object
@@ -505,6 +506,7 @@ definitions:
     description: Indicates whether or not inter cluster node communication is encrypted in transit.
     types:
     - uid: boolean
+    defaultValue: false
 - name: StorageProfile
   description: The storage profile.
   kind: object
@@ -546,6 +548,7 @@ definitions:
     description: The flag indicates whether enable compute isolation or not.
     types:
     - uid: boolean
+    defaultValue: false
   - name: hostSku
     description: The host sku.
     types:
@@ -744,6 +747,7 @@ definitions:
     description: Indicates whether encrypt the data disks.
     types:
     - uid: boolean
+    defaultValue: false
 - name: JsonWebKeyEncryptionAlgorithm
   description: Algorithm identifier for encryption, default RSA-OAEP.
   kind: enum
@@ -1127,6 +1131,128 @@ examples:
           "key2": "val2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1?api-version=2021-06-01
+
+      {
+        "tags": {
+          "key1": "val1",
+          "key2": "val2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.hdinsight.models.Cluster;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Clusters Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PatchLinuxHadoopCluster.json
+           */
+          /**
+           * Sample code: Patch HDInsight Linux clusters.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void patchHDInsightLinuxClusters(com.azure.resourcemanager.hdinsight.HDInsightManager manager) {
+              Cluster resource =
+                  manager.clusters().getByResourceGroupWithResponse("rg1", "cluster1", Context.NONE).getValue();
+              resource.update().withTags(mapOf("key1", "val1", "key2", "val2")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PatchLinuxHadoopCluster.json
+      func ExampleClustersClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewClustersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg1",
+      		"cluster1",
+      		armhdinsight.ClusterPatchParameters{
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("val1"),
+      				"key2": to.Ptr("val2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patch HDInsight cluster with the specified parameters.
+       *
+       * @summary Patch HDInsight cluster with the specified parameters.
+       * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PatchLinuxHadoopCluster.json
+       */
+      async function patchHdInsightLinuxClusters() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cluster1";
+        const parameters = {
+          tags: { key1: "val1", key2: "val2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HDInsightManagementClient(credential, subscriptionId);
+        const result = await client.clusters.update(resourceGroupName, clusterName, parameters);
+        console.log(result);
+      }
+
+      patchHdInsightLinuxClusters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hdinsight_1.2.0/sdk/hdinsight/arm-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1220,5 +1346,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about HDInsight service - Patch HDInsight cluster with the specified parameters.
+  description: >
+    Learn more about HDInsight service - Patch HDInsight cluster with the specified parameters.
 errorCodes: []

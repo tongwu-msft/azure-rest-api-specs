@@ -1,8 +1,8 @@
 ---
-title: "Delete"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Delete Network Resource"
+description: Describes the Request Method, Parameters, and examples for deleting network resources by the name.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Delete
+# Delete Network Resource
 Deletes the network resource.
 
 Deletes the network resource identified by the name.

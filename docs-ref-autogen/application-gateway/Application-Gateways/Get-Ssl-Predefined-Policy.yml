@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.getsslpredefin
 name: Get Ssl Predefined Policy
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Gets Ssl predefined policy with the specified policy name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/{predefinedPolicyName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,9 @@ definitions:
   - name: TLSv1_2
     types:
     - uid: string
+  - name: TLSv1_3
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -107,7 +110,70 @@ definitions:
 examples:
 - name: Get Available Ssl Predefined Policy by name
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/AppGwSslPolicy20150501?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/AppGwSslPolicy20150501?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableSslOptions/default/predefinedPolicies/AppGwSslPolicy20150501?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+      func ExampleApplicationGatewaysClient_GetSSLPredefinedPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewApplicationGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetSSLPredefinedPolicy(ctx, "AppGwSslPolicy20150501", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets Ssl predefined policy with the specified policy name.
+       *
+       * @summary Gets Ssl predefined policy with the specified policy name.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayAvailableSslOptionsPredefinedPolicyGet.json
+       */
+      async function getAvailableSslPredefinedPolicyByName() {
+        const subscriptionId = "subid";
+        const predefinedPolicyName = "AppGwSslPolicy20150501";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.applicationGateways.getSslPredefinedPolicy(predefinedPolicyName);
+        console.log(result);
+      }
+
+      getAvailableSslPredefinedPolicyByName().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -158,5 +224,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Gateway service - Gets Ssl predefined policy with the specified policy name.
+  description: >
+    Learn more about Application Gateway service - Gets Ssl predefined policy with the specified policy name.
 errorCodes: []

@@ -1,0 +1,770 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.workloads.sapsupportedsku.sapsupportedsku
+name: SAP Supported Sku
+service: Workloads
+groupName: SAP Supported Sku
+apiVersion: 2021-12-01-preview
+summary: Get SAP supported SKUs.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Workloads/locations/{location}/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The name of Azure region.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: SAP Supported SKU Result.
+  types:
+  - uid: SAPSupportedResourceSkusResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: appLocation
+    in: body
+    isRequired: true
+    description: The geo-location where the resource is to be created.
+    types:
+    - uid: string
+  - name: environment
+    in: body
+    isRequired: true
+    description: Defines the environment type - Production/Non Production.
+    types:
+    - uid: SAPEnvironmentType
+  - name: sapProduct
+    in: body
+    isRequired: true
+    description: Defines the SAP Product type.
+    types:
+    - uid: SAPProductType
+  - name: deploymentType
+    in: body
+    isRequired: true
+    description: 'The deployment type. Eg: SingleServer/ThreeTier'
+    types:
+    - uid: SAPDeploymentType
+  - name: databaseType
+    in: body
+    isRequired: true
+    description: 'The database type. Eg: HANA, DB2, etc'
+    types:
+    - uid: SAPDatabaseType
+  - name: highAvailabilityType
+    in: body
+    description: The high availability type.
+    types:
+    - uid: SAPHighAvailabilityType
+requestHeader: []
+definitions:
+- name: SAPSupportedResourceSkusResult
+  description: The list of supported SKUs for different resources which are part of SAP deployment.
+  kind: object
+  properties:
+  - name: supportedSkus
+    description: Gets the list of SAP supported SKUs.
+    types:
+    - uid: SAPSupportedSku
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: SAPSupportedSkusRequest
+  description: The SAP request to get list of supported SKUs.
+  kind: object
+  properties:
+  - name: appLocation
+    description: The geo-location where the resource is to be created.
+    types:
+    - uid: string
+  - name: environment
+    description: Defines the environment type - Production/Non Production.
+    types:
+    - uid: SAPEnvironmentType
+  - name: sapProduct
+    description: Defines the SAP Product type.
+    types:
+    - uid: SAPProductType
+  - name: deploymentType
+    description: 'The deployment type. Eg: SingleServer/ThreeTier'
+    types:
+    - uid: SAPDeploymentType
+  - name: databaseType
+    description: 'The database type. Eg: HANA, DB2, etc'
+    types:
+    - uid: SAPDatabaseType
+  - name: highAvailabilityType
+    description: The high availability type.
+    types:
+    - uid: SAPHighAvailabilityType
+- name: SAPSupportedSku
+  description: The SAP supported SKU.
+  kind: object
+  properties:
+  - name: vmSku
+    description: The VM Sku.
+    types:
+    - uid: string
+  - name: isAppServerCertified
+    description: True if the Sku is certified for App server in the SAP system.
+    types:
+    - uid: boolean
+  - name: isDatabaseCertified
+    description: True if the Sku is certified for Database server in the SAP system.
+    types:
+    - uid: boolean
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: SAPEnvironmentType
+  description: Defines the environment type - Production/Non Production.
+  kind: enum
+  properties:
+  - name: NonProd
+    types:
+    - uid: string
+  - name: Prod
+    types:
+    - uid: string
+- name: SAPProductType
+  description: Defines the SAP Product type.
+  kind: enum
+  properties:
+  - name: ECC
+    types:
+    - uid: string
+  - name: S4HANA
+    types:
+    - uid: string
+  - name: Other
+    types:
+    - uid: string
+- name: SAPDeploymentType
+  description: 'The deployment type. Eg: SingleServer/ThreeTier'
+  kind: enum
+  properties:
+  - name: SingleServer
+    types:
+    - uid: string
+  - name: ThreeTier
+    types:
+    - uid: string
+- name: SAPDatabaseType
+  description: Defines the supported SAP Database types.
+  kind: enum
+  properties:
+  - name: HANA
+    types:
+    - uid: string
+  - name: DB2
+    types:
+    - uid: string
+- name: SAPHighAvailabilityType
+  description: The high availability type.
+  kind: enum
+  properties:
+  - name: AvailabilitySet
+    types:
+    - uid: string
+  - name: AvailabilityZone
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: SAPSupportedSkus_Distributed
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapSupportedSku. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
+           */
+          /**
+           * Sample code: SAPSupportedSkus_Distributed.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPSupportedSkusDistributed(com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapSupportedSkuWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP supported SKUs.
+       *
+       * @summary Get SAP supported SKUs.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_Distributed.json
+       */
+      async function sapSupportedSkusDistributed() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPSupportedSku(location);
+        console.log(result);
+      }
+
+      sapSupportedSkusDistributed().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "supportedSkus": [
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E4ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E8ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E16ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E20ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E32ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E48ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E64ds_v4"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32Is"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32ts"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64Is"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64ms"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64s"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128ms"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128s"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208ms_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208s_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416ms_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416s_v2"
+          }
+        ]
+      }
+- name: SAPSupportedSkus_SingleServer
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapSupportedSku. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
+           */
+          /**
+           * Sample code: SAPSupportedSkus_SingleServer.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPSupportedSkusSingleServer(com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapSupportedSkuWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP supported SKUs.
+       *
+       * @summary Get SAP supported SKUs.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_SingleServer.json
+       */
+      async function sapSupportedSkusSingleServer() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPSupportedSku(location);
+        console.log(result);
+      }
+
+      sapSupportedSkusSingleServer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "supportedSkus": [
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E32ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E48ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E64ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32ts"
+          }
+        ]
+      }
+- name: SAPSupportedSkus_DistributedHA_AvSet
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapSupportedSku. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
+           */
+          /**
+           * Sample code: SAPSupportedSkus_DistributedHA_AvSet.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPSupportedSkusDistributedHAAvSet(
+              com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapSupportedSkuWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP supported SKUs.
+       *
+       * @summary Get SAP supported SKUs.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvSet.json
+       */
+      async function sapSupportedSkusDistributedHaAvSet() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPSupportedSku(location);
+        console.log(result);
+      }
+
+      sapSupportedSkusDistributedHaAvSet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "supportedSkus": [
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E4ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E8ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E16ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E20ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E32ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E48ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": false,
+            "vmSku": "Standard_E64ds_v4"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32Is"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32ts"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64Is"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64ms"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64s"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128ms"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128s"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208ms_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208s_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416ms_v2"
+          },
+          {
+            "isAppServerCertified": false,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416s_v2"
+          }
+        ]
+      }
+- name: SAPSupportedSkus_DistributedHA_AvZone
+  request:
+    uri: POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/8e17e36c-42e9-4cd5-a078-7b44883414e0/providers/Microsoft.Workloads/locations/centralus/sapVirtualInstanceMetadata/default/getSapSupportedSku?api-version=2021-12-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ResourceProvider SapSupportedSku. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
+           */
+          /**
+           * Sample code: SAPSupportedSkus_DistributedHA_AvZone.
+           *
+           * @param manager Entry point to WorkloadsManager.
+           */
+          public static void sAPSupportedSkusDistributedHAAvZone(
+              com.azure.resourcemanager.workloads.WorkloadsManager manager) {
+              manager.resourceProviders().sapSupportedSkuWithResponse("centralus", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-workloads_1.0.0-beta.1/sdk/workloads/azure-resourcemanager-workloads/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WorkloadsClient } = require("@azure/arm-workloads");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get SAP supported SKUs.
+       *
+       * @summary Get SAP supported SKUs.
+       * x-ms-original-file: specification/workloads/resource-manager/Microsoft.Workloads/preview/2021-12-01-preview/examples/sapvirtualinstances/SAPSupportedSkus_DistributedHA_AvZone.json
+       */
+      async function sapSupportedSkusDistributedHaAvZone() {
+        const subscriptionId = "8e17e36c-42e9-4cd5-a078-7b44883414e0";
+        const location = "centralus";
+        const credential = new DefaultAzureCredential();
+        const client = new WorkloadsClient(credential, subscriptionId);
+        const result = await client.sAPSupportedSku(location);
+        console.log(result);
+      }
+
+      sapSupportedSkusDistributedHaAvZone().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-workloads_1.0.0-beta.2/sdk/workloads/arm-workloads/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "supportedSkus": [
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_E32ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_E48ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_E64ds_v4"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32Is"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M32ts"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64Is"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64ms"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M64s"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128ms"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M128s"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208ms_v2"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M208s_v2"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416ms_v2"
+          },
+          {
+            "isAppServerCertified": true,
+            "isDatabaseCertified": true,
+            "vmSku": "Standard_M416s_v2"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Workloads service - Get SAP supported SKUs.
+errorCodes: []

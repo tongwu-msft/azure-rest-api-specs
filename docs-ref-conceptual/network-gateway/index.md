@@ -1,7 +1,8 @@
 ---
 title: Azure Network Gateway REST API Reference
+description: API reference documentation for the operations available in the Azure Network Gateway REST API, a RESTful web service for managing Azure Network Gateway resources in Azure.
 ms.date: 08/09/2017
-ms.service: network-gateway
+ms.service: azure
 ms.devlang: rest-api
 ms.topic: reference
 author: yushwang

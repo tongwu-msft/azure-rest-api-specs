@@ -1,5 +1,6 @@
 ---
 title: Apache Kafka REST Proxy Reference - Azure HDInsight
+description: Learn how to use these APIs to create and manage Apache Kafka topics on your Kafka clusters running in Azure HDInsight.
 ms.date: 12/11/2019
 ms.service: hdinsight
 author: hrasheed-msft

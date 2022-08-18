@@ -22,6 +22,7 @@ Latest stable version
 
 | Version | Description |
 | --- | --- |
+| [2020-10-01](#2020-10-01) | GA release of Privileged Identity Management resource types |
 | [2020-10-01-preview](#2020-10-01-preview) | Device principal type<br>Add Privileged Identity Management resource types |
 | [2020-08-01-preview](#2020-08-01-preview) | Role assignment validation |
 | [2020-07-01-preview](#2020-07-01-preview) | Search role assignments<br/>Search deny assignments |
@@ -37,6 +38,19 @@ Latest stable version
 | [2017-10-01-preview](#2017-10-01-preview) | Delegation |
 | [2017-09-01](#2017-09-01) | Stop rewriting management group scopes |
 | [2016-07-01](#2016-07-01) | Strict filter checks |
+
+### 2020-10-01
+
+- GA release of the following *Privileged Identity Management* resource types
+    - `Role Assignment Schedule Requests`  
+    - `Role Assignment Schedules`
+    - `Role Assignment Schedule Instances`
+    - `Role Eligibility Schedule Requests`
+    - `Role Eligibility Schedules`
+    - `Role Eligibility Schedule Instances`
+    - `Eligible Child Resources`
+    - `Role Management Policies`
+    - `Role Management Policy Assignments`    
 
 ### 2020-10-01-preview
 

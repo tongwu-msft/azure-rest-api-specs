@@ -3,14 +3,14 @@ uid: management.azure.com.desktopvirtualization.hostpools.get
 name: Get
 service: Desktop Virtualization
 groupName: Host Pools
-apiVersion: 2021-07-12
+apiVersion: 2022-02-10-preview
 summary: Get a host pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}?api-version=2021-07-12
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}?api-version=2022-02-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,6 +51,11 @@ definitions:
   description: Represents a HostPool definition.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.objectId
     isReadyOnly: true
     description: ObjectId of HostPool. (internal use)
@@ -139,6 +144,20 @@ definitions:
     description: Is cloud pc resource.
     types:
     - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints
+    types:
+    - uid: HostpoolPublicNetworkAccess
+  - name: properties.agentUpdate
+    description: The preferred settings for updating the agent components (RDAgent, Geneva Monitoring agent, and side-by-side stack) on session hosts.
+    types:
+    - uid: AgentUpdateProperties
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: List of private endpoint connection associated with the specified resource
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -192,12 +211,41 @@ definitions:
     types:
     - uid: Plan
 - name: CloudError
+  description: Cloud error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: Cloud error object properties.
     types:
     - uid: CloudErrorProperties
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: HostPoolType
   description: HostPool type for desktop.
   kind: enum
@@ -294,6 +342,75 @@ definitions:
     description: The path to the legacy object to migrate.
     types:
     - uid: string
+- name: HostpoolPublicNetworkAccess
+  description: Enabled allows this resource to be accessed from both public and private networks, Disabled allows this resource to only be accessed via private endpoints
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: EnabledForSessionHostsOnly
+    types:
+    - uid: string
+  - name: EnabledForClientsOnly
+    types:
+    - uid: string
+- name: AgentUpdateProperties
+  description: The preferred settings for updating the agent components (RDAgent, Geneva Monitoring agent, and side-by-side stack) on session hosts.
+  kind: object
+  properties:
+  - name: type
+    description: The preferred mechanism for updating the agent components. This is either Scheduled or Default.
+    types:
+    - uid: SessionHostComponentUpdateType
+  - name: useSessionHostLocalTime
+    description: Boolean indicating whether to update the agent components in the local time zone of each session host in the host pool. By default, this is false.
+    types:
+    - uid: boolean
+  - name: maintenanceWindowTimeZone
+    description: 'The time zone for updating the agent components. Valid time zones can be found here: https://docs.microsoft.com/en-us/dotnet/api/system.timezoneinfo.findsystemtimezonebyid?view=net-5.0. A time zone must be specified if useSessionHostLocalTime is false.'
+    types:
+    - uid: string
+  - name: maintenanceWindows
+    description: The maintenance windows (day and time) for updating the agent components. At least 1 window must be specified. Optionally, a 2nd window can be specified.
+    types:
+    - uid: MaintenanceWindowProperties
+      isArray: true
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: Identity
   kind: object
   properties:
@@ -358,6 +475,7 @@ definitions:
     types:
     - uid: string
 - name: CloudErrorProperties
+  description: Cloud error object properties.
   kind: object
   properties:
   - name: code
@@ -366,6 +484,22 @@ definitions:
     - uid: string
   - name: message
     description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: RegistrationTokenOperation
@@ -405,6 +539,71 @@ definitions:
     description: Unhide the hostpool.
     types:
     - uid: string
+- name: SessionHostComponentUpdateType
+  description: The preferred mechanism for updating the agent components. This is either Scheduled or Default.
+  kind: enum
+  properties:
+  - name: Default
+    description: The agent components are updated according to the AVD infrastructure flighting. For more information, see https://aka.ms/avdagent.
+    types:
+    - uid: string
+  - name: Scheduled
+    description: This enables the Scheduled Agent Updates feature which allows the agent components to get updated according to the schedule that the admin define. For more information, see https://aka.ms/avdsau.
+    types:
+    - uid: string
+- name: MaintenanceWindowProperties
+  description: Maintenance window starting hour and day of week.
+  kind: object
+  properties:
+  - name: hour
+    description: The starting hour of the maintenance window (0-23). Note that maintenance windows are 2 hours long. This means that updates can be applied anytime from the specified start hour to 2 hours after.
+    types:
+    - uid: integer
+  - name: dayOfWeek
+    description: The day of the week (Monday-Sunday).
+    types:
+    - uid: DayOfWeek
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
@@ -428,10 +627,90 @@ definitions:
   - name: Premium
     types:
     - uid: string
+- name: DayOfWeek
+  description: The day of the week (Monday-Sunday).
+  kind: enum
+  properties:
+  - name: Monday
+    types:
+    - uid: string
+  - name: Tuesday
+    types:
+    - uid: string
+  - name: Wednesday
+    types:
+    - uid: string
+  - name: Thursday
+    types:
+    - uid: string
+  - name: Friday
+    types:
+    - uid: string
+  - name: Saturday
+    types:
+    - uid: string
+  - name: Sunday
+    types:
+    - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 examples:
 - name: HostPool_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1?api-version=2021-07-12
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1?api-version=2022-02-10-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1?api-version=2022-02-10-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdesktopvirtualization_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2022-02-10-preview/examples/HostPool_Get.json
+      func ExampleHostPoolsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdesktopvirtualization.NewHostPoolsClient("daefabc0-95b4-48b3-b645-8a753a63c4fa", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"resourceGroup1",
+      		"hostPool1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdesktopvirtualization%2Farmdesktopvirtualization%2Fv2.0.0-beta.1/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -443,6 +722,14 @@ examples:
         "tags": {
           "key1": "value1",
           "key2": "value2"
+        },
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2020-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
         },
         "properties": {
           "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
@@ -467,7 +754,23 @@ examples:
           "ssoSecretType": "SharedKey",
           "preferredAppGroupType": "Desktop",
           "startVMOnConnect": false,
-          "cloudPcResource": false
+          "cloudPcResource": false,
+          "publicNetworkAccess": "Enabled",
+          "agentUpdate": {
+            "type": "Scheduled",
+            "useSessionHostLocalTime": false,
+            "maintenanceWindowTimeZone": "Alaskan Standard Time",
+            "maintenanceWindows": [
+              {
+                "hour": 7,
+                "dayOfWeek": "Friday"
+              },
+              {
+                "hour": 8,
+                "dayOfWeek": "Saturday"
+              }
+            ]
+          }
         }
       }
   - statusCode: default
@@ -480,5 +783,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Desktop Virtualization service - Get a host pool.
+  description: >
+    Learn more about Desktop Virtualization service - Get a host pool.
 errorCodes: []

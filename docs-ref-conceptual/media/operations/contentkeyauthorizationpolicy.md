@@ -1,5 +1,6 @@
 ---
 title: "ContentKeyAuthorizationPolicy"
+description: Learn how Media Services supports multiple ways of authenticating users who make key requests.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

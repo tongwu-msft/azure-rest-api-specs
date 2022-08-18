@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.securityadminconfigurations.get
 name: Get
 service: Network Manager
 groupName: Security Admin Configurations
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Retrieves a network manager security admin configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}?api-version=2021-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: api-version
@@ -46,15 +46,15 @@ responses:
 - name: 200 OK
   description: successful operation
   types:
-  - uid: SecurityConfiguration
+  - uid: SecurityAdminConfiguration
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: SecurityConfiguration
-  description: Defines the security configuration
+- name: SecurityAdminConfiguration
+  description: Defines the security admin configuration
   kind: object
   properties:
   - name: systemData
@@ -62,22 +62,15 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A display name of the security configuration.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the security configuration.
     types:
     - uid: string
-  - name: properties.securityType
-    description: Security Type.
+  - name: properties.applyOnNetworkIntentPolicyBasedServices
+    description: Enum list of network intent policy based services.
     types:
-    - uid: SecurityType
-  - name: properties.deleteExistingNSGs
-    description: Flag if need to delete existing network security groups.
-    types:
-    - uid: DeleteExistingNSGs
+    - uid: string
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
@@ -139,26 +132,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: SecurityType
-  description: Security Type.
-  kind: enum
-  properties:
-  - name: AdminPolicy
-    types:
-    - uid: string
-  - name: UserPolicy
-    types:
-    - uid: string
-- name: DeleteExistingNSGs
-  description: Flag if need to delete existing network security groups.
-  kind: enum
-  properties:
-  - name: "False"
-    types:
-    - uid: string
-  - name: "True"
-    types:
-    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -215,7 +188,76 @@ definitions:
 examples:
 - name: Get security admin configurations
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2021-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerSecurityAdminConfigurationGet.json
+      func ExampleSecurityAdminConfigurationsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewSecurityAdminConfigurationsClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx, "rg1", "testNetworkManager", "myTestSecurityConfig", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves a network manager security admin configuration.
+       *
+       * @summary Retrieves a network manager security admin configuration.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerSecurityAdminConfigurationGet.json
+       */
+      async function getSecurityAdminConfigurations() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const configurationName = "myTestSecurityConfig";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.securityAdminConfigurations.get(
+          resourceGroupName,
+          networkManagerName,
+          configurationName
+        );
+        console.log(result);
+      }
+
+      getSecurityAdminConfigurations().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -232,11 +274,11 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "myTestSecurityConfig",
           "description": "A sample policy",
           "provisioningState": "Succeeded",
-          "securityType": "AdminPolicy",
-          "deleteExistingNSGs": "True"
+          "applyOnNetworkIntentPolicyBasedServices": [
+            "None"
+          ]
         }
       }
 security:
@@ -249,5 +291,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Retrieves a network manager security admin configuration.
+  description: >
+    Learn more about Network Manager service - Retrieves a network manager security admin configuration.
 errorCodes: []

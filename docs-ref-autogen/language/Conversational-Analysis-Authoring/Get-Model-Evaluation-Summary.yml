@@ -1,0 +1,953 @@
+### YamlMime:RESTOperation
+uid: language.conversationalanalysisauthoring.getmodelevaluationsummary
+name: Get Model Evaluation Summary
+service: Cognitive Services - Language
+groupName: Conversational Analysis Authoring
+apiVersion: 2022-05-01
+summary: Gets the evaluation summary of a trained model. The summary includes high level performance measurements of the model e.g., F1, Precision, Recall, etc.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/authoring/analyze-conversations/projects/{projectName}/models/{trainedModelLabel}/evaluation/summary-result?api-version=2022-05-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: trainedModelLabel
+  in: path
+  isRequired: true
+  description: The trained model label.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of all evaluation results.
+  types:
+  - uid: ConversationalAnalysisAuthoringEvaluationSummary
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: ConversationalAnalysisAuthoringEvaluationSummary
+  description: Represents the evaluation result summary.
+  kind: object
+  properties:
+  - name: entitiesEvaluation
+    description: Contains the data related to entities evaluation.
+    types:
+    - uid: ConversationalAnalysisAuthoringEntitiesEvaluationSummary
+  - name: intentsEvaluation
+    description: Contains the data related to intents evaluation.
+    types:
+    - uid: ConversationalAnalysisAuthoringIntentsEvaluationSummary
+  - name: evaluationOptions
+    description: The options that were used while running the evaluation.
+    types:
+    - uid: ConversationalAnalysisAuthoringEvaluationOptions
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: ConversationalAnalysisAuthoringEntitiesEvaluationSummary
+  description: Represents the evaluation result summary for the project's entities.
+  kind: object
+  properties:
+  - name: confusionMatrix
+    description: Represents the confusion matrix between two entities (the two entities can be the same). The matrix is between the entity that was labelled and the entity that was predicted.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: entities
+    description: Represents the entities evaluation summary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ConversationalAnalysisAuthoringEntityEvaluationSummary
+  - name: microF1
+    description: Represents the micro F1
+    types:
+    - uid: number
+  - name: microPrecision
+    description: Represents the micro precision
+    types:
+    - uid: number
+  - name: microRecall
+    description: Represents the micro recall
+    types:
+    - uid: number
+  - name: macroF1
+    description: Represents the macro F1
+    types:
+    - uid: number
+  - name: macroPrecision
+    description: Represents the macro precision
+    types:
+    - uid: number
+  - name: macroRecall
+    description: Represents the macro recall
+    types:
+    - uid: number
+- name: ConversationalAnalysisAuthoringIntentsEvaluationSummary
+  description: Represents the evaluation summary for the project's intents.
+  kind: object
+  properties:
+  - name: confusionMatrix
+    description: Represents the confusion matrix between two intents (the two intents can be the same). The matrix is between the intent that was labelled and the intent that was predicted.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: intents
+    description: Represents the intents evaluation summary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ConversationalAnalysisAuthoringIntentEvaluationSummary
+  - name: microF1
+    description: Represents the micro F1
+    types:
+    - uid: number
+  - name: microPrecision
+    description: Represents the micro precision
+    types:
+    - uid: number
+  - name: microRecall
+    description: Represents the micro recall
+    types:
+    - uid: number
+  - name: macroF1
+    description: Represents the macro F1
+    types:
+    - uid: number
+  - name: macroPrecision
+    description: Represents the macro precision
+    types:
+    - uid: number
+  - name: macroRecall
+    description: Represents the macro recall
+    types:
+    - uid: number
+- name: ConversationalAnalysisAuthoringEvaluationOptions
+  description: Represents the options used running the evaluation.
+  kind: object
+  properties:
+  - name: kind
+    description: Represents the evaluation kind. By default, the evaluation kind is set to percentage.
+    types:
+    - uid: EvaluationKind
+  - name: trainingSplitPercentage
+    description: Represents the training dataset split percentage. Only needed in case the evaluation kind is percentage.
+    types:
+    - uid: integer
+  - name: testingSplitPercentage
+    description: Represents the testing dataset split percentage. Only needed in case the evaluation kind is percentage.
+    types:
+    - uid: integer
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: ConversationalAnalysisAuthoringEntityEvaluationSummary
+  description: Represents the evaluation result for an entity.
+  kind: object
+  properties:
+  - name: f1
+    description: Represents the model precision
+    types:
+    - uid: number
+  - name: precision
+    description: Represents the model recall
+    types:
+    - uid: number
+  - name: recall
+    description: Represents the model F1 score
+    types:
+    - uid: number
+  - name: truePositiveCount
+    description: Represents the count of true positive
+    types:
+    - uid: integer
+  - name: trueNegativeCount
+    description: Represents the count of true negative
+    types:
+    - uid: integer
+  - name: falsePositiveCount
+    description: Represents the count of false positive
+    types:
+    - uid: integer
+  - name: falseNegativeCount
+    description: Represents the count of false negative
+    types:
+    - uid: integer
+- name: ConversationalAnalysisAuthoringIntentEvaluationSummary
+  description: The evaluation summary for an intent.
+  kind: object
+  properties:
+  - name: f1
+    description: Represents the model precision
+    types:
+    - uid: number
+  - name: precision
+    description: Represents the model recall
+    types:
+    - uid: number
+  - name: recall
+    description: Represents the model F1 score
+    types:
+    - uid: number
+  - name: truePositiveCount
+    description: Represents the count of true positive
+    types:
+    - uid: integer
+  - name: trueNegativeCount
+    description: Represents the count of true negative
+    types:
+    - uid: integer
+  - name: falsePositiveCount
+    description: Represents the count of false positive
+    types:
+    - uid: integer
+  - name: falseNegativeCount
+    description: Represents the count of false negative
+    types:
+    - uid: integer
+- name: EvaluationKind
+  description: Represents the evaluation kind. By default, the evaluation kind is set to percentage.
+  kind: enum
+  properties:
+  - name: percentage
+    description: Split the data into training and test sets according to user-defined percentages.
+    types:
+    - uid: string
+  - name: manual
+    description: Split the data according to the chosen dataset for every example in the data.
+    types:
+    - uid: string
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Get Model Evaluation Summary
+  request:
+    uri: GET {Endpoint}/language/authoring/analyze-conversations/projects/EmailApp/models/model1/evaluation/summary-result?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/authoring/analyze-conversations/projects/EmailApp/models/model1/evaluation/summary-result?api-version=2022-05-01
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "entitiesEvaluation": {
+          "confusionMatrix": {
+            "Attachment": {
+              "Attachment": {
+                "normalizedValue": 100,
+                "rawValue": 3
+              }
+            },
+            "Category": {
+              "Category": {
+                "normalizedValue": 91.666664,
+                "rawValue": 11
+              },
+              "$none": {
+                "normalizedValue": 8.333333,
+                "rawValue": 1
+              }
+            },
+            "ContactName": {
+              "ContactName": {
+                "normalizedValue": 91.666664,
+                "rawValue": 22
+              },
+              "SenderName": {
+                "normalizedValue": 4.1666665,
+                "rawValue": 1
+              },
+              "$none": {
+                "normalizedValue": 4.1666665,
+                "rawValue": 1
+              }
+            },
+            "Date": {
+              "Date": {
+                "normalizedValue": 100,
+                "rawValue": 2
+              }
+            },
+            "EmailSubject": {
+              "EmailSubject": {
+                "normalizedValue": 93.33333,
+                "rawValue": 9.333334
+              },
+              "$none": {
+                "normalizedValue": 6.6666665,
+                "rawValue": 0.6666667
+              }
+            },
+            "FromRelationshipName": {
+              "FromRelationshipName": {
+                "normalizedValue": 100,
+                "rawValue": 1
+              }
+            },
+            "Line": {
+              "Line": {
+                "normalizedValue": 100,
+                "rawValue": 2
+              }
+            },
+            "Message": {
+              "Message": {
+                "normalizedValue": 81.2063,
+                "rawValue": 6.496504
+              },
+              "EmailSubject": {
+                "normalizedValue": 7.43007,
+                "rawValue": 0.5944056
+              },
+              "$none": {
+                "normalizedValue": 9.120047,
+                "rawValue": 0.7296037
+              },
+              "Date": {
+                "normalizedValue": 2.2435899,
+                "rawValue": 0.17948718
+              }
+            },
+            "OrderReference": {
+              "OrderReference": {
+                "normalizedValue": 100,
+                "rawValue": 17
+              }
+            },
+            "PositionReference": {
+              "$none": {
+                "normalizedValue": 100,
+                "rawValue": 1
+              }
+            },
+            "RelationshipName": {
+              "RelationshipName": {
+                "normalizedValue": 66.666664,
+                "rawValue": 2
+              },
+              "$none": {
+                "normalizedValue": 33.333332,
+                "rawValue": 1
+              }
+            },
+            "SearchTexts": {
+              "SearchTexts": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "SenderName": {
+              "SenderName": {
+                "normalizedValue": 88.888885,
+                "rawValue": 8
+              },
+              "ContactName": {
+                "normalizedValue": 11.111111,
+                "rawValue": 1
+              }
+            },
+            "Time": {
+              "$none": {
+                "normalizedValue": 100,
+                "rawValue": 2
+              }
+            },
+            "$none": {
+              "$none": {
+                "normalizedValue": 99.739265,
+                "rawValue": 162.575
+              },
+              "Category": {
+                "normalizedValue": 0.2607362,
+                "rawValue": 0.425
+              }
+            }
+          },
+          "entities": {
+            "ContactName": {
+              "f1": 0.9361702799797058,
+              "precision": 0.95652174949646,
+              "recall": 0.9166666865348816,
+              "truePositiveCount": 22,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 1,
+              "falseNegativeCount": 2
+            },
+            "Category": {
+              "f1": 0.8799999952316284,
+              "precision": 0.8461538553237915,
+              "recall": 0.9166666865348816,
+              "truePositiveCount": 11,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 2,
+              "falseNegativeCount": 1
+            },
+            "SenderName": {
+              "f1": 0.8888888955116272,
+              "precision": 0.8888888955116272,
+              "recall": 0.8888888955116272,
+              "truePositiveCount": 8,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 1,
+              "falseNegativeCount": 1
+            },
+            "EmailSubject": {
+              "f1": 0.8181817531585693,
+              "precision": 0.75,
+              "recall": 0.8999999761581421,
+              "truePositiveCount": 9,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 3,
+              "falseNegativeCount": 1
+            },
+            "Message": {
+              "f1": 0.75,
+              "precision": 0.75,
+              "recall": 0.75,
+              "truePositiveCount": 6,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 2,
+              "falseNegativeCount": 2
+            },
+            "Date": {
+              "f1": 0.800000011920929,
+              "precision": 0.6666666865348816,
+              "recall": 1,
+              "truePositiveCount": 2,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 1,
+              "falseNegativeCount": 0
+            },
+            "OrderReference": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 17,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "SearchTexts": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Attachment": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 3,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "RelationshipName": {
+              "f1": 0.800000011920929,
+              "precision": 1,
+              "recall": 0.6666666865348816,
+              "truePositiveCount": 2,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 1
+            },
+            "Line": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 2,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Time": {
+              "f1": 0,
+              "precision": 0,
+              "recall": 0,
+              "truePositiveCount": 0,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 2
+            },
+            "FromRelationshipName": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 1,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "PositionReference": {
+              "f1": 0,
+              "precision": 0,
+              "recall": 0,
+              "truePositiveCount": 0,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 1
+            }
+          },
+          "microF1": 0.8923077,
+          "microPrecision": 0.8969072,
+          "microRecall": 0.8877551,
+          "macroF1": 0.7766601,
+          "macroPrecision": 0.7755879,
+          "macroRecall": 0.78849214
+        },
+        "intentsEvaluation": {
+          "confusionMatrix": {
+            "AddFlag": {
+              "AddFlag": {
+                "normalizedValue": 100,
+                "rawValue": 6
+              }
+            },
+            "AddMore": {
+              "AddMore": {
+                "normalizedValue": 100,
+                "rawValue": 17
+              }
+            },
+            "Cancel": {
+              "Cancel": {
+                "normalizedValue": 100,
+                "rawValue": 9
+              }
+            },
+            "CheckMessages": {
+              "CheckMessages": {
+                "normalizedValue": 100,
+                "rawValue": 9
+              }
+            },
+            "Confirm": {
+              "Confirm": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "Delete": {
+              "Delete": {
+                "normalizedValue": 100,
+                "rawValue": 5
+              }
+            },
+            "Forward": {
+              "Forward": {
+                "normalizedValue": 100,
+                "rawValue": 6
+              }
+            },
+            "None": {
+              "None": {
+                "normalizedValue": 100,
+                "rawValue": 1
+              }
+            },
+            "QueryLastText": {
+              "QueryLastText": {
+                "normalizedValue": 100,
+                "rawValue": 6
+              }
+            },
+            "ReadAloud": {
+              "ReadAloud": {
+                "normalizedValue": 100,
+                "rawValue": 16
+              }
+            },
+            "Reply": {
+              "Reply": {
+                "normalizedValue": 100,
+                "rawValue": 6
+              }
+            },
+            "SearchMessages": {
+              "SearchMessages": {
+                "normalizedValue": 100,
+                "rawValue": 9
+              }
+            },
+            "SendEmail": {
+              "SendEmail": {
+                "normalizedValue": 100,
+                "rawValue": 20
+              }
+            },
+            "ShowNext": {
+              "ShowNext": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "ShowPrevious": {
+              "ShowPrevious": {
+                "normalizedValue": 100,
+                "rawValue": 3
+              }
+            }
+          },
+          "intents": {
+            "AddMore": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 17,
+              "trueNegativeCount": 104,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Cancel": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 9,
+              "trueNegativeCount": 112,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "SendEmail": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 20,
+              "trueNegativeCount": 101,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "CheckMessages": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 9,
+              "trueNegativeCount": 112,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "AddFlag": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 6,
+              "trueNegativeCount": 115,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Reply": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 6,
+              "trueNegativeCount": 115,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "ReadAloud": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 16,
+              "trueNegativeCount": 105,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "QueryLastText": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 6,
+              "trueNegativeCount": 115,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "SearchMessages": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 9,
+              "trueNegativeCount": 112,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Delete": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 5,
+              "trueNegativeCount": 116,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Forward": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 6,
+              "trueNegativeCount": 115,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Confirm": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 117,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "ShowNext": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 117,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "ShowPrevious": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 3,
+              "trueNegativeCount": 118,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "None": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 1,
+              "trueNegativeCount": 120,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            }
+          },
+          "microF1": 1,
+          "microPrecision": 1,
+          "microRecall": 1,
+          "macroF1": 1,
+          "macroPrecision": 1,
+          "macroRecall": 1
+        },
+        "evaluationOptions": {
+          "kind": "percentage",
+          "trainingSplitPercentage": 80,
+          "testingSplitPercentage": 20
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Gets the evaluation summary of a trained model. The summary includes high level performance measurements of the model e.g., F1, Precision, Recall, etc.
+errorCodes: []

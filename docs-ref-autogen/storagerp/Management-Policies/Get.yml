@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.managementpolicies.get
 name: Get
 service: Storage Resource Provider
 groupName: Management Policies
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Gets the managementpolicy associated with the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/managementPolicies/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -237,7 +237,7 @@ definitions:
     types:
     - uid: string
 - name: DateAfterModification
-  description: Object to define the number of days after object last modification Or last access. Properties daysAfterModificationGreaterThan and daysAfterLastAccessTimeGreaterThan are mutually exclusive.
+  description: Object to define the base blob action conditions. Properties daysAfterModificationGreaterThan, daysAfterLastAccessTimeGreaterThan and daysAfterCreationGreaterThan are mutually exclusive. The daysAfterLastTierChangeGreaterThan property is only applicable for tierToArchive actions which requires daysAfterModificationGreaterThan to be set, also it cannot be used in conjunction with daysAfterLastAccessTimeGreaterThan or daysAfterCreationGreaterThan.
   kind: object
   properties:
   - name: daysAfterModificationGreaterThan
@@ -248,18 +248,130 @@ definitions:
     description: Value indicating the age in days after last blob access. This property can only be used in conjunction with last access time tracking policy
     types:
     - uid: number
+  - name: daysAfterLastTierChangeGreaterThan
+    description: Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterModificationGreaterThan to be set for baseBlobs based actions. The blob will be archived if both the conditions are satisfied.
+    types:
+    - uid: number
+  - name: daysAfterCreationGreaterThan
+    description: Value indicating the age in days after blob creation.
+    types:
+    - uid: number
 - name: DateAfterCreation
-  description: Object to define the number of days after creation.
+  description: Object to define snapshot and version action conditions.
   kind: object
   properties:
   - name: daysAfterCreationGreaterThan
     description: Value indicating the age in days after creation
     types:
     - uid: number
+  - name: daysAfterLastTierChangeGreaterThan
+    description: Value indicating the age in days after last blob tier change time. This property is only applicable for tierToArchive actions and requires daysAfterCreationGreaterThan to be set for snapshots and blob version based actions. The blob will be archived if both the conditions are satisfied.
+    types:
+    - uid: number
 examples:
 - name: StorageAccountGetManagementPolicies
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/managementPolicies/default?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/managementPolicies/default?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/managementPolicies/default?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.ManagementPolicyName;
+
+      /** Samples for ManagementPolicies Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetManagementPolicy.json
+           */
+          /**
+           * Sample code: StorageAccountGetManagementPolicies.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountGetManagementPolicies(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getManagementPolicies()
+                  .getWithResponse("res6977", "sto2527", ManagementPolicyName.DEFAULT, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetManagementPolicy.json
+      func ExampleManagementPoliciesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewManagementPoliciesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"res6977",
+      		"sto2527",
+      		armstorage.ManagementPolicyNameDefault,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the managementpolicy associated with the specified storage account.
+       *
+       * @summary Gets the managementpolicy associated with the specified storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetManagementPolicy.json
+       */
+      async function storageAccountGetManagementPolicies() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res6977";
+        const accountName = "sto2527";
+        const managementPolicyName = "default";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.managementPolicies.get(
+          resourceGroupName,
+          accountName,
+          managementPolicyName
+        );
+        console.log(result);
+      }
+
+      storageAccountGetManagementPolicies().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -318,5 +430,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Storage Resource Provider service - Gets the managementpolicy associated with the specified storage account.
+  description: >
+    Learn more about Storage Resource Provider service - Gets the managementpolicy associated with the specified storage account.
 errorCodes: []

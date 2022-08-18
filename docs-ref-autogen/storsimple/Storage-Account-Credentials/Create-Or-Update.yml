@@ -182,6 +182,119 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/ResourceGroupForSDKTest/providers/Microsoft.StorSimple/managers/ManagerForSDKTest1/storageAccountCredentials/SACForTest?api-version=2017-06-01
+
+      {
+        "properties": {
+          "endPoint": "blob.core.windows.net",
+          "sslStatus": "Enabled",
+          "accessKey": {
+            "value": "ATuJSkmrFk4h8r1jrZ4nd3nthLSddcguEO5QLO/NECUtTuB9kL4dNv3/jC4WOvFkeVr3x1UvfhlIeMmJBF1SMr6hR1JzD0xNU/TtQqUeXN7V3jk7I+2l67P9StuHWR6OMd3XOLwvznxOEQtEWpweDiobZU1ZiY03WafcGZFpV5j6tEoHeopoZ1J/GhPtkYmx+TqxzUN6qnir5rP3NSYiZciImP/qu8U9yUV/xpVRv39KvFc2Yr5SpKpMMRUj55XW10UnPer63M6KovF8X9Wi/fNnrZAs1Esl5XddZETGrW/e5B++VMJ6w0Q/uvPR+UBwrOU0804l0SzwdIe3qVVd0Q==",
+            "encryptionCertThumbprint": "A872A2DF196AC7682EE24791E7DE2E2A360F5926",
+            "encryptionAlgorithm": "RSAES_PKCS1_v_1_5"
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armstorsimple8000series_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storsimple8000series/armstorsimple8000series"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/StorageAccountCredentialsCreateOrUpdate.json
+      func ExampleStorageAccountCredentialsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorsimple8000series.NewStorageAccountCredentialsClient("4385cf00-2d3a-425a-832f-f4285b1c9dce", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"SACForTest",
+      		"ResourceGroupForSDKTest",
+      		"ManagerForSDKTest1",
+      		armstorsimple8000series.StorageAccountCredential{
+      			Properties: &armstorsimple8000series.StorageAccountCredentialProperties{
+      				AccessKey: &armstorsimple8000series.AsymmetricEncryptedSecret{
+      					EncryptionAlgorithm:      to.Ptr(armstorsimple8000series.EncryptionAlgorithmRSAESPKCS1V15),
+      					EncryptionCertThumbprint: to.Ptr("A872A2DF196AC7682EE24791E7DE2E2A360F5926"),
+      					Value:                    to.Ptr("ATuJSkmrFk4h8r1jrZ4nd3nthLSddcguEO5QLO/NECUtTuB9kL4dNv3/jC4WOvFkeVr3x1UvfhlIeMmJBF1SMr6hR1JzD0xNU/TtQqUeXN7V3jk7I+2l67P9StuHWR6OMd3XOLwvznxOEQtEWpweDiobZU1ZiY03WafcGZFpV5j6tEoHeopoZ1J/GhPtkYmx+TqxzUN6qnir5rP3NSYiZciImP/qu8U9yUV/xpVRv39KvFc2Yr5SpKpMMRUj55XW10UnPer63M6KovF8X9Wi/fNnrZAs1Esl5XddZETGrW/e5B++VMJ6w0Q/uvPR+UBwrOU0804l0SzwdIe3qVVd0Q=="),
+      				},
+      				EndPoint:  to.Ptr("blob.core.windows.net"),
+      				SSLStatus: to.Ptr(armstorsimple8000series.SSLStatusEnabled),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorsimple8000series%2Farmstorsimple8000series%2Fv1.0.0/sdk/resourcemanager/storsimple8000series/armstorsimple8000series/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorSimple8000SeriesManagementClient } = require("@azure/arm-storsimple8000series");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the storage account credential.
+       *
+       * @summary Creates or updates the storage account credential.
+       * x-ms-original-file: specification/storsimple8000series/resource-manager/Microsoft.StorSimple/stable/2017-06-01/examples/StorageAccountCredentialsCreateOrUpdate.json
+       */
+      async function storageAccountCredentialsCreateOrUpdate() {
+        const subscriptionId = "4385cf00-2d3a-425a-832f-f4285b1c9dce";
+        const storageAccountCredentialName = "SACForTest";
+        const resourceGroupName = "ResourceGroupForSDKTest";
+        const managerName = "ManagerForSDKTest1";
+        const parameters = {
+          accessKey: {
+            encryptionAlgorithm: "RSAES_PKCS1_v_1_5",
+            encryptionCertThumbprint: "A872A2DF196AC7682EE24791E7DE2E2A360F5926",
+            value:
+              "ATuJSkmrFk4h8r1jrZ4nd3nthLSddcguEO5QLO/NECUtTuB9kL4dNv3/jC4WOvFkeVr3x1UvfhlIeMmJBF1SMr6hR1JzD0xNU/TtQqUeXN7V3jk7I+2l67P9StuHWR6OMd3XOLwvznxOEQtEWpweDiobZU1ZiY03WafcGZFpV5j6tEoHeopoZ1J/GhPtkYmx+TqxzUN6qnir5rP3NSYiZciImP/qu8U9yUV/xpVRv39KvFc2Yr5SpKpMMRUj55XW10UnPer63M6KovF8X9Wi/fNnrZAs1Esl5XddZETGrW/e5B++VMJ6w0Q/uvPR+UBwrOU0804l0SzwdIe3qVVd0Q==",
+          },
+          endPoint: "blob.core.windows.net",
+          sslStatus: "Enabled",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorSimple8000SeriesManagementClient(credential, subscriptionId);
+        const result = await client.storageAccountCredentials.beginCreateOrUpdateAndWait(
+          storageAccountCredentialName,
+          resourceGroupName,
+          managerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      storageAccountCredentialsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storsimple8000series_2.0.1/sdk/storsimple8000series/arm-storsimple8000series/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -207,5 +320,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about StorSimple service - Creates or updates the storage account credential.
+  description: >
+    Learn more about StorSimple service - Creates or updates the storage account credential.
 errorCodes: []

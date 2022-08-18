@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.origins.listbyendpoint
 name: List By Endpoint
 service: CDN
 groupName: Origins
-apiVersion: 2019-12-31
+apiVersion: 2021-06-01
 summary: Lists all of the existing origins within an endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins?api-version=2019-12-31
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
   types:
   - uid: string
 responses:
@@ -69,19 +69,13 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: Origin
   description: CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins.
   kind: object
@@ -95,7 +89,12 @@ definitions:
     isReadyOnly: true
     description: Provisioning status of the origin.
     types:
-    - uid: string
+    - uid: OriginProvisioningState
+  - name: properties.privateEndpointStatus
+    isReadyOnly: true
+    description: The approval status for the connection to the Private Link
+    types:
+    - uid: PrivateEndpointStatus
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -111,6 +110,11 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
   - name: properties.hostName
     description: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.
     types:
@@ -124,7 +128,7 @@ definitions:
     types:
     - uid: integer
   - name: properties.originHostHeader
-    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. If endpoint uses multiple origins for load balancing, then the host header at endpoint is ignored and this one is considered.
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint
     types:
     - uid: string
   - name: properties.priority
@@ -139,6 +143,53 @@ definitions:
     description: Origin is enabled for load balancing or not
     types:
     - uid: boolean
+  - name: properties.privateLinkAlias
+    description: The Alias of the Private Link resource. Populating this optional field indicates that this origin is 'Private'
+    types:
+    - uid: string
+  - name: properties.privateLinkResourceId
+    description: The Resource Id of the Private Link resource. Populating this optional field indicates that this backend is 'Private'
+    types:
+    - uid: string
+  - name: properties.privateLinkLocation
+    description: The location of the Private Link resource. Required only if 'privateLinkResourceId' is populated
+    types:
+    - uid: string
+  - name: properties.privateLinkApprovalMessage
+    description: A custom message to be included in the approval request to connect to the Private Link.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: OriginResourceState
   description: Resource status of the origin.
   kind: enum
@@ -152,10 +203,212 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: OriginProvisioningState
+  description: Provisioning status of the origin.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: PrivateEndpointStatus
+  description: The approval status for the connection to the Private Link
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
 examples:
 - name: Origins_ListByEndpoint
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins?api-version=2019-12-31
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins?api-version=2021-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins?api-version=2021-06-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Origins ListByEndpoint. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_ListByEndpoint.json
+           */
+          /**
+           * Sample code: Origins_ListByEndpoint.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void originsListByEndpoint(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getOrigins()
+                  .listByEndpoint("RG", "profile1", "endpoint1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_ListByEndpoint.json
+      func ExampleOriginsClient_NewListByEndpointPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewOriginsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByEndpointPager("RG",
+      		"profile1",
+      		"endpoint1",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the existing origins within an endpoint.
+       *
+       * @summary Lists all of the existing origins within an endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_ListByEndpoint.json
+       */
+      async function originsListByEndpoint() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.origins.listByEndpoint(
+          resourceGroupName,
+          profileName,
+          endpointName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      originsListByEndpoint().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -174,7 +427,10 @@ examples:
               "originHostHeader": "www.someDomain.net",
               "priority": 1,
               "weight": 50,
-              "enabled": true
+              "enabled": true,
+              "privateEndpointStatus": "Pending",
+              "privateLinkApprovalMessage": "Please approve the connection request for this Private Link",
+              "privateLinkAlias": "APPSERVER.d84e61f0-0870-4d24-9746-7438fa0019d1.westus2.azure.privatelinkservice"
             }
           }
         ]
@@ -189,5 +445,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about CDN service - Lists all of the existing origins within an endpoint.
+  description: >
+    Learn more about CDN service - Lists all of the existing origins within an endpoint.
 errorCodes: []

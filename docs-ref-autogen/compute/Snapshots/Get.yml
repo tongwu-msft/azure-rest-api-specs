@@ -3,14 +3,14 @@ uid: management.azure.com.compute.snapshots.get
 name: Get
 service: Compute
 groupName: Snapshots
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Gets information about a snapshot.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/snapshots/{snapshotName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: snapshotName
   in: path
   isRequired: true
-  description: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The max name length is 80 characters.
+  description: The name of the snapshot that is being created. The name can't be changed after the snapshot is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The max name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -77,6 +77,10 @@ definitions:
     description: Purchase plan information for the image from which the source disk for the snapshot was originally created.
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    description: List of supported capabilities for the image from which the source disk from the snapshot was originally created.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -125,10 +129,26 @@ definitions:
     description: ARM id of the DiskAccess resource for using private endpoints on disks.
     types:
     - uid: string
+  - name: properties.securityProfile
+    description: Contains the security related information for the resource.
+    types:
+    - uid: DiskSecurityProfile
   - name: properties.supportsHibernation
     description: Indicates the OS on a snapshot supports hibernation.
     types:
     - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.completionPercent
+    description: Percentage complete for the background copy when a resource is created via the CopyStart operation.
+    types:
+    - uid: number
+  - name: properties.dataAccessAuthMode
+    description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+    types:
+    - uid: DataAccessAuthMode
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -221,6 +241,18 @@ definitions:
     description: The Offer Promotion Code.
     types:
     - uid: string
+- name: SupportedCapabilities
+  description: List of supported capabilities persisted on the disk resource for VM use.
+  kind: object
+  properties:
+  - name: acceleratedNetwork
+    description: True if the image from which the OS disk is created supports accelerated networking.
+    types:
+    - uid: boolean
+  - name: architecture
+    description: CPU architecture supported by an OS disk.
+    types:
+    - uid: Architecture
 - name: CreationData
   description: Data used when creating a disk.
   kind: object
@@ -262,6 +294,10 @@ definitions:
     description: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
     types:
     - uid: integer
+  - name: securityDataUri
+    description: If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state.
+    types:
+    - uid: string
 - name: DiskState
   description: This enumerates the possible state of the disk.
   kind: enum
@@ -271,15 +307,23 @@ definitions:
     types:
     - uid: string
   - name: Attached
-    description: The disk is currently mounted to a running VM.
+    description: The disk is currently attached to a running VM.
     types:
     - uid: string
   - name: Reserved
-    description: The disk is mounted to a stopped-deallocated VM
+    description: The disk is attached to a stopped-deallocated VM.
+    types:
+    - uid: string
+  - name: Frozen
+    description: The disk is attached to a VM which is in hibernated state.
     types:
     - uid: string
   - name: ActiveSAS
     description: The disk currently has an Active SAS Uri associated with it.
+    types:
+    - uid: string
+  - name: ActiveSASFrozen
+    description: The disk is attached to a VM in hibernated state and has an active SAS URI associated with it.
     types:
     - uid: string
   - name: ReadyToUpload
@@ -335,6 +379,42 @@ definitions:
     description: The disk cannot be exported.
     types:
     - uid: string
+- name: DiskSecurityProfile
+  description: Contains the security related information for the resource.
+  kind: object
+  properties:
+  - name: securityType
+    description: Specifies the SecurityType of the VM. Applicable for OS disks only.
+    types:
+    - uid: DiskSecurityTypes
+  - name: secureVMDiskEncryptionSetId
+    description: ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Policy for controlling export on the disk.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: You can generate a SAS URI to access the underlying data of the disk publicly on the internet when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+  - name: Disabled
+    description: You cannot access the underlying data of the disk publicly on the internet even when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+- name: DataAccessAuthMode
+  description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+  kind: enum
+  properties:
+  - name: AzureActiveDirectory
+    description: When export/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export/upload the data. Please refer to aka.ms/DisksAzureADAuth.
+    types:
+    - uid: string
+  - name: None
+    description: No additional authentication would be performed when accessing export/upload URL.
+    types:
+    - uid: string
 - name: SnapshotStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -356,6 +436,16 @@ definitions:
   kind: enum
   properties:
   - name: EdgeZone
+    types:
+    - uid: string
+- name: Architecture
+  description: CPU architecture supported by an OS disk.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
     types:
     - uid: string
 - name: DiskCreateOption
@@ -388,6 +478,18 @@ definitions:
     - uid: string
   - name: Upload
     description: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk.
+    types:
+    - uid: string
+  - name: CopyStart
+    description: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
+    types:
+    - uid: string
+  - name: ImportSecure
+    description: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId
+    types:
+    - uid: string
+  - name: UploadPreparedSecure
+    description: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
     types:
     - uid: string
 - name: ImageDiskReference
@@ -430,6 +532,26 @@ definitions:
     description: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
     types:
     - uid: string
+- name: DiskSecurityTypes
+  description: Specifies the SecurityType of the VM. Applicable for OS disks only.
+  kind: enum
+  properties:
+  - name: TrustedLaunch
+    description: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
+    types:
+    - uid: string
+  - name: ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with only VM guest state encrypted
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithCustomerKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -465,7 +587,100 @@ definitions:
 examples:
 - name: Get information about a snapshot.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot?api-version=2021-12-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot?api-version=2021-12-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Snapshots GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetInformationAboutASnapshot.json
+           */
+          /**
+           * Sample code: Get information about a snapshot.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getInformationAboutASnapshot(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .getByResourceGroupWithResponse("myResourceGroup", "mySnapshot", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetInformationAboutASnapshot.json
+      func ExampleSnapshotsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewSnapshotsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"mySnapshot",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets information about a snapshot.
+       *
+       * @summary Gets information about a snapshot.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetInformationAboutASnapshot.json
+       */
+      async function getInformationAboutASnapshot() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const snapshotName = "mySnapshot";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.snapshots.get(resourceGroupName, snapshotName);
+        console.log(result);
+      }
+
+      getInformationAboutASnapshot().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -478,6 +693,10 @@ examples:
             "publisher": "test_test_pmc2pc1",
             "product": "marketplace_vm_test"
           },
+          "supportedCapabilities": {
+            "acceleratedNetwork": true,
+            "architecture": "Arm64"
+          },
           "supportsHibernation": true,
           "creationData": {
             "createOption": "Copy",
@@ -485,6 +704,7 @@ examples:
             "sourceUniqueId": "d633885d-d102-4481-901e-5b2413d1a7be"
           },
           "diskSizeGB": 100,
+          "dataAccessAuthMode": "AzureActiveDirectory",
           "encryptionSettingsCollection": {
             "enabled": true,
             "encryptionSettings": [
@@ -529,5 +749,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Gets information about a snapshot.
+  description: >
+    Learn more about Compute service - Gets information about a snapshot.
 errorCodes: []

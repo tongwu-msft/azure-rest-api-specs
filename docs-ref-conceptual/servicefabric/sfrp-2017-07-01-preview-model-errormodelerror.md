@@ -1,5 +1,6 @@
 ---
 title: "ErrorModelError"
+description: API reference documentation for the operations available in the ErrorModelError REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -10,9 +10,9 @@ consumes:
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&region={region}&term={term}&lookBackPeriod={lookBackPeriod}&product={product}
+- content: GET https://management.azure.com/{resourceScope}/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope={scope}&region={region}&term={term}&lookBackPeriod={lookBackPeriod}&product={product}
 uriParameters:
-- name: scope
+- name: resourceScope
   in: path
   isRequired: true
   skipUrlEncoding: true
@@ -25,6 +25,12 @@ uriParameters:
   description: Version of the API to be used with the client request. The current version is 2021-10-01.
   types:
   - uid: string
+- name: scope
+  in: query
+  isRequired: true
+  description: Scope of the reservation.
+  types:
+  - uid: scope
 - name: region
   in: query
   isRequired: true
@@ -62,6 +68,16 @@ responses:
   - uid: HighCasedErrorResponse
 requestHeader: []
 definitions:
+- name: scope
+  description: Scope of the reservation.
+  kind: enum
+  properties:
+  - name: Single
+    types:
+    - uid: string
+  - name: Shared
+    types:
+    - uid: string
 - name: term
   description: Specify length of reservation recommendation term.
   kind: enum
@@ -100,10 +116,6 @@ definitions:
     - uid: string
   - name: sku
     description: Resource sku
-    types:
-    - uid: string
-  - name: etag
-    description: Resource etag.
     types:
     - uid: string
   - name: properties.currency
@@ -149,6 +161,11 @@ definitions:
   - name: type
     isReadyOnly: true
     description: Resource type.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: The etag for the resource.
     types:
     - uid: string
   - name: tags
@@ -322,7 +339,73 @@ definitions:
 examples:
 - name: ReservationRecommendationsBySubscription-Legacy
   request:
-    uri: GET https://management.azure.com/Single/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Single&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Single&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.LookBackPeriod;
+      import com.azure.resourcemanager.consumption.models.Term;
+
+      /** Samples for ReservationRecommendationDetails Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsBySubscription.json
+           */
+          /**
+           * Sample code: ReservationRecommendationsBySubscription-Legacy.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationRecommendationsBySubscriptionLegacy(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationRecommendationDetails()
+                  .getWithResponse("Single", "westus", Term.P3Y, LookBackPeriod.LAST30DAYS, "Standard_DS13_v2", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Details of a reservation recommendation for what-if analysis of reserved instances.
+       *
+       * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsBySubscription.json
+       */
+      async function reservationRecommendationsBySubscriptionLegacy() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "Single";
+        const region = "westus";
+        const term = "P3Y";
+        const lookBackPeriod = "Last30Days";
+        const product = "Standard_DS13_v2";
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const result = await client.reservationRecommendationDetails.get(
+          scope,
+          region,
+          term,
+          lookBackPeriod,
+          product
+        );
+        console.log(result);
+      }
+
+      reservationRecommendationsBySubscriptionLegacy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -346,7 +429,7 @@ examples:
           "savings": {
             "calculatedSavings": [
               {
-                "onDemandCost": 368.48136020700059,
+                "onDemandCost": 368.4813602070006,
                 "overageCost": 0,
                 "quantity": 2,
                 "reservationCost": 429.01514459665,
@@ -388,7 +471,73 @@ examples:
   - statusCode: "204"
 - name: ReservationRecommendationsByResourceGroup-Legacy
   request:
-    uri: GET https://management.azure.com/Single/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/testGroup/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Single&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-00000000/resourceGroups/testGroup/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Single&region=westus&term=P3Y&lookBackPeriod=Last30Days&product=Standard_DS13_v2
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.LookBackPeriod;
+      import com.azure.resourcemanager.consumption.models.Term;
+
+      /** Samples for ReservationRecommendationDetails Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByResourceGroup.json
+           */
+          /**
+           * Sample code: ReservationRecommendationsByResourceGroup-Legacy.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationRecommendationsByResourceGroupLegacy(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationRecommendationDetails()
+                  .getWithResponse("Single", "westus", Term.P3Y, LookBackPeriod.LAST30DAYS, "Standard_DS13_v2", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Details of a reservation recommendation for what-if analysis of reserved instances.
+       *
+       * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByResourceGroup.json
+       */
+      async function reservationRecommendationsByResourceGroupLegacy() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "Single";
+        const region = "westus";
+        const term = "P3Y";
+        const lookBackPeriod = "Last30Days";
+        const product = "Standard_DS13_v2";
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const result = await client.reservationRecommendationDetails.get(
+          scope,
+          region,
+          term,
+          lookBackPeriod,
+          product
+        );
+        console.log(result);
+      }
+
+      reservationRecommendationsByResourceGroupLegacy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -413,7 +562,7 @@ examples:
           "savings": {
             "calculatedSavings": [
               {
-                "onDemandCost": 368.48136020700059,
+                "onDemandCost": 368.4813602070006,
                 "overageCost": 0,
                 "quantity": 2,
                 "reservationCost": 429.01514459665,
@@ -455,7 +604,113 @@ examples:
   - statusCode: "204"
 - name: ReservationRecommendationsByBillingAccount-Legacy
   request:
-    uri: GET https://management.azure.com/Shared/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&region=eastus&term=P1Y&lookBackPeriod=Last60Days&product=Standard_DS14_v2
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Shared&region=eastus&term=P1Y&lookBackPeriod=Last60Days&product=Standard_DS14_v2
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Shared&region=eastus&term=P1Y&lookBackPeriod=Last60Days&product=Standard_DS14_v2
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.LookBackPeriod;
+      import com.azure.resourcemanager.consumption.models.Term;
+
+      /** Samples for ReservationRecommendationDetails Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
+           */
+          /**
+           * Sample code: ReservationRecommendationsByBillingAccount-Legacy.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationRecommendationsByBillingAccountLegacy(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationRecommendationDetails()
+                  .getWithResponse("Shared", "eastus", Term.P1Y, LookBackPeriod.LAST60DAYS, "Standard_DS14_v2", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armconsumption_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/consumption/armconsumption"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
+      func ExampleReservationRecommendationDetailsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconsumption.NewReservationRecommendationDetailsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"providers/Microsoft.Billing/billingAccounts/000000",
+      		armconsumption.ScopeShared,
+      		"eastus",
+      		armconsumption.TermP1Y,
+      		armconsumption.LookBackPeriodLast60Days,
+      		"Standard_DS14_v2",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconsumption%2Farmconsumption%2Fv1.0.0/sdk/resourcemanager/consumption/armconsumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Details of a reservation recommendation for what-if analysis of reserved instances.
+       *
+       * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingAccount.json
+       */
+      async function reservationRecommendationsByBillingAccountLegacy() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "Shared";
+        const region = "eastus";
+        const term = "P1Y";
+        const lookBackPeriod = "Last60Days";
+        const product = "Standard_DS14_v2";
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const result = await client.reservationRecommendationDetails.get(
+          scope,
+          region,
+          term,
+          lookBackPeriod,
+          product
+        );
+        console.log(result);
+      }
+
+      reservationRecommendationsByBillingAccountLegacy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -550,7 +805,74 @@ examples:
   - statusCode: "204"
 - name: ReservationRecommendationsByBillingProfile-Modern
   request:
-    uri: GET https://management.azure.com/Shared/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&region=australiaeast&term=P1Y&lookBackPeriod=Last7Days&product=Standard_B2s
+    uri: GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-00000000:00000000-0000-0000-0000-00000000/billingProfiles/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Shared&region=australiaeast&term=P1Y&lookBackPeriod=Last7Days&product=Standard_B2s
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-00000000:00000000-0000-0000-0000-00000000/billingProfiles/00000000-0000-0000-0000-00000000/providers/Microsoft.Consumption/reservationRecommendationDetails?api-version=2021-10-01&scope=Shared&region=australiaeast&term=P1Y&lookBackPeriod=Last7Days&product=Standard_B2s
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.LookBackPeriod;
+      import com.azure.resourcemanager.consumption.models.Term;
+
+      /** Samples for ReservationRecommendationDetails Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingProfile.json
+           */
+          /**
+           * Sample code: ReservationRecommendationsByBillingProfile-Modern.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationRecommendationsByBillingProfileModern(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationRecommendationDetails()
+                  .getWithResponse(
+                      "Shared", "australiaeast", Term.P1Y, LookBackPeriod.LAST7DAYS, "Standard_B2s", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Details of a reservation recommendation for what-if analysis of reserved instances.
+       *
+       * @summary Details of a reservation recommendation for what-if analysis of reserved instances.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationRecommendationDetailsByBillingProfile.json
+       */
+      async function reservationRecommendationsByBillingProfileModern() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const scope = "Shared";
+        const region = "australiaeast";
+        const term = "P1Y";
+        const lookBackPeriod = "Last7Days";
+        const product = "Standard_B2s";
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const result = await client.reservationRecommendationDetails.get(
+          scope,
+          region,
+          term,
+          lookBackPeriod,
+          product
+        );
+        console.log(result);
+      }
+
+      reservationRecommendationsByBillingProfileModern().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -567,19 +889,19 @@ examples:
             "onDemandRate": 0.0725,
             "product": "Standard_B2s",
             "region": "australiaeast",
-            "reservationRate": 0.044141665317880413,
+            "reservationRate": 0.04414166531788041,
             "resourceType": "virtualmachines"
           },
           "resourceGroup": null,
           "savings": {
             "calculatedSavings": [
               {
-                "onDemandCost": 632.88447204968941,
+                "onDemandCost": 632.8844720496894,
                 "overageCost": 0,
                 "quantity": 1,
                 "reservationCost": 387.74038815226174,
                 "totalReservationCost": 387.74038815226174,
-                "savings": 245.14408389742769
+                "savings": 245.1440838974277
               }
             ],
             "lookBackPeriod": 7,
@@ -620,5 +942,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Consumption service - Details of a reservation recommendation for what-if analysis of reserved instances.
+  description: >
+    Learn more about Consumption service - Details of a reservation recommendation for what-if analysis of reserved instances.
 errorCodes: []

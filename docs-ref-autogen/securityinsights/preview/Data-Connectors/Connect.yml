@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.dataconnectors.connect
 name: Connect
 service: Sentinel
 groupName: Data Connectors
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Connects a data connector.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect?api-version=2021-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectors/{dataConnectorId}/connect?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -60,6 +60,21 @@ requestBody:
   - name: apiKey
     in: body
     description: The API key of the audit server.
+    types:
+    - uid: string
+  - name: dataCollectionEndpoint
+    in: body
+    description: Used in v2 logs connector. Represents the data collection ingestion endpoint in log analytics.
+    types:
+    - uid: string
+  - name: dataCollectionRuleImmutableId
+    in: body
+    description: Used in v2 logs connector. The data collection rule immutable id, the rule defines the transformation and data destination.
+    types:
+    - uid: string
+  - name: outputStream
+    in: body
+    description: Used in v2 logs connector. The stream we are sending the data to, this is the name of the streamDeclarations defined in the DCR.
     types:
     - uid: string
   - name: clientSecret
@@ -113,6 +128,18 @@ definitions:
     - uid: ConnectAuthKind
   - name: apiKey
     description: The API key of the audit server.
+    types:
+    - uid: string
+  - name: dataCollectionEndpoint
+    description: Used in v2 logs connector. Represents the data collection ingestion endpoint in log analytics.
+    types:
+    - uid: string
+  - name: dataCollectionRuleImmutableId
+    description: Used in v2 logs connector. The data collection rule immutable id, the rule defines the transformation and data destination.
+    types:
+    - uid: string
+  - name: outputStream
+    description: Used in v2 logs connector. The stream we are sending the data to, this is the name of the streamDeclarations defined in the DCR.
     types:
     - uid: string
   - name: clientSecret
@@ -170,7 +197,7 @@ definitions:
 examples:
 - name: Connect an APIPolling data connector
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8/connect?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8/connect?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "APIKey",
@@ -184,6 +211,159 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8/connect?api-version=2022-07-01-preview
+
+      {
+        "kind": "APIKey",
+        "apiKey": "123456789",
+        "requestConfigUserInputValues": [
+          {
+            "displayText": "Organization Name",
+            "placeHolderName": "{{placeHolder1}}",
+            "placeHolderValue": "somePlaceHolderValue",
+            "requestObjectKey": "apiEndpoint"
+          }
+        ]
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Connects a data connector.
+       *
+       * @summary Connects a data connector.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/ConnectAPIPolling.json
+       */
+      async function connectAnApiPollingDataConnector() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
+        const connectBody = {
+          apiKey: "123456789",
+          kind: "APIKey",
+          requestConfigUserInputValues: [
+            {
+              displayText: "Organization Name",
+              placeHolderName: "{{placeHolder1}}",
+              placeHolderValue: "somePlaceHolderValue",
+              requestObjectKey: "apiEndpoint",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectors.connect(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorId,
+          connectBody
+        );
+        console.log(result);
+      }
+
+      connectAnApiPollingDataConnector().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+- name: Connect an APIPolling V2 logs data connector
+  request:
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8/connect?api-version=2022-07-01-preview
+    body: >-
+      {
+        "kind": "APIKey",
+        "apiKey": "123456789",
+        "dataCollectionEndpoint": "https://test.eastus.ingest.monitor.azure.com",
+        "dataCollectionRuleImmutableId": "dcr-34adsj9o7d6f9de204478b9cgb43b631",
+        "outputStream": "Custom-MyTableRawData",
+        "requestConfigUserInputValues": [
+          {
+            "displayText": "Organization Name",
+            "placeHolderName": "{{placeHolder1}}",
+            "placeHolderValue": "somePlaceHolderValue",
+            "requestObjectKey": "apiEndpoint"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectors/316ec55e-7138-4d63-ab18-90c8a60fd1c8/connect?api-version=2022-07-01-preview
+
+      {
+        "kind": "APIKey",
+        "apiKey": "123456789",
+        "dataCollectionEndpoint": "https://test.eastus.ingest.monitor.azure.com",
+        "dataCollectionRuleImmutableId": "dcr-34adsj9o7d6f9de204478b9cgb43b631",
+        "outputStream": "Custom-MyTableRawData",
+        "requestConfigUserInputValues": [
+          {
+            "displayText": "Organization Name",
+            "placeHolderName": "{{placeHolder1}}",
+            "placeHolderValue": "somePlaceHolderValue",
+            "requestObjectKey": "apiEndpoint"
+          }
+        ]
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Connects a data connector.
+       *
+       * @summary Connects a data connector.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/ConnectAPIPollingV2Logs.json
+       */
+      async function connectAnApiPollingV2LogsDataConnector() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorId = "316ec55e-7138-4d63-ab18-90c8a60fd1c8";
+        const connectBody = {
+          apiKey: "123456789",
+          dataCollectionEndpoint: "https://test.eastus.ingest.monitor.azure.com",
+          dataCollectionRuleImmutableId: "dcr-34adsj9o7d6f9de204478b9cgb43b631",
+          kind: "APIKey",
+          outputStream: "Custom-MyTableRawData",
+          requestConfigUserInputValues: [
+            {
+              displayText: "Organization Name",
+              placeHolderName: "{{placeHolder1}}",
+              placeHolderValue: "somePlaceHolderValue",
+              requestObjectKey: "apiEndpoint",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectors.connect(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorId,
+          connectBody
+        );
+        console.log(result);
+      }
+
+      connectAnApiPollingV2LogsDataConnector().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
 security:
@@ -196,5 +376,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Connects a data connector.
+  description: >
+    Learn more about Sentinel service - Connects a data connector.
 errorCodes: []

@@ -1,0 +1,129 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.frontdoor.frontdoors.validatecustomdomain1
+name: Validate Custom Domain
+service: Front Door Service
+groupName: Front Doors
+apiVersion: 2019-05-01
+summary: Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/validateCustomDomain?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: frontDoorName
+  in: path
+  isRequired: true
+  description: Name of the Front Door which is globally unique.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+([-a-zA-Z0-9]?[a-zA-Z0-9])*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ValidateCustomDomainOutput
+- name: Other Status Codes
+  description: Front Door error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: hostName
+    in: body
+    isRequired: true
+    description: The host name of the custom domain. Must be a domain name.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ValidateCustomDomainOutput
+  description: Output of custom domain validation.
+  kind: object
+  properties:
+  - name: customDomainValidated
+    isReadyOnly: true
+    description: Indicates whether the custom domain is valid or not.
+    types:
+    - uid: boolean
+  - name: reason
+    isReadyOnly: true
+    description: The reason why the custom domain is not valid.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message describing why the custom domain is not valid.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ValidateCustomDomainInput
+  description: Input of the custom domain to be validated for DNS mapping.
+  kind: object
+  properties:
+  - name: hostName
+    description: The host name of the custom domain. Must be a domain name.
+    types:
+    - uid: string
+examples:
+- name: FrontDoor_ValidateCustomDomain
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/validateCustomDomain?api-version=2019-05-01
+    body: >-
+      {
+        "hostName": "www.someDomain.com"
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "customDomainValidated": true,
+        "message": null,
+        "reason": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Validates the custom domain mapping to ensure it maps to the correct Front Door endpoint in DNS.
+errorCodes: []

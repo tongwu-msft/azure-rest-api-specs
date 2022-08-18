@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Reimage Role Instance | Microsoft Docs"
+description: Learn how the Reimage Role Instance asynchronous operation reinstalls the operating system on instances of web roles or worker roles.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

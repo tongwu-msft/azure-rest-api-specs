@@ -1,0 +1,337 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.scheduledactions.getbyscope
+name: Get By Scope
+service: Cost Management
+groupName: Scheduled Actions
+apiVersion: 2022-06-01-preview
+summary: Get the shared scheduled action from the given scope by name.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.CostManagement/scheduledActions/{name}?api-version=2022-06-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: "The scope associated with scheduled action operations. This includes 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, 'providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for External Billing Account scope and 'providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for External Subscription scope. Note: Insight Alerts are only available on subscription scope."
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Scheduled action name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: ScheduledAction
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ScheduledAction
+  description: Scheduled action definition.
+  kind: object
+  properties:
+  - name: properties.displayName
+    description: Scheduled action name.
+    types:
+    - uid: string
+  - name: properties.fileDestination
+    description: Destination format of the view data. This is optional.
+    types:
+    - uid: FileDestination
+  - name: properties.notification
+    description: Notification properties based on scheduled action kind.
+    types:
+    - uid: NotificationProperties
+  - name: properties.schedule
+    description: Schedule of the scheduled action.
+    types:
+    - uid: ScheduleProperties
+  - name: properties.scope
+    description: Cost Management scope like 'subscriptions/{subscriptionId}' for subscription scope, 'subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}' for resourceGroup scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}' for Billing Account scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/departments/{departmentId}' for Department scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/enrollmentAccounts/{enrollmentAccountId}' for EnrollmentAccount scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/billingProfiles/{billingProfileId}' for BillingProfile scope, 'providers/Microsoft.Billing/billingAccounts/{billingAccountId}/invoiceSections/{invoiceSectionId}' for InvoiceSection scope, '/providers/Microsoft.CostManagement/externalBillingAccounts/{externalBillingAccountName}' for ExternalBillingAccount scope, and '/providers/Microsoft.CostManagement/externalSubscriptions/{externalSubscriptionName}' for ExternalSubscription scope.
+    types:
+    - uid: string
+  - name: properties.status
+    description: Status of the scheduled action.
+    types:
+    - uid: ScheduledActionStatus
+  - name: properties.viewId
+    description: Cost analysis viewId used for scheduled action. For example, '/providers/Microsoft.CostManagement/views/swaggerExample'
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: eTag
+    isReadyOnly: true
+    description: Resource Etag.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of the scheduled action.
+    types:
+    - uid: ScheduledActionKind
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: FileDestination
+  description: Destination of the view data. This is optional. Currently only csv format is supported.
+  kind: object
+  properties:
+  - name: fileFormats
+    description: Destination of the view data. Currently only csv format is supported.
+    types:
+    - uid: string
+      isArray: true
+- name: NotificationProperties
+  description: The properties of the scheduled action notification.
+  kind: object
+  properties:
+  - name: to
+    description: Array of email addresses.
+    types:
+    - uid: string
+      isArray: true
+  - name: message
+    description: Optional message to be added in the email. Length is limited to 250 characters.
+    types:
+    - uid: string
+  - name: subject
+    description: Subject of the email. Length is limited to 70 characters.
+    types:
+    - uid: string
+- name: ScheduleProperties
+  description: The properties of the schedule.
+  kind: object
+  properties:
+  - name: frequency
+    description: Frequency of the schedule.
+    types:
+    - uid: ScheduleFrequency
+  - name: hourOfDay
+    description: UTC time at which cost analysis data will be emailed.
+    types:
+    - uid: integer
+  - name: daysOfWeek
+    description: Day names in english on which cost analysis data will be emailed. This property is applicable when frequency is Weekly or Monthly.
+    types:
+    - uid: string
+      isArray: true
+  - name: weeksOfMonth
+    description: Weeks in which cost analysis data will be emailed. This property is applicable when frequency is Monthly and used in combination with daysOfWeek.
+    types:
+    - uid: string
+      isArray: true
+  - name: dayOfMonth
+    description: UTC day on which cost analysis data will be emailed. Must be between 1 and 31. This property is applicable when frequency is Monthly and overrides weeksOfMonth or daysOfWeek.
+    types:
+    - uid: integer
+  - name: startDate
+    description: The start date and time of the scheduled action (UTC).
+    types:
+    - uid: string
+  - name: endDate
+    description: The end date and time of the scheduled action (UTC).
+    types:
+    - uid: string
+- name: ScheduledActionStatus
+  description: Status of the scheduled action.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: Scheduled action is saved and will be executed.
+    types:
+    - uid: string
+  - name: Disabled
+    description: Scheduled action is saved but will not be executed.
+    types:
+    - uid: string
+- name: ScheduledActionKind
+  description: Kind of the scheduled action.
+  kind: enum
+  properties:
+  - name: Email
+    description: Cost analysis data will be emailed.
+    types:
+    - uid: string
+  - name: InsightAlert
+    description: Cost anomaly information will be emailed. Available only on subscription scope at daily frequency. If no anomaly is detected on the resource, an email won't be sent.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ScheduleFrequency
+  description: Frequency of the schedule.
+  kind: enum
+  properties:
+  - name: Daily
+    description: Cost analysis data will be emailed every day.
+    types:
+    - uid: string
+  - name: Weekly
+    description: Cost analysis data will be emailed every week.
+    types:
+    - uid: string
+  - name: Monthly
+    description: Cost analysis data will be emailed every month.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: ScheduledActionByScope
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource",
+        "name": "monthlyCostByResource",
+        "type": "Microsoft.CostManagement/ScheduledActions",
+        "kind": "Email",
+        "eTag": "\"1d4ff9fe66f1d10\"",
+        "systemData": {
+          "createdBy": "testuser",
+          "createdByType": "User",
+          "createdAt": "2020-06-18T22:21:51.1287144Z",
+          "lastModifiedBy": "testuser",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-18T22:21:51.1287144Z"
+        },
+        "properties": {
+          "displayName": "Monthly Cost By Resource",
+          "scope": "subscriptions/00000000-0000-0000-0000-000000000000",
+          "status": "Enabled",
+          "viewId": "/providers/Microsoft.CostManagement/views/swaggerExample",
+          "schedule": {
+            "frequency": "Monthly",
+            "weeksOfMonth": [
+              "First",
+              "Third"
+            ],
+            "daysOfWeek": [
+              "Monday"
+            ],
+            "hourOfDay": 10,
+            "startDate": "2020-06-19T22:21:51.1287144Z",
+            "endDate": "2021-06-19T22:21:51.1287144Z"
+          },
+          "notification": {
+            "to": [
+              "user@gmail.com",
+              "team@gmail.com"
+            ],
+            "subject": "Cost by resource this month"
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Cost Management service - Get the shared scheduled action from the given scope by name.
+errorCodes: []

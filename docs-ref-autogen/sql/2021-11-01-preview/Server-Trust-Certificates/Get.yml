@@ -1,0 +1,157 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.servertrustcertificates.get
+name: Get
+service: SQL Database
+groupName: Server Trust Certificates
+apiVersion: 2021-11-01-preview
+summary: Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/serverTrustCertificates/{certificateName}?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: certificateName
+  in: path
+  isRequired: true
+  description: Name of of the certificate to get.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved a  server trust certificate.
+  types:
+  - uid: ServerTrustCertificate
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+requestHeader: []
+definitions:
+- name: ServerTrustCertificate
+  description: Server trust certificate imported from box to enable connection between box and Sql Managed Instance.
+  kind: object
+  properties:
+  - name: properties.publicBlob
+    description: The certificate public blob
+    types:
+    - uid: string
+  - name: properties.thumbprint
+    isReadyOnly: true
+    description: The certificate thumbprint
+    types:
+    - uid: string
+  - name: properties.certificateName
+    isReadyOnly: true
+    description: The certificate name
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Gets server trust certificate.
+  request:
+    uri: GET https://management.azure.com/subscriptions/38e0dc56-907f-45ba-a97c-74233baad471/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/serverTrustCertificates/customerCertificateName?api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/38e0dc56-907f-45ba-a97c-74233baad471/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/serverTrustCertificates/customerCertificateName?api-version=2021-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ServerTrustCertificatesGet.json
+      func ExampleServerTrustCertificatesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewServerTrustCertificatesClient("38e0dc56-907f-45ba-a97c-74233baad471", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"testrg",
+      		"testcl",
+      		"customerCertificateName",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "thumbprint": "57CFA9CF16F2FB2775AF059A95C6D5B897DA2C05",
+          "certificateName": "customerCertificateName"
+        },
+        "id": "/subscriptions/38e0dc56-907f-45ba-a97c-74233baad471/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/testcl/serverTrustCertificates/customerCertificateName",
+        "name": "customerCertificateName",
+        "type": "Microsoft.Sql/managedInstances/serverTrustCertificates"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a server trust certificate that was uploaded from box to Sql Managed Instance.
+errorCodes: []

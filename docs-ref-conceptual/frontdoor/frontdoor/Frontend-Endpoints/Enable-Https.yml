@@ -1,0 +1,219 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.frontdoor.frontendendpoints.enablehttps1
+name: Enable Https
+service: Front Door Service
+groupName: Frontend Endpoints
+apiVersion: 2019-05-01
+summary: Enables a frontendEndpoint for HTTPS traffic
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/frontDoors/{frontDoorName}/frontendEndpoints/{frontendEndpointName}/enableHttps?api-version=2019-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_\-\(\)\.]*[^\.]$
+- name: frontDoorName
+  in: path
+  isRequired: true
+  description: Name of the Front Door which is globally unique.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+([-a-zA-Z0-9]?[a-zA-Z0-9])*$
+- name: frontendEndpointName
+  in: path
+  isRequired: true
+  description: Name of the Frontend endpoint which is unique within the Front Door.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9]+(-*[a-zA-Z0-9])*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Front Door error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: certificateSource
+    in: body
+    isRequired: true
+    description: Defines the source of the SSL certificate
+    types:
+    - uid: FrontDoorCertificateSource
+  - name: protocolType
+    in: body
+    isRequired: true
+    description: Defines the TLS extension protocol that is used for secure delivery
+    types:
+    - uid: FrontDoorTlsProtocolType
+  - name: minimumTlsVersion
+    in: body
+    isRequired: true
+    description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+    types:
+    - uid: MinimumTLSVersion
+  - name: keyVaultCertificateSourceParameters.vault
+    in: body
+    description: The Key Vault containing the SSL certificate
+    types:
+    - uid: Vault
+  - name: keyVaultCertificateSourceParameters.secretName
+    in: body
+    description: The name of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: keyVaultCertificateSourceParameters.secretVersion
+    in: body
+    description: The version of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: frontDoorCertificateSourceParameters.certificateType
+    in: body
+    description: Defines the type of the certificate used for secure connections to a frontendEndpoint
+    types:
+    - uid: FrontDoorCertificateType
+requestHeader: []
+definitions:
+- name: Vault
+  description: The Key Vault containing the SSL certificate
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: CustomHttpsConfiguration
+  description: Https settings for a domain
+  kind: object
+  properties:
+  - name: certificateSource
+    description: Defines the source of the SSL certificate
+    types:
+    - uid: FrontDoorCertificateSource
+  - name: protocolType
+    description: Defines the TLS extension protocol that is used for secure delivery
+    types:
+    - uid: FrontDoorTlsProtocolType
+  - name: minimumTlsVersion
+    description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+    types:
+    - uid: MinimumTLSVersion
+  - name: keyVaultCertificateSourceParameters.vault
+    description: The Key Vault containing the SSL certificate
+    types:
+    - uid: Vault
+  - name: keyVaultCertificateSourceParameters.secretName
+    description: The name of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: keyVaultCertificateSourceParameters.secretVersion
+    description: The version of the Key Vault secret representing the full certificate PFX
+    types:
+    - uid: string
+  - name: frontDoorCertificateSourceParameters.certificateType
+    description: Defines the type of the certificate used for secure connections to a frontendEndpoint
+    types:
+    - uid: FrontDoorCertificateType
+- name: FrontDoorCertificateSource
+  description: Defines the source of the SSL certificate
+  kind: enum
+  properties:
+  - name: AzureKeyVault
+    types:
+    - uid: string
+  - name: FrontDoor
+    types:
+    - uid: string
+- name: FrontDoorTlsProtocolType
+  description: Defines the TLS extension protocol that is used for secure delivery
+  kind: enum
+  properties:
+  - name: ServerNameIndication
+    types:
+    - uid: string
+- name: MinimumTLSVersion
+  description: The minimum TLS version required from the clients to establish an SSL handshake with Front Door.
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
+- name: FrontDoorCertificateType
+  description: Defines the type of the certificate used for secure connections to a frontendEndpoint
+  kind: enum
+  properties:
+  - name: Dedicated
+    types:
+    - uid: string
+examples:
+- name: FrontendEndpoints_EnableHttps
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/frontendEndpoint1/enableHttps?api-version=2019-05-01
+    body: >-
+      {
+        "certificateSource": "AzureKeyVault",
+        "protocolType": "ServerNameIndication",
+        "minimumTlsVersion": "1.0",
+        "keyVaultCertificateSourceParameters": {
+          "vault": {
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.KeyVault/vaults/vault1"
+          },
+          "secretName": "secret1",
+          "secretVersion": "00000000-0000-0000-0000-000000000000"
+        }
+      }
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Enables a frontendEndpoint for HTTPS traffic
+errorCodes: []

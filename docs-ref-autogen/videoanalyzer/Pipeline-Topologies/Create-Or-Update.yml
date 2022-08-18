@@ -828,6 +828,252 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/pipelineTopologies/pipelineTopology1?api-version=2021-11-01-preview
+
+      {
+        "kind": "Live",
+        "sku": {
+          "name": "Live_S1"
+        },
+        "properties": {
+          "description": "Pipeline Topology 1 Description",
+          "parameters": [
+            {
+              "name": "rtspUrlParameter",
+              "type": "String",
+              "description": "rtsp source url parameter",
+              "default": "rtsp://microsoft.com/video.mp4"
+            },
+            {
+              "name": "rtspPasswordParameter",
+              "type": "SecretString",
+              "description": "rtsp source password parameter",
+              "default": "password"
+            }
+          ],
+          "sources": [
+            {
+              "@type": "#Microsoft.VideoAnalyzer.RtspSource",
+              "name": "rtspSource",
+              "transport": "Http",
+              "endpoint": {
+                "@type": "#Microsoft.VideoAnalyzer.UnsecuredEndpoint",
+                "url": "${rtspUrlParameter}",
+                "credentials": {
+                  "@type": "#Microsoft.VideoAnalyzer.UsernamePasswordCredentials",
+                  "username": "username",
+                  "password": "${rtspPasswordParameter}"
+                }
+              }
+            }
+          ],
+          "sinks": [
+            {
+              "@type": "#Microsoft.VideoAnalyzer.VideoSink",
+              "name": "videoSink",
+              "videoName": "camera001",
+              "videoCreationProperties": {
+                "title": "Parking Lot (Camera 1)",
+                "description": "Parking lot south entrance",
+                "segmentLength": "PT30S"
+              },
+              "videoPublishingOptions": {
+                "disableRtspPublishing": "true",
+                "disableArchive": "false"
+              },
+              "inputs": [
+                {
+                  "nodeName": "rtspSource"
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.videoanalyzer.models.Kind;
+      import com.azure.resourcemanager.videoanalyzer.models.NodeInput;
+      import com.azure.resourcemanager.videoanalyzer.models.ParameterDeclaration;
+      import com.azure.resourcemanager.videoanalyzer.models.ParameterType;
+      import com.azure.resourcemanager.videoanalyzer.models.RtspSource;
+      import com.azure.resourcemanager.videoanalyzer.models.RtspTransport;
+      import com.azure.resourcemanager.videoanalyzer.models.Sku;
+      import com.azure.resourcemanager.videoanalyzer.models.SkuName;
+      import com.azure.resourcemanager.videoanalyzer.models.UnsecuredEndpoint;
+      import com.azure.resourcemanager.videoanalyzer.models.UsernamePasswordCredentials;
+      import com.azure.resourcemanager.videoanalyzer.models.VideoCreationProperties;
+      import com.azure.resourcemanager.videoanalyzer.models.VideoPublishingOptions;
+      import com.azure.resourcemanager.videoanalyzer.models.VideoSink;
+      import java.util.Arrays;
+
+      /** Samples for PipelineTopologies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/videoanalyzer/resource-manager/Microsoft.Media/preview/2021-11-01-preview/examples/pipeline-topology-create.json
+           */
+          /**
+           * Sample code: Create or update a pipeline topology with an Rtsp source and video sink.
+           *
+           * @param manager Entry point to VideoAnalyzerManager.
+           */
+          public static void createOrUpdateAPipelineTopologyWithAnRtspSourceAndVideoSink(
+              com.azure.resourcemanager.videoanalyzer.VideoAnalyzerManager manager) {
+              manager
+                  .pipelineTopologies()
+                  .define("pipelineTopology1")
+                  .withExistingVideoAnalyzer("testrg", "testaccount2")
+                  .withKind(Kind.LIVE)
+                  .withSku(new Sku().withName(SkuName.LIVE_S1))
+                  .withDescription("Pipeline Topology 1 Description")
+                  .withParameters(
+                      Arrays
+                          .asList(
+                              new ParameterDeclaration()
+                                  .withName("rtspUrlParameter")
+                                  .withType(ParameterType.STRING)
+                                  .withDescription("rtsp source url parameter")
+                                  .withDefaultProperty("rtsp://microsoft.com/video.mp4"),
+                              new ParameterDeclaration()
+                                  .withName("rtspPasswordParameter")
+                                  .withType(ParameterType.SECRET_STRING)
+                                  .withDescription("rtsp source password parameter")
+                                  .withDefaultProperty("password")))
+                  .withSources(
+                      Arrays
+                          .asList(
+                              new RtspSource()
+                                  .withName("rtspSource")
+                                  .withTransport(RtspTransport.HTTP)
+                                  .withEndpoint(
+                                      new UnsecuredEndpoint()
+                                          .withCredentials(
+                                              new UsernamePasswordCredentials()
+                                                  .withUsername("username")
+                                                  .withPassword("${rtspPasswordParameter}"))
+                                          .withUrl("${rtspUrlParameter}"))))
+                  .withSinks(
+                      Arrays
+                          .asList(
+                              new VideoSink()
+                                  .withName("videoSink")
+                                  .withInputs(Arrays.asList(new NodeInput().withNodeName("rtspSource")))
+                                  .withVideoName("camera001")
+                                  .withVideoCreationProperties(
+                                      new VideoCreationProperties()
+                                          .withTitle("Parking Lot (Camera 1)")
+                                          .withDescription("Parking lot south entrance")
+                                          .withSegmentLength("PT30S"))
+                                  .withVideoPublishingOptions(
+                                      new VideoPublishingOptions()
+                                          .withDisableArchive("false")
+                                          .withDisableRtspPublishing("true"))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-videoanalyzer_1.0.0-beta.5/sdk/videoanalyzer/azure-resourcemanager-videoanalyzer/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armvideoanalyzer_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/videoanalyzer/armvideoanalyzer"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/videoanalyzer/resource-manager/Microsoft.Media/preview/2021-11-01-preview/examples/pipeline-topology-create.json
+      func ExamplePipelineTopologiesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armvideoanalyzer.NewPipelineTopologiesClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<account-name>",
+      		"<pipeline-topology-name>",
+      		armvideoanalyzer.PipelineTopology{
+      			Kind: to.Ptr(armvideoanalyzer.KindLive),
+      			Properties: &armvideoanalyzer.PipelineTopologyProperties{
+      				Description: to.Ptr("<description>"),
+      				Parameters: []*armvideoanalyzer.ParameterDeclaration{
+      					{
+      						Name:        to.Ptr("<name>"),
+      						Type:        to.Ptr(armvideoanalyzer.ParameterTypeString),
+      						Description: to.Ptr("<description>"),
+      						Default:     to.Ptr("<default>"),
+      					},
+      					{
+      						Name:        to.Ptr("<name>"),
+      						Type:        to.Ptr(armvideoanalyzer.ParameterTypeSecretString),
+      						Description: to.Ptr("<description>"),
+      						Default:     to.Ptr("<default>"),
+      					}},
+      				Sinks: []armvideoanalyzer.SinkNodeBaseClassification{
+      					&armvideoanalyzer.VideoSink{
+      						Name: to.Ptr("<name>"),
+      						Type: to.Ptr("<type>"),
+      						Inputs: []*armvideoanalyzer.NodeInput{
+      							{
+      								NodeName: to.Ptr("<node-name>"),
+      							}},
+      						VideoCreationProperties: &armvideoanalyzer.VideoCreationProperties{
+      							Description:   to.Ptr("<description>"),
+      							SegmentLength: to.Ptr("<segment-length>"),
+      							Title:         to.Ptr("<title>"),
+      						},
+      						VideoName: to.Ptr("<video-name>"),
+      						VideoPublishingOptions: &armvideoanalyzer.VideoPublishingOptions{
+      							DisableArchive:        to.Ptr("<disable-archive>"),
+      							DisableRtspPublishing: to.Ptr("<disable-rtsp-publishing>"),
+      						},
+      					}},
+      				Sources: []armvideoanalyzer.SourceNodeBaseClassification{
+      					&armvideoanalyzer.RtspSource{
+      						Name: to.Ptr("<name>"),
+      						Type: to.Ptr("<type>"),
+      						Endpoint: &armvideoanalyzer.UnsecuredEndpoint{
+      							Type: to.Ptr("<type>"),
+      							Credentials: &armvideoanalyzer.UsernamePasswordCredentials{
+      								Type:     to.Ptr("<type>"),
+      								Password: to.Ptr("<password>"),
+      								Username: to.Ptr("<username>"),
+      							},
+      							URL: to.Ptr("<url>"),
+      						},
+      						Transport: to.Ptr(armvideoanalyzer.RtspTransportHTTP),
+      					}},
+      			},
+      			SKU: &armvideoanalyzer.SKU{
+      				Name: to.Ptr(armvideoanalyzer.SKUNameLiveS1),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fvideoanalyzer%2Farmvideoanalyzer%2Fv0.4.2/sdk/resourcemanager/videoanalyzer/armvideoanalyzer/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -980,5 +1226,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Creates or updates a pipeline topology.  \nCreates a new pipeline topology or updates an existing one, with the given name."
+  description: >-
+    Creates or updates a pipeline topology.
+
+    Creates a new pipeline topology or updates an existing one, with the given name.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicyrulecollectiongroups.crea
 name: Create Or Update
 service: Virtual Networks
 groupName: Firewall Policy Rule Collection Groups
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates the specified FirewallPolicyRuleCollectionGroup.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/ruleCollectionGroups/{ruleCollectionGroupName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -455,7 +455,7 @@ definitions:
 examples:
 - name: Create FirewallPolicyRuleCollectionGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -490,6 +490,163 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "priority": 100,
+          "ruleCollections": [
+            {
+              "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+              "name": "Example-Filter-Rule-Collection",
+              "priority": 100,
+              "action": {
+                "type": "Deny"
+              },
+              "rules": [
+                {
+                  "ruleType": "NetworkRule",
+                  "name": "network-rule1",
+                  "sourceAddresses": [
+                    "10.1.25.0/24"
+                  ],
+                  "destinationAddresses": [
+                    "*"
+                  ],
+                  "ipProtocols": [
+                    "TCP"
+                  ],
+                  "destinationPorts": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupPut.json
+      func ExampleFirewallPolicyRuleCollectionGroupsClient_BeginCreateOrUpdate_firewallPolicyRuleCollectionGroupPut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPolicyRuleCollectionGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "firewallPolicy", "ruleCollectionGroup1", armnetwork.FirewallPolicyRuleCollectionGroup{
+      		Properties: &armnetwork.FirewallPolicyRuleCollectionGroupProperties{
+      			Priority: to.Ptr[int32](100),
+      			RuleCollections: []armnetwork.FirewallPolicyRuleCollectionClassification{
+      				&armnetwork.FirewallPolicyFilterRuleCollection{
+      					Name:               to.Ptr("Example-Filter-Rule-Collection"),
+      					Priority:           to.Ptr[int32](100),
+      					RuleCollectionType: to.Ptr(armnetwork.FirewallPolicyRuleCollectionTypeFirewallPolicyFilterRuleCollection),
+      					Action: &armnetwork.FirewallPolicyFilterRuleCollectionAction{
+      						Type: to.Ptr(armnetwork.FirewallPolicyFilterRuleCollectionActionTypeDeny),
+      					},
+      					Rules: []armnetwork.FirewallPolicyRuleClassification{
+      						&armnetwork.Rule{
+      							Name:     to.Ptr("network-rule1"),
+      							RuleType: to.Ptr(armnetwork.FirewallPolicyRuleTypeNetworkRule),
+      							DestinationAddresses: []*string{
+      								to.Ptr("*")},
+      							DestinationPorts: []*string{
+      								to.Ptr("*")},
+      							IPProtocols: []*armnetwork.FirewallPolicyRuleNetworkProtocol{
+      								to.Ptr(armnetwork.FirewallPolicyRuleNetworkProtocolTCP)},
+      							SourceAddresses: []*string{
+      								to.Ptr("10.1.25.0/24")},
+      						}},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       *
+       * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupPut.json
+       */
+      async function createFirewallPolicyRuleCollectionGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const firewallPolicyName = "firewallPolicy";
+        const ruleCollectionGroupName = "ruleCollectionGroup1";
+        const parameters = {
+          priority: 100,
+          ruleCollections: [
+            {
+              name: "Example-Filter-Rule-Collection",
+              action: { type: "Deny" },
+              priority: 100,
+              ruleCollectionType: "FirewallPolicyFilterRuleCollection",
+              rules: [
+                {
+                  name: "network-rule1",
+                  destinationAddresses: ["*"],
+                  destinationPorts: ["*"],
+                  ipProtocols: ["TCP"],
+                  ruleType: "NetworkRule",
+                  sourceAddresses: ["10.1.25.0/24"],
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          firewallPolicyName,
+          ruleCollectionGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createFirewallPolicyRuleCollectionGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -571,7 +728,7 @@ examples:
       }
 - name: Create FirewallPolicyRuleCollectionGroup With IpGroups
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -605,6 +762,164 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "priority": 110,
+          "ruleCollections": [
+            {
+              "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+              "name": "Example-Filter-Rule-Collection",
+              "action": {
+                "type": "Deny"
+              },
+              "rules": [
+                {
+                  "ruleType": "NetworkRule",
+                  "name": "network-1",
+                  "ipProtocols": [
+                    "TCP"
+                  ],
+                  "destinationPorts": [
+                    "*"
+                  ],
+                  "sourceIpGroups": [
+                    "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1"
+                  ],
+                  "destinationIpGroups": [
+                    "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+      func ExampleFirewallPolicyRuleCollectionGroupsClient_BeginCreateOrUpdate_firewallPolicyRuleCollectionGroupWithIpGroupsPut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPolicyRuleCollectionGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "firewallPolicy", "ruleCollectionGroup1", armnetwork.FirewallPolicyRuleCollectionGroup{
+      		Properties: &armnetwork.FirewallPolicyRuleCollectionGroupProperties{
+      			Priority: to.Ptr[int32](110),
+      			RuleCollections: []armnetwork.FirewallPolicyRuleCollectionClassification{
+      				&armnetwork.FirewallPolicyFilterRuleCollection{
+      					Name:               to.Ptr("Example-Filter-Rule-Collection"),
+      					RuleCollectionType: to.Ptr(armnetwork.FirewallPolicyRuleCollectionTypeFirewallPolicyFilterRuleCollection),
+      					Action: &armnetwork.FirewallPolicyFilterRuleCollectionAction{
+      						Type: to.Ptr(armnetwork.FirewallPolicyFilterRuleCollectionActionTypeDeny),
+      					},
+      					Rules: []armnetwork.FirewallPolicyRuleClassification{
+      						&armnetwork.Rule{
+      							Name:     to.Ptr("network-1"),
+      							RuleType: to.Ptr(armnetwork.FirewallPolicyRuleTypeNetworkRule),
+      							DestinationIPGroups: []*string{
+      								to.Ptr("/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2")},
+      							DestinationPorts: []*string{
+      								to.Ptr("*")},
+      							IPProtocols: []*armnetwork.FirewallPolicyRuleNetworkProtocol{
+      								to.Ptr(armnetwork.FirewallPolicyRuleNetworkProtocolTCP)},
+      							SourceIPGroups: []*string{
+      								to.Ptr("/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1")},
+      						}},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       *
+       * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupWithIpGroupsPut.json
+       */
+      async function createFirewallPolicyRuleCollectionGroupWithIPGroups() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const firewallPolicyName = "firewallPolicy";
+        const ruleCollectionGroupName = "ruleCollectionGroup1";
+        const parameters = {
+          priority: 110,
+          ruleCollections: [
+            {
+              name: "Example-Filter-Rule-Collection",
+              action: { type: "Deny" },
+              ruleCollectionType: "FirewallPolicyFilterRuleCollection",
+              rules: [
+                {
+                  name: "network-1",
+                  destinationIpGroups: [
+                    "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups2",
+                  ],
+                  destinationPorts: ["*"],
+                  ipProtocols: ["TCP"],
+                  ruleType: "NetworkRule",
+                  sourceIpGroups: [
+                    "/subscriptions/subid/providers/Microsoft.Network/resourceGroup/rg1/ipGroups/ipGroups1",
+                  ],
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          firewallPolicyName,
+          ruleCollectionGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createFirewallPolicyRuleCollectionGroupWithIPGroups().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -684,7 +999,7 @@ examples:
       }
 - name: Create FirewallPolicyNatRuleCollectionGroup
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -723,6 +1038,174 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "priority": 100,
+          "ruleCollections": [
+            {
+              "ruleCollectionType": "FirewallPolicyNatRuleCollection",
+              "priority": 100,
+              "name": "Example-Nat-Rule-Collection",
+              "action": {
+                "type": "DNAT"
+              },
+              "rules": [
+                {
+                  "ruleType": "NatRule",
+                  "name": "nat-rule1",
+                  "translatedFqdn": "internalhttp.server.net",
+                  "translatedPort": "8080",
+                  "ipProtocols": [
+                    "TCP",
+                    "UDP"
+                  ],
+                  "sourceAddresses": [
+                    "2.2.2.2"
+                  ],
+                  "sourceIpGroups": [],
+                  "destinationAddresses": [
+                    "152.23.32.23"
+                  ],
+                  "destinationPorts": [
+                    "8080"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
+      func ExampleFirewallPolicyRuleCollectionGroupsClient_BeginCreateOrUpdate_firewallPolicyNatRuleCollectionGroupPut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPolicyRuleCollectionGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "firewallPolicy", "ruleCollectionGroup1", armnetwork.FirewallPolicyRuleCollectionGroup{
+      		Properties: &armnetwork.FirewallPolicyRuleCollectionGroupProperties{
+      			Priority: to.Ptr[int32](100),
+      			RuleCollections: []armnetwork.FirewallPolicyRuleCollectionClassification{
+      				&armnetwork.FirewallPolicyNatRuleCollection{
+      					Name:               to.Ptr("Example-Nat-Rule-Collection"),
+      					Priority:           to.Ptr[int32](100),
+      					RuleCollectionType: to.Ptr(armnetwork.FirewallPolicyRuleCollectionTypeFirewallPolicyNatRuleCollection),
+      					Action: &armnetwork.FirewallPolicyNatRuleCollectionAction{
+      						Type: to.Ptr(armnetwork.FirewallPolicyNatRuleCollectionActionTypeDNAT),
+      					},
+      					Rules: []armnetwork.FirewallPolicyRuleClassification{
+      						&armnetwork.NatRule{
+      							Name:     to.Ptr("nat-rule1"),
+      							RuleType: to.Ptr(armnetwork.FirewallPolicyRuleTypeNatRule),
+      							DestinationAddresses: []*string{
+      								to.Ptr("152.23.32.23")},
+      							DestinationPorts: []*string{
+      								to.Ptr("8080")},
+      							IPProtocols: []*armnetwork.FirewallPolicyRuleNetworkProtocol{
+      								to.Ptr(armnetwork.FirewallPolicyRuleNetworkProtocolTCP),
+      								to.Ptr(armnetwork.FirewallPolicyRuleNetworkProtocolUDP)},
+      							SourceAddresses: []*string{
+      								to.Ptr("2.2.2.2")},
+      							SourceIPGroups: []*string{},
+      							TranslatedFqdn: to.Ptr("internalhttp.server.net"),
+      							TranslatedPort: to.Ptr("8080"),
+      						}},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       *
+       * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyNatRuleCollectionGroupPut.json
+       */
+      async function createFirewallPolicyNatRuleCollectionGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const firewallPolicyName = "firewallPolicy";
+        const ruleCollectionGroupName = "ruleCollectionGroup1";
+        const parameters = {
+          priority: 100,
+          ruleCollections: [
+            {
+              name: "Example-Nat-Rule-Collection",
+              action: { type: "DNAT" },
+              priority: 100,
+              ruleCollectionType: "FirewallPolicyNatRuleCollection",
+              rules: [
+                {
+                  name: "nat-rule1",
+                  destinationAddresses: ["152.23.32.23"],
+                  destinationPorts: ["8080"],
+                  ipProtocols: ["TCP", "UDP"],
+                  ruleType: "NatRule",
+                  sourceAddresses: ["2.2.2.2"],
+                  sourceIpGroups: [],
+                  translatedFqdn: "internalhttp.server.net",
+                  translatedPort: "8080",
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          firewallPolicyName,
+          ruleCollectionGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createFirewallPolicyNatRuleCollectionGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -811,7 +1294,7 @@ examples:
       }
 - name: Create FirewallPolicyRuleCollectionGroup With Web Categories
   request:
-    uri: PUT https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -847,6 +1330,165 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "priority": 110,
+          "ruleCollections": [
+            {
+              "ruleCollectionType": "FirewallPolicyFilterRuleCollection",
+              "name": "Example-Filter-Rule-Collection",
+              "action": {
+                "type": "Deny"
+              },
+              "rules": [
+                {
+                  "ruleType": "ApplicationRule",
+                  "name": "rule1",
+                  "description": "Deny inbound rule",
+                  "protocols": [
+                    {
+                      "protocolType": "Https",
+                      "port": 443
+                    }
+                  ],
+                  "sourceAddresses": [
+                    "216.58.216.164",
+                    "10.0.0.0/24"
+                  ],
+                  "webCategories": [
+                    "Hacking"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+      func ExampleFirewallPolicyRuleCollectionGroupsClient_BeginCreateOrUpdate_firewallPolicyRuleCollectionGroupWithWebCategoriesPut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPolicyRuleCollectionGroupsClient("e747cc13-97d4-4a79-b463-42d7f4e558f2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "firewallPolicy", "ruleCollectionGroup1", armnetwork.FirewallPolicyRuleCollectionGroup{
+      		Properties: &armnetwork.FirewallPolicyRuleCollectionGroupProperties{
+      			Priority: to.Ptr[int32](110),
+      			RuleCollections: []armnetwork.FirewallPolicyRuleCollectionClassification{
+      				&armnetwork.FirewallPolicyFilterRuleCollection{
+      					Name:               to.Ptr("Example-Filter-Rule-Collection"),
+      					RuleCollectionType: to.Ptr(armnetwork.FirewallPolicyRuleCollectionTypeFirewallPolicyFilterRuleCollection),
+      					Action: &armnetwork.FirewallPolicyFilterRuleCollectionAction{
+      						Type: to.Ptr(armnetwork.FirewallPolicyFilterRuleCollectionActionTypeDeny),
+      					},
+      					Rules: []armnetwork.FirewallPolicyRuleClassification{
+      						&armnetwork.ApplicationRule{
+      							Name:        to.Ptr("rule1"),
+      							Description: to.Ptr("Deny inbound rule"),
+      							RuleType:    to.Ptr(armnetwork.FirewallPolicyRuleTypeApplicationRule),
+      							Protocols: []*armnetwork.FirewallPolicyRuleApplicationProtocol{
+      								{
+      									Port:         to.Ptr[int32](443),
+      									ProtocolType: to.Ptr(armnetwork.FirewallPolicyRuleApplicationProtocolTypeHTTPS),
+      								}},
+      							SourceAddresses: []*string{
+      								to.Ptr("216.58.216.164"),
+      								to.Ptr("10.0.0.0/24")},
+      							WebCategories: []*string{
+      								to.Ptr("Hacking")},
+      						}},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       *
+       * @summary Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyRuleCollectionGroupWithWebCategoriesPut.json
+       */
+      async function createFirewallPolicyRuleCollectionGroupWithWebCategories() {
+        const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
+        const resourceGroupName = "rg1";
+        const firewallPolicyName = "firewallPolicy";
+        const ruleCollectionGroupName = "ruleCollectionGroup1";
+        const parameters = {
+          priority: 110,
+          ruleCollections: [
+            {
+              name: "Example-Filter-Rule-Collection",
+              action: { type: "Deny" },
+              ruleCollectionType: "FirewallPolicyFilterRuleCollection",
+              rules: [
+                {
+                  name: "rule1",
+                  description: "Deny inbound rule",
+                  protocols: [{ port: 443, protocolType: "Https" }],
+                  ruleType: "ApplicationRule",
+                  sourceAddresses: ["216.58.216.164", "10.0.0.0/24"],
+                  webCategories: ["Hacking"],
+                },
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicyRuleCollectionGroups.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          firewallPolicyName,
+          ruleCollectionGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createFirewallPolicyRuleCollectionGroupWithWebCategories().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -938,5 +1580,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Creates or updates the specified FirewallPolicyRuleCollectionGroup.
+  description: >
+    Learn more about Virtual Networks service - Creates or updates the specified FirewallPolicyRuleCollectionGroup.
 errorCodes: []

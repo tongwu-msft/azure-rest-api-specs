@@ -748,6 +748,86 @@ examples:
 - name: Assessments_ListByProject
   request:
     uri: GET https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abgoyalWEselfhostb72bproject/assessments?api-version=2019-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/6393a73f-8d55-47ef-b6dd-179b3e0c7910/resourceGroups/abgoyal-westEurope/providers/Microsoft.Migrate/assessmentProjects/abgoyalWEselfhostb72bproject/assessments?api-version=2019-10-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmigrate_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/migrate/armmigrate"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/Assessments_ListByProject.json
+      func ExampleAssessmentsClient_NewListByProjectPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmigrate.NewAssessmentsClient("6393a73f-8d55-47ef-b6dd-179b3e0c7910", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByProjectPager("abgoyal-westEurope",
+      		"abgoyalWEselfhostb72bproject",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmigrate%2Farmmigrate%2Fv1.0.0/sdk/resourcemanager/migrate/armmigrate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMigrateV2 } = require("@azure/arm-migrate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get all assessments created in the project.
+
+      Returns a json array of objects of type 'assessment' as specified in Models section.
+
+       *
+       * @summary Get all assessments created in the project.
+
+      Returns a json array of objects of type 'assessment' as specified in Models section.
+
+       * x-ms-original-file: specification/migrate/resource-manager/Microsoft.Migrate/stable/2019-10-01/examples/Assessments_ListByProject.json
+       */
+      async function assessmentsListByProject() {
+        const subscriptionId = "6393a73f-8d55-47ef-b6dd-179b3e0c7910";
+        const resourceGroupName = "abgoyal-westEurope";
+        const projectName = "abgoyalWEselfhostb72bproject";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMigrateV2(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.assessments.listByProject(resourceGroupName, projectName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      assessmentsListByProject().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-migrate_2.0.2/sdk/migrate/arm-migrate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -932,7 +1012,6 @@ security:
 metadata:
   description: >
     Get all assessments created in the project.
-
 
     Returns a json array of objects of type 'assessment' as specified in Models section.
 errorCodes: []

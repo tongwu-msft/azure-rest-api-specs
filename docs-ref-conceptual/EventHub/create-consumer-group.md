@@ -1,5 +1,6 @@
 ---
 title: "Create consumer group2"
+description: Learn that when creating a consumer group, you can specify properties in ConsumerGroupDescription. 
 ms.custom: ""
 ms.date: 05/05/2017
 ms.reviewer: ""

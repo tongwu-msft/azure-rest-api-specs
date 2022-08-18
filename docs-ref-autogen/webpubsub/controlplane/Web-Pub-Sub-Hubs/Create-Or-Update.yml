@@ -107,6 +107,7 @@ definitions:
     description: 'The settings for configuring if anonymous connections are allowed for this hub: "allow" or "deny". Default to "deny".'
     types:
     - uid: string
+    defaultValue: deny
 - name: WebPubSubHub
   description: A hub setting
   kind: object
@@ -292,6 +293,137 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/hubs/exampleHub?api-version=2021-10-01
+
+      {
+        "properties": {
+          "eventHandlers": [
+            {
+              "urlTemplate": "http://host.com",
+              "userEventPattern": "*",
+              "systemEvents": [
+                "connect",
+                "connected"
+              ],
+              "auth": {
+                "type": "ManagedIdentity",
+                "managedIdentity": {
+                  "resource": "abc"
+                }
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.webpubsub.models.EventHandler;
+      import com.azure.resourcemanager.webpubsub.models.ManagedIdentitySettings;
+      import com.azure.resourcemanager.webpubsub.models.UpstreamAuthSettings;
+      import com.azure.resourcemanager.webpubsub.models.UpstreamAuthType;
+      import com.azure.resourcemanager.webpubsub.models.WebPubSubHubProperties;
+      import java.util.Arrays;
+
+      /** Samples for WebPubSubHubs CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubHubs_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: WebPubSubHubs_CreateOrUpdate.
+           *
+           * @param manager Entry point to WebPubSubManager.
+           */
+          public static void webPubSubHubsCreateOrUpdate(com.azure.resourcemanager.webpubsub.WebPubSubManager manager) {
+              manager
+                  .webPubSubHubs()
+                  .define("exampleHub")
+                  .withExistingWebPubSub("myResourceGroup", "myWebPubSubService")
+                  .withProperties(
+                      new WebPubSubHubProperties()
+                          .withEventHandlers(
+                              Arrays
+                                  .asList(
+                                      new EventHandler()
+                                          .withUrlTemplate("http://host.com")
+                                          .withUserEventPattern("*")
+                                          .withSystemEvents(Arrays.asList("connect", "connected"))
+                                          .withAuth(
+                                              new UpstreamAuthSettings()
+                                                  .withType(UpstreamAuthType.MANAGED_IDENTITY)
+                                                  .withManagedIdentity(new ManagedIdentitySettings().withResource("abc"))))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-webpubsub_1.0.0-beta.2/sdk/webpubsub/azure-resourcemanager-webpubsub/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armwebpubsub_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/webpubsub/armwebpubsub"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubHubs_CreateOrUpdate.json
+      func ExampleHubsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armwebpubsub.NewHubsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"exampleHub",
+      		"myResourceGroup",
+      		"myWebPubSubService",
+      		armwebpubsub.Hub{
+      			Properties: &armwebpubsub.HubProperties{
+      				EventHandlers: []*armwebpubsub.EventHandler{
+      					{
+      						Auth: &armwebpubsub.UpstreamAuthSettings{
+      							Type: to.Ptr(armwebpubsub.UpstreamAuthTypeManagedIdentity),
+      							ManagedIdentity: &armwebpubsub.ManagedIdentitySettings{
+      								Resource: to.Ptr("abc"),
+      							},
+      						},
+      						SystemEvents: []*string{
+      							to.Ptr("connect"),
+      							to.Ptr("connected")},
+      						URLTemplate:      to.Ptr("http://host.com"),
+      						UserEventPattern: to.Ptr("*"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fwebpubsub%2Farmwebpubsub%2Fv1.0.0/sdk/resourcemanager/webpubsub/armwebpubsub/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -358,5 +490,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Web PubSub Service service - Create or update a hub setting.
+  description: >
+    Learn more about Azure Web PubSub Service service - Create or update a hub setting.
 errorCodes: []

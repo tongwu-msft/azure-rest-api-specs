@@ -1,5 +1,6 @@
 ---
 title: "ClusterProperties"
+description: "ClusterProperties Describes the cluster resource properties. List of Properties is included such as addOnFeatures, azureActiveDirectory and certificate."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.operations.list
 name: List
 service: Batch Management
 groupName: Operations
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: Lists available operations for the Microsoft.Batch provider
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Batch/operations?api-version=2022-01-01
+- content: GET https://management.azure.com/providers/Microsoft.Batch/operations?api-version=2022-06-01
 uriParameters:
 - name: api-version
   in: query
@@ -118,7 +118,39 @@ definitions:
 examples:
 - name: OperationsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Batch/operations?api-version=2022-01-01
+    uri: GET https://management.azure.com/providers/Microsoft.Batch/operations?api-version=2022-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Batch/operations?api-version=2022-06-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists available operations for the Microsoft.Batch provider
+       *
+       * @summary Lists available operations for the Microsoft.Batch provider
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/OperationsList.json
+       */
+      async function operationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      operationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -234,7 +266,7 @@ examples:
                   },
                   {
                     "name": "TotalLowPriorityNodeCount",
-                    "displayName": "Spot/low-priority Node Count",
+                    "displayName": "Low-Priority Node Count",
                     "displayDescription": "Total number of low-priority nodes in the batch account",
                     "unit": "Count",
                     "aggregationType": "Total",
@@ -1342,5 +1374,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Batch Management service - Lists available operations for the Microsoft.Batch provider
+  description: >
+    Learn more about Batch Management service - Lists available operations for the Microsoft.Batch provider
 errorCodes: []

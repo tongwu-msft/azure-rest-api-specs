@@ -1,5 +1,6 @@
 ---
 title: "ClusterListResult"
+description: "Describe Cluster list results. Properties include value and nextLink, with the nextLink defined as the URL used for getting the next set of results."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

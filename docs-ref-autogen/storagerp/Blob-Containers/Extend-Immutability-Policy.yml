@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobcontainers.extendimmutabilitypolicy
 name: Extend Immutability Policy
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend?api-version=2021-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers/{containerName}/immutabilityPolicies/default/extend?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -61,7 +61,12 @@ requestBody:
     - uid: integer
   - name: properties.allowProtectedAppendWrites
     in: body
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    in: body
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
 requestHeader:
@@ -86,7 +91,11 @@ definitions:
     types:
     - uid: ImmutabilityPolicyState
   - name: properties.allowProtectedAppendWrites
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
   - name: etag
@@ -122,13 +131,143 @@ definitions:
 examples:
 - name: ExtendImmutabilityPolicy
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6238/providers/Microsoft.Storage/storageAccounts/sto232/blobServices/default/containers/container5023/immutabilityPolicies/default/extend?api-version=2021-04-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6238/providers/Microsoft.Storage/storageAccounts/sto232/blobServices/default/containers/container5023/immutabilityPolicies/default/extend?api-version=2021-09-01
     body: >-
       {
         "properties": {
           "immutabilityPeriodSinceCreationInDays": 100
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6238/providers/Microsoft.Storage/storageAccounts/sto232/blobServices/default/containers/container5023/immutabilityPolicies/default/extend?api-version=2021-09-01
+
+
+      {
+        "properties": {
+          "immutabilityPeriodSinceCreationInDays": 100
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.ImmutabilityPolicyInner;
+
+      /** Samples for BlobContainers ExtendImmutabilityPolicy. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersExtendImmutabilityPolicy.json
+           */
+          /**
+           * Sample code: ExtendImmutabilityPolicy.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void extendImmutabilityPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobContainers()
+                  .extendImmutabilityPolicyWithResponse(
+                      "res6238",
+                      "sto232",
+                      "container5023",
+                      "\"8d59f830d0c3bf9\"",
+                      new ImmutabilityPolicyInner().withImmutabilityPeriodSinceCreationInDays(100),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersExtendImmutabilityPolicy.json
+      func ExampleBlobContainersClient_ExtendImmutabilityPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewBlobContainersClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ExtendImmutabilityPolicy(ctx,
+      		"res6238",
+      		"sto232",
+      		"container5023",
+      		"\"8d59f830d0c3bf9\"",
+      		&armstorage.BlobContainersClientExtendImmutabilityPolicyOptions{Parameters: &armstorage.ImmutabilityPolicy{
+      			Properties: &armstorage.ImmutabilityPolicyProperty{
+      				ImmutabilityPeriodSinceCreationInDays: to.Ptr[int32](100),
+      			},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
+       *
+       * @summary Extends the immutabilityPeriodSinceCreationInDays of a locked immutabilityPolicy. The only action allowed on a Locked policy will be this action. ETag in If-Match is required for this operation.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersExtendImmutabilityPolicy.json
+       */
+      async function extendImmutabilityPolicy() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res6238";
+        const accountName = "sto232";
+        const containerName = "container5023";
+        const ifMatch = '"8d59f830d0c3bf9"';
+        const parameters = {
+          immutabilityPeriodSinceCreationInDays: 100,
+        };
+        const options = {
+          parameters,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.blobContainers.extendImmutabilityPolicy(
+          resourceGroupName,
+          accountName,
+          containerName,
+          ifMatch,
+          options
+        );
+        console.log(result);
+      }
+
+      extendImmutabilityPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
     headers:
     - name: If-Match
       value: "\"8d59f830d0c3bf9\""

@@ -1,0 +1,183 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.files.read
+name: Read
+service: Data Migration
+groupName: Files
+apiVersion: 2022-01-30-preview
+summary: "Request storage information for downloading the file content  \nThis method is used for requesting storage information using which contents of the file can be downloaded."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files/{fileName}/read?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of the service
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the project
+  types:
+  - uid: string
+- name: fileName
+  in: path
+  isRequired: true
+  description: Name of the File
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: An object describing how to access the file content
+  types:
+  - uid: FileStorageInfo
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: FileStorageInfo
+  description: File storage information.
+  kind: object
+  properties:
+  - name: uri
+    description: A URI that can be used to access the file content.
+    types:
+    - uid: string
+  - name: headers
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Files_List
+  request:
+    uri: POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files/x114d023d8/read?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files/x114d023d8/read?api-version=2022-01-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "uri": "https://dmssdkservicestorage.blob.core.windows.net/dmssdkservicecontainer/_rpfiles/dmssdkproject/pfpu7fxqcpziyg2h3qj2vb7d8jpbbg7p?sv=2016-05-31&sr=b&sig=sassignature&se=2018-10-05T18%3A21%3A42Z&sp=r",
+        "headers": {
+          "x-ms-blob-type": "BlockBlob"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Request storage information for downloading the file content
+
+    This method is used for requesting storage information using which contents of the file can be down
+errorCodes: []

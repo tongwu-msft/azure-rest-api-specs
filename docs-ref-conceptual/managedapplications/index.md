@@ -23,6 +23,6 @@ Azure Managed Applications enable you to offer cloud solutions that are easy for
 
 ## See Also
 
-- [Azure managed applications overview](azure/azure-resource-manager/managed-applications/overview)
+- [Azure managed applications overview](/azure/azure-resource-manager/managed-applications/overview)
 - [Quickstart: Create and publish a managed application definition](/azure/azure-resource-manager/managed-applications/publish-service-catalog-app)
 - [Enable and request just-in-time access for Azure Managed Applications](/azure/azure-resource-manager/managed-applications/request-just-in-time-access)

@@ -1,0 +1,198 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.sqlmigrationservice.listmonitoringdata
+name: list Monitoring Data
+service: Data Migration
+groupName: SQL Migration Service
+apiVersion: 2022-01-30-preview
+summary: Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database Migration Service.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataMigration/sqlMigrationServices/{sqlMigrationServiceName}/listMonitoringData?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: sqlMigrationServiceName
+  in: path
+  isRequired: true
+  description: Name of the SQL Migration Service.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the monitoring data.
+  types:
+  - uid: IntegrationRuntimeMonitoringData
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidParameterValue - An invalid value was provided for parameter '{0}'.
+
+     * 400 GenericUser - User Failure when calling other Resource Provider.
+
+     * 400 OperationIdNotFound - Operation ID '{0}' not found.
+
+     * 400 OperationTypeNotFound - Operation Type '{0}' not found.
+
+     * 400 InvalidArgument - Invalid argument '{0}'.
+
+     * 400 RegenerateAuthenticationKeyNameInvalid - Key name '{0}' is invalid. Valid key names are authKey1 and authKey2.
+
+     * 400 DeleteServiceNotAllowed - One or more migrations attached to the migration service '{0}' are currently running. To delete the migration service, please wait until all migrations have completed or cancel the migrations manually and retry deleting the service. Running migrations are: '{1}'
+
+     * 400 IntegrationRuntimeIsNotSelfHosted - Integration Runtime is not self-hosted for subscription '{0}' resource group '{1}' and name '{2}'
+
+     * 400 SerializationError - There was an error while processing response from RP Service : '{0}'
+
+     * 400 ServiceNameInvalid - Service name '{0}' is not valid. Please refer https://aka.ms/dmsv2naming for naming rules.
+
+     * 403 AccessDenied - Access denied.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotExist - Subscription id does not exist.
+
+     * 404 ResourceDoesNotExist - Resource does not exist.
+
+     * 409 OperationInProgress - Operation in progress on resource already.
+
+     * 409 OperationCanceled - Operation Cancelled.
+
+     * 409 ResourceAlreadyExists - Resource already exists.
+
+     * 409 SubscriptionOperationInProgress - An operation on subscription is already in progress
+
+     * 500 UnExpectedErrorOccurred - Unexpected error occurred.
+
+     * 500 OperationTimeout - Operation timed out.
+
+     * 500 GenericSystem - System Failure when calling other Resource Provider.
+requestHeader: []
+definitions:
+- name: IntegrationRuntimeMonitoringData
+  description: Integration Runtime Monitoring Data.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The name of Integration Runtime.
+    types:
+    - uid: string
+  - name: nodes
+    isReadyOnly: true
+    description: Integration Runtime node monitoring data.
+    types:
+    - uid: NodeMonitoringData
+      isArray: true
+- name: NodeMonitoringData
+  kind: object
+  properties:
+  - name: additionalProperties
+    isReadyOnly: true
+    description: " Unmatched properties from the message are deserialized in this collection."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: nodeName
+    isReadyOnly: true
+    description: Name of the integration runtime node.
+    types:
+    - uid: string
+  - name: availableMemoryInMB
+    isReadyOnly: true
+    description: Available memory (MB) on the integration runtime node.
+    types:
+    - uid: integer
+  - name: cpuUtilization
+    isReadyOnly: true
+    description: CPU percentage on the integration runtime node.
+    types:
+    - uid: integer
+  - name: concurrentJobsLimit
+    isReadyOnly: true
+    description: Maximum concurrent jobs on the integration runtime node.
+    types:
+    - uid: integer
+  - name: concurrentJobsRunning
+    isReadyOnly: true
+    description: The number of jobs currently running on the integration runtime node.
+    types:
+    - uid: integer
+  - name: maxConcurrentJobs
+    isReadyOnly: true
+    description: The maximum concurrent jobs in this integration runtime.
+    types:
+    - uid: integer
+  - name: sentBytes
+    isReadyOnly: true
+    description: Sent bytes on the integration runtime node.
+    types:
+    - uid: number
+  - name: receivedBytes
+    isReadyOnly: true
+    description: Received bytes on the integration runtime node.
+    types:
+    - uid: number
+examples:
+- name: Retrieve the Monitoring Data.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/service1/listMonitoringData?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.DataMigration/sqlMigrationServices/service1/listMonitoringData?api-version=2022-01-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "IntegrationRuntime1",
+        "nodes": [
+          {
+            "nodeName": "DESKTOP-6AAAAAA",
+            "availableMemoryInMB": 4219,
+            "cpuUtilization": 66,
+            "concurrentJobsLimit": 20,
+            "concurrentJobsRunning": 0,
+            "sentBytes": 0.24564747512340546,
+            "receivedBytes": 0.14946500957012177
+          },
+          {
+            "nodeName": "DESKTOP-6AAAAAB",
+            "availableMemoryInMB": 4219,
+            "cpuUtilization": 66,
+            "concurrentJobsLimit": 20,
+            "concurrentJobsRunning": 0,
+            "sentBytes": 0.24564747512340546,
+            "receivedBytes": 0.14946500957012177
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Retrieve the registered Integration Runtime nodes and their monitoring data for a given Database Migration Service.
+errorCodes: []

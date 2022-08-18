@@ -215,6 +215,122 @@ examples:
 - name: ReservationSummariesDailyWithReservationId
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=daily&$filter=properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20&api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.Datagrain;
+
+      /** Samples for ReservationsSummaries ListByReservationOrderAndReservation. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
+           */
+          /**
+           * Sample code: ReservationSummariesDailyWithReservationId.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationSummariesDailyWithReservationId(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationsSummaries()
+                  .listByReservationOrderAndReservation(
+                      "00000000-0000-0000-0000-000000000000",
+                      "00000000-0000-0000-0000-000000000000",
+                      Datagrain.DAILY,
+                      "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armconsumption_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/consumption/armconsumption"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
+      func ExampleReservationsSummariesClient_NewListByReservationOrderAndReservationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armconsumption.NewReservationsSummariesClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByReservationOrderAndReservationPager("00000000-0000-0000-0000-000000000000",
+      		"00000000-0000-0000-0000-000000000000",
+      		armconsumption.DatagrainDailyGrain,
+      		&armconsumption.ReservationsSummariesClientListByReservationOrderAndReservationOptions{Filter: to.Ptr("properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20")})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fconsumption%2Farmconsumption%2Fv1.0.0/sdk/resourcemanager/consumption/armconsumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
+       *
+       * @summary Lists the reservations summaries for daily or monthly grain.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesDailyWithReservationId.json
+       */
+      async function reservationSummariesDailyWithReservationId() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const reservationOrderId = "00000000-0000-0000-0000-000000000000";
+        const reservationId = "00000000-0000-0000-0000-000000000000";
+        const grain = "daily";
+        const filter = "properties/usageDate ge 2017-10-01 AND properties/usageDate le 2017-11-20";
+        const options = {
+          filter,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.reservationsSummaries.listByReservationOrderAndReservation(
+          reservationOrderId,
+          reservationId,
+          grain,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationSummariesDailyWithReservationId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -251,6 +367,75 @@ examples:
 - name: ReservationSummariesMonthlyWithReservationId
   request:
     uri: GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.Capacity/reservationorders/00000000-0000-0000-0000-000000000000/reservations/00000000-0000-0000-0000-000000000000/providers/Microsoft.Consumption/reservationSummaries?grain=monthly&api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.consumption.models.Datagrain;
+
+      /** Samples for ReservationsSummaries ListByReservationOrderAndReservation. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithReservationId.json
+           */
+          /**
+           * Sample code: ReservationSummariesMonthlyWithReservationId.
+           *
+           * @param manager Entry point to ConsumptionManager.
+           */
+          public static void reservationSummariesMonthlyWithReservationId(
+              com.azure.resourcemanager.consumption.ConsumptionManager manager) {
+              manager
+                  .reservationsSummaries()
+                  .listByReservationOrderAndReservation(
+                      "00000000-0000-0000-0000-000000000000",
+                      "00000000-0000-0000-0000-000000000000",
+                      Datagrain.MONTHLY,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-consumption_1.0.0-beta.3/sdk/consumption/azure-resourcemanager-consumption/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ConsumptionManagementClient } = require("@azure/arm-consumption");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the reservations summaries for daily or monthly grain.
+       *
+       * @summary Lists the reservations summaries for daily or monthly grain.
+       * x-ms-original-file: specification/consumption/resource-manager/Microsoft.Consumption/stable/2021-10-01/examples/ReservationSummariesMonthlyWithReservationId.json
+       */
+      async function reservationSummariesMonthlyWithReservationId() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const reservationOrderId = "00000000-0000-0000-0000-000000000000";
+        const reservationId = "00000000-0000-0000-0000-000000000000";
+        const grain = "monthly";
+        const credential = new DefaultAzureCredential();
+        const client = new ConsumptionManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.reservationsSummaries.listByReservationOrderAndReservation(
+          reservationOrderId,
+          reservationId,
+          grain
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      reservationSummariesMonthlyWithReservationId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-consumption_9.0.1/sdk/consumption/arm-consumption/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -294,5 +479,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Consumption service - Lists the reservations summaries for daily or monthly grain.
+  description: >
+    Learn more about Consumption service - Lists the reservations summaries for daily or monthly grain.
 errorCodes: []

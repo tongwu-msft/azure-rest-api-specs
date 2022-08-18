@@ -77,10 +77,12 @@ definitions:
     description: Supported source types.
     types:
     - uid: sourceKind
+    defaultValue: url
   - name: contentStructureKind
     description: Content structure type for sources.
     types:
     - uid: sourceContentStructureKind
+    defaultValue: Unstructured
   - name: refresh
     description: Boolean flag used to refresh data from the Source.
     types:
@@ -288,6 +290,42 @@ examples:
           }
         }
       ]
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH {Endpoint}/language/query-knowledgebases/projects/proj1/sources?api-version=2021-10-01
+
+
+      [
+        {
+          "op": "add",
+          "value": {
+            "displayName": "source3",
+            "sourceUri": "https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-support-options?context=/azure/cognitive-services/qnamaker/context/context",
+            "sourceKind": "url"
+          }
+        },
+        {
+          "op": "replace",
+          "value": {
+            "displayName": "source1",
+            "sourceUri": "https://docs.microsoft.com/en-us/azure/cognitive-services/qnamaker/overview/overview",
+            "sourceKind": "url",
+            "refresh": true
+          }
+        },
+        {
+          "op": "delete",
+          "value": {
+            "displayName": "source2",
+            "sourceUri": "https://download.microsoft.com/download/2/9/B/29B20383-302C-4517-A006-B0186F04BE28/surface-pro-4-user-guide-EN.pdf",
+            "sourceKind": "file"
+          }
+        }
+      ]
+
+      ```
+
     headers:
     - name: Ocp-Apim-Subscription-Key
       value: '{API key}'
@@ -301,5 +339,6 @@ security:
   type: apiKey
   in: header
 metadata:
-  description: Learn more about Cognitive Services service - Updates the sources of a project.
+  description: >
+    Learn more about Cognitive Services service - Updates the sources of a project.
 errorCodes: []

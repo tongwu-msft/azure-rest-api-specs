@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.collection.createorupdatebulk
 name: Create Or Update Bulk
 service: Purview
 groupName: Collection
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: >-
   Creates or updates entities in bulk to a collection.
 
@@ -15,7 +15,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: POST {Endpoint}/catalog/api/collections/{collection}/entity/bulk?api-version=2021-05-01-preview
+- content: POST {Endpoint}/catalog/api/collections/{collection}/entity/bulk?api-version=2022-03-01-preview
 uriParameters:
 - name: Endpoint
   in: path
@@ -81,6 +81,14 @@ definitions:
     description: "lastModifiedTS  \nETag for concurrency control."
     types:
     - uid: string
+  - name: businessAttributes
+    description: Business Attributes
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: classifications
     description: An array of classifications.
     types:
@@ -94,6 +102,14 @@ definitions:
     description: The user who created the record.
     types:
     - uid: string
+  - name: customAttributes
+    description: Custom Attribute
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: guid
     description: The GUID of the entity.
     types:
@@ -102,6 +118,15 @@ definitions:
     description: The home ID of the entity.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meanings
     description: An array of term assignment headers indicating the meanings of the entity.
     types:
@@ -362,6 +387,15 @@ definitions:
     description: The GUID of the record.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meaningNames
     description: An array of meanings.
     types:
@@ -420,7 +454,7 @@ definitions:
 examples:
 - name: Collection_CreateOrUpdateBulk
   request:
-    uri: POST {Endpoint}/catalog/api/collections/ExampleCollection/entity/bulk?api-version=2021-05-01-preview
+    uri: POST {Endpoint}/catalog/api/collections/ExampleCollection/entity/bulk?api-version=2022-03-01-preview
     body: >-
       {
         "referredEntities": {},
@@ -442,6 +476,34 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/collections/ExampleCollection/entity/bulk?api-version=2022-03-01-preview
+
+      {
+        "referredEntities": {},
+        "entities": [
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount",
+              "name": "exampleaccount",
+              "description": "Example Description"
+            }
+          },
+          {
+            "typeName": "azure_storage_account",
+            "attributes": {
+              "qualifiedName": "exampleaccount2",
+              "name": "exampleaccount2"
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-

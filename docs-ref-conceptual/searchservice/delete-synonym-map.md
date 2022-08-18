@@ -4,7 +4,7 @@ description: "A synonym map can be deleted using REST API in Azure Cognitive Sea
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

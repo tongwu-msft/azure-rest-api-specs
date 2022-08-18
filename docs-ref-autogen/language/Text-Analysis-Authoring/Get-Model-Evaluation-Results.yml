@@ -1,0 +1,728 @@
+### YamlMime:RESTOperation
+uid: language.textanalysisauthoring.getmodelevaluationresults
+name: Get Model Evaluation Results
+service: Cognitive Services - Language
+groupName: Text Analysis Authoring
+apiVersion: 2022-05-01
+summary: Gets the detailed results of the evaluation for a trained model. This includes the raw inference results for the data included in the evaluation process.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/evaluation/result?stringIndexType=Utf16CodeUnit&api-version=2022-05-01
+- content: GET {Endpoint}/language/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/evaluation/result?stringIndexType=Utf16CodeUnit&top={top}&skip={skip}&maxpagesize={maxpagesize}&api-version=2022-05-01
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: trainedModelLabel
+  in: path
+  isRequired: true
+  description: The trained model label.
+  types:
+  - uid: string
+- name: stringIndexType
+  in: query
+  isRequired: true
+  description: Specifies the method used to interpret string offsets. For additional information see https://aka.ms/text-analytics-offsets.
+  types:
+  - uid: StringIndexType
+- name: top
+  in: query
+  description: The maximum number of resources to return from the collection.
+  types:
+  - uid: integer
+  format: int32
+- name: skip
+  in: query
+  description: An offset into the collection of the first resource to be returned.
+  types:
+  - uid: integer
+  format: int32
+- name: maxpagesize
+  in: query
+  description: The maximum number of resources to include in a single response.
+  types:
+  - uid: integer
+  format: int32
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of the evaluation results.
+  types:
+  - uid: TextAnalysisAuthoringEvaluationResults
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: StringIndexType
+  description: Specifies the method used to interpret string offsets. For additional information see https://aka.ms/text-analytics-offsets.
+  kind: enum
+  properties:
+  - name: Utf16CodeUnit
+    description: The offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringEvaluationResults
+  description: Represents a list of results for an evaluation operation.
+  kind: object
+  properties:
+  - name: value
+    description: THe list of documents evaluation results.
+    types:
+    - uid: TextAnalysisAuthoringCustomEntityRecognitionDocumentEvaluationResult
+      isArray: true
+    - uid: TextAnalysisAuthoringCustomMultiLabelClassificationDocumentEvaluationResult
+      isArray: true
+    - uid: TextAnalysisAuthoringCustomSingleLabelClassificationDocumentEvaluationResult
+      isArray: true
+    typesTitle: TextAnalysisAuthoringDocumentEvaluationResult[]
+  - name: nextLink
+    description: The next page link.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: TextAnalysisAuthoringCustomEntityRecognitionDocumentEvaluationResult
+  description: Represents the document evaluation result for a custom entity recognition project.
+  kind: object
+  properties:
+  - name: customEntityRecognitionResult
+    description: Represents the evaluation prediction for entity recognition.
+    types:
+    - uid: TextAnalysisAuthoringDocumentEntityRecognitionEvaluationResult
+  - name: location
+    description: Represents the document path.
+    types:
+    - uid: string
+  - name: language
+    description: Represents the document language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: projectKind
+    description: Represents the project kind.
+    types:
+    - uid: CustomEntityRecognition
+    typesTitle: string
+- name: TextAnalysisAuthoringCustomMultiLabelClassificationDocumentEvaluationResult
+  description: Represents the document evaluation result for a custom multi-label classification project.
+  kind: object
+  properties:
+  - name: customMultiLabelClassificationResult
+    description: Represents the evaluation prediction for multi label classification.
+    types:
+    - uid: TextAnalysisAuthoringDocumentMultiLabelClassificationEvaluationResult
+  - name: location
+    description: Represents the document path.
+    types:
+    - uid: string
+  - name: language
+    description: Represents the document language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: projectKind
+    description: Represents the project kind.
+    types:
+    - uid: CustomMultiLabelClassification
+    typesTitle: string
+- name: TextAnalysisAuthoringCustomSingleLabelClassificationDocumentEvaluationResult
+  description: Represents the document evaluation result for a custom single-label classification project.
+  kind: object
+  properties:
+  - name: customSingleLabelClassificationResult
+    description: Represents the evaluation prediction for single label classification.
+    types:
+    - uid: TextAnalysisAuthoringDocumentSingleLabelClassificationEvaluationResult
+  - name: location
+    description: Represents the document path.
+    types:
+    - uid: string
+  - name: language
+    description: Represents the document language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: projectKind
+    description: Represents the project kind.
+    types:
+    - uid: CustomSingleLabelClassification
+    typesTitle: string
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: TextAnalysisAuthoringDocumentEntityRecognitionEvaluationResult
+  description: Represents the entity recognition evaluation result for a document.
+  kind: object
+  properties:
+  - name: entities
+    description: Represents the document labelled entities.
+    types:
+    - uid: TextAnalysisAuthoringDocumentEntityRegionEvaluationResult
+      isArray: true
+- name: ProjectKind
+  description: The project kind.
+  kind: enum
+  properties:
+  - name: CustomSingleLabelClassification
+    description: For building a classification model to classify text using your own data. Each file will have only one label. For example, file 1 is classified as A and file 2 is classified as B.
+    types:
+    - uid: string
+  - name: CustomMultiLabelClassification
+    description: For building a classification model to classify text using your own data. Each file can have one or many labels. For example, file 1 is classified as A, B, and C and file 2 is classified as B and C.
+    types:
+    - uid: string
+  - name: CustomEntityRecognition
+    description: For building an extraction model to identify your domain categories using your own data.
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringDocumentMultiLabelClassificationEvaluationResult
+  description: Represents the comparison between the expected and predicted classes that are result from the evaluation operation.
+  kind: object
+  properties:
+  - name: expectedClasses
+    description: Represents the document's expected classes.
+    types:
+    - uid: string
+      isArray: true
+  - name: predictedClasses
+    description: Represents the document's predicted classes.
+    types:
+    - uid: string
+      isArray: true
+- name: TextAnalysisAuthoringDocumentSingleLabelClassificationEvaluationResult
+  description: Represents the comparison between the expected and predicted class that result from an evaluation operation.
+  kind: object
+  properties:
+  - name: expectedClass
+    description: Represents the document's expected class.
+    types:
+    - uid: string
+  - name: predictedClass
+    description: Represents the document's predicted class.
+    types:
+    - uid: string
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringDocumentEntityRegionEvaluationResult
+  description: Represents the evaluation comparison between the expected and predicted entities of a document region.
+  kind: object
+  properties:
+  - name: expectedEntities
+    description: Represents the region's expected entity labels.
+    types:
+    - uid: TextAnalysisAuthoringDocumentEntityLabelEvaluationResult
+      isArray: true
+  - name: predictedEntities
+    description: Represents the region's predicted entity labels.
+    types:
+    - uid: TextAnalysisAuthoringDocumentEntityLabelEvaluationResult
+      isArray: true
+  - name: regionOffset
+    description: Represents the region offset.
+    types:
+    - uid: integer
+  - name: regionLength
+    description: Represents the region length.
+    types:
+    - uid: integer
+- name: TextAnalysisAuthoringDocumentEntityLabelEvaluationResult
+  description: Represents an evaluation result entity label.
+  kind: object
+  properties:
+  - name: category
+    description: Represents the entity category.
+    types:
+    - uid: string
+  - name: offset
+    description: Represents the entity offset index relative to the original text.
+    types:
+    - uid: integer
+  - name: length
+    description: Represents the entity length.
+    types:
+    - uid: integer
+examples:
+- name: Successful Get Model Evaluation
+  request:
+    uri: GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/models/model2/evaluation/result?stringIndexType=Utf16CodeUnit&maxpagesize=10&api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/models/model2/evaluation/result?stringIndexType=Utf16CodeUnit&maxpagesize=10&api-version=2022-05-01
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "location": "11.txt",
+            "language": "en-us",
+            "projectKind": "CustomEntityRecognition",
+            "customEntityRecognitionResult": {
+              "entities": [
+                {
+                  "expectedEntities": [
+                    {
+                      "category": "Date",
+                      "offset": 5,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerName",
+                      "offset": 160,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerAddress",
+                      "offset": 181,
+                      "length": 34
+                    },
+                    {
+                      "category": "BorrowerCity",
+                      "offset": 225,
+                      "length": 6
+                    },
+                    {
+                      "category": "BorrowerState",
+                      "offset": 242,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderName",
+                      "offset": 271,
+                      "length": 12
+                    },
+                    {
+                      "category": "LenderAddress",
+                      "offset": 310,
+                      "length": 20
+                    },
+                    {
+                      "category": "LenderCity",
+                      "offset": 340,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderState",
+                      "offset": 359,
+                      "length": 11
+                    },
+                    {
+                      "category": "LoanAmountWords",
+                      "offset": 448,
+                      "length": 52
+                    },
+                    {
+                      "category": "LoanAmountNumbers",
+                      "offset": 502,
+                      "length": 10
+                    },
+                    {
+                      "category": "Interest",
+                      "offset": 588,
+                      "length": 2
+                    }
+                  ],
+                  "predictedEntities": [
+                    {
+                      "category": "Date",
+                      "offset": 5,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerName",
+                      "offset": 160,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerAddress",
+                      "offset": 200,
+                      "length": 15
+                    },
+                    {
+                      "category": "BorrowerCity",
+                      "offset": 225,
+                      "length": 6
+                    },
+                    {
+                      "category": "BorrowerState",
+                      "offset": 242,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderName",
+                      "offset": 271,
+                      "length": 12
+                    },
+                    {
+                      "category": "LenderAddress",
+                      "offset": 310,
+                      "length": 20
+                    },
+                    {
+                      "category": "LenderCity",
+                      "offset": 340,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderState",
+                      "offset": 359,
+                      "length": 11
+                    },
+                    {
+                      "category": "LoanAmountWords",
+                      "offset": 448,
+                      "length": 52
+                    },
+                    {
+                      "category": "LoanAmountNumbers",
+                      "offset": 502,
+                      "length": 10
+                    },
+                    {
+                      "category": "Interest",
+                      "offset": 588,
+                      "length": 2
+                    }
+                  ],
+                  "regionOffset": 0,
+                  "regionLength": 1780
+                }
+              ]
+            }
+          },
+          {
+            "location": "01.txt",
+            "language": "en-us",
+            "projectKind": "CustomEntityRecognition",
+            "customEntityRecognitionResult": {
+              "entities": [
+                {
+                  "expectedEntities": [
+                    {
+                      "category": "Date",
+                      "offset": 5,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerName",
+                      "offset": 160,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerAddress",
+                      "offset": 200,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerCity",
+                      "offset": 223,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerState",
+                      "offset": 243,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderName",
+                      "offset": 273,
+                      "length": 14
+                    },
+                    {
+                      "category": "LenderAddress",
+                      "offset": 314,
+                      "length": 15
+                    },
+                    {
+                      "category": "LenderCity",
+                      "offset": 339,
+                      "length": 10
+                    },
+                    {
+                      "category": "LenderState",
+                      "offset": 360,
+                      "length": 8
+                    },
+                    {
+                      "category": "LoanAmountWords",
+                      "offset": 446,
+                      "length": 66
+                    },
+                    {
+                      "category": "LoanAmountNumbers",
+                      "offset": 514,
+                      "length": 11
+                    },
+                    {
+                      "category": "Interest",
+                      "offset": 601,
+                      "length": 2
+                    }
+                  ],
+                  "predictedEntities": [
+                    {
+                      "category": "Date",
+                      "offset": 5,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerName",
+                      "offset": 160,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerAddress",
+                      "offset": 200,
+                      "length": 13
+                    },
+                    {
+                      "category": "BorrowerCity",
+                      "offset": 223,
+                      "length": 9
+                    },
+                    {
+                      "category": "BorrowerState",
+                      "offset": 243,
+                      "length": 8
+                    },
+                    {
+                      "category": "LenderName",
+                      "offset": 273,
+                      "length": 14
+                    },
+                    {
+                      "category": "LenderAddress",
+                      "offset": 314,
+                      "length": 15
+                    },
+                    {
+                      "category": "LenderCity",
+                      "offset": 339,
+                      "length": 10
+                    },
+                    {
+                      "category": "LenderState",
+                      "offset": 360,
+                      "length": 8
+                    },
+                    {
+                      "category": "LoanAmountWords",
+                      "offset": 446,
+                      "length": 66
+                    },
+                    {
+                      "category": "LoanAmountNumbers",
+                      "offset": 514,
+                      "length": 11
+                    },
+                    {
+                      "category": "Interest",
+                      "offset": 601,
+                      "length": 2
+                    }
+                  ],
+                  "regionOffset": 0,
+                  "regionLength": 1793
+                }
+              ]
+            }
+          }
+        ],
+        "nextLink": "{Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/models/model2/evaluation/result/?api-version=2022-05-01&top=2147483645&skip=2&maxpagesize=2"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Gets the detailed results of the evaluation for a trained model. This includes the raw inference results for the data included in the evaluation process.
+errorCodes: []

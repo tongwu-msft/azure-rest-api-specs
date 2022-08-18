@@ -4,7 +4,7 @@ description: Allowed data types for fields in an Azure Cognitive Search index.
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

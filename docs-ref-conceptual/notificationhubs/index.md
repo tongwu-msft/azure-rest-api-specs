@@ -1,5 +1,6 @@
 ---
 title: Azure Notification Hubs REST API reference
+description: Use this API reference documentation to provide an easy-to-use and scaled-out push engine that allows you to send notifications to any platform.
 ms.service: notification-hubs
 author: spelluru
 ms.author: spelluru

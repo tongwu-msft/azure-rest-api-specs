@@ -244,6 +244,90 @@ examples:
 - name: ApiManagementGetReportsByTime
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byTime?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&interval=PT15M&api-version=2021-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/reports/byTime?$filter=timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'&interval=PT15M&api-version=2021-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import java.time.Duration;
+
+      /** Samples for Reports ListByTime. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsByTime.json
+           */
+          /**
+           * Sample code: ApiManagementGetReportsByTime.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementGetReportsByTime(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .reports()
+                  .listByTime(
+                      "rg1",
+                      "apimService1",
+                      "timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'",
+                      Duration.parse("PT15M"),
+                      null,
+                      null,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementGetReportsByTime.json
+      func ExampleReportsClient_NewListByTimePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewReportsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByTimePager("rg1",
+      		"apimService1",
+      		"timestamp ge datetime'2017-06-01T00:00:00' and timestamp le datetime'2017-06-04T00:00:00'",
+      		"PT15M",
+      		&armapimanagement.ReportsClientListByTimeOptions{Top: nil,
+      			Skip:    nil,
+      			Orderby: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -261,7 +345,7 @@ examples:
             "cacheHitCount": 0,
             "cacheMissCount": 0,
             "apiTimeAvg": 1337.46335,
-            "apiTimeMin": 885.08390000000009,
+            "apiTimeMin": 885.0839000000001,
             "apiTimeMax": 1819.2173,
             "serviceTimeAvg": 1255.917425,
             "serviceTimeMin": 882.8264,
@@ -278,12 +362,12 @@ examples:
             "bandwidth": 7776,
             "cacheHitCount": 0,
             "cacheMissCount": 0,
-            "apiTimeAvg": 872.78187777777782,
+            "apiTimeAvg": 872.7818777777778,
             "apiTimeMin": 330.3206,
             "apiTimeMax": 1093.8407,
-            "serviceTimeAvg": 824.28471111111116,
+            "serviceTimeAvg": 824.2847111111112,
             "serviceTimeMin": 215.24,
-            "serviceTimeMax": 973.22620000000006
+            "serviceTimeMax": 973.2262000000001
           }
         ],
         "count": 2,
@@ -299,5 +383,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Lists report records by Time.
+  description: >
+    Learn more about API Management service - Lists report records by Time.
 errorCodes: []

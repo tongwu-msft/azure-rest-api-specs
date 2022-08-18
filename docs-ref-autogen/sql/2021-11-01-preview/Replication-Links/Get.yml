@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.replicationlinks.get
+name: Get
+service: SQL Database
+groupName: Replication Links
+apiVersion: 2021-11-01-preview
+summary: Gets a replication link.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/replicationLinks/{linkId}?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: linkId
+  in: path
+  isRequired: true
+  description: The name of the replication link.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the specified replication link.
+  types:
+  - uid: ReplicationLink
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ReplicationLinksReplicationLinkNameIsInvalid - Replication link name should be a valid guid.
+
+     * 400 ReplicationLinksDeleteIsNotSupported - This action is not yet available, please use 2014-04-01 for this action.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: ReplicationLink
+  description: A replication link.
+  kind: object
+  properties:
+  - name: properties.partnerServer
+    isReadyOnly: true
+    description: Resource partner server.
+    types:
+    - uid: string
+  - name: properties.partnerDatabase
+    isReadyOnly: true
+    description: Resource partner database.
+    types:
+    - uid: string
+  - name: properties.partnerLocation
+    isReadyOnly: true
+    description: Resource partner location.
+    types:
+    - uid: string
+  - name: properties.role
+    isReadyOnly: true
+    description: Local replication role.
+    types:
+    - uid: ReplicationRole
+  - name: properties.partnerRole
+    isReadyOnly: true
+    description: Partner replication role.
+    types:
+    - uid: ReplicationRole
+  - name: properties.replicationMode
+    isReadyOnly: true
+    description: Replication mode.
+    types:
+    - uid: string
+  - name: properties.startTime
+    isReadyOnly: true
+    description: Time at which the link was created.
+    types:
+    - uid: string
+  - name: properties.percentComplete
+    isReadyOnly: true
+    description: Seeding completion percentage for the link.
+    types:
+    - uid: integer
+  - name: properties.replicationState
+    isReadyOnly: true
+    description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+    types:
+    - uid: ReplicationState
+  - name: properties.isTerminationAllowed
+    isReadyOnly: true
+    description: Whether the user is currently allowed to terminate the link.
+    types:
+    - uid: boolean
+  - name: properties.linkType
+    isReadyOnly: true
+    description: Link type (GEO, NAMED).
+    types:
+    - uid: ReplicationLinkType
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ReplicationRole
+  description: Local replication role.
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Secondary
+    types:
+    - uid: string
+  - name: NonReadableSecondary
+    types:
+    - uid: string
+  - name: Source
+    types:
+    - uid: string
+  - name: Copy
+    types:
+    - uid: string
+- name: ReplicationState
+  description: Replication state (PENDING, SEEDING, CATCHUP, SUSPENDED).
+  kind: enum
+  properties:
+  - name: PENDING
+    types:
+    - uid: string
+  - name: SEEDING
+    types:
+    - uid: string
+  - name: CATCH_UP
+    types:
+    - uid: string
+  - name: SUSPENDED
+    types:
+    - uid: string
+- name: ReplicationLinkType
+  description: Link type (GEO, NAMED).
+  kind: enum
+  properties:
+  - name: GEO
+    types:
+    - uid: string
+  - name: NAMED
+    types:
+    - uid: string
+examples:
+- name: Gets the replication link.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/gamma-db/replicationLinks/4891ca10-ebd0-47d7-9182-c722651780fb?api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/gamma-db/replicationLinks/4891ca10-ebd0-47d7-9182-c722651780fb?api-version=2021-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ReplicationLinkGet.json
+      func ExampleReplicationLinksClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewReplicationLinksClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"Default",
+      		"sourcesvr",
+      		"gamma-db",
+      		"4891ca10-ebd0-47d7-9182-c722651780fb",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "partnerServer": "testsvr",
+          "partnerDatabase": "gamma-db",
+          "partnerLocation": "Japan East",
+          "role": "Primary",
+          "partnerRole": "Secondary",
+          "replicationMode": "ASYNC",
+          "startTime": "2018-06-21T08:12:43.783Z",
+          "percentComplete": 100,
+          "replicationState": "CATCH_UP",
+          "isTerminationAllowed": true,
+          "linkType": "GEO"
+        },
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.Sql/servers/sourcesvr/databases/gamma-db/replicationLinks/4891ca10-ebd0-47d7-9182-c722651780fb",
+        "name": "4891ca10-ebd0-47d7-9182-c722651780fb"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a replication link.
+errorCodes: []

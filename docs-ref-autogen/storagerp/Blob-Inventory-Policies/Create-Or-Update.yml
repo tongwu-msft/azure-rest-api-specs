@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.blobinventorypolicies.createorupdate
 name: Create Or Update
 service: Storage Resource Provider
 groupName: Blob Inventory Policies
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Sets the blob inventory policy to the specified storage account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/default?api-version=2021-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/inventoryPolicies/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -51,7 +51,7 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: CloudError
 requestBody:
 - name: default
   parameters:
@@ -106,6 +106,11 @@ definitions:
     description: Policy is enabled if set to true.
     types:
     - uid: boolean
+  - name: destination
+    isReadyOnly: true
+    description: Deprecated Property from API version 2021-04-01 onwards, the required destination container name must be specified at the rule level 'policy.rule.destination'
+    types:
+    - uid: string
   - name: type
     description: The valid value is Inventory
     types:
@@ -148,14 +153,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-- name: ErrorResponse
-  description: An error response from the storage resource provider.
+- name: CloudError
+  description: An error response from the Storage service.
   kind: object
   properties:
   - name: error
-    description: Azure Storage Resource Provider error response body.
+    description: An error response from the Storage service.
     types:
-    - uid: ErrorResponseBody
+    - uid: CloudErrorBody
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -199,8 +204,8 @@ definitions:
     description: An object that defines the blob inventory policy rule.
     types:
     - uid: BlobInventoryPolicyDefinition
-- name: ErrorResponseBody
-  description: Error response body contract.
+- name: CloudErrorBody
+  description: An error response from the Storage service.
   kind: object
   properties:
   - name: code
@@ -211,6 +216,15 @@ definitions:
     description: A message describing the error, intended to be suitable for display in a user interface.
     types:
     - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
 - name: BlobInventoryPolicyDefinition
   description: An object that defines the blob inventory rule.
   kind: object
@@ -232,7 +246,7 @@ definitions:
     types:
     - uid: objectType
   - name: schemaFields
-    description: This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime'. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl' are valid only for Hns enabled accounts.
+    description: This is a required field. This field specifies the fields and properties of the object to be included in the inventory. The Schema field value 'Name' is always required. The valid values for this field for the 'Blob' definition.objectType include 'Name, Creation-Time, Last-Modified, Content-Length, Content-MD5, BlobType, AccessTier, AccessTierChangeTime, AccessTierInferred, Tags, Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, Snapshot, VersionId, IsCurrentVersion, Metadata, LastAccessTime, Tags, Etag, ContentType, ContentEncoding, ContentLanguage, ContentCRC64, CacheControl, ContentDisposition, LeaseStatus, LeaseState, LeaseDuration, ServerEncrypted, Deleted, DeletionId, DeletedTime, RemainingRetentionDays, ImmutabilityPolicyUntilDate, ImmutabilityPolicyMode, LegalHold, CopyId, CopyStatus, CopySource, CopyProgress, CopyCompletionTime, CopyStatusDescription, CustomerProvidedKeySha256, RehydratePriority, ArchiveStatus, XmsBlobSequenceNumber, EncryptionScope, IncrementalCopy, TagCount'. For Blob object type schema field value 'DeletedTime' is applicable only for Hns enabled accounts. The valid values for 'Container' definition.objectType include 'Name, Last-Modified, Metadata, LeaseStatus, LeaseState, LeaseDuration, PublicAccess, HasImmutabilityPolicy, HasLegalHold, Etag, DefaultEncryptionScope, DenyEncryptionScopeOverride, ImmutableStorageWithVersioningEnabled, Deleted, Version, DeletedTime, RemainingRetentionDays'. Schema field values 'Expiry-Time, hdi_isfolder, Owner, Group, Permissions, Acl, DeletionId' are valid only for Hns enabled accounts.Schema field values 'Tags, TagCount' are only valid for Non-Hns accounts.
     types:
     - uid: string
       isArray: true
@@ -241,7 +255,12 @@ definitions:
   kind: object
   properties:
   - name: prefixMatch
-    description: An array of strings for blob prefixes to be matched.
+    description: An array of strings with maximum 10 blob prefixes to be included in the inventory.
+    types:
+    - uid: string
+      isArray: true
+  - name: excludePrefix
+    description: An array of strings with maximum 10 blob prefixes to be excluded from the inventory.
     types:
     - uid: string
       isArray: true
@@ -256,6 +275,10 @@ definitions:
     - uid: boolean
   - name: includeSnapshots
     description: Includes blob snapshots in blob inventory when value is set to true. The definition.schemaFields value 'Snapshot' is required if this property is set to true, else it must be excluded.
+    types:
+    - uid: boolean
+  - name: includeDeleted
+    description: For 'Container' definition.objectType the definition.schemaFields must include 'Deleted, Version, DeletedTime and RemainingRetentionDays'. For 'Blob' definition.objectType and HNS enabled storage accounts the definition.schemaFields must include 'DeletionId, Deleted, DeletedTime and RemainingRetentionDays' and for Hns disabled accounts the definition.schemaFields must include 'Deleted and RemainingRetentionDays', else it must be excluded.
     types:
     - uid: boolean
 - name: format
@@ -291,7 +314,7 @@ definitions:
 examples:
 - name: StorageAccountSetBlobInventoryPolicy
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
     body: >-
       {
         "properties": {
@@ -313,6 +336,10 @@ examples:
                     "prefixMatch": [
                       "inventoryprefix1",
                       "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
                     ],
                     "includeSnapshots": true,
                     "includeBlobVersions": true
@@ -361,6 +388,385 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
+
+      {
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Metadata"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.BlobInventoryPolicyInner;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyDefinition;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyFilter;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyName;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyRule;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicySchema;
+      import com.azure.resourcemanager.storage.models.Format;
+      import com.azure.resourcemanager.storage.models.InventoryRuleType;
+      import com.azure.resourcemanager.storage.models.ObjectType;
+      import com.azure.resourcemanager.storage.models.Schedule;
+      import java.util.Arrays;
+
+      /** Samples for BlobInventoryPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicy.json
+           */
+          /**
+           * Sample code: StorageAccountSetBlobInventoryPolicy.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountSetBlobInventoryPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobInventoryPolicies()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "sto9699",
+                      BlobInventoryPolicyName.DEFAULT,
+                      new BlobInventoryPolicyInner()
+                          .withPolicy(
+                              new BlobInventoryPolicySchema()
+                                  .withEnabled(true)
+                                  .withType(InventoryRuleType.INVENTORY)
+                                  .withRules(
+                                      Arrays
+                                          .asList(
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule1")
+                                                  .withDestination("container1")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFilters(
+                                                              new BlobInventoryPolicyFilter()
+                                                                  .withPrefixMatch(
+                                                                      Arrays.asList("inventoryprefix1", "inventoryprefix2"))
+                                                                  .withExcludePrefix(
+                                                                      Arrays.asList("excludeprefix1", "excludeprefix2"))
+                                                                  .withBlobTypes(
+                                                                      Arrays.asList("blockBlob", "appendBlob", "pageBlob"))
+                                                                  .withIncludeBlobVersions(true)
+                                                                  .withIncludeSnapshots(true))
+                                                          .withFormat(Format.CSV)
+                                                          .withSchedule(Schedule.DAILY)
+                                                          .withObjectType(ObjectType.BLOB)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Creation-Time",
+                                                                      "Last-Modified",
+                                                                      "Content-Length",
+                                                                      "Content-MD5",
+                                                                      "BlobType",
+                                                                      "AccessTier",
+                                                                      "AccessTierChangeTime",
+                                                                      "Snapshot",
+                                                                      "VersionId",
+                                                                      "IsCurrentVersion",
+                                                                      "Metadata"))),
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule2")
+                                                  .withDestination("container2")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFormat(Format.PARQUET)
+                                                          .withSchedule(Schedule.WEEKLY)
+                                                          .withObjectType(ObjectType.CONTAINER)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Last-Modified",
+                                                                      "Metadata",
+                                                                      "LeaseStatus",
+                                                                      "LeaseState",
+                                                                      "LeaseDuration",
+                                                                      "PublicAccess",
+                                                                      "HasImmutabilityPolicy",
+                                                                      "HasLegalHold")))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicy.json
+      func ExampleBlobInventoryPoliciesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewBlobInventoryPoliciesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"res7687",
+      		"sto9699",
+      		armstorage.BlobInventoryPolicyNameDefault,
+      		armstorage.BlobInventoryPolicy{
+      			Properties: &armstorage.BlobInventoryPolicyProperties{
+      				Policy: &armstorage.BlobInventoryPolicySchema{
+      					Type:    to.Ptr(armstorage.InventoryRuleTypeInventory),
+      					Enabled: to.Ptr(true),
+      					Rules: []*armstorage.BlobInventoryPolicyRule{
+      						{
+      							Name: to.Ptr("inventoryPolicyRule1"),
+      							Definition: &armstorage.BlobInventoryPolicyDefinition{
+      								Format: to.Ptr(armstorage.FormatCSV),
+      								Filters: &armstorage.BlobInventoryPolicyFilter{
+      									BlobTypes: []*string{
+      										to.Ptr("blockBlob"),
+      										to.Ptr("appendBlob"),
+      										to.Ptr("pageBlob")},
+      									ExcludePrefix: []*string{
+      										to.Ptr("excludeprefix1"),
+      										to.Ptr("excludeprefix2")},
+      									IncludeBlobVersions: to.Ptr(true),
+      									IncludeSnapshots:    to.Ptr(true),
+      									PrefixMatch: []*string{
+      										to.Ptr("inventoryprefix1"),
+      										to.Ptr("inventoryprefix2")},
+      								},
+      								ObjectType: to.Ptr(armstorage.ObjectTypeBlob),
+      								Schedule:   to.Ptr(armstorage.ScheduleDaily),
+      								SchemaFields: []*string{
+      									to.Ptr("Name"),
+      									to.Ptr("Creation-Time"),
+      									to.Ptr("Last-Modified"),
+      									to.Ptr("Content-Length"),
+      									to.Ptr("Content-MD5"),
+      									to.Ptr("BlobType"),
+      									to.Ptr("AccessTier"),
+      									to.Ptr("AccessTierChangeTime"),
+      									to.Ptr("Snapshot"),
+      									to.Ptr("VersionId"),
+      									to.Ptr("IsCurrentVersion"),
+      									to.Ptr("Metadata")},
+      							},
+      							Destination: to.Ptr("container1"),
+      							Enabled:     to.Ptr(true),
+      						},
+      						{
+      							Name: to.Ptr("inventoryPolicyRule2"),
+      							Definition: &armstorage.BlobInventoryPolicyDefinition{
+      								Format:     to.Ptr(armstorage.FormatParquet),
+      								ObjectType: to.Ptr(armstorage.ObjectTypeContainer),
+      								Schedule:   to.Ptr(armstorage.ScheduleWeekly),
+      								SchemaFields: []*string{
+      									to.Ptr("Name"),
+      									to.Ptr("Last-Modified"),
+      									to.Ptr("Metadata"),
+      									to.Ptr("LeaseStatus"),
+      									to.Ptr("LeaseState"),
+      									to.Ptr("LeaseDuration"),
+      									to.Ptr("PublicAccess"),
+      									to.Ptr("HasImmutabilityPolicy"),
+      									to.Ptr("HasLegalHold")},
+      							},
+      							Destination: to.Ptr("container2"),
+      							Enabled:     to.Ptr(true),
+      						}},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
+       *
+       * @summary Sets the blob inventory policy to the specified storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicy.json
+       */
+      async function storageAccountSetBlobInventoryPolicy() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "sto9699";
+        const blobInventoryPolicyName = "default";
+        const properties = {
+          policy: {
+            type: "Inventory",
+            enabled: true,
+            rules: [
+              {
+                name: "inventoryPolicyRule1",
+                definition: {
+                  format: "Csv",
+                  filters: {
+                    blobTypes: ["blockBlob", "appendBlob", "pageBlob"],
+                    excludePrefix: ["excludeprefix1", "excludeprefix2"],
+                    includeBlobVersions: true,
+                    includeSnapshots: true,
+                    prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
+                  },
+                  objectType: "Blob",
+                  schedule: "Daily",
+                  schemaFields: [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Metadata",
+                  ],
+                },
+                destination: "container1",
+                enabled: true,
+              },
+              {
+                name: "inventoryPolicyRule2",
+                definition: {
+                  format: "Parquet",
+                  objectType: "Container",
+                  schedule: "Weekly",
+                  schemaFields: [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                  ],
+                },
+                destination: "container2",
+                enabled: true,
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.blobInventoryPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          blobInventoryPolicyName,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountSetBlobInventoryPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -387,6 +793,10 @@ examples:
                     "prefixMatch": [
                       "inventoryprefix1",
                       "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
                     ],
                     "includeSnapshots": true,
                     "includeBlobVersions": true
@@ -436,6 +846,1043 @@ examples:
           "lastModifiedTime": "2020-10-05T02:53:39.0932539Z"
         }
       }
+- name: StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "DeletionId",
+                    "Deleted",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
+
+      {
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "DeletionId",
+                    "Deleted",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.BlobInventoryPolicyInner;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyDefinition;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyFilter;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyName;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyRule;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicySchema;
+      import com.azure.resourcemanager.storage.models.Format;
+      import com.azure.resourcemanager.storage.models.InventoryRuleType;
+      import com.azure.resourcemanager.storage.models.ObjectType;
+      import com.azure.resourcemanager.storage.models.Schedule;
+      import java.util.Arrays;
+
+      /** Samples for BlobInventoryPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+           */
+          /**
+           * Sample code: StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobInventoryPolicies()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "sto9699",
+                      BlobInventoryPolicyName.DEFAULT,
+                      new BlobInventoryPolicyInner()
+                          .withPolicy(
+                              new BlobInventoryPolicySchema()
+                                  .withEnabled(true)
+                                  .withType(InventoryRuleType.INVENTORY)
+                                  .withRules(
+                                      Arrays
+                                          .asList(
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule1")
+                                                  .withDestination("container1")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFilters(
+                                                              new BlobInventoryPolicyFilter()
+                                                                  .withPrefixMatch(
+                                                                      Arrays.asList("inventoryprefix1", "inventoryprefix2"))
+                                                                  .withExcludePrefix(
+                                                                      Arrays.asList("excludeprefix1", "excludeprefix2"))
+                                                                  .withBlobTypes(
+                                                                      Arrays.asList("blockBlob", "appendBlob", "pageBlob"))
+                                                                  .withIncludeBlobVersions(true)
+                                                                  .withIncludeSnapshots(true)
+                                                                  .withIncludeDeleted(true))
+                                                          .withFormat(Format.CSV)
+                                                          .withSchedule(Schedule.DAILY)
+                                                          .withObjectType(ObjectType.BLOB)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Creation-Time",
+                                                                      "Last-Modified",
+                                                                      "Content-Length",
+                                                                      "Content-MD5",
+                                                                      "BlobType",
+                                                                      "AccessTier",
+                                                                      "AccessTierChangeTime",
+                                                                      "Snapshot",
+                                                                      "VersionId",
+                                                                      "IsCurrentVersion",
+                                                                      "ContentType",
+                                                                      "ContentEncoding",
+                                                                      "ContentLanguage",
+                                                                      "ContentCRC64",
+                                                                      "CacheControl",
+                                                                      "Metadata",
+                                                                      "DeletionId",
+                                                                      "Deleted",
+                                                                      "DeletedTime",
+                                                                      "RemainingRetentionDays"))),
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule2")
+                                                  .withDestination("container2")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFormat(Format.PARQUET)
+                                                          .withSchedule(Schedule.WEEKLY)
+                                                          .withObjectType(ObjectType.CONTAINER)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Last-Modified",
+                                                                      "Metadata",
+                                                                      "LeaseStatus",
+                                                                      "LeaseState",
+                                                                      "LeaseDuration",
+                                                                      "PublicAccess",
+                                                                      "HasImmutabilityPolicy",
+                                                                      "HasLegalHold",
+                                                                      "Etag",
+                                                                      "DefaultEncryptionScope",
+                                                                      "DenyEncryptionScopeOverride",
+                                                                      "ImmutableStorageWithVersioningEnabled",
+                                                                      "Deleted",
+                                                                      "Version",
+                                                                      "DeletedTime",
+                                                                      "RemainingRetentionDays")))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
+       *
+       * @summary Sets the blob inventory policy to the specified storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount.json
+       */
+      async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "sto9699";
+        const blobInventoryPolicyName = "default";
+        const properties = {
+          policy: {
+            type: "Inventory",
+            enabled: true,
+            rules: [
+              {
+                name: "inventoryPolicyRule1",
+                definition: {
+                  format: "Csv",
+                  filters: {
+                    blobTypes: ["blockBlob", "appendBlob", "pageBlob"],
+                    excludePrefix: ["excludeprefix1", "excludeprefix2"],
+                    includeBlobVersions: true,
+                    includeDeleted: true,
+                    includeSnapshots: true,
+                    prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
+                  },
+                  objectType: "Blob",
+                  schedule: "Daily",
+                  schemaFields: [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "DeletionId",
+                    "Deleted",
+                    "DeletedTime",
+                    "RemainingRetentionDays",
+                  ],
+                },
+                destination: "container1",
+                enabled: true,
+              },
+              {
+                name: "inventoryPolicyRule2",
+                definition: {
+                  format: "Parquet",
+                  objectType: "Container",
+                  schedule: "Weekly",
+                  schemaFields: [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays",
+                  ],
+                },
+                destination: "container2",
+                enabled: true,
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.blobInventoryPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          blobInventoryPolicyName,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForHnsAccount().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default",
+        "name": "DefaultInventoryPolicy",
+        "type": "Microsoft.Storage/storageAccounts/inventoryPolicies",
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "DeletionId",
+                    "Deleted",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+- name: StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Tags",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "Deleted",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default?api-version=2021-09-01
+
+      {
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Tags",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "Deleted",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.BlobInventoryPolicyInner;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyDefinition;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyFilter;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyName;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicyRule;
+      import com.azure.resourcemanager.storage.models.BlobInventoryPolicySchema;
+      import com.azure.resourcemanager.storage.models.Format;
+      import com.azure.resourcemanager.storage.models.InventoryRuleType;
+      import com.azure.resourcemanager.storage.models.ObjectType;
+      import com.azure.resourcemanager.storage.models.Schedule;
+      import java.util.Arrays;
+
+      /** Samples for BlobInventoryPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+           */
+          /**
+           * Sample code: StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobInventoryPolicies()
+                  .createOrUpdateWithResponse(
+                      "res7687",
+                      "sto9699",
+                      BlobInventoryPolicyName.DEFAULT,
+                      new BlobInventoryPolicyInner()
+                          .withPolicy(
+                              new BlobInventoryPolicySchema()
+                                  .withEnabled(true)
+                                  .withType(InventoryRuleType.INVENTORY)
+                                  .withRules(
+                                      Arrays
+                                          .asList(
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule1")
+                                                  .withDestination("container1")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFilters(
+                                                              new BlobInventoryPolicyFilter()
+                                                                  .withPrefixMatch(
+                                                                      Arrays.asList("inventoryprefix1", "inventoryprefix2"))
+                                                                  .withExcludePrefix(
+                                                                      Arrays.asList("excludeprefix1", "excludeprefix2"))
+                                                                  .withBlobTypes(
+                                                                      Arrays.asList("blockBlob", "appendBlob", "pageBlob"))
+                                                                  .withIncludeBlobVersions(true)
+                                                                  .withIncludeSnapshots(true)
+                                                                  .withIncludeDeleted(true))
+                                                          .withFormat(Format.CSV)
+                                                          .withSchedule(Schedule.DAILY)
+                                                          .withObjectType(ObjectType.BLOB)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Creation-Time",
+                                                                      "Last-Modified",
+                                                                      "Content-Length",
+                                                                      "Content-MD5",
+                                                                      "BlobType",
+                                                                      "AccessTier",
+                                                                      "AccessTierChangeTime",
+                                                                      "Snapshot",
+                                                                      "VersionId",
+                                                                      "IsCurrentVersion",
+                                                                      "Tags",
+                                                                      "ContentType",
+                                                                      "ContentEncoding",
+                                                                      "ContentLanguage",
+                                                                      "ContentCRC64",
+                                                                      "CacheControl",
+                                                                      "Metadata",
+                                                                      "Deleted",
+                                                                      "RemainingRetentionDays"))),
+                                              new BlobInventoryPolicyRule()
+                                                  .withEnabled(true)
+                                                  .withName("inventoryPolicyRule2")
+                                                  .withDestination("container2")
+                                                  .withDefinition(
+                                                      new BlobInventoryPolicyDefinition()
+                                                          .withFormat(Format.PARQUET)
+                                                          .withSchedule(Schedule.WEEKLY)
+                                                          .withObjectType(ObjectType.CONTAINER)
+                                                          .withSchemaFields(
+                                                              Arrays
+                                                                  .asList(
+                                                                      "Name",
+                                                                      "Last-Modified",
+                                                                      "Metadata",
+                                                                      "LeaseStatus",
+                                                                      "LeaseState",
+                                                                      "LeaseDuration",
+                                                                      "PublicAccess",
+                                                                      "HasImmutabilityPolicy",
+                                                                      "HasLegalHold",
+                                                                      "Etag",
+                                                                      "DefaultEncryptionScope",
+                                                                      "DenyEncryptionScopeOverride",
+                                                                      "ImmutableStorageWithVersioningEnabled",
+                                                                      "Deleted",
+                                                                      "Version",
+                                                                      "DeletedTime",
+                                                                      "RemainingRetentionDays")))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Sets the blob inventory policy to the specified storage account.
+       *
+       * @summary Sets the blob inventory policy to the specified storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount.json
+       */
+      async function storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res7687";
+        const accountName = "sto9699";
+        const blobInventoryPolicyName = "default";
+        const properties = {
+          policy: {
+            type: "Inventory",
+            enabled: true,
+            rules: [
+              {
+                name: "inventoryPolicyRule1",
+                definition: {
+                  format: "Csv",
+                  filters: {
+                    blobTypes: ["blockBlob", "appendBlob", "pageBlob"],
+                    excludePrefix: ["excludeprefix1", "excludeprefix2"],
+                    includeBlobVersions: true,
+                    includeDeleted: true,
+                    includeSnapshots: true,
+                    prefixMatch: ["inventoryprefix1", "inventoryprefix2"],
+                  },
+                  objectType: "Blob",
+                  schedule: "Daily",
+                  schemaFields: [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Tags",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "Deleted",
+                    "RemainingRetentionDays",
+                  ],
+                },
+                destination: "container1",
+                enabled: true,
+              },
+              {
+                name: "inventoryPolicyRule2",
+                definition: {
+                  format: "Parquet",
+                  objectType: "Container",
+                  schedule: "Weekly",
+                  schemaFields: [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays",
+                  ],
+                },
+                destination: "container2",
+                enabled: true,
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.blobInventoryPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          blobInventoryPolicyName,
+          properties
+        );
+        console.log(result);
+      }
+
+      storageAccountSetBlobInventoryPolicyIncludeDeleteAndNewSchemaForNonHnsAccount().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res7687/providers/Microsoft.Storage/storageAccounts/sto9699/inventoryPolicies/default",
+        "name": "DefaultInventoryPolicy",
+        "type": "Microsoft.Storage/storageAccounts/inventoryPolicies",
+        "properties": {
+          "policy": {
+            "enabled": true,
+            "type": "Inventory",
+            "rules": [
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule1",
+                "destination": "container1",
+                "definition": {
+                  "filters": {
+                    "blobTypes": [
+                      "blockBlob",
+                      "appendBlob",
+                      "pageBlob"
+                    ],
+                    "prefixMatch": [
+                      "inventoryprefix1",
+                      "inventoryprefix2"
+                    ],
+                    "excludePrefix": [
+                      "excludeprefix1",
+                      "excludeprefix2"
+                    ],
+                    "includeSnapshots": true,
+                    "includeBlobVersions": true,
+                    "includeDeleted": true
+                  },
+                  "format": "Csv",
+                  "schedule": "Daily",
+                  "objectType": "Blob",
+                  "schemaFields": [
+                    "Name",
+                    "Creation-Time",
+                    "Last-Modified",
+                    "Content-Length",
+                    "Content-MD5",
+                    "BlobType",
+                    "AccessTier",
+                    "AccessTierChangeTime",
+                    "Snapshot",
+                    "VersionId",
+                    "IsCurrentVersion",
+                    "Tags",
+                    "ContentType",
+                    "ContentEncoding",
+                    "ContentLanguage",
+                    "ContentCRC64",
+                    "CacheControl",
+                    "Metadata",
+                    "Deleted",
+                    "RemainingRetentionDays"
+                  ]
+                }
+              },
+              {
+                "enabled": true,
+                "name": "inventoryPolicyRule2",
+                "definition": {
+                  "format": "Parquet",
+                  "schedule": "Weekly",
+                  "objectType": "Container",
+                  "schemaFields": [
+                    "Name",
+                    "Last-Modified",
+                    "Metadata",
+                    "LeaseStatus",
+                    "LeaseState",
+                    "LeaseDuration",
+                    "PublicAccess",
+                    "HasImmutabilityPolicy",
+                    "HasLegalHold",
+                    "Etag",
+                    "DefaultEncryptionScope",
+                    "DenyEncryptionScopeOverride",
+                    "ImmutableStorageWithVersioningEnabled",
+                    "Deleted",
+                    "Version",
+                    "DeletedTime",
+                    "RemainingRetentionDays"
+                  ]
+                },
+                "destination": "container2"
+              }
+            ]
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -446,5 +1893,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Storage Resource Provider service - Sets the blob inventory policy to the specified storage account.
+  description: >
+    Learn more about Storage Resource Provider service - Sets the blob inventory policy to the specified storage account.
 errorCodes: []

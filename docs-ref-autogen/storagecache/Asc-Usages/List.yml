@@ -1,0 +1,258 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.ascusages.list
+name: List
+service: Storagecache
+groupName: Asc Usages
+apiVersion: 2022-05-01
+summary: Gets the quantity used and quota limit for resources
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.StorageCache/locations/{location}/usages?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The name of the region to query for usage information.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The usage information was returned.
+  types:
+  - uid: ResourceUsagesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ResourceUsagesListResult
+  description: Result of the request to list resource usages. It contains a list of resource usages & limits and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: nextLink
+    isReadyOnly: true
+    description: URL to get the next set of resource usage list results if there are any.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: List of usages and limits for resources controlled by the Microsoft.StorageCache resource provider.
+    types:
+    - uid: ResourceUsage
+      isArray: true
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: ResourceUsage
+  description: The usage and limit (quota) for a resource.
+  kind: object
+  properties:
+  - name: limit
+    isReadyOnly: true
+    description: The limit (quota) for this resource.
+    types:
+    - uid: integer
+  - name: unit
+    isReadyOnly: true
+    description: Unit that the limit and usages are expressed in, such as 'Count'.
+    types:
+    - uid: string
+  - name: currentValue
+    isReadyOnly: true
+    description: The current usage of this resource.
+    types:
+    - uid: integer
+  - name: name
+    isReadyOnly: true
+    description: Naming information for this resource type.
+    types:
+    - uid: Name
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+- name: Name
+  description: Naming information for this resource type.
+  kind: object
+  properties:
+  - name: value
+    description: Canonical name for this resource type.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Localized name for this resource type.
+    types:
+    - uid: string
+examples:
+- name: AscUsages_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/eastus/usages?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/eastus/usages?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AscUsages List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/AscResourceUsages_Get.json
+           */
+          /**
+           * Sample code: AscUsages_List.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void ascUsagesList(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager.ascUsages().list("eastus", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/AscResourceUsages_Get.json
+      func ExampleAscUsagesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewAscUsagesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("eastus",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the quantity used and quota limit for resources
+       *
+       * @summary Gets the quantity used and quota limit for resources
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/AscResourceUsages_Get.json
+       */
+      async function ascUsagesList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const location = "eastus";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.ascUsages.list(location)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      ascUsagesList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "limit": 4,
+            "unit": "Count",
+            "currentValue": 1,
+            "name": {
+              "value": "Cache",
+              "localizedValue": "Cache"
+            }
+          },
+          {
+            "limit": 4,
+            "unit": "Count",
+            "currentValue": 0,
+            "name": {
+              "value": "AmlFilesystem",
+              "localizedValue": "AmlFilesystem"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Storagecache service - Gets the quantity used and quota limit for resources
+errorCodes: []

@@ -1,6 +1,7 @@
 ---
 ms.assetid: 43422ef4-94ca-4ab8-bd6a-fcf4449a3936
 title: Azure App Service REST API
+description: Learn how the Azure App Service lets you run web apps, mobile app back ends, and API apps in Azure.
 ms.service: app-service
 author: cephalin
 ms.author: cephalin

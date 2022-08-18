@@ -157,6 +157,7 @@ definitions:
     description: The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
     types:
     - uid: cleanupOptions
+    defaultValue: Always
   - name: properties.provisioningState
     isReadyOnly: true
     description: State of the script execution. This only appears in the response.
@@ -210,6 +211,7 @@ definitions:
     description: Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
     types:
     - uid: string
+    defaultValue: P1D
 - name: AzureCliScript
   description: Object model for the Azure CLI script.
   kind: object
@@ -271,6 +273,7 @@ definitions:
     description: The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
     types:
     - uid: cleanupOptions
+    defaultValue: Always
   - name: properties.provisioningState
     isReadyOnly: true
     description: State of the script execution. This only appears in the response.
@@ -324,6 +327,7 @@ definitions:
     description: Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
     types:
     - uid: string
+    defaultValue: P1D
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -567,6 +571,56 @@ examples:
       {
         "tags": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/script-rg/providers/Microsoft.Resources/deploymentScripts/MyDeploymentScript?api-version=2020-10-01
+
+      {
+        "tags": {}
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdeploymentscripts_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armdeploymentscripts"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2020-10-01/examples/DeploymentScripts_Update.json
+      func ExampleClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdeploymentscripts.NewClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"script-rg",
+      		"MyDeploymentScript",
+      		&armdeploymentscripts.ClientUpdateOptions{DeploymentScript: &armdeploymentscripts.DeploymentScriptUpdateParameter{
+      			Tags: map[string]*string{},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmdeploymentscripts%2Fv1.0.0/sdk/resourcemanager/resources/armdeploymentscripts/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -622,5 +676,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Resource Management service - Updates deployment script tags with specified values.
+  description: >
+    Learn more about Resource Management service - Updates deployment script tags with specified values.
 errorCodes: []

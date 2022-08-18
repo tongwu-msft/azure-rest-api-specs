@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.glossary.updateglossaryterm
 name: Update Glossary Term
 service: Purview
 groupName: Glossary
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: Update the given glossary term by its GUID.
 consumes:
 - application/json
@@ -11,6 +11,8 @@ produces:
 - application/json
 paths:
 - content: PUT {Endpoint}/catalog/api/atlas/v2/glossary/term/{termGuid}
+- content: PUT {Endpoint}/catalog/api/atlas/v2/glossary/term/{termGuid}?includeTermHierarchy={includeTermHierarchy}
+  isOptional: true
 uriParameters:
 - name: Endpoint
   in: path
@@ -25,6 +27,11 @@ uriParameters:
   description: The globally unique identifier for glossary term.
   types:
   - uid: string
+- name: includeTermHierarchy
+  in: query
+  description: Whether include term hierarchy
+  types:
+  - uid: boolean
 responses:
 - name: 200 OK
   description: OK. If glossary term update was successful.
@@ -748,6 +755,49 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {Endpoint}/catalog/api/atlas/v2/glossary/term/54688d39-b298-4104-9e80-f2a16f44aaea
+
+      {
+        "guid": "54688d39-b298-4104-9e80-f2a16f44aaea",
+        "qualifiedName": "ExampleTerm1@Glossary",
+        "name": "ExampleTerm1",
+        "shortDescription": "Example Short Description",
+        "lastModifiedTS": "1",
+        "abbreviation": "T1",
+        "status": "Approved",
+        "anchor": {
+          "glossaryGuid": "c018ddaf-7c21-4b37-a838-dae5f110c3d8",
+          "relationGuid": "7b6a8149-a928-476a-a068-dce58653cfa0"
+        },
+        "resources": [
+          {
+            "displayName": "Example Display Name",
+            "url": "Example Url"
+          }
+        ],
+        "seeAlso": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008"
+          },
+          {
+            "termGuid": "821beef0-ced9-47ba-8f7f-c4f3459f4d18"
+          }
+        ],
+        "synonyms": [
+          {
+            "termGuid": "952c7ba4-4c89-42d8-a05a-7d2161be7008"
+          },
+          {
+            "termGuid": "821beef0-ced9-47ba-8f7f-c4f3459f4d18"
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -808,5 +858,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Update the given glossary term by its GUID.
+  description: >
+    Learn more about Purview service - Update the given glossary term by its GUID.
 errorCodes: []

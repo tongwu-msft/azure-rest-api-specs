@@ -1,0 +1,424 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurespringapps.certificates.list
+name: List
+service: Azure Spring Apps
+groupName: Certificates
+apiVersion: 2022-05-01-preview
+summary: List all the certificates of one user.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/certificates?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: The name of the Service resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describe the list of certificates in the Service.
+  types:
+  - uid: CertificateResourceCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CertificateResourceCollection
+  description: Collection compose of certificate resources list and a possible link for next page.
+  kind: object
+  properties:
+  - name: value
+    description: The certificate resources list.
+    types:
+    - uid: CertificateResource
+      isArray: true
+  - name: nextLink
+    description: The link to next page of certificate list.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: CertificateResource
+  description: Certificate resource payload.
+  kind: object
+  properties:
+  - name: properties
+    description: Properties of the certificate resource payload.
+    types:
+    - uid: KeyVaultCertificateProperties
+    - uid: ContentCertificateProperties
+    typesTitle: CertificateProperties
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: lastModifiedByType
+  - name: lastModifiedAt
+    description: The timestamp of resource modification (UTC).
+    types:
+    - uid: string
+- name: KeyVaultCertificateProperties
+  description: Properties of certificate imported from key vault.
+  kind: object
+  properties:
+  - name: vaultUri
+    description: The vault uri of user key vault.
+    types:
+    - uid: string
+  - name: keyVaultCertName
+    description: The certificate name of key vault.
+    types:
+    - uid: string
+  - name: certVersion
+    description: The certificate version of key vault.
+    types:
+    - uid: string
+  - name: excludePrivateKey
+    description: Optional. If set to true, it will not import private key from key vault.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: KeyVaultCertificate
+    typesTitle: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The thumbprint of certificate.
+    types:
+    - uid: string
+  - name: issuer
+    isReadyOnly: true
+    description: The issuer of certificate.
+    types:
+    - uid: string
+  - name: issuedDate
+    isReadyOnly: true
+    description: The issue date of certificate.
+    types:
+    - uid: string
+  - name: expirationDate
+    isReadyOnly: true
+    description: The expiration date of certificate.
+    types:
+    - uid: string
+  - name: activateDate
+    isReadyOnly: true
+    description: The activate date of certificate.
+    types:
+    - uid: string
+  - name: subjectName
+    isReadyOnly: true
+    description: The subject name of certificate.
+    types:
+    - uid: string
+  - name: dnsNames
+    isReadyOnly: true
+    description: The domain list of certificate.
+    types:
+    - uid: string
+      isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
+- name: ContentCertificateProperties
+  description: Properties of certificate imported from key vault.
+  kind: object
+  properties:
+  - name: content
+    description: The content of uploaded certificate.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the certificate source.
+    types:
+    - uid: ContentCertificate
+    typesTitle: string
+  - name: thumbprint
+    isReadyOnly: true
+    description: The thumbprint of certificate.
+    types:
+    - uid: string
+  - name: issuer
+    isReadyOnly: true
+    description: The issuer of certificate.
+    types:
+    - uid: string
+  - name: issuedDate
+    isReadyOnly: true
+    description: The issue date of certificate.
+    types:
+    - uid: string
+  - name: expirationDate
+    isReadyOnly: true
+    description: The expiration date of certificate.
+    types:
+    - uid: string
+  - name: activateDate
+    isReadyOnly: true
+    description: The activate date of certificate.
+    types:
+    - uid: string
+  - name: subjectName
+    isReadyOnly: true
+    description: The subject name of certificate.
+    types:
+    - uid: string
+  - name: dnsNames
+    isReadyOnly: true
+    description: The domain list of certificate.
+    types:
+    - uid: string
+      isArray: true
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Certificate
+    types:
+    - uid: CertificateResourceProvisioningState
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: lastModifiedByType
+  description: The type of identity that last modified the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: CertificateResourceProvisioningState
+  description: Provisioning state of the Certificate
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+examples:
+- name: Certificates_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myService/certificates?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myService/certificates?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Certificates_List.json
+      func ExampleCertificatesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewCertificatesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myResourceGroup",
+      		"myService",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "type": "KeyVaultCertificate",
+              "excludePrivateKey": false,
+              "thumbprint": "934367bf1c97033f877db0f15cb1b586957d3133",
+              "vaultUri": "https://myvault.vault.azure.net",
+              "keyVaultCertName": "mycert",
+              "certVersion": "08a219d06d874795a96db47e06fbb01e",
+              "issuer": "mydomain.com",
+              "issuedDate": "2019-02-20T07:40:42Z",
+              "expirationDate": "2019-02-21T07:40:42Z",
+              "activateDate": "2019-02-22T07:40:42Z",
+              "subjectName": "mysubjectname",
+              "dnsNames": [
+                "mydomain.com",
+                "mydomain.net",
+                "mydomain.io"
+              ],
+              "provisioningState": "Succeeded"
+            },
+            "systemData": {
+              "createdBy": "sample-user",
+              "createdByType": "User",
+              "createdAt": "2021-08-11T03:16:03.944Z",
+              "lastModifiedBy": "sample-user",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2021-08-11T03:17:03.944Z"
+            },
+            "type": "Microsoft.AppPlatform/Spring/certificates",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycertificate",
+            "name": "mycertificate"
+          }
+        ],
+        "nextLink": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates?$page=2"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Spring Apps service - List all the certificates of one user.
+errorCodes: []

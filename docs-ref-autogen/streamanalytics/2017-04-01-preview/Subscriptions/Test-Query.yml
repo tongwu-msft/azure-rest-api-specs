@@ -501,6 +501,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: accountName
     description: The name of the Azure Storage account. Required on PUT (CreateOrReplace) requests.
     types:
@@ -773,6 +774,7 @@ definitions:
     description: 'Authentication Mode. '
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureTableOutputDataSource
   description: Describes an Azure Table output data source.
   kind: object
@@ -849,6 +851,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2OutputDataSource
   description: Describes an Event Hub output data source.
   kind: object
@@ -887,6 +890,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSqlDatabaseOutputDataSource
   description: Describes an Azure SQL database output data source.
   kind: object
@@ -928,6 +932,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: AzureSynapseOutputDataSource
   description: Describes an Azure Synapse output data source.
   kind: object
@@ -1061,6 +1066,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: ServiceBusTopicOutputDataSource
   description: Describes a Service Bus Topic output data source.
   kind: object
@@ -1103,6 +1109,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: PowerBIOutputDataSource
   description: Describes a Power BI output data source.
   kind: object
@@ -1127,6 +1134,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -1172,6 +1180,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
   - name: type
     description: Indicates the type of data source output will be written to. Required on PUT (CreateOrReplace) requests.
     types:
@@ -1422,6 +1431,7 @@ definitions:
     description: 'Authentication Mode. '
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubStreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -1455,6 +1465,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: EventHubV2StreamInputDataSource
   description: Describes an Event Hub input data source that contains stream data.
   kind: object
@@ -1488,6 +1499,7 @@ definitions:
     description: Authentication Mode.
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: IoTHubStreamInputDataSource
   description: Describes an IoT Hub input data source that contains stream data.
   kind: object
@@ -1568,6 +1580,7 @@ definitions:
     description: 'Authentication Mode. '
     types:
     - uid: AuthenticationMode
+    defaultValue: ConnectionString
 - name: RawReferenceInputDataSource
   description: Describes a raw input data source that contains reference data. This data source type is only applicable/usable when using the query testing API. You cannot create a job with this data source type or add an input of this data source type to an existing job.
   kind: object
@@ -1888,6 +1901,83 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/providers/Microsoft.StreamAnalytics/locations/West US/testQuery?api-version=2017-04-01-preview
+
+      {
+        "diagnostics": {
+          "writeUri": "http://myoutput.com",
+          "path": "/pathto/subdirectory"
+        },
+        "streamingJob": {
+          "properties": {
+            "sku": {
+              "name": "Standard"
+            },
+            "eventsOutOfOrderPolicy": "Drop",
+            "outputErrorPolicy": "Drop",
+            "eventsOutOfOrderMaxDelayInSeconds": 0,
+            "eventsLateArrivalMaxDelayInSeconds": 5,
+            "dataLocale": "en-US",
+            "compatibilityLevel": "1.0",
+            "inputs": [
+              {
+                "properties": {
+                  "type": "Stream",
+                  "datasource": {
+                    "type": "Raw",
+                    "properties": {
+                      "payloadUri": "http://myinput.com"
+                    }
+                  },
+                  "serialization": {
+                    "type": "Json",
+                    "properties": {
+                      "encoding": "UTF8"
+                    }
+                  }
+                },
+                "name": "inputtest"
+              }
+            ],
+            "transformation": {
+              "properties": {
+                "streamingUnits": 1,
+                "query": "Select Id, Name from inputtest"
+              },
+              "name": "transformationtest"
+            },
+            "outputs": [
+              {
+                "properties": {
+                  "datasource": {
+                    "type": "Raw",
+                    "properties": {
+                      "payloadUri": "http://myoutput.com"
+                    }
+                  },
+                  "serialization": {
+                    "type": "Json"
+                  }
+                },
+                "name": "outputtest"
+              }
+            ],
+            "functions": []
+          },
+          "location": "West US",
+          "tags": {
+            "key1": "value1",
+            "randomKey": "randomValue",
+            "key3": "value3"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1906,5 +1996,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Stream Analytics service - Test the Stream Analytics query on a sample input.
+  description: >
+    Learn more about Stream Analytics service - Test the Stream Analytics query on a sample input.
 errorCodes: []

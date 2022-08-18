@@ -1,0 +1,242 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.sqlmigrationservice.listbysubscription
+name: List By Subscription
+service: Data Migration
+groupName: SQL Migration Service
+apiVersion: 2022-01-30-preview
+summary: Retrieve all SQL migration services in the subscriptions.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/sqlMigrationServices?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the Migration Services in the Subscription.
+  types:
+  - uid: SqlMigrationListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidParameterValue - An invalid value was provided for parameter '{0}'.
+
+     * 400 GenericUser - User Failure when calling other Resource Provider.
+
+     * 400 OperationIdNotFound - Operation ID '{0}' not found.
+
+     * 400 OperationTypeNotFound - Operation Type '{0}' not found.
+
+     * 400 InvalidArgument - Invalid argument '{0}'.
+
+     * 400 RegenerateAuthenticationKeyNameInvalid - Key name '{0}' is invalid. Valid key names are authKey1 and authKey2.
+
+     * 400 DeleteServiceNotAllowed - One or more migrations attached to the migration service '{0}' are currently running. To delete the migration service, please wait until all migrations have completed or cancel the migrations manually and retry deleting the service. Running migrations are: '{1}'
+
+     * 400 IntegrationRuntimeIsNotSelfHosted - Integration Runtime is not self-hosted for subscription '{0}' resource group '{1}' and name '{2}'
+
+     * 400 SerializationError - There was an error while processing response from RP Service : '{0}'
+
+     * 400 ServiceNameInvalid - Service name '{0}' is not valid. Please refer https://aka.ms/dmsv2naming for naming rules.
+
+     * 403 AccessDenied - Access denied.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotExist - Subscription id does not exist.
+
+     * 404 ResourceDoesNotExist - Resource does not exist.
+
+     * 409 OperationInProgress - Operation in progress on resource already.
+
+     * 409 OperationCanceled - Operation Cancelled.
+
+     * 409 ResourceAlreadyExists - Resource already exists.
+
+     * 409 SubscriptionOperationInProgress - An operation on subscription is already in progress
+
+     * 500 UnExpectedErrorOccurred - Unexpected error occurred.
+
+     * 500 OperationTimeout - Operation timed out.
+
+     * 500 GenericSystem - System Failure when calling other Resource Provider.
+requestHeader: []
+definitions:
+- name: SqlMigrationListResult
+  description: A list of SQL Migration Service.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: A SQL Migration Service.
+    types:
+    - uid: SqlMigrationService
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: SqlMigrationService
+  description: A SQL Migration Service.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: SystemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state to track the async operation status.
+    types:
+    - uid: string
+  - name: properties.integrationRuntimeState
+    isReadyOnly: true
+    description: Current state of the Integration runtime.
+    types:
+    - uid: string
+  - name: location
+    description: ''
+    types:
+    - uid: string
+  - name: tags
+    description: ''
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Get Services in the Subscriptions.
+  request:
+    uri: GET https://management.azure.com/subscriptions/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/managedInstance1/providers/Microsoft.DataMigration/sqlMigrationServices?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.Sql/managedInstances/managedInstance1/providers/Microsoft.DataMigration/sqlMigrationServices?api-version=2022-01-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "integrationRuntimeState": "NeedRegistration"
+            },
+            "location": "northeurope",
+            "tags": {
+              "mytag": "myval"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg1/providers/Microsoft.DataMigration/sqlMigrationServices/service1",
+            "name": "service1",
+            "type": "Microsoft.DataMigration/sqlMigrationServices"
+          },
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "integrationRuntimeState": "NeedRegistration"
+            },
+            "location": "northeurope",
+            "tags": {
+              "mytag": "myval"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg2/providers/Microsoft.DataMigration/sqlMigrationServices/service2",
+            "name": "service2",
+            "type": "Microsoft.DataMigration/sqlMigrationServices"
+          },
+          {
+            "properties": {
+              "provisioningState": "Succeeded",
+              "integrationRuntimeState": "NeedRegistration"
+            },
+            "location": "northeurope",
+            "tags": {
+              "mytag": "myval"
+            },
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg2/providers/Microsoft.DataMigration/sqlMigrationServices/service3",
+            "name": "service3",
+            "type": "Microsoft.DataMigration/sqlMigrationServices"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Data Migration service - Retrieve all SQL migration services in the subscriptions.
+errorCodes: []

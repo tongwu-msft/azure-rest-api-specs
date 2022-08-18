@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Get Storage Account Properties (Azure Storage)"
+description: Error code and HTTP status for the Get Storage Account Properties operation.
 ---
 # Error Codes for Get Storage Account Properties
 

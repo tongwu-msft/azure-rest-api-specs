@@ -1,5 +1,6 @@
 ---
 title: "Delete Event Hub"
+description: Learn that this operation deletes an Event Hub and also removes all associated state. 
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

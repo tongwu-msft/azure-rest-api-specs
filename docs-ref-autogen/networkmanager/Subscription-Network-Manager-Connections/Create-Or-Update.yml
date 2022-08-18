@@ -1,0 +1,322 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.subscriptionnetworkmanagerconnections.createorupdate
+name: Create Or Update
+service: Network Manager
+groupName: Subscription Network Manager Connections
+apiVersion: 2022-01-01
+summary: Create a network manager connection on this subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}?api-version=2022-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: networkManagerConnectionName
+  in: path
+  isRequired: true
+  description: Name for the network manager connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Updated - Returns information about the connection.
+  types:
+  - uid: NetworkManagerConnection
+- name: 201 Created
+  description: Created - Returns information about the connection.
+  types:
+  - uid: NetworkManagerConnection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.networkManagerId
+    in: body
+    description: Network Manager Id.
+    types:
+    - uid: string
+  - name: properties.description
+    in: body
+    description: A description of the network manager connection.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: SystemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: string
+- name: NetworkManagerConnection
+  description: The Network Manager Connection resource
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata related to this resource.
+    types:
+    - uid: SystemData
+  - name: properties.networkManagerId
+    description: Network Manager Id.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description of the network manager connection.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Create or Update Subscription Network Manager Connection
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subscriptionA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-01-01
+    body: >-
+      {
+        "properties": {
+          "networkManagerId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subscriptionA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-01-01
+
+      {
+        "properties": {
+          "networkManagerId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerConnectionSubscriptionPut.json
+      func ExampleSubscriptionNetworkManagerConnectionsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewSubscriptionNetworkManagerConnectionsClient("subscriptionA", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "TestNMConnection", armnetwork.ManagerConnection{
+      		Properties: &armnetwork.ManagerConnectionProperties{
+      			NetworkManagerID: to.Ptr("/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create a network manager connection on this subscription.
+       *
+       * @summary Create a network manager connection on this subscription.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerConnectionSubscriptionPut.json
+       */
+      async function createOrUpdateSubscriptionNetworkManagerConnection() {
+        const subscriptionId = "subscriptionA";
+        const networkManagerConnectionName = "TestNMConnection";
+        const parameters = {
+          networkManagerId:
+            "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.subscriptionNetworkManagerConnections.createOrUpdate(
+          networkManagerConnectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateSubscriptionNetworkManagerConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: ETag
+      value: be3cfaa2-3d02-4624-92d7-a26766306c8b
+    body: >-
+      {
+        "id": "/subscriptions/subscriptionA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection",
+        "type": "Microsoft.Network/networkManagerConnections",
+        "name": "TestNMConnection",
+        "systemData": {
+          "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
+          "createdByType": "User",
+          "createdAt": "2021-01-11T18:52:27Z",
+          "lastModifiedBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-11T18:52:27Z"
+        },
+        "properties": {
+          "networkManagerId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
+          "connectionState": "Pending",
+          "description": "This is a network manager connection to testNetworkManager."
+        }
+      }
+  - statusCode: "201"
+    headers:
+    - name: ETag
+      value: be3cfaa2-3d02-4624-92d7-a26766306c8b
+    body: >-
+      {
+        "id": "/subscriptions/subscriptionA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection",
+        "type": "Microsoft.Network/networkManagerConnections",
+        "name": "TestMConnection",
+        "systemData": {
+          "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
+          "createdByType": "User",
+          "createdAt": "2021-01-11T18:52:27Z",
+          "lastModifiedBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-11T18:52:27Z"
+        },
+        "properties": {
+          "networkManagerId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
+          "connectionState": "Pending",
+          "description": "This is a network manager connection to testNetworkManager."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Network Manager service - Create a network manager connection on this subscription.
+errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "Common Parameters and Headers | Microsoft Docs"
+description: Learn about common parameters and headers related to Batch resources.
 ms.custom: ""
 ms.date: 09/05/2017
 ms.reviewer: ""

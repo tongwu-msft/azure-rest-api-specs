@@ -1,5 +1,6 @@
 ---
 title: "TaskTemplate"
+description: Learn how TaskTemplates provide reusable settings for tasks that run within a JobTemplate definition.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

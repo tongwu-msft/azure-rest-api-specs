@@ -11,7 +11,7 @@ service_description: Microsoft Azure Service Bus is a fully managed enterprise i
 
 # Azure Service Bus REST API
 
-Azure Service Bus provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud. See [Azure Service Bus documentation](https://docs.microsoft.com/azure/service-bus-messaging/) for a comprehensive conceptual documentation for the service. 
+Azure Service Bus provides cloud-enabled communication with enterprise messaging and relayed communication that helps you connect on-premises solutions with the cloud. See [Azure Service Bus documentation](/azure/service-bus-messaging/) for a comprehensive conceptual documentation for the service. 
 
 The REST APIs fall into the following categories:
 
@@ -22,7 +22,7 @@ The REST APIs fall into the following categories:
    - United States government: `namespaceName.servicebus.usgovcloudapi.net`
 
 > [!IMPORTANT]
-> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.
 
 
 ## REST operation groups
@@ -30,7 +30,7 @@ The Service Bus REST API provides operations for working with the following reso
 
 ### Azure Resource Manager
 
-[Resource Manager APIs](/rest/api/servicebus/namespaces) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
+[Resource Manager APIs](/rest/api/resources) are management APIs that perform operations on Service Bus entities, such as namespaces, queues, and topics. They are useful in scenarios that enable global authentication, rather than at the namespace or entity level.
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
@@ -41,9 +41,9 @@ The Service Bus REST API provides operations for working with the following reso
 
 ### Service Bus service
 
-Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) or [Azure Active Directory authentication](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application).  
+Service Bus [service APIs](/rest/api/servicebus/service-bus-runtime-rest) access the Service Bus service directly, and perform various management operations at the entity level, rather than at the namespace level (such as [sending a message to a queue](/rest/api/servicebus/send-message-to-queue). These APIs use [SAS authentication](/azure/service-bus-messaging/service-bus-sas) or [Azure Active Directory authentication](/azure/service-bus-messaging/authenticate-application).  
 
 ## See also
 
-- [Azure Service Bus documentation](https://docs.microsoft.com/azure/service-bus)
+- [Azure Service Bus documentation](/azure/service-bus)
 - [Azure Service Bus Messaging code samples on GitHub](https://github.com/Azure-Samples/azure-servicebus-messaging-samples)

@@ -3,15 +3,15 @@ uid: management.azure.com.desktopvirtualization.usersessions.delete
 name: Delete
 service: Desktop Virtualization
 groupName: User Sessions
-apiVersion: 2021-07-12
+apiVersion: 2022-02-10-preview
 summary: Remove a userSession.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}?api-version=2021-07-12
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}?api-version=2021-07-12&force={force}
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}?api-version=2022-02-10-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/sessionHosts/{sessionHostName}/userSessions/{userSessionId}?api-version=2022-02-10-preview&force={force}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -67,13 +67,15 @@ responses:
 requestHeader: []
 definitions:
 - name: CloudError
+  description: Cloud error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: Cloud error object properties.
     types:
     - uid: CloudErrorProperties
 - name: CloudErrorProperties
+  description: Cloud error object properties.
   kind: object
   properties:
   - name: code
@@ -87,11 +89,55 @@ definitions:
 examples:
 - name: UserSession_Delete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1?api-version=2021-07-12&force=True
+    uri: DELETE https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1?api-version=2022-02-10-preview&force=True
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1?api-version=2022-02-10-preview&force=True
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdesktopvirtualization_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2022-02-10-preview/examples/UserSession_Delete.json
+      func ExampleUserSessionsClient_Delete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdesktopvirtualization.NewUserSessionsClient("daefabc0-95b4-48b3-b645-8a753a63c4fa", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Delete(ctx,
+      		"resourceGroup1",
+      		"hostPool1",
+      		"sessionHost1.microsoft.com",
+      		"1",
+      		&armdesktopvirtualization.UserSessionsClientDeleteOptions{Force: to.Ptr(true)})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdesktopvirtualization%2Farmdesktopvirtualization%2Fv2.0.0-beta.1/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "204"
 security: []
 metadata:
-  description: Learn more about Desktop Virtualization service - Remove a userSession.
+  description: >
+    Learn more about Desktop Virtualization service - Remove a userSession.
 errorCodes: []

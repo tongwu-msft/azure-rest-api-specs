@@ -218,11 +218,6 @@ requestBody:
     description: The Client id used for cross tenant per database CMK scenario
     types:
     - uid: string
-  - name: properties.primaryDelegatedIdentityClientId
-    in: body
-    description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
-    types:
-    - uid: string
 requestHeader: []
 definitions:
 - name: Sku
@@ -270,14 +265,6 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: DatabaseUserIdentity
-  - name: delegatedResources
-    description: Resources delegated to the database - Internal Use Only
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: Delegation
 - name: Database
   description: A database resource.
   kind: object
@@ -507,10 +494,6 @@ definitions:
     - uid: boolean
   - name: properties.federatedClientId
     description: The Client id used for cross tenant per database CMK scenario
-    types:
-    - uid: string
-  - name: properties.primaryDelegatedIdentityClientId
-    description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
     types:
     - uid: string
   - name: properties.sourceResourceId
@@ -755,10 +738,6 @@ definitions:
     description: The Client id used for cross tenant per database CMK scenario
     types:
     - uid: string
-  - name: properties.primaryDelegatedIdentityClientId
-    description: The Primary Delegated Identity Client id used for per database CMK - for internal use only
-    types:
-    - uid: string
 - name: DatabaseIdentityType
   description: The identity type
   kind: enum
@@ -781,19 +760,6 @@ definitions:
   - name: clientId
     isReadyOnly: true
     description: The Azure Active Directory client id.
-    types:
-    - uid: string
-- name: Delegation
-  description: Delegated Resource Properties - Internal Use Only
-  kind: object
-  properties:
-  - name: resourceId
-    description: The resource id of the source resource - Internal Use Only
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: AAD tenant guid of the source resource identity - Internal Use Only.
     types:
     - uid: string
 - name: CreateMode
@@ -1022,6 +988,23 @@ examples:
           "licenseType": "LicenseIncluded"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2021-08-01-preview
+
+      {
+        "sku": {
+          "name": "BC_Gen4_4"
+        },
+        "properties": {
+          "maxSizeBytes": 1073741824,
+          "licenseType": "LicenseIncluded"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1075,6 +1058,22 @@ examples:
           "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_SouthEastAsia_1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2021-08-01-preview
+
+      {
+        "sku": {
+          "name": "BC_Gen5_4"
+        },
+        "properties": {
+          "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_SouthEastAsia_1"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1129,6 +1128,22 @@ examples:
           "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb?api-version=2021-08-01-preview
+
+      {
+        "sku": {
+          "name": "BC_Gen5_4"
+        },
+        "properties": {
+          "maintenanceConfigurationId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Maintenance/publicMaintenanceConfigurations/SQL_Default"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1172,5 +1187,6 @@ examples:
   - statusCode: "202"
 security: []
 metadata:
-  description: Learn more about SQL Database service - Updates an existing database.
+  description: >
+    Learn more about SQL Database service - Updates an existing database.
 errorCodes: []

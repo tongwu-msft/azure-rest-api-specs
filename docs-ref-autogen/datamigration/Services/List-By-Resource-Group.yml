@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.services.listbyresourcegroup
 name: List By Resource Group
 service: Data Migration
 groupName: Services
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Get services in resource group  \nThe Services resource is the top-level resource that represents the Database Migration Service. This method returns a list of service resources in a resource group."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services?api-version=2018-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: groupName
@@ -62,6 +62,11 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: DataMigrationService
   description: A Database Migration Service resource
   kind: object
@@ -78,6 +83,11 @@ definitions:
     description: Service SKU
     types:
     - uid: ServiceSku
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
   - name: properties.provisioningState
     isReadyOnly: true
     description: The resource's provisioning state
@@ -91,31 +101,43 @@ definitions:
     description: The ID of the Microsoft.Network/virtualNetworks/subnets resource to which the service should be joined
     types:
     - uid: string
+  - name: properties.virtualNicId
+    description: The ID of the Microsoft.Network/networkInterfaces resource which the service have
+    types:
+    - uid: string
+  - name: properties.autoStopDelay
+    description: The time delay before the service is auto-stopped when idle.
+    types:
+    - uid: string
+  - name: properties.deleteResourcesOnStop
+    description: Whether service resources should be deleted when stopped. (Turned on by default)
+    types:
+    - uid: boolean
+  - name: location
+    description: ''
+    types:
+    - uid: string
   - name: tags
-    description: Resource tags.
+    description: ''
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource ID.
+    description: ''
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: ''
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type.
+    description: ''
     types:
     - uid: string
 - name: ODataError
@@ -123,21 +145,45 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
 - name: ServiceSku
   description: An Azure SKU instance
   kind: object
@@ -147,7 +193,7 @@ definitions:
     types:
     - uid: string
   - name: tier
-    description: The tier of the SKU, such as 'Free', 'Basic', 'Standard', or 'Premium'
+    description: The tier of the SKU, such as 'Basic', 'General Purpose', or 'Business Critical'
     types:
     - uid: string
   - name: family
@@ -196,10 +242,31 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Services_ListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services?api-version=2018-04-19
+    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services?api-version=2022-01-30-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -239,5 +306,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Get services in resource group  \nThe Services resource is the top-level resource that represents the Database Migration Service."
+  description: >-
+    Get services in resource group
+
+    The Services resource is the top-level resource that represents the Database Migration Service.
 errorCodes: []

@@ -1,5 +1,7 @@
 ﻿---
 title: "Send a Windows Push Notification Services (WNS) native notification"
+itle: "Send a template notification"
+description: Use this API reference documentation to send a WNS native notification through a notification hub.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

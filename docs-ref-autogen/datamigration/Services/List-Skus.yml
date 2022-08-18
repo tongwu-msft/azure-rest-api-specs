@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.services.listskus
 name: List Skus
 service: Data Migration
 groupName: Services
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Get compatible SKUs  \nThe services resource is the top-level resource that represents the Database Migration Service. The skus action returns the list of SKUs that a service resource can be updated to."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus?api-version=2018-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/skus?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: groupName
@@ -68,6 +68,11 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: AvailableServiceSku
   description: Describes the available service SKU.
   kind: object
@@ -89,21 +94,45 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
 - name: Sku
   description: SKU name, tier, etc.
   kind: object
@@ -121,7 +150,7 @@ definitions:
     types:
     - uid: string
   - name: tier
-    description: The tier of the SKU, such as "Free", "Basic", "Standard", or "Premium"
+    description: The tier of the SKU, such as "Basic", "General Purpose", or "Business Critical"
     types:
     - uid: string
 - name: Capacity
@@ -144,6 +173,21 @@ definitions:
     description: The scalability approach
     types:
     - uid: ServiceScalability
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ServiceScalability
   description: The scalability approach
   kind: enum
@@ -160,7 +204,13 @@ definitions:
 examples:
 - name: Services_ListSkus
   request:
-    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/skus?api-version=2018-04-19
+    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/skus?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/skus?api-version=2022-01-30-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -186,5 +236,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Get compatible SKUs  \nThe services resource is the top-level resource that represents the Database Migration Service."
+  description: >-
+    Get compatible SKUs
+
+    The services resource is the top-level resource that represents the Database Migration Service.
 errorCodes: []

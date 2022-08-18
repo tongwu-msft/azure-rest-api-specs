@@ -3,15 +3,15 @@ uid: management.azure.com.managedservices.registrationassignments.get
 name: Get
 service: Managed Services
 groupName: Registration Assignments
-apiVersion: 2020-02-01-preview
+apiVersion: 2022-01-01-preview
 summary: Gets the details of the specified registration assignment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}?api-version=2020-02-01-preview
-- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}?$expandRegistrationDefinition={$expandRegistrationDefinition}&api-version=2020-02-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}?api-version=2022-01-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedServices/registrationAssignments/{registrationAssignmentId}?$expandRegistrationDefinition={$expandRegistrationDefinition}&api-version=2022-01-01-preview
   isOptional: true
 uriParameters:
 - name: scope
@@ -72,6 +72,11 @@ definitions:
     description: The name of the registration assignment.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The metadata for the registration assignment resource.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response.
   kind: object
@@ -98,6 +103,34 @@ definitions:
     description: The registration definition associated with the registration assignment.
     types:
     - uid: RegistrationDefinition
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorDefinition
   description: The error response indicating why the incoming request wasn’t able to be processed
   kind: object
@@ -180,6 +213,27 @@ definitions:
   - name: name
     isReadyOnly: true
     description: The name of the registration definition.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: The metadata for the registration assignment resource.
+    types:
+    - uid: systemData
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 - name: RegistrationDefinitionProperties
@@ -297,10 +351,12 @@ definitions:
     description: The multi-factor authorization provider to be used for just-in-time access requests.
     types:
     - uid: MultiFactorAuthProvider
+    defaultValue: None
   - name: maximumActivationDuration
     description: The maximum access duration in ISO 8601 format for just-in-time access requests.
     types:
     - uid: string
+    defaultValue: PT8H
   - name: managedByTenantApprovers
     description: The list of managedByTenant approvers for the eligible authorization.
     types:
@@ -331,7 +387,49 @@ definitions:
 examples:
 - name: Get Registration Assignment
   request:
-    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationAssignments/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2020-02-01-preview
+    uri: GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationAssignments/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2022-01-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscription/0afefe50-734e-4610-8a82-a144ahf49dea/providers/Microsoft.ManagedServices/registrationAssignments/26c128c2-fefa-4340-9bb1-6e081c90ada2?api-version=2022-01-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmanagedservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/managedservices/armmanagedservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/managedservices/resource-manager/Microsoft.ManagedServices/preview/2022-01-01-preview/examples/GetRegistrationAssignment.json
+      func ExampleRegistrationAssignmentsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmanagedservices.NewRegistrationAssignmentsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"subscription/0afefe50-734e-4610-8a82-a144ahf49dea",
+      		"26c128c2-fefa-4340-9bb1-6e081c90ada2",
+      		&armmanagedservices.RegistrationAssignmentsClientGetOptions{ExpandRegistrationDefinition: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmanagedservices%2Farmmanagedservices%2Fv0.5.0/sdk/resourcemanager/managedservices/armmanagedservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -400,5 +498,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Managed Services service - Gets the details of the specified registration assignment.
+  description: >
+    Learn more about Managed Services service - Gets the details of the specified registration assignment.
 errorCodes: []

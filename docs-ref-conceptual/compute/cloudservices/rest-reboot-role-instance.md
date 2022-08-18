@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Reboot Role Instance | Microsoft Docs"
+description: Learn how the Reboot Role Instance asynchronous operation requests a reboot of a role instance that is running in a deployment.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

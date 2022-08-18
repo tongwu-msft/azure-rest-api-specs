@@ -1,5 +1,6 @@
 ---
 title: "JobNotificationSubscription"
+description: Learn how JobNotificationSubscription contains information about the state of the job and the endpoint from which the notification is sent. 
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

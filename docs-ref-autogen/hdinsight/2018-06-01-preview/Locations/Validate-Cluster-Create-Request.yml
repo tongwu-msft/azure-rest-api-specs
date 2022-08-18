@@ -104,6 +104,7 @@ definitions:
     description: The cluster tier.
     types:
     - uid: Tier
+    defaultValue: Standard
   - name: clusterDefinition
     description: The cluster definition.
     types:
@@ -389,6 +390,7 @@ definitions:
     description: Indicates whether or not resource disk encryption is enabled.
     types:
     - uid: boolean
+    defaultValue: false
 - name: EncryptionInTransitProperties
   description: The encryption-in-transit properties.
   kind: object
@@ -397,6 +399,7 @@ definitions:
     description: Indicates whether or not inter cluster node communication is encrypted in transit.
     types:
     - uid: boolean
+    defaultValue: false
 - name: NetworkProperties
   description: The network properties.
   kind: object
@@ -417,6 +420,7 @@ definitions:
     description: The flag indicates whether enable compute isolation or not.
     types:
     - uid: boolean
+    defaultValue: false
   - name: hostSku
     description: The host sku.
     types:
@@ -567,6 +571,7 @@ definitions:
     description: Indicates whether encrypt the data disks.
     types:
     - uid: boolean
+    defaultValue: false
 - name: StorageAccount
   description: The storage Account.
   kind: object
@@ -901,6 +906,109 @@ examples:
         "fetchAaddsResource": false,
         "tenantId": "00000000-0000-0000-0000-000000000000"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/providers/Microsoft.HDInsight/locations/southcentralus/validateCreateRequest?api-version=2018-06-01-preview
+
+      {
+        "name": "testclustername",
+        "type": "Microsoft.HDInsight/clusters",
+        "location": "southcentralus",
+        "tags": {},
+        "properties": {
+          "clusterVersion": "4.0",
+          "osType": "Linux",
+          "tier": "Standard",
+          "clusterDefinition": {
+            "kind": "spark",
+            "componentVersion": {
+              "Spark": "2.4"
+            },
+            "configurations": {
+              "gateway": {
+                "restAuthCredential.isEnabled": true,
+                "restAuthCredential.username": "admin",
+                "restAuthCredential.password": "**********"
+              }
+            }
+          },
+          "storageProfile": {
+            "storageaccounts": [
+              {
+                "name": "storagename.blob.core.windows.net",
+                "isDefault": true,
+                "container": "contianername",
+                "key": "*******",
+                "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg1/providers/Microsoft.Storage/storageAccounts/storagename"
+              }
+            ]
+          },
+          "computeProfile": {
+            "roles": [
+              {
+                "autoscale": null,
+                "name": "headnode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 2,
+                "hardwareProfile": {
+                  "vmSize": "Standard_E8_V3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              },
+              {
+                "autoscale": null,
+                "name": "workernode",
+                "targetInstanceCount": 4,
+                "hardwareProfile": {
+                  "vmSize": "Standard_E8_V3"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              },
+              {
+                "autoscale": null,
+                "name": "zookeepernode",
+                "minInstanceCount": 1,
+                "targetInstanceCount": 3,
+                "hardwareProfile": {
+                  "vmSize": "Standard_D13_V2"
+                },
+                "osProfile": {
+                  "linuxOperatingSystemProfile": {
+                    "username": "sshuser",
+                    "password": "**********"
+                  }
+                },
+                "virtualNetworkProfile": null,
+                "scriptActions": [],
+                "dataDisksGroups": null
+              }
+            ]
+          },
+          "minSupportedTlsVersion": "1.2"
+        },
+        "fetchAaddsResource": false,
+        "tenantId": "00000000-0000-0000-0000-000000000000"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -918,5 +1026,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about HDInsight service - Validate the cluster create request spec is valid or not.
+  description: >
+    Learn more about HDInsight service - Validate the cluster create request spec is valid or not.
 errorCodes: []

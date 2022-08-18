@@ -1,10 +1,9 @@
 ---
 title: Azure Storage Import-Export REST API Reference
 description: TBD
-author: TBD
-ms.author: TBD
-ms.manager: TBD
-ms.date: TBD
+author: NarayanThiru
+ms.author: nanthi
+ms.manager: nanthi
 ms.topic: reference
 ms.service: azure-import-export
 ms.devlang: rest-api
@@ -12,7 +11,7 @@ ms.devlang: rest-api
 
 # Azure Storage Import-Export REST API Reference
 
-This API helps you manage Azure Import/Export jobs to transfer data to or from Blob storage. For more information, see [Azure Import/Export service documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-import-export-service).
+This API helps you manage Azure Import/Export jobs to transfer data to or from Blob storage. For more information, see [Azure Import/Export service documentation](/azure/storage/common/storage-import-export-service).
 
 ## REST Operation Groups
 
@@ -25,4 +24,4 @@ This API helps you manage Azure Import/Export jobs to transfer data to or from B
 
 ## See Also
 
-- [Azure Import/Export Service documentation](https://docs.microsoft.com/en-us/azure/storage/common/storage-import-export-service)
+- [Azure Import/Export Service documentation](/azure/storage/common/storage-import-export-service)

@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancers.createorupdate
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancers
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates a load balancer.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -299,6 +299,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -871,10 +875,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -1071,6 +1077,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: NetworkInterfaceIPConfiguration
   description: IPConfiguration in a network interface.
   kind: object
@@ -1237,6 +1247,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1554,6 +1568,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -1970,6 +1985,22 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 - name: VirtualNetworkTap
   description: Virtual Network Tap resource.
   kind: object
@@ -2286,7 +2317,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2330,6 +2361,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -2862,6 +2897,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: RetentionPolicyParameters
   description: Parameters that define the retention policy for flow log.
   kind: object
@@ -2870,10 +2918,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -2886,6 +2936,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -3076,7 +3127,7 @@ definitions:
 examples:
 - name: Create load balancer
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -3151,6 +3202,279 @@ examples:
           "inboundNatPools": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false,
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "enableTcpReset": false
+              }
+            }
+          ],
+          "inboundNatPools": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreate.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			InboundNatRules: []*armnetwork.InboundNatRule{
+      				{
+      					Name: to.Ptr("in-nat-rule"),
+      					Properties: &armnetwork.InboundNatRulePropertiesFormat{
+      						BackendPort:      to.Ptr[int32](3389),
+      						EnableFloatingIP: to.Ptr(true),
+      						EnableTCPReset:   to.Ptr(false),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](3389),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						Protocol:             to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:      to.Ptr[int32](80),
+      						EnableFloatingIP: to.Ptr(true),
+      						EnableTCPReset:   to.Ptr(false),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreate.json
+       */
+      async function createLoadBalancer() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          inboundNatRules: [
+            {
+              name: "in-nat-rule",
+              backendPort: 3389,
+              enableFloatingIP: true,
+              enableTcpReset: false,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 3389,
+              idleTimeoutInMinutes: 15,
+              protocol: "Tcp",
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              enableFloatingIP: true,
+              enableTcpReset: false,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3410,7 +3734,7 @@ examples:
       }
 - name: Create load balancer with Standard SKU
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -3487,6 +3811,283 @@ examples:
           "outboundRules": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp"
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateStandardSku.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateStandardSku() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			InboundNatRules: []*armnetwork.InboundNatRule{
+      				{
+      					Name: to.Ptr("in-nat-rule"),
+      					Properties: &armnetwork.InboundNatRulePropertiesFormat{
+      						BackendPort:      to.Ptr[int32](3389),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](3389),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						Protocol:             to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:      to.Ptr[int32](80),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateStandardSku.json
+       */
+      async function createLoadBalancerWithStandardSku() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          inboundNatRules: [
+            {
+              name: "in-nat-rule",
+              backendPort: 3389,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 3389,
+              idleTimeoutInMinutes: 15,
+              protocol: "Tcp",
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithStandardSku().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3744,7 +4345,7 @@ examples:
       }
 - name: Create load balancer with Global Tier and one regional load balancer in its backend pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -3816,6 +4417,270 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard",
+          "tier": "Global"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {
+                "loadBalancerBackendAddresses": [
+                  {
+                    "name": "regional-lb1-address",
+                    "properties": {
+                      "loadBalancerFrontendIPConfiguration": {
+                        "id": "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": false,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGlobalTier.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGlobalTier() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name: to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{
+      						LoadBalancerBackendAddresses: []*armnetwork.LoadBalancerBackendAddress{
+      							{
+      								Name: to.Ptr("regional-lb1-address"),
+      								Properties: &armnetwork.LoadBalancerBackendAddressPropertiesFormat{
+      									LoadBalancerFrontendIPConfiguration: &armnetwork.SubResource{
+      										ID: to.Ptr("/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb"),
+      									},
+      								},
+      							}},
+      					},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:      to.Ptr[int32](80),
+      						EnableFloatingIP: to.Ptr(false),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      			Tier: to.Ptr(armnetwork.LoadBalancerSKUTierGlobal),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGlobalTier.json
+       */
+      async function createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [
+            {
+              name: "be-lb",
+              loadBalancerBackendAddresses: [
+                {
+                  name: "regional-lb1-address",
+                  loadBalancerFrontendIPConfiguration: {
+                    id: "/subscriptions/subid/resourceGroups/regional-lb-rg1/providers/Microsoft.Network/loadBalancers/regional-lb/frontendIPConfigurations/fe-rlb",
+                  },
+                },
+              ],
+            },
+          ],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              enableFloatingIP: false,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Standard", tier: "Global" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithGlobalTierAndOneRegionalLoadBalancerInItsBackendPool().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4053,7 +4918,7 @@ examples:
       }
 - name: Create load balancer with Frontend IP in Zone 1
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -4133,6 +4998,289 @@ examples:
           "outboundRules": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              },
+              "zones": [
+                "1"
+              ]
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp"
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithZones.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithZones() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      					Zones: []*string{
+      						to.Ptr("1")},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			InboundNatRules: []*armnetwork.InboundNatRule{
+      				{
+      					Name: to.Ptr("in-nat-rule"),
+      					Properties: &armnetwork.InboundNatRulePropertiesFormat{
+      						BackendPort:      to.Ptr[int32](3389),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](3389),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						Protocol:             to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:      to.Ptr[int32](80),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithZones.json
+       */
+      async function createLoadBalancerWithFrontendIPInZone1() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+              zones: ["1"],
+            },
+          ],
+          inboundNatPools: [],
+          inboundNatRules: [
+            {
+              name: "in-nat-rule",
+              backendPort: 3389,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 3389,
+              idleTimeoutInMinutes: 15,
+              protocol: "Tcp",
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithFrontendIPInZone1().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4396,7 +5544,7 @@ examples:
       }
 - name: Create load balancer with inbound nat pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -4442,6 +5590,202 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "properties": {
+                "privateIPAllocationMethod": "Dynamic",
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"
+                }
+              },
+              "name": "test",
+              "zones": [],
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+            }
+          ],
+          "backendAddressPools": [],
+          "loadBalancingRules": [],
+          "probes": [],
+          "inboundNatRules": [],
+          "outboundRules": [],
+          "inboundNatPools": [
+            {
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"
+                },
+                "protocol": "Tcp",
+                "frontendPortRangeStart": 8080,
+                "frontendPortRangeEnd": 8085,
+                "backendPort": 8888,
+                "idleTimeoutInMinutes": 10,
+                "enableFloatingIP": true,
+                "enableTcpReset": true
+              },
+              "name": "test",
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithInboundNatPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithInboundNatPool() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					ID:   to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"),
+      					Name: to.Ptr("test"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						PrivateIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodDynamic),
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet"),
+      						},
+      					},
+      					Zones: []*string{},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{
+      				{
+      					ID:   to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test"),
+      					Name: to.Ptr("test"),
+      					Properties: &armnetwork.InboundNatPoolPropertiesFormat{
+      						BackendPort:      to.Ptr[int32](8888),
+      						EnableFloatingIP: to.Ptr(true),
+      						EnableTCPReset:   to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test"),
+      						},
+      						FrontendPortRangeEnd:   to.Ptr[int32](8085),
+      						FrontendPortRangeStart: to.Ptr[int32](8080),
+      						IdleTimeoutInMinutes:   to.Ptr[int32](10),
+      						Protocol:               to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			InboundNatRules:    []*armnetwork.InboundNatRule{},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{},
+      			OutboundRules:      []*armnetwork.OutboundRule{},
+      			Probes:             []*armnetwork.Probe{},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithInboundNatPool.json
+       */
+      async function createLoadBalancerWithInboundNatPool() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [],
+          frontendIPConfigurations: [
+            {
+              name: "test",
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              privateIPAllocationMethod: "Dynamic",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/lbvnet/subnets/lbsubnet",
+              },
+              zones: [],
+            },
+          ],
+          inboundNatPools: [
+            {
+              name: "test",
+              backendPort: 8888,
+              enableFloatingIP: true,
+              enableTcpReset: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/test",
+              },
+              frontendPortRangeEnd: 8085,
+              frontendPortRangeStart: 8080,
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/inboundNatPools/test",
+              idleTimeoutInMinutes: 10,
+              protocol: "Tcp",
+            },
+          ],
+          inboundNatRules: [],
+          loadBalancingRules: [],
+          location: "eastus",
+          outboundRules: [],
+          probes: [],
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithInboundNatPool().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4571,7 +5915,7 @@ examples:
       }
 - name: Create load balancer with outbound rules
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -4664,6 +6008,327 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "publicIPAddress": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                },
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "frontendPort": 80,
+                "backendPort": 80,
+                "idleTimeoutInMinutes": 15,
+                "enableFloatingIP": true,
+                "disableOutboundSnat": true
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp"
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": [
+            {
+              "name": "rule1",
+              "properties": {
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "frontendIPConfigurations": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                  }
+                ],
+                "protocol": "All"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithOutboundRules.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateWithOutboundRules() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						PublicIPAddress: &armnetwork.PublicIPAddress{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			InboundNatRules: []*armnetwork.InboundNatRule{
+      				{
+      					Name: to.Ptr("in-nat-rule"),
+      					Properties: &armnetwork.InboundNatRulePropertiesFormat{
+      						BackendPort:      to.Ptr[int32](3389),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](3389),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						Protocol:             to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:         to.Ptr[int32](80),
+      						DisableOutboundSnat: to.Ptr(true),
+      						EnableFloatingIP:    to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{
+      				{
+      					Name: to.Ptr("rule1"),
+      					Properties: &armnetwork.OutboundRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						FrontendIPConfigurations: []*armnetwork.SubResource{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      							}},
+      						Protocol: to.Ptr(armnetwork.LoadBalancerOutboundRuleProtocolAll),
+      					},
+      				}},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateWithOutboundRules.json
+       */
+      async function createLoadBalancerWithOutboundRules() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              publicIPAddress: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/pip",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          inboundNatRules: [
+            {
+              name: "in-nat-rule",
+              backendPort: 3389,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 3389,
+              idleTimeoutInMinutes: 15,
+              protocol: "Tcp",
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              disableOutboundSnat: true,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [
+            {
+              name: "rule1",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              frontendIPConfigurations: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+                },
+              ],
+              protocol: "All",
+            },
+          ],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithOutboundRules().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4989,7 +6654,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Consumer configured
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -5069,6 +6734,292 @@ examples:
           "outboundRules": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                },
+                "gatewayLoadBalancer": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 80,
+                "backendPort": 80,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp",
+                "loadDistribution": "Default",
+                "backendAddressPool": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                },
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatRules": [
+            {
+              "name": "in-nat-rule",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 3389,
+                "backendPort": 3389,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "Tcp"
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerConsumer() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						GatewayLoadBalancer: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider"),
+      						},
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			InboundNatRules: []*armnetwork.InboundNatRule{
+      				{
+      					Name: to.Ptr("in-nat-rule"),
+      					Properties: &armnetwork.InboundNatRulePropertiesFormat{
+      						BackendPort:      to.Ptr[int32](3389),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](3389),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						Protocol:             to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      						},
+      						BackendPort:      to.Ptr[int32](80),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](80),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolTCP),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUNameStandard),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerConsumer.json
+       */
+      async function createLoadBalancerWithGatewayLoadBalancerConsumerConfigured() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              gatewayLoadBalancer: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb-provider",
+              },
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          inboundNatRules: [
+            {
+              name: "in-nat-rule",
+              backendPort: 3389,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 3389,
+              idleTimeoutInMinutes: 15,
+              protocol: "Tcp",
+            },
+          ],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+              },
+              backendPort: 80,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 80,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "Tcp",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithGatewayLoadBalancerConsumerConfigured().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5332,7 +7283,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Provider configured with one Backend Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -5411,6 +7362,285 @@ examples:
           "outboundRules": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Premium"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb",
+              "properties": {
+                "tunnelInterfaces": [
+                  {
+                    "port": 15000,
+                    "identifier": 900,
+                    "protocol": "VXLAN",
+                    "type": "Internal"
+                  },
+                  {
+                    "port": 15001,
+                    "identifier": 901,
+                    "protocol": "VXLAN",
+                    "type": "Internal"
+                  }
+                ]
+              }
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 0,
+                "backendPort": 0,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "All",
+                "loadDistribution": "Default",
+                "backendAddressPools": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"
+                  }
+                ],
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name: to.Ptr("be-lb"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{
+      						TunnelInterfaces: []*armnetwork.GatewayLoadBalancerTunnelInterface{
+      							{
+      								Type:       to.Ptr(armnetwork.GatewayLoadBalancerTunnelInterfaceTypeInternal),
+      								Identifier: to.Ptr[int32](900),
+      								Port:       to.Ptr[int32](15000),
+      								Protocol:   to.Ptr(armnetwork.GatewayLoadBalancerTunnelProtocolVXLAN),
+      							},
+      							{
+      								Type:       to.Ptr(armnetwork.GatewayLoadBalancerTunnelInterfaceTypeInternal),
+      								Identifier: to.Ptr[int32](901),
+      								Port:       to.Ptr[int32](15001),
+      								Protocol:   to.Ptr(armnetwork.GatewayLoadBalancerTunnelProtocolVXLAN),
+      							}},
+      					},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPools: []*armnetwork.SubResource{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb"),
+      							}},
+      						BackendPort:      to.Ptr[int32](0),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](0),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolAll),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUName("Premium")),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithOneBackendPool.json
+       */
+      async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [
+            {
+              name: "be-lb",
+              tunnelInterfaces: [
+                { type: "Internal", identifier: 900, port: 15000, protocol: "VXLAN" },
+                { type: "Internal", identifier: 901, port: 15001, protocol: "VXLAN" },
+              ],
+            },
+          ],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPools: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb",
+                },
+              ],
+              backendPort: 0,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 0,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "All",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Premium" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithOneBackendPool().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5657,7 +7887,7 @@ examples:
       }
 - name: Create load balancer with Gateway Load Balancer Provider configured with two Backend Pool
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
     body: >-
       {
         "location": "eastus",
@@ -5729,6 +7959,268 @@ examples:
           "outboundRules": []
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb?api-version=2022-01-01
+
+      {
+        "location": "eastus",
+        "sku": {
+          "name": "Premium"
+        },
+        "properties": {
+          "frontendIPConfigurations": [
+            {
+              "name": "fe-lb",
+              "properties": {
+                "subnet": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"
+                }
+              }
+            }
+          ],
+          "backendAddressPools": [
+            {
+              "name": "be-lb1",
+              "properties": {}
+            },
+            {
+              "name": "be-lb2",
+              "properties": {}
+            }
+          ],
+          "loadBalancingRules": [
+            {
+              "name": "rulelb",
+              "properties": {
+                "frontendIPConfiguration": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"
+                },
+                "frontendPort": 0,
+                "backendPort": 0,
+                "enableFloatingIP": true,
+                "idleTimeoutInMinutes": 15,
+                "protocol": "All",
+                "loadDistribution": "Default",
+                "backendAddressPool": {},
+                "backendAddressPools": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1"
+                  },
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2"
+                  }
+                ],
+                "probe": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"
+                }
+              }
+            }
+          ],
+          "probes": [
+            {
+              "name": "probe-lb",
+              "properties": {
+                "protocol": "Http",
+                "port": 80,
+                "requestPath": "healthcheck.aspx",
+                "intervalInSeconds": 15,
+                "numberOfProbes": 2
+              }
+            }
+          ],
+          "inboundNatPools": [],
+          "outboundRules": []
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+      func ExampleLoadBalancersClient_BeginCreateOrUpdate_loadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "lb", armnetwork.LoadBalancer{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.LoadBalancerPropertiesFormat{
+      			BackendAddressPools: []*armnetwork.BackendAddressPool{
+      				{
+      					Name:       to.Ptr("be-lb1"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				},
+      				{
+      					Name:       to.Ptr("be-lb2"),
+      					Properties: &armnetwork.BackendAddressPoolPropertiesFormat{},
+      				}},
+      			FrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
+      				{
+      					Name: to.Ptr("fe-lb"),
+      					Properties: &armnetwork.FrontendIPConfigurationPropertiesFormat{
+      						Subnet: &armnetwork.Subnet{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
+      						},
+      					},
+      				}},
+      			InboundNatPools: []*armnetwork.InboundNatPool{},
+      			LoadBalancingRules: []*armnetwork.LoadBalancingRule{
+      				{
+      					Name: to.Ptr("rulelb"),
+      					Properties: &armnetwork.LoadBalancingRulePropertiesFormat{
+      						BackendAddressPool: &armnetwork.SubResource{},
+      						BackendAddressPools: []*armnetwork.SubResource{
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1"),
+      							},
+      							{
+      								ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2"),
+      							}},
+      						BackendPort:      to.Ptr[int32](0),
+      						EnableFloatingIP: to.Ptr(true),
+      						FrontendIPConfiguration: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
+      						},
+      						FrontendPort:         to.Ptr[int32](0),
+      						IdleTimeoutInMinutes: to.Ptr[int32](15),
+      						LoadDistribution:     to.Ptr(armnetwork.LoadDistributionDefault),
+      						Probe: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb"),
+      						},
+      						Protocol: to.Ptr(armnetwork.TransportProtocolAll),
+      					},
+      				}},
+      			OutboundRules: []*armnetwork.OutboundRule{},
+      			Probes: []*armnetwork.Probe{
+      				{
+      					Name: to.Ptr("probe-lb"),
+      					Properties: &armnetwork.ProbePropertiesFormat{
+      						IntervalInSeconds: to.Ptr[int32](15),
+      						NumberOfProbes:    to.Ptr[int32](2),
+      						Port:              to.Ptr[int32](80),
+      						RequestPath:       to.Ptr("healthcheck.aspx"),
+      						Protocol:          to.Ptr(armnetwork.ProbeProtocolHTTP),
+      					},
+      				}},
+      		},
+      		SKU: &armnetwork.LoadBalancerSKU{
+      			Name: to.Ptr(armnetwork.LoadBalancerSKUName("Premium")),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer.
+       *
+       * @summary Creates or updates a load balancer.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerCreateGatewayLoadBalancerProviderWithTwoBackendPool.json
+       */
+      async function createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const loadBalancerName = "lb";
+        const parameters = {
+          backendAddressPools: [{ name: "be-lb1" }, { name: "be-lb2" }],
+          frontendIPConfigurations: [
+            {
+              name: "fe-lb",
+              subnet: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb",
+              },
+            },
+          ],
+          inboundNatPools: [],
+          loadBalancingRules: [
+            {
+              name: "rulelb",
+              backendAddressPool: {},
+              backendAddressPools: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb1",
+                },
+                {
+                  id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/be-lb2",
+                },
+              ],
+              backendPort: 0,
+              enableFloatingIP: true,
+              frontendIPConfiguration: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb",
+              },
+              frontendPort: 0,
+              idleTimeoutInMinutes: 15,
+              loadDistribution: "Default",
+              probe: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/probes/probe-lb",
+              },
+              protocol: "All",
+            },
+          ],
+          location: "eastus",
+          outboundRules: [],
+          probes: [
+            {
+              name: "probe-lb",
+              intervalInSeconds: 15,
+              numberOfProbes: 2,
+              port: 80,
+              requestPath: "healthcheck.aspx",
+              protocol: "Http",
+            },
+          ],
+          sku: { name: "Premium" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancers.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createLoadBalancerWithGatewayLoadBalancerProviderConfiguredWithTwoBackendPool().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -6021,5 +8513,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Load balancer service - Creates or updates a load balancer.
+  description: >
+    Learn more about Load balancer service - Creates or updates a load balancer.
 errorCodes: []

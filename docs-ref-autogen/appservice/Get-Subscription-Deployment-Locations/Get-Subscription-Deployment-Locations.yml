@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.getsubscriptiondeploymentlocations.getsubsc
 name: Get Subscription Deployment Locations
 service: App Service
 groupName: Get Subscription Deployment Locations
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Gets list of available geo regions plus ministamps
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/deploymentLocations?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -174,6 +174,11 @@ definitions:
     description: Flag that displays whether an ASE has linux workers or not
     types:
     - uid: boolean
+  - name: upgradePreference
+    description: Upgrade Preference
+    types:
+    - uid: UpgradePreference
+    defaultValue: None
   - name: dedicatedHostCount
     description: Dedicated Host Count
     types:
@@ -182,6 +187,19 @@ definitions:
     description: Whether or not this App Service Environment is zone-redundant.
     types:
     - uid: boolean
+  - name: customDnsSuffixConfiguration
+    description: Full view of the custom domain suffix configuration for ASEv3.
+    types:
+    - uid: CustomDnsSuffixConfiguration
+  - name: networkingConfiguration
+    description: Full view of networking configuration for an ASE.
+    types:
+    - uid: AseV3NetworkingConfiguration
+  - name: upgradeAvailability
+    isReadyOnly: true
+    description: Whether an upgrade is available for this App Service Environment.
+    types:
+    - uid: UpgradeAvailability
 - name: HostingEnvironmentDeploymentInfo
   description: Information needed to create resources on an App Service Environment.
   kind: object
@@ -308,6 +326,146 @@ definitions:
     description: Pair value.
     types:
     - uid: string
+- name: UpgradePreference
+  description: Upgrade Preference
+  kind: enum
+  properties:
+  - name: None
+    description: No preference on when this App Service Environment will be upgraded
+    types:
+    - uid: string
+  - name: Early
+    description: This App Service Environment will be upgraded before others in the same region that have Upgrade Preference 'Late'
+    types:
+    - uid: string
+  - name: Late
+    description: This App Service Environment will be upgraded after others in the same region that have Upgrade Preference 'Early'
+    types:
+    - uid: string
+  - name: Manual
+    description: ASEv3 only. Once an upgrade is available, this App Service Environment will wait 10 days for the upgrade to be manually initiated. After 10 days the upgrade will begin automatically
+    types:
+    - uid: string
+- name: CustomDnsSuffixConfiguration
+  description: Full view of the custom domain suffix configuration for ASEv3.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: CustomDnsSuffixProvisioningState
+  - name: properties.provisioningDetails
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: properties.dnsSuffix
+    description: The default custom domain suffix to use for all sites deployed on the ASE.
+    types:
+    - uid: string
+  - name: properties.certificateUrl
+    description: The URL referencing the Azure Key Vault certificate secret that should be used as the default SSL/TLS certificate for sites with the custom domain suffix.
+    types:
+    - uid: string
+  - name: properties.keyVaultReferenceIdentity
+    description: The user-assigned identity to use for resolving the key vault certificate reference. If not specified, the system-assigned ASE identity will be used if available.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AseV3NetworkingConfiguration
+  description: Full view of networking configuration for an ASE.
+  kind: object
+  properties:
+  - name: properties.windowsOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.linuxOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.externalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.internalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.allowNewPrivateEndpointConnections
+    description: Property to enable and disable new private endpoint connection creation on ASE
+    types:
+    - uid: boolean
+  - name: properties.ftpEnabled
+    description: Property to enable and disable FTP on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.remoteDebugEnabled
+    description: Property to enable and disable Remote Debug on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.inboundIpAddressOverride
+    description: Customer provided Inbound IP Address. Only able to be set on Ase create.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: UpgradeAvailability
+  description: Whether an upgrade is available for this App Service Environment.
+  kind: enum
+  properties:
+  - name: None
+    description: No upgrade is currently available for this App Service Environment
+    types:
+    - uid: string
+  - name: Ready
+    description: An upgrade is ready to be manually initiated on this App Service Environment
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -326,6 +484,21 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
+- name: CustomDnsSuffixProvisioningState
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
 examples: []
 security:
 - name: azure_auth
@@ -337,5 +510,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Gets list of available geo regions plus ministamps
+  description: >
+    Learn more about App Service service - Description for Gets list of available geo regions plus ministamps
 errorCodes: []

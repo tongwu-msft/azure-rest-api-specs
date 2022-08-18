@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Delete Role Instances | Microsoft Docs"
+description: Learn how the Delete Role Instances operation deletes multiple role instances from a deployment in a cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

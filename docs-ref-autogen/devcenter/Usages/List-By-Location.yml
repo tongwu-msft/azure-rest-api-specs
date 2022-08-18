@@ -1,0 +1,212 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.usages.listbylocation
+name: List By Location
+service: Dev Center
+groupName: Usages
+apiVersion: 2022-08-01-preview
+summary: Lists the current usages and limits in this location for the provided subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/{location}/usages?api-version=2022-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The Azure region
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; a list of usages is returned
+  types:
+  - uid: ListUsagesResult
+- name: Other Status Codes
+  description: The default error response.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListUsagesResult
+  description: List of Core Usages.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The array page of Usages.
+    types:
+    - uid: Usage
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link to get the next page of Usage result.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: Usage
+  description: The core usage details.
+  kind: object
+  properties:
+  - name: currentValue
+    description: The current usage.
+    types:
+    - uid: integer
+  - name: limit
+    description: The limit integer.
+    types:
+    - uid: integer
+  - name: unit
+    description: The unit details.
+    types:
+    - uid: UsageUnit
+  - name: name
+    description: The name.
+    types:
+    - uid: UsageName
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: UsageUnit
+  description: The unit details.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+- name: UsageName
+  description: The Usage Names.
+  kind: object
+  properties:
+  - name: localizedValue
+    description: The localized name of the resource.
+    types:
+    - uid: string
+  - name: value
+    description: The name of the resource.
+    types:
+    - uid: string
+examples:
+- name: listUsages
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/westus/usages?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DevCenter/locations/westus/usages?api-version=2022-08-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/Usages_ListByLocation.json
+      func ExampleUsagesClient_NewListByLocationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewUsagesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByLocationPager("westus",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.1.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": null,
+        "value": [
+          {
+            "currentValue": 2,
+            "limit": 8,
+            "unit": "Count",
+            "name": {
+              "value": "devcenters"
+            }
+          },
+          {
+            "currentValue": 5,
+            "limit": 30,
+            "unit": "Count",
+            "name": {
+              "value": "projects"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Lists the current usages and limits in this location for the provided subscription.
+errorCodes: []

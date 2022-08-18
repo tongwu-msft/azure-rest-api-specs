@@ -97,7 +97,7 @@ definitions:
     types:
     - uid: string
   - name: identityClientId
-    description: SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret.
+    description: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret.
     types:
     - uid: string
 - name: CertificateContract
@@ -181,7 +181,7 @@ definitions:
     types:
     - uid: string
   - name: identityClientId
-    description: SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret.
+    description: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -227,6 +227,20 @@ examples:
           "password": "****Certificate Password******"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert?api-version=2020-12-01
+
+      {
+        "properties": {
+          "data": "****************Base 64 Encoded Certificate *******************************",
+          "password": "****Certificate Password******"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -264,6 +278,22 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCertkv?api-version=2020-12-01
+
+      {
+        "properties": {
+          "keyVault": {
+            "identityClientId": "ceaa6b06-c00f-43ef-99ac-f53d1fe876a0",
+            "secretIdentifier": "https://rpbvtkeyvaultintegration.vault-int.azure-int.net/secrets/msitestingCert"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -315,5 +345,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Creates or updates the certificate being used for authentication with the backend.
+  description: >
+    Learn more about API Management service - Creates or updates the certificate being used for authentication with the backend.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: Azure Deployment Manager REST API reference | Microsoft Docs
+description: Learn how Deployment Manager enables you to use safe deployment practices when deploying your service across many regions.
 ms.service: azure-resource-manager
 author: tfitzmac
 ms.author: tomfitz

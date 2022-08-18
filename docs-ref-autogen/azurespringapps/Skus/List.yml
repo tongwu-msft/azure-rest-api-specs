@@ -1,0 +1,350 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurespringapps.skus.list
+name: List
+service: Azure Spring Apps
+groupName: Skus
+apiVersion: 2022-05-01-preview
+summary: Lists all of the available skus of the Microsoft.AppPlatform provider.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.AppPlatform/skus?api-version=2022-05-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription ID which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ResourceSkuCollection
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ResourceSkuCollection
+  description: Object that includes an array of Azure Spring Apps SKU and a possible link for next set
+  kind: object
+  properties:
+  - name: value
+    description: Collection of resource SKU
+    types:
+    - uid: ResourceSku
+      isArray: true
+  - name: nextLink
+    description: >-
+      URL client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: ResourceSku
+  description: Describes an available Azure Spring Apps SKU.
+  kind: object
+  properties:
+  - name: resourceType
+    description: Gets the type of resource the SKU applies to.
+    types:
+    - uid: string
+  - name: name
+    description: Gets the name of SKU.
+    types:
+    - uid: string
+  - name: tier
+    description: Gets the tier of SKU.
+    types:
+    - uid: string
+  - name: capacity
+    description: Gets the capacity of SKU.
+    types:
+    - uid: SkuCapacity
+  - name: locations
+    description: Gets the set of locations that the SKU is available.
+    types:
+    - uid: string
+      isArray: true
+  - name: locationInfo
+    description: Gets a list of locations and availability zones in those locations where the SKU is available.
+    types:
+    - uid: ResourceSkuLocationInfo
+      isArray: true
+  - name: restrictions
+    description: >-
+      Gets the restrictions because of which SKU cannot be used. This is
+
+      empty if there are no restrictions.
+    types:
+    - uid: ResourceSkuRestrictions
+      isArray: true
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SkuCapacity
+  description: The SKU capacity
+  kind: object
+  properties:
+  - name: minimum
+    description: Gets or sets the minimum.
+    types:
+    - uid: integer
+  - name: maximum
+    description: Gets or sets the maximum.
+    types:
+    - uid: integer
+  - name: default
+    description: Gets or sets the default.
+    types:
+    - uid: integer
+  - name: scaleType
+    description: Gets or sets the type of the scale.
+    types:
+    - uid: SkuScaleType
+- name: ResourceSkuLocationInfo
+  description: Locations and availability zones where the SKU is available
+  kind: object
+  properties:
+  - name: location
+    description: Gets location of the SKU
+    types:
+    - uid: string
+  - name: zones
+    description: Gets list of availability zones where the SKU is supported.
+    types:
+    - uid: string
+      isArray: true
+  - name: zoneDetails
+    description: Gets details of capabilities available to a SKU in specific zones.
+    types:
+    - uid: ResourceSkuZoneDetails
+      isArray: true
+- name: ResourceSkuRestrictions
+  description: Restrictions where the SKU cannot be used
+  kind: object
+  properties:
+  - name: type
+    description: "Gets the type of restrictions. Possible values include: 'Location', 'Zone'"
+    types:
+    - uid: ResourceSkuRestrictionsType
+  - name: values
+    description: >-
+      Gets the value of restrictions. If the restriction type is set to
+
+      location. This would be different locations where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
+  - name: restrictionInfo
+    description: Gets the information about the restriction where the SKU cannot be used.
+    types:
+    - uid: ResourceSkuRestrictionInfo
+  - name: reasonCode
+    description: "Gets the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription'"
+    types:
+    - uid: ResourceSkuRestrictionsReasonCode
+- name: SkuScaleType
+  description: Gets or sets the type of the scale.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
+  - name: Automatic
+    types:
+    - uid: string
+- name: ResourceSkuZoneDetails
+  description: Details of capabilities available to a SKU in specific zones
+  kind: object
+  properties:
+  - name: name
+    description: >-
+      Gets the set of zones that the SKU is available in with the
+
+      specified capabilities.
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: >-
+      Gets a list of capabilities that are available for the SKU in the
+
+      specified list of zones.
+    types:
+    - uid: ResourceSkuCapabilities
+      isArray: true
+- name: ResourceSkuRestrictionsType
+  description: "Gets the type of restrictions. Possible values include: 'Location', 'Zone'"
+  kind: enum
+  properties:
+  - name: Location
+    types:
+    - uid: string
+  - name: Zone
+    types:
+    - uid: string
+- name: ResourceSkuRestrictionInfo
+  description: Information about the restriction where the SKU cannot be used
+  kind: object
+  properties:
+  - name: locations
+    description: Gets locations where the SKU is restricted
+    types:
+    - uid: string
+      isArray: true
+  - name: zones
+    description: Gets list of availability zones where the SKU is restricted.
+    types:
+    - uid: string
+      isArray: true
+- name: ResourceSkuRestrictionsReasonCode
+  description: "Gets the reason for restriction. Possible values include: 'QuotaId', 'NotAvailableForSubscription'"
+  kind: enum
+  properties:
+  - name: QuotaId
+    types:
+    - uid: string
+  - name: NotAvailableForSubscription
+    types:
+    - uid: string
+- name: ResourceSkuCapabilities
+  kind: object
+  properties:
+  - name: name
+    description: Gets an invariant to describe the feature.
+    types:
+    - uid: string
+  - name: value
+    description: Gets an invariant if the feature is measured by quantity.
+    types:
+    - uid: string
+examples:
+- name: Skus_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppPlatform/skus?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.AppPlatform/skus?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Skus_List.json
+      func ExampleSKUsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewSKUsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "resourceType": "Spring",
+            "name": "B0",
+            "tier": "Basic",
+            "capacity": {
+              "minimum": 1,
+              "maximum": 20,
+              "default": 1,
+              "scaleType": "Automatic"
+            },
+            "locations": [
+              "eastus"
+            ],
+            "locationInfo": [
+              {
+                "location": "eastus",
+                "zones": [],
+                "zoneDetails": []
+              }
+            ],
+            "restrictions": []
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Spring Apps service - Lists all of the available skus of the Microsoft.AppPlatform provider.
+errorCodes: []

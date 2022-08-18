@@ -133,50 +133,64 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 
 | Blob service operation | RBAC action |
 |--|--|
-| [List Containers](list-containers2.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read (scoped to the storage account) |
+| [List Containers](list-containers2.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read (scoped to the storage account or above) |
 | [Set Blob Service Properties](set-blob-service-properties.md) | Microsoft.Storage/storageAccounts/blobServices/write |
 | [Get Blob Service Properties](get-blob-service-properties.md) | Microsoft.Storage/storageAccounts/blobServices/read |
 | [Preflight Blob Request](preflight-blob-request.md) | Anonymous |
 | [Get Blob Service Stats](get-blob-service-stats.md) | Microsoft.Storage/storageAccounts/blobServices/read |
-| [Get User Delegation Key](get-user-delegation-key.md) | Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey |
+| [Get Account Information](get-account-information.md) | Not supported |
+| [Get User Delegation Key](get-user-delegation-key.md) | Microsoft.Storage/storageAccounts/blobServices/generateUserDelegationKey/action |
 | [Create Container](create-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Get Container Properties](get-container-properties.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read |
 | [Get Container Metadata](get-container-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/read |
 | [Set Container Metadata](set-container-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
-| [Get Container ACL](get-container-acl.md) | Not available via OAuth |
-| [Set Container ACL](set-container-acl.md) | Not available via OAuth |
+| [Get Container ACL](get-container-acl.md) | Not supported |
+| [Set Container ACL](set-container-acl.md) | Not supported |
 | [Lease Container](lease-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Delete Container](delete-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/delete |
 | [Restore Container](restore-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
-| [List Blobs](list-blobs.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read (scoped to container) |
+| [List Blobs](list-blobs.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
+| [Find Blobs by Tags in Container](find-blobs-by-tags-container.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action |
 | [Put Blob](put-blob.md) | For create or replace: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write <br/>To create new blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
+| [Put Blob from URL](put-blob-from-url.md) | For create or replace: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write <br/>To create new blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Get Blob](get-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Get Blob Properties](get-blob-properties.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Set Blob Properties](set-blob-properties.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Blob Metadata](get-blob-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Set Blob Metadata](set-blob-metadata.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
-| [Set Blob Tags](set-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/write |
 | [Get Blob Tags](get-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/read |
+| [Set Blob Tags](set-blob-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/tags/write |
 | [Find Blob by Tags](find-blobs-by-tags.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action |
 | [Lease Blob](lease-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Snapshot Blob](snapshot-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or <br/>Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Copy Blob](copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action (when writing a new blob to the destination)<br/>For source blob in the same storage account: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read<br/>For source blob in a different storage account: Available as anonymous, or include valid SAS token |
+| [Copy Blob from URL](copy-blob-from-url.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action (when writing a new blob to the destination)<br/>For source blob in the same storage account: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read<br/>For source blob in a different storage account: Available as anonymous, or include valid SAS token |
 | [Abort Copy Blob](abort-copy-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Delete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/delete |
 | [Undelete Blob](delete-blob.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
+| [Set Blob Tier](set-blob-tier.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
+| [Blob Batch](blob-batch.md) | Parent request: Microsoft.Storage/storageAccounts/blobServices/containers/write <br/>Sub-requests: See permissions for that request type. |
+| [Set Immutability Policy](set-blob-immutability-policy.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
+| [Delete Immutability Policy](delete-blob-immutability-policy.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
+| [Set Blob Legal Hold](set-blob-legal-hold.md) | Microsoft.Storage/storageAccounts/blobServices/containers/write |
 | [Put Block](put-block.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
+| [Put Block from URL](put-block-from-url.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Put Block List](put-block-list.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Block List](get-block-list.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
+| [Query Blob Contents](query-blob-contents.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Put Page](put-page.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
+| [Put Page from URL](put-page-from-url.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 | [Get Page Ranges](get-page-ranges.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read |
 | [Incremental Copy Blob](incremental-copy-blob.md) | For destination blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write <br/>For source blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/read <br/>For new blob: Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
 | [Append Block](append-block.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
+| [Append Block from URL](append-block-from-url.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write or Microsoft.Storage/storageAccounts/blobServices/containers/blobs/add/action |
+| [Set Blob Expiry](set-blob-expiry.md) | Microsoft.Storage/storageAccounts/blobServices/containers/blobs/write |
 
 ### Permissions for Queue service operations
 
 | Queue service operation | RBAC action |
 |--|--|
-| [List Queues](list-queues1.md) | Microsoft.Storage/storageAccounts/queueServices/queues/read (scoped storage account) |
+| [List Queues](list-queues1.md) | Microsoft.Storage/storageAccounts/queueServices/queues/read (scoped to the storage account or above) |
 | [Set Queue Service Properties](set-queue-service-properties.md) | Microsoft.Storage/storageAccounts/queueServices/read |
 | [Get Queue Service Properties](get-queue-service-properties.md) | Microsoft.Storage/storageAccounts/queueServices/read |
 | [Preflight Queue Request](preflight-queue-request.md) | Anonymous |
@@ -203,7 +217,7 @@ The following tables describe the permissions necessary for an Azure AD user, gr
 | [Preflight Table Request](preflight-table-request.md) | Anonymous |
 | [Get Table Service Stats](get-table-service-stats.md) | Microsoft.Storage/storageAccounts/tableServices/read |
 | [Performing Entity Group Transactions](performing-entity-group-transactions.md) | Sub-operation authorizes separately |
-| [Query Tables](query-tables.md) | Microsoft.Storage/storageAccounts/tableServices/tables/read (scoped storage account) |
+| [Query Tables](query-tables.md) | Microsoft.Storage/storageAccounts/tableServices/tables/read (scoped to the storage account or above) |
 | [Create Table](create-table.md) | Microsoft.Storage/storageAccounts/tableServices/tables/write |
 | [Delete Table](delete-table.md) | Microsoft.Storage/storageAccounts/tableServices/tables/delete |
 | [Get Table ACL](get-table-acl.md) | Not available via OAuth |

@@ -1,5 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to a Service Bus queue
+description: Learn how to get an Azure AD token that you can use to send messages to a Service Bus namespace.
 ms.date: "07/15/2020"
 ms.service: "service-bus"
 ms.topic: "reference"
@@ -20,13 +21,13 @@ translation.priority.mt:
 ---
 
 # Get an Azure Active Directory (Azure AD) token and use it to send messages to a Service Bus queue
-See [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
+See [Authenticate from an application](/azure/service-bus-messaging/authenticate-application) for an overview of getting an Azure Active Directory (Azure AD) token. 
 
 This article gives you an example of getting an Azure AD token that you can use to send messages to a Service Bus namespace. It uses the **Postman** tool for testing purposes. 
 
 ## Prerequisites
 
-- Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
+- Follow instructions from [Quickstart: Use Azure portal to create a Service Bus queue](/azure/service-bus-messaging/service-bus-quickstart-portal) to create a Service Bus namespace and a queue in the namespace.
 - Download and install [Postman](https://www.postman.com/) desktop app.
 
 ## Register your app with Azure AD
@@ -96,10 +97,10 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
     1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
 
-        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::
+        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Screenshot of Authorization and Content dash Type selected as Headers in the Service Bus queue." lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::
 5. On the **Body** tab, select **raw** for the data type, and enter `This is a message` or any message for the body. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-body-message.png":::    
+    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Screenshot of the test message in the raw Body view of the Service Bus queue." lightbox="./media/get-azure-active-directory-token/postman-body-message.png":::    
 1. Select **Send** to send the message to the queue. You see the status as `Created` with the code 201 as shown in the following image. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/status-201.png" alt-text="Succeeded status" lightbox="./media/get-azure-active-directory-token/status-201.png":::
@@ -114,5 +115,5 @@ In this example, we are only sending messaging to the Service Bus queue, so add 
 ## See Also  
 See the following articles:
 
-- [Authenticate from an application](https://docs.microsoft.com/azure/service-bus-messaging/authenticate-application#authenticate-from-an-application)
-- [Microsoft identity platform and OAuth 2.0 authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow)
+- [Authenticate from an application](/azure/service-bus-messaging/authenticate-application)
+- [Microsoft identity platform and OAuth 2.0 authorization code flow](/azure/active-directory/develop/v2-oauth2-auth-code-flow)

@@ -1,5 +1,6 @@
 ﻿---
 title: "Create a notification hub"
+description: Learn how this method creates a new notification hub, which contains credentials for the supported Platform Notification Services (WNS, APNS, GCM).
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

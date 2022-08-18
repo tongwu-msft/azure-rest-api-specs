@@ -98,6 +98,7 @@ definitions:
     description: The flag that indicates whether the alert should be automatically resolved or not. The default is false.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.enabled
     description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
     types:
@@ -340,6 +341,7 @@ definitions:
     description: Evaluation operation for rule - 'GreaterThan' or 'LessThan.
     types:
     - uid: ConditionalOperator
+    defaultValue: GreaterThanOrEqual
   - name: threshold
     description: Result or count threshold based on which rule should be triggered.
     types:
@@ -388,6 +390,7 @@ definitions:
     description: Evaluation operation for Metric -'GreaterThan' or 'LessThan' or 'Equal'.
     types:
     - uid: ConditionalOperator
+    defaultValue: GreaterThanOrEqual
   - name: threshold
     description: The threshold of the metric trigger.
     types:
@@ -396,6 +399,7 @@ definitions:
     description: Metric Trigger Type - 'Consecutive' or 'Total'
     types:
     - uid: metricTriggerType
+    defaultValue: Consecutive
   - name: metricColumn
     description: Evaluation of metric on a particular column
     types:
@@ -444,6 +448,87 @@ examples:
           "enabled": "true"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourcegroups/my-resource-group/providers/Microsoft.Insights/scheduledQueryRules/logalertfoo?api-version=2018-04-16
+
+      {
+        "properties": {
+          "enabled": "true"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/patchScheduledQueryRules.json
+      func ExampleScheduledQueryRulesClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewScheduledQueryRulesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"my-resource-group",
+      		"logalertfoo",
+      		armmonitor.LogSearchRuleResourcePatch{
+      			Properties: &armmonitor.LogSearchRulePatch{
+      				Enabled: to.Ptr(armmonitor.EnabledTrue),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update log search Rule.
+       *
+       * @summary Update log search Rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/patchScheduledQueryRules.json
+       */
+      async function patchLogSearchRule() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "my-resource-group";
+        const ruleName = "logalertfoo";
+        const parameters = { enabled: "true" };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.scheduledQueryRules.update(resourceGroupName, ruleName, parameters);
+        console.log(result);
+      }
+
+      patchLogSearchRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -498,5 +583,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Update log search Rule.
+  description: >
+    Learn more about Monitor service - Update log search Rule.
 errorCodes: []

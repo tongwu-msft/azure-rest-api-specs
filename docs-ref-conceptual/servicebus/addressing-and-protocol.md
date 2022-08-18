@@ -1,7 +1,8 @@
 ---
 title: "Service Bus Namespace Access"
+description: Learn how a service namespace is a hierarchical graph in which entities can be created.
 ms.custom: ""
-ms.date: "07/08/2020"
+ms.date: "07/20/2022"
 ms.reviewer: ""
 ms.service: "service-bus"
 ms.suite: ""
@@ -34,7 +35,7 @@ https://{serviceNamespace}.servicebus.windows.net/{path}
 The `*.servicebus.windows.net` suffix applies to all namespaces created in the global Azure cloud. Special environments use different suffixes. The separately operated German Azure cloud uses `*.servicebus.cloudapi.de`, for instance. 
 
 The `{path}` is a segmented expression with the forward-slash ('/') as the segment separator, for example, /test, /test/test2, or /test/test2/test3. Multiple entities can share the same 
-prefix segments, allowing formation of hierarchies. The maximum length of an entity name is 290 characters.  
+prefix segments, allowing formation of hierarchies. The maximum length of an entity name is 260 characters.  
   
 ## In This Section  
 

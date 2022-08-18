@@ -3,14 +3,14 @@ uid: management.azure.com.azurequantum.resourcemanager.offerings.list
 name: List
 service: Azure Quantum
 groupName: Offerings
-apiVersion: 2019-11-04-preview
+apiVersion: 2022-01-10-preview
 summary: Returns the list of all provider offerings available for the given location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/offerings?api-version=2019-11-04-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/offerings?api-version=2022-01-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -254,6 +254,10 @@ definitions:
     description: Uri to subscribe to the restricted access sku.
     types:
     - uid: string
+  - name: autoAdd
+    description: Flag to indicate whether the sku should be automatically added during workspace creation.
+    types:
+    - uid: boolean
   - name: targets
     description: The list of targets available for this sku.
     types:
@@ -332,7 +336,52 @@ definitions:
 examples:
 - name: OfferingsList
   request:
-    uri: GET https://management.azure.com/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/providers/Microsoft.Quantum/locations/westus2/offerings?api-version=2019-11-04-preview
+    uri: GET https://management.azure.com/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/providers/Microsoft.Quantum/locations/westus2/offerings?api-version=2022-01-10-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/providers/Microsoft.Quantum/locations/westus2/offerings?api-version=2022-01-10-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armquantum_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/quantum/armquantum"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/offeringsList.json
+      func ExampleOfferingsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armquantum.NewOfferingsClient("1C4B2828-7D49-494F-933D-061373BE28C2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("westus2",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fquantum%2Farmquantum%2Fv0.5.0/sdk/resourcemanager/quantum/armquantum/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -357,6 +406,7 @@ examples:
                   "version": "1.0",
                   "description": "Provider CPU and FPGA QIO based solver.",
                   "restrictedAccessUri": "https://endpoint",
+                  "autoAdd": true,
                   "targets": [
                     "p1"
                   ],
@@ -424,5 +474,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Quantum service - Returns the list of all provider offerings available for the given location.
+  description: >
+    Learn more about Azure Quantum service - Returns the list of all provider offerings available for the given location.
 errorCodes: []

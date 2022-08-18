@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Get Cloud Service Properties | Microsoft Docs"
+description: Learn how the Get Cloud Service Properties operation retrieves properties for the specified cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

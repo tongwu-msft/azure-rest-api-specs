@@ -3,95 +3,126 @@ uid: management.azure.com.labservices.labs.delete
 name: Delete
 service: Lab Services
 groupName: Labs
-apiVersion: 2018-10-15
-summary: Delete lab. This operation can take a while to complete
+apiVersion: 2022-08-01
+summary: "Deletes a lab resource.  \nOperation to delete a lab resource."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}?api-version=2018-10-15
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
-  types:
-  - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Client API version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: The request was successful.
 - name: 202 Accepted
-  description: Accepted
+  description: The request was accepted.
 - name: 204 No Content
-  description: No Content
+  description: The request has been fulfilled.
 - name: Other Status Codes
-  description: BadRequest
+  description: The default error response.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: CloudError
-  description: Error from a REST request.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The error object.
     types:
-    - uid: CloudErrorBody
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
+    - uid: ErrorDetail
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: ''
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: ''
+    isReadyOnly: true
+    description: The error message.
     types:
     - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Inner errors.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: CloudErrorBody
+    - uid: ErrorDetail
       isArray: true
-examples: []
-security:
-- name: azure_auth
-  type: oauth2
-  description: OAuth2 Implicit Grant
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: Access Microsoft Azure
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: deleteLab
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
+      ```
+
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/operationresults/a64149d8-84cb-4566-ab8e-b4ee1a074174
+  - statusCode: "204"
+security: []
 metadata:
-  description: Learn more about Lab Services service - Delete lab. This operation can take a while to complete
+  description: >
+    Learn more about Lab Services service - Deletes a lab resource.
+
+    Operation to delete a lab resource.
 errorCodes: []

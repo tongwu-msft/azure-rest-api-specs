@@ -3,134 +3,350 @@ uid: management.azure.com.datamigration.operations.list
 name: List
 service: Data Migration
 groupName: Operations
-apiVersion: 2018-04-19
-summary: "Get available resource provider actions (operations)  \nLists all available actions exposed by the Database Migration Service resource provider."
+apiVersion: 2022-01-30-preview
+summary: Lists all of the available SQL Migration REST API operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.DataMigration/operations?api-version=2018-04-19
+- content: GET https://management.azure.com/providers/Microsoft.DataMigration/operations?api-version=2022-01-30-preview
 uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API
+  description: API version to use for the request.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: Got action list
+  description: Successfully retrieved operations.
   types:
-  - uid: ServiceOperationList
+  - uid: OperationListResult
 - name: Other Status Codes
-  description: Error
-  types:
-  - uid: ApiError
+  description: '*** Error Responses: ***'
 requestHeader: []
 definitions:
-- name: ServiceOperationList
-  description: OData page of action (operation) objects
+- name: OperationListResult
+  description: Result of the request to list SQL operations.
   kind: object
   properties:
   - name: value
-    description: List of actions
+    isReadyOnly: true
+    description: ''
     types:
-    - uid: ServiceOperation
+    - uid: OperationsDefinition
       isArray: true
   - name: nextLink
-    description: URL to load the next page of actions
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
-- name: ApiError
-  description: Error information.
-  kind: object
-  properties:
-  - name: error
-    description: Error information in OData format
-    types:
-    - uid: ODataError
-- name: ServiceOperation
-  description: Description of an action supported by the Database Migration Service
+- name: OperationsDefinition
   kind: object
   properties:
   - name: name
-    description: The fully qualified action name, e.g. Microsoft.DataMigration/services/read
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
+    types:
+    - uid: boolean
   - name: display
-    description: Localized display text
-    types:
-    - uid: Display
-- name: ODataError
-  description: Error information in OData format.
-  kind: object
-  properties:
-  - name: code
     isReadyOnly: true
-    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    description: ''
     types:
-    - uid: string
-  - name: message
+    - uid: OperationsDisplayDefinition
+  - name: origin
     isReadyOnly: true
-    description: The human-readable description of the error
+    description: ''
     types:
-    - uid: string
-  - name: details
+    - uid: OperationOrigin
+  - name: properties
     isReadyOnly: true
-    description: Inner errors that caused this error
+    description: ''
     types:
-    - uid: ODataError
-      isArray: true
-- name: Display
-  description: Localized display text
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: OperationsDisplayDefinition
   kind: object
   properties:
   - name: provider
-    description: The localized resource provider name
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
   - name: resource
-    description: The localized resource type name
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
   - name: operation
-    description: The localized operation name
+    isReadyOnly: true
+    description: ''
     types:
     - uid: string
   - name: description
-    description: The localized operation description
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+- name: OperationOrigin
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: system
     types:
     - uid: string
 examples:
-- name: Operations_List
+- name: Lists all of the available SQL Rest API operations.
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.DataMigration/operations?api-version=2018-04-19
+    uri: GET https://management.azure.com/providers/Microsoft.DataMigration/operations?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.DataMigration/operations?api-version=2022-01-30-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "Microsoft.DataMigration/services/read",
+            "name": "Microsoft.DataMigration/sqlMigrationServices/write",
             "display": {
-              "provider": "Database Migration Service",
-              "resource": "Database Migration Service",
-              "operation": "Read",
-              "description": "Read information about services."
+              "resource": "SQL Migration Service",
+              "operation": "Create or update properties of existing Service",
+              "description": "Create a new or change properties of existing Service"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/write",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Update tag of the Service",
+              "description": "Update tag of the Service"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/delete",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Delete existing Service",
+              "description": "Delete existing Service"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/read",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Get Migration Service details",
+              "description": "Retrieve details of Migration Service"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/read",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Get Migration Service details in a Resource Group",
+              "description": "Retrieve details of Migration Services in a Resource Group"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/listAuthKeys/action",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Get List of AuthKeys",
+              "description": "Retrieve the List of AuthKeys"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/regenerateAuthKeys/action",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Regenerate the AuthKeys",
+              "description": "Regenerate the AuthKeys"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/monitoringData/action",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Get the Monitoring Data",
+              "description": "Retrieve the Monitoring Data"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/updateNode/action",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Update Node",
+              "description": "Update Node"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/deleteNode/action",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "DeleteNode",
+              "description": "Delete Node"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/operations/read",
+            "display": {
+              "resource": "Available REST operations",
+              "operation": "Get all REST Operations",
+              "description": "Get all REST Operations"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/databaseMigrations/cancel/action",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Stop ongoing migration for the database",
+              "description": "Stop ongoing migration for the database"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/databaseMigrations/start/action",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Start stopped migration for the database",
+              "description": "Start stopped migration for the database"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/databaseMigrations/cutover/action",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Cutover online migration operation for the database",
+              "description": "Cutover online migration operation for the database"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/databaseMigrations/write",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Create or Update Database Migration resource",
+              "description": "Create or Update Database Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/databaseMigrations/write",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Update Database Migration resource",
+              "description": "Update Database Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/delete",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Delete Database Migration resource",
+              "description": "Delete Database Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/read",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Get the Database Migration resource",
+              "description": "Retrieve the Database Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/Microsoft.DataMigration/read",
+            "display": {
+              "resource": "Database Migration Resource",
+              "operation": "Get Database Migration in the server",
+              "description": "Retrieve Database Migration for the server"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/cancel/action",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Stop ongoing login migration",
+              "description": "Stop ongoing login migration"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/validate/action",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Validate login migration",
+              "description": "Validate login migration"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/checkNameAvailability/action",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Check Name availability for login migration"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/write",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Create or Update Login Migration resource",
+              "description": "Create or Update Login Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/write",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Update Login Migration resource",
+              "description": "Update Login Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/delete",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Delete Login Migration resource",
+              "description": "Delete Login Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/read",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Get Login Migration resource",
+              "description": "Retrieve the Login Migration resource"
+            }
+          },
+          {
+            "name": "Microsoft.Sql/managedInstances/providers/loginMigrations/read",
+            "display": {
+              "resource": "Login Migration Resource",
+              "operation": "Get all Login Migration resources by server",
+              "description": "Retrieve the Login Migrations"
+            }
+          },
+          {
+            "name": "Microsoft.DataMigration/sqlMigrationServices/read",
+            "display": {
+              "resource": "SQL Migration Service",
+              "operation": "Get all services in the Subscription",
+              "description": "Retrieve all services in the Subscription"
             }
           }
         ]
       }
-security:
-- name: azure_auth
-  type: oauth2
-  description: Azure Active Directory OAuth2 Flow
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: impersonate your user account
+security: []
 metadata:
-  description: "Get available resource provider actions (operations)  \nLists all available actions exposed by the Database Migration Service resource provider."
+  description: >
+    Learn more about Data Migration service - Lists all of the available SQL Migration REST API operations.
 errorCodes: []

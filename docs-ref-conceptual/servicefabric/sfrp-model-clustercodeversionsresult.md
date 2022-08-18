@@ -1,5 +1,8 @@
 ---
 title: "ClusterCodeVersionsResult"
+description: "ClusterCodeVersionsResult describes the result of the Service Fabric runtime versions. Properties include id, name, type, and properties."
+
+
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

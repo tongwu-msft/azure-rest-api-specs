@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.education.redeeminvitationcode.redeeminvitationcode
+name: Redeem Invitation Code
+service: Education
+groupName: Redeem Invitation Code
+apiVersion: 2021-12-01-preview
+summary: Redeem invite code to join a redeemable lab
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.Education/redeemInvitationCode?api-version=2021-12-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-12-01-preview
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: code redeemed
+- name: Other Status Codes
+  description: Describes the error if the operation is not successful.
+  types:
+  - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: redeemCode
+    in: body
+    isRequired: true
+    description: redeem code
+    types:
+    - uid: string
+  - name: firstName
+    in: body
+    isRequired: true
+    description: first name of requester
+    types:
+    - uid: string
+  - name: lastName
+    in: body
+    isRequired: true
+    description: last name of requester
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorResponseBody
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorResponse
+- name: RedeemRequest
+  description: redeem request.
+  kind: object
+  properties:
+  - name: redeemCode
+    description: redeem code
+    types:
+    - uid: string
+  - name: firstName
+    description: first name of requester
+    types:
+    - uid: string
+  - name: lastName
+    description: last name of requester
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: RedeemCode
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.Education/redeemInvitationCode?api-version=2021-12-01-preview
+    body: >-
+      {
+        "redeemCode": "exampleRedeemCode",
+        "firstName": "test",
+        "lastName": "user"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Education/redeemInvitationCode?api-version=2021-12-01-preview
+
+      {
+        "redeemCode": "exampleRedeemCode",
+        "firstName": "test",
+        "lastName": "user"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.education.models.RedeemRequest;
+
+      /** Samples for ResourceProvider RedeemInvitationCode. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/RedeemCode.json
+           */
+          /**
+           * Sample code: RedeemCode.
+           *
+           * @param manager Entry point to EducationManager.
+           */
+          public static void redeemCode(com.azure.resourcemanager.education.EducationManager manager) {
+              manager
+                  .resourceProviders()
+                  .redeemInvitationCodeWithResponse(
+                      new RedeemRequest().withRedeemCode("exampleRedeemCode").withFirstName("test").withLastName("user"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-education_1.0.0-beta.2/sdk/education/azure-resourcemanager-education/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeducation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/education/armeducation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/RedeemCode.json
+      func ExampleManagementClient_RedeemInvitationCode() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeducation.NewManagementClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.RedeemInvitationCode(ctx,
+      		armeducation.RedeemRequest{
+      			FirstName:  to.Ptr("test"),
+      			LastName:   to.Ptr("user"),
+      			RedeemCode: to.Ptr("exampleRedeemCode"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feducation%2Farmeducation%2Fv0.2.0/sdk/resourcemanager/education/armeducation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EducationManagementClient } = require("@azure/arm-education");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Redeem invite code to join a redeemable lab
+       *
+       * @summary Redeem invite code to join a redeemable lab
+       * x-ms-original-file: specification/education/resource-manager/Microsoft.Education/preview/2021-12-01-preview/examples/RedeemCode.json
+       */
+      async function redeemCode() {
+        const parameters = {
+          firstName: "test",
+          lastName: "user",
+          redeemCode: "exampleRedeemCode",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EducationManagementClient(credential);
+        const result = await client.redeemInvitationCode(parameters);
+        console.log(result);
+      }
+
+      redeemCode().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-education_1.0.0-beta.2/sdk/education/arm-education/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Education service - Redeem invite code to join a redeemable lab
+errorCodes: []

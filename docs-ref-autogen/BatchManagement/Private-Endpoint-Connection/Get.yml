@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.privateendpointconnection.get
 name: Get
 service: Batch Management
 groupName: Private Endpoint Connection
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: Gets information about the specified private endpoint connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,9 +65,16 @@ definitions:
     types:
     - uid: PrivateEndpointConnectionProvisioningState
   - name: properties.privateEndpoint
+    isReadyOnly: true
     description: "The ARM resource identifier of the private endpoint.  \nThe private endpoint of the private endpoint connection."
     types:
     - uid: PrivateEndpoint
+  - name: properties.groupIds
+    isReadyOnly: true
+    description: "The group id of the private endpoint connection.  \nThe value has one and only one group id."
+    types:
+    - uid: string
+      isArray: true
   - name: properties.privateLinkServiceConnectionState
     description: "The private link service connection state of the private endpoint connection.  \nThe private link service connection state of the private endpoint connection"
     types:
@@ -104,16 +111,28 @@ definitions:
   description: The provisioning state of the private endpoint connection.
   kind: enum
   properties:
-  - name: Succeeded
-    description: The connection status is final and is ready for use if Status is Approved.
+  - name: Creating
+    description: The connection is creating.
     types:
     - uid: string
   - name: Updating
     description: The user has requested that the connection status be updated, but the update operation has not yet completed. You may not reference the connection when connecting the Batch account.
     types:
     - uid: string
+  - name: Deleting
+    description: The connection is deleting.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The connection status is final and is ready for use if Status is Approved.
+    types:
+    - uid: string
   - name: Failed
     description: The user requested that the connection be updated and it failed. You may retry the update operation.
+    types:
+    - uid: string
+  - name: Cancelled
+    description: The user has cancelled the connection creation.
     types:
     - uid: string
 - name: PrivateEndpoint
@@ -186,7 +205,44 @@ definitions:
 examples:
 - name: GetPrivateEndpointConnection
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateEndpointConnections/testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateEndpointConnections/testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0?api-version=2022-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateEndpointConnections/testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0?api-version=2022-06-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets information about the specified private endpoint connection.
+       *
+       * @summary Gets information about the specified private endpoint connection.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PrivateEndpointConnectionGet.json
+       */
+      async function getPrivateEndpointConnection() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const privateEndpointConnectionName =
+          "testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0";
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnectionOperations.get(
+          resourceGroupName,
+          accountName,
+          privateEndpointConnectionName
+        );
+        console.log(result);
+      }
+
+      getPrivateEndpointConnection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -195,9 +251,13 @@ examples:
         "name": "testprivateEndpointConnection5testprivateEndpointConnection5.24d6b4b5-e65c-4330-bbe9-3a290d62f8e0",
         "type": "Microsoft.Batch/batchAccounts/privateEndpointConnections",
         "properties": {
+          "provisioningState": "Succeeded",
           "privateEndpoint": {
             "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Network/privateEndpoints/testprivateEndpoint"
           },
+          "groupIds": [
+            "batchAccount"
+          ],
           "privateLinkServiceConnectionState": {
             "status": "Approved",
             "description": "Approved by xyz.abc@company.com"
@@ -214,5 +274,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Batch Management service - Gets information about the specified private endpoint connection.
+  description: >
+    Learn more about Batch Management service - Gets information about the specified private endpoint connection.
 errorCodes: []

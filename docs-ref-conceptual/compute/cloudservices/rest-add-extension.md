@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Add Extension | Microsoft Docs"
+description: Learn how the Add Extension asynchronous operation adds an available extension to your cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

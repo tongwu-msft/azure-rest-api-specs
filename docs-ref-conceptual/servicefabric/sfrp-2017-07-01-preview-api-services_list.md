@@ -1,5 +1,6 @@
 ---
-title: "List"
+title: Service Fabric List Service
+description: API reference documentation for the operations available in the Service Fabric List Service REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# List
+# Service Fabric List Service
+
 Gets the list of service resources created in the specified Service Fabric application resource.
 
 Gets all service resources created or in the process of being created in the Service Fabric application resource.

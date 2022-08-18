@@ -1,5 +1,6 @@
 ---
 title: "StorageAccount"
+description: Learn how a collection of StorageAccount objects contains all of the storage accounts linked to the specified Microsoft Azure Media Services account.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

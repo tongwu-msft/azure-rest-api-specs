@@ -288,10 +288,12 @@ definitions:
     description: The value of this property indicates whether the image built should be pushed to the registry or not.
     types:
     - uid: boolean
+    defaultValue: true
   - name: noCache
     description: The value of this property indicates whether the image cache is enabled or not.
     types:
     - uid: boolean
+    defaultValue: false
   - name: dockerFilePath
     description: The Docker file path relative to the source location.
     types:
@@ -309,6 +311,7 @@ definitions:
     description: Run timeout in seconds.
     types:
     - uid: integer
+    defaultValue: 3600
   - name: platform
     description: The platform properties against which the run has to happen.
     types:
@@ -337,6 +340,7 @@ definitions:
     description: The value that indicates whether archiving is enabled for the run or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FileTaskRunRequest
   description: The request parameters for a scheduling run against a task file.
   kind: object
@@ -358,6 +362,7 @@ definitions:
     description: Run timeout in seconds.
     types:
     - uid: integer
+    defaultValue: 3600
   - name: platform
     description: The platform properties against which the run has to happen.
     types:
@@ -386,6 +391,7 @@ definitions:
     description: The value that indicates whether archiving is enabled for the run or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: TaskRunRequest
   description: The parameters for a task run request.
   kind: object
@@ -408,6 +414,7 @@ definitions:
     description: The value that indicates whether archiving is enabled for the run or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: EncodedTaskRunRequest
   description: The parameters for a quick task run request.
   kind: object
@@ -429,6 +436,7 @@ definitions:
     description: Run timeout in seconds.
     types:
     - uid: integer
+    defaultValue: 3600
   - name: platform
     description: The platform properties against which the run has to happen.
     types:
@@ -457,6 +465,7 @@ definitions:
     description: The value that indicates whether archiving is enabled for the run or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: Run
   description: Run resource properties
   kind: object
@@ -536,6 +545,7 @@ definitions:
     description: The value that indicates whether archiving is enabled or not.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.timerTrigger
     description: The timer trigger that caused the run.
     types:
@@ -571,6 +581,7 @@ definitions:
     description: Flag to indicate whether the argument represents a secret and want to be removed from build logs.
     types:
     - uid: boolean
+    defaultValue: false
 - name: PlatformProperties
   description: The platform properties against which the run has to happen.
   kind: object
@@ -632,6 +643,7 @@ definitions:
     description: Flag to indicate whether the value represents a secret or not.
     types:
     - uid: boolean
+    defaultValue: false
 - name: RunStatus
   description: The current status of the run.
   kind: enum
@@ -926,6 +938,44 @@ examples:
         },
         "dockerFilePath": "DockerFile"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "DockerBuildRequest",
+        "isArchiveEnabled": true,
+        "imageNames": [
+          "azurerest:testtag"
+        ],
+        "noCache": true,
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "arguments": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "isPushEnabled": true,
+        "platform": {
+          "os": "Linux",
+          "architecture": "amd64"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "dockerFilePath": "DockerFile"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -968,6 +1018,37 @@ examples:
         "encodedTaskContent": "c3RlcHM6Cnt7IGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAncHJvZCcgfX0KICAtIHJ1bjogcHJvZCBzZXR1cAp7eyBlbHNlIGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAnc3RhZ2luZycgfX0KICAtIHJ1bjogc3RhZ2luZyBzZXR1cAp7eyBlbHNlIH19CiAgLSBydW46IGRlZmF1bHQgc2V0dXAKe3sgZW5kIH19CgogIC0gcnVuOiBidWlsZCAtdCBGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0gLgoKcHVzaDogWydGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0nXQ==",
         "encodedValuesContent": "ZW52aXJvbm1lbnQ6IHByb2QKdmVyc2lvbjogMQ=="
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "EncodedTaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "encodedTaskContent": "c3RlcHM6Cnt7IGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAncHJvZCcgfX0KICAtIHJ1bjogcHJvZCBzZXR1cAp7eyBlbHNlIGlmIFZhbHVlcy5lbnZpcm9ubWVudCA9PSAnc3RhZ2luZycgfX0KICAtIHJ1bjogc3RhZ2luZyBzZXR1cAp7eyBlbHNlIH19CiAgLSBydW46IGRlZmF1bHQgc2V0dXAKe3sgZW5kIH19CgogIC0gcnVuOiBidWlsZCAtdCBGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0gLgoKcHVzaDogWydGYW5jeVRoaW5nOnt7LlZhbHVlcy5lbnZpcm9ubWVudH19LXt7LlZhbHVlcy52ZXJzaW9ufX0nXQ==",
+        "encodedValuesContent": "ZW52aXJvbm1lbnQ6IHByb2QKdmVyc2lvbjogMQ=="
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1011,6 +1092,38 @@ examples:
         "taskFilePath": "acb.yaml",
         "valuesFilePath": "prod-values.yaml"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "FileTaskRunRequest",
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "taskFilePath": "acb.yaml",
+        "valuesFilePath": "prod-values.yaml"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1046,6 +1159,30 @@ examples:
         ],
         "taskName": "myTask"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "TaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "taskName": "myTask"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1101,6 +1238,50 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "FileTaskRunRequest",
+        "values": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "platform": {
+          "os": "Linux"
+        },
+        "taskFilePath": "acb.yaml",
+        "credentials": {
+          "sourceRegistry": {
+            "loginMode": "Default"
+          },
+          "customRegistries": {
+            "myregistry.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg1"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1178,6 +1359,72 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/4385cf00-2d3a-425a-832f-f4285b1c9dce/resourceGroups/myResourceGroup/providers/Microsoft.ContainerRegistry/registries/myRegistry/scheduleRun?api-version=2019-04-01
+
+      {
+        "type": "DockerBuildRequest",
+        "isArchiveEnabled": true,
+        "imageNames": [
+          "azurerest:testtag"
+        ],
+        "noCache": true,
+        "sourceLocation": "https://myaccount.blob.core.windows.net/sascontainer/source.zip?sv=2015-04-05&st=2015-04-29T22%3A18%3A26Z&se=2015-04-30T02%3A23%3A26Z&sr=b&sp=rw&sip=168.1.5.60-168.1.5.70&spr=https&sig=Z%2FRHIX5Xcg0Mq2rqI3OlWTjEg2tYkboXr1P9ZUXDtkk%3D",
+        "arguments": [
+          {
+            "name": "mytestargument",
+            "value": "mytestvalue",
+            "isSecret": false
+          },
+          {
+            "name": "mysecrettestargument",
+            "value": "mysecrettestvalue",
+            "isSecret": true
+          }
+        ],
+        "isPushEnabled": true,
+        "platform": {
+          "os": "Linux",
+          "architecture": "amd64"
+        },
+        "agentConfiguration": {
+          "cpu": 2
+        },
+        "dockerFilePath": "DockerFile",
+        "target": "stage1",
+        "credentials": {
+          "sourceRegistry": {
+            "loginMode": "Default"
+          },
+          "customRegistries": {
+            "myregistry.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg1"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            },
+            "myregistry2.azurecr.io": {
+              "userName": {
+                "type": "Opaque",
+                "value": "reg2"
+              },
+              "password": {
+                "type": "Opaque",
+                "value": "***"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1203,5 +1450,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Container Registry service - Schedules a new run based on the request parameters and add it to the run queue.
+  description: >
+    Learn more about Container Registry service - Schedules a new run based on the request parameters and add it to the run queue.
 errorCodes: []

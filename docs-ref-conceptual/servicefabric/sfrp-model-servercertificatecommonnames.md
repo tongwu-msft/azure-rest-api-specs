@@ -1,5 +1,6 @@
 ---
 title: "ServerCertificateCommonNames"
+description: "Learn about a list of server certificates referenced by common name that are used to secure the cluster."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

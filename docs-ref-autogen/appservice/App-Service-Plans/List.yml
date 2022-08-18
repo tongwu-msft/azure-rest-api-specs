@@ -3,15 +3,15 @@ uid: management.azure.com.appservice.appserviceplans.list
 name: List
 service: App Service
 groupName: App Service Plans
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Get all App Service plans for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms?api-version=2021-02-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms?detailed={detailed}&api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/serverfarms?detailed={detailed}&api-version=2022-03-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -102,6 +102,11 @@ definitions:
     description: Maximum number of instances that can be assigned to this App Service plan.
     types:
     - uid: integer
+  - name: properties.numberOfWorkers
+    isReadyOnly: true
+    description: The number of instances that are assigned to this App Service plan.
+    types:
+    - uid: integer
   - name: properties.geoRegion
     isReadyOnly: true
     description: Geographical location for the App Service plan.
@@ -114,6 +119,7 @@ definitions:
       If <code>false</code>, apps assigned to this App Service plan will scale to all instances of the plan.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.elasticScaleEnabled
     description: ServerFarm supports ElasticScale. Apps in this plan will scale as if the ServerFarm was ElasticPremium sku
     types:
@@ -148,14 +154,17 @@ definitions:
     description: If Linux app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.isXenon
     description: 'Obsolete: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.'
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.hyperV
     description: If Hyper-V container app service plan <code>true</code>, <code>false</code> otherwise.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.targetWorkerCount
     description: Scaling worker count.
     types:
@@ -180,6 +189,7 @@ definitions:
       If <code>false</code>, this App Service Plan will not perform availability zone balancing.
     types:
     - uid: boolean
+    defaultValue: false
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -420,7 +430,98 @@ definitions:
 examples:
 - name: List App Service plans
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/serverfarms?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.Web/serverfarms?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServicePlans List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlans.json
+           */
+          /**
+           * Sample code: List App Service plans.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAppServicePlans(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getAppServicePlans().list(null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlans.json
+      func ExamplePlansClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewPlansClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(&armappservice.PlansClientListOptions{Detailed: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all App Service plans for a subscription.
+       *
+       * @summary Description for Get all App Service plans for a subscription.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/ListAppServicePlans.json
+       */
+      async function listAppServicePlans() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.appServicePlans.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAppServicePlans().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -435,6 +536,7 @@ examples:
             "properties": {
               "status": "Ready",
               "maximumNumberOfWorkers": 20,
+              "numberOfWorkers": 19,
               "geoRegion": "East US",
               "numberOfSites": 4,
               "isSpot": false,
@@ -460,6 +562,7 @@ examples:
             "properties": {
               "status": "Ready",
               "maximumNumberOfWorkers": 20,
+              "numberOfWorkers": 19,
               "geoRegion": "East US",
               "numberOfSites": 4,
               "isSpot": false,
@@ -488,5 +591,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Get all App Service plans for a subscription.
+  description: >
+    Learn more about App Service service - Description for Get all App Service plans for a subscription.
 errorCodes: []

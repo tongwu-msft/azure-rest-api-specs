@@ -1,5 +1,6 @@
 ---
-title: "PartitionScheme"
+title: "Partition Scheme Values"
+description: API reference documentation for the operations available in the PartitionScheme REST API.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# PartitionScheme enum
+# Partition Scheme Values
 
 type: string
 

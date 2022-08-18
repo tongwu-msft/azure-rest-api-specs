@@ -1,0 +1,565 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.stackhci.arcsettings.update
+name: Update
+service: Azure Stack HCI
+groupName: Arc Settings
+apiVersion: 2022-05-01
+summary: Update ArcSettings for HCI cluster.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: clusterName
+  in: path
+  isRequired: true
+  description: The name of the cluster.
+  types:
+  - uid: string
+- name: arcSettingName
+  in: path
+  isRequired: true
+  description: The name of the proxy resource holding details of HCI ArcSetting information.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ArcSetting
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.connectivityProperties
+    in: body
+    description: contains connectivity related configuration for ARC resources
+    types:
+    - uid: ArcConnectivityProperties
+      isArray: true
+requestHeader: []
+definitions:
+- name: ArcConnectivityProperties
+  description: Connectivity related configuration required by arc server.
+  kind: object
+  properties:
+  - name: enabled
+    description: True indicates ARC connectivity is enabled
+    types:
+    - uid: boolean
+- name: ArcSetting
+  description: ArcSetting details.
+  kind: object
+  properties:
+  - name: systemData.createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: systemData.createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: systemData.lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: systemData.lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: systemData.lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the ArcSetting proxy resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.arcInstanceResourceGroup
+    description: The resource group that hosts the Arc agents, ie. Hybrid Compute Machine resources.
+    types:
+    - uid: string
+  - name: properties.arcApplicationClientId
+    description: App id of arc AAD identity.
+    types:
+    - uid: string
+  - name: properties.arcApplicationTenantId
+    description: Tenant id of arc AAD identity.
+    types:
+    - uid: string
+  - name: properties.arcServicePrincipalObjectId
+    description: Object id of arc AAD service principal.
+    types:
+    - uid: string
+  - name: properties.arcApplicationObjectId
+    description: Object id of arc AAD identity.
+    types:
+    - uid: string
+  - name: properties.aggregateState
+    isReadyOnly: true
+    description: Aggregate state of Arc agent across the nodes in this HCI cluster.
+    types:
+    - uid: ArcSettingAggregateState
+  - name: properties.perNodeDetails
+    isReadyOnly: true
+    description: State of Arc agent in each of the nodes.
+    types:
+    - uid: PerNodeState
+      isArray: true
+  - name: properties.connectivityProperties
+    description: contains connectivity related configuration for ARC resources
+    types:
+    - uid: ArcConnectivityProperties
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ArcSettingsPatch
+  description: ArcSetting details to update.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.connectivityProperties
+    description: contains connectivity related configuration for ARC resources
+    types:
+    - uid: ArcConnectivityProperties
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the ArcSetting proxy resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Accepted
+    types:
+    - uid: string
+  - name: Provisioning
+    types:
+    - uid: string
+- name: ArcSettingAggregateState
+  description: Aggregate state of Arc agent across the nodes in this HCI cluster.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+  - name: PartiallySucceeded
+    types:
+    - uid: string
+  - name: PartiallyConnected
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+- name: PerNodeState
+  description: Status of Arc agent for a particular node in HCI Cluster.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Name of the Node in HCI Cluster
+    types:
+    - uid: string
+  - name: arcInstance
+    isReadyOnly: true
+    description: Fully qualified resource ID for the Arc agent of this node.
+    types:
+    - uid: string
+  - name: state
+    isReadyOnly: true
+    description: State of Arc agent in this node.
+    types:
+    - uid: NodeArcState
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: NodeArcState
+  description: State of Arc agent in this node.
+  kind: enum
+  properties:
+  - name: NotSpecified
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Connected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Deleted
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Moving
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Patch ArcSetting
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default?api-version=2022-05-01
+    body: >-
+      {
+        "properties": {
+          "connectivityProperties": {
+            "enabled": true
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default?api-version=2022-05-01
+
+      {
+        "properties": {
+          "connectivityProperties": {
+            "enabled": true
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.azurestackhci.models.ArcSetting;
+      import java.io.IOException;
+
+      /** Samples for ArcSettings Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchArcSetting.json
+           */
+          /**
+           * Sample code: Patch ArcSetting.
+           *
+           * @param manager Entry point to AzureStackHciManager.
+           */
+          public static void patchArcSetting(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager)
+              throws IOException {
+              ArcSetting resource =
+                  manager.arcSettings().getWithResponse("test-rg", "myCluster", "default", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withConnectivityProperties(
+                      SerializerFactory
+                          .createDefaultManagementSerializerAdapter()
+                          .deserialize("{\"enabled\":true}", Object.class, SerializerEncoding.JSON))
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armazurestackhci_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchArcSetting.json
+      func ExampleArcSettingsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armazurestackhci.NewArcSettingsClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"test-rg",
+      		"myCluster",
+      		"default",
+      		armazurestackhci.ArcSettingsPatch{
+      			Properties: &armazurestackhci.ArcSettingsPatchProperties{
+      				ConnectivityProperties: map[string]interface{}{
+      					"enabled": true,
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update ArcSettings for HCI cluster.
+       *
+       * @summary Update ArcSettings for HCI cluster.
+       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PatchArcSetting.json
+       */
+      async function patchArcSetting() {
+        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
+        const resourceGroupName = "test-rg";
+        const clusterName = "myCluster";
+        const arcSettingName = "default";
+        const arcSetting = {
+          connectivityProperties: { enabled: true },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureStackHCIClient(credential, subscriptionId);
+        const result = await client.arcSettings.update(
+          resourceGroupName,
+          clusterName,
+          arcSettingName,
+          arcSetting
+        );
+        console.log(result);
+      }
+
+      patchArcSetting().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default",
+        "type": "Microsoft.AzureStackHCI/clusters/arcSettings",
+        "systemData": {
+          "createdBy": "user1",
+          "createdByType": "User",
+          "createdAt": "2021-01-01T17:18:19.1234567Z",
+          "lastModifiedBy": "user2",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2021-01-02T17:18:19.1234567Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "arcInstanceResourceGroup": "ArcInstance-rg",
+          "aggregateState": "Creating",
+          "connectivityProperties": {
+            "enabled": true
+          },
+          "perNodeDetails": [
+            {
+              "name": "Node-1",
+              "arcInstance": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-1",
+              "state": "Creating"
+            },
+            {
+              "name": "Node-2",
+              "arcInstance": "/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/ArcInstance-rg/providers/Microsoft.HybridCompute/machines/Node-2",
+              "state": "Creating"
+            }
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Stack HCI service - Update ArcSettings for HCI cluster.
+errorCodes: []

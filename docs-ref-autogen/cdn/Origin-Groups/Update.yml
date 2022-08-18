@@ -3,14 +3,14 @@ uid: management.azure.com.cdn.origingroups.update
 name: Update
 service: CDN
 groupName: Origin Groups
-apiVersion: 2019-12-31
+apiVersion: 2021-06-01
 summary: Updates an existing origin group within an endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}?api-version=2019-12-31
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/originGroups/{originGroupName}?api-version=2021-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,7 +46,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Version of the API to be used with the client request. Current version is 2017-04-02.
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
   types:
   - uid: string
 responses:
@@ -146,7 +146,7 @@ definitions:
     isReadyOnly: true
     description: Provisioning status of the origin group.
     types:
-    - uid: string
+    - uid: OriginGroupProvisioningState
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -162,6 +162,11 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
   - name: properties.healthProbeSettings
     description: Health probe settings to the origin that is used to determine the health of the origin.
     types:
@@ -180,19 +185,13 @@ definitions:
     types:
     - uid: ResponseBasedOriginErrorDetectionParameters
 - name: ErrorResponse
-  description: Error response indicates CDN service is not able to process the incoming request. The reason is provided in the error message.
+  description: Error response
   kind: object
   properties:
-  - name: code
-    isReadyOnly: true
-    description: Error code.
+  - name: error
+    description: The error object.
     types:
-    - uid: string
-  - name: message
-    isReadyOnly: true
-    description: Error message indicating why the operation failed.
-    types:
-    - uid: string
+    - uid: ErrorDetail
 - name: OriginGroupUpdateParameters
   description: Origin group properties needed for origin group creation or update.
   kind: object
@@ -278,10 +277,118 @@ definitions:
   - name: Deleting
     types:
     - uid: string
+- name: OriginGroupProvisioningState
+  description: Provisioning status of the origin group.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: OriginGroups_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1?api-version=2019-12-31
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1?api-version=2021-06-01
     body: >-
       {
         "properties": {
@@ -298,6 +405,182 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/originGroups/originGroup1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "healthProbeSettings": {
+            "probePath": "/health.aspx",
+            "probeRequestType": "GET",
+            "probeProtocol": "Http",
+            "probeIntervalInSeconds": 120
+          },
+          "origins": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.HealthProbeParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeRequestType;
+      import com.azure.resourcemanager.cdn.models.OriginGroupUpdateParameters;
+      import com.azure.resourcemanager.cdn.models.ProbeProtocol;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import java.util.Arrays;
+
+      /** Samples for OriginGroups Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Update.json
+           */
+          /**
+           * Sample code: OriginGroups_Update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void originGroupsUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getOriginGroups()
+                  .update(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      "originGroup1",
+                      new OriginGroupUpdateParameters()
+                          .withHealthProbeSettings(
+                              new HealthProbeParameters()
+                                  .withProbePath("/health.aspx")
+                                  .withProbeRequestType(HealthProbeRequestType.GET)
+                                  .withProbeProtocol(ProbeProtocol.HTTP)
+                                  .withProbeIntervalInSeconds(120))
+                          .withOrigins(
+                              Arrays
+                                  .asList(
+                                      new ResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Update.json
+      func ExampleOriginGroupsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewOriginGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"originGroup1",
+      		armcdn.OriginGroupUpdateParameters{
+      			Properties: &armcdn.OriginGroupUpdatePropertiesParameters{
+      				HealthProbeSettings: &armcdn.HealthProbeParameters{
+      					ProbeIntervalInSeconds: to.Ptr[int32](120),
+      					ProbePath:              to.Ptr("/health.aspx"),
+      					ProbeProtocol:          to.Ptr(armcdn.ProbeProtocolHTTP),
+      					ProbeRequestType:       to.Ptr(armcdn.HealthProbeRequestTypeGET),
+      				},
+      				Origins: []*armcdn.ResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing origin group within an endpoint.
+       *
+       * @summary Updates an existing origin group within an endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/OriginGroups_Update.json
+       */
+      async function originGroupsUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const originGroupName = "originGroup1";
+        const originGroupUpdateProperties = {
+          healthProbeSettings: {
+            probeIntervalInSeconds: 120,
+            probePath: "/health.aspx",
+            probeProtocol: "Http",
+            probeRequestType: "GET",
+          },
+          origins: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/origin2",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.originGroups.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          originGroupName,
+          originGroupUpdateProperties
+        );
+        console.log(result);
+      }
+
+      originGroupsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -322,6 +605,9 @@ examples:
         }
       }
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/subid/resourcegroups/resourceGroupName/providers/Microsoft.Cdn/operationresults/operationId?api-version=2021-06-01
     body: >-
       {
         "name": "www-someDomain-net",
@@ -353,5 +639,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about CDN service - Updates an existing origin group within an endpoint.
+  description: >
+    Learn more about CDN service - Updates an existing origin group within an endpoint.
 errorCodes: []

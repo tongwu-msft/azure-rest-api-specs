@@ -1,0 +1,1146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.stable.configurationstores.create
+name: Create
+service: App Configuration
+groupName: Configuration Stores
+apiVersion: 2022-05-01
+summary: Creates a configuration store with the specified parameters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: configStoreName
+  in: path
+  isRequired: true
+  description: The name of the configuration store.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: ConfigurationStore
+- name: 201 Created
+  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
+  types:
+  - uid: ConfigurationStore
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: identity
+    in: body
+    description: The managed identity information, if configured.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    in: body
+    isRequired: true
+    description: The sku of the configuration store.
+    types:
+    - uid: Sku
+  - name: properties.encryption
+    in: body
+    description: The encryption settings of the configuration store.
+    types:
+    - uid: EncryptionProperties
+  - name: properties.publicNetworkAccess
+    in: body
+    description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.disableLocalAuth
+    in: body
+    description: Disables all authentication methods other than AAD authentication.
+    types:
+    - uid: boolean
+  - name: properties.softDeleteRetentionInDays
+    in: body
+    description: The amount of time in days that the configuration store will be retained when it is soft deleted.
+    types:
+    - uid: integer
+  - name: properties.enablePurgeProtection
+    in: body
+    description: Property specifying whether protection against purge is enabled for this configuration store.
+    types:
+    - uid: boolean
+  - name: properties.createMode
+    in: body
+    description: Indicates whether the configuration store need to be recovered.
+    types:
+    - uid: CreateMode
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    in: body
+    isRequired: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ResourceIdentity
+  description: An identity that can be associated with a resource.
+  kind: object
+  properties:
+  - name: type
+    description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
+    types:
+    - uid: IdentityType
+  - name: userAssignedIdentities
+    description: "The list of user-assigned identities associated with the resource. The user-assigned identity dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserIdentity
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the identity. This property will only be provided for a system-assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id associated with the resource's identity. This property will only be provided for a system-assigned identity.
+    types:
+    - uid: string
+- name: Sku
+  description: Describes a configuration store SKU.
+  kind: object
+  properties:
+  - name: name
+    description: The SKU name of the configuration store.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: EncryptionProperties
+  description: The encryption settings for a configuration store.
+  kind: object
+  properties:
+  - name: keyVaultProperties
+    description: Key vault properties.
+    types:
+    - uid: KeyVaultProperties
+- name: PrivateEndpointConnectionReference
+  description: A reference to a related private endpoint connection.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning status of the private endpoint connection.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateEndpoint
+    description: The resource of private endpoint.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+- name: ConfigurationStore
+  description: The configuration store along with all resource properties. The Configuration Store will have all information to begin utilizing it.
+  kind: object
+  properties:
+  - name: identity
+    description: The managed identity information, if configured.
+    types:
+    - uid: ResourceIdentity
+  - name: sku
+    description: The sku of the configuration store.
+    types:
+    - uid: Sku
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the configuration store.
+    types:
+    - uid: ProvisioningState
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: The creation date of configuration store.
+    types:
+    - uid: string
+  - name: properties.endpoint
+    isReadyOnly: true
+    description: The DNS endpoint where the configuration store API will be available.
+    types:
+    - uid: string
+  - name: properties.encryption
+    description: The encryption settings of the configuration store.
+    types:
+    - uid: EncryptionProperties
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The list of private endpoint connections that are set up for this resource.
+    types:
+    - uid: PrivateEndpointConnectionReference
+      isArray: true
+  - name: properties.publicNetworkAccess
+    description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.disableLocalAuth
+    description: Disables all authentication methods other than AAD authentication.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: properties.softDeleteRetentionInDays
+    description: The amount of time in days that the configuration store will be retained when it is soft deleted.
+    types:
+    - uid: integer
+    defaultValue: 7
+  - name: properties.enablePurgeProtection
+    description: Property specifying whether protection against purge is enabled for this configuration store.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: properties.createMode
+    description: Indicates whether the configuration store need to be recovered.
+    types:
+    - uid: CreateMode
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: IdentityType
+  description: The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user-assigned identities. The type 'None' will remove any identities.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserIdentity
+  description: A resource identity that is managed by the user of the service.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the user-assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the user-assigned identity.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: KeyVaultProperties
+  description: Settings concerning key vault encryption for a configuration store.
+  kind: object
+  properties:
+  - name: keyIdentifier
+    description: The URI of the key vault key used to encrypt data.
+    types:
+    - uid: string
+  - name: identityClientId
+    description: The client id of the identity which will be used to access key vault.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of the configuration store.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint which a connection belongs to.
+  kind: object
+  properties:
+  - name: id
+    description: The resource Id for private endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: The state of a private link service connection.
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: ConnectionStatus
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+    types:
+    - uid: ActionsRequired
+- name: PublicNetworkAccess
+  description: Control permission for data plane traffic coming from public networks while private endpoint is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: CreateMode
+  description: Indicates whether the configuration store need to be recovered.
+  kind: enum
+  properties:
+  - name: Recover
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ConnectionStatus
+  description: The private link service connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ActionsRequired
+  description: Any action that is required beyond basic workflow (approve/ reject/ disconnect)
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Recreate
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ConfigurationStores_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+    body: >-
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreate.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Create.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresCreate(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager
+                  .configurationStores()
+                  .define("contoso")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("myResourceGroup")
+                  .withSku(new Sku().withName("Standard"))
+                  .withTags(mapOf("myTag", "myTagValue"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreate.json
+      func ExampleConfigurationStoresClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewConfigurationStoresClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"myResourceGroup",
+      		"contoso",
+      		armappconfiguration.ConfigurationStore{
+      			Location: to.Ptr("westus"),
+      			Tags: map[string]*string{
+      				"myTag": to.Ptr("myTagValue"),
+      			},
+      			SKU: &armappconfiguration.SKU{
+      				Name: to.Ptr("Standard"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a configuration store with the specified parameters.
+       *
+       * @summary Creates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreate.json
+       */
+      async function configurationStoresCreate() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreCreationParameters = {
+          location: "westus",
+          sku: { name: "Standard" },
+          tags: { myTag: "myTagValue" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginCreateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreCreationParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": false,
+          "privateEndpointConnections": [],
+          "softDeleteRetentionInDays": 30,
+          "enablePurgeProtection": false
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": false,
+          "privateEndpointConnections": [],
+          "softDeleteRetentionInDays": 30,
+          "enablePurgeProtection": false
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+- name: ConfigurationStores_Create_With_Identity
+  request:
+    uri: PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+    body: >-
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "tags": {
+          "myTag": "myTagValue"
+        },
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {}
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "tags": {
+          "myTag": "myTagValue"
+        },
+        "identity": {
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {}
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appconfiguration.models.IdentityType;
+      import com.azure.resourcemanager.appconfiguration.models.ResourceIdentity;
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import com.azure.resourcemanager.appconfiguration.models.UserIdentity;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateWithIdentity.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Create_With_Identity.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresCreateWithIdentity(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager
+                  .configurationStores()
+                  .define("contoso")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("myResourceGroup")
+                  .withSku(new Sku().withName("Standard"))
+                  .withTags(mapOf("myTag", "myTagValue"))
+                  .withIdentity(
+                      new ResourceIdentity()
+                          .withType(IdentityType.SYSTEM_ASSIGNED_USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2",
+                                  new UserIdentity())))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a configuration store with the specified parameters.
+       *
+       * @summary Creates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateWithIdentity.json
+       */
+      async function configurationStoresCreateWithIdentity() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreCreationParameters = {
+          identity: {
+            type: "SystemAssigned, UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/c80fb759C9654c6a91109b2b2d038882/resourcegroups/myResourceGroup1/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity2":
+                {},
+            },
+          },
+          location: "westus",
+          sku: { name: "Standard" },
+          tags: { myTag: "myTagValue" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginCreateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreCreationParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresCreateWithIdentity().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": false,
+          "privateEndpointConnections": []
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "identity": {
+          "principalId": "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
+          "tenantId": "BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCCC",
+              "principalId": "DDDDDDDD-DDDD-DDDD-DDDD-DDDDDDDDDDDD"
+            }
+          }
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": false,
+          "privateEndpointConnections": []
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "identity": {
+          "principalId": "AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA",
+          "tenantId": "BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB",
+          "type": "SystemAssigned, UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourcegroups/myResourceGroup1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity2": {
+              "clientId": "CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCCC",
+              "principalId": "DDDDDDDD-DDDD-DDDD-DDDD-DDDDDDDDDDDD"
+            }
+          }
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {
+          "myTag": "myTagValue"
+        }
+      }
+- name: ConfigurationStores_Create_With_Local_Auth_Disabled
+  request:
+    uri: PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+    body: >-
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "disableLocalAuth": true
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso?api-version=2022-05-01
+
+      {
+        "location": "westus",
+        "sku": {
+          "name": "Standard"
+        },
+        "properties": {
+          "disableLocalAuth": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.appconfiguration.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConfigurationStores Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateWithLocalAuthDisabled.json
+           */
+          /**
+           * Sample code: ConfigurationStores_Create_With_Local_Auth_Disabled.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void configurationStoresCreateWithLocalAuthDisabled(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager
+                  .configurationStores()
+                  .define("contoso")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("myResourceGroup")
+                  .withSku(new Sku().withName("Standard"))
+                  .withDisableLocalAuth(true)
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a configuration store with the specified parameters.
+       *
+       * @summary Creates a configuration store with the specified parameters.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateWithLocalAuthDisabled.json
+       */
+      async function configurationStoresCreateWithLocalAuthDisabled() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const configStoreCreationParameters = {
+          disableLocalAuth: true,
+          location: "westus",
+          sku: { name: "Standard" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginCreateAndWait(
+          resourceGroupName,
+          configStoreName,
+          configStoreCreationParameters
+        );
+        console.log(result);
+      }
+
+      configurationStoresCreateWithLocalAuthDisabled().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": true,
+          "privateEndpointConnections": []
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {}
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "type": "Microsoft.AppConfiguration/configurationStores",
+        "properties": {
+          "provisioningState": "Creating",
+          "creationDate": "2018-04-24T16:30:55+00:00",
+          "endpoint": "https://contoso.azconfig.io",
+          "encryption": {
+            "keyVaultProperties": {
+              "keyIdentifier": null,
+              "identityClientId": null
+            }
+          },
+          "disableLocalAuth": true,
+          "privateEndpointConnections": []
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        },
+        "sku": {
+          "name": "Standard"
+        },
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso",
+        "name": "contoso",
+        "location": "westus",
+        "tags": {}
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about App Configuration service - Creates a configuration store with the specified parameters.
+errorCodes: []

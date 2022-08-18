@@ -1,0 +1,796 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.firewallpolicies.updatetags
+name: Update Tags
+service: Virtual Networks
+groupName: Firewall Policies
+apiVersion: 2022-01-01
+summary: Updates tags of a Azure Firewall Policy resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}?api-version=2022-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: firewallPolicyName
+  in: path
+  isRequired: true
+  description: The name of the Firewall Policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the resulting FirewallPolicy resource.
+  types:
+  - uid: FirewallPolicy
+- name: Other Status Codes
+  description: Unexpected error.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: FirewallPolicy
+  description: FirewallPolicy Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: identity
+    description: The identity of the firewall policy.
+    types:
+    - uid: ManagedServiceIdentity
+  - name: properties.ruleCollectionGroups
+    isReadyOnly: true
+    description: List of references to FirewallPolicyRuleCollectionGroups.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the firewall policy resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.basePolicy
+    description: The parent firewall policy from which rules are inherited.
+    types:
+    - uid: SubResource
+  - name: properties.firewalls
+    isReadyOnly: true
+    description: List of references to Azure Firewalls that this Firewall Policy is associated with.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.childPolicies
+    isReadyOnly: true
+    description: List of references to Child Firewall Policies.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.threatIntelMode
+    description: The operation mode for Threat Intelligence.
+    types:
+    - uid: AzureFirewallThreatIntelMode
+  - name: properties.threatIntelWhitelist
+    description: ThreatIntel Whitelist for Firewall Policy.
+    types:
+    - uid: FirewallPolicyThreatIntelWhitelist
+  - name: properties.insights
+    description: Insights on Firewall Policy.
+    types:
+    - uid: FirewallPolicyInsights
+  - name: properties.snat
+    description: The private IP addresses/IP ranges to which traffic will not be SNAT.
+    types:
+    - uid: FirewallPolicySNAT
+  - name: properties.sql
+    description: SQL Settings definition.
+    types:
+    - uid: FirewallPolicySQL
+  - name: properties.dnsSettings
+    description: DNS Proxy Settings definition.
+    types:
+    - uid: DnsSettings
+  - name: properties.explicitProxy
+    description: Explicit Proxy Settings definition.
+    types:
+    - uid: ExplicitProxy
+  - name: properties.intrusionDetection
+    description: The configuration for Intrusion detection.
+    types:
+    - uid: FirewallPolicyIntrusionDetection
+  - name: properties.transportSecurity
+    description: TLS Configuration definition.
+    types:
+    - uid: FirewallPolicyTransportSecurity
+  - name: properties.sku
+    description: The Firewall Policy SKU.
+    types:
+    - uid: FirewallPolicySku
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: TagsObject
+  description: Tags object for patch operations.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ManagedServiceIdentity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant id of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+    types:
+    - uid: UserAssignedIdentities
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: AzureFirewallThreatIntelMode
+  description: The operation mode for Threat Intel.
+  kind: enum
+  properties:
+  - name: Alert
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: Off
+    types:
+    - uid: string
+- name: FirewallPolicyThreatIntelWhitelist
+  description: ThreatIntel Whitelist for Firewall Policy.
+  kind: object
+  properties:
+  - name: ipAddresses
+    description: List of IP addresses for the ThreatIntel Whitelist.
+    types:
+    - uid: string
+      isArray: true
+  - name: fqdns
+    description: List of FQDNs for the ThreatIntel Whitelist.
+    types:
+    - uid: string
+      isArray: true
+- name: FirewallPolicyInsights
+  description: Firewall Policy Insights.
+  kind: object
+  properties:
+  - name: isEnabled
+    description: A flag to indicate if the insights are enabled on the policy.
+    types:
+    - uid: boolean
+  - name: retentionDays
+    description: Number of days the insights should be enabled on the policy.
+    types:
+    - uid: integer
+  - name: logAnalyticsResources
+    description: Workspaces needed to configure the Firewall Policy Insights.
+    types:
+    - uid: FirewallPolicyLogAnalyticsResources
+- name: FirewallPolicySNAT
+  description: The private IP addresses/IP ranges to which traffic will not be SNAT.
+  kind: object
+  properties:
+  - name: privateRanges
+    description: List of private IP addresses/IP address ranges to not be SNAT.
+    types:
+    - uid: string
+      isArray: true
+  - name: autoLearnPrivateRanges
+    description: The operation mode for automatically learning private ranges to not be SNAT
+    types:
+    - uid: AutoLearnPrivateRangesMode
+- name: FirewallPolicySQL
+  description: SQL Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: allowSqlRedirect
+    description: A flag to indicate if SQL Redirect traffic filtering is enabled. Turning on the flag requires no rule using port 11000-11999.
+    types:
+    - uid: boolean
+- name: DnsSettings
+  description: DNS Proxy Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: servers
+    description: List of Custom DNS Servers.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableProxy
+    description: Enable DNS Proxy on Firewalls attached to the Firewall Policy.
+    types:
+    - uid: boolean
+  - name: requireProxyForNetworkRules
+    description: FQDNs in Network Rules are supported when set to true.
+    types:
+    - uid: boolean
+- name: ExplicitProxy
+  description: Explicit Proxy Settings in Firewall Policy.
+  kind: object
+  properties:
+  - name: enableExplicitProxy
+    description: When set to true, explicit proxy mode is enabled.
+    types:
+    - uid: boolean
+  - name: httpPort
+    description: Port number for explicit proxy http protocol, cannot be greater than 64000.
+    types:
+    - uid: integer
+  - name: httpsPort
+    description: Port number for explicit proxy https protocol, cannot be greater than 64000.
+    types:
+    - uid: integer
+  - name: enablePacFile
+    description: When set to true, pac file port and url needs to be provided.
+    types:
+    - uid: boolean
+  - name: pacFilePort
+    description: Port number for firewall to serve PAC file.
+    types:
+    - uid: integer
+  - name: pacFile
+    description: SAS URL for PAC file.
+    types:
+    - uid: string
+- name: FirewallPolicyIntrusionDetection
+  description: Configuration for intrusion detection mode and rules.
+  kind: object
+  properties:
+  - name: mode
+    description: Intrusion detection general state.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionStateType
+  - name: configuration
+    description: Intrusion detection configuration properties.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionConfiguration
+- name: FirewallPolicyTransportSecurity
+  description: Configuration needed to perform TLS termination & initiation.
+  kind: object
+  properties:
+  - name: certificateAuthority
+    description: The CA used for intermediate CA generation.
+    types:
+    - uid: FirewallPolicyCertificateAuthority
+- name: FirewallPolicySku
+  description: SKU of Firewall policy.
+  kind: object
+  properties:
+  - name: tier
+    description: Tier of Firewall Policy.
+    types:
+    - uid: FirewallPolicySkuTier
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ResourceIdentityType
+  description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: UserAssignedIdentities
+  description: "The list of user identities associated with resource. The user identity dictionary key references will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'."
+  kind: object
+  properties:
+  - name: ''
+    description: ''
+    types:
+    - uid: ''
+- name: FirewallPolicyLogAnalyticsResources
+  description: Log Analytics Resources for Firewall Policy Insights.
+  kind: object
+  properties:
+  - name: workspaces
+    description: List of workspaces for Firewall Policy Insights.
+    types:
+    - uid: FirewallPolicyLogAnalyticsWorkspace
+      isArray: true
+  - name: defaultWorkspaceId
+    description: The default workspace Id for Firewall Policy Insights.
+    types:
+    - uid: SubResource
+- name: AutoLearnPrivateRangesMode
+  description: The operation mode for automatically learning private ranges to not be SNAT
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: FirewallPolicyIntrusionDetectionStateType
+  description: Intrusion detection general state.
+  kind: enum
+  properties:
+  - name: Off
+    types:
+    - uid: string
+  - name: Alert
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+- name: FirewallPolicyIntrusionDetectionConfiguration
+  description: The operation for configuring intrusion detection.
+  kind: object
+  properties:
+  - name: signatureOverrides
+    description: List of specific signatures states.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionSignatureSpecification
+      isArray: true
+  - name: bypassTrafficSettings
+    description: List of rules for traffic to bypass.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
+      isArray: true
+  - name: privateRanges
+    description: IDPS Private IP address ranges are used to identify traffic direction (i.e. inbound, outbound, etc.). By default, only ranges defined by IANA RFC 1918 are considered private IP addresses. To modify default ranges, specify your Private IP address ranges with this property
+    types:
+    - uid: string
+      isArray: true
+- name: FirewallPolicyCertificateAuthority
+  description: Trusted Root certificates properties for tls.
+  kind: object
+  properties:
+  - name: keyVaultSecretId
+    description: Secret Id of (base-64 encoded unencrypted pfx) 'Secret' or 'Certificate' object stored in KeyVault.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the CA certificate.
+    types:
+    - uid: string
+- name: FirewallPolicySkuTier
+  description: Tier of Firewall Policy.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+- name: FirewallPolicyLogAnalyticsWorkspace
+  description: Log Analytics Workspace for Firewall Policy Insights.
+  kind: object
+  properties:
+  - name: region
+    description: Region to configure the Workspace.
+    types:
+    - uid: string
+  - name: workspaceId
+    description: The workspace Id for Firewall Policy Insights.
+    types:
+    - uid: SubResource
+- name: FirewallPolicyIntrusionDetectionSignatureSpecification
+  description: Intrusion detection signatures specification states.
+  kind: object
+  properties:
+  - name: id
+    description: Signature id.
+    types:
+    - uid: string
+  - name: mode
+    description: The signature state.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionStateType
+- name: FirewallPolicyIntrusionDetectionBypassTrafficSpecifications
+  description: Intrusion detection bypass traffic specification.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the bypass traffic rule.
+    types:
+    - uid: string
+  - name: description
+    description: Description of the bypass traffic rule.
+    types:
+    - uid: string
+  - name: protocol
+    description: The rule bypass protocol.
+    types:
+    - uid: FirewallPolicyIntrusionDetectionProtocol
+  - name: sourceAddresses
+    description: List of source IP addresses or ranges for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationAddresses
+    description: List of destination IP addresses or ranges for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationPorts
+    description: List of destination ports or ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: sourceIpGroups
+    description: List of source IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: destinationIpGroups
+    description: List of destination IpGroups for this rule.
+    types:
+    - uid: string
+      isArray: true
+- name: FirewallPolicyIntrusionDetectionProtocol
+  description: The rule bypass protocol.
+  kind: enum
+  properties:
+  - name: TCP
+    types:
+    - uid: string
+  - name: UDP
+    types:
+    - uid: string
+  - name: ICMP
+    types:
+    - uid: string
+  - name: ANY
+    types:
+    - uid: string
+examples:
+- name: Update FirewallPolicy Tags
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2022-01-01
+    body: >-
+      {
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy?api-version=2022-01-01
+
+      {
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyPatch.json
+      func ExampleFirewallPoliciesClient_UpdateTags() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPoliciesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdateTags(ctx, "myResourceGroup", "firewallPolicy", armnetwork.TagsObject{
+      		Tags: map[string]*string{
+      			"key1": to.Ptr("value1"),
+      			"key2": to.Ptr("value2"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates tags of a Azure Firewall Policy resource.
+       *
+       * @summary Updates tags of a Azure Firewall Policy resource.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyPatch.json
+       */
+      async function updateFirewallPolicyTags() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "myResourceGroup";
+        const firewallPolicyName = "firewallPolicy";
+        const parameters = { tags: { key1: "value1", key2: "value2" } };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicies.updateTags(
+          resourceGroupName,
+          firewallPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateFirewallPolicyTags().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "firewallPolicy",
+        "id": "/subscriptions/subId/resourceGroups/myResourceGroup/providers/Microsoft.Network/firewallPolicies/firewallPolicy",
+        "type": "Microsoft.Network/firewallPolicies",
+        "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+        "location": "West US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "threatIntelMode": "Alert",
+          "threatIntelWhitelist": {
+            "ipAddresses": [
+              "20.3.4.5"
+            ],
+            "fqdns": [
+              "*.microsoft.com"
+            ]
+          },
+          "ruleCollectionGroups": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/ruleCollectionGroups/ruleCollectionGroup1"
+            }
+          ],
+          "insights": {
+            "isEnabled": true,
+            "retentionDays": 100,
+            "logAnalyticsResources": {
+              "workspaces": [
+                {
+                  "region": "westus",
+                  "workspaceId": {
+                    "id": "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace1"
+                  }
+                },
+                {
+                  "region": "eastus",
+                  "workspaceId": {
+                    "id": "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/workspace2"
+                  }
+                }
+              ],
+              "defaultWorkspaceId": {
+                "id": "/subscriptions/subid/resourcegroups/rg1/providers/microsoft.operationalinsights/workspaces/defaultWorkspace"
+              }
+            }
+          },
+          "firewalls": [],
+          "snat": {
+            "privateRanges": [
+              "IANAPrivateRanges"
+            ]
+          },
+          "sql": {
+            "allowSqlRedirect": true
+          },
+          "dnsSettings": {
+            "servers": [
+              "30.3.4.5"
+            ],
+            "enableProxy": true,
+            "requireProxyForNetworkRules": false
+          },
+          "explicitProxy": {
+            "enableExplicitProxy": true,
+            "httpPort": 8087,
+            "httpsPort": 8087,
+            "pacFilePort": 8087,
+            "pacFile": "https://tinawstorage.file.core.windows.net/?sv=2020-02-10&ss=bfqt&srt=sco&sp=rwdlacuptfx&se=2021-06-04T07:01:12Z&st=2021-06-03T23:01:12Z&sip=68.65.171.11&spr=https&sig=Plsa0RRVpGbY0IETZZOT6znOHcSro71LLTTbzquYPgs%3D"
+          },
+          "sku": {
+            "tier": "Premium"
+          },
+          "intrusionDetection": {
+            "mode": "Alert",
+            "configuration": {
+              "signatureOverrides": [
+                {
+                  "id": "2525004",
+                  "mode": "Deny"
+                }
+              ],
+              "bypassTrafficSettings": [
+                {
+                  "name": "bypassRule1",
+                  "description": "Rule 1",
+                  "protocol": "TCP",
+                  "sourceAddresses": [
+                    "1.2.3.4"
+                  ],
+                  "destinationAddresses": [
+                    "5.6.7.8"
+                  ],
+                  "destinationPorts": [
+                    "*"
+                  ]
+                }
+              ]
+            }
+          },
+          "transportSecurity": {
+            "certificateAuthority": {
+              "name": "clientcert",
+              "keyVaultSecretId": "https://kv/secret"
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Virtual Networks service - Updates tags of a Azure Firewall Policy resource.
+errorCodes: []

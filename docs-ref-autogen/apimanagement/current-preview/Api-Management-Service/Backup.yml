@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.current-preview.apimanagementservice.bac
 name: Backup
 service: API Management
 groupName: Api Management Service
-apiVersion: 2021-04-01-preview
+apiVersion: 2021-12-01-preview
 summary: Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup?api-version=2021-04-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/backup?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -248,14 +248,17 @@ definitions:
     description: Property only meant to be used for Consumption SKU Service. This enforces a client certificate to be presented on each request to the gateway. This also enables the ability to authenticate the certificate in the policy on the gateway.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.disableGateway
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in master region.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.virtualNetworkType
     description: The type of VPN in which API Management service needs to be configured in. None (Default Value) means the API Management service is not part of any Virtual Network, External means the API Management deployment is set up inside a Virtual Network having an Internet Facing Endpoint, and Internal means that API Management deployment is setup inside a Virtual Network having an Intranet Facing Endpoint only.
     types:
     - uid: VirtualNetworkType
+    defaultValue: None
   - name: properties.apiVersionConstraint
     description: Control Plane Apis version constraint for the API Management service.
     types:
@@ -264,6 +267,7 @@ definitions:
     description: Undelete Api Management Service if it was previously soft-deleted. If this flag is specified and set to True all other properties will be ignored.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.privateEndpointConnections
     description: List of Private Endpoint Connections of this service.
     types:
@@ -311,6 +315,7 @@ definitions:
     description: The type of access to be used for the storage account.
     types:
     - uid: AccessType
+    defaultValue: AccessKey
   - name: accessKey
     description: Storage account access key. Required only if `accessType` is set to `AccessKey`.
     types:
@@ -417,10 +422,12 @@ definitions:
     description: Specify true to setup the certificate associated with this Hostname as the Default SSL Certificate. If a client does not send the SNI header, then this will be the certificate that will be challenged. The property is useful if a service has multiple custom hostname enabled and it needs to decide on the default ssl certificate. The setting only applied to Proxy Hostname Type.
     types:
     - uid: boolean
+    defaultValue: false
   - name: negotiateClientCertificate
     description: Specify true to always negotiate client certificate on the hostname. Default Value is false.
     types:
     - uid: boolean
+    defaultValue: false
   - name: certificate
     description: Certificate information.
     types:
@@ -507,6 +514,7 @@ definitions:
     description: Property only valid for an Api Management service deployed in multiple locations. This can be used to disable the gateway in this additional location.
     types:
     - uid: boolean
+    defaultValue: false
   - name: platformVersion
     isReadyOnly: true
     description: Compute Platform Version running the service.
@@ -821,7 +829,7 @@ definitions:
 examples:
 - name: ApiManagementBackupWithAccessKey
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
     body: >-
       {
         "storageAccount": "teststorageaccount",
@@ -830,11 +838,26 @@ examples:
         "accessType": "AccessKey",
         "accessKey": "**************************************************"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
+
+      {
+        "storageAccount": "teststorageaccount",
+        "containerName": "backupContainer",
+        "backupName": "apimService1backup_2017_03_19",
+        "accessType": "AccessKey",
+        "accessKey": "**************************************************"
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-04-01-preview
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-12-01-preview
   - statusCode: "200"
     body: >-
       {
@@ -942,7 +965,7 @@ examples:
       }
 - name: ApiManagementBackupWithSystemManagedIdentity
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
     body: >-
       {
         "storageAccount": "contosorpstorage",
@@ -950,11 +973,25 @@ examples:
         "backupName": "backup5",
         "accessType": "SystemAssignedManagedIdentity"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
+
+      {
+        "storageAccount": "contosorpstorage",
+        "containerName": "apim-backups",
+        "backupName": "backup5",
+        "accessType": "SystemAssignedManagedIdentity"
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-04-01-preview
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-12-01-preview
   - statusCode: "200"
     body: >-
       {
@@ -1012,16 +1049,16 @@ examples:
         },
         "identity": {
           "type": "SystemAssigned, UserAssigned",
-          "principalId": "XXXXX-5fb4-4916-95d4-64b306f9d924",
-          "tenantId": "XXXXX-86f1-XXXXX-91ab-2d7cd011db47",
+          "principalId": "00000000-5fb4-4916-95d4-64b306f9d924",
+          "tenantId": "00000000-86f1-0000-91ab-2d7cd011db47",
           "userAssignedIdentities": {
             "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/rg1UserIdentity": {
-              "principalId": "XXXXX-a100-4478-XXXX-d65d98118ba0",
-              "clientId": "XXXXX-a154-4830-XXXX-46a12da1a1e2"
+              "principalId": "00000000-a100-4478-0000-d65d98118ba0",
+              "clientId": "00000000-a154-4830-0000-46a12da1a1e2"
             },
             "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/vpnpremium": {
-              "principalId": "XXXXX-9208-4128-af2d-a10d2af9b5a3",
-              "clientId": "XXXX-6328-4db2-XXXX-ab0e3e7806cf"
+              "principalId": "00000000-9208-4128-af2d-a10d2af9b5a3",
+              "clientId": "00000000-6328-4db2-0000-ab0e3e7806cf"
             }
           }
         },
@@ -1033,7 +1070,7 @@ examples:
       }
 - name: ApiManagementBackupWithUserAssignedManagedIdentity
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-04-01-preview
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
     body: >-
       {
         "storageAccount": "contosorpstorage",
@@ -1042,11 +1079,26 @@ examples:
         "accessType": "UserAssignedManagedIdentity",
         "clientId": "XXXXX-a154-4830-XXXX-46a12da1a1e2"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/backup?api-version=2021-12-01-preview
+
+      {
+        "storageAccount": "contosorpstorage",
+        "containerName": "apim-backups",
+        "backupName": "backup5",
+        "accessType": "UserAssignedManagedIdentity",
+        "clientId": "XXXXX-a154-4830-XXXX-46a12da1a1e2"
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
     - name: location
-      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-04-01-preview
+      value: https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/operationresults/dGVjaGVkX01hbmFnZVJvbGVfNWRiNGI3Ng==?api-version=2021-12-01-preview
   - statusCode: "200"
     body: >-
       {
@@ -1104,16 +1156,16 @@ examples:
         },
         "identity": {
           "type": "SystemAssigned, UserAssigned",
-          "principalId": "XXXXX-5fb4-4916-95d4-64b306f9d924",
-          "tenantId": "XXXXX-86f1-XXXXX-91ab-2d7cd011db47",
+          "principalId": "00000000-5fb4-4916-95d4-64b306f9d924",
+          "tenantId": "00000000-86f1-0000-91ab-2d7cd011db47",
           "userAssignedIdentities": {
             "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/rg1UserIdentity": {
-              "principalId": "XXXXX-a100-4478-XXXX-d65d98118ba0",
-              "clientId": "XXXXX-a154-4830-XXXX-46a12da1a1e2"
+              "principalId": "00000000-a100-4478-0000-d65d98118ba0",
+              "clientId": "00000000-a154-4830-0000-46a12da1a1e2"
             },
             "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.ManagedIdentity/userAssignedIdentities/vpnpremium": {
-              "principalId": "XXXXX-9208-4128-af2d-a10d2af9b5a3",
-              "clientId": "XXXX-6328-4db2-XXXX-ab0e3e7806cf"
+              "principalId": "00000000-9208-4128-af2d-a10d2af9b5a3",
+              "clientId": "00000000-6328-4db2-0000-ab0e3e7806cf"
             }
           }
         },
@@ -1133,5 +1185,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
+  description: >
+    Creates a backup of the API Management service to the given Azure Storage Account. This is long running operation and could take several minutes to complete.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: keyvault.certificates.recoverdeletedcertificate.recoverdeletedcertificate
 name: Recover Deleted Certificate
 service: Key Vault
 groupName: Recover Deleted Certificate
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Recovers the deleted certificate back to its current version under /certificates.  \nThe RecoverDeletedCertificate operation performs the reversal of the Delete operation. The operation is applicable in vaults enabled for soft-delete, and must be issued during the retention interval (available in the deleted certificate's attributes). This operation requires the certificates/recover permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/deletedcertificates/{certificate-name}/recover?api-version=7.2
+- content: POST {vaultBaseUrl}/deletedcertificates/{certificate-name}/recover?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -76,7 +76,7 @@ definitions:
     types:
     - uid: string
   - name: contentType
-    description: The content type of the secret.
+    description: "The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', "
     types:
     - uid: string
   - name: attributes
@@ -194,7 +194,7 @@ definitions:
   kind: object
   properties:
   - name: exportable
-    description: Not supported in this version. Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: kty
@@ -397,7 +397,13 @@ definitions:
 examples:
 - name: RecoverDeletedCertificate
   request:
-    uri: POST https://myvault.vault.azure.net//deletedcertificates/CertCreateDeleteRecoverPurgeTest/recover?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//deletedcertificates/CertCreateDeleteRecoverPurgeTest/recover?api-version=7.3
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//deletedcertificates/CertCreateDeleteRecoverPurgeTest/recover?api-version=7.3
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -454,5 +460,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Recovers the deleted certificate back to its current version under /certificates.  \nThe RecoverDeletedCertificate operation performs the reversal of the Delete "
+  description: >-
+    Recovers the deleted certificate back to its current version under /certificates.
+
+    The RecoverDeletedCertificate operation performs the reversal of the Delete op
 errorCodes: []

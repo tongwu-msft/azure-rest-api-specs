@@ -1,0 +1,405 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.scheduledjobs.update
+name: Update
+service: IoT Central
+groupName: Scheduled Jobs
+apiVersion: 2022-06-30-preview
+summary: "Update a scheduled job via patch  \nUpdate an existing scheduled job by ID."
+consumes:
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{subdomain}.{baseDomain}/api/scheduledJobs/{scheduledJobId}?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: scheduledJobId
+  in: path
+  isRequired: true
+  description: Unique ID of the scheduled job.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: ScheduledJob
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: body
+    in: body
+    description: Scheduled job patch.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: ScheduledJob
+  description: The scheduled job definition.
+  kind: object
+  properties:
+  - name: etag
+    description: ETag used to prevent conflict in scheduled job updates.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the scheduled job.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the scheduled job.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the scheduled job.
+    types:
+    - uid: string
+  - name: group
+    description: The ID of the device group on which to execute the scheduled job.
+    types:
+    - uid: string
+  - name: batch
+    description: The batching configuration for the scheduled job.
+    types:
+    - uid: JobBatch
+  - name: cancellationThreshold
+    description: The cancellation threshold for the scheduled job.
+    types:
+    - uid: JobCancellationThreshold
+  - name: data
+    description: Data related to the operation being performed by this job. All entries must be of the same type.
+    types:
+    - uid: CloudPropertyJobData
+      isArray: true
+    - uid: CommandJobData
+      isArray: true
+    - uid: DeviceTemplateMigrationJobData
+      isArray: true
+    - uid: PropertyJobData
+      isArray: true
+    typesTitle: JobData[]
+  - name: organizations
+    description: List of organizations of the job, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+  - name: schedule
+    description: The schedule at which to execute the job.
+    types:
+    - uid: JobSchedule
+  - name: enabled
+    description: Whether the scheduled job is enabled.
+    types:
+    - uid: boolean
+  - name: completed
+    isReadyOnly: true
+    description: Whether the scheduled job has completed.
+    types:
+    - uid: boolean
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: JobBatch
+  description: The job batch definition.
+  kind: object
+  properties:
+  - name: type
+    description: Whether batching is done on a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: JobBatchType
+  - name: value
+    description: The number or percentage of devices on which batching is done.
+    types:
+    - uid: number
+- name: JobCancellationThreshold
+  description: The job cancellation threshold definition.
+  kind: object
+  properties:
+  - name: type
+    description: Whether the cancellation threshold is per a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: JobCancellationThresholdType
+  - name: value
+    description: The number or percentage of devices on which the cancellation threshold is applied.
+    types:
+    - uid: number
+  - name: batch
+    description: Whether the cancellation threshold applies per-batch or to the overall job.
+    types:
+    - uid: boolean
+- name: JobSchedule
+  description: The schedule definition of job.
+  kind: object
+  properties:
+  - name: recurrence
+    description: The recurrence of the scheduled job. If not provided, the job will run once at the specified start time.
+    types:
+    - uid: JobRecurrence
+  - name: start
+    description: The start time for the scheduled job
+    types:
+    - uid: string
+  - name: end
+    description: The specification of when to end the scheduled job.
+    types:
+    - uid: DateJobScheduleEnd
+    - uid: OccurrencesJobScheduleEnd
+    typesTitle: JobScheduleEnd
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: JobBatchType
+  description: Whether batching is done on a specified number of devices or a percentage of the total devices.
+  kind: enum
+  properties:
+  - name: number
+    description: Job Batching based on number of devices.
+    types:
+    - uid: string
+  - name: percentage
+    description: Job Batching based percentage of total applied devices.
+    types:
+    - uid: string
+- name: JobCancellationThresholdType
+  description: Whether the cancellation threshold is per a specified number of devices or a percentage of the total devices.
+  kind: enum
+  properties:
+  - name: number
+    description: Job cancellation threshold based on specified number of devices.
+    types:
+    - uid: string
+  - name: percentage
+    description: Job cancellation threshold based on percentage of total devices.
+    types:
+    - uid: string
+- name: CloudPropertyJobData
+  description: The cloud property job data.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: cloudProperty
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+- name: CommandJobData
+  description: The command job data definition.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: command
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+- name: DeviceTemplateMigrationJobData
+  description: The device template migration job data definition.
+  kind: object
+  properties:
+  - name: template
+    description: The target device template to which devices will be migrated.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: deviceTemplateMigration
+    typesTitle: string
+- name: PropertyJobData
+  description: The property job data definition.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: property
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+- name: JobRecurrence
+  description: The recurrence of the scheduled job. If not provided, the job will run once at the specified start time.
+  kind: enum
+  properties:
+  - name: daily
+    description: The job will run once daily
+    types:
+    - uid: string
+  - name: weekly
+    description: The job will run once every week
+    types:
+    - uid: string
+  - name: monthly
+    description: The job will run once every month
+    types:
+    - uid: string
+- name: DateJobScheduleEnd
+  description: The date based end definition of job schedule.
+  kind: object
+  properties:
+  - name: date
+    description: The date when to end the scheduled job.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the job schedule end.
+    types:
+    - uid: date
+    typesTitle: string
+- name: OccurrencesJobScheduleEnd
+  description: The occurences based end definition of job schedule.
+  kind: object
+  properties:
+  - name: occurrences
+    description: The number of occurrences after which to end the scheduled job.
+    types:
+    - uid: integer
+  - name: type
+    description: Type of the job schedule end.
+    types:
+    - uid: occurrences
+    typesTitle: string
+examples:
+- name: Get role by ID
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/scheduledJobs/newScheduledJobId?api-version=2022-06-30-preview
+    body: >-
+      {
+        "schedule": {
+          "start": "2022-05-24T22:29:01Z",
+          "recurrence": "weekly"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/scheduledJobs/newScheduledJobId?api-version=2022-06-30-preview
+
+      {
+        "schedule": {
+          "start": "2022-05-24T22:29:01Z",
+          "recurrence": "weekly"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "newScheduledJobId",
+        "displayName": "New Scheduled Job",
+        "description": "",
+        "group": "ad86219f-d224-48ad-a29b-b593a4e4bb38",
+        "data": [
+          {
+            "type": "command",
+            "target": "dtmi:modelDefinition:bhmvjf0oj:k6ulbcbyndp",
+            "path": "Reboot",
+            "value": null
+          }
+        ],
+        "schedule": {
+          "start": "2022-05-24T22:29:01Z",
+          "recurrence": "weekly"
+        },
+        "enabled": true,
+        "completed": false,
+        "etag": "\"970070b9-0000-0800-0000-628d554b0000\""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Update a scheduled job via patch
+
+    Update an existing scheduled job by ID.
+errorCodes: []

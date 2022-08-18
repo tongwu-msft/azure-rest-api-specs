@@ -1,5 +1,6 @@
 ﻿---
 title: "Delete a notification hub"
+description: Use this API reference documentation to delete a notification hub.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

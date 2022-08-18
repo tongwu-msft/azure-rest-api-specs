@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.createorupdatestaticsitecustomd
 name: Create Or Update Static Site Custom Domain
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Creates a new static site custom domain in an existing resource group and static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/customDomains/{domainName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -136,6 +136,7 @@ definitions:
     description: Validation method for adding a custom domain
     types:
     - uid: string
+    defaultValue: cname-delegation
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -175,6 +176,9 @@ definitions:
     types:
     - uid: string
   - name: Deleting
+    types:
+    - uid: string
+  - name: Unhealthy
     types:
     - uid: string
 - name: Error
@@ -227,11 +231,130 @@ definitions:
 examples:
 - name: Create or update a custom domain for a static site
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/customDomains/custom.domain.net?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/customDomains/custom.domain.net?api-version=2022-03-01
     body: >-
       {
         "properties": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/customDomains/custom.domain.net?api-version=2022-03-01
+
+      {
+        "properties": {}
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.StaticSiteCustomDomainRequestPropertiesArmResource;
+
+      /** Samples for StaticSites CreateOrUpdateStaticSiteCustomDomain. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
+           */
+          /**
+           * Sample code: Create or update a custom domain for a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateACustomDomainForAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .createOrUpdateStaticSiteCustomDomain(
+                      "rg",
+                      "testStaticSite0",
+                      "custom.domain.net",
+                      new StaticSiteCustomDomainRequestPropertiesArmResource(),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
+      func ExampleStaticSitesClient_BeginCreateOrUpdateStaticSiteCustomDomain() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdateStaticSiteCustomDomain(ctx,
+      		"rg",
+      		"testStaticSite0",
+      		"custom.domain.net",
+      		armappservice.StaticSiteCustomDomainRequestPropertiesARMResource{
+      			Properties: &armappservice.StaticSiteCustomDomainRequestPropertiesARMResourceProperties{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Creates a new static site custom domain in an existing resource group and static site.
+       *
+       * @summary Description for Creates a new static site custom domain in an existing resource group and static site.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSiteCustomDomain.json
+       */
+      async function createOrUpdateACustomDomainForAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const domainName = "custom.domain.net";
+        const staticSiteCustomDomainRequestPropertiesEnvelope = {};
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.beginCreateOrUpdateStaticSiteCustomDomainAndWait(
+          resourceGroupName,
+          name,
+          domainName,
+          staticSiteCustomDomainRequestPropertiesEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateACustomDomainForAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -262,5 +385,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Description for Creates a new static site custom domain in an existing resource group and static site.
+  description: >
+    Description for Creates a new static site custom domain in an existing resource group and static site.
 errorCodes: []

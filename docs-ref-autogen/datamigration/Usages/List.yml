@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.usages.list
 name: List
 service: Data Migration
 groupName: Usages
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Get resource quotas and usage information  \nThis method returns region-specific quotas and resource usage information for the Database Migration Service."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages?api-version=2018-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/usages?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: location
@@ -62,6 +62,11 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: Quota
   description: Describes a quota for or usage details about a resource
   kind: object
@@ -91,21 +96,45 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
 - name: Name
   description: The name of the quota
   kind: object
@@ -118,10 +147,31 @@ definitions:
     description: The unlocalized name (or ID) of the quota
     types:
     - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Services_Usages
   request:
-    uri: GET https://management.azure.com/subscriptions/90fb80a6-0f71-4761-8f03-921e7396f3c0/providers/Microsoft.DataMigration/locations/westus/usages?api-version=2018-04-19
+    uri: GET https://management.azure.com/subscriptions/90fb80a6-0f71-4761-8f03-921e7396f3c0/providers/Microsoft.DataMigration/locations/westus/usages?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/90fb80a6-0f71-4761-8f03-921e7396f3c0/providers/Microsoft.DataMigration/locations/westus/usages?api-version=2022-01-30-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -149,5 +199,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Get resource quotas and usage information  \nThis method returns region-specific quotas and resource usage information for the Database Migration Service."
+  description: >
+    Get resource quotas and usage information
+
+    This method returns region-specific quotas and resource usage information for the Database Migration Service.
 errorCodes: []

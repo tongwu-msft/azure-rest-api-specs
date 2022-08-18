@@ -1,0 +1,146 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.scheduledactions.checknameavailability
+name: Check Name Availability
+service: Cost Management
+groupName: Scheduled Actions
+apiVersion: 2022-06-01-preview
+summary: Checks availability and correctness of the name for a scheduled action.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.CostManagement/checkNameAvailability?api-version=2022-06-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Response of scheduled action name availability.
+  types:
+  - uid: CheckNameAvailabilityResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    in: body
+    description: The resource type.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: CheckNameAvailabilityResponse
+  description: The check availability result.
+  kind: object
+  properties:
+  - name: nameAvailable
+    description: Indicates if the resource name is available.
+    types:
+    - uid: boolean
+  - name: reason
+    description: The reason why the given name is not available.
+    types:
+    - uid: CheckNameAvailabilityReason
+  - name: message
+    description: Detailed reason why the given name is available.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: CheckNameAvailabilityRequest
+  description: The check availability request body.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource for which availability needs to be checked.
+    types:
+    - uid: string
+  - name: type
+    description: The resource type.
+    types:
+    - uid: string
+- name: CheckNameAvailabilityReason
+  description: The reason why the given name is not available.
+  kind: enum
+  properties:
+  - name: Invalid
+    types:
+    - uid: string
+  - name: AlreadyExists
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: ScheduledActionCheckNameAvailability
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/checkNameAvailability?api-version=2022-06-01-preview
+    body: >-
+      {
+        "name": "testName",
+        "type": "Microsoft.CostManagement/ScheduledActions"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.CostManagement/checkNameAvailability?api-version=2022-06-01-preview
+
+      {
+        "name": "testName",
+        "type": "Microsoft.CostManagement/ScheduledActions"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nameAvailable": false,
+        "reason": "AlreadyExists",
+        "message": "A private scheduled action with name 'testName' is already present. Please specify a differnt name."
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Cost Management service - Checks availability and correctness of the name for a scheduled action.
+errorCodes: []

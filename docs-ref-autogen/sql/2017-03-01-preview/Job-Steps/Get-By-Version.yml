@@ -128,10 +128,12 @@ definitions:
     description: Type of action being executed by the job step.
     types:
     - uid: JobStepActionType
+    defaultValue: TSql
   - name: source
     description: The source of the action to execute.
     types:
     - uid: JobStepActionSource
+    defaultValue: Inline
   - name: value
     description: The action value, for example the text of the T-SQL script to execute.
     types:
@@ -144,6 +146,7 @@ definitions:
     description: The output destination type.
     types:
     - uid: JobStepOutputType
+    defaultValue: SqlDatabase
   - name: subscriptionId
     description: The output destination subscription id.
     types:
@@ -164,6 +167,7 @@ definitions:
     description: The output destination schema.
     types:
     - uid: string
+    defaultValue: dbo
   - name: tableName
     description: The output destination table.
     types:
@@ -180,22 +184,27 @@ definitions:
     description: Execution timeout for the job step.
     types:
     - uid: integer
+    defaultValue: 43200
   - name: retryAttempts
     description: Maximum number of times the job step will be reattempted if the first attempt fails.
     types:
     - uid: integer
+    defaultValue: 10
   - name: initialRetryIntervalSeconds
     description: Initial delay between retries for job step execution.
     types:
     - uid: integer
+    defaultValue: 1
   - name: maximumRetryIntervalSeconds
     description: The maximum amount of time to wait between retries for job step execution.
     types:
     - uid: integer
+    defaultValue: 120
   - name: retryIntervalBackoffMultiplier
     description: The backoff multiplier for the time between retries.
     types:
     - uid: number
+    defaultValue: 2
 - name: JobStepActionType
   description: Type of action being executed by the job step.
   kind: enum
@@ -221,6 +230,38 @@ examples:
 - name: Get the specified version of a job step.
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/versions/1/steps/step1?api-version=2017-03-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/versions/1/steps/step1?api-version=2017-03-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for JobSteps GetByVersion. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2017-03-01-preview/examples/GetJobStepByVersion.json
+           */
+          /**
+           * Sample code: Get the specified version of a job step.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getTheSpecifiedVersionOfAJobStep(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .sqlServers()
+                  .manager()
+                  .serviceClient()
+                  .getJobSteps()
+                  .getByVersionWithResponse("group1", "server1", "agent1", "job1", 1, "step1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -258,5 +299,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about SQL Database service - Gets the specified version of a job step.
+  description: >
+    Learn more about SQL Database service - Gets the specified version of a job step.
 errorCodes: []

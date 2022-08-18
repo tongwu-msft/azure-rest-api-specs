@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.spatial.postgeofence
+uid: maps.spatial.postgeofence
 name: Post Geofence
 service: Maps
 groupName: Spatial
@@ -17,25 +17,26 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}
-- content: POST https://atlas.microsoft.com/spatial/geofence/json?subscription-key={subscription-key}&api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}&z={z}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
+- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}
+- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}&z={z}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: format
   in: path
   isRequired: true
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: deviceId
@@ -66,6 +67,7 @@ uriParameters:
   description: The user request time. If not presented in the request, the default value is DateTime.UtcNow.
   types:
   - uid: string
+  format: date-time
 - name: searchBuffer
   in: query
   description: The radius of the buffer around the geofence in meters that defines how far to search inside and outside the border of the fence against the coordinate that was provided when calculating the result.  The minimum value is 0, and the maximum is 500.  The default value is 50.
@@ -88,45 +90,27 @@ responses:
     value: string
   description: OK The X-Correlation-id header value is present in an async call's response and the Event Grid event data. It helps correlate the async call’s response with the corresponding Event Grid event.
   types:
-  - uid: GeofenceResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: Geofence
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestBody:
 - name: default
   parameters:
   - name: type
     in: body
     isRequired: true
-    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
     types:
-    - uid: string
+    - uid: FeatureCollection
+    typesTitle: string
   - name: features
     in: body
     isRequired: true
     description: Contains a list of valid `GeoJSON Feature` objects.
     types:
-    - uid: Features
+    - uid: GeoJsonFeature
       isArray: true
 requestHeader:
 - name: x-ms-client-id
@@ -155,19 +139,35 @@ definitions:
     description: Only publish result when user location is considered as crossing geofencing boarder.
     types:
     - uid: string
-- name: Features
-  description: Contains a list of valid `GeoJSON Feature` objects.
+- name: GeoJsonFeature
+  description: A valid `GeoJSON Feature` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.2) for details.
   kind: object
   properties:
   - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "Feature".
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Feature
+    typesTitle: string
+  - name: geometry
+    description: A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+    types:
+    - uid: GeoJsonPoint
+    - uid: GeoJsonMultiPoint
+    - uid: GeoJsonLineString
+    - uid: GeoJsonMultiLineString
+    - uid: GeoJsonPolygon
+    - uid: GeoJsonMultiPolygon
+    - uid: GeoJsonGeometryCollection
+    typesTitle: GeoJsonGeometry
+  - name: id
+    description: Identifier for the feature.
     types:
     - uid: string
-  - name: geometry
-    description: A valid `GeoJSON` geometry object. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+  - name: featureType
+    description: The type of the feature. The value depends on the data model the current feature is part of. Some data models may have an empty value.
     types:
-    - uid: GeoJSONGeometry
-- name: GeofenceResponse
+    - uid: string
+- name: Geofence
   description: This object is returned from a geofence proximity call.
   kind: object
   properties:
@@ -194,27 +194,36 @@ definitions:
     description: True if at least one event is published to the Azure Maps event subscriber, false if no event is published to the Azure Maps event subscriber. This will only be presented in response when 'isAsync' query parameter is set to true.
     types:
     - uid: boolean
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: GeoJSONFeatureCollection
+    - uid: ErrorDetail
+- name: GeoJsonFeatureCollection
   description: A valid `GeoJSON FeatureCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details.
   kind: object
   properties:
   - name: type
-    description: Specifies the `type` for the object. Value should always be equal to "FeatureCollection".
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
     types:
-    - uid: string
+    - uid: FeatureCollection
+    typesTitle: string
   - name: features
     description: Contains a list of valid `GeoJSON Feature` objects.
     types:
-    - uid: Features
+    - uid: GeoJsonFeature
       isArray: true
+- name: GeoJsonGeometry
+  description: A valid `GeoJSON` geometry object. The type must be one of the seven valid GeoJSON geometry types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon and GeometryCollection. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: GeoJsonObjectType
 - name: GeofenceGeometry
   description: The geofencing geometry.
   kind: object
@@ -236,7 +245,7 @@ definitions:
     - uid: string
   - name: distance
     isReadyOnly: true
-    description: Distance from the coordinate to the closest border of the geofence. Positive means the  coordinate is outside of the geofence. If the coordinate is outside of the geofence, but more than the value of searchBuffer away from the closest geofence border, then the value is 999. Negative means the coordinate is inside of the geofence. If the coordinate is inside the polygon, but more than the value of searchBuffer away from the closest geofencing border, then the value is -999. A value of 999 means that there is great confidence the coordinate is well outside the geofence. A value of -999 means that there is great confidence the coordinate is well within the geofence.
+    description: Distance from the coordinate to the closest border of the geofence (in meters except when special values -999/999 are used). Positive means the  coordinate is outside of the geofence. If the coordinate is outside of the geofence, but more than the value of searchBuffer away from the closest geofence border, then the value is 999. Negative means the coordinate is inside of the geofence. If the coordinate is inside the polygon, but more than the value of searchBuffer away from the closest geofencing border, then the value is -999. A value of 999 means that there is great confidence the coordinate is well outside the geofence. A value of -999 means that there is great confidence the coordinate is well within the geofence.
     types:
     - uid: number
   - name: nearestLat
@@ -254,34 +263,166 @@ definitions:
     description: Sea level in meter of the nearest point on the 2D extrusion geometry. This will only be presented in response when value is provided for 'zInMeter' in the request.
     types:
     - uid: number
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: GeoJsonPoint
+  description: A valid `GeoJSON Point` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.2) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Point
+    typesTitle: string
+  - name: coordinates
+    description: A `Position` is an array of numbers with two or more elements. The first two elements are _longitude_ and _latitude_, precisely in that order. _Altitude/Elevation_ is an optional third element. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.1) for details.
+    types:
+    - uid: number
+      isArray: true
+- name: GeoJsonMultiPoint
+  description: A valid `GeoJSON MultiPoint` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.3) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiPoint
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiPoint` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonLineString
+  description: A valid `GeoJSON LineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.4) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: LineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson LineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonMultiLineString
+  description: A valid `GeoJSON MultiLineString` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.5) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiLineString
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson MultiLineString` geometry.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonPolygon
+  description: A valid `GeoJSON Polygon` geometry type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.6) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: Polygon
+    typesTitle: string
+  - name: coordinates
+    description: Coordinates for the `GeoJson Polygon` geometry type.
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonMultiPolygon
+  description: A valid `GeoJSON MultiPolygon` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.7) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: MultiPolygon
+    typesTitle: string
+  - name: coordinates
+    description: Contains a list of valid `GeoJSON Polygon` objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
+    types:
+    - uid: array
+      isArray: true
+- name: GeoJsonGeometryCollection
+  description: A valid `GeoJSON GeometryCollection` object type. Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.1.8) for details.
+  kind: object
+  properties:
+  - name: type
+    description: Specifies the `GeoJSON` type. Must be one of the nine valid GeoJSON object types - Point, MultiPoint, LineString, MultiLineString, Polygon, MultiPolygon, GeometryCollection, Feature and FeatureCollection.
+    types:
+    - uid: GeometryCollection
+    typesTitle: string
+  - name: geometries
+    description: Contains a list of valid `GeoJSON` geometry objects. **Note** that coordinates in GeoJSON are in x, y order (longitude, latitude).
+    types:
+    - uid: GeoJsonPoint
+      isArray: true
+    - uid: GeoJsonMultiPoint
+      isArray: true
+    - uid: GeoJsonLineString
+      isArray: true
+    - uid: GeoJsonMultiLineString
+      isArray: true
+    - uid: GeoJsonPolygon
+      isArray: true
+    - uid: GeoJsonMultiPolygon
+      isArray: true
+    - uid: GeoJsonGeometryCollection
+      isArray: true
+    typesTitle: GeoJsonGeometry[]
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
-- name: Geofence
+- name: PostGeofence
   request:
-    uri: POST https://atlas.microsoft.com/spatial/geofence/json?subscription-key=[subscription-key]&api-version=1.0&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&searchBuffer=50&isAsync=True&mode=EnterAndExit
+    uri: POST https://us.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&userTime={userTime}&searchBuffer=50&isAsync=True&mode=EnterAndExit
     body: >-
       {
         "type": "FeatureCollection",
@@ -294,7 +435,7 @@ examples:
                 [
                   [
                     -122.13241226662022,
-                    47.617011400917221
+                    47.61701140091722
                   ],
                   [
                     -122.12810106940353,
@@ -302,7 +443,7 @@ examples:
                   ],
                   [
                     -122.12824948956276,
-                    47.619076837513489
+                    47.61907683751349
                   ],
                   [
                     -122.12833297981392,
@@ -318,11 +459,11 @@ examples:
                   ],
                   [
                     -122.13231034769727,
-                    47.617163326181213
+                    47.61716332618121
                   ],
                   [
                     -122.13241226662022,
-                    47.617011400917221
+                    47.61701140091722
                   ]
                 ]
               ]
@@ -339,12 +480,12 @@ examples:
               "coordinates": [
                 [
                   [
-                    -122.15342205632391,
-                    47.609818185466253
+                    -122.1534220563239,
+                    47.60981818546625
                   ],
                   [
                     -122.153451623509,
-                    47.606287331460038
+                    47.60628733146004
                   ],
                   [
                     -122.14971782206638,
@@ -355,16 +496,16 @@ examples:
                     47.606391046012305
                   ],
                   [
-                    -122.14827351288071,
-                    47.609833167963558
+                    -122.1482735128807,
+                    47.60983316796356
                   ],
                   [
                     -122.15225500989803,
-                    47.609826136787518
+                    47.60982613678752
                   ],
                   [
-                    -122.15342205632391,
-                    47.609818185466253
+                    -122.1534220563239,
+                    47.60981818546625
                   ]
                 ]
               ]
@@ -376,6 +517,107 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://us.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&userTime={userTime}&searchBuffer=50&isAsync=True&mode=EnterAndExit
+
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.13241226662022,
+                    47.61701140091722
+                  ],
+                  [
+                    -122.12810106940353,
+                    47.6169969269402
+                  ],
+                  [
+                    -122.12824948956276,
+                    47.61907683751349
+                  ],
+                  [
+                    -122.12833297981392,
+                    47.621929787055336
+                  ],
+                  [
+                    -122.12971398040168,
+                    47.62184100705295
+                  ],
+                  [
+                    -122.1318413862121,
+                    47.62195364373008
+                  ],
+                  [
+                    -122.13231034769727,
+                    47.61716332618121
+                  ],
+                  [
+                    -122.13241226662022,
+                    47.61701140091722
+                  ]
+                ]
+              ]
+            },
+            "properties": {
+              "geometryId": "2",
+              "name": "Crossroad Mall"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.1534220563239,
+                    47.60981818546625
+                  ],
+                  [
+                    -122.153451623509,
+                    47.60628733146004
+                  ],
+                  [
+                    -122.14971782206638,
+                    47.606250040787046
+                  ],
+                  [
+                    -122.14817354810637,
+                    47.606391046012305
+                  ],
+                  [
+                    -122.1482735128807,
+                    47.60983316796356
+                  ],
+                  [
+                    -122.15225500989803,
+                    47.60982613678752
+                  ],
+                  [
+                    -122.1534220563239,
+                    47.60981818546625
+                  ]
+                ]
+              ]
+            },
+            "properties": {
+              "geometryId": "1",
+              "name": "Sammamish High school"
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -400,52 +642,6 @@ examples:
         "invalidPeriodGeofenceGeometryId": [],
         "isEventPublished": true
       }
-  - statusCode: "400"
-    headers:
-    - name: X-Correlation-ID
-      value: 80575fa1-2c1e-4738-834a-fcf45b58dd7c
-    body: >-
-      {
-        "error": {
-          "code": "BadRequest",
-          "message": "Lat and/or lon parameters are invalid.",
-          "innererror": {
-            "code": "InvalidLatLon"
-          }
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
-      }
 security:
 - name: AADToken
   type: oauth2
@@ -458,11 +654,11 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
 
-     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
 
-     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
   in: query
 - name: SAS Token
   type: apiKey
@@ -474,10 +670,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: >-
-    **Search Geofence Post API**
-
-    **Applies to:** S1 Pricing tier.
-
-    The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence
+  description: "Search Geofence Post API\nApplies to: S1 Pricing tier.\nThe Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence or set "
 errorCodes: []

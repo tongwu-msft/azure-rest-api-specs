@@ -1,5 +1,6 @@
 ---
 title: "ServiceTypeDeltaHealthPolicy"
+description: "ServiceTypeDeltaHealthPolicy is used to evaluate the health of services belonging to a service type when upgrading the cluster."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -11,7 +12,6 @@ helpviewer_keywords:
   - "Service Fabric Resource Manager REST API Reference"
 author: "erikadoyle"
 ms.author: "edoyle"
-manager: "gwallace"
 translation.priority.mt: 
   - "de-de"
   - "es-es"

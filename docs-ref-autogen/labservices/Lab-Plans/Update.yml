@@ -1,0 +1,621 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.labservices.labplans.update
+name: Update
+service: Lab Services
+groupName: Lab Plans
+apiVersion: 2022-08-01
+summary: "Updates a Lab Plan resource.  \nOperation to update a Lab Plan resource."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labPlans/{labPlanName}?api-version=2022-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: labPlanName
+  in: path
+  isRequired: true
+  description: The name of the lab plan that uniquely identifies it within containing resource group. Used in resource URIs and in UI.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The update was successful; response contains the Lab Plan.
+  types:
+  - uid: LabPlan
+- name: 202 Accepted
+  description: The update was successful and has a long running operation; response contains the Lab Plan.
+  types:
+  - uid: LabPlan
+- name: Other Status Codes
+  description: The default error response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: identity
+    in: body
+    description: Managed Identity Information
+    types:
+    - uid: Identity
+  - name: properties.defaultConnectionProfile
+    in: body
+    description: The default lab connection profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: ConnectionProfile
+  - name: properties.defaultAutoShutdownProfile
+    in: body
+    description: The default lab shutdown profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: AutoShutdownProfile
+  - name: properties.defaultNetworkProfile
+    in: body
+    description: The lab plan network profile. To enforce lab network policies they must be defined here and cannot be changed when there are existing labs associated with this lab plan.
+    types:
+    - uid: LabPlanNetworkProfile
+  - name: properties.allowedRegions
+    in: body
+    description: The allowed regions for the lab creator to use when creating labs using this lab plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sharedGalleryId
+    in: body
+    description: Resource ID of the Shared Image Gallery attached to this lab plan. When saving a lab template virtual machine image it will be persisted in this gallery. Shared images from the gallery can be made available to use when creating new labs.
+    types:
+    - uid: string
+  - name: properties.supportInfo
+    in: body
+    description: Support contact information and instructions for users of the lab plan. This information is displayed to lab owners and virtual machine users for all labs in the lab plan.
+    types:
+    - uid: SupportInfo
+  - name: properties.linkedLmsInstance
+    in: body
+    description: Base Url of the lms instance this lab plan can link lab rosters against.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: Identity
+  description: Identity for the resource.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of resource identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of resource.
+    types:
+    - uid: string
+  - name: type
+    description: The identity type.
+    types:
+    - uid: ResourceIdentityType
+- name: ConnectionProfile
+  description: Connection profile for how users connect to lab virtual machines.
+  kind: object
+  properties:
+  - name: webSshAccess
+    description: The enabled access level for Web Access over SSH.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: webRdpAccess
+    description: The enabled access level for Web Access over RDP.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: clientSshAccess
+    description: The enabled access level for Client Access over SSH.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+  - name: clientRdpAccess
+    description: The enabled access level for Client Access over RDP.
+    types:
+    - uid: ConnectionType
+    defaultValue: None
+- name: AutoShutdownProfile
+  description: Profile for how to handle shutting down virtual machines.
+  kind: object
+  properties:
+  - name: shutdownOnDisconnect
+    description: Whether shutdown on disconnect is enabled
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+  - name: shutdownWhenNotConnected
+    description: Whether a VM will get shutdown when it hasn't been connected to after a period of time.
+    types:
+    - uid: EnableState
+    defaultValue: Disabled
+  - name: shutdownOnIdle
+    description: Whether a VM will get shutdown when it has idled for a period of time.
+    types:
+    - uid: shutdownOnIdleMode
+    defaultValue: None
+  - name: disconnectDelay
+    description: The amount of time a VM will stay running after a user disconnects if this behavior is enabled.
+    types:
+    - uid: string
+  - name: noConnectDelay
+    description: The amount of time a VM will stay running before it is shutdown if no connection is made and this behavior is enabled.
+    types:
+    - uid: string
+  - name: idleDelay
+    description: The amount of time a VM will idle before it is shutdown if this behavior is enabled.
+    types:
+    - uid: string
+- name: LabPlanNetworkProfile
+  description: Profile for how to handle networking for Lab Plans.
+  kind: object
+  properties:
+  - name: subnetId
+    description: The external subnet resource id
+    types:
+    - uid: string
+- name: SupportInfo
+  description: Support contact information and instructions.
+  kind: object
+  properties:
+  - name: url
+    description: Support web address.
+    types:
+    - uid: string
+  - name: email
+    description: Support contact email address.
+    types:
+    - uid: string
+  - name: phone
+    description: Support contact phone number.
+    types:
+    - uid: string
+  - name: instructions
+    description: Support instructions.
+    types:
+    - uid: string
+- name: LabPlan
+  description: Lab Plans act as a permission container for creating labs via labs.azure.com. Additionally, they can provide a set of default configurations that will apply at the time of creating a lab, but these defaults can still be overwritten.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the lab plan.
+    types:
+    - uid: systemData
+  - name: identity
+    description: Managed Identity Information
+    types:
+    - uid: Identity
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning state of the lab plan.
+    types:
+    - uid: ProvisioningState
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: properties.defaultConnectionProfile
+    description: The default lab connection profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: ConnectionProfile
+  - name: properties.defaultAutoShutdownProfile
+    description: The default lab shutdown profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: AutoShutdownProfile
+  - name: properties.defaultNetworkProfile
+    description: The lab plan network profile. To enforce lab network policies they must be defined here and cannot be changed when there are existing labs associated with this lab plan.
+    types:
+    - uid: LabPlanNetworkProfile
+  - name: properties.allowedRegions
+    description: The allowed regions for the lab creator to use when creating labs using this lab plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sharedGalleryId
+    description: Resource ID of the Shared Image Gallery attached to this lab plan. When saving a lab template virtual machine image it will be persisted in this gallery. Shared images from the gallery can be made available to use when creating new labs.
+    types:
+    - uid: string
+  - name: properties.supportInfo
+    description: Support contact information and instructions for users of the lab plan. This information is displayed to lab owners and virtual machine users for all labs in the lab plan.
+    types:
+    - uid: SupportInfo
+  - name: properties.linkedLmsInstance
+    description: Base Url of the lms instance this lab plan can link lab rosters against.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: LabPlanUpdate
+  description: Contains lab configuration and default settings. This variant is used for PATCH.
+  kind: object
+  properties:
+  - name: identity
+    description: Managed Identity Information
+    types:
+    - uid: Identity
+  - name: properties.defaultConnectionProfile
+    description: The default lab connection profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: ConnectionProfile
+  - name: properties.defaultAutoShutdownProfile
+    description: The default lab shutdown profile. This can be changed on a lab resource and only provides a default profile.
+    types:
+    - uid: AutoShutdownProfile
+  - name: properties.defaultNetworkProfile
+    description: The lab plan network profile. To enforce lab network policies they must be defined here and cannot be changed when there are existing labs associated with this lab plan.
+    types:
+    - uid: LabPlanNetworkProfile
+  - name: properties.allowedRegions
+    description: The allowed regions for the lab creator to use when creating labs using this lab plan.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.sharedGalleryId
+    description: Resource ID of the Shared Image Gallery attached to this lab plan. When saving a lab template virtual machine image it will be persisted in this gallery. Shared images from the gallery can be made available to use when creating new labs.
+    types:
+    - uid: string
+  - name: properties.supportInfo
+    description: Support contact information and instructions for users of the lab plan. This information is displayed to lab owners and virtual machine users for all labs in the lab plan.
+    types:
+    - uid: SupportInfo
+  - name: properties.linkedLmsInstance
+    description: Base Url of the lms instance this lab plan can link lab rosters against.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: string
+      isArray: true
+- name: ResourceIdentityType
+  description: The identity type.
+  kind: enum
+  properties:
+  - name: SystemAssigned
+    types:
+    - uid: string
+- name: ConnectionType
+  description: The enabled access level for Web Access over SSH.
+  kind: enum
+  properties:
+  - name: Public
+    types:
+    - uid: string
+  - name: Private
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: EnableState
+  description: Whether shutdown on disconnect is enabled
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: shutdownOnIdleMode
+  description: Defines whether to shut down VM on idle and the criteria for idle detection.
+  kind: enum
+  properties:
+  - name: None
+    description: The VM won't be shut down when it is idle.
+    types:
+    - uid: string
+  - name: UserAbsence
+    description: The VM will be considered as idle when there is no keyboard or mouse input.
+    types:
+    - uid: string
+  - name: LowUsage
+    description: The VM will be considered as idle when user is absent and the resource (CPU and disk) consumption is low.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Current provisioning state of the lab plan.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Resource is in the process of being created.
+    types:
+    - uid: string
+  - name: Updating
+    description: New property values are being applied to the resource.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Resource is in healthy state after creation or update operation.
+    types:
+    - uid: string
+  - name: Failed
+    description: Previous operation on the resource has failed leaving resource in unhealthy state.
+    types:
+    - uid: string
+  - name: Locked
+    description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: patchLabPlan
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2022-08-01
+    body: >-
+      {
+        "properties": {
+          "defaultConnectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan?api-version=2022-08-01
+
+      {
+        "properties": {
+          "defaultConnectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
+        "name": "testlabplan",
+        "type": "Microsoft.LabServices/LabPlan",
+        "location": "westus",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "defaultConnectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          },
+          "defaultAutoShutdownProfile": {
+            "shutdownOnDisconnect": "Enabled",
+            "shutdownWhenNotConnected": "Enabled",
+            "shutdownOnIdle": "UserAbsence",
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
+          },
+          "defaultNetworkProfile": {
+            "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
+          },
+          "sharedGalleryId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Compute/galleries/testsig",
+          "supportInfo": {
+            "url": "help.contoso.com",
+            "email": "help@contoso.com",
+            "phone": "+1-202-555-0123",
+            "instructions": "Contact support for help."
+          }
+        }
+      }
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/operationresults/a64149d8-84cb-4566-ab8e-b4ee1a074174
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labPlans/testlabplan",
+        "name": "testlabplan",
+        "type": "Microsoft.LabServices/LabPlan",
+        "location": "westus",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Updating",
+          "defaultConnectionProfile": {
+            "webSshAccess": "None",
+            "webRdpAccess": "None",
+            "clientSshAccess": "Public",
+            "clientRdpAccess": "Public"
+          },
+          "defaultAutoShutdownProfile": {
+            "shutdownOnDisconnect": "Enabled",
+            "shutdownWhenNotConnected": "Enabled",
+            "shutdownOnIdle": "UserAbsence",
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
+          },
+          "defaultNetworkProfile": {
+            "subnetId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/default"
+          },
+          "sharedGalleryId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.Compute/galleries/testsig",
+          "supportInfo": {
+            "url": "help.contoso.com",
+            "email": "help@contoso.com",
+            "phone": "+1-202-555-0123",
+            "instructions": "Contact support for help."
+          }
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Lab Services service - Updates a Lab Plan resource.
+
+    Operation to update a Lab Plan resource.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.extendedlocation.customlocations.createorupdate
 name: Create Or Update
 service: Extended Location
 groupName: Custom Locations
-apiVersion: 2021-08-15
+apiVersion: 2021-08-31-preview
 summary: Creates or updates a Custom Location in the specified Subscription and Resource Group
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}?api-version=2021-08-15
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ExtendedLocation/customLocations/{resourceName}?api-version=2021-08-31-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -327,7 +327,7 @@ definitions:
 examples:
 - name: Create/Update Custom Location
   request:
-    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01?api-version=2021-08-15
+    uri: PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01?api-version=2021-08-31-preview
     body: >-
       {
         "location": "West US",
@@ -347,6 +347,172 @@ examples:
           "type": "SystemAssigned"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ExtendedLocation/customLocations/customLocation01?api-version=2021-08-31-preview
+
+      {
+        "location": "West US",
+        "properties": {
+          "hostResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01",
+          "namespace": "namespace01",
+          "displayName": "customLocationLocation01",
+          "clusterExtensionIds": [
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedCluster/someCluster/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension"
+          ],
+          "authentication": {
+            "type": "KubeConfig",
+            "value": "<base64 KubeConfig>"
+          }
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.extendedlocation.models.CustomLocationPropertiesAuthentication;
+      import com.azure.resourcemanager.extendedlocation.models.Identity;
+      import com.azure.resourcemanager.extendedlocation.models.ResourceIdentityType;
+      import java.util.Arrays;
+
+      /** Samples for CustomLocations CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
+           */
+          /**
+           * Sample code: Create/Update Custom Location.
+           *
+           * @param manager Entry point to CustomLocationsManager.
+           */
+          public static void createUpdateCustomLocation(
+              com.azure.resourcemanager.extendedlocation.CustomLocationsManager manager) {
+              manager
+                  .customLocations()
+                  .define("customLocation01")
+                  .withRegion("West US")
+                  .withExistingResourceGroup("testresourcegroup")
+                  .withIdentity(new Identity().withType(ResourceIdentityType.SYSTEM_ASSIGNED))
+                  .withAuthentication(
+                      new CustomLocationPropertiesAuthentication().withType("KubeConfig").withValue("<base64 KubeConfig>"))
+                  .withClusterExtensionIds(
+                      Arrays
+                          .asList(
+                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedCluster/someCluster/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension"))
+                  .withDisplayName("customLocationLocation01")
+                  .withHostResourceId(
+                      "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01")
+                  .withNamespace("namespace01")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/azure-resourcemanager-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armextendedlocation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/extendedlocation/armextendedlocation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
+      func ExampleCustomLocationsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armextendedlocation.NewCustomLocationsClient("11111111-2222-3333-4444-555555555555", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testresourcegroup",
+      		"customLocation01",
+      		armextendedlocation.CustomLocation{
+      			Location: to.Ptr("West US"),
+      			Identity: &armextendedlocation.Identity{
+      				Type: to.Ptr(armextendedlocation.ResourceIdentityTypeSystemAssigned),
+      			},
+      			Properties: &armextendedlocation.CustomLocationProperties{
+      				Authentication: &armextendedlocation.CustomLocationPropertiesAuthentication{
+      					Type:  to.Ptr("KubeConfig"),
+      					Value: to.Ptr("<base64 KubeConfig>"),
+      				},
+      				ClusterExtensionIDs: []*string{
+      					to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedCluster/someCluster/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension")},
+      				DisplayName:    to.Ptr("customLocationLocation01"),
+      				HostResourceID: to.Ptr("/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01"),
+      				Namespace:      to.Ptr("namespace01"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fextendedlocation%2Farmextendedlocation%2Fv1.1.0-beta.1/sdk/resourcemanager/extendedlocation/armextendedlocation/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CustomLocationsManagementClient } = require("@azure/arm-extendedlocation");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Custom Location in the specified Subscription and Resource Group
+       *
+       * @summary Creates or updates a Custom Location in the specified Subscription and Resource Group
+       * x-ms-original-file: specification/extendedlocation/resource-manager/Microsoft.ExtendedLocation/preview/2021-08-31-preview/examples/CustomLocationsCreate_Update.json
+       */
+      async function createOrUpdateCustomLocation() {
+        const subscriptionId = "11111111-2222-3333-4444-555555555555";
+        const resourceGroupName = "testresourcegroup";
+        const resourceName = "customLocation01";
+        const parameters = {
+          authentication: { type: "KubeConfig", value: "<base64 KubeConfig>" },
+          clusterExtensionIds: [
+            "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kubernetes/connectedCluster/someCluster/Microsoft.KubernetesConfiguration/clusterExtensions/fooExtension",
+          ],
+          displayName: "customLocationLocation01",
+          hostResourceId:
+            "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/testresourcegroup/providers/Microsoft.ContainerService/managedClusters/cluster01",
+          identity: { type: "SystemAssigned" },
+          location: "West US",
+          namespace: "namespace01",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CustomLocationsManagementClient(credential, subscriptionId);
+        const result = await client.customLocations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          resourceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateCustomLocation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-extendedlocation_1.0.0-beta.2/sdk/extendedlocation/arm-extendedlocation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -400,11 +566,6 @@ examples:
             "type": "KubeConfig"
           }
         },
-        "identity": {
-          "type": "SystemAssigned",
-          "principalId": "11111111-1111-1111-1111-111111111111",
-          "tenantId": "111111-1111-1111-1111-111111111111"
-        },
         "systemData": {
           "createdBy": "string",
           "createdByType": "Application",
@@ -424,5 +585,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Extended Location service - Creates or updates a Custom Location in the specified Subscription and Resource Group
+  description: >
+    Learn more about Extended Location service - Creates or updates a Custom Location in the specified Subscription and Resource Group
 errorCodes: []

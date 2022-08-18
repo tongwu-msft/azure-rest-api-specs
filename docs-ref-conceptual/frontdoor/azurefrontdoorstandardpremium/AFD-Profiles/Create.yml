@@ -1,0 +1,415 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cdn.profiles.create1
+name: Create
+service: CDN
+groupName: Profiles
+apiVersion: 2021-06-01
+summary: Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium or CDN profile which is unique within the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: Profile
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new profile has been created.
+  types:
+  - uid: Profile
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously.
+  types:
+  - uid: Profile
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: sku
+    in: body
+    isRequired: true
+    description: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile.
+    types:
+    - uid: Sku
+  - name: properties.originResponseTimeoutSeconds
+    in: body
+    description: Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
+  - name: location
+    in: body
+    isRequired: true
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: Sku
+  description: >
+    Standard_Verizon = The SKU name for a Standard Verizon CDN profile.
+
+    Premium_Verizon = The SKU name for a Premium Verizon CDN profile.
+
+    Custom_Verizon = The SKU name for a Custom Verizon CDN profile.
+
+    Standard_Akamai = The SKU name for an Akamai CDN profile.
+
+    Standard_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using GB based billing model.
+
+    Standard_Microsoft = The SKU name for a Standard Microsoft CDN profile.
+
+    Standard_AzureFrontDoor =  The SKU name for an Azure Front Door Standard profile.
+
+    Premium_AzureFrontDoor = The SKU name for an Azure Front Door Premium profile.
+
+    Standard_955BandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using 95-5 peak bandwidth billing model.
+
+    Standard_AvgBandWidth_ChinaCdn = The SKU name for a China CDN profile for VOD, Web and download scenarios using monthly average peak bandwidth billing model.
+
+    StandardPlus_ChinaCdn = The SKU name for a China CDN profile for live-streaming using GB based billing model.
+
+    StandardPlus_955BandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using 95-5 peak bandwidth billing model.
+
+    StandardPlus_AvgBandWidth_ChinaCdn = The SKU name for a China CDN live-streaming profile using monthly average peak bandwidth billing model.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the pricing tier.
+    types:
+    - uid: SkuName
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Profile
+  description: A profile is a logical grouping of endpoints that share the same settings.
+  kind: object
+  properties:
+  - name: sku
+    description: The pricing tier (defines Azure Front Door Standard or Premium or a CDN provider, feature list and rate) of the profile.
+    types:
+    - uid: Sku
+  - name: kind
+    isReadyOnly: true
+    description: Kind of the profile. Used by portal to differentiate traditional CDN profile and new AFD profile.
+    types:
+    - uid: string
+  - name: properties.resourceState
+    isReadyOnly: true
+    description: Resource status of the profile.
+    types:
+    - uid: ProfileResourceState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status of the profile.
+    types:
+    - uid: string
+  - name: properties.frontDoorId
+    isReadyOnly: true
+    description: The Id of the frontdoor.
+    types:
+    - uid: string
+  - name: properties.originResponseTimeoutSeconds
+    description: Send and receive timeout on forwarding request to the origin. When timeout is reached, the request fails and returns.
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: SkuName
+  description: Name of the pricing tier.
+  kind: enum
+  properties:
+  - name: Standard_Verizon
+    types:
+    - uid: string
+  - name: Premium_Verizon
+    types:
+    - uid: string
+  - name: Custom_Verizon
+    types:
+    - uid: string
+  - name: Standard_Akamai
+    types:
+    - uid: string
+  - name: Standard_ChinaCdn
+    types:
+    - uid: string
+  - name: Standard_Microsoft
+    types:
+    - uid: string
+  - name: Standard_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Premium_AzureFrontDoor
+    types:
+    - uid: string
+  - name: Standard_955BandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: Standard_AvgBandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_955BandWidth_ChinaCdn
+    types:
+    - uid: string
+  - name: StandardPlus_AvgBandWidth_ChinaCdn
+    types:
+    - uid: string
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: ProfileResourceState
+  description: Resource status of the profile.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Active
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Profiles_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1?api-version=2021-06-01
+    body: >-
+      {
+        "location": "WestCentralUs",
+        "sku": {
+          "name": "Premium_AzureFrontDoor"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "profile1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
+        "type": "Microsoft.Cdn/profiles",
+        "tags": {},
+        "location": "WestCentralUs",
+        "sku": {
+          "name": "Premium_AzureFrontDoor"
+        },
+        "kind": "frontdoor",
+        "properties": {
+          "provisioningState": "Creating",
+          "resourceState": "Creating"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "profile1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
+        "type": "Microsoft.Cdn/profiles",
+        "tags": {},
+        "location": "WestCentralUs",
+        "sku": {
+          "name": "Premium_AzureFrontDoor"
+        },
+        "kind": "frontdoor",
+        "properties": {
+          "provisioningState": "Creating",
+          "resourceState": "Creating"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "profile1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1",
+        "type": "Microsoft.Cdn/profiles",
+        "tags": {},
+        "location": "WestCentralUs",
+        "sku": {
+          "name": "Premium_AzureFrontDoor"
+        },
+        "kind": "frontdoor",
+        "properties": {
+          "provisioningState": "Creating",
+          "resourceState": "Creating"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Creates a new Azure Front Door Standard or Azure Front Door Premium or CDN profile with a profile name under the specified subscription and resource group.
+errorCodes: []

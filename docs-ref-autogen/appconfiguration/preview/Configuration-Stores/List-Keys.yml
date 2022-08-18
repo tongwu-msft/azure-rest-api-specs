@@ -1,0 +1,208 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.preview.configurationstores.listkeys
+name: List Keys
+service: App Configuration
+groupName: Configuration Stores
+apiVersion: 2022-03-01-preview
+summary: Lists the access key for the specified configuration store.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys?api-version=2022-03-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/listKeys?api-version=2022-03-01-preview&$skipToken={$skipToken}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: configStoreName
+  in: path
+  isRequired: true
+  description: The name of the configuration store.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+- name: $skipToken
+  in: query
+  description: A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: ApiKeyListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ApiKeyListResult
+  description: The result of a request to list API keys.
+  kind: object
+  properties:
+  - name: value
+    description: The collection value.
+    types:
+    - uid: ApiKey
+      isArray: true
+  - name: nextLink
+    description: The URI that can be used to request the next set of paged results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ApiKey
+  description: An API key used for authenticating with a configuration store endpoint.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The key ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: A name for the key describing its usage.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: The value of the key that is used for authentication purposes.
+    types:
+    - uid: string
+  - name: connectionString
+    isReadyOnly: true
+    description: A connection string that can be used by supporting clients for authentication.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: The last time any of the key's properties were modified.
+    types:
+    - uid: string
+  - name: readOnly
+    isReadyOnly: true
+    description: Whether this key can only be used for read operations.
+    types:
+    - uid: boolean
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: ConfigurationStores_ListKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/listKeys?api-version=2022-03-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/listKeys?api-version=2022-03-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "439AD01B4BE67DB1",
+            "name": "Primary",
+            "value": "000000000000000000000000000000000000000000000000000000",
+            "connectionString": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "lastModified": "2018-04-24T16:30:54+00:00",
+            "readOnly": false
+          },
+          {
+            "id": "CB45E100456857B9",
+            "name": "Secondary",
+            "value": "000000000000000000000000000000000000000000000000000000",
+            "connectionString": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "lastModified": "2018-04-24T16:30:54+00:00",
+            "readOnly": false
+          },
+          {
+            "id": "B3AC55B7E71431A9",
+            "name": "Primary Read Only",
+            "value": "000000000000000000000000000000000000000000000000000000",
+            "connectionString": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "lastModified": "2018-04-24T16:30:54+00:00",
+            "readOnly": true
+          },
+          {
+            "id": "E2AF6A9A89DCC177",
+            "name": "Secondary Read Only",
+            "value": "000000000000000000000000000000000000000000000000000000",
+            "connectionString": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+            "lastModified": "2018-04-24T16:30:54+00:00",
+            "readOnly": true
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about App Configuration service - Lists the access key for the specified configuration store.
+errorCodes: []

@@ -1,6 +1,6 @@
 ---
-title: "Chaos"
-description: "Chaos"
+title: "Client Chaos APIs"
+description: Provides the names of and describes various Chaos APIs that can be used to affect the status of Chaos.
 ms.date: "10/21/2020"
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Chaos APIs
+# Client Chaos APIs
 
 | Name | Description |
 | --- | --- |

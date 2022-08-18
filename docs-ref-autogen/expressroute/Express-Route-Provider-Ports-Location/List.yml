@@ -1,0 +1,276 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.expressroute.expressrouteproviderportslocation.list
+name: List
+service: ExpressRoute
+groupName: Express Route Provider Ports Location
+apiVersion: 2022-01-01
+summary: Retrieves all the ExpressRouteProviderPorts in a subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/expressRouteProviderPorts?api-version=2022-01-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply on the operation. For example, you can use $filter=location eq '{state}'.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns a list of ExpressRouteProviderPort resources at a location. If there are no ports for the provider, an empty list is returned.
+  types:
+  - uid: ExpressRouteProviderPortListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ExpressRouteProviderPortListResult
+  description: Response for ListExpressRouteProviderPort API service call.
+  kind: object
+  properties:
+  - name: value
+    description: A list of ExpressRouteProviderPort resources.
+    types:
+    - uid: ExpressRouteProviderPort
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URL to get the next set of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ExpressRouteProviderPort
+  description: ExpressRouteProviderPort resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: properties.portPairDescriptor
+    isReadyOnly: true
+    description: The name of the port pair.
+    types:
+    - uid: string
+  - name: properties.primaryAzurePort
+    isReadyOnly: true
+    description: The name of the primary port.
+    types:
+    - uid: string
+  - name: properties.secondaryAzurePort
+    isReadyOnly: true
+    description: The name of the secondary port.
+    types:
+    - uid: string
+  - name: properties.peeringLocation
+    description: The peering location of the port pair.
+    types:
+    - uid: string
+  - name: properties.overprovisionFactor
+    description: Overprovisioning factor for the port pair.
+    types:
+    - uid: integer
+  - name: properties.portBandwidthInMbps
+    description: Bandwidth of the port in Mbps
+    types:
+    - uid: integer
+  - name: properties.usedBandwidthInMbps
+    description: Used Bandwidth of the port in Mbps
+    types:
+    - uid: integer
+  - name: properties.remainingBandwidthInMbps
+    description: Remaining Bandwidth of the port in Mbps
+    types:
+    - uid: integer
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: ExpressRouteProviderPortList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteProviderPorts?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/expressRouteProviderPorts?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/expressRouteProviderPortList.json
+      func ExampleExpressRouteProviderPortsLocationClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewExpressRouteProviderPortsLocationClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx, &armnetwork.ExpressRouteProviderPortsLocationClientListOptions{Filter: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves all the ExpressRouteProviderPorts in a subscription.
+       *
+       * @summary Retrieves all the ExpressRouteProviderPorts in a subscription.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/expressRouteProviderPortList.json
+       */
+      async function expressRouteProviderPortList() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.expressRouteProviderPortsLocation.list();
+        console.log(result);
+      }
+
+      expressRouteProviderPortList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Network/ExpressRoutePortsLocations/SiliconValley/bvtazureixpportpair1",
+            "type": "Microsoft.Network/expressRouteProviderPort",
+            "location": "uswest",
+            "etag": "W/\"c0e6477e-8150-4d4f-9bf6-bb10e6acb63a\"",
+            "properties": {
+              "portPairDescriptor": "bvtazureixpportpair1",
+              "primaryAzurePort": "bvtazureixp01",
+              "secondaryAzurePort": "bvtazureixp01",
+              "peeringLocation": "SiliconValley",
+              "overprovisionFactor": 4,
+              "portBandwidthInMbps": 4000,
+              "usedBandwidthInMbps": 2500,
+              "remainingBandwidthInMbps": 1500
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.Network/ExpressRoutePortsLocations/SiliconValley/bvtazureixpportpair2",
+            "type": "Microsoft.Network/expressRouteProviderPort",
+            "location": "uswest",
+            "etag": "W/\"c0e6477e-8150-4d4f-9bf6-bb10e6acb63a\"",
+            "properties": {
+              "portPairDescriptor": "bvtazureixpportpair2",
+              "primaryAzurePort": "bvtazureixp02",
+              "secondaryAzurePort": "bvtazureixp02",
+              "peeringLocation": "seattle",
+              "overprovisionFactor": 4,
+              "portBandwidthInMbps": 4000,
+              "usedBandwidthInMbps": 1200,
+              "remainingBandwidthInMbps": 1800
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about ExpressRoute service - Retrieves all the ExpressRouteProviderPorts in a subscription.
+errorCodes: []

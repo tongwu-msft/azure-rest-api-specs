@@ -1,5 +1,6 @@
 ---
 title: "Send partition event"
+description: Learn how the Send Partition Event operation sends a new event to a specified partition in an Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

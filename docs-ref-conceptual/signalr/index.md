@@ -1,6 +1,7 @@
 ---
 ms.assetid: 06ef3626-943b-4114-972e-aedb0d1f3a35
 title: Azure SignalR Service REST API | Microsoft Docs
+description: "Azure SignalR Service REST API is a fully-managed service that allows developers to focus on building real-time web experience. REST Operation Groups include Operations and SignalR."
 author: juniwang
 ms.author: juniwang
 ms.date: 09/28/2018
@@ -23,4 +24,4 @@ Azure SignalR Service is a fully-managed service that allows developers to focus
 
 ## See also
 
-- [Azure SignalR Service documentation](https://docs.microsoft.com/azure/azure-signalr/signalr-overview)
+- [Azure SignalR Service documentation](/azure/azure-signalr/signalr-overview)

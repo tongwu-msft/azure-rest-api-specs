@@ -1,8 +1,8 @@
 ---
 title: "OperationResult"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe the list of operations available at the listed Azure resource provider and provides the available properties for the operation results.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

@@ -1,7 +1,8 @@
 ---
 title: "Azure Mixed Reality Resource Management REST API Reference"
+description: Learn how Microsoft provides a series of Azure services to empower Mixed Reality devices and applications.
 ms.date: "04/15/2019"
-ms.service: "mixed-reality"
+ms.service: azure
 ms.topic: "reference"
 ms.assetid: 169BB708-1C45-4E21-98D2-8779717CC7A2
 caps.latest.revision: 01
@@ -42,7 +43,7 @@ The following table lists the supported REST API versions by the Azure Mixed Rea
 ## Azure Mixed Reality Resources
 The following articles describe the supported REST APIs for each resource type.
 
-* [Spatial Anchors Accounts](xref:management.azure.com.mixedreality.spatialanchorsaccounts)
+* [Spatial Anchors Accounts](xref:management.azure.com.mixedreality.2021-01-01.spatialanchorsaccounts)
 
 ## See Also
 * [Azure Mixed Reality](https://azure.microsoft.com/topic/mixed-reality/)

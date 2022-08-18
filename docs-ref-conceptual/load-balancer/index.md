@@ -1,5 +1,6 @@
 ---
 title: Load Balancers REST API | Microsoft Docs
+description: Learn how Load balancer allows fine-grained configuration of how incoming traffic is distributed across VM instances hosted in Microsoft Azure.
 ms.date: 08/09/2017
 ms.service: load-balancer
 ms.topic: reference

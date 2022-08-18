@@ -1,5 +1,6 @@
 ---
-title: "DiagnosticsStorageAccountConfig"
+title: "DiagnosticsStorageAccountConfig information model"
+description: "Learn about DiagnosticsStorageAccountConfig information that is the storage account information for storing Service Fabric diagnostic logs." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# DiagnosticsStorageAccountConfig
+# DiagnosticsStorageAccountConfig model
 
 The storage account information for storing Service Fabric diagnostic logs.
 

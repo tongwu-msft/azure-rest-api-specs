@@ -3,14 +3,14 @@ title: Set Directory Properties (FilesREST API) - Azure Files
 description: The Set Directory Properties operation sets system properties for the directory.
 author: wmgries
 
-ms.date: 06/05/2021
+ms.date: 07/22/2022
 ms.service: storage
 ms.topic: reference
 ms.author: wgries
 ---
 
 # Set Directory Properties
-The `Set Directory Properties` operation sets system properties for the directory. This API is available starting in version 2019-02-02.
+The `Set Directory Properties` operation sets system properties for the specified directory. This API is available starting in version 2019-02-02.
 
 ## Protocol availability
 
@@ -52,12 +52,13 @@ The following table describes required and optional request headers.
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-| `x-ms-file-permission` | Required if `x-ms-file-permission-key` is not specified. Version 2019-02-02 and newer. This permission is the security descriptor for the file specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). A value of `preserve` may be passed to keep an existing value unchanged.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-permission-key` | Required if `x-ms-file-permission` is not specified. Version 2019-02-02 and newer. The key of the permission to be set for the file. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. |
-| `x-ms-file-attributes` | Required. Version 2019-02-02 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). A value of `preserve` may be passed to keep an existing value unchanged. |
-| `x-ms-file-creation-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) creation time property for a file. A value of `preserve` may be passed to keep an existing value unchanged. |
-| `x-ms-file-last-write-time` | Required. Version 2019-02-02 and newer. The Coordinated Universal Time (UTC) last write property for a file. A value of `preserve` may be passed to keep an existing value unchanged. |
+| `x-ms-file-permission: { preserve ¦ <SDDL> }` | In versions 2019-02-02 to 2021-04-10, this header is required if `x-ms-file-permission-key` is not specified. Starting in version 2021-06-08, both headers are optional. This permission is the security descriptor for the directory specified in the [Security Descriptor Definition Language (SDDL)](/windows/win32/secauthz/security-descriptor-definition-language). This header can be used if the permissions size is over 8 KiB, otherwise the `x-ms-file-permission-key` may be used. If specified, it must have an owner, group, and [discretionary access control list (DACL)](/windows/win32/secauthz/access-control-lists). A value of `preserve` may be passed to keep an existing value unchanged.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. If neither header is specified, the default value of `preserve` is used for the `x-ms-file-permission` header. |
+| `x-ms-file-permission-key: <PermissionKey>` | In versions 2019-02-02 to 2021-04-10, this header is required if `x-ms-file-permission` is not specified. Starting in version 2021-06-08, both headers are optional. The key of the permission to be set for the file. This can be created using the `Create-Permission` API.<br /><br />Note that only one of `x-ms-file-permission` or `x-ms-file-permission-key` can be specified. If neither header is specified, the default value of `preserve` is used for the `x-ms-file-permission` header. |
+| `x-ms-file-attributes: { preserve ¦ <FileAttributeList> }` | Required, version 2019-02-02 to 2021-04-10. Optional, version 2021-06-08 and newer. The file system attributes to be set on the file. See the list of [available attributes](#file-system-attributes). A value of `preserve` may be passed to keep an existing value unchanged. The default value is `preserve`. |
+| `x-ms-file-creation-time: { preserve ¦ <DateTime> }` | Required, version 2019-02-02 to 2021-04-10. Optional, version 2021-06-08 and newer. The Coordinated Universal Time (UTC) creation time property for a directory. A value of `preserve` may be passed to keep an existing value unchanged. The default value is `preserve`. |
+| `x-ms-file-last-write-time: { preserve ¦ <DateTime> }` | Required, version 2019-02-02 to 2021-04-10. Optional, version 2021-06-08 and newer. The Coordinated Universal Time (UTC) last write property for a directory. A value of `preserve` may be passed to keep an existing value unchanged. The default value is `preserve`. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [Monitoring Azure Blob storage](/azure/storage/blobs/monitor-blob-storage).|
+| `x-ms-file-change-time: { now ¦ <DateTime> }` | Optional. Version 2021-06-08 and newer. The Coordinated Universal Time (UTC) change time property for the directory, formatted in the ISO 8601 format. A value of `now` may be used to indicate the time of the request. The default value is `now`. |
   
 ### Request body
 None.
@@ -94,7 +95,7 @@ None.
 ## Authorization
 Only the account owner may call this operation.  
 
-#### File system attributes
+## File system attributes
 | Attribute | Win32 file attribute | Definition |
 |-----------|----------------------|------------|
 | ReadOnly | FILE_ATTRIBUTE_READONLY | A directory that is read-only. |
@@ -109,6 +110,8 @@ Only the account owner may call this operation.
   
 ## Remarks
 `Set Directory Properties` is not supported on a share snapshot, which is a read-only copy of a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue).
+
+Properties that are set on a directory with `Set Directory Properties` do not propagate to any subdirectories beneath that directory. You must call `Set Directory Properties` for each directory for which you want to update properties.
 
 ## See also
 [Operations on Directories](Operations-on-Directories.md)

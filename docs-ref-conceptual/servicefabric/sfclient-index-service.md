@@ -1,7 +1,7 @@
 ---
 title: "Service"
 description: "Service"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -44,4 +44,5 @@ translation.priority.mt:
 | [Report Service Health](sfclient-api-reportservicehealth.md) | Sends a health report on the Service Fabric service.<br/> |
 | [Resolve Service](sfclient-api-resolveservice.md) | Resolve a Service Fabric partition.<br/> |
 | [Get Unplaced Replica Information](sfclient-api-getunplacedreplicainformation.md) | Gets the information about unplaced replica of the service.<br/> |
+| [Update Service Arm Metadata](sfclient-api-updateservicearmmetadata.md) | Updates the Arm Metadata for a specific service.<br/> |
 

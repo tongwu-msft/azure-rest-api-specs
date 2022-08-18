@@ -1,0 +1,216 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.devices.list
+name: List
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-06-30-preview
+summary: Get the list of devices in an application with basic ODATA support ($top, $filter, $orderby), [more details](https://aka.ms/iotcentralodatasupport).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/devices?api-version=2022-06-30-preview
+- content: GET https://{subdomain}.{baseDomain}/api/devices?api-version=2022-06-30-preview&$filter={$filter}&$top={$top}&$orderby={$orderby}
+  isOptional: true
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An expression on the resource type that selects the resources to be returned.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of resources to return from the collection.
+  types:
+  - uid: integer
+- name: $orderby
+  in: query
+  description: An expression that specify the order of the returned resources.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: DeviceCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: DeviceCollection
+  description: The paged results of devices.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of devices.
+    types:
+    - uid: Device
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of devices.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: Device
+  description: The device definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the device.
+    types:
+    - uid: string
+  - name: etag
+    description: ETag used to prevent conflict in device updates.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device.
+    types:
+    - uid: string
+  - name: template
+    description: The device template definition for the device.
+    types:
+    - uid: string
+  - name: enabled
+    description: Whether the device connection to IoT Central has been enabled.
+    types:
+    - uid: boolean
+  - name: provisioned
+    isReadyOnly: true
+    description: Whether resources have been allocated for the device.
+    types:
+    - uid: boolean
+  - name: simulated
+    description: Whether the device is simulated.
+    types:
+    - uid: boolean
+  - name: organizations
+    description: List of organization IDs that the device is a part of, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: List devices
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/devices?api-version=2022-06-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/devices?api-version=2022-06-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "CheckoutThermostat",
+            "etag": "eyJoZWFkZXIiOiJcIjAyMDA4YzMyLTAwMDAtMGQwMC0wMDAwLTVkOTY4YjdhMDAwMFwiIn0",
+            "displayName": "CheckoutThermostat",
+            "template": "dtmi:contoso:testDeviceTemplate;1",
+            "simulated": true,
+            "provisioned": true,
+            "enabled": true,
+            "organizations": [
+              "seattle"
+            ]
+          },
+          {
+            "id": "Checkout1",
+            "etag": "eyJoZWFkZXIiOiJcIjAyMDA4ZDMyLTAwMDAtMGQwMC0wMDAwLTVkOTY4Yjg3MDAwMFwiIn0",
+            "displayName": "Checkout1",
+            "template": "dtmi:contoso:testDeviceTemplate;1",
+            "simulated": true,
+            "provisioned": true,
+            "enabled": true,
+            "organizations": [
+              "seattle"
+            ]
+          },
+          {
+            "id": "Checkout2",
+            "etag": "eyJoZWFkZXIiOiJcIjAyMDA5MDMyLTAwMDAtMGQwMC0wMDAwLTVkOTY4Yjg3MDAwMFwiIn0",
+            "displayName": "Checkout2",
+            "template": "dtmi:contoso:testDeviceTemplate;1",
+            "simulated": true,
+            "provisioned": true,
+            "enabled": true
+          },
+          {
+            "id": "Checkout3",
+            "etag": "eyJoZWFkZXIiOiJcIjAyMDA4ZTMyLTAwMDAtMGQwMC0wMDAwLTVkOTY4Yjg3MDAwMFwiIn0",
+            "displayName": "Checkout3",
+            "template": "dtmi:contoso:testDeviceTemplate;1",
+            "simulated": true,
+            "provisioned": true,
+            "enabled": true
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Get the list of devices in an application with basic ODATA support ($top, $filter, $orderby), more details.
+errorCodes: []

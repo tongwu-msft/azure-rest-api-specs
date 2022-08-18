@@ -1,5 +1,6 @@
 ﻿---
 title: "Common concepts"
+description: Learn about common concepts when developing applications that use the Azure Notification Hubs REST API.
 ms.custom: ""
 ms.date: 01/30/2020
 ms.reviewer: ""

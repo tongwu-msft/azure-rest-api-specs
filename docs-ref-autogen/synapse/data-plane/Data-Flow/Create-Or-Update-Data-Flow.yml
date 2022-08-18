@@ -248,6 +248,10 @@ definitions:
     description: Schema linked service reference.
     types:
     - uid: LinkedServiceReference
+  - name: rejectedDataLinkedService
+    description: Rejected data linked service reference.
+    types:
+    - uid: LinkedServiceReference
   - name: flowlet
     description: Flowlet Reference
     types:
@@ -423,6 +427,55 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/dataflows/exampleDataFlow?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "type": "MappingDataFlow",
+          "typeProperties": {
+            "sources": [
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetUSD",
+                  "type": "DatasetReference"
+                },
+                "name": "USDCurrency"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetCAD",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSource"
+              }
+            ],
+            "sinks": [
+              {
+                "dataset": {
+                  "referenceName": "USDOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "USDSink"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CADOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSink"
+              }
+            ],
+            "script": "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -528,6 +581,55 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/dataflows/exampleDataFlow?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "Sample demo data flow to convert currencies showing usage of union, derive and conditional split transformation.",
+          "type": "MappingDataFlow",
+          "typeProperties": {
+            "sources": [
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetUSD",
+                  "type": "DatasetReference"
+                },
+                "name": "USDCurrency"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CurrencyDatasetCAD",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSource"
+              }
+            ],
+            "sinks": [
+              {
+                "dataset": {
+                  "referenceName": "USDOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "USDSink"
+              },
+              {
+                "dataset": {
+                  "referenceName": "CADOutput",
+                  "type": "DatasetReference"
+                },
+                "name": "CADSink"
+              }
+            ],
+            "script": "source(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: false,validateSchema: false) ~> USDCurrency\nsource(output(PreviousConversionRate as double,Country as string,DateTime1 as string,CurrentConversionRate as double),allowSchemaDrift: true,validateSchema: false) ~> CADSource\nUSDCurrency, CADSource union(byName: true)~> Union\nUnion derive(NewCurrencyRate = round(CurrentConversionRate*1.25)) ~> NewCurrencyColumn\nNewCurrencyColumn split(Country == 'USD',Country == 'CAD',disjoint: false) ~> ConditionalSplit1@(USD, CAD)\nConditionalSplit1@USD sink(saveMode:'overwrite' ) ~> USDSink\nConditionalSplit1@CAD sink(saveMode:'overwrite' ) ~> CADSink"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -590,5 +692,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Creates or updates a data flow.
+  description: >
+    Learn more about Synapse service - Creates or updates a data flow.
 errorCodes: []

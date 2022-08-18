@@ -4,7 +4,7 @@ description: Learn which REST APIs are used to obtain information about your Azu
 ms.date: 01/18/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

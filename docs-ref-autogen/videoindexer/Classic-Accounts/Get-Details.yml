@@ -1,0 +1,221 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.videoindexer.classicaccounts.getdetails
+name: Get Details
+service: Azure Video Indexer
+groupName: Classic Accounts
+apiVersion: 2022-04-13-preview
+summary: Gets the properties of an Azure Video Indexer Classic account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/{location}/classicAccounts/{accountName}?api-version=2022-04-13-preview
+uriParameters:
+- name: location
+  in: path
+  isRequired: true
+  description: The name of Azure region.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the Azure Video Indexer account.
+  types:
+  - uid: string
+  pattern: ^[A-Za-z0-9-]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Azure Video Indexer account properties were retrieved successfully.
+  types:
+  - uid: ClassicAccount
+- name: 400 Bad Request
+  description: Bad Request.
+  types:
+  - uid: ErrorResponse
+- name: 401 Unauthorized
+  description: User Not Allowed
+  types:
+  - uid: ErrorResponse
+- name: 404 Not Found
+  description: Not Found
+  types:
+  - uid: ErrorResponse
+- name: 500 Internal Server Error
+  description: Internal Server Error
+  types:
+  - uid: ErrorResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ClassicAccount
+  description: An Azure Video Indexer classic account.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: The account's name
+    types:
+    - uid: string
+  - name: location
+    description: The account's location
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The account's id
+    types:
+    - uid: string
+  - name: properties.mediaServices
+    description: The media services details
+    types:
+    - uid: ClassicAccountMediaServices
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: ClassicAccountMediaServices
+  description: Azure Video Indexer classic account properties
+  kind: object
+  properties:
+  - name: aadApplicationId
+    description: The aad application id
+    types:
+    - uid: string
+  - name: aadTenantId
+    description: The aad tenant id
+    types:
+    - uid: string
+  - name: connected
+    description: Represents wether the media services is connected or not
+    types:
+    - uid: boolean
+  - name: eventGridProviderRegistered
+    description: Represents if the media services event grid is connected or not
+    types:
+    - uid: boolean
+  - name: name
+    description: The media services name
+    types:
+    - uid: string
+  - name: resourceGroup
+    description: The resource group that the media services belong to
+    types:
+    - uid: string
+  - name: streamingEndpointStarted
+    description: Represents wether the media services streaming endpoint has started
+    types:
+    - uid: boolean
+  - name: subscriptionId
+    description: The media services subscriptionId
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service specific error code which serves as the substatus for the HTTP error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: Internal error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+examples:
+- name: Get account
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/NorthEurope/classicAccounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.VideoIndexer/locations/NorthEurope/classicAccounts/contosto-videoanalyzer?api-version=2022-04-13-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "contosto-videoanalyzer",
+        "location": "NorthEurope",
+        "id": "462af7c5-d1f6-4b91-86e3-8bc5e8a61574",
+        "properties": {
+          "mediaServices": {
+            "aadApplicationId": "912f96dc-1ed3-4d7d-aa67-0adef4bb68ad",
+            "aadTenantId": "72f988bf-86f1-41ag-91ab-2d7cd061db47",
+            "connected": true,
+            "eventGridProviderRegistered": true,
+            "name": "contosoVideoanalyzerMediaServices",
+            "resourceGroup": "contoso-videoanalyzer-rg",
+            "streamingEndpointStarted": false,
+            "subscriptionId": "586d4f48-8f08-4a4e-96b7-e1892d6dba9e"
+          }
+        }
+      }
+  - statusCode: "400"
+    body: >-
+      {
+        "error": {
+          "code": "INVALID_INPUT",
+          "message": "AccountName is empty"
+        }
+      }
+  - statusCode: "401"
+    body: >-
+      {
+        "error": {
+          "code": "USER_NOT_ALLOWED",
+          "message": "User is not account owner for account - contoso-videoanalyzer"
+        }
+      }
+  - statusCode: "404"
+    body: >-
+      {
+        "error": {
+          "code": "ACCOUNT_NOT_FOUND",
+          "message": "Classic account not found or has been deleted and is pending deletion has been deleted and is pending deletion - contoso-videoanalyzer"
+        }
+      }
+  - statusCode: "500"
+    body: >-
+      {
+        "error": {
+          "code": "GENERAL",
+          "message": "Trace id: '9677927b-ae6b-496g-1df8-9ec3048b4bf2'."
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Video Indexer service - Gets the properties of an Azure Video Indexer Classic account.
+errorCodes: []

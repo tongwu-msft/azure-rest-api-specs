@@ -3,14 +3,14 @@ uid: management.azure.com.storagerp.fileservices.getserviceproperties
 name: Get Service Properties
 service: Storage Resource Provider
 groupName: File Services
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/fileServices/default?api-version=2021-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -36,7 +36,7 @@ uriParameters:
   isRequired: true
   description: The name of the file Service within the specified storage account. File Service Name must be "default"
   types:
-  - uid: string
+  - uid: FileServicesName
 - name: api-version
   in: query
   isRequired: true
@@ -54,6 +54,13 @@ responses:
   - uid: CloudError
 requestHeader: []
 definitions:
+- name: FileServicesName
+  description: The name of the file Service within the specified storage account. File Service Name must be "default"
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
 - name: FileServiceProperties
   description: The properties of File services in storage account.
   kind: object
@@ -132,6 +139,10 @@ definitions:
     description: Indicates the number of days that the deleted item should be retained. The minimum specified value can be 1 and the maximum value can be 365.
     types:
     - uid: integer
+  - name: allowPermanentDelete
+    description: This property when set to true allows deletion of the soft deleted blob versions and snapshots. This property cannot be used blob restore policy. This property only applies to blob service and does not apply to containers or file share.
+    types:
+    - uid: boolean
 - name: ProtocolSettings
   description: Protocol settings for file service
   kind: object
@@ -262,7 +273,100 @@ definitions:
 examples:
 - name: GetFileServices
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4410/providers/Microsoft.Storage/storageAccounts/sto8607/fileServices/default?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4410/providers/Microsoft.Storage/storageAccounts/sto8607/fileServices/default?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res4410/providers/Microsoft.Storage/storageAccounts/sto8607/fileServices/default?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for FileServices GetServiceProperties. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/FileServicesGet.json
+           */
+          /**
+           * Sample code: GetFileServices.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getFileServices(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getFileServices()
+                  .getServicePropertiesWithResponse("res4410", "sto8607", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/FileServicesGet.json
+      func ExampleFileServicesClient_GetServiceProperties() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewFileServicesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetServiceProperties(ctx,
+      		"res4410",
+      		"sto8607",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
+       *
+       * @summary Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/FileServicesGet.json
+       */
+      async function getFileServices() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res4410";
+        const accountName = "sto8607";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.fileServices.getServiceProperties(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      getFileServices().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -348,5 +452,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
+  description: >
+    Gets the properties of file services in storage accounts, including CORS (Cross-Origin Resource Sharing) rules.
 errorCodes: []

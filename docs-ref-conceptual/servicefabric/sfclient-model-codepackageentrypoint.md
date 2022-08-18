@@ -1,7 +1,7 @@
 ---
 title: "CodePackageEntryPoint"
 description: "CodePackageEntryPoint"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -41,6 +41,7 @@ Information about setup or main entry point of a code package deployed on a Serv
 | [`Status`](#status) | string (enum) | No |
 | [`NextActivationTime`](#nextactivationtime) | string (date-time) | No |
 | [`InstanceId`](#instanceid) | string | No |
+| [`ContainerId`](#containerid) | string | No |
 
 ____
 ### `EntryPointLocation`
@@ -103,3 +104,10 @@ __Type__: string <br/>
 __Required__: No<br/>
 <br/>
 The instance ID for current running entry point. For a code package setup entry point (if specified) runs first and after it finishes main entry point is started. Each time entry point executable is run, its instance id will change.
+
+____
+### `ContainerId`
+__Type__: string <br/>
+__Required__: No<br/>
+<br/>
+The container ID of the entry point. Only valid for container hosts.

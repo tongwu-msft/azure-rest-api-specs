@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.dataconnectorscheckrequiremen
 name: Post
 service: Sentinel
 groupName: Data Connectors Check Requirements
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Get requirements state for a data connector type.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -289,6 +289,21 @@ requestBody:
     description: The tenant id to connect to, and get the data from.
     types:
     - uid: string
+- name: IoTCheckRequirements
+  description: Represents IoT requirements check request.
+  parameters:
+  - name: properties.subscriptionId
+    in: body
+    description: The subscription id to connect to, and get the data from.
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    isRequired: true
+    description: Describes the kind of connector to be checked.
+    types:
+    - uid: IOT
+    typesTitle: string
 requestHeader: []
 definitions:
 - name: AADCheckRequirements
@@ -491,6 +506,19 @@ definitions:
     description: The tenant id to connect to, and get the data from.
     types:
     - uid: string
+- name: IoTCheckRequirements
+  description: Represents IoT requirements check request.
+  kind: object
+  properties:
+  - name: properties.subscriptionId
+    description: The subscription id to connect to, and get the data from.
+    types:
+    - uid: string
+  - name: kind
+    description: Describes the kind of connector to be checked.
+    types:
+    - uid: IOT
+    typesTitle: string
 - name: DataConnectorRequirementsState
   description: Data connector requirements status.
   kind: object
@@ -572,6 +600,9 @@ definitions:
   - name: APIPolling
     types:
     - uid: string
+  - name: IOT
+    types:
+    - uid: string
 - name: DataConnectorAuthorizationState
   description: Describes the state of user's authorization for a connector kind.
   kind: enum
@@ -612,7 +643,7 @@ definitions:
 examples:
 - name: Check requirements for TI.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "ThreatIntelligence",
@@ -620,6 +651,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "ThreatIntelligence",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligence.json
+       */
+      async function checkRequirementsForTi() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "ThreatIntelligence",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForTi().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -629,7 +707,7 @@ examples:
       }
 - name: Check requirements for TI Taxii.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "ThreatIntelligenceTaxii",
@@ -637,6 +715,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "ThreatIntelligenceTaxii",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsThreatIntelligenceTaxii.json
+       */
+      async function checkRequirementsForTiTaxii() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "ThreatIntelligenceTaxii",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForTiTaxii().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -646,7 +771,7 @@ examples:
       }
 - name: Check requirements for AAD.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "AzureActiveDirectory",
@@ -654,6 +779,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "AzureActiveDirectory",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectory.json
+       */
+      async function checkRequirementsForAad() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "AzureActiveDirectory",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForAad().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -663,7 +835,7 @@ examples:
       }
 - name: Check requirements for AAD - no license.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "AzureActiveDirectory",
@@ -671,6 +843,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "AzureActiveDirectory",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoLicense.json
+       */
+      async function checkRequirementsForAadNoLicense() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "AzureActiveDirectory",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForAadNoLicense().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -680,7 +899,7 @@ examples:
       }
 - name: Check requirements for AAD - no authorization.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "AzureActiveDirectory",
@@ -688,6 +907,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "AzureActiveDirectory",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureActiveDirectoryNoAuthorization.json
+       */
+      async function checkRequirementsForAadNoAuthorization() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "AzureActiveDirectory",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForAadNoAuthorization().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -697,7 +963,7 @@ examples:
       }
 - name: Check requirements for ASC.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "AzureSecurityCenter",
@@ -705,6 +971,53 @@ examples:
           "subscriptionId": "c0688291-89d7-4bed-87a2-a7b1bff43f4c"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "AzureSecurityCenter",
+        "properties": {
+          "subscriptionId": "c0688291-89d7-4bed-87a2-a7b1bff43f4c"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsAzureSecurityCenter.json
+       */
+      async function checkRequirementsForAsc() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "AzureSecurityCenter",
+          subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForAsc().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -714,7 +1027,7 @@ examples:
       }
 - name: Check requirements for Mcas.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "MicrosoftCloudAppSecurity",
@@ -722,6 +1035,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "MicrosoftCloudAppSecurity",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftCloudAppSecurity.json
+       */
+      async function checkRequirementsForMcas() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "MicrosoftCloudAppSecurity",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForMcas().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -731,7 +1091,7 @@ examples:
       }
 - name: Check requirements for Mdatp.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "MicrosoftCloudAppSecurity",
@@ -739,6 +1099,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "MicrosoftCloudAppSecurity",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMdatp.json
+       */
+      async function checkRequirementsForMdatp() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "MicrosoftCloudAppSecurity",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForMdatp().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -748,7 +1155,7 @@ examples:
       }
 - name: Check requirements for OfficeATP.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "OfficeATP",
@@ -756,6 +1163,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "OfficeATP",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficeATP.json
+       */
+      async function checkRequirementsForOfficeAtp() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "OfficeATP",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForOfficeAtp().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -765,7 +1219,7 @@ examples:
       }
 - name: Check requirements for OfficeIRM.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "OfficeIRM",
@@ -773,6 +1227,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "OfficeIRM",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficeIRM.json
+       */
+      async function checkRequirementsForOfficeIrm() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "OfficeIRM",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForOfficeIrm().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -782,7 +1283,7 @@ examples:
       }
 - name: Check requirements for Office365Project.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Office365Project",
@@ -790,6 +1291,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "Office365Project",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOffice365Project.json
+       */
+      async function checkRequirementsForOffice365Project() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "Office365Project",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForOffice365Project().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -799,7 +1347,7 @@ examples:
       }
 - name: Check requirements for OfficePowerBI.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "OfficePowerBI",
@@ -807,6 +1355,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "OfficePowerBI",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsOfficePowerBI.json
+       */
+      async function checkRequirementsForOfficePowerBi() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "OfficePowerBI",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForOfficePowerBi().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -816,7 +1411,7 @@ examples:
       }
 - name: Check requirements for Dynamics365.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "Dynamics365",
@@ -824,6 +1419,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "Dynamics365",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsDynamics365.json
+       */
+      async function checkRequirementsForDynamics365() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "Dynamics365",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForDynamics365().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -833,7 +1475,7 @@ examples:
       }
 - name: Check requirements for MicrosoftThreatProtection.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "MicrosoftThreatProtection",
@@ -841,6 +1483,53 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "MicrosoftThreatProtection",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatProtection.json
+       */
+      async function checkRequirementsForMicrosoftThreatProtection() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "MicrosoftThreatProtection",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForMicrosoftThreatProtection().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -850,7 +1539,7 @@ examples:
       }
 - name: Check requirements for MicrosoftThreatIntelligence.
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
     body: >-
       {
         "kind": "MicrosoftThreatIntelligence",
@@ -858,6 +1547,117 @@ examples:
           "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "MicrosoftThreatIntelligence",
+        "properties": {
+          "tenantId": "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsMicrosoftThreatIntelligence.json
+       */
+      async function checkRequirementsForMicrosoftThreatIntelligence() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "MicrosoftThreatIntelligence",
+          tenantId: "2070ecc9-b4d5-4ae4-adaa-936fa1954fa8",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForMicrosoftThreatIntelligence().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "authorizationState": "Valid",
+        "licenseState": "Valid"
+      }
+- name: Check requirements for IoT.
+  request:
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+    body: >-
+      {
+        "kind": "IOT",
+        "properties": {
+          "subscriptionId": "c0688291-89d7-4bed-87a2-a7b1bff43f4c"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/dataConnectorsCheckRequirements?api-version=2022-07-01-preview
+
+      {
+        "kind": "IOT",
+        "properties": {
+          "subscriptionId": "c0688291-89d7-4bed-87a2-a7b1bff43f4c"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get requirements state for a data connector type.
+       *
+       * @summary Get requirements state for a data connector type.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/dataConnectors/CheckRequirementsIoT.json
+       */
+      async function checkRequirementsForIoT() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const dataConnectorsCheckRequirements = {
+          kind: "IOT",
+          subscriptionId: "c0688291-89d7-4bed-87a2-a7b1bff43f4c",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.dataConnectorsCheckRequirementsOperations.post(
+          resourceGroupName,
+          workspaceName,
+          dataConnectorsCheckRequirements
+        );
+        console.log(result);
+      }
+
+      checkRequirementsForIoT().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -875,5 +1675,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Get requirements state for a data connector type.
+  description: >
+    Learn more about Sentinel service - Get requirements state for a data connector type.
 errorCodes: []

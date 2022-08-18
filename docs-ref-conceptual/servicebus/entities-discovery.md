@@ -1,5 +1,6 @@
 ---
 title: "Entities Discovery"
+description: API reference documentation for the operations available in the Entities Discovery REST API, a RESTful web service for managing Entities Discovery resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -39,7 +40,7 @@ Discovers messaging entities.
   
 |Request Header|Description|  
 |--------------------|-----------------|  
-|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-sas) for details.|  
+|Authorization|Specifies a Shared Access Signature (SAS) token with "Manage" rights. See [Service Bus authentication with Shared Access Signatures](/azure/service-bus-messaging/service-bus-sas) for details.|  
   
 ### Request Body  
  None.  

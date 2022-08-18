@@ -1,0 +1,241 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.managedinstances.listoutboundnetworkdependenciesbymanagedinstance
+name: List Outbound Network Dependencies By Managed Instance
+service: SQL Database
+groupName: Managed Instances
+apiVersion: 2021-11-01
+summary: Gets the collection of outbound network dependencies for the given managed instance.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/outboundNetworkDependenciesEndpoints?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the outbound network dependencies for this managed instance.
+  types:
+  - uid: OutboundEnvironmentEndpointCollection
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 ManagementServiceFeatureDisabled - User attempted to use a feature which is disabled.
+
+     * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.
+requestHeader: []
+definitions:
+- name: OutboundEnvironmentEndpointCollection
+  description: A collection of endpoints that the managed instance service requires outbound network access to.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: OutboundEnvironmentEndpoint
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: OutboundEnvironmentEndpoint
+  description: An endpoint that the managed instance service requires outbound network access to.
+  kind: object
+  properties:
+  - name: category
+    isReadyOnly: true
+    description: The type of service accessed by the managed instance service, e.g., Azure Storage, Azure Active Directory, etc.
+    types:
+    - uid: string
+  - name: endpoints
+    isReadyOnly: true
+    description: The endpoints that the managed instance service communicates with in order to function correctly.
+    types:
+    - uid: EndpointDependency
+      isArray: true
+- name: EndpointDependency
+  description: A domain name that the managed instance service needs to communicate with, along with additional details.
+  kind: object
+  properties:
+  - name: domainName
+    isReadyOnly: true
+    description: The domain name of the dependency.
+    types:
+    - uid: string
+  - name: endpointDetails
+    isReadyOnly: true
+    description: The IP Addresses and Ports used when connecting to DomainName.
+    types:
+    - uid: EndpointDetail
+      isArray: true
+- name: EndpointDetail
+  description: A domain name that the managed instance service needs to communicate with, along with additional details.
+  kind: object
+  properties:
+  - name: port
+    isReadyOnly: true
+    description: The port an endpoint is connected to.
+    types:
+    - uid: integer
+examples:
+- name: Gets the collection of outbound network dependencies for the given managed instance.
+  request:
+    uri: GET https://management.azure.com/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/testinstance/outboundNetworkDependenciesEndpoints?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20d7082a-0fc7-4468-82bd-542694d5042b/resourceGroups/sqlcrudtest-7398/providers/Microsoft.Sql/managedInstances/testinstance/outboundNetworkDependenciesEndpoints?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "category": "Azure SQL Database",
+            "endpoints": [
+              {
+                "domainName": "control.database.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "worker.database.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Azure Storage",
+            "endpoints": [
+              {
+                "domainName": "blob.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "table.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Service Bus",
+            "endpoints": [
+              {
+                "domainName": "servicebus.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Certificate Verification",
+            "endpoints": [
+              {
+                "domainName": "dsms.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "dsts.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "login.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "category": "Telemetry",
+            "endpoints": [
+              {
+                "domainName": "azurewatsonanalysis-prod.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "global.metrics.nsatc.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              },
+              {
+                "domainName": "production.diagnostics.monitoring.core.windows.net",
+                "endpointDetails": [
+                  {
+                    "port": 443
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets the collection of outbound network dependencies for the given managed instance.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.ipallocations.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Ip Allocations
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates an IpAllocation in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/IpAllocations/{ipAllocationName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -146,6 +146,7 @@ definitions:
     description: The address prefix length for the IpAllocation.
     types:
     - uid: integer
+    defaultValue: 0
   - name: properties.prefixType
     description: The address prefix Type for the IpAllocation.
     types:
@@ -240,7 +241,7 @@ definitions:
 examples:
 - name: Create IpAllocation
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/IpAllocations/test-ipallocation?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/IpAllocations/test-ipallocation?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -252,6 +253,109 @@ examples:
         },
         "location": "centraluseuap"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/IpAllocations/test-ipallocation?api-version=2022-01-01
+
+      {
+        "properties": {
+          "type": "Hypernet",
+          "prefix": "3.2.5.0/24",
+          "allocationTags": {
+            "VNetID": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1"
+          }
+        },
+        "location": "centraluseuap"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/IpAllocationCreate.json
+      func ExampleIPAllocationsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewIPAllocationsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ipallocation", armnetwork.IPAllocation{
+      		Location: to.Ptr("centraluseuap"),
+      		Properties: &armnetwork.IPAllocationPropertiesFormat{
+      			Type: to.Ptr(armnetwork.IPAllocationTypeHypernet),
+      			AllocationTags: map[string]*string{
+      				"VNetID": to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1"),
+      			},
+      			Prefix: to.Ptr("3.2.5.0/24"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an IpAllocation in the specified resource group.
+       *
+       * @summary Creates or updates an IpAllocation in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/IpAllocationCreate.json
+       */
+      async function createIPAllocation() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const ipAllocationName = "test-ipallocation";
+        const parameters = {
+          typePropertiesType: "Hypernet",
+          allocationTags: {
+            vNetID:
+              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/HypernetVnet1",
+          },
+          location: "centraluseuap",
+          prefix: "3.2.5.0/24",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.ipAllocations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          ipAllocationName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createIPAllocation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -295,5 +399,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Creates or updates an IpAllocation in the specified resource group.
+  description: >
+    Learn more about Virtual Networks service - Creates or updates an IpAllocation in the specified resource group.
 errorCodes: []

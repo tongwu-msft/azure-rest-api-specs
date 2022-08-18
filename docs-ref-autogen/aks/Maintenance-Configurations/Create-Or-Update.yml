@@ -3,25 +3,25 @@ uid: management.azure.com.aks.maintenanceconfigurations.createorupdate
 name: Create Or Update
 service: AKS
 groupName: Maintenance Configurations
-apiVersion: 2022-01-01
+apiVersion: 2022-04-01
 summary: Creates or updates a maintenance configuration in the specified managed cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerService/managedClusters/{resourceName}/maintenanceConfigurations/{configName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: resourceName
@@ -40,7 +40,7 @@ uriParameters:
 - name: api-version
   in: query
   isRequired: true
-  description: Client Api Version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
@@ -69,7 +69,7 @@ requestBody:
       isArray: true
 requestHeader: []
 definitions:
-- name: SystemData
+- name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
@@ -82,7 +82,7 @@ definitions:
     types:
     - uid: createdByType
   - name: createdAt
-    description: The UTC timestamp of resource creation.
+    description: The timestamp of resource creation (UTC).
     types:
     - uid: string
   - name: lastModifiedBy
@@ -94,7 +94,7 @@ definitions:
     types:
     - uid: createdByType
   - name: lastModifiedAt
-    description: The type of identity that last modified the resource.
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: TimeInWeek
@@ -130,7 +130,7 @@ definitions:
     isReadyOnly: true
     description: The system metadata relating to this resource.
     types:
-    - uid: SystemData
+    - uid: systemData
   - name: properties.timeInWeek
     description: "Time slots during the week when planned maintenance is allowed to proceed.  \nIf two array entries specify the same day of the week, the applied configuration is the union of times in both entries."
     types:
@@ -229,7 +229,7 @@ definitions:
 examples:
 - name: Create/Update Maintenance Configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/maintenanceConfigurations/default?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/maintenanceConfigurations/default?api-version=2022-04-01
     body: >-
       {
         "properties": {
@@ -250,6 +250,174 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/maintenanceConfigurations/default?api-version=2022-04-01
+
+      {
+        "properties": {
+          "timeInWeek": [
+            {
+              "day": "Monday",
+              "hourSlots": [
+                1,
+                2
+              ]
+            }
+          ],
+          "notAllowedTime": [
+            {
+              "start": "2020-11-26T03:00:00Z",
+              "end": "2020-11-30T12:00:00Z"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.containerservice.fluent.models.MaintenanceConfigurationInner;
+      import com.azure.resourcemanager.containerservice.models.TimeInWeek;
+      import com.azure.resourcemanager.containerservice.models.TimeSpan;
+      import com.azure.resourcemanager.containerservice.models.WeekDay;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+
+      /** Samples for MaintenanceConfigurations CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/MaintenanceConfigurationsCreate_Update.json
+           */
+          /**
+           * Sample code: Create/Update Maintenance Configuration.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createUpdateMaintenanceConfiguration(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getMaintenanceConfigurations()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "clustername1",
+                      "default",
+                      new MaintenanceConfigurationInner()
+                          .withTimeInWeek(
+                              Arrays.asList(new TimeInWeek().withDay(WeekDay.MONDAY).withHourSlots(Arrays.asList(1, 2))))
+                          .withNotAllowedTime(
+                              Arrays
+                                  .asList(
+                                      new TimeSpan()
+                                          .withStart(OffsetDateTime.parse("2020-11-26T03:00:00Z"))
+                                          .withEnd(OffsetDateTime.parse("2020-11-30T12:00:00Z")))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/MaintenanceConfigurationsCreate_Update.json
+      func ExampleMaintenanceConfigurationsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewMaintenanceConfigurationsClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"clustername1",
+      		"default",
+      		armcontainerservice.MaintenanceConfiguration{
+      			Properties: &armcontainerservice.MaintenanceConfigurationProperties{
+      				NotAllowedTime: []*armcontainerservice.TimeSpan{
+      					{
+      						End:   to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-30T12:00:00Z"); return t }()),
+      						Start: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-26T03:00:00Z"); return t }()),
+      					}},
+      				TimeInWeek: []*armcontainerservice.TimeInWeek{
+      					{
+      						Day: to.Ptr(armcontainerservice.WeekDayMonday),
+      						HourSlots: []*int32{
+      							to.Ptr[int32](1),
+      							to.Ptr[int32](2)},
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a maintenance configuration in the specified managed cluster.
+       *
+       * @summary Creates or updates a maintenance configuration in the specified managed cluster.
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/MaintenanceConfigurationsCreate_Update.json
+       */
+      async function createOrUpdateMaintenanceConfiguration() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "clustername1";
+        const configName = "default";
+        const parameters = {
+          notAllowedTime: [
+            {
+              end: new Date("2020-11-30T12:00:00Z"),
+              start: new Date("2020-11-26T03:00:00Z"),
+            },
+          ],
+          timeInWeek: [{ day: "Monday", hourSlots: [1, 2] }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.maintenanceConfigurations.createOrUpdate(
+          resourceGroupName,
+          resourceName,
+          configName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateMaintenanceConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -293,5 +461,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about AKS service - Creates or updates a maintenance configuration in the specified managed cluster.
+  description: >
+    Learn more about AKS service - Creates or updates a maintenance configuration in the specified managed cluster.
 errorCodes: []

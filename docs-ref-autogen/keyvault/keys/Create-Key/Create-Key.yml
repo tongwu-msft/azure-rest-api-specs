@@ -3,14 +3,14 @@ uid: keyvault.keys.createkey.createkey
 name: Create Key
 service: Key Vault
 groupName: Create Key
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Creates a new key, stores it, then returns key parameters and attributes to the client.  \nThe create key operation can be used to create any key type in Azure Key Vault. If the named key already exists, Azure Key Vault creates a new version of the key. It requires the keys/create permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.2
+- content: POST {vaultBaseUrl}/keys/{key-name}/create?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -85,6 +85,11 @@ requestBody:
     description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
     types:
     - uid: JsonWebKeyCurveName
+  - name: release_policy
+    in: body
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 requestHeader: []
 definitions:
 - name: KeyAttributes
@@ -101,6 +106,10 @@ definitions:
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
+  - name: exportable
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
+    types:
+    - uid: boolean
   - name: enabled
     description: Determines whether the object is enabled.
     types:
@@ -123,6 +132,23 @@ definitions:
     description: Last updated time in UTC.
     types:
     - uid: integer
+- name: KeyReleasePolicy
+  description: The policy rules under which the key can be exported.
+  kind: object
+  properties:
+  - name: contentType
+    description: Content type and version of key release policy
+    types:
+    - uid: string
+    defaultValue: application/json; charset=utf-8
+  - name: immutable
+    description: Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances.
+    types:
+    - uid: boolean
+  - name: data
+    description: Blob encoding the policy rules under which the key can be released. Blob must be base64 URL encoded.
+    types:
+    - uid: string
 - name: KeyBundle
   description: A KeyBundle consisting of a WebKey plus its attributes.
   kind: object
@@ -148,6 +174,10 @@ definitions:
     description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
     types:
     - uid: boolean
+  - name: release_policy
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 - name: KeyVaultError
   description: The key vault error exception.
   kind: object
@@ -194,6 +224,10 @@ definitions:
     description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
     types:
     - uid: JsonWebKeyCurveName
+  - name: release_policy
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
 - name: DeletionRecoveryLevel
   description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
   kind: enum
@@ -323,7 +357,7 @@ definitions:
     types:
     - uid: string
   - name: EC-HSM
-    description: Elliptic Curve with a private key which is not exportable from the HSM.
+    description: Elliptic Curve with a private key which is stored in the HSM.
     types:
     - uid: string
   - name: RSA
@@ -331,7 +365,7 @@ definitions:
     types:
     - uid: string
   - name: RSA-HSM
-    description: RSA with a private key which is not exportable from the HSM.
+    description: RSA with a private key which is stored in the HSM.
     types:
     - uid: string
   - name: oct
@@ -339,7 +373,7 @@ definitions:
     types:
     - uid: string
   - name: oct-HSM
-    description: Octet sequence (used to represent symmetric keys) which is not exportable from the HSM.
+    description: Octet sequence (used to represent symmetric keys) which is stored the HSM.
     types:
     - uid: string
 - name: JsonWebKeyCurveName
@@ -365,7 +399,7 @@ definitions:
 examples:
 - name: Create key
   request:
-    uri: POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.3
     body: >-
       {
         "kty": "RSA",
@@ -384,6 +418,31 @@ examples:
           "test name ": "CreateGetDeleteKeyTest"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.3
+
+      {
+        "kty": "RSA",
+        "key_size": 2048,
+        "key_ops": [
+          "encrypt",
+          "decrypt",
+          "sign",
+          "verify",
+          "wrapKey",
+          "unwrapKey"
+        ],
+        "attributes": {},
+        "tags": {
+          "purpose": "unit test",
+          "test name ": "CreateGetDeleteKeyTest"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -415,5 +474,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Creates a new key, stores it, then returns key parameters and attributes to the client.  \nThe create key operation can be used to create any key type in Azure K"
+  description: >-
+    Creates a new key, stores it, then returns key parameters and attributes to the client.
+
+    The create key operation can be used to create any key type in Azure Key
 errorCodes: []

@@ -3,14 +3,14 @@ uid: keyvault.keys.encrypt.encrypt
 name: encrypt
 service: Key Vault
 groupName: encrypt
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault.  \nThe ENCRYPT operation encrypts an arbitrary sequence of bytes using an encryption key that is stored in Azure Key Vault. Note that the ENCRYPT operation only supports a single block of data, the size of which is dependent on the target key and the encryption algorithm to be used. The ENCRYPT operation is only strictly necessary for symmetric keys stored in Azure Key Vault since protection with an asymmetric key can be performed using public portion of the key. This operation is supported for asymmetric keys as a convenience for callers that have a key-reference but do not have access to the public key material. This operation requires the keys/encrypt permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/encrypt?api-version=7.2
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/encrypt?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -63,7 +63,7 @@ requestBody:
     - uid: string
   - name: iv
     in: body
-    description: Initialization vector for symmetric algorithms.
+    description: Cryptographically random, non-repeating initialization vector for symmetric algorithms.
     types:
     - uid: string
   - name: aad
@@ -129,7 +129,7 @@ definitions:
     types:
     - uid: string
   - name: iv
-    description: Initialization vector for symmetric algorithms.
+    description: Cryptographically random, non-repeating initialization vector for symmetric algorithms.
     types:
     - uid: string
   - name: aad
@@ -211,12 +211,24 @@ definitions:
 examples:
 - name: Encrypt example
   request:
-    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/f6bc1f3d37c14b2bb1a2ebb4b24e9535/encrypt?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/f6bc1f3d37c14b2bb1a2ebb4b24e9535/encrypt?api-version=7.3
     body: >-
       {
         "alg": "RSA1_5",
         "value": "5ka5IVsnGrzufA"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/sdktestkey/f6bc1f3d37c14b2bb1a2ebb4b24e9535/encrypt?api-version=7.3
+
+      {
+        "alg": "RSA1_5",
+        "value": "5ka5IVsnGrzufA"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -226,5 +238,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault.  \nThe ENCRYPT operation encrypts an arbitrary sequence of bytes u"
+  description: >-
+    Encrypts an arbitrary sequence of bytes using an encryption key that is stored in a key vault.
+
+    The ENCRYPT operation encrypts an arbitrary sequence of bytes usi
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.virtualhubs.get
 name: Get
 service: Virtual WAN
 groupName: Virtual Hubs
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Retrieves the details of a VirtualHub.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2021-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -145,6 +145,14 @@ definitions:
     description: The preferred gateway to route on-prem traffic
     types:
     - uid: PreferredRoutingGateway
+  - name: properties.hubRoutingPreference
+    description: The hubRoutingPreference of this VirtualHub.
+    types:
+    - uid: HubRoutingPreference
+  - name: properties.virtualRouterAutoScaleConfiguration
+    description: The VirtualHub Router autoscale configuration.
+    types:
+    - uid: VirtualRouterAutoScaleConfiguration
   - name: id
     description: Resource ID.
     types:
@@ -273,6 +281,27 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: HubRoutingPreference
+  description: The hub routing preference gateway types
+  kind: enum
+  properties:
+  - name: ExpressRoute
+    types:
+    - uid: string
+  - name: VpnGateway
+    types:
+    - uid: string
+  - name: ASPath
+    types:
+    - uid: string
+- name: VirtualRouterAutoScaleConfiguration
+  description: The VirtualHub Router autoscale configuration.
+  kind: object
+  properties:
+  - name: minCapacity
+    description: The minimum number of scale units for VirtualHub Router.
+    types:
+    - uid: integer
 - name: CloudErrorBody
   description: An error response from the service.
   kind: object
@@ -332,7 +361,71 @@ definitions:
 examples:
 - name: VirtualHubGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1?api-version=2021-05-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualHubGet.json
+      func ExampleVirtualHubsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualHubsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx, "rg1", "virtualHub1", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves the details of a VirtualHub.
+       *
+       * @summary Retrieves the details of a VirtualHub.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualHubGet.json
+       */
+      async function virtualHubGet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualHubs.get(resourceGroupName, virtualHubName);
+        console.log(result);
+      }
+
+      virtualHubGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -357,7 +450,11 @@ examples:
             "10.10.1.13"
           ],
           "allowBranchToBranchTraffic": false,
-          "preferredRoutingGateway": "ExpressRoute"
+          "preferredRoutingGateway": "ExpressRoute",
+          "hubRoutingPreference": "ExpressRoute",
+          "virtualRouterAutoScaleConfiguration": {
+            "minCapacity": 2
+          }
         }
       }
 security:
@@ -370,5 +467,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual WAN service - Retrieves the details of a VirtualHub.
+  description: >
+    Learn more about Virtual WAN service - Retrieves the details of a VirtualHub.
 errorCodes: []

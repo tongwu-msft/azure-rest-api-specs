@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.kubeenvironments.listbysubscription
 name: List By Subscription
 service: App Service
 groupName: Kube Environments
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Get all Kubernetes Environments for a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Web/kubeEnvironments?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,10 @@ definitions:
     description: Static IP of the KubeEnvironment
     types:
     - uid: string
+  - name: properties.environmentType
+    description: Type of Kubernetes Environment. Only supported for Container App Environments with value as Managed
+    types:
+    - uid: string
   - name: properties.arcConfiguration
     description: >-
       Cluster configuration which determines the ARC cluster
@@ -107,6 +111,10 @@ definitions:
       supported
     types:
     - uid: AppLogsConfiguration
+  - name: properties.containerAppsConfiguration
+    description: Cluster configuration for Container Apps Environments to configure Dapr Instrumentation Key and VNET Configuration
+    types:
+    - uid: ContainerAppsConfiguration
   - name: properties.aksResourceID
     description: ''
     types:
@@ -260,6 +268,33 @@ definitions:
     description: ''
     types:
     - uid: LogAnalyticsConfiguration
+- name: ContainerAppsConfiguration
+  kind: object
+  properties:
+  - name: daprAIInstrumentationKey
+    description: Azure Monitor instrumentation key used by Dapr to export Service to Service communication telemetry
+    types:
+    - uid: string
+  - name: platformReservedCidr
+    description: IP range in CIDR notation that can be reserved for environment infrastructure IP addresses. It must not overlap with any other Subnet IP ranges.
+    types:
+    - uid: string
+  - name: platformReservedDnsIP
+    description: An IP address from the IP range defined by platformReservedCidr that will be reserved for the internal DNS server
+    types:
+    - uid: string
+  - name: controlPlaneSubnetResourceId
+    description: Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
+  - name: appSubnetResourceId
+    description: Resource ID of a subnet for control plane infrastructure components. This subnet must be in the same VNET as the subnet defined in appSubnetResourceId. Must not overlap with the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
+  - name: dockerBridgeCidr
+    description: CIDR notation IP range assigned to the Docker bridge network. It must not overlap with any Subnet IP ranges or the IP range defined in platformReservedCidr, if defined.
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -317,7 +352,98 @@ definitions:
 examples:
 - name: List kube environments by subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/8efdecc5-919e-44eb-b179-915dca89ebf9/providers/Microsoft.Web/kubeEnvironments?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/8efdecc5-919e-44eb-b179-915dca89ebf9/providers/Microsoft.Web/kubeEnvironments?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/8efdecc5-919e-44eb-b179-915dca89ebf9/providers/Microsoft.Web/kubeEnvironments?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for KubeEnvironments List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_ListBySubscription.json
+           */
+          /**
+           * Sample code: List kube environments by subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listKubeEnvironmentsBySubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getKubeEnvironments().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_ListBySubscription.json
+      func ExampleKubeEnvironmentsClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewKubeEnvironmentsClient("8efdecc5-919e-44eb-b179-915dca89ebf9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all Kubernetes Environments for a subscription.
+       *
+       * @summary Description for Get all Kubernetes Environments for a subscription.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/KubeEnvironments_ListBySubscription.json
+       */
+      async function listKubeEnvironmentsBySubscription() {
+        const subscriptionId = "8efdecc5-919e-44eb-b179-915dca89ebf9";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.kubeEnvironments.listBySubscription()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listKubeEnvironmentsBySubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -367,5 +493,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Get all Kubernetes Environments for a subscription.
+  description: >
+    Learn more about App Service service - Description for Get all Kubernetes Environments for a subscription.
 errorCodes: []

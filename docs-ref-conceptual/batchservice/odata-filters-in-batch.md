@@ -1,5 +1,6 @@
 ---
 title: "OData filters in Azure Batch | Microsoft Docs"
+description: Learn how OData filters are used to limit the amount of data returned from a query issued to the Batch service by filtering the results based on some criteria.
 ms.custom: ""
 ms.date: "08/27/2018"
 ms.reviewer: ""

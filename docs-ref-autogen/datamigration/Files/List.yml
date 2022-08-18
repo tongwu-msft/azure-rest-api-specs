@@ -1,0 +1,254 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.files.list
+name: List
+service: Data Migration
+groupName: Files
+apiVersion: 2022-01-30-preview
+summary: "Get files in a project  \nThe project resource is a nested resource representing a stored migration project. This method returns a list of files owned by a project resource."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}/files?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: groupName
+  in: path
+  isRequired: true
+  description: Name of the resource group
+  types:
+  - uid: string
+- name: serviceName
+  in: path
+  isRequired: true
+  description: Name of the service
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: Name of the project
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of files
+  types:
+  - uid: FileList
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ApiError
+requestHeader: []
+definitions:
+- name: FileList
+  description: OData page of files
+  kind: object
+  properties:
+  - name: value
+    description: List of files
+    types:
+    - uid: ProjectFile
+      isArray: true
+  - name: nextLink
+    description: URL to load the next page of files
+    types:
+    - uid: string
+- name: ApiError
+  description: Error information.
+  kind: object
+  properties:
+  - name: error
+    description: Error information in OData format
+    types:
+    - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: ProjectFile
+  description: A file resource
+  kind: object
+  properties:
+  - name: etag
+    description: HTTP strong entity tag value. This is ignored if submitted.
+    types:
+    - uid: string
+  - name: properties
+    description: Custom file properties
+    types:
+    - uid: ProjectFileProperties
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: ODataError
+  description: Error information in OData format.
+  kind: object
+  properties:
+  - name: code
+    description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
+    types:
+    - uid: string
+  - name: message
+    description: The human-readable description of the error
+    types:
+    - uid: string
+  - name: details
+    description: Inner errors that caused this error
+    types:
+    - uid: ODataError
+      isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
+- name: ProjectFileProperties
+  description: Base class for file properties.
+  kind: object
+  properties:
+  - name: extension
+    description: Optional File extension. If submitted it should not have a leading period and must match the extension from filePath.
+    types:
+    - uid: string
+  - name: filePath
+    description: Relative path of this file resource. This property can be set when creating or updating the file resource.
+    types:
+    - uid: string
+  - name: lastModified
+    isReadyOnly: true
+    description: Modification DateTime.
+    types:
+    - uid: string
+  - name: mediaType
+    description: File content type. This property can be modified to reflect the file content type.
+    types:
+    - uid: string
+  - name: size
+    isReadyOnly: true
+    description: File size.
+    types:
+    - uid: integer
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Files_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files?api-version=2022-01-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "extension": "sql",
+              "filePath": "SchemaInput/DmsSdkFile.sql",
+              "lastModified": "2018-08-15T20:01:33+00:00",
+              "mediaType": "text/plain",
+              "size": 51835
+            },
+            "id": "/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files/x114d023d8",
+            "name": "x114d023d8",
+            "type": "Microsoft.DataMigration/services/projects/files"
+          },
+          {
+            "properties": {
+              "extension": "sql",
+              "filePath": "7daf055f-82b0-483e-9da0-4244b4eaa9b0/AdventureWorks2008.sql",
+              "lastModified": "2018-10-05T16:51:03+00:00",
+              "mediaType": "text/plain",
+              "size": 910278
+            },
+            "id": "/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject/files/pfpu7fxqcpziyg2h3qj2vb7d8jpbbg7p",
+            "name": "pfpu7fxqcpziyg2h3qj2vb7d8jpbbg7p",
+            "type": "Microsoft.DataMigration/services/projects/files"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Get files in a project
+
+    The project resource is a nested resource representing a stored migration project. This method returns a list of files owned by a project
+errorCodes: []

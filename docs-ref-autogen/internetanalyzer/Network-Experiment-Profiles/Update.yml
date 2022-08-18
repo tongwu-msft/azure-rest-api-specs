@@ -189,6 +189,106 @@ examples:
           "key2": "value2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/MyResourceGroup/providers/Microsoft.Network/NetworkExperimentProfiles/MyProfile?api-version=2019-11-01
+
+      {
+        "properties": {
+          "enabledState": "Enabled"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armfrontdoor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/frontdoor/armfrontdoor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentUpdateProfile.json
+      func ExampleNetworkExperimentProfilesClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armfrontdoor.NewNetworkExperimentProfilesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"MyResourceGroup",
+      		"MyProfile",
+      		armfrontdoor.ProfileUpdateModel{
+      			Properties: &armfrontdoor.ProfileUpdateProperties{
+      				EnabledState: to.Ptr(armfrontdoor.StateEnabled),
+      			},
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      				"key2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Ffrontdoor%2Farmfrontdoor%2Fv1.0.0/sdk/resourcemanager/frontdoor/armfrontdoor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { FrontDoorManagementClient } = require("@azure/arm-frontdoor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an NetworkExperimentProfiles
+       *
+       * @summary Updates an NetworkExperimentProfiles
+       * x-ms-original-file: specification/frontdoor/resource-manager/Microsoft.Network/stable/2019-11-01/examples/NetworkExperimentUpdateProfile.json
+       */
+      async function updatesAnExperiment() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "MyResourceGroup";
+        const profileName = "MyProfile";
+        const parameters = {
+          enabledState: "Enabled",
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new FrontDoorManagementClient(credential, subscriptionId);
+        const result = await client.networkExperimentProfiles.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updatesAnExperiment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-frontdoor_5.0.1/sdk/frontdoor/arm-frontdoor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -232,5 +332,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Internet Analyzer service - Updates an NetworkExperimentProfiles by NetworkExperimentProfile name
+  description: >
+    Learn more about Internet Analyzer service - Updates an NetworkExperimentProfiles by NetworkExperimentProfile name
 errorCodes: []

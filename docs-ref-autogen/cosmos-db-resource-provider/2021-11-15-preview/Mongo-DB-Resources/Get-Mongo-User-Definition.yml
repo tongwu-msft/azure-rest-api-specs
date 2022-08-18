@@ -1,0 +1,175 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2021-11-15-preview.mongodbresources.getmongouserdefinition
+name: Get Mongo User Definition
+service: Cosmos DB Resource Provider
+groupName: Mongo DB Resources
+apiVersion: 2021-11-15-preview
+summary: Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/mongodbUserDefinitions/{mongoUserDefinitionId}?api-version=2021-11-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: mongoUserDefinitionId
+  in: path
+  isRequired: true
+  description: The ID for the User Definition {dbName.userName}.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The User Definition was successfully retrieved.
+  types:
+  - uid: MongoUserDefinitionGetResults
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: MongoUserDefinitionGetResults
+  description: An Azure Cosmos DB User Definition
+  kind: object
+  properties:
+  - name: properties.userName
+    description: The user name for User Definition.
+    types:
+    - uid: string
+  - name: properties.password
+    description: The password for User Definition. Response does not contain user password.
+    types:
+    - uid: string
+  - name: properties.databaseName
+    description: The database name for which access is being granted for this User Definition.
+    types:
+    - uid: string
+  - name: properties.customData
+    description: A custom definition for the USer Definition.
+    types:
+    - uid: string
+  - name: properties.roles
+    description: The set of roles inherited by the User Definition.
+    types:
+    - uid: Role
+      isArray: true
+  - name: properties.mechanisms
+    description: The Mongo Auth mechanism. For now, we only support auth mechanism SCRAM-SHA-256.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: Role
+  description: The set of roles permitted through this Role Definition.
+  kind: object
+  properties:
+  - name: db
+    description: The database name the role is applied.
+    types:
+    - uid: string
+  - name: role
+    description: The role name.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBMongoDBUserDefinitionGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/mongodbUserDefinitions/myMongoUserDefinitionId?api-version=2021-11-15-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/mongodbUserDefinitions/myMongoUserDefinitionId?api-version=2021-11-15-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/mySubscriptionId/resourceGroups/myResourceGroupName/providers/Microsoft.DocumentDB/databaseAccounts/myAccountName/mongodbUserDefinitions/myUserId",
+        "name": "myUserId",
+        "type": "Microsoft.DocumentDB/databaseAccounts/mongodbUserDefinitions",
+        "properties": {
+          "userName": "myUserName",
+          "databaseName": "sales",
+          "customData": "My custom data",
+          "roles": [
+            {
+              "db": "sales",
+              "role": "myReadRole"
+            }
+          ],
+          "mechanisms": "SCRAM-SHA-256"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Retrieves the properties of an existing Azure Cosmos DB Mongo User Definition with the given Id.
+errorCodes: []

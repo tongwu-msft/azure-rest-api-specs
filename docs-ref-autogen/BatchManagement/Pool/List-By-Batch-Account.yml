@@ -3,15 +3,15 @@ uid: management.azure.com.batchmanagement.pool.listbybatchaccount
 name: List By Batch Account
 service: Batch Management
 groupName: Pool
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: Lists all of the pools in the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?api-version=2022-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?api-version=2022-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/pools?maxresults={maxresults}&$select={$select}&$filter={$filter}&api-version=2022-06-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -448,7 +448,7 @@ definitions:
     types:
     - uid: UserIdentity
   - name: maxTaskRetryCount
-    description: "The maximum number of times the task may be retried.  \nThe Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit, however this is not recommended for a start task or any task. The default value is 0 (no retries)."
+    description: "The maximum number of times the task may be retried.  \nThe Batch service retries a task if its exit code is nonzero. Note that this value specifically controls the number of retries. The Batch service will try the task once, and may then retry up to this limit. For example, if the maximum retry count is 3, Batch tries the task up to 4 times (one initial try and 3 retries). If the maximum retry count is 0, the Batch service does not retry the task. If the maximum retry count is -1, the Batch service retries the task without limit."
     types:
     - uid: integer
   - name: waitForSuccess
@@ -683,7 +683,7 @@ definitions:
     types:
     - uid: string
   - name: job
-    description: Dynamic VNet assignment is done per-job. Don't use this option unless your batch account has been approved to use this feature.
+    description: Dynamic VNet assignment is done per-job. If this value is set, the network configuration subnet ID must also be set. This feature requires approval before use, please contact support
     types:
     - uid: string
 - name: PoolEndpointConfiguration
@@ -1342,7 +1342,41 @@ definitions:
 examples:
 - name: ListPool
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?api-version=2022-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?api-version=2022-06-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the pools in the specified account.
+       *
+       * @summary Lists all of the pools in the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolList.json
+       */
+      async function listPool() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.poolOperations.listByBatchAccount(resourceGroupName, accountName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listPool().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1497,7 +1531,50 @@ examples:
       }
 - name: ListPoolWithFilter
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?$select=properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes&$filter=startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')&api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?$select=properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes&$filter=startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')&api-version=2022-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/pools?$select=properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes&$filter=startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')&api-version=2022-06-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the pools in the specified account.
+       *
+       * @summary Lists all of the pools in the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PoolListWithFilter.json
+       */
+      async function listPoolWithFilter() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const select =
+          "properties/allocationState,properties/provisioningStateTransitionTime,properties/currentDedicatedNodes,properties/currentLowPriorityNodes";
+        const filter =
+          "startswith(name, 'po') or (properties/allocationState eq 'Steady' and properties/provisioningStateTransitionTime lt datetime'2017-02-02')";
+        const options = { select, filter };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.poolOperations.listByBatchAccount(
+          resourceGroupName,
+          accountName,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listPoolWithFilter().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1539,5 +1616,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Batch Management service - Lists all of the pools in the specified account.
+  description: >
+    Learn more about Batch Management service - Lists all of the pools in the specified account.
 errorCodes: []

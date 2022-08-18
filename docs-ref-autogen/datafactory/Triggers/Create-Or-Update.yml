@@ -227,6 +227,231 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger?api-version=2018-06-01
+
+      {
+        "properties": {
+          "type": "ScheduleTrigger",
+          "typeProperties": {
+            "recurrence": {
+              "frequency": "Minute",
+              "interval": 4,
+              "startTime": "2018-06-16T00:39:13.8441801Z",
+              "endTime": "2018-06-16T00:55:13.8441801Z",
+              "timeZone": "UTC"
+            }
+          },
+          "pipelines": [
+            {
+              "pipelineReference": {
+                "referenceName": "examplePipeline",
+                "type": "PipelineReference"
+              },
+              "parameters": {
+                "OutputBlobNameList": [
+                  "exampleoutput.csv"
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.PipelineReference;
+      import com.azure.resourcemanager.datafactory.models.RecurrenceFrequency;
+      import com.azure.resourcemanager.datafactory.models.ScheduleTrigger;
+      import com.azure.resourcemanager.datafactory.models.ScheduleTriggerRecurrence;
+      import com.azure.resourcemanager.datafactory.models.TriggerPipelineReference;
+      import java.io.IOException;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Triggers CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
+           */
+          /**
+           * Sample code: Triggers_Create.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void triggersCreate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              manager
+                  .triggers()
+                  .define("exampleTrigger")
+                  .withExistingFactory("exampleResourceGroup", "exampleFactoryName")
+                  .withProperties(
+                      new ScheduleTrigger()
+                          .withPipelines(
+                              Arrays
+                                  .asList(
+                                      new TriggerPipelineReference()
+                                          .withPipelineReference(new PipelineReference().withReferenceName("examplePipeline"))
+                                          .withParameters(
+                                              mapOf(
+                                                  "OutputBlobNameList",
+                                                  SerializerFactory
+                                                      .createDefaultManagementSerializerAdapter()
+                                                      .deserialize(
+                                                          "[\"exampleoutput.csv\"]",
+                                                          Object.class,
+                                                          SerializerEncoding.JSON)))))
+                          .withRecurrence(
+                              new ScheduleTriggerRecurrence()
+                                  .withFrequency(RecurrenceFrequency.MINUTE)
+                                  .withInterval(4)
+                                  .withStartTime(OffsetDateTime.parse("2018-06-16T00:39:13.8441801Z"))
+                                  .withEndTime(OffsetDateTime.parse("2018-06-16T00:55:13.8441801Z"))
+                                  .withTimeZone("UTC")
+                                  .withAdditionalProperties(mapOf())))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
+      func ExampleTriggersClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewTriggersClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"exampleResourceGroup",
+      		"exampleFactoryName",
+      		"exampleTrigger",
+      		armdatafactory.TriggerResource{
+      			Properties: &armdatafactory.ScheduleTrigger{
+      				Type: to.Ptr("ScheduleTrigger"),
+      				Pipelines: []*armdatafactory.TriggerPipelineReference{
+      					{
+      						Parameters: map[string]interface{}{
+      							"OutputBlobNameList": []interface{}{
+      								"exampleoutput.csv",
+      							},
+      						},
+      						PipelineReference: &armdatafactory.PipelineReference{
+      							Type:          to.Ptr(armdatafactory.PipelineReferenceTypePipelineReference),
+      							ReferenceName: to.Ptr("examplePipeline"),
+      						},
+      					}},
+      				TypeProperties: &armdatafactory.ScheduleTriggerTypeProperties{
+      					Recurrence: &armdatafactory.ScheduleTriggerRecurrence{
+      						EndTime:   to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2018-06-16T00:55:13.8441801Z"); return t }()),
+      						Frequency: to.Ptr(armdatafactory.RecurrenceFrequencyMinute),
+      						Interval:  to.Ptr[int32](4),
+      						StartTime: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2018-06-16T00:39:13.8441801Z"); return t }()),
+      						TimeZone:  to.Ptr("UTC"),
+      					},
+      				},
+      			},
+      		},
+      		&armdatafactory.TriggersClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a trigger.
+       *
+       * @summary Creates or updates a trigger.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Create.json
+       */
+      async function triggersCreate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const triggerName = "exampleTrigger";
+        const trigger = {
+          properties: {
+            type: "ScheduleTrigger",
+            pipelines: [
+              {
+                parameters: { outputBlobNameList: ["exampleoutput.csv"] },
+                pipelineReference: {
+                  type: "PipelineReference",
+                  referenceName: "examplePipeline",
+                },
+              },
+            ],
+            recurrence: {
+              endTime: new Date("2018-06-16T00:55:13.8441801Z"),
+              frequency: "Minute",
+              interval: 4,
+              startTime: new Date("2018-06-16T00:39:13.8441801Z"),
+              timeZone: "UTC",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.triggers.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          triggerName,
+          trigger
+        );
+        console.log(result);
+      }
+
+      triggersCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -305,6 +530,173 @@ examples:
           "description": "Example description"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/triggers/exampleTrigger?api-version=2018-06-01
+
+      {
+        "properties": {
+          "type": "ScheduleTrigger",
+          "typeProperties": {
+            "recurrence": {
+              "frequency": "Minute",
+              "interval": 4,
+              "startTime": "2018-06-16T00:39:14.905167Z",
+              "endTime": "2018-06-16T00:55:14.905167Z",
+              "timeZone": "UTC"
+            }
+          },
+          "pipelines": [
+            {
+              "pipelineReference": {
+                "referenceName": "examplePipeline",
+                "type": "PipelineReference"
+              },
+              "parameters": {
+                "OutputBlobNameList": [
+                  "exampleoutput.csv"
+                ]
+              }
+            }
+          ],
+          "description": "Example description"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.datafactory.models.PipelineReference;
+      import com.azure.resourcemanager.datafactory.models.RecurrenceFrequency;
+      import com.azure.resourcemanager.datafactory.models.ScheduleTrigger;
+      import com.azure.resourcemanager.datafactory.models.ScheduleTriggerRecurrence;
+      import com.azure.resourcemanager.datafactory.models.TriggerPipelineReference;
+      import com.azure.resourcemanager.datafactory.models.TriggerResource;
+      import java.io.IOException;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Triggers CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Update.json
+           */
+          /**
+           * Sample code: Triggers_Update.
+           *
+           * @param manager Entry point to DataFactoryManager.
+           */
+          public static void triggersUpdate(com.azure.resourcemanager.datafactory.DataFactoryManager manager)
+              throws IOException {
+              TriggerResource resource =
+                  manager
+                      .triggers()
+                      .getWithResponse("exampleResourceGroup", "exampleFactoryName", "exampleTrigger", null, Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withProperties(
+                      new ScheduleTrigger()
+                          .withDescription("Example description")
+                          .withPipelines(
+                              Arrays
+                                  .asList(
+                                      new TriggerPipelineReference()
+                                          .withPipelineReference(new PipelineReference().withReferenceName("examplePipeline"))
+                                          .withParameters(
+                                              mapOf(
+                                                  "OutputBlobNameList",
+                                                  SerializerFactory
+                                                      .createDefaultManagementSerializerAdapter()
+                                                      .deserialize(
+                                                          "[\"exampleoutput.csv\"]",
+                                                          Object.class,
+                                                          SerializerEncoding.JSON)))))
+                          .withRecurrence(
+                              new ScheduleTriggerRecurrence()
+                                  .withFrequency(RecurrenceFrequency.MINUTE)
+                                  .withInterval(4)
+                                  .withStartTime(OffsetDateTime.parse("2018-06-16T00:39:14.905167Z"))
+                                  .withEndTime(OffsetDateTime.parse("2018-06-16T00:55:14.905167Z"))
+                                  .withTimeZone("UTC")
+                                  .withAdditionalProperties(mapOf())))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a trigger.
+       *
+       * @summary Creates or updates a trigger.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Triggers_Update.json
+       */
+      async function triggersUpdate() {
+        const subscriptionId = "12345678-1234-1234-1234-12345678abc";
+        const resourceGroupName = "exampleResourceGroup";
+        const factoryName = "exampleFactoryName";
+        const triggerName = "exampleTrigger";
+        const trigger = {
+          properties: {
+            type: "ScheduleTrigger",
+            description: "Example description",
+            pipelines: [
+              {
+                parameters: { outputBlobNameList: ["exampleoutput.csv"] },
+                pipelineReference: {
+                  type: "PipelineReference",
+                  referenceName: "examplePipeline",
+                },
+              },
+            ],
+            recurrence: {
+              endTime: new Date("2018-06-16T00:55:14.905167Z"),
+              frequency: "Minute",
+              interval: 4,
+              startTime: new Date("2018-06-16T00:39:14.905167Z"),
+              timeZone: "UTC",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DataFactoryManagementClient(credential, subscriptionId);
+        const result = await client.triggers.createOrUpdate(
+          resourceGroupName,
+          factoryName,
+          triggerName,
+          trigger
+        );
+        console.log(result);
+      }
+
+      triggersUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -362,5 +754,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Data Factory service - Creates or updates a trigger.
+  description: >
+    Learn more about Data Factory service - Creates or updates a trigger.
 errorCodes: []

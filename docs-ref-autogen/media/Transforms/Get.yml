@@ -3,14 +3,14 @@ uid: management.azure.com.media.transforms.get
 name: Get
 service: Media Services
 groupName: Transforms
-apiVersion: 2021-06-01
+apiVersion: 2021-11-01
 summary: "Get Transform  \nGets a Transform."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}?api-version=2021-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/transforms/{transformName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -301,7 +301,7 @@ definitions:
   kind: object
   properties:
   - name: configurations
-    description: PresetConfigurations are only supported for the ContentAwareEncoding and H265ContentAwareEncoding built-in presets. These settings will not affect other built-in or custom defined presets.
+    description: Optional configuration settings for encoder. Configurations is only supported for ContentAwareEncoding and H265ContentAwareEncoding BuiltInStandardEncoderPreset.
     types:
     - uid: PresetConfigurations
   - name: presetName
@@ -844,10 +844,6 @@ definitions:
   description: Describes all the properties for encoding a video with the H.264 codec.
   kind: object
   properties:
-  - name: sceneChangeDetection
-    description: Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
-    types:
-    - uid: boolean
   - name: complexity
     description: Tells the encoder how to choose its encoding settings. The default value is Balanced.
     types:
@@ -857,6 +853,14 @@ definitions:
     types:
     - uid: H264Layer
       isArray: true
+  - name: rateControlMode
+    description: The video rate control mode
+    types:
+    - uid: H264RateControlMode
+  - name: sceneChangeDetection
+    description: Whether or not the encoder should insert key frames at scene changes. If not specified, the default is false. This flag should be set to true only when the encoder is being configured to produce a single output video.
+    types:
+    - uid: boolean
   - name: keyFrameInterval
     description: The distance between two key frames. The value should be non-zero in the range [0.5, 20] seconds, specified in ISO 8601 format. The default is 2 seconds(PT2S). Note that this setting is ignored if VideoSyncMode.Passthrough is set, where the KeyFrameInterval value will follow the input source setting.
     types:
@@ -1262,6 +1266,10 @@ definitions:
     description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
     types:
     - uid: string
+  - name: crf
+    description: The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 28.
+    types:
+    - uid: number
   - name: referenceFrames
     description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
     types:
@@ -1290,11 +1298,6 @@ definitions:
     description: Specifies whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
     types:
     - uid: boolean
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.H265Layer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -1339,6 +1342,10 @@ definitions:
     description: The VBV buffer window length. The value should be in ISO 8601 format. The value should be in the range [0.1-100] seconds. The default is 5 seconds (for example, PT5S).
     types:
     - uid: string
+  - name: crf
+    description: The value of CRF to be used when encoding this layer. This setting takes effect when RateControlMode of video codec is set at CRF mode. The range of CRF value is between 0 and 51, where lower values would result in better quality, at the expense of higher file sizes. Higher values mean more compression, but at some point quality degradation will be noticed. Default value is 23.
+    types:
+    - uid: number
   - name: referenceFrames
     description: The number of reference frames to be used when encoding this layer. If not specified, the encoder determines an appropriate number based on the encoder complexity setting.
     types:
@@ -1371,11 +1378,6 @@ definitions:
     description: Whether or not adaptive B-frames are to be used when encoding this layer. If not specified, the encoder will turn it on whenever the video profile permits its use.
     types:
     - uid: boolean
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.H264Layer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -1388,6 +1390,22 @@ definitions:
     description: The alphanumeric label for this layer, which can be used in multiplexing different video and audio layers, or in naming the output file.
     types:
     - uid: string
+- name: H264RateControlMode
+  description: The video rate control mode
+  kind: enum
+  properties:
+  - name: ABR
+    description: 'Average Bitrate (ABR) mode that hits the target bitrate: Default mode.'
+    types:
+    - uid: string
+  - name: CBR
+    description: Constant Bitrate (CBR) mode that tightens bitrate variations around target bitrate.
+    types:
+    - uid: string
+  - name: CRF
+    description: Constant Rate Factor (CRF) mode that targets at constant subjective quality.
+    types:
+    - uid: string
 - name: JpgLayer
   description: Describes the settings to produce a JPEG image from the input video.
   kind: object
@@ -1396,11 +1414,6 @@ definitions:
     description: The compression quality of the JPEG output. Range is from 0-100 and the default is 70.
     types:
     - uid: integer
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.JpgLayer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -1417,11 +1430,6 @@ definitions:
   description: Describes the settings to produce a PNG image from the input video.
   kind: object
   properties:
-  - name: '@odata.type'
-    description: The discriminator for derived types.
-    types:
-    - uid: '#Microsoft.Media.PngLayer'
-    typesTitle: string
   - name: width
     description: The width of the output video for this layer. The value can be absolute (in pixels) or relative (in percentage). For example 50% means the output video has half as many pixels in width as the input.
     types:
@@ -1471,6 +1479,10 @@ definitions:
     description: Main profile (https://x265.readthedocs.io/en/default/cli.html?highlight=profile#profile-level-tier)
     types:
     - uid: string
+  - name: Main10
+    description: Main 10 profile (https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding#Main_10)
+    types:
+    - uid: string
 - name: H264VideoProfile
   description: We currently support Baseline, Main, High, High422, High444. Default is Auto.
   kind: enum
@@ -1514,7 +1526,97 @@ definitions:
 examples:
 - name: Get a Transform by name
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/sampleTransform?api-version=2021-06-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/sampleTransform?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/sampleTransform?api-version=2021-11-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Transforms Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-get-by-name.json
+           */
+          /**
+           * Sample code: Get a Transform by name.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void getATransformByName(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              manager.transforms().getWithResponse("contosoresources", "contosomedia", "sampleTransform", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-get-by-name.json
+      func ExampleTransformsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewTransformsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"contosoresources",
+      		"contosomedia",
+      		"sampleTransform",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a Transform.
+       *
+       * @summary Gets a Transform.
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/transforms-get-by-name.json
+       */
+      async function getATransformByName() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contosoresources";
+        const accountName = "contosomedia";
+        const transformName = "sampleTransform";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.transforms.get(resourceGroupName, accountName, transformName);
+        console.log(result);
+      }
+
+      getATransformByName().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1548,5 +1650,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Get Transform  \nGets a Transform."
+  description: >
+    Learn more about Media Services service - Get Transform
+
+    Gets a Transform.
 errorCodes: []

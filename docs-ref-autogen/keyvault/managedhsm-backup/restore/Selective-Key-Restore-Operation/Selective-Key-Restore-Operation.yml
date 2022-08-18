@@ -3,14 +3,14 @@ uid: keyvault.managedhsm-backup.restore.selectivekeyrestoreoperation.selectiveke
 name: Selective Key Restore Operation
 service: Key Vault
 groupName: Selective Key Restore Operation
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: Restores all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT {vaultBaseUrl}/keys/{keyName}/restore?api-version=7.2
+- content: PUT {vaultBaseUrl}/keys/{keyName}/restore?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -51,7 +51,7 @@ requestBody:
   - name: sasTokenParameters
     in: body
     isRequired: true
-    description: SAS token parameter object containing Azure storage resourceUri and token
+    description: ''
     types:
     - uid: SASTokenParameter
   - name: folder
@@ -114,7 +114,7 @@ definitions:
   kind: object
   properties:
   - name: sasTokenParameters
-    description: SAS token parameter object containing Azure storage resourceUri and token
+    description: ''
     types:
     - uid: SASTokenParameter
   - name: folder
@@ -143,7 +143,7 @@ definitions:
 examples:
 - name: Selectively restore key from a backup
   request:
-    uri: PUT https://myvault.vault.azure.net/keys/hsm-mail-key/restore?api-version=7.2
+    uri: PUT https://myvault.vault.azure.net/keys/hsm-mail-key/restore?api-version=7.3
     body: >-
       {
         "sasTokenParameters": {
@@ -152,6 +152,21 @@ examples:
         },
         "folder": "mhsm-mypool-20200303062926785"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://myvault.vault.azure.net/keys/hsm-mail-key/restore?api-version=7.3
+
+      {
+        "sasTokenParameters": {
+          "storageResourceUri": "https://myaccount.blob.core.windows.net/sascontainer/sasContainer",
+          "token": "se=2018-02-01T00%3A00Z&spr=https&sv=2017-04-17&sr=b&sig=XXFNfuMCH112BxhemJ7PWn0xGfImMXT6LfbXWvtRUk%3D"
+        },
+        "folder": "mhsm-mypool-20200303062926785"
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -169,5 +184,6 @@ examples:
       }
 security: []
 metadata:
-  description: Restores all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder
+  description: >
+    Restores all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder
 errorCodes: []

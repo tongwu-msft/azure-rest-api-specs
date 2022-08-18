@@ -3,14 +3,14 @@ uid: management.azure.com.media.liveoutputs.create
 name: Create
 service: Media Services
 groupName: Live Outputs
-apiVersion: 2021-06-01
+apiVersion: 2022-08-01
 summary: "Create Live Output  \nCreates a new live output."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}?api-version=2021-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}/liveOutputs/{liveOutputName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,6 +81,11 @@ requestBody:
     in: body
     isRequired: true
     description: ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window.
+    types:
+    - uid: string
+  - name: properties.rewindWindowLength
+    in: body
+    description: ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL.
     types:
     - uid: string
   - name: properties.manifestName
@@ -155,6 +160,10 @@ definitions:
     - uid: string
   - name: properties.archiveWindowLength
     description: ISO 8601 time between 1 minute to 25 hours to indicate the maximum content length that can be archived in the asset for this live output. This also sets the maximum content length for the rewind window. For example, use PT1H30M to indicate 1 hour and 30 minutes of archive window.
+    types:
+    - uid: string
+  - name: properties.rewindWindowLength
+    description: ISO 8601 time between 1 minute to the duration of archiveWindowLength to control seek-able window length during Live. The service won't use this property once LiveOutput stops. The archived VOD will have full content with original ArchiveWindowLength. For example, use PT1H30M to indicate 1 hour and 30 minutes of rewind window length. Service will use implicit default value 30m only if Live Event enables LL.
     types:
     - uid: string
   - name: properties.manifestName
@@ -292,19 +301,40 @@ definitions:
 examples:
 - name: Create a LiveOutput
   request:
-    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1?api-version=2021-06-01
+    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1?api-version=2022-08-01
     body: >-
       {
         "properties": {
           "description": "test live output 1",
           "assetName": "6f3264f5-a189-48b4-a29a-a40f22575212",
           "archiveWindowLength": "PT5M",
+          "rewindWindowLength": "PT4M",
           "manifestName": "testmanifest",
           "hls": {
             "fragmentsPerTsSegment": 5
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1/liveOutputs/myLiveOutput1?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "test live output 1",
+          "assetName": "6f3264f5-a189-48b4-a29a-a40f22575212",
+          "archiveWindowLength": "PT5M",
+          "rewindWindowLength": "PT4M",
+          "manifestName": "testmanifest",
+          "hls": {
+            "fragmentsPerTsSegment": 5
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -324,7 +354,16 @@ examples:
           "lastModified": "2018-03-03T02:25:09.9431835Z",
           "hls": {
             "fragmentsPerTsSegment": 5
-          }
+          },
+          "rewindWindowLength": "PT4M"
+        },
+        "systemData": {
+          "createdBy": "example@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2018-03-03T02:25:09.9431835Z",
+          "lastModifiedBy": "example@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-03-03T02:25:09.9431835Z"
         }
       }
   - statusCode: "201"
@@ -345,10 +384,22 @@ examples:
           "lastModified": "2018-03-03T02:25:09.9431835Z",
           "hls": {
             "fragmentsPerTsSegment": 5
-          }
+          },
+          "rewindWindowLength": "PT4M"
+        },
+        "systemData": {
+          "createdBy": "example@microsoft.com",
+          "createdByType": "User",
+          "createdAt": "2018-03-03T02:25:09.9431835Z",
+          "lastModifiedBy": "example@microsoft.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-03-03T02:25:09.9431835Z"
         }
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Create Live Output  \nCreates a new live output."
+  description: >
+    Learn more about Media Services service - Create Live Output
+
+    Creates a new live output.
 errorCodes: []

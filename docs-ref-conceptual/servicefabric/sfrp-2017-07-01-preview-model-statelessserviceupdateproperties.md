@@ -1,5 +1,6 @@
 ---
 title: "StatelessServiceUpdateProperties"
+description: "Describe the properties of a stateless service resource for patch operation through the StatelessServiceUpdateProperties."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

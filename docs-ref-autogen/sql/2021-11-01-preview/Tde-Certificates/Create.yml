@@ -1,0 +1,134 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.tdecertificates.create
+name: Create
+service: SQL Database
+groupName: Tde Certificates
+apiVersion: 2021-11-01-preview
+summary: Creates a TDE certificate for a given server.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/tdeCertificates?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully created the TDE certificate.
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 MissingPrivateBlob - The private blob is missing.
+
+     * 400 InvalidPrivateBlobOrPassword - Invalid private blob or password specified.
+
+     * 400 PrivateBlobWithoutPrivateKey - The provided blob does not contain private key.
+
+     * 400 InvalidResourceRequestBody - The resource or resource properties in the request body is empty or invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+- name: 202 Accepted
+  description: Accepted
+requestBody:
+- name: default
+  parameters:
+  - name: properties.privateBlob
+    in: body
+    isRequired: true
+    description: The base64 encoded certificate private blob.
+    types:
+    - uid: string
+  - name: properties.certPassword
+    in: body
+    description: The certificate password.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: TdeCertificate
+  description: A TDE certificate that can be uploaded into a server.
+  kind: object
+  properties:
+  - name: properties.privateBlob
+    description: The base64 encoded certificate private blob.
+    types:
+    - uid: string
+  - name: properties.certPassword
+    description: The certificate password.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Upload a TDE certificate
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/testtdecert/providers/Microsoft.Sql/servers/testtdecert/tdeCertificates?api-version=2021-11-01-preview
+    body: >-
+      {
+        "properties": {
+          "privateBlob": "MIIXXXXXXXX"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000001/resourceGroups/testtdecert/providers/Microsoft.Sql/servers/testtdecert/tdeCertificates?api-version=2021-11-01-preview
+
+      {
+        "properties": {
+          "privateBlob": "MIIXXXXXXXX"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Creates a TDE certificate for a given server.
+errorCodes: []

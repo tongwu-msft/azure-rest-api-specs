@@ -1,5 +1,6 @@
 ---
 title: "AssetDeliveryPolicy"
+description: Learn about AssetDeliveryPolicy and the related entity properties.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

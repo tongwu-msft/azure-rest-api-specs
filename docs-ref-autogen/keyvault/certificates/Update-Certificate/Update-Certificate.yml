@@ -3,14 +3,14 @@ uid: keyvault.certificates.updatecertificate.updatecertificate
 name: Update Certificate
 service: Key Vault
 groupName: Update Certificate
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Updates the specified attributes associated with the given certificate.  \nThe UpdateCertificate operation applies the specified update on the given certificate; the only elements updated are the certificate's attributes. This operation requires the certificates/update permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH {vaultBaseUrl}/certificates/{certificate-name}/{certificate-version}?api-version=7.2
+- content: PATCH {vaultBaseUrl}/certificates/{certificate-name}/{certificate-version}?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -174,7 +174,7 @@ definitions:
     types:
     - uid: string
   - name: contentType
-    description: The content type of the secret.
+    description: "The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', "
     types:
     - uid: string
   - name: attributes
@@ -223,7 +223,7 @@ definitions:
   kind: object
   properties:
   - name: exportable
-    description: Not supported in this version. Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: kty
@@ -445,7 +445,7 @@ definitions:
 examples:
 - name: UpdateCertificate
   request:
-    uri: PATCH https://myvault.vault.azure.net//certificates/updateCert01/c3d31d7b36c942ad83ef36fc0785a4fc?api-version=7.2
+    uri: PATCH https://myvault.vault.azure.net//certificates/updateCert01/c3d31d7b36c942ad83ef36fc0785a4fc?api-version=7.3
     body: >-
       {
         "attributes": {
@@ -457,6 +457,24 @@ examples:
           "department": "KeyVaultTest"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://myvault.vault.azure.net//certificates/updateCert01/c3d31d7b36c942ad83ef36fc0785a4fc?api-version=7.3
+
+      {
+        "attributes": {
+          "enabled": true,
+          "nbf": 1430344421,
+          "exp": 2208988799
+        },
+        "tags": {
+          "department": "KeyVaultTest"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -479,5 +497,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Updates the specified attributes associated with the given certificate.  \nThe UpdateCertificate operation applies the specified update on the given certificate;"
+  description: >-
+    Updates the specified attributes associated with the given certificate.
+
+    The UpdateCertificate operation applies the specified update on the given certificate; t
 errorCodes: []

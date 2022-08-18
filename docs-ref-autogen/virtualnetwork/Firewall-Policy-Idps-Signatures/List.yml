@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.firewallpolicyidpssignatures.list
 name: List
 service: Virtual Networks
 groupName: Firewall Policy Idps Signatures
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Retrieves the current status of IDPS signatures for the relevant policy
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/firewallPolicies/{firewallPolicyName}/listIdpsSignatures?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,6 +28,12 @@ uriParameters:
   in: path
   isRequired: true
   description: The name of the Firewall Policy.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
   types:
   - uid: string
 responses:
@@ -94,9 +100,7 @@ definitions:
   - name: order
     description: Describes if results should be in ascending/descending order
     types:
-    - uid: Ascending
-    - uid: Descending
-    typesTitle: enum
+    - uid: FirewallPolicyIDPSQuerySortOrder
 - name: QueryResults
   description: Query result
   kind: object
@@ -143,6 +147,16 @@ definitions:
     description: The number of records matching the filter to skip
     types:
     - uid: integer
+- name: FirewallPolicyIDPSQuerySortOrder
+  description: Describes if results should be in ascending/descending order
+  kind: enum
+  properties:
+  - name: Ascending
+    types:
+    - uid: string
+  - name: Descending
+    types:
+    - uid: string
 - name: SingleQueryResult
   kind: object
   properties:
@@ -153,24 +167,15 @@ definitions:
   - name: mode
     description: The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny
     types:
-    - uid: "0"
-    - uid: "1"
-    - uid: "2"
-    typesTitle: enum
+    - uid: FirewallPolicyIDPSSignatureMode
   - name: severity
     description: 'Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High'
     types:
-    - uid: "1"
-    - uid: "2"
-    - uid: "3"
-    typesTitle: enum
+    - uid: FirewallPolicyIDPSSignatureSeverity
   - name: direction
     description: 'Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional'
     types:
-    - uid: "0"
-    - uid: "1"
-    - uid: "2"
-    typesTitle: enum
+    - uid: FirewallPolicyIDPSSignatureDirection
   - name: group
     description: Describes the groups the signature belongs to
     types:
@@ -222,10 +227,49 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: FirewallPolicyIDPSSignatureMode
+  description: The current mode enforced, 0 - Disabled, 1 - Alert, 2 -Deny
+  kind: enum
+  properties:
+  - name: "0"
+    types:
+    - uid: Integer
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
+- name: FirewallPolicyIDPSSignatureSeverity
+  description: 'Describes the severity of signature: 1 - Low, 2 - Medium, 3 - High'
+  kind: enum
+  properties:
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
+  - name: "3"
+    types:
+    - uid: Integer
+- name: FirewallPolicyIDPSSignatureDirection
+  description: 'Describes in which direction signature is being enforced: 0 - Inbound, 1 - OutBound, 2 - Bidirectional'
+  kind: enum
+  properties:
+  - name: "0"
+    types:
+    - uid: Integer
+  - name: "1"
+    types:
+    - uid: Integer
+  - name: "2"
+    types:
+    - uid: Integer
 examples:
 - name: query signature overrides
   request:
-    uri: POST https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/listIdpsSignatures
+    uri: POST https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/listIdpsSignatures?api-version=2022-01-01
     body: >-
       {
         "filters": [
@@ -244,6 +288,115 @@ examples:
         "resultsPerPage": 20,
         "skip": 0
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/e747cc13-97d4-4a79-b463-42d7f4e558f2/resourceGroups/rg1/providers/Microsoft.Network/firewallPolicies/firewallPolicy/listIdpsSignatures?api-version=2022-01-01
+
+      {
+        "filters": [
+          {
+            "field": "Mode",
+            "values": [
+              "Deny"
+            ]
+          }
+        ],
+        "search": "",
+        "orderBy": {
+          "field": "severity",
+          "order": "Ascending"
+        },
+        "resultsPerPage": 20,
+        "skip": 0
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyQuerySignatureOverrides.json
+      func ExampleFirewallPolicyIdpsSignaturesClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewFirewallPolicyIdpsSignaturesClient("e747cc13-97d4-4a79-b463-42d7f4e558f2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx, "rg1", "firewallPolicy", armnetwork.IDPSQueryObject{
+      		Filters: []*armnetwork.FilterItems{
+      			{
+      				Field: to.Ptr("Mode"),
+      				Values: []*string{
+      					to.Ptr("Deny")},
+      			}},
+      		OrderBy: &armnetwork.OrderBy{
+      			Field: to.Ptr("severity"),
+      			Order: to.Ptr(armnetwork.FirewallPolicyIDPSQuerySortOrderAscending),
+      		},
+      		ResultsPerPage: to.Ptr[int32](20),
+      		Search:         to.Ptr(""),
+      		Skip:           to.Ptr[int32](0),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves the current status of IDPS signatures for the relevant policy
+       *
+       * @summary Retrieves the current status of IDPS signatures for the relevant policy
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/FirewallPolicyQuerySignatureOverrides.json
+       */
+      async function querySignatureOverrides() {
+        const subscriptionId = "e747cc13-97d4-4a79-b463-42d7f4e558f2";
+        const resourceGroupName = "rg1";
+        const firewallPolicyName = "firewallPolicy";
+        const parameters = {
+          filters: [{ field: "Mode", values: ["Deny"] }],
+          orderBy: { field: "severity", order: "Ascending" },
+          resultsPerPage: 20,
+          search: "",
+          skip: 0,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.firewallPolicyIdpsSignatures.list(
+          resourceGroupName,
+          firewallPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      querySignatureOverrides().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -296,5 +449,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Retrieves the current status of IDPS signatures for the relevant policy
+  description: >
+    Learn more about Virtual Networks service - Retrieves the current status of IDPS signatures for the relevant policy
 errorCodes: []

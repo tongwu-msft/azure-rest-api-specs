@@ -1,8 +1,8 @@
 ---
-title: "VolumeProviderParametersAzureFile"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Service Fabric Mesh Type VolumeProviderParametersAzureFile"
+description: Describes the volume from an Azure file share and provides the property names, types, and requirement statuses for Volume Provider Parameters.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# VolumeProviderParametersAzureFile
+# Service Fabric Mesh Type VolumeProviderParametersAzureFile
 
 This type describes a volume provided by an Azure Files file share.
 

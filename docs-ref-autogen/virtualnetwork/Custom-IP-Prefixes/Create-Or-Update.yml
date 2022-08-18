@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.customipprefixes.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Custom IP Prefixes
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates a custom IP prefix.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/customIpPrefixes/{customIpPrefixName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -88,6 +88,11 @@ requestBody:
     description: The commissioned state of the Custom IP Prefix.
     types:
     - uid: CommissionedState
+  - name: properties.noInternetAdvertise
+    in: body
+    description: Whether to Advertise the range to Internet.
+    types:
+    - uid: boolean
   - name: id
     in: body
     description: Resource ID.
@@ -173,6 +178,10 @@ definitions:
     description: The commissioned state of the Custom IP Prefix.
     types:
     - uid: CommissionedState
+  - name: properties.noInternetAdvertise
+    description: Whether to Advertise the range to Internet.
+    types:
+    - uid: boolean
   - name: properties.publicIpPrefixes
     isReadyOnly: true
     description: The list of all referenced PublicIpPrefixes.
@@ -257,6 +266,9 @@ definitions:
   - name: Deprovisioning
     types:
     - uid: string
+  - name: CommissionedNoInternetAdvertise
+    types:
+    - uid: string
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -297,7 +309,7 @@ definitions:
 examples:
 - name: Create custom IP prefix allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2022-01-01
     body: >-
       {
         "location": "westus",
@@ -305,6 +317,93 @@ examples:
           "cidr": "0.0.0.0/24"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/customIpPrefixes/test-customipprefix?api-version=2022-01-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "cidr": "0.0.0.0/24"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/CustomIpPrefixCreateCustomizedValues.json
+      func ExampleCustomIPPrefixesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewCustomIPPrefixesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-customipprefix", armnetwork.CustomIPPrefix{
+      		Location: to.Ptr("westus"),
+      		Properties: &armnetwork.CustomIPPrefixPropertiesFormat{
+      			Cidr: to.Ptr("0.0.0.0/24"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a custom IP prefix.
+       *
+       * @summary Creates or updates a custom IP prefix.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/CustomIpPrefixCreateCustomizedValues.json
+       */
+      async function createCustomIPPrefixAllocationMethod() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const customIpPrefixName = "test-customipprefix";
+        const parameters = { cidr: "0.0.0.0/24", location: "westus" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.customIPPrefixes.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          customIpPrefixName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createCustomIPPrefixAllocationMethod().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -362,5 +461,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Creates or updates a custom IP prefix.
+  description: >
+    Learn more about Virtual Networks service - Creates or updates a custom IP prefix.
 errorCodes: []

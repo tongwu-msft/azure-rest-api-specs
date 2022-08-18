@@ -1,10 +1,10 @@
 ---
 title: Create Indexer (Azure Cognitive Search REST API-version=2020-06-30)
 description: Indexers are resources that automate many aspects of data ingestion into an Azure Cognitive Search indexes. You must use a supported Azure data source to use this API.
-ms.date: 02/11/2021
+ms.date: 07/25/2022
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen
@@ -122,6 +122,14 @@ Several parameters are exclusive to a particular indexer, such as [Azure blob in
 | `"allowSkillsetToReadFileData"` | Boolean<br/> true <br/>false (default) | Setting the `"allowSkillsetToReadFileData"` parameter to `true` will create a path `/document/file_data` that is an object representing the original file data downloaded from your blob data source.  This allows you to pass the original file data to a [custom skill](/azure/search/cognitive-search-custom-skill-web-api) for processing within the enrichment pipeline, or to the [Document Extraction skill](/azure/search/cognitive-search-skill-document-extraction). The object generated will be defined as follows: `{ "$type": "file", "data": "BASE64 encoded string of the file" }` <br/><br/> Setting the `"allowSkillsetToReadFileData"` parameter to `true` requires that a [skillset](create-skillset.md) be attached to that indexer and that the `"parsingMode"` parameter is set to `"default"`, `"text"` or `"json"`. |
 | `"pdfTextRotationAlgorithm"` | String<br/> `"none"` (default)<br/> `"detectAngles"` | Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` may help produce better and more readable text extraction from PDF files that have rotated text within them.  Note that there may be a small performance speed impact when this parameter is used. This parameter only applies to PDF files, and only to PDFs with embedded text. If the rotated text appears within an embedded image in the PDF, this parameter does not apply.<br/><br/> Setting the `"pdfTextRotationAlgorithm"` parameter to `"detectAngles"` requires that the `"parsingMode"` parameter is set to `"default"`. |
 
+#### Azure Cosmos DB configuration parameters
+
+The following parameters are specific to Cosmos DB indexers.
+
+| Parameter | Type and allowed values	| Usage       |
+|-----------|---------------------------|-------------|
+|`"assumeOrderByHighWaterMarkColumn"` | Boolean  | For [Cosmos DB indexers with SQL API](/azure/search/search-howto-index-cosmosdb), set this parameter to provide a hint to Cosmos DB that the query used to return documents for indexing is in fact ordered by the `_ts` column. Setting this parameter gives you better results for [incremental indexing scenarios](/azure/search/search-howto-index-cosmosdb#incremental-indexing-and-custom-queries). |
+
 ### Azure SQL configuration parameters
 
 The following parameters are specific to Azure SQL Database.
@@ -129,6 +137,8 @@ The following parameters are specific to Azure SQL Database.
 | Parameter | Type and allowed values	| Usage       |
 |-----------|---------------------------|-------------|
 |`"queryTimeout"` | String<br/>"hh:mm:ss"<br/>"00:05:00"   | For [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers), set this parameter to increase the timeout beyond the 5-minute default.|
+|`"convertHighWaterMarkToRowVersion"` | Boolean  | Set this parameter to "true"  to use the rowversion data type for the high water mark column. When this property is set to true, the indexer subtracts one from the rowversion value before the indexer runs. It does this because views with one-to-many joins may have rows with duplicate rowversion values. Subtracting one ensures the indexer query doesn't miss these rows. |
+|`"disableOrderByHighWaterMarkColumn"` | Boolean | Set this parameter to "true" if you want to [disable the ORDER BY behavior](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers#disableorderbyhighwatermarkcolumn) in the query used for change detection. If you're using the high water mark change detection policy, the indexer uses WHERE and ORDER BY clauses to track which rows need indexing (`WHERE [High Water Mark Column] > [Current High Water Mark Value] ORDER BY [High Water Mark Column]`). This parameter disables the ORDER BY behavior. Indexing will finish faster, but the trade off is that if the indexer is interrupted for any reason, the entire indexer job must be repeated in full.|
 
 ## Response
 

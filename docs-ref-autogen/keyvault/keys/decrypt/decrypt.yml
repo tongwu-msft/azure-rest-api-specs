@@ -3,14 +3,14 @@ uid: keyvault.keys.decrypt.decrypt
 name: decrypt
 service: Key Vault
 groupName: decrypt
-apiVersion: "7.2"
-summary: "Decrypts a single block of encrypted data.  \nThe DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used. The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/decrypt permission."
+apiVersion: "7.3"
+summary: "Decrypts a single block of encrypted data.  \nThe DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algorithm. This operation is the reverse of the ENCRYPT operation; only a single block of data may be decrypted, the size of this block is dependent on the target key and the algorithm to be used. The DECRYPT operation applies to asymmetric and symmetric keys stored in Azure Key Vault since it uses the private portion of the key. This operation requires the keys/decrypt permission. Microsoft recommends not to use CBC algorithms for decryption without first ensuring the integrity of the ciphertext using an HMAC, for example. See https://docs.microsoft.com/dotnet/standard/security/vulnerabilities-cbc-mode for more information."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/decrypt?api-version=7.2
+- content: POST {vaultBaseUrl}/keys/{key-name}/{key-version}/decrypt?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -63,7 +63,7 @@ requestBody:
     - uid: string
   - name: iv
     in: body
-    description: Initialization vector for symmetric algorithms.
+    description: Cryptographically random, non-repeating initialization vector for symmetric algorithms.
     types:
     - uid: string
   - name: aad
@@ -129,7 +129,7 @@ definitions:
     types:
     - uid: string
   - name: iv
-    description: Initialization vector for symmetric algorithms.
+    description: Cryptographically random, non-repeating initialization vector for symmetric algorithms.
     types:
     - uid: string
   - name: aad
@@ -211,12 +211,24 @@ definitions:
 examples:
 - name: Decrypt example
   request:
-    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/4eb68492b5f6421e835d961ad2be3155/decrypt?api-version=7.2
+    uri: POST https://myvault.vault.azure.net//keys/sdktestkey/4eb68492b5f6421e835d961ad2be3155/decrypt?api-version=7.3
     body: >-
       {
         "alg": "RSA-OAEP",
         "value": "sid-4nG3FzRIFWXLXlG-FZo6H1-kzbNX5Exe0_VRqcGLuJWjI9oSofsn-2IagDsQzkpNAXv9V8aoIizelrK_14darhxaAV8OejO7Oh7spjxa7IxMVS3e-cwcLdEHzMbMfM1uFpDyRFqEUASHI0H8F1M2m1e9TUSXOVW3KMqm7cK94ZQMFvd4AYdLfmfnStMp_MqIQh4kpIkB6h2b1M3possVrLKH_l2L3uT-qFiwQlH9-dt0Cje5mrkpsYCy4hAXNFUPhIyBWAZwOQylIE2sPuopFs55lRIHpWP2CqNe-IK8tX87BRuJ_Vy3GIFxDjD5uu74scIyQCKMImB6xQ_-mQ"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/sdktestkey/4eb68492b5f6421e835d961ad2be3155/decrypt?api-version=7.3
+
+      {
+        "alg": "RSA-OAEP",
+        "value": "sid-4nG3FzRIFWXLXlG-FZo6H1-kzbNX5Exe0_VRqcGLuJWjI9oSofsn-2IagDsQzkpNAXv9V8aoIizelrK_14darhxaAV8OejO7Oh7spjxa7IxMVS3e-cwcLdEHzMbMfM1uFpDyRFqEUASHI0H8F1M2m1e9TUSXOVW3KMqm7cK94ZQMFvd4AYdLfmfnStMp_MqIQh4kpIkB6h2b1M3possVrLKH_l2L3uT-qFiwQlH9-dt0Cje5mrkpsYCy4hAXNFUPhIyBWAZwOQylIE2sPuopFs55lRIHpWP2CqNe-IK8tX87BRuJ_Vy3GIFxDjD5uu74scIyQCKMImB6xQ_-mQ"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -226,5 +238,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Decrypts a single block of encrypted data.  \nThe DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algo"
+  description: >-
+    Decrypts a single block of encrypted data.
+
+    The DECRYPT operation decrypts a well-formed block of ciphertext using the target encryption key and specified algori
 errorCodes: []

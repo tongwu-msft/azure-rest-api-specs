@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datamigration.databasemigrationssqlvm.cutover
+name: cutover
+service: Data Migration
+groupName: Database Migrations SQL VM
+apiVersion: 2022-01-30-preview
+summary: Initiate cutover for in-progress online database migration to SQL VM.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/{sqlVirtualMachineName}/providers/Microsoft.DataMigration/databaseMigrations/{targetDbName}/cutover?api-version=2022-01-30-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: sqlVirtualMachineName
+  in: path
+  isRequired: true
+  types:
+  - uid: string
+- name: targetDbName
+  in: path
+  isRequired: true
+  description: The name of the target database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successful cutover for ongoing migration.
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidParameterValue - An invalid value was provided for parameter '{0}'.
+
+     * 400 GenericUser - User Failure when calling other Resource Provider.
+
+     * 400 OperationIdNotFound - Operation ID '{0}' not found.
+
+     * 400 OperationTypeNotFound - Operation Type '{0}' not found.
+
+     * 400 InvalidArgument - Invalid argument '{0}'.
+
+     * 400 TestConnectionFailed - Failed to test connections using provided Integration Runtime. Error details: '{0}'
+
+     * 400 CutoverNotAllowedMigrationCompleteError - Cutover is not allowed as migration for database '{0}' is already complete
+
+     * 400 IntegrationRuntimeIsNotOnline - Integration Runtime '{0}' is not online for resource group '{1}' subscription '{2}'
+
+     * 400 InvalidStorageAccount - Invalid storage account: '{0}'. Only BlockBlobStorage kind is supported for premium tier.
+
+     * 400 InvalidLocation - Invalid Location: '{0}'. Location should match selected Azure target location '{1}'.
+
+     * 400 MigrationNotReadyForCancelError - Database '{0}' is not ready for Cancel operation
+
+     * 400 RestoreJobCompletedDuringCancel - Migration cannot be canceled as Restore Job was completed during the cancel process. Target server:'{0}', Target database: '{1}'.
+
+     * 400 SqlVmGenericUserError - {0}
+
+     * 400 RequestFailed - Request to the resource '{0}' failed. Error code : '{1}'. HTTP status code : '{2}'. Error message : '{3}'.
+
+     * 400 InvalidContainerName - Invalid storage account container name: '{0}'. Container name 'backup' is not supported in SQL Managed Instance.
+
+     * 400 IntegrationRuntimeIsNotSelfHosted - Integration Runtime is not self-hosted for subscription '{0}' resource group '{1}' and name '{2}'
+
+     * 400 MigrationNotReadyForCutoverError - Database '{0}' is not ready for Cutover operation
+
+     * 400 CutoverFailedOrCancelled - Cutover failed or cancelled for database '{0}'. Error details: '{1}'
+
+     * 400 MigrationCancelFailed - Cancel could not be performed on operation '{0}' for database '{1}'. This can happen if the migration with MigrationId '{0}' is already completed or canceled. Please check the migration for details.
+
+     * 403 AccessDenied - Access denied.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 SubscriptionDoesNotExist - Subscription id does not exist.
+
+     * 404 ResourceDoesNotExist - Resource does not exist.
+
+     * 405 SubscriptionNotReady - Subscription is not in Ready state.
+
+     * 409 OperationInProgress - Operation in progress on resource already.
+
+     * 409 OperationCanceled - Operation Cancelled.
+
+     * 409 ResourceAlreadyExists - Resource already exists.
+
+     * 409 SubscriptionOperationInProgress - An operation on subscription is already in progress
+
+     * 500 UnExpectedErrorOccurred - Unexpected error occurred.
+
+     * 500 OperationTimeout - Operation timed out.
+
+     * 500 GenericSystem - System Failure when calling other Resource Provider.
+
+     * 500 CancelVmRestoreJobFailed - Failed to cancel VM restore job. Target server:'{0}', Target database: '{1}', Error details: '{2}'.
+
+     * 500 AdfCleanupFailureAfterMigration - Failed to clean up ADF resources after migration has completed successfully. Target server:'{0}', Target database: '{1}', Error details: '{2}'.
+
+     * 500 CancelMigrationFailed - Failed to cancel migration. Target server:'{0}', Target database: '{1}', Migration Id: '{2}', Error details: '{3}'.
+- name: 202 Accepted
+  description: Accepted cutover request for ongoing migration.
+requestBody:
+- name: default
+  parameters:
+  - name: migrationOperationId
+    in: body
+    description: ID tracking migration operation.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: MigrationOperationInput
+  description: Migration Operation Input
+  kind: object
+  properties:
+  - name: migrationOperationId
+    description: ID tracking migration operation.
+    types:
+    - uid: string
+examples:
+- name: Cutover online migration operation for the database.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm/providers/Microsoft.DataMigration/databaseMigrations/db1/cutover?api-version=2022-01-30-preview
+    body: >-
+      {
+        "migrationOperationId": "4124fe90-d1b6-4b50-b4d9-46d02381f59a"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testrg/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines/testvm/providers/Microsoft.DataMigration/databaseMigrations/db1/cutover?api-version=2022-01-30-preview
+
+      {
+        "migrationOperationId": "4124fe90-d1b6-4b50-b4d9-46d02381f59a"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about Data Migration service - Initiate cutover for in-progress online database migration to SQL VM.
+errorCodes: []

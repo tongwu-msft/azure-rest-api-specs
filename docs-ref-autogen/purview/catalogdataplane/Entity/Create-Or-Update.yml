@@ -3,7 +3,7 @@ uid: catalog.api.purview.catalogdataplane.entity.createorupdate
 name: Create Or Update
 service: Purview
 groupName: Entity
-apiVersion: 2021-05-01-preview
+apiVersion: 2022-03-01-preview
 summary: >-
   Create or update an entity in Atlas.
 
@@ -68,6 +68,14 @@ definitions:
     description: "lastModifiedTS  \nETag for concurrency control."
     types:
     - uid: string
+  - name: businessAttributes
+    description: Business Attributes
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
   - name: classifications
     description: An array of classifications.
     types:
@@ -81,6 +89,14 @@ definitions:
     description: The user who created the record.
     types:
     - uid: string
+  - name: customAttributes
+    description: Custom Attribute
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: guid
     description: The GUID of the entity.
     types:
@@ -89,6 +105,15 @@ definitions:
     description: The home ID of the entity.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meanings
     description: An array of term assignment headers indicating the meanings of the entity.
     types:
@@ -348,6 +373,15 @@ definitions:
     description: The GUID of the record.
     types:
     - uid: string
+  - name: isIncomplete
+    description: Whether it is a shell entity
+    types:
+    - uid: boolean
+  - name: labels
+    description: labels
+    types:
+    - uid: string
+      isArray: true
   - name: meaningNames
     description: An array of meanings.
     types:
@@ -441,6 +475,47 @@ examples:
           "version": 0
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/atlas/v2/entity
+
+      {
+        "referredEntities": {},
+        "entity": {
+          "typeName": "azure_storage_account",
+          "attributes": {
+            "owner": "ExampleOwner",
+            "modifiedTime": 0,
+            "createTime": 0,
+            "qualifiedName": "https://exampleaccount.core.windows.net",
+            "name": "ExampleStorageAccount",
+            "description": null,
+            "publicAccessLevel": null
+          },
+          "contacts": {
+            "Expert": [
+              {
+                "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                "info": "Example Expert Info"
+              }
+            ],
+            "Owner": [
+              {
+                "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                "info": "Example Owner Info"
+              }
+            ]
+          },
+          "status": "ACTIVE",
+          "createdBy": "ExampleCreator",
+          "updatedBy": "ExampleUpdator",
+          "version": 0
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -499,6 +574,47 @@ examples:
           "version": 0
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/atlas/v2/entity
+
+      {
+        "referredEntities": {},
+        "entity": {
+          "typeName": "azure_storage_account",
+          "attributes": {
+            "owner": "ExampleOwner",
+            "modifiedTime": 0,
+            "createTime": 0,
+            "qualifiedName": "exampleaccount",
+            "name": "ExampleStorageAccount",
+            "description": null,
+            "publicAccessLevel": null
+          },
+          "contacts": {
+            "Expert": [
+              {
+                "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                "info": "Example Expert Info"
+              }
+            ],
+            "Owner": [
+              {
+                "id": "30435ff9-9b96-44af-a5a9-e05c8b1ae2df",
+                "info": "Example Owner Info"
+              }
+            ]
+          },
+          "status": "ACTIVE",
+          "createdBy": "ExampleCreator",
+          "updatedBy": "ExampleUpdator",
+          "version": 0
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -517,6 +633,86 @@ examples:
         },
         "guidAssignments": {
           "-9514774903018167": "029d5668-a36c-40a9-bc11-6f352bafdc3b"
+        }
+      }
+- name: Entity_AddCustomAttribute
+  request:
+    uri: POST {Endpoint}/catalog/api/atlas/v2/entity
+    body: >-
+      {
+        "referredEntities": {},
+        "entity": {
+          "typeName": "azure_storage_account",
+          "attributes": {
+            "owner": "ExampleOwner",
+            "modifiedTime": 0,
+            "createTime": 0,
+            "qualifiedName": "https://exampleaccount.core.windows.net",
+            "name": "ExampleStorageAccount",
+            "description": null,
+            "publicAccessLevel": null
+          },
+          "customAttributes": {
+            "custAttr1": "attr1",
+            "custAttr2": "attr2"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/catalog/api/atlas/v2/entity
+
+      {
+        "referredEntities": {},
+        "entity": {
+          "typeName": "azure_storage_account",
+          "attributes": {
+            "owner": "ExampleOwner",
+            "modifiedTime": 0,
+            "createTime": 0,
+            "qualifiedName": "https://exampleaccount.core.windows.net",
+            "name": "ExampleStorageAccount",
+            "description": null,
+            "publicAccessLevel": null
+          },
+          "customAttributes": {
+            "custAttr1": "attr1",
+            "custAttr2": "attr2"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "mutatedEntities": {
+          "CREATE": [
+            {
+              "typeName": "azure_storage_account",
+              "attributes": {
+                "owner": "ExampleOwner",
+                "createTime": 0,
+                "qualifiedName": "https://exampleaccount.core.windows.net",
+                "name": "ExampleStorageAccount"
+              },
+              "lastModifiedTS": "1",
+              "guid": "c696b935-2c76-4208-bc0d-8864553a67f1",
+              "displayText": "ExampleStorageAccount",
+              "classificationNames": [],
+              "classifications": [],
+              "meaningNames": [],
+              "meanings": [],
+              "isIncomplete": false,
+              "labels": []
+            }
+          ]
+        },
+        "guidAssignments": {
+          "-16806536444330": "c696b935-2c76-4208-bc0d-8864553a67f1"
         }
       }
 security:

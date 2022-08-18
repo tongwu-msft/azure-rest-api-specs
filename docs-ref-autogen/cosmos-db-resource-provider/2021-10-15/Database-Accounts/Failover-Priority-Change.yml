@@ -97,6 +97,115 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1-failover/failoverPriorityChange?api-version=2021-10-15
+
+      {
+        "failoverPolicies": [
+          {
+            "locationName": "eastus",
+            "failoverPriority": 0
+          },
+          {
+            "locationName": "westus",
+            "failoverPriority": 1
+          }
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cosmos.models.FailoverPolicies;
+      import com.azure.resourcemanager.cosmos.models.FailoverPolicy;
+      import java.util.Arrays;
+
+      /** Samples for DatabaseAccounts FailoverPriorityChange. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBDatabaseAccountFailoverPriorityChange.json
+           */
+          /**
+           * Sample code: CosmosDBDatabaseAccountFailoverPriorityChange.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBDatabaseAccountFailoverPriorityChange(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getDatabaseAccounts()
+                  .failoverPriorityChange(
+                      "rg1",
+                      "ddb1-failover",
+                      new FailoverPolicies()
+                          .withFailoverPolicies(
+                              Arrays
+                                  .asList(
+                                      new FailoverPolicy().withLocationName("eastus").withFailoverPriority(0),
+                                      new FailoverPolicy().withLocationName("westus").withFailoverPriority(1))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2021-10-15/examples/CosmosDBDatabaseAccountFailoverPriorityChange.json
+      func ExampleDatabaseAccountsClient_BeginFailoverPriorityChange() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewDatabaseAccountsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginFailoverPriorityChange(ctx,
+      		"rg1",
+      		"ddb1-failover",
+      		armcosmos.FailoverPolicies{
+      			FailoverPolicies: []*armcosmos.FailoverPolicy{
+      				{
+      					FailoverPriority: to.Ptr[int32](0),
+      					LocationName:     to.Ptr("eastus"),
+      				},
+      				{
+      					FailoverPriority: to.Ptr[int32](1),
+      					LocationName:     to.Ptr("westus"),
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv1.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "204"

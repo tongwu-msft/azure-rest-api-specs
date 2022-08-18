@@ -3,14 +3,14 @@ uid: management.azure.com.apimanagement.current-preview.certificate.createorupda
 name: Create Or Update
 service: API Management
 groupName: Certificate
-apiVersion: 2021-04-01-preview
+apiVersion: 2021-12-01-preview
 summary: Creates or updates the certificate being used for authentication with the backend.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}?api-version=2021-04-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/certificates/{certificateId}?api-version=2021-12-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -97,7 +97,7 @@ definitions:
     types:
     - uid: string
   - name: identityClientId
-    description: SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret.
+    description: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret.
     types:
     - uid: string
 - name: CertificateContract
@@ -181,7 +181,7 @@ definitions:
     types:
     - uid: string
   - name: identityClientId
-    description: SystemAssignedIdentity or UserAssignedIdentity Client Id which will be used to access key vault secret.
+    description: Null for SystemAssignedIdentity or Client Id for UserAssignedIdentity , which will be used to access key vault secret.
     types:
     - uid: string
 - name: ErrorFieldContract
@@ -219,7 +219,7 @@ definitions:
 examples:
 - name: ApiManagementCreateCertificate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert?api-version=2021-04-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert?api-version=2021-12-01-preview
     body: >-
       {
         "properties": {
@@ -227,6 +227,20 @@ examples:
           "password": "****Certificate Password******"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/tempcert?api-version=2021-12-01-preview
+
+      {
+        "properties": {
+          "data": "****************Base 64 Encoded Certificate *******************************",
+          "password": "****Certificate Password******"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -254,7 +268,7 @@ examples:
       }
 - name: ApiManagementCreateCertificateWithKeyVault
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCertkv?api-version=2021-04-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCertkv?api-version=2021-12-01-preview
     body: >-
       {
         "properties": {
@@ -264,6 +278,22 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/certificates/templateCertkv?api-version=2021-12-01-preview
+
+      {
+        "properties": {
+          "keyVault": {
+            "identityClientId": "ceaa6b06-c00f-43ef-99ac-f53d1fe876a0",
+            "secretIdentifier": "https://rpbvtkeyvaultintegration.vault-int.azure-int.net/secrets/msitestingCert"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -315,5 +345,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Creates or updates the certificate being used for authentication with the backend.
+  description: >
+    Learn more about API Management service - Creates or updates the certificate being used for authentication with the backend.
 errorCodes: []

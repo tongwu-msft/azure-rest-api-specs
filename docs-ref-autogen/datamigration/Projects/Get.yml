@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.projects.get
 name: Get
 service: Data Migration
 groupName: Projects
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Get project information  \nThe project resource is a nested resource representing a stored migration project. The GET method retrieves information about a project."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}?api-version=2018-04-19
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{groupName}/providers/Microsoft.DataMigration/services/{serviceName}/projects/{projectName}?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: groupName
@@ -57,10 +57,23 @@ definitions:
   description: A project resource
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+  - name: etag
+    description: HTTP strong entity tag value. This is ignored if submitted.
+    types:
+    - uid: string
   - name: properties.sourcePlatform
     description: Source platform for the project
     types:
     - uid: ProjectSourcePlatform
+  - name: properties.azureAuthenticationInfo
+    description: Field that defines the Azure active directory application info, used to connect to the target Azure resource
+    types:
+    - uid: AzureActiveDirectoryApp
   - name: properties.targetPlatform
     description: Target platform for the project
     types:
@@ -73,18 +86,20 @@ definitions:
   - name: properties.sourceConnectionInfo
     description: Information for connecting to source
     types:
+    - uid: SqlConnectionInfo
     - uid: MySqlConnectionInfo
+    - uid: OracleConnectionInfo
     - uid: PostgreSqlConnectionInfo
     - uid: MiSqlConnectionInfo
-    - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.targetConnectionInfo
     description: Information for connecting to target
     types:
+    - uid: SqlConnectionInfo
     - uid: MySqlConnectionInfo
+    - uid: OracleConnectionInfo
     - uid: PostgreSqlConnectionInfo
     - uid: MiSqlConnectionInfo
-    - uid: SqlConnectionInfo
     typesTitle: ConnectionInfo
   - name: properties.databasesInfo
     description: List of DatabaseInfo
@@ -96,31 +111,31 @@ definitions:
     description: The project's provisioning state
     types:
     - uid: ProjectProvisioningState
+  - name: location
+    description: ''
+    types:
+    - uid: string
   - name: tags
-    description: Resource tags.
+    description: ''
     types:
     - uid: object
       isDictionary: true
       additionalTypes:
       - uid: string
       - uid: string
-  - name: location
-    description: Resource location.
-    types:
-    - uid: string
   - name: id
     isReadyOnly: true
-    description: Resource ID.
+    description: ''
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name.
+    description: ''
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type.
+    description: ''
     types:
     - uid: string
 - name: ApiError
@@ -131,6 +146,38 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
 - name: ProjectSourcePlatform
   description: Source platform of the project
   kind: enum
@@ -138,14 +185,55 @@ definitions:
   - name: SQL
     types:
     - uid: string
+  - name: MySQL
+    types:
+    - uid: string
+  - name: PostgreSql
+    types:
+    - uid: string
+  - name: MongoDb
+    types:
+    - uid: string
   - name: Unknown
     types:
     - uid: string
+- name: AzureActiveDirectoryApp
+  description: Azure Active Directory Application
+  kind: object
+  properties:
+  - name: applicationId
+    description: Application ID of the Azure Active Directory Application
+    types:
+    - uid: string
+  - name: appKey
+    description: Key used to authenticate to the Azure Active Directory Application
+    types:
+    - uid: string
+  - name: tenantId
+    description: Tenant id of the customer
+    types:
+    - uid: string
+  - name: ignoreAzurePermissions
+    description: Ignore checking azure permissions on the AAD app
+    types:
+    - uid: boolean
 - name: ProjectTargetPlatform
   description: Target platform of the project
   kind: enum
   properties:
   - name: SQLDB
+    types:
+    - uid: string
+  - name: SQLMI
+    types:
+    - uid: string
+  - name: AzureDbForMySql
+    types:
+    - uid: string
+  - name: AzureDbForPostgreSql
+    types:
+    - uid: string
+  - name: MongoDb
     types:
     - uid: string
   - name: Unknown
@@ -174,21 +262,96 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: SqlConnectionInfo
+  description: Information for connecting to SQL database server
+  kind: object
+  properties:
+  - name: dataSource
+    description: Data source in the format Protocol:MachineName\SQLServerInstanceName,PortNumber
+    types:
+    - uid: string
+  - name: serverName
+    description: name of the server
+    types:
+    - uid: string
+  - name: port
+    description: Port for Server
+    types:
+    - uid: integer
+  - name: serverVersion
+    description: server version
+    types:
+    - uid: string
+  - name: serverBrandVersion
+    description: server brand version
+    types:
+    - uid: string
+  - name: resourceId
+    description: Represents the ID of an HTTP resource represented by an Azure resource provider.
+    types:
+    - uid: string
+  - name: authentication
+    description: Authentication type to use for connection
+    types:
+    - uid: AuthenticationType
+  - name: encryptConnection
+    description: Whether to encrypt the connection
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: additionalSettings
+    description: Additional connection settings
+    types:
+    - uid: string
+  - name: trustServerCertificate
+    description: Whether to trust the server certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: platform
+    description: Server platform type for connection
+    types:
+    - uid: SqlSourcePlatform
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: SqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
 - name: MySqlConnectionInfo
   description: Information for connecting to MySQL server
   kind: object
@@ -197,14 +360,48 @@ definitions:
     description: Name of the server
     types:
     - uid: string
+  - name: dataSource
+    description: 'Data source '
+    types:
+    - uid: string
   - name: port
     description: Port for Server
     types:
     - uid: integer
+  - name: encryptConnection
+    description: Whether to encrypt the connection
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: authentication
+    description: Authentication type to use for connection
+    types:
+    - uid: AuthenticationType
   - name: type
     description: Type of connection info
     types:
     - uid: MySqlConnectionInfo
+    typesTitle: string
+  - name: userName
+    description: User name
+    types:
+    - uid: string
+  - name: password
+    description: Password credential.
+    types:
+    - uid: string
+- name: OracleConnectionInfo
+  description: Information for connecting to Oracle server
+  kind: object
+  properties:
+  - name: dataSource
+    description: EZConnect or TNSName connection string.
+    types:
+    - uid: string
+  - name: type
+    description: Type of connection info
+    types:
+    - uid: OracleConnectionInfo
     typesTitle: string
   - name: userName
     description: User name
@@ -222,6 +419,14 @@ definitions:
     description: Name of the server
     types:
     - uid: string
+  - name: dataSource
+    description: 'Data source '
+    types:
+    - uid: string
+  - name: serverVersion
+    description: server version
+    types:
+    - uid: string
   - name: databaseName
     description: Name of the database
     types:
@@ -230,6 +435,28 @@ definitions:
     description: Port for Server
     types:
     - uid: integer
+  - name: encryptConnection
+    description: Whether to encrypt the connection
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: trustServerCertificate
+    description: Whether to trust the server certificate
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: additionalSettings
+    description: Additional connection settings
+    types:
+    - uid: string
+  - name: serverBrandVersion
+    description: server brand version
+    types:
+    - uid: string
+  - name: authentication
+    description: Authentication type to use for connection
+    types:
+    - uid: AuthenticationType
   - name: type
     description: Type of connection info
     types:
@@ -255,47 +482,6 @@ definitions:
     description: Type of connection info
     types:
     - uid: MiSqlConnectionInfo
-    typesTitle: string
-  - name: userName
-    description: User name
-    types:
-    - uid: string
-  - name: password
-    description: Password credential.
-    types:
-    - uid: string
-- name: SqlConnectionInfo
-  description: Information for connecting to SQL database server
-  kind: object
-  properties:
-  - name: dataSource
-    description: Data source in the format Protocol:MachineName\SQLServerInstanceName,PortNumber
-    types:
-    - uid: string
-  - name: authentication
-    description: Authentication type to use for connection
-    types:
-    - uid: AuthenticationType
-  - name: encryptConnection
-    description: Whether to encrypt the connection
-    types:
-    - uid: boolean
-  - name: additionalSettings
-    description: Additional connection settings
-    types:
-    - uid: string
-  - name: trustServerCertificate
-    description: Whether to trust the server certificate
-    types:
-    - uid: boolean
-  - name: platform
-    description: Server platform type for connection
-    types:
-    - uid: SqlSourcePlatform
-  - name: type
-    description: Type of connection info
-    types:
-    - uid: SqlConnectionInfo
     typesTitle: string
   - name: userName
     description: User name
@@ -334,7 +520,13 @@ definitions:
 examples:
 - name: Projects_Get
   request:
-    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject?api-version=2018-04-19
+    uri: GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject?api-version=2022-01-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/resourceGroups/DmsSdkRg/providers/Microsoft.DataMigration/services/DmsSdkService/projects/DmsSdkProject?api-version=2022-01-30-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -360,5 +552,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Get project information  \nThe project resource is a nested resource representing a stored migration project. The GET method retrieves information about a projec"
+  description: >-
+    Get project information
+
+    The project resource is a nested resource representing a stored migration project. The GET method retrieves information about a project.
 errorCodes: []

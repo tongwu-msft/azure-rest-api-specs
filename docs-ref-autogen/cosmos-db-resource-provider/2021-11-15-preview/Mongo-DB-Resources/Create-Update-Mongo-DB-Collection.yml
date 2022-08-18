@@ -59,36 +59,11 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.resource
+  - name: createUpdateMongoDBCollectionParameters
     in: body
-    isRequired: true
-    description: The standard JSON format of a MongoDB collection
+    description: The parameters to provide for the current MongoDB Collection.
     types:
-    - uid: MongoDBCollectionResource
-  - name: properties.options
-    in: body
-    description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
-    types:
-    - uid: CreateUpdateOptions
-  - name: location
-    in: body
-    description: The location of the resource group to which the resource belongs.
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: identity
-    in: body
-    description: Identity for the resource.
-    types:
-    - uid: ManagedServiceIdentity
+    - uid: MongoDBCollectionCreateUpdateParameters
 requestHeader: []
 definitions:
 - name: MongoDBCollectionResource
@@ -117,7 +92,7 @@ definitions:
     types:
     - uid: integer
 - name: CreateUpdateOptions
-  description: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput"
+  description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
   kind: object
   properties:
   - name: throughput
@@ -194,7 +169,7 @@ definitions:
     types:
     - uid: ManagedServiceIdentity
 - name: MongoDBCollectionCreateUpdateParameters
-  description: Parameters to create and update Cosmos DB MongoDB collection.
+  description: The parameters to provide for the current MongoDB Collection.
   kind: object
   properties:
   - name: properties.resource
@@ -389,6 +364,48 @@ examples:
           "options": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/mongodbDatabases/databaseName/collections/collectionName?api-version=2021-11-15-preview
+
+      {
+        "location": "West US",
+        "tags": {},
+        "properties": {
+          "resource": {
+            "id": "collectionName",
+            "indexes": [
+              {
+                "key": {
+                  "keys": [
+                    "_ts"
+                  ]
+                },
+                "options": {
+                  "expireAfterSeconds": 100,
+                  "unique": true
+                }
+              },
+              {
+                "key": {
+                  "keys": [
+                    "_id"
+                  ]
+                }
+              }
+            ],
+            "shardKey": {
+              "testKey": "Hash"
+            },
+            "analyticalStorageTtl": 500
+          },
+          "options": {}
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -439,5 +456,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB MongoDB Collection
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB MongoDB Collection
 errorCodes: []

@@ -3,15 +3,15 @@ uid: management.azure.com.storagerp.storageaccounts.getproperties
 name: Get Properties
 service: Storage Resource Provider
 groupName: Storage Accounts
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-04-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}?api-version=2021-09-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -150,12 +150,12 @@ definitions:
     - uid: Endpoints
   - name: properties.encryption
     isReadyOnly: true
-    description: Gets the encryption settings on the account. If unspecified, the account is unencrypted.
+    description: Encryption settings to be used for server-side encryption for the storage account.
     types:
     - uid: Encryption
   - name: properties.accessTier
     isReadyOnly: true
-    description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+    description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
     types:
     - uid: AccessTier
   - name: properties.azureFilesIdentityBasedAuthentication
@@ -171,6 +171,14 @@ definitions:
     description: Network rule set
     types:
     - uid: NetworkRuleSet
+  - name: properties.isSftpEnabled
+    description: Enables Secure File Transfer Protocol, if set to true
+    types:
+    - uid: boolean
+  - name: properties.isLocalUserEnabled
+    description: Enables local users feature, if set to true
+    types:
+    - uid: boolean
   - name: properties.isHnsEnabled
     description: Account HierarchicalNamespace enabled if sets to true.
     types:
@@ -224,6 +232,30 @@ definitions:
     description: Allow or disallow cross AAD tenant object replication. The default interpretation is true for this property.
     types:
     - uid: boolean
+  - name: properties.defaultToOAuthAuthentication
+    description: A boolean flag which indicates whether the default authentication is OAuth or not. The default interpretation is false for this property.
+    types:
+    - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.immutableStorageWithVersioning
+    description: The property is immutable and can only be set to true at the account creation time. When set to true, it enables object level immutability for all the containers in the account by default.
+    types:
+    - uid: ImmutableStorageAccount
+  - name: properties.allowedCopyScope
+    description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+    types:
+    - uid: AllowedCopyScope
+  - name: properties.storageAccountSkuConversionStatus
+    description: This property is readOnly and is set by server during asynchronous storage account sku conversion operations.
+    types:
+    - uid: StorageAccountSkuConversionStatus
+  - name: properties.dnsEndpointType
+    description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+    types:
+    - uid: DnsEndpointType
   - name: tags
     description: Resource tags.
     types:
@@ -410,6 +442,7 @@ definitions:
     description: The SAS expiration action. Can only be Log.
     types:
     - uid: ExpirationAction
+    defaultValue: Log
 - name: KeyPolicy
   description: KeyPolicy assigned to the storage account.
   kind: object
@@ -442,6 +475,7 @@ definitions:
     description: 'The encryption keySource (provider). Possible values (case-insensitive):  Microsoft.Storage, Microsoft.Keyvault'
     types:
     - uid: KeySource
+    defaultValue: Microsoft.Storage
   - name: requireInfrastructureEncryption
     description: A boolean indicating whether or not the service applies a secondary layer of encryption with platform managed keys for data at rest.
     types:
@@ -455,13 +489,16 @@ definitions:
     types:
     - uid: EncryptionIdentity
 - name: AccessTier
-  description: Required for storage accounts where kind = BlobStorage. The access tier used for billing.
+  description: Required for storage accounts where kind = BlobStorage. The access tier is used for billing. The 'Premium' access tier is the default value for premium block blobs storage account type and it cannot be changed for the premium block blobs storage account type.
   kind: enum
   properties:
   - name: Hot
     types:
     - uid: string
   - name: Cool
+    types:
+    - uid: string
+  - name: Premium
     types:
     - uid: string
 - name: AzureFilesIdentityBasedAuthentication
@@ -488,6 +525,7 @@ definitions:
     description: Specifies whether traffic is bypassed for Logging/Metrics/AzureServices. Possible values are any combination of Logging|Metrics|AzureServices (For example, "Logging, Metrics"), or None to bypass none of those traffics.
     types:
     - uid: Bypass
+    defaultValue: AzureServices
   - name: resourceAccessRules
     description: Sets the resource access rules
     types:
@@ -507,6 +545,7 @@ definitions:
     description: Specifies the default action of allow or deny when no other rules match.
     types:
     - uid: DefaultAction
+    defaultValue: Allow
 - name: GeoReplicationStats
   description: Statistics related to replication for storage account's Blob, Table, Queue and File services. It is only available when geo-redundant replication is enabled for the storage account.
   kind: object
@@ -619,6 +658,71 @@ definitions:
     types:
     - uid: string
   - name: TLS1_2
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Allow or disallow public network access to Storage Account. Value is optional but if passed in, must be 'Enabled' or 'Disabled'.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ImmutableStorageAccount
+  description: This property enables and defines account-level immutability. Enabling the feature auto-enables Blob Versioning.
+  kind: object
+  properties:
+  - name: enabled
+    description: A boolean flag which enables account-level immutability. All the containers under such an account have object-level immutability enabled by default.
+    types:
+    - uid: boolean
+  - name: immutabilityPolicy
+    description: Specifies the default account-level immutability policy which is inherited and applied to objects that do not possess an explicit immutability policy at the object level. The object-level immutability policy has higher precedence than the container-level immutability policy, which has a higher precedence than the account-level immutability policy.
+    types:
+    - uid: AccountImmutabilityPolicyProperties
+- name: AllowedCopyScope
+  description: Restrict copy to and from Storage Accounts within an AAD tenant or with Private Links to the same VNet.
+  kind: enum
+  properties:
+  - name: PrivateLink
+    types:
+    - uid: string
+  - name: AAD
+    types:
+    - uid: string
+- name: StorageAccountSkuConversionStatus
+  description: This defines the sku conversion status object for asynchronous sku conversions.
+  kind: object
+  properties:
+  - name: skuConversionStatus
+    isReadyOnly: true
+    description: This property indicates the current sku conversion status.
+    types:
+    - uid: SkuConversionStatus
+  - name: targetSkuName
+    description: This property represents the target sku name to which the account sku is being converted asynchronously.
+    types:
+    - uid: SkuName
+  - name: startTime
+    isReadyOnly: true
+    description: This property represents the sku conversion start time.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: This property represents the sku conversion end time.
+    types:
+    - uid: string
+- name: DnsEndpointType
+  description: Allows you to specify the type of endpoint. Set this to AzureDNSZone to create a large number of accounts in a single subscription, which creates accounts in an Azure DNS Zone and the endpoint URL will have an alphanumeric DNS Zone identifier.
+  kind: enum
+  properties:
+  - name: Standard
+    types:
+    - uid: string
+  - name: AzureDnsZone
     types:
     - uid: string
 - name: SkuName
@@ -817,12 +921,21 @@ definitions:
     description: Timestamp of last rotation of the Key Vault Key.
     types:
     - uid: string
+  - name: currentVersionedKeyExpirationTimestamp
+    isReadyOnly: true
+    description: This is a read only property that represents the expiration time of the current version of the customer managed key used for encryption.
+    types:
+    - uid: string
 - name: EncryptionIdentity
   description: Encryption identity for the storage account.
   kind: object
   properties:
   - name: userAssignedIdentity
     description: Resource identifier of the UserAssigned identity to be associated with server-side encryption on the storage account.
+    types:
+    - uid: string
+  - name: federatedIdentityClientId
+    description: ClientId of the multi-tenant application to be used in conjunction with the user-assigned identity for cross-tenant customer-managed-keys server-side encryption on the storage account.
     types:
     - uid: string
 - name: DirectoryServiceOptions
@@ -866,6 +979,16 @@ definitions:
     description: Specifies the security identifier (SID) for Azure Storage.
     types:
     - uid: string
+  - name: samAccountName
+    description: Specifies the Active Directory SAMAccountName for Azure Storage.
+    types:
+    - uid: string
+  - name: accountType
+    description: Specifies the Active Directory account type for Azure Storage.
+    types:
+    - uid: User
+    - uid: Computer
+    typesTitle: enum
 - name: DefaultSharePermission
   description: Default share permission for users using Kerberos authentication if RBAC role is not assigned.
   kind: enum
@@ -880,9 +1003,6 @@ definitions:
     types:
     - uid: string
   - name: StorageFileDataSmbShareElevatedContributor
-    types:
-    - uid: string
-  - name: StorageFileDataSmbShareOwner
     types:
     - uid: string
 - name: Bypass
@@ -925,6 +1045,7 @@ definitions:
     description: The action of virtual network rule.
     types:
     - uid: Action
+    defaultValue: Allow
   - name: state
     description: Gets the state of virtual network rule.
     types:
@@ -941,6 +1062,7 @@ definitions:
     description: The action of IP ACL rule.
     types:
     - uid: Action
+    defaultValue: Allow
 - name: DefaultAction
   description: Specifies the default action of allow or deny when no other rules match.
   kind: enum
@@ -1041,17 +1163,46 @@ definitions:
     types:
     - uid: BlobRestoreRange
       isArray: true
+- name: AccountImmutabilityPolicyProperties
+  description: This defines account-level immutability policy properties.
+  kind: object
+  properties:
+  - name: immutabilityPeriodSinceCreationInDays
+    description: The immutability period for the blobs in the container since the policy creation, in days.
+    types:
+    - uid: integer
+  - name: state
+    description: The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.
+    types:
+    - uid: AccountImmutabilityPolicyState
+  - name: allowProtectedAppendWrites
+    description: This property can only be changed for disabled and unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
+- name: SkuConversionStatus
+  description: This property indicates the current sku conversion status.
+  kind: enum
+  properties:
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: EncryptionService
   description: A service that allows server-side encryption to be used.
   kind: object
   properties:
   - name: enabled
-    description: A boolean indicating whether or not the service encrypts the data as it is stored.
+    description: A boolean indicating whether or not the service encrypts the data as it is stored. Encryption at rest is enabled by default today and cannot be disabled.
     types:
     - uid: boolean
   - name: lastEnabledTime
     isReadyOnly: true
-    description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Only returned when encryption is enabled. There might be some unencrypted blobs which were written after this time, as it is just a rough estimate.
+    description: Gets a rough estimate of the date/time when the encryption was last enabled by the user. Data is encrypted at rest by default today and cannot be disabled.
     types:
     - uid: string
   - name: keyType
@@ -1109,6 +1260,19 @@ definitions:
     description: Blob end range. This is exclusive. Empty means account end.
     types:
     - uid: string
+- name: AccountImmutabilityPolicyState
+  description: The ImmutabilityPolicy state defines the mode of the policy. Disabled state disables the policy, Unlocked state allows increase and decrease of immutability retention time and also allows toggling allowProtectedAppendWrites property, Locked state only allows the increase of the immutability retention time. A policy can only be created in a Disabled or Unlocked state and can be toggled between the two states. Only a policy in an Unlocked state can transition to a Locked state which cannot be reverted.
+  kind: enum
+  properties:
+  - name: Unlocked
+    types:
+    - uid: string
+  - name: Locked
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
 - name: KeyType
   description: Encryption key type to be used for the encryption service. 'Account' key type implies that an account-scoped encryption key will be used. 'Service' key type implies that a default service key is used.
   kind: enum
@@ -1122,7 +1286,64 @@ definitions:
 examples:
 - name: StorageAccountGetProperties
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StorageAccounts GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetProperties.json
+           */
+          /**
+           * Sample code: StorageAccountGetProperties.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountGetProperties(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .getByResourceGroupWithResponse("res9407", "sto8596", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       *
+       * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetProperties.json
+       */
+      async function storageAccountGetProperties() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9407";
+        const accountName = "sto8596";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.getProperties(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      storageAccountGetProperties().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1216,7 +1437,64 @@ examples:
       }
 - name: StorageAccountGetPropertiesCMKEnabled
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StorageAccounts GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetPropertiesCMKEnabled.json
+           */
+          /**
+           * Sample code: StorageAccountGetPropertiesCMKEnabled.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountGetPropertiesCMKEnabled(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .getByResourceGroupWithResponse("res9407", "sto8596", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       *
+       * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetPropertiesCMKEnabled.json
+       */
+      async function storageAccountGetPropertiesCmkEnabled() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9407";
+        const accountName = "sto8596";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.getProperties(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      storageAccountGetPropertiesCmkEnabled().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1294,6 +1572,282 @@ examples:
               "keyversion": "",
               "currentVersionedKeyIdentifier": "https://myvault8569.vault.azure.net/keys/wrappingKey/0682afdd9c104f4285df20107e956cad",
               "lastKeyRotationTimestamp": "2019-12-13T20:36:23.7023290Z"
+            }
+          },
+          "secondaryLocation": "northcentralus(stage)",
+          "statusOfPrimary": "available",
+          "statusOfSecondary": "available",
+          "supportsHttpsTrafficOnly": false
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+- name: StorageAccountGetAsyncSkuConversionStatus
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StorageAccounts GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
+           */
+          /**
+           * Sample code: StorageAccountGetAsyncSkuConversionStatus.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountGetAsyncSkuConversionStatus(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .getByResourceGroupWithResponse("res9407", "sto8596", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
+      func ExampleAccountsClient_GetProperties() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewAccountsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetProperties(ctx,
+      		"res9407",
+      		"sto8596",
+      		&armstorage.AccountsClientGetPropertiesOptions{Expand: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       *
+       * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetAsyncSkuConversionStatus.json
+       */
+      async function storageAccountGetAsyncSkuConversionStatus() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9407";
+        const accountName = "sto8596";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.getProperties(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      storageAccountGetAsyncSkuConversionStatus().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596",
+        "kind": "StorageV2",
+        "location": "eastus",
+        "name": "sto8596",
+        "properties": {
+          "allowBlobPublicAccess": false,
+          "minimumTlsVersion": "TLS1_2",
+          "storageAccountSkuConversionStatus": {
+            "skuConversionStatus": "InProgress",
+            "targetSkuName": "Standard_GRS",
+            "startTime": "2021-09-01T02:53:39.0932539Z",
+            "endTime": "2021-09-02T02:53:39.0932539Z"
+          }
+        },
+        "sku": {
+          "name": "Standard_GRS",
+          "tier": "Standard"
+        },
+        "type": "Microsoft.Storage/storageAccounts"
+      }
+- name: StorageAccountGetPropertiesCMKVersionExpirationTime
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StorageAccounts GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetPropertiesCMKVersionExpirationTime.json
+           */
+          /**
+           * Sample code: StorageAccountGetPropertiesCMKVersionExpirationTime.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountGetPropertiesCMKVersionExpirationTime(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getStorageAccounts()
+                  .getByResourceGroupWithResponse("res9407", "sto8596", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       *
+       * @summary Returns the properties for the specified storage account including but not limited to name, SKU name, location, and account status. The ListKeys operation should be used to retrieve storage keys.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountGetPropertiesCMKVersionExpirationTime.json
+       */
+      async function storageAccountGetPropertiesCmkVersionExpirationTime() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9407";
+        const accountName = "sto8596";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.storageAccounts.getProperties(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      storageAccountGetPropertiesCmkVersionExpirationTime().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res9407/providers/Microsoft.Storage/storageAccounts/sto8596",
+        "identity": {
+          "principalId": "911871cc-ffd1-4fc4-ac11-7a316433ea66",
+          "tenantId": "72f988bf-86f1-41af-91ab-2d7cd011db47",
+          "type": "SystemAssigned"
+        },
+        "kind": "Storage",
+        "location": "eastus2(stage)",
+        "name": "sto8596",
+        "properties": {
+          "geoReplicationStats": {
+            "status": "Live",
+            "lastSyncTime": "2018-10-30T00:25:34Z",
+            "canFailover": true
+          },
+          "isHnsEnabled": true,
+          "creationTime": "2017-06-01T02:42:41.7633306Z",
+          "networkAcls": {
+            "bypass": "AzureServices",
+            "defaultAction": "Allow",
+            "ipRules": [],
+            "virtualNetworkRules": [],
+            "resourceAccessRules": []
+          },
+          "primaryEndpoints": {
+            "web": "https://sto8596.web.core.windows.net/",
+            "dfs": "https://sto8596.dfs.core.windows.net/",
+            "blob": "https://sto8596.blob.core.windows.net/",
+            "file": "https://sto8596.file.core.windows.net/",
+            "queue": "https://sto8596.queue.core.windows.net/",
+            "table": "https://sto8596.table.core.windows.net/",
+            "microsoftEndpoints": {
+              "web": "https://sto8596-microsoftrouting.web.core.windows.net/",
+              "dfs": "https://sto8596-microsoftrouting.dfs.core.windows.net/",
+              "blob": "https://sto8596-microsoftrouting.blob.core.windows.net/",
+              "file": "https://sto8596-microsoftrouting.file.core.windows.net/",
+              "queue": "https://sto8596-microsoftrouting.queue.core.windows.net/",
+              "table": "https://sto8596-microsoftrouting.table.core.windows.net/"
+            },
+            "internetEndpoints": {
+              "web": "https://sto8596-internetrouting.web.core.windows.net/",
+              "dfs": "https://sto8596-internetrouting.dfs.core.windows.net/",
+              "blob": "https://sto8596-internetrouting.blob.core.windows.net/",
+              "file": "https://sto8596-internetrouting.file.core.windows.net/"
+            }
+          },
+          "primaryLocation": "eastus2(stage)",
+          "provisioningState": "Succeeded",
+          "routingPreference": {
+            "routingChoice": "MicrosoftRouting",
+            "publishMicrosoftEndpoints": true,
+            "publishInternetEndpoints": true
+          },
+          "encryption": {
+            "services": {
+              "file": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              },
+              "blob": {
+                "keyType": "Account",
+                "enabled": true,
+                "lastEnabledTime": "2019-12-11T20:49:31.7036140Z"
+              }
+            },
+            "keySource": "Microsoft.Keyvault",
+            "keyvaultproperties": {
+              "keyvaulturi": "https://myvault8569.vault.azure.net",
+              "keyname": "wrappingKey",
+              "keyversion": "",
+              "currentVersionedKeyIdentifier": "https://myvault8569.vault.azure.net/keys/wrappingKey/0682afdd9c104f4285df20107e956cad",
+              "lastKeyRotationTimestamp": "2019-12-13T20:36:23.7023290Z",
+              "currentVersionedKeyExpirationTimestamp": "2019-12-13T20:36:23.7023290Z"
             }
           },
           "secondaryLocation": "northcentralus(stage)",

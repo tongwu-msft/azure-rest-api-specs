@@ -1,5 +1,6 @@
 ---
 title: "AddOnFeatures"
+description: "Learn about the available cluster add-on features including RepairManager, DnsService, BackupRestoreService, and ResourceMonitor service."
 ms.date: 06/04/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -1,0 +1,327 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.exports.create
+name: Create
+service: IoT Central
+groupName: Exports
+apiVersion: 2022-06-30-preview
+summary: "Create or update an export  \nCreate or update a definition for exporting data. Also used to connect or disconnect an export from destinations."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/dataExport/exports/{exportId}?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: exportId
+  in: path
+  isRequired: true
+  description: Unique ID for the export.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Export
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: displayName
+    in: body
+    isRequired: true
+    description: Display name of the export.
+    types:
+    - uid: string
+  - name: enabled
+    in: body
+    isRequired: true
+    description: Toggle to start/stop an export from sending data.
+    types:
+    - uid: boolean
+  - name: source
+    in: body
+    isRequired: true
+    description: The type of data to export.
+    types:
+    - uid: DestinationSource
+  - name: filter
+    in: body
+    description: Query defining which events from the source should be exported.
+    types:
+    - uid: string
+  - name: enrichments
+    in: body
+    description: Additional pieces of information to include with each sent message. Data is represented as a set of key/value pairs, where the key is the name of the enrichment that will appear in the output message and the value identifies the data to send.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Enrichment
+  - name: destinations
+    in: body
+    isRequired: true
+    description: The list of destinations to which the export should send data.
+    types:
+    - uid: DestinationReference
+      isArray: true
+requestHeader: []
+definitions:
+- name: Enrichment
+  description: The enrichment definition for data export.
+  kind: object
+  properties:
+  - name: target
+    description: The device template or interface which defines the target capability for the enrichment.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template or the system property to use.
+    types:
+    - uid: string
+  - name: value
+    description: The raw value used for the enrichment.
+    types:
+    - {}
+- name: DestinationReference
+  description: The destination reference definition.
+  kind: object
+  properties:
+  - name: id
+    description: The ID of the destination where data should be sent.
+    types:
+    - uid: string
+  - name: transform
+    description: Query for transforming the message structure to a particular output.
+    types:
+    - uid: string
+- name: DataExportError
+  description: The data export error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The code for the error that occurred.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The description of the error that occurred.
+    types:
+    - uid: string
+- name: Export
+  description: The data export definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the export.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the export.
+    types:
+    - uid: string
+  - name: enabled
+    description: Toggle to start/stop an export from sending data.
+    types:
+    - uid: boolean
+  - name: source
+    description: The type of data to export.
+    types:
+    - uid: DestinationSource
+  - name: filter
+    description: Query defining which events from the source should be exported.
+    types:
+    - uid: string
+  - name: enrichments
+    description: Additional pieces of information to include with each sent message. Data is represented as a set of key/value pairs, where the key is the name of the enrichment that will appear in the output message and the value identifies the data to send.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: Enrichment
+  - name: destinations
+    description: The list of destinations to which the export should send data.
+    types:
+    - uid: DestinationReference
+      isArray: true
+  - name: status
+    isReadyOnly: true
+    description: Indication of the current health and operation of the export or destination.
+    types:
+    - uid: string
+  - name: errors
+    isReadyOnly: true
+    description: Errors encountered by the export or destination.
+    types:
+    - uid: DataExportError
+      isArray: true
+  - name: lastExportTime
+    isReadyOnly: true
+    description: The timestamp of the last message that was sent to the export or destination.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: DestinationSource
+  description: The type of data to export.
+  kind: enum
+  properties:
+  - name: telemetry
+    description: Destination source from device telemetry
+    types:
+    - uid: string
+  - name: properties
+    description: Destination source from device properties
+    types:
+    - uid: string
+  - name: deviceLifecycle
+    description: Destination source from device lifecycle
+    types:
+    - uid: string
+  - name: deviceTemplateLifecycle
+    description: Destination source from device template lifecycle
+    types:
+    - uid: string
+  - name: deviceConnectivity
+    description: Destination source from device connectivity
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Create data export with ID
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/dataExport/exports/export1?api-version=2022-06-30-preview
+    body: >-
+      {
+        "displayName": "Test Export 1",
+        "enabled": false,
+        "source": "telemetry",
+        "filter": "SELECT * FROM devices WHERE $displayName != \"abc\" AND $id = \"a\"",
+        "enrichments": {
+          "abc": {
+            "path": "$templateDisplayName"
+          }
+        },
+        "destinations": [
+          {
+            "id": "fa5792a4-ead3-41dc-a972-fbeed33d46ae",
+            "transform": "{ ApplicationId: .applicationId, Component: .component, DeviceName: .device.name }"
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://appsubdomain.azureiotcentral.com/api/dataExport/exports/export1?api-version=2022-06-30-preview
+
+      {
+        "displayName": "Test Export 1",
+        "enabled": false,
+        "source": "telemetry",
+        "filter": "SELECT * FROM devices WHERE $displayName != \"abc\" AND $id = \"a\"",
+        "enrichments": {
+          "abc": {
+            "path": "$templateDisplayName"
+          }
+        },
+        "destinations": [
+          {
+            "id": "fa5792a4-ead3-41dc-a972-fbeed33d46ae",
+            "transform": "{ ApplicationId: .applicationId, Component: .component, DeviceName: .device.name }"
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "export1",
+        "displayName": "Test Export 1",
+        "enabled": false,
+        "source": "telemetry",
+        "filter": "SELECT * FROM devices WHERE $displayName != \"abc\" AND $id = \"a\"",
+        "enrichments": {
+          "abc": {
+            "path": "$templateDisplayName"
+          }
+        },
+        "destinations": [
+          {
+            "id": "fa5792a4-ead3-41dc-a972-fbeed33d46ae",
+            "transform": "{ ApplicationId: .applicationId, Component: .component, DeviceName: .device.name }"
+          }
+        ],
+        "status": "notStarted"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Create or update an export
+
+    Create or update a definition for exporting data. Also used to connect or disconnect an export from destinations.
+errorCodes: []

@@ -1,0 +1,164 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.testbase.testresults.getconsolelogdownloadurl
+name: Get Console Log Download URL
+service: Test Base
+groupName: Test Results
+apiVersion: 2022-04-01-preview
+summary: Gets the download URL of the test execution console log file.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.TestBase/testBaseAccounts/{testBaseAccountName}/packages/{packageName}/testResults/{testResultName}/getConsoleLogDownloadUrl?api-version=2022-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Azure subscription ID. This is a GUID-formatted string.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource.
+  types:
+  - uid: string
+- name: testBaseAccountName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Account.
+  types:
+  - uid: string
+- name: packageName
+  in: path
+  isRequired: true
+  description: The resource name of the Test Base Package.
+  types:
+  - uid: string
+- name: testResultName
+  in: path
+  isRequired: true
+  description: The Test Result Name. It equals to TestResult-{TestResultId} string.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation is completed.
+  types:
+  - uid: DownloadURLResponse
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: logFileName
+    in: body
+    isRequired: true
+    description: The log file name corresponding to the download URL.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: DownloadURLResponse
+  description: The response of getting a download URL.
+  kind: object
+  properties:
+  - name: downloadUrl
+    isReadyOnly: true
+    description: The download URL.
+    types:
+    - uid: string
+  - name: expirationTime
+    isReadyOnly: true
+    description: Expiry date of the download URL.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: The error response send when an operation fails.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+- name: TestResultConsoleLogDownloadURLParameters
+  description: Parameters body to pass for getting the download URL of the test execution console log file.
+  kind: object
+  properties:
+  - name: logFileName
+    description: The log file name corresponding to the download URL.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error definition.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDefinition
+      isArray: true
+examples:
+- name: TestResultGetConsoleLogDownloadURL
+  request:
+    uri: POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-99b1f80d-03a9-4148-997f-806ba5bac8e0/getConsoleLogDownloadUrl?api-version=2022-04-01-preview
+    body: >-
+      {
+        "logFileName": "launch-stderr-1234.log"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subscription-id/resourceGroups/contoso-rg1/providers/Microsoft.TestBase/testBaseAccounts/contoso-testBaseAccount1/packages/contoso-package2/testResults/Windows-10-1909-99b1f80d-03a9-4148-997f-806ba5bac8e0/getConsoleLogDownloadUrl?api-version=2022-04-01-preview
+
+      {
+        "logFileName": "launch-stderr-1234.log"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "downloadUrl": "console log download URL",
+        "expirationTime": "2021-01-10T06:00:00Z"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Test Base service - Gets the download URL of the test execution console log file.
+errorCodes: []

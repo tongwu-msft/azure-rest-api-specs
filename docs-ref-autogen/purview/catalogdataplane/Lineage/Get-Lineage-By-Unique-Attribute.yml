@@ -1,0 +1,208 @@
+### YamlMime:RESTOperation
+uid: catalog.api.purview.catalogdataplane.lineage.getlineagebyuniqueattribute
+name: Get Lineage By Unique Attribute
+service: Purview
+groupName: Lineage
+apiVersion: 2022-03-01-preview
+summary: >-
+  Returns lineage info about entity.
+
+
+  In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+
+
+  attr:[attrName]=[attrValue]
+
+
+  NOTE: The attrName and attrValue should be unique across entities, eg. qualifiedName
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/catalog/api/atlas/v2/lineage/uniqueAttribute/type/{typeName}?direction={direction}
+- content: GET {Endpoint}/catalog/api/atlas/v2/lineage/uniqueAttribute/type/{typeName}?depth={depth}&width={width}&direction={direction}&includeParent={includeParent}&getDerivedLineage={getDerivedLineage}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The catalog endpoint of your Purview account. Example: https://{accountName}.purview.azure.com'
+  types:
+  - uid: string
+- name: typeName
+  in: path
+  isRequired: true
+  description: The name of the type.
+  types:
+  - uid: string
+- name: depth
+  in: query
+  description: The number of hops for lineage.
+  types:
+  - uid: integer
+  format: int32
+- name: width
+  in: query
+  description: The number of max expanding width in lineage.
+  types:
+  - uid: integer
+  format: int32
+- name: direction
+  in: query
+  isRequired: true
+  description: The direction of the lineage, which could be INPUT, OUTPUT or BOTH.
+  types:
+  - uid: direction
+- name: includeParent
+  in: query
+  description: True to include the parent chain in the response.
+  types:
+  - uid: boolean
+- name: getDerivedLineage
+  in: query
+  description: True to include derived lineage in the response
+  types:
+  - uid: boolean
+responses:
+- name: 200 OK
+  description: If Lineage exists for the given entity
+  types:
+  - uid: AtlasLineageInfo
+- name: 400 Bad Request
+  description: Bad query parameters
+- name: 404 Not Found
+  description: If no lineage is found for the given entity
+requestHeader: []
+definitions:
+- name: direction
+  description: The direction of the lineage, which could be INPUT, OUTPUT or BOTH.
+  kind: enum
+  properties:
+  - name: BOTH
+    types:
+    - uid: string
+  - name: INPUT
+    types:
+    - uid: string
+  - name: OUTPUT
+    types:
+    - uid: string
+- name: AtlasLineageInfo
+  description: AtlasLineageInfo
+  kind: object
+  properties:
+  - name: baseEntityGuid
+    description: The GUID of the base entity.
+    types:
+    - uid: string
+  - name: guidEntityMap
+    description: The GUID entity map.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: widthCounts
+    description: The entity count in specific direction.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: lineageDepth
+    description: The depth of lineage.
+    types:
+    - uid: integer
+  - name: lineageWidth
+    description: The width of lineage.
+    types:
+    - uid: integer
+  - name: includeParent
+    description: True to return the parent of the base entity.
+    types:
+    - uid: boolean
+  - name: childrenCount
+    description: The number of children node.
+    types:
+    - uid: integer
+  - name: lineageDirection
+    description: "LineageDirection  \nThe enum of lineage direction."
+    types:
+    - uid: LineageDirection
+  - name: parentRelations
+    description: An array of parentRelations relations.
+    types:
+    - uid: ParentRelation
+      isArray: true
+  - name: relations
+    description: An array of lineage relations.
+    types:
+    - uid: LineageRelation
+      isArray: true
+- name: LineageDirection
+  description: LineageDirection
+  kind: enum
+  properties:
+  - name: INPUT
+    types:
+    - uid: string
+  - name: OUTPUT
+    types:
+    - uid: string
+  - name: BOTH
+    types:
+    - uid: string
+- name: ParentRelation
+  description: ParentRelation
+  kind: object
+  properties:
+  - name: childEntityId
+    description: The GUID of child entity.
+    types:
+    - uid: string
+  - name: relationshipId
+    description: The GUID of relationship.
+    types:
+    - uid: string
+  - name: parentEntityId
+    description: The GUID of parent entity.
+    types:
+    - uid: string
+- name: LineageRelation
+  description: LineageRelation
+  kind: object
+  properties:
+  - name: fromEntityId
+    description: The GUID of from-entity.
+    types:
+    - uid: string
+  - name: relationshipId
+    description: The GUID of relationship.
+    types:
+    - uid: string
+  - name: toEntityId
+    description: The GUID of to-entity.
+    types:
+    - uid: string
+examples: []
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >-
+    Returns lineage info about entity.
+
+    In addition to the typeName path parameter, attribute key-value pair(s) can be provided in the following format
+
+    attr:[attrNam
+errorCodes: []

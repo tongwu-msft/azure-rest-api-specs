@@ -3,15 +3,15 @@ uid: management.azure.com.desktopvirtualization.usersessions.listbyhostpool
 name: List By Host Pool
 service: Desktop Virtualization
 groupName: User Sessions
-apiVersion: 2021-07-12
+apiVersion: 2022-02-10-preview
 summary: List userSessions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions?api-version=2021-07-12
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions?api-version=2021-07-12&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions?api-version=2022-02-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DesktopVirtualization/hostPools/{hostPoolName}/userSessions?api-version=2022-02-10-preview&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -69,16 +69,22 @@ definitions:
     types:
     - uid: string
 - name: CloudError
+  description: Cloud error object.
   kind: object
   properties:
   - name: error
-    description: ''
+    description: Cloud error object properties.
     types:
     - uid: CloudErrorProperties
 - name: UserSession
   description: Represents a UserSession definition.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.objectId
     isReadyOnly: true
     description: ObjectId of user session. (internal use)
@@ -120,6 +126,7 @@ definitions:
     types:
     - uid: string
 - name: CloudErrorProperties
+  description: Cloud error object properties.
   kind: object
   properties:
   - name: code
@@ -128,6 +135,34 @@ definitions:
     - uid: string
   - name: message
     description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
 - name: ApplicationType
@@ -162,10 +197,73 @@ definitions:
   - name: UserProfileDiskMounted
     types:
     - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: UserSession_ListByHostPool
   request:
-    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/userSessions?api-version=2021-07-12&$filter=userPrincipalName eq 'user1@microsoft.com' and state eq 'active'
+    uri: GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/userSessions?api-version=2022-02-10-preview&$filter=userPrincipalName eq 'user1@microsoft.com' and state eq 'active'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/userSessions?api-version=2022-02-10-preview&$filter=userPrincipalName eq 'user1@microsoft.com' and state eq 'active'
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdesktopvirtualization_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/desktopvirtualization/resource-manager/Microsoft.DesktopVirtualization/preview/2022-02-10-preview/examples/UserSession_ListByHostPool.json
+      func ExampleUserSessionsClient_NewListByHostPoolPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdesktopvirtualization.NewUserSessionsClient("daefabc0-95b4-48b3-b645-8a753a63c4fa", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByHostPoolPager("resourceGroup1",
+      		"hostPool1",
+      		&armdesktopvirtualization.UserSessionsClientListByHostPoolOptions{Filter: to.Ptr("userPrincipalName eq 'user1@microsoft.com' and state eq 'active'")})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdesktopvirtualization%2Farmdesktopvirtualization%2Fv2.0.0-beta.1/sdk/resourcemanager/desktopvirtualization/armdesktopvirtualization/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -175,6 +273,14 @@ examples:
             "name": "1",
             "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/1",
             "type": "Microsoft.DesktopVirtualization/hostPools/sessionHosts/userSessions",
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
             "properties": {
               "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
               "userPrincipalName": "user1@microsoft.com",
@@ -188,6 +294,14 @@ examples:
             "name": "2",
             "id": "/subscriptions/daefabc0-95b4-48b3-b645-8a753a63c4fa/resourceGroups/resourceGroup1/providers/Microsoft.DesktopVirtualization/hostPools/hostPool1/sessionHosts/sessionHost1.microsoft.com/userSessions/2",
             "type": "Microsoft.DesktopVirtualization/hostPools/sessionHosts/userSessions",
+            "systemData": {
+              "createdBy": "user1",
+              "createdByType": "User",
+              "createdAt": "2020-01-01T17:18:19.1234567Z",
+              "lastModifiedBy": "user2",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-01-02T17:18:19.1234567Z"
+            },
             "properties": {
               "objectId": "7877fb31-4bde-49fd-9df3-c046e0ec5325",
               "userPrincipalName": "user1@microsoft.com",
@@ -201,5 +315,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Desktop Virtualization service - List userSessions.
+  description: >
+    Learn more about Desktop Virtualization service - List userSessions.
 errorCodes: []

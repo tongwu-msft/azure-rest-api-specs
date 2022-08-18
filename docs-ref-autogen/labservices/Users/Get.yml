@@ -3,211 +3,315 @@ uid: management.azure.com.labservices.users.get
 name: Get
 service: Lab Services
 groupName: Users
-apiVersion: 2018-10-15
-summary: Get user
+apiVersion: 2022-08-01
+summary: "Get a lab user.  \nReturns the properties of a lab user."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?api-version=2018-10-15
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labaccounts/{labAccountName}/labs/{labName}/users/{userName}?$expand={$expand}&api-version=2018-10-15
-  isOptional: true
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: The subscription ID.
+  description: The ID of the target subscription.
   types:
   - uid: string
 - name: resourceGroupName
   in: path
   isRequired: true
-  description: The name of the resource group.
-  types:
-  - uid: string
-- name: labAccountName
-  in: path
-  isRequired: true
-  description: The name of the lab Account.
+  description: The name of the resource group. The name is case insensitive.
   types:
   - uid: string
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: userName
   in: path
   isRequired: true
-  description: The name of the user.
+  description: The name of the user that uniquely identifies it within containing lab. Used in resource URIs.
   types:
   - uid: string
-- name: $expand
-  in: query
-  description: "Specify the $expand query. Example: 'properties($select=email)'"
-  types:
-  - uid: string
+  pattern: ^[-\w\\._\\(\\)]+$
 - name: api-version
   in: query
   isRequired: true
-  description: Client API version.
+  description: The API version to use for this operation.
   types:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK
+  description: The request was successful; response contains the lab user.
   types:
   - uid: User
 - name: Other Status Codes
-  description: BadRequest
+  description: The default error response.
   types:
-  - uid: CloudError
+  - uid: ErrorResponse
 requestHeader: []
 definitions:
 - name: User
-  description: The User registered to a lab
+  description: User of a lab that can register for and use virtual machines within the lab.
   kind: object
   properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the user resource.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning state of the user resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.displayName
+    isReadyOnly: true
+    description: Display name of the user, for example user's full name.
+    types:
+    - uid: string
   - name: properties.email
-    isReadyOnly: true
-    description: The user email address, as it was specified during registration.
+    description: Email address of the user.
     types:
     - uid: string
-  - name: properties.familyName
+  - name: properties.registrationState
     isReadyOnly: true
-    description: The user family name, as it was specified during registration.
+    description: State of the user's registration within the lab.
     types:
-    - uid: string
-  - name: properties.givenName
+    - uid: RegistrationState
+  - name: properties.invitationState
     isReadyOnly: true
-    description: The user given name, as it was specified during registration.
+    description: State of the invitation message for the user.
     types:
-    - uid: string
-  - name: properties.tenantId
+    - uid: InvitationState
+  - name: properties.invitationSent
     isReadyOnly: true
-    description: The user tenant ID, as it was specified during registration.
+    description: Date and time when the invitation message was sent to the user.
     types:
     - uid: string
   - name: properties.totalUsage
     isReadyOnly: true
-    description: How long the user has used his VMs in this lab
+    description: How long the user has used their virtual machines in this lab.
     types:
     - uid: string
-  - name: properties.provisioningState
-    description: The provisioning status of the resource.
-    types:
-    - uid: string
-  - name: properties.uniqueIdentifier
-    description: The unique immutable identifier of a resource (Guid).
-    types:
-    - uid: string
-  - name: properties.latestOperationResult
-    isReadyOnly: true
-    description: 'The details of the latest operation. ex: status, error'
-    types:
-    - uid: LatestOperationResult
   - name: id
     isReadyOnly: true
-    description: The identifier of the resource.
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the resource.
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: The type of the resource.
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
-  - name: location
-    description: The location of the resource.
+  - name: properties.additionalUsageQuota
+    description: The amount of usage quota time the user gets in addition to the lab usage quota.
     types:
     - uid: string
-  - name: tags
-    description: The tags of the resource.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-- name: CloudError
-  description: Error from a REST request.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: Body of an error from a REST request.
+    description: The error object.
     types:
-    - uid: CloudErrorBody
-- name: LatestOperationResult
-  description: Details of the status of an operation.
+    - uid: ErrorDetail
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
   kind: object
   properties:
-  - name: status
-    isReadyOnly: true
-    description: The current status of the operation.
+  - name: createdBy
+    description: The identity that created the resource.
     types:
     - uid: string
-  - name: errorCode
-    isReadyOnly: true
-    description: Error code on failure.
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
     types:
     - uid: string
-  - name: errorMessage
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Current provisioning state of the user resource.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Resource is in the process of being created.
+    types:
+    - uid: string
+  - name: Updating
+    description: New property values are being applied to the resource.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Resource is in healthy state after creation or update operation.
+    types:
+    - uid: string
+  - name: Failed
+    description: Previous operation on the resource has failed leaving resource in unhealthy state.
+    types:
+    - uid: string
+  - name: Locked
+    description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
+    types:
+    - uid: string
+- name: RegistrationState
+  description: The user lab registration state.
+  kind: enum
+  properties:
+  - name: NotRegistered
+    description: User has registered with the lab.
+    types:
+    - uid: string
+  - name: Registered
+    description: User has not yet registered with the lab.
+    types:
+    - uid: string
+- name: InvitationState
+  description: The lab user invitation state.
+  kind: enum
+  properties:
+  - name: NotSent
+    description: The invitation has not been sent.
+    types:
+    - uid: string
+  - name: Sending
+    description: Currently sending the invitation.
+    types:
+    - uid: string
+  - name: Sent
+    description: The invitation has been successfully sent.
+    types:
+    - uid: string
+  - name: Failed
+    description: There was an error while sending the invitation.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
     isReadyOnly: true
     description: The error message.
     types:
     - uid: string
-  - name: requestUri
-    isReadyOnly: true
-    description: Request URI of the operation.
-    types:
-    - uid: string
-  - name: httpMethod
-    isReadyOnly: true
-    description: The HttpMethod - PUT/POST/DELETE for the operation.
-    types:
-    - uid: string
-  - name: operationUrl
-    isReadyOnly: true
-    description: The URL to use to check long-running operation status
-    types:
-    - uid: string
-- name: CloudErrorBody
-  description: Body of an error from a REST request.
-  kind: object
-  properties:
-  - name: code
-    description: ''
-    types:
-    - uid: string
-  - name: message
-    description: ''
-    types:
-    - uid: string
   - name: target
-    description: ''
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: Inner errors.
+    isReadyOnly: true
+    description: The error details.
     types:
-    - uid: CloudErrorBody
+    - uid: ErrorDetail
       isArray: true
-examples: []
-security:
-- name: azure_auth
-  type: oauth2
-  description: OAuth2 Implicit Grant
-  flow: implicit
-  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
-  scopes:
-  - name: user_impersonation
-    description: Access Microsoft Azure
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: getUser
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
+        "name": "default",
+        "type": "Microsoft.LabServices/User",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "displayName": "Test User",
+          "email": "testuser@contoso.com",
+          "registrationState": "Registered",
+          "invitationState": "Sent",
+          "totalUsage": "PT10H",
+          "additionalUsageQuota": "PT10H"
+        }
+      }
+security: []
 metadata:
-  description: Learn more about Lab Services service - Get user
+  description: >
+    Learn more about Lab Services service - Get a lab user.
+
+    Returns the properties of a lab user.
 errorCodes: []

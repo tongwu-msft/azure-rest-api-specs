@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Create Cloud Service1 | Microsoft Docs"
+description: Learn how the Create Cloud Service asynchronous operation creates a new cloud service in Microsoft Azure.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
@@ -58,9 +59,8 @@ The `Create Cloud Service` asynchronous operation creates a new cloud service in
   
  The following table describes the elements of the request body.  
   
-|||  
-|-|-|  
 |Element Name|Description|  
+|-|-|  
 |ServiceName|Required. Specifies the name for the cloud service. This name must be unique within Azure. This name is the DNS prefix name that is used to access the service. To verify the availability of a name, you can use [Check Cloud Service Name Availability](rest-check-cloud-service-name-availability.md).|  
 |Label|Required. Specifies the base-64-encoded identifier of the cloud service. The identifier can be up to 100 characters long. The label can be used for your tracking purposes.|  
 |Description|Optional. Specifies the description of the cloud service. The description can be up to 1024 characters long.|  

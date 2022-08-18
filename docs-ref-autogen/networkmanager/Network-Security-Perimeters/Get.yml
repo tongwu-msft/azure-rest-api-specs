@@ -51,7 +51,7 @@ definitions:
   description: The Network Security Perimeter resource
   kind: object
   properties:
-  - name: etag
+  - name: location
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
@@ -70,21 +70,13 @@ definitions:
     description: Resource type.
     types:
     - uid: string
-  - name: properties.displayName
-    description: A friendly name for the network security perimeter.
-    types:
-    - uid: string
-  - name: properties.description
-    description: A description of the network security perimeter.
-    types:
-    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the scope assignment resource.
     types:
-    - uid: ProvisioningState
-  - name: location
-    description: Resource location.
+    - uid: nspProvisioningState
+  - name: properties.perimeterGuid
+    description: perimeter guid of the network security perimeter.
     types:
     - uid: string
   - name: tags
@@ -103,17 +95,23 @@ definitions:
     description: Cloud error body.
     types:
     - uid: CloudErrorBody
-- name: ProvisioningState
-  description: The current provisioning state.
+- name: nspProvisioningState
+  description: The provisioning state of the scope assignment resource.
   kind: enum
   properties:
   - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
     types:
     - uid: string
   - name: Updating
     types:
     - uid: string
   - name: Deleting
+    types:
+    - uid: string
+  - name: Accepted
     types:
     - uid: string
   - name: Failed
@@ -144,6 +142,12 @@ examples:
 - name: NetworkSecurityPerimeterGet
   request:
     uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1?api-version=2021-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1?api-version=2021-02-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -151,9 +155,10 @@ examples:
         "name": "nsp1",
         "id": "/subscriptions/subId/resourceGroup/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1",
         "type": "Microsoft.Network/networkSecurityPerimeters",
+        "tags": {},
+        "location": "East US 2 EUAP",
         "properties": {
-          "displayName": "nsp1",
-          "description": "Test Network Security Periemter",
+          "perimeterGuid": "guid",
           "provisioningState": "Succeeded"
         }
       }
@@ -167,5 +172,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Gets the specified network security perimeter by the name.
+  description: >
+    Learn more about Network Manager service - Gets the specified network security perimeter by the name.
 errorCodes: []

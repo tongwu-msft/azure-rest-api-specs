@@ -1,5 +1,6 @@
 ---
 title: "Resource Provider APIs"
+description: API reference documentation for the operations available in the Resource Provider REST API, a RESTful web service for managing Resource Provider resources in Azure.
 ms.custom: ""
 ms.date: "07/08/2020"
 ms.reviewer: ""
@@ -28,7 +29,7 @@ translation.priority.mt:
 The Microsoft Azure Service Bus resource provider API is a REST API set that provides programmatic access to much of the functionality available through the Azure management portal. Using the resource provider APIs, you can manage Service Bus messaging entities, subscriptions, and services.  
   
 > [!IMPORTANT]
-> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](https://docs.microsoft.com/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.  
+> If you are using **"Classic" or RDFE management APIs**, they are [**obsolete and retired**](/azure/service-bus-messaging/deprecate-service-bus-management) as of **11/1/2021** and should no longer be used.  
   
   
 ## In this section  

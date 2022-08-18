@@ -168,6 +168,7 @@ definitions:
     description: The type of reference
     types:
     - uid: string
+    defaultValue: CollectionReference
   - name: referenceName
     description: The name of reference
     types:
@@ -289,6 +290,88 @@ examples:
           "parentCollectionName": "myparentcollection"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {Endpoint}/policyStore/metadataPolicies/98ed42ff-b67f-44df-8c8c-7e6b43e77055?api-version=2021-07-01-preview
+
+      {
+        "name": "policy_mycollection",
+        "id": "98ed42ff-b67f-44df-8c8c-7e6b43e77055",
+        "version": 1,
+        "properties": {
+          "description": "",
+          "decisionRules": [
+            {
+              "effect": "Permit",
+              "dnfCondition": [
+                [
+                  {
+                    "attributeName": "resource.purview.collection",
+                    "attributeValueIncludes": "mycollection"
+                  },
+                  {
+                    "attributeName": "derived.purview.permission",
+                    "attributeValueIncludes": "permission:mycollection"
+                  }
+                ]
+              ]
+            }
+          ],
+          "attributeRules": [
+            {
+              "id": "purviewmetadatarole_builtin_collection-administrator:mycollection",
+              "name": "purviewmetadatarole_builtin_collection-administrator:mycollection",
+              "dnfCondition": [
+                [
+                  {
+                    "attributeName": "principal.microsoft.id",
+                    "attributeValueIncludedIn": [
+                      "69e520f2-5f26-4074-9fe1-5187d85ec005",
+                      "3f10f245-d5c4-4541-98ce-01a4580a30e0"
+                    ]
+                  },
+                  {
+                    "attributeName": "derived.purview.role",
+                    "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator"
+                  }
+                ],
+                [
+                  {
+                    "attributeName": "derived.purview.permission",
+                    "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:myparentcollection"
+                  }
+                ]
+              ]
+            },
+            {
+              "id": "permission:mycollection",
+              "name": "permission:mycollection",
+              "dnfCondition": [
+                [
+                  {
+                    "attributeName": "derived.purview.permission",
+                    "attributeValueIncludes": "purviewmetadatarole_builtin_collection-administrator:mycollection"
+                  }
+                ],
+                [
+                  {
+                    "attributeName": "derived.purview.permission",
+                    "attributeValueIncludes": "permission:myparentcollection"
+                  }
+                ]
+              ]
+            }
+          ],
+          "collection": {
+            "referenceName": "mycollection"
+          },
+          "parentCollectionName": "myparentcollection"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -383,5 +466,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Updates a metadata policy
+  description: >
+    Learn more about Purview service - Updates a metadata policy
 errorCodes: []

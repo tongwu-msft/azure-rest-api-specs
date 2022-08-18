@@ -1,0 +1,182 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.workflowtriggers.getschemajson
+name: Get Schema Json
+service: App Service
+groupName: Workflow Triggers
+apiVersion: 2022-03-01
+summary: Get the trigger schema as JSON.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{name}/hostruntime/runtime/webhooks/workflow/api/management/workflows/{workflowName}/triggers/{triggerName}/schemas/json?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Site name.
+  types:
+  - uid: string
+- name: workflowName
+  in: path
+  isRequired: true
+  description: The workflow name.
+  types:
+  - uid: string
+- name: triggerName
+  in: path
+  isRequired: true
+  description: The workflow trigger name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: JsonSchema
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: JsonSchema
+  description: The JSON schema.
+  kind: object
+  properties:
+  - name: title
+    description: The JSON title.
+    types:
+    - uid: string
+  - name: content
+    description: The JSON content.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Logic service is not able to process the incoming request. The error property contains the error details.
+  kind: object
+  properties:
+  - name: error
+    description: The error properties.
+    types:
+    - uid: ErrorProperties
+- name: ErrorProperties
+  description: Error properties indicate why the Logic service was not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: Get trigger schema
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Web/sites/test-name/hostruntime/runtime/webhooks/workflow/api/management/workflows/testWorkflow/triggers/testTrigger/schemas/json?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testResourceGroup/providers/Microsoft.Web/sites/test-name/hostruntime/runtime/webhooks/workflow/api/management/workflows/testWorkflow/triggers/testTrigger/schemas/json?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WorkflowTriggers GetSchemaJson. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/WorkflowTriggers_GetSchemaJson.json
+           */
+          /**
+           * Sample code: Get trigger schema.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getTriggerSchema(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getWorkflowTriggers()
+                  .getSchemaJsonWithResponse("testResourceGroup", "test-name", "testWorkflow", "testTrigger", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the trigger schema as JSON.
+       *
+       * @summary Get the trigger schema as JSON.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/WorkflowTriggers_GetSchemaJson.json
+       */
+      async function getTriggerSchema() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testResourceGroup";
+        const name = "test-name";
+        const workflowName = "testWorkflow";
+        const triggerName = "testTrigger";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.workflowTriggers.getSchemaJson(
+          resourceGroupName,
+          name,
+          workflowName,
+          triggerName
+        );
+        console.log(result);
+      }
+
+      getTriggerSchema().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "title": "JsonTitle",
+        "content": "JsonContent"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about App Service service - Get the trigger schema as JSON.
+errorCodes: []

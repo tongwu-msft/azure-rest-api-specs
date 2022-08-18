@@ -1,5 +1,5 @@
 ---
-title: "ServicePlacementPolicyDescription"
+title: Service Placement Policy Overview
 description: "ServicePlacementPolicyDescription"
 ms.date: "01/28/2021"
 ms.service: "service-fabric"
@@ -27,7 +27,7 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# ServicePlacementPolicyDescription
+# Service Placement Policy Overview
 
 Describes the policy to be used for placement of a Service Fabric service.
 ## Inheritance

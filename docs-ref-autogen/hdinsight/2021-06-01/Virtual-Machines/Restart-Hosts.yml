@@ -77,6 +77,113 @@ examples:
         "gateway1",
         "gateway3"
       ]
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/restartHosts?api-version=2021-06-01
+
+      [
+        "gateway1",
+        "gateway3"
+      ]
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachines RestartHosts. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/RestartVirtualMachinesOperation.json
+           */
+          /**
+           * Sample code: Restarts the specified HDInsight cluster hosts.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void restartsTheSpecifiedHDInsightClusterHosts(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) {
+              manager.virtualMachines().restartHosts("rg1", "cluster1", Arrays.asList("gateway1", "gateway3"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/RestartVirtualMachinesOperation.json
+      func ExampleVirtualMachinesClient_BeginRestartHosts() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewVirtualMachinesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginRestartHosts(ctx,
+      		"rg1",
+      		"cluster1",
+      		[]*string{
+      			to.Ptr("gateway1"),
+      			to.Ptr("gateway3")},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Restarts the specified HDInsight cluster hosts.
+       *
+       * @summary Restarts the specified HDInsight cluster hosts.
+       * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/RestartVirtualMachinesOperation.json
+       */
+      async function restartsTheSpecifiedHdInsightClusterHosts() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cluster1";
+        const hosts = ["gateway1", "gateway3"];
+        const credential = new DefaultAzureCredential();
+        const client = new HDInsightManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.beginRestartHostsAndWait(
+          resourceGroupName,
+          clusterName,
+          hosts
+        );
+        console.log(result);
+      }
+
+      restartsTheSpecifiedHdInsightClusterHosts().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hdinsight_1.2.0/sdk/hdinsight/arm-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -96,5 +203,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about HDInsight service - Restarts the specified HDInsight cluster hosts.
+  description: >
+    Learn more about HDInsight service - Restarts the specified HDInsight cluster hosts.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "IngestManifest"
+description: Learn how InjestManifest represents a set of assets to be created through bulk ingesting along with their associated asset files.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

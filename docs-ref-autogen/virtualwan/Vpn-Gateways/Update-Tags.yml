@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.updatetags
 name: Update Tags
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Updates virtual wan vpn gateway tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2021-05-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -537,6 +537,11 @@ definitions:
     description: EnableBgp flag.
     types:
     - uid: boolean
+  - name: properties.vpnGatewayCustomBgpAddresses
+    description: vpnGatewayCustomBgpAddresses used by this connection.
+    types:
+    - uid: GatewayCustomBgpIpAddressIpConfiguration
+      isArray: true
   - name: properties.usePolicyBasedTrafficSelectors
     description: Enable policy-based traffic selectors.
     types:
@@ -818,6 +823,18 @@ definitions:
   - name: InitiatorOnly
     types:
     - uid: string
+- name: GatewayCustomBgpIpAddressIpConfiguration
+  description: GatewayCustomBgpIpAddressIpConfiguration for a virtual network gateway connection.
+  kind: object
+  properties:
+  - name: ipConfigurationId
+    description: The IpconfigurationId of ipconfiguration which belongs to gateway.
+    types:
+    - uid: string
+  - name: customBgpIpAddress
+    description: The custom BgpPeeringAddress which belongs to IpconfigurationId.
+    types:
+    - uid: string
 - name: PropagatedRouteTable
   description: The list of RouteTables to advertise the routes to.
   kind: object
@@ -867,7 +884,7 @@ definitions:
 examples:
 - name: VpnGatewayUpdate
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2021-05-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-01-01
     body: >-
       {
         "tags": {
@@ -875,6 +892,95 @@ examples:
           "tag2": "value2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1?api-version=2022-01-01
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayUpdateTags.json
+      func ExampleVPNGatewaysClient_BeginUpdateTags() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVPNGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdateTags(ctx, "rg1", "gateway1", armnetwork.TagsObject{
+      		Tags: map[string]*string{
+      			"tag1": to.Ptr("value1"),
+      			"tag2": to.Ptr("value2"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates virtual wan vpn gateway tags.
+       *
+       * @summary Updates virtual wan vpn gateway tags.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayUpdateTags.json
+       */
+      async function vpnGatewayUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const gatewayName = "gateway1";
+        const vpnGatewayParameters = {
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.vpnGateways.beginUpdateTagsAndWait(
+          resourceGroupName,
+          gatewayName,
+          vpnGatewayParameters
+        );
+        console.log(result);
+      }
+
+      vpnGatewayUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "200"
@@ -985,5 +1091,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual WAN service - Updates virtual wan vpn gateway tags.
+  description: >
+    Learn more about Virtual WAN service - Updates virtual wan vpn gateway tags.
 errorCodes: []

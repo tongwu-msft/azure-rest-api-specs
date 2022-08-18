@@ -1,5 +1,6 @@
 ---
 title: "ErrorDetail"
+description: Learn how ErrorDetail describes an error encountered during the execution of a Task.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

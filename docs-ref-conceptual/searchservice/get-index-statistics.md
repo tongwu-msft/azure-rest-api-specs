@@ -4,7 +4,7 @@ description: Return documents counts, index counts, and resource usage metrics f
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

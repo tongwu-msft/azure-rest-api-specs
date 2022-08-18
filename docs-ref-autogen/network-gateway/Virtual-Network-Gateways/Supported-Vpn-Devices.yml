@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.supportedvpndev
 name: Supported Vpn Devices
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Gets a xml format representation for supported vpn devices.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices?api-version=2021-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways/{virtualNetworkGatewayName}/supportedvpndevices?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -79,7 +79,74 @@ definitions:
 examples:
 - name: ListVirtualNetworkGatewaySupportedVPNDevices
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/supportedvpndevices?api-version=2021-05-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/supportedvpndevices?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/vpngw/supportedvpndevices?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+      func ExampleVirtualNetworkGatewaysClient_SupportedVPNDevices() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewVirtualNetworkGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.SupportedVPNDevices(ctx, "rg1", "vpngw", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a xml format representation for supported vpn devices.
+       *
+       * @summary Gets a xml format representation for supported vpn devices.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkGatewaySupportedVpnDevice.json
+       */
+      async function listVirtualNetworkGatewaySupportedVpnDevices() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualNetworkGatewayName = "vpngw";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworkGateways.supportedVpnDevices(
+          resourceGroupName,
+          virtualNetworkGatewayName
+        );
+        console.log(result);
+      }
+
+      listVirtualNetworkGatewaySupportedVpnDevices().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: "\"<?xml version=\\\"1.0\\\" encoding=\\\"utf-8\\\"?><RpVpnDeviceList version=\\\"1.0\\\"><Vendor name=\\\"Cisco\\\"><DeviceFamily name=\\\"ISR\\\"><FirmwareVersion name=\\\"IOS 15.1 (Preview)\\\" /></DeviceFamily><DeviceFamily name=\\\"ASA (Adaptive Security Appliance)\\\"><FirmwareVersion name=\\\"ASA_9.8.x_ActivePassive_NoBGP_NoCustomPolicies\\\"/><FirmwareVersion name=\\\"ASA_9.8(x)_CustomPolicies\\\" /></DeviceFamily></Vendor><Vendor name=\\\"Juniper\\\"><DeviceFamily name=\\\"Juniper_SRX_GA\\\"><FirmwareVersion name=\\\"Juniper_SRX_12.x_GA\\\" /></DeviceFamily><DeviceFamily name=\\\"Juniper_SSG_GA\\\"><FirmwareVersion name=\\\"Juniper_SSG_ScreenOS-6.2.x_GA\\\"/></DeviceFamily><DeviceFamily name=\\\"Juniper_JSeries_GA\\\"><FirmwareVersion name=\\\"Juniper_JSeries_JunOS12.x._GA\\\" /></DeviceFamily></Vendor><Vendor name=\\\"Ubiquiti\\\"><DeviceFamily name=\\\"EdgeRouter\\\"><FirmwareVersion name=\\\"Ubiquiti_EdgeOS_1.10.x-RouteBased_VTI\\\" /><FirmwareVersionname=\\\"Ubiquiti_EdgeOS_1.10.x-RouteBased_BGP\\\" /></DeviceFamily></Vendor></RpVpnDeviceList>\""
@@ -93,5 +160,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Gateway service - Gets a xml format representation for supported vpn devices.
+  description: >
+    Learn more about Network Gateway service - Gets a xml format representation for supported vpn devices.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "ServiceResource"
+description: "Properties table includes Azure resource identifier, Azure resource name, Azure resource type, Azure resource location, and the ServiceResourceProperties." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

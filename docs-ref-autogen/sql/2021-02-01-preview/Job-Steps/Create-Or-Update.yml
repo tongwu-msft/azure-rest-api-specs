@@ -138,10 +138,12 @@ definitions:
     description: Type of action being executed by the job step.
     types:
     - uid: JobStepActionType
+    defaultValue: TSql
   - name: source
     description: The source of the action to execute.
     types:
     - uid: JobStepActionSource
+    defaultValue: Inline
   - name: value
     description: The action value, for example the text of the T-SQL script to execute.
     types:
@@ -154,6 +156,7 @@ definitions:
     description: The output destination type.
     types:
     - uid: JobStepOutputType
+    defaultValue: SqlDatabase
   - name: subscriptionId
     description: The output destination subscription id.
     types:
@@ -174,6 +177,7 @@ definitions:
     description: The output destination schema.
     types:
     - uid: string
+    defaultValue: dbo
   - name: tableName
     description: The output destination table.
     types:
@@ -190,22 +194,27 @@ definitions:
     description: Execution timeout for the job step.
     types:
     - uid: integer
+    defaultValue: 43200
   - name: retryAttempts
     description: Maximum number of times the job step will be reattempted if the first attempt fails.
     types:
     - uid: integer
+    defaultValue: 10
   - name: initialRetryIntervalSeconds
     description: Initial delay between retries for job step execution.
     types:
     - uid: integer
+    defaultValue: 1
   - name: maximumRetryIntervalSeconds
     description: The maximum amount of time to wait between retries for job step execution.
     types:
     - uid: integer
+    defaultValue: 120
   - name: retryIntervalBackoffMultiplier
     description: The backoff multiplier for the time between retries.
     types:
     - uid: number
+    defaultValue: 2
 - name: JobStep
   description: A job step.
   kind: object
@@ -284,6 +293,23 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1?api-version=2021-02-01-preview
+
+      {
+        "properties": {
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup0",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0",
+          "action": {
+            "value": "select 1"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -366,6 +392,43 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/jobs/job1/steps/step1?api-version=2021-02-01-preview
+
+      {
+        "properties": {
+          "stepId": 1,
+          "targetGroup": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/targetGroups/targetGroup1",
+          "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred1",
+          "action": {
+            "type": "TSql",
+            "source": "Inline",
+            "value": "select 2"
+          },
+          "output": {
+            "type": "SqlDatabase",
+            "subscriptionId": "3501b905-a848-4b5d-96e8-b253f62d735a",
+            "resourceGroupName": "group3",
+            "serverName": "server3",
+            "databaseName": "database3",
+            "schemaName": "myschema1234",
+            "tableName": "mytable5678",
+            "credential": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/group1/providers/Microsoft.Sql/servers/server1/jobAgents/agent1/credentials/cred0"
+          },
+          "executionOptions": {
+            "timeoutSeconds": 1234,
+            "retryAttempts": 42,
+            "initialRetryIntervalSeconds": 11,
+            "maximumRetryIntervalSeconds": 222,
+            "retryIntervalBackoffMultiplier": 3
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -437,5 +500,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about SQL Database service - Creates or updates a job step. This will implicitly create a new job version.
+  description: >
+    Learn more about SQL Database service - Creates or updates a job step. This will implicitly create a new job version.
 errorCodes: []

@@ -1,0 +1,476 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.azurefrontdoorstandardpremium(preview).afdorigins.create1
+name: Create
+service: Front Door Service
+groupName: AFD Origins
+apiVersion: 2021-06-01
+summary: Creates a new origin within the specified origin group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/originGroups/{originGroupName}/origins/{originName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium profile which is unique within the resource group.
+  types:
+  - uid: string
+- name: originGroupName
+  in: path
+  isRequired: true
+  description: Name of the origin group which is unique within the profile.
+  types:
+  - uid: string
+- name: originName
+  in: path
+  isRequired: true
+  description: Name of the origin that is unique within the profile.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AFDOrigin
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new origin has been created.
+  types:
+  - uid: AFDOrigin
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously.
+  types:
+  - uid: AFDOrigin
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: AfdErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.azureOrigin
+    in: body
+    description: Resource reference to the Azure origin resource.
+    types:
+    - uid: ResourceReference
+  - name: properties.hostName
+    in: body
+    isRequired: true
+    description: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.
+    types:
+    - uid: string
+  - name: properties.httpPort
+    in: body
+    description: The value of the HTTP port. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: properties.httpsPort
+    in: body
+    description: The value of the HTTPS port. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: properties.originHostHeader
+    in: body
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint
+    types:
+    - uid: string
+  - name: properties.priority
+    in: body
+    description: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5
+    types:
+    - uid: integer
+  - name: properties.weight
+    in: body
+    description: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
+    types:
+    - uid: integer
+  - name: properties.sharedPrivateLinkResource
+    in: body
+    description: The properties of the private link resource for private origin.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+  - name: properties.enabledState
+    in: body
+    description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+    types:
+    - uid: EnabledState
+  - name: properties.enforceCertificateNameCheck
+    in: body
+    description: Whether to enable certificate name check at origin level
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ResourceReference
+  description: Reference to another resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceProperties
+  description: Describes the properties of an existing Shared Private Link Resource to use when connecting to a private origin.
+  kind: object
+  properties:
+  - name: privateLink
+    description: The resource id of the resource the shared private link resource is for.
+    types:
+    - uid: ResourceReference
+  - name: privateLinkLocation
+    description: The location of the shared private link resource
+    types:
+    - uid: string
+  - name: groupId
+    description: The group id from the provider of resource the shared private link resource is for.
+    types:
+    - uid: string
+  - name: requestMessage
+    description: The request message for requesting approval of the shared private link resource.
+    types:
+    - uid: string
+  - name: status
+    description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
+    types:
+    - uid: SharedPrivateLinkResourceStatus
+- name: AFDOrigin
+  description: CDN origin is the source of the content being delivered via CDN. When the edge nodes represented by an endpoint do not have the requested content cached, they attempt to fetch it from one or more of the configured origins.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
+  - name: properties.originGroupName
+    isReadyOnly: true
+    description: The name of the origin group which contains this origin.
+    types:
+    - uid: string
+  - name: properties.azureOrigin
+    description: Resource reference to the Azure origin resource.
+    types:
+    - uid: ResourceReference
+  - name: properties.hostName
+    description: The address of the origin. Domain names, IPv4 addresses, and IPv6 addresses are supported.This should be unique across all origins in an endpoint.
+    types:
+    - uid: string
+  - name: properties.httpPort
+    description: The value of the HTTP port. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: properties.httpsPort
+    description: The value of the HTTPS port. Must be between 1 and 65535.
+    types:
+    - uid: integer
+  - name: properties.originHostHeader
+    description: The host header value sent to the origin with each request. If you leave this blank, the request hostname determines this value. Azure CDN origins, such as Web Apps, Blob Storage, and Cloud Services require this host header value to match the origin hostname by default. This overrides the host header defined at Endpoint
+    types:
+    - uid: string
+  - name: properties.priority
+    description: Priority of origin in given origin group for load balancing. Higher priorities will not be used for load balancing if any lower priority origin is healthy.Must be between 1 and 5
+    types:
+    - uid: integer
+  - name: properties.weight
+    description: Weight of the origin in given origin group for load balancing. Must be between 1 and 1000
+    types:
+    - uid: integer
+  - name: properties.sharedPrivateLinkResource
+    description: The properties of the private link resource for private origin.
+    types:
+    - uid: SharedPrivateLinkResourceProperties
+  - name: properties.enabledState
+    description: Whether to enable health probes to be made against backends defined under backendPools. Health probes can only be disabled if there is a single enabled backend in single enabled backend pool.
+    types:
+    - uid: EnabledState
+  - name: properties.enforceCertificateNameCheck
+    description: Whether to enable certificate name check at origin level
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status
+    types:
+    - uid: AfdProvisioningState
+  - name: properties.deploymentStatus
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: DeploymentStatus
+- name: AfdErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: SharedPrivateLinkResourceStatus
+  description: Status of the shared private link resource. Can be Pending, Approved, Rejected, Disconnected, or Timeout.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+- name: EnabledState
+  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: AfdProvisioningState
+  description: Provisioning status
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: DeploymentStatus
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: AFDOrigins_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/origingroup1/origins/origin1?api-version=2021-06-01
+    body: >-
+      {
+        "properties": {
+          "hostName": "host1.blob.core.windows.net",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originHostHeader": "host1.foo.com",
+          "enabledState": "Enabled"
+        }
+      }
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/origingroups/origingroup1/origins/origin1",
+        "type": "Microsoft.Cdn/profiles/origingroups/origins",
+        "name": "origin1",
+        "properties": {
+          "hostName": "host1.blob.core.windows.net",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originHostHeader": "host1.foo.com",
+          "priority": null,
+          "weight": null,
+          "enabledState": "Enabled",
+          "provisioningState": "Succeeded",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/origingroups/origingroup1/origins/origin1",
+        "type": "Microsoft.Cdn/profiles/origingroups/origins",
+        "name": "origin1",
+        "properties": {
+          "hostName": "host1.blob.core.windows.net",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originHostHeader": "host1.foo.com",
+          "priority": null,
+          "weight": null,
+          "enabledState": "Enabled",
+          "provisioningState": "Succeeded",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/origingroups/origingroup1/origins/origin1",
+        "type": "Microsoft.Cdn/profiles/origingroups/origins",
+        "name": "origin1",
+        "properties": {
+          "hostName": "host1.blob.core.windows.net",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originHostHeader": "host1.foo.com",
+          "priority": null,
+          "weight": null,
+          "enabledState": "Enabled",
+          "provisioningState": "Succeeded",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Creates a new origin within the specified origin group.
+errorCodes: []

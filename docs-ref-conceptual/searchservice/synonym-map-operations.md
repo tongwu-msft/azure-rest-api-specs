@@ -4,7 +4,7 @@ description: "Synonym maps contain custom rules to expand or rewrite a search qu
 ms.date: 01/18/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

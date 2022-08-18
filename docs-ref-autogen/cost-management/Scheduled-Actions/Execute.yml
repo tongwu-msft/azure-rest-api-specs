@@ -1,0 +1,82 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cost-management.scheduledactions.execute
+name: Execute
+service: Cost Management
+groupName: Scheduled Actions
+apiVersion: 2022-06-01-preview
+summary: Execute a private scheduled action.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/{name}/execute?api-version=2022-06-01-preview
+uriParameters:
+- name: name
+  in: path
+  isRequired: true
+  description: Scheduled action name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded. It might take up to an hour to receive the email.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: "Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message. \n\nSome Error responses: \n\n * 429 TooManyRequests - Request is throttled. Retry after waiting for the time specified in the \"x-ms-ratelimit-microsoft.consumption-retry-after\" header. \n\n * 503 ServiceUnavailable - Service is temporarily unavailable. Retry after waiting for the time specified in the \"Retry-After\" header."
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: ScheduledActionExecute
+  request:
+    uri: POST https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource/execute?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.CostManagement/scheduledActions/monthlyCostByResource/execute?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Cost Management service - Execute a private scheduled action.
+errorCodes: []

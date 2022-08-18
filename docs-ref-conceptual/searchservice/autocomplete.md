@@ -4,7 +4,7 @@ description: Send queries and obtain results based on partial inputs.
 ms.date: 03/23/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

@@ -595,6 +595,232 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2021-04-01
+
+      {
+        "location": "eastus",
+        "properties": {
+          "dataSources": {
+            "performanceCounters": [
+              {
+                "name": "cloudTeamCoreCounters",
+                "streams": [
+                  "Microsoft-Perf"
+                ],
+                "samplingFrequencyInSeconds": 15,
+                "counterSpecifiers": [
+                  "\\Processor(_Total)\\% Processor Time",
+                  "\\Memory\\Committed Bytes",
+                  "\\LogicalDisk(_Total)\\Free Megabytes",
+                  "\\PhysicalDisk(_Total)\\Avg. Disk Queue Length"
+                ]
+              },
+              {
+                "name": "appTeamExtraCounters",
+                "streams": [
+                  "Microsoft-Perf"
+                ],
+                "samplingFrequencyInSeconds": 30,
+                "counterSpecifiers": [
+                  "\\Process(_Total)\\Thread Count"
+                ]
+              }
+            ],
+            "windowsEventLogs": [
+              {
+                "name": "cloudSecurityTeamEvents",
+                "streams": [
+                  "Microsoft-WindowsEvent"
+                ],
+                "xPathQueries": [
+                  "Security!"
+                ]
+              },
+              {
+                "name": "appTeam1AppEvents",
+                "streams": [
+                  "Microsoft-WindowsEvent"
+                ],
+                "xPathQueries": [
+                  "System![System[(Level = 1 or Level = 2 or Level = 3)]]",
+                  "Application!*[System[(Level = 1 or Level = 2 or Level = 3)]]"
+                ]
+              }
+            ],
+            "syslog": [
+              {
+                "name": "cronSyslog",
+                "streams": [
+                  "Microsoft-Syslog"
+                ],
+                "facilityNames": [
+                  "cron"
+                ],
+                "logLevels": [
+                  "Debug",
+                  "Critical",
+                  "Emergency"
+                ]
+              },
+              {
+                "name": "syslogBase",
+                "streams": [
+                  "Microsoft-Syslog"
+                ],
+                "facilityNames": [
+                  "syslog"
+                ],
+                "logLevels": [
+                  "Alert",
+                  "Critical",
+                  "Emergency"
+                ]
+              }
+            ]
+          },
+          "destinations": {
+            "logAnalytics": [
+              {
+                "workspaceResourceId": "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.OperationalInsights/workspaces/centralTeamWorkspace",
+                "name": "centralWorkspace"
+              }
+            ]
+          },
+          "dataFlows": [
+            {
+              "streams": [
+                "Microsoft-Perf",
+                "Microsoft-Syslog",
+                "Microsoft-WindowsEvent"
+              ],
+              "destinations": [
+                "centralWorkspace"
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-04-01/examples/DataCollectionRulesCreate.json
+      func ExampleDataCollectionRulesClient_Create() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armmonitor.NewDataCollectionRulesClient("<subscription-id>", cred, nil)
+      	res, err := client.Create(ctx,
+      		"<resource-group-name>",
+      		"<data-collection-rule-name>",
+      		&armmonitor.DataCollectionRulesClientCreateOptions{Body: &armmonitor.DataCollectionRuleResource{
+      			Location: to.StringPtr("<location>"),
+      			Properties: &armmonitor.DataCollectionRuleResourceProperties{
+      				DataFlows: []*armmonitor.DataFlow{
+      					{
+      						Destinations: []*string{
+      							to.StringPtr("centralWorkspace")},
+      						Streams: []*armmonitor.KnownDataFlowStreams{
+      							armmonitor.KnownDataFlowStreams("Microsoft-Perf").ToPtr(),
+      							armmonitor.KnownDataFlowStreams("Microsoft-Syslog").ToPtr(),
+      							armmonitor.KnownDataFlowStreams("Microsoft-WindowsEvent").ToPtr()},
+      					}},
+      				DataSources: &armmonitor.DataCollectionRuleDataSources{
+      					PerformanceCounters: []*armmonitor.PerfCounterDataSource{
+      						{
+      							Name: to.StringPtr("<name>"),
+      							CounterSpecifiers: []*string{
+      								to.StringPtr("\\Processor(_Total)\\% Processor Time"),
+      								to.StringPtr("\\Memory\\Committed Bytes"),
+      								to.StringPtr("\\LogicalDisk(_Total)\\Free Megabytes"),
+      								to.StringPtr("\\PhysicalDisk(_Total)\\Avg. Disk Queue Length")},
+      							SamplingFrequencyInSeconds: to.Int32Ptr(15),
+      							Streams: []*armmonitor.KnownPerfCounterDataSourceStreams{
+      								armmonitor.KnownPerfCounterDataSourceStreams("Microsoft-Perf").ToPtr()},
+      						},
+      						{
+      							Name: to.StringPtr("<name>"),
+      							CounterSpecifiers: []*string{
+      								to.StringPtr("\\Process(_Total)\\Thread Count")},
+      							SamplingFrequencyInSeconds: to.Int32Ptr(30),
+      							Streams: []*armmonitor.KnownPerfCounterDataSourceStreams{
+      								armmonitor.KnownPerfCounterDataSourceStreams("Microsoft-Perf").ToPtr()},
+      						}},
+      					Syslog: []*armmonitor.SyslogDataSource{
+      						{
+      							Name: to.StringPtr("<name>"),
+      							FacilityNames: []*armmonitor.KnownSyslogDataSourceFacilityNames{
+      								armmonitor.KnownSyslogDataSourceFacilityNames("cron").ToPtr()},
+      							LogLevels: []*armmonitor.KnownSyslogDataSourceLogLevels{
+      								armmonitor.KnownSyslogDataSourceLogLevels("Debug").ToPtr(),
+      								armmonitor.KnownSyslogDataSourceLogLevels("Critical").ToPtr(),
+      								armmonitor.KnownSyslogDataSourceLogLevels("Emergency").ToPtr()},
+      							Streams: []*armmonitor.KnownSyslogDataSourceStreams{
+      								armmonitor.KnownSyslogDataSourceStreams("Microsoft-Syslog").ToPtr()},
+      						},
+      						{
+      							Name: to.StringPtr("<name>"),
+      							FacilityNames: []*armmonitor.KnownSyslogDataSourceFacilityNames{
+      								armmonitor.KnownSyslogDataSourceFacilityNames("syslog").ToPtr()},
+      							LogLevels: []*armmonitor.KnownSyslogDataSourceLogLevels{
+      								armmonitor.KnownSyslogDataSourceLogLevels("Alert").ToPtr(),
+      								armmonitor.KnownSyslogDataSourceLogLevels("Critical").ToPtr(),
+      								armmonitor.KnownSyslogDataSourceLogLevels("Emergency").ToPtr()},
+      							Streams: []*armmonitor.KnownSyslogDataSourceStreams{
+      								armmonitor.KnownSyslogDataSourceStreams("Microsoft-Syslog").ToPtr()},
+      						}},
+      					WindowsEventLogs: []*armmonitor.WindowsEventLogDataSource{
+      						{
+      							Name: to.StringPtr("<name>"),
+      							Streams: []*armmonitor.KnownWindowsEventLogDataSourceStreams{
+      								armmonitor.KnownWindowsEventLogDataSourceStreams("Microsoft-WindowsEvent").ToPtr()},
+      							XPathQueries: []*string{
+      								to.StringPtr("Security!")},
+      						},
+      						{
+      							Name: to.StringPtr("<name>"),
+      							Streams: []*armmonitor.KnownWindowsEventLogDataSourceStreams{
+      								armmonitor.KnownWindowsEventLogDataSourceStreams("Microsoft-WindowsEvent").ToPtr()},
+      							XPathQueries: []*string{
+      								to.StringPtr("System![System[(Level = 1 or Level = 2 or Level = 3)]]"),
+      								to.StringPtr("Application!*[System[(Level = 1 or Level = 2 or Level = 3)]]")},
+      						}},
+      				},
+      				Destinations: &armmonitor.DataCollectionRuleDestinations{
+      					LogAnalytics: []*armmonitor.LogAnalyticsDestination{
+      						{
+      							Name:                to.StringPtr("<name>"),
+      							WorkspaceResourceID: to.StringPtr("<workspace-resource-id>"),
+      						}},
+      				},
+      			},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatal(err)
+      	}
+      	log.Printf("Response result: %#v\n", res.DataCollectionRulesClientCreateResult)
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.4.1/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -852,5 +1078,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Creates or updates a data collection rule.
+  description: >
+    Learn more about Monitor service - Creates or updates a data collection rule.
 errorCodes: []

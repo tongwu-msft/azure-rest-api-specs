@@ -1,15 +1,16 @@
 ---
-title: Find Blobs by Tags (REST API) - Azure Storage
+title: Find Blobs by Tags in Container (REST API) - Azure Storage
 description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression on a given container.
 author: akharit
 
-ms.date: 12/17/2021
+ms.date: 03/22/2022
 ms.service: storage
 ms.topic: reference
 ms.author: akharit
 ---
 
-# Find Blobs by Tags
+# Find Blobs by Tags in Container Operation
+
 The `Find Blobs by Tags` operation finds all blobs in the container whose tags match a given search expression.  
   
 ## Request  
@@ -17,7 +18,7 @@ The `Find Blobs by Tags` operation finds all blobs in the container whose tags m
   
 |GET Method Request URI|HTTP Version|  
 |------------------------------------|------------------|  
-|`https://myaccount.blob.core.windows.net/mycontainer?comp=blobs&where=<expression>`|HTTP/1.1|  
+|`https://myaccount.blob.core.windows.net/mycontainer?restype=container&comp=blobs&where=<expression>`|HTTP/1.1|  
   
 ### URI parameters
   
@@ -27,7 +28,7 @@ The `Find Blobs by Tags` operation finds all blobs in the container whose tags m
 |---------------|-----------------|  
 |`expression`|Required. Filters the result set to only include blobs whose tags match the specified expression. <br /><br /> See the Remarks for more information on how to construct this expression.|  
 |`marker`|Optional. A string value that identifies the portion of the result set to be returned with the next operation. The operation returns a marker value within the response body if the result set returned was not complete. The marker value may then be used in a subsequent call to request the next set of items.<br /><br /> The marker value is opaque to the client.|  
-|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
+|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items. If there are additional results to return, the service returns a continuation token in the `NextMarker` response element. In certain cases, the service may return fewer results than specified by `maxresults` and also return a continuation token.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
 |`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
 ### Request Headers  

@@ -4,7 +4,7 @@ description: Name conventions for Azure Cognitive Search services, indexes, inde
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

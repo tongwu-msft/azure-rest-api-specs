@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Available Extensions | Microsoft Docs"
+description: Learn how the List Available Extensions operation lists the extensions that are available to add to your cloud service.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

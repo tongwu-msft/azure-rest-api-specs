@@ -1,5 +1,6 @@
 ---
 title: Network Watcher REST API | Microsoft Docs
+description: API reference documentation for the operations available in the Network Watcher REST API, a RESTful web service for managing Network Watcher resources in Azure.
 author: gwallace
 ms.author: gwallace
 ms.date: 08/09/2017

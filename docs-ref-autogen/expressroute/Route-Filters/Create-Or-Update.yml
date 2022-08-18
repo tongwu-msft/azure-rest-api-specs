@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.routefilters.createorupdate
 name: Create Or Update
 service: ExpressRoute
 groupName: Route Filters
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or updates a route filter in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeFilters/{routeFilterName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -619,7 +619,7 @@ definitions:
 examples:
 - name: RouteFilterCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2022-01-01
     body: >-
       {
         "location": "West US",
@@ -642,6 +642,132 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeFilters/filterName?api-version=2022-01-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "key1": "value1"
+        },
+        "properties": {
+          "rules": [
+            {
+              "name": "ruleName",
+              "properties": {
+                "access": "Allow",
+                "routeFilterRuleType": "Community",
+                "communities": [
+                  "12076:5030",
+                  "12076:5040"
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteFilterCreate.json
+      func ExampleRouteFiltersClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRouteFiltersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "filterName", armnetwork.RouteFilter{
+      		Location: to.Ptr("West US"),
+      		Tags: map[string]*string{
+      			"key1": to.Ptr("value1"),
+      		},
+      		Properties: &armnetwork.RouteFilterPropertiesFormat{
+      			Rules: []*armnetwork.RouteFilterRule{
+      				{
+      					Name: to.Ptr("ruleName"),
+      					Properties: &armnetwork.RouteFilterRulePropertiesFormat{
+      						Access: to.Ptr(armnetwork.AccessAllow),
+      						Communities: []*string{
+      							to.Ptr("12076:5030"),
+      							to.Ptr("12076:5040")},
+      						RouteFilterRuleType: to.Ptr(armnetwork.RouteFilterRuleTypeCommunity),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a route filter in a specified resource group.
+       *
+       * @summary Creates or updates a route filter in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteFilterCreate.json
+       */
+      async function routeFilterCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const routeFilterName = "filterName";
+        const routeFilterParameters = {
+          location: "West US",
+          rules: [
+            {
+              name: "ruleName",
+              access: "Allow",
+              communities: ["12076:5030", "12076:5040"],
+              routeFilterRuleType: "Community",
+            },
+          ],
+          tags: { key1: "value1" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routeFilters.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          routeFilterName,
+          routeFilterParameters
+        );
+        console.log(result);
+      }
+
+      routeFilterCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -717,5 +843,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about ExpressRoute service - Creates or updates a route filter in a specified resource group.
+  description: >
+    Learn more about ExpressRoute service - Creates or updates a route filter in a specified resource group.
 errorCodes: []

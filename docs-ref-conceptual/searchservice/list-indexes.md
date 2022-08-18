@@ -4,7 +4,7 @@ description: Return a list of index names for indexes in the current Azure Cogni
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

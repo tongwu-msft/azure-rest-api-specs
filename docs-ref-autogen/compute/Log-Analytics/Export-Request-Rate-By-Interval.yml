@@ -3,14 +3,14 @@ uid: management.azure.com.compute.loganalytics.exportrequestratebyinterval
 name: Export Request Rate By Interval
 service: Compute
 groupName: Log Analytics
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval?api-version=2021-11-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/logAnalytics/apiAccess/getRequestRateByInterval?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -234,7 +234,7 @@ definitions:
 examples:
 - name: Export logs which contain all Api requests made to Compute Resource Provider within the given time period broken down by intervals.
   request:
-    uri: POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus/logAnalytics/apiAccess/getRequestRateByInterval?api-version=2021-11-01
+    uri: POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus/logAnalytics/apiAccess/getRequestRateByInterval?api-version=2022-03-01
     body: >-
       {
         "intervalLength": "FiveMins",
@@ -243,6 +243,106 @@ examples:
         "toTime": "2018-01-23T01:54:06.862601Z",
         "groupByResourceName": true
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/westus/logAnalytics/apiAccess/getRequestRateByInterval?api-version=2022-03-01
+
+      {
+        "intervalLength": "FiveMins",
+        "blobContainerSasUri": "https://somesasuri",
+        "fromTime": "2018-01-21T01:54:06.862601Z",
+        "toTime": "2018-01-23T01:54:06.862601Z",
+        "groupByResourceName": true
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
+      func ExampleLogAnalyticsClient_BeginExportRequestRateByInterval() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewLogAnalyticsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginExportRequestRateByInterval(ctx,
+      		"westus",
+      		armcompute.RequestRateByIntervalInput{
+      			BlobContainerSasURI: to.Ptr("https://somesasuri"),
+      			FromTime:            to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2018-01-21T01:54:06.862601Z"); return t }()),
+      			GroupByResourceName: to.Ptr(true),
+      			ToTime:              to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2018-01-23T01:54:06.862601Z"); return t }()),
+      			IntervalLength:      to.Ptr(armcompute.IntervalInMinsFiveMins),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
+       *
+       * @summary Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/logAnalyticExamples/LogAnalytics_RequestRateByInterval.json
+       */
+      async function exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals() {
+        const subscriptionId = "{subscription-id}";
+        const location = "westus";
+        const parameters = {
+          blobContainerSasUri: "https://somesasuri",
+          fromTime: new Date("2018-01-21T01:54:06.862601Z"),
+          groupByResourceName: true,
+          intervalLength: "FiveMins",
+          toTime: new Date("2018-01-23T01:54:06.862601Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.logAnalytics.beginExportRequestRateByIntervalAndWait(
+          location,
+          parameters
+        );
+        console.log(result);
+      }
+
+      exportLogsWhichContainAllApiRequestsMadeToComputeResourceProviderWithinTheGivenTimePeriodBrokenDownByIntervals().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -262,5 +362,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
+  description: >
+    Export logs that show Api requests made by this subscription in the given time window to show throttling activities.
 errorCodes: []

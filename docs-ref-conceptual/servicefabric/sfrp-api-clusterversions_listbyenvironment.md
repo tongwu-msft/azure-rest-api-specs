@@ -1,5 +1,6 @@
 ---
 title: "List By Environment"
+description: "Learn how to get the list of all available code versions for Service Fabric cluster resources by environment. Example for List cluster versions by environment request is included." 
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

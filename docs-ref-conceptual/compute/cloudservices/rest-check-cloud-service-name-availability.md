@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Check Cloud Service Name Availability | Microsoft Docs"
+description: Learn how the Check Hosted Service Name Availability operation checks for the availability of the specified cloud service name.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

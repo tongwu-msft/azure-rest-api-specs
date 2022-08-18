@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getnexthop
 name: Get Next Hop
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Gets the next hop from the specified VM.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop?api-version=2021-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/nextHop?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -162,7 +162,7 @@ definitions:
 examples:
 - name: Get next hop
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2021-05-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2022-01-01
     body: >-
       {
         "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
@@ -170,6 +170,100 @@ examples:
         "destinationIPAddress": "10.0.0.10",
         "targetNicResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2022-01-01
+
+      {
+        "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+        "sourceIPAddress": "10.0.0.5",
+        "destinationIPAddress": "10.0.0.10",
+        "targetNicResourceId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherNextHopGet.json
+      func ExampleWatchersClient_BeginGetNextHop() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewWatchersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGetNextHop(ctx, "rg1", "nw1", armnetwork.NextHopParameters{
+      		DestinationIPAddress: to.Ptr("10.0.0.10"),
+      		SourceIPAddress:      to.Ptr("10.0.0.5"),
+      		TargetNicResourceID:  to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1"),
+      		TargetResourceID:     to.Ptr("/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the next hop from the specified VM.
+       *
+       * @summary Gets the next hop from the specified VM.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherNextHopGet.json
+       */
+      async function getNextHop() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const networkWatcherName = "nw1";
+        const parameters = {
+          destinationIPAddress: "10.0.0.10",
+          sourceIPAddress: "10.0.0.5",
+          targetNicResourceId:
+            "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkInterfaces/nic1",
+          targetResourceId:
+            "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.networkWatchers.beginGetNextHopAndWait(
+          resourceGroupName,
+          networkWatcherName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      getNextHop().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -181,7 +275,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2021-05-01
+      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/nextHop?api-version=2022-01-01
     body: >-
       {
         "nextHopType": "VnetLocal",
@@ -198,5 +292,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Watcher service - Gets the next hop from the specified VM.
+  description: >
+    Learn more about Network Watcher service - Gets the next hop from the specified VM.
 errorCodes: []

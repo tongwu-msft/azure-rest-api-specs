@@ -1,5 +1,6 @@
 ﻿---
 title: "Read an installation"
+description: Use this API reference documentation to retrieve installations based on Installation ID.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

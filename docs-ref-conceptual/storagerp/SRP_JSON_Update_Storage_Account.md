@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Update Storage Account (Azure Storage)"
+description: JSON request and response payloads for the Update Storage Account operation.
 ---
 # JSON payloads for Update Storage Account
 

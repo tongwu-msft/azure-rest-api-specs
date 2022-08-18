@@ -59,36 +59,11 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.resource
+  - name: createUpdateSqlContainerParameters
     in: body
-    isRequired: true
-    description: The standard JSON format of a container
+    description: The parameters to provide for the current SQL container.
     types:
-    - uid: SqlContainerResource
-  - name: properties.options
-    in: body
-    description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
-    types:
-    - uid: CreateUpdateOptions
-  - name: location
-    in: body
-    description: The location of the resource group to which the resource belongs.
-    types:
-    - uid: string
-  - name: tags
-    in: body
-    description: 'Tags are a list of key-value pairs that describe the resource. These tags can be used in viewing and grouping this resource (across resource groups). A maximum of 15 tags can be provided for a resource. Each tag must have a key no greater than 128 characters and value no greater than 256 characters. For example, the default experience for a template type is set with "defaultExperience": "Cassandra". Current "defaultExperience" values also include "Table", "Graph", "DocumentDB", and "MongoDB".'
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: identity
-    in: body
-    description: Identity for the resource.
-    types:
-    - uid: ManagedServiceIdentity
+    - uid: SqlContainerCreateUpdateParameters
 requestHeader: []
 definitions:
 - name: SqlContainerResource
@@ -124,7 +99,7 @@ definitions:
     types:
     - uid: integer
 - name: CreateUpdateOptions
-  description: CreateUpdateOptions are a list of key-value pairs that describe the resource. Supported keys are "If-Match", "If-None-Match", "Session-Token" and "Throughput"
+  description: A key-value pair of options to be applied for the request. This corresponds to the headers sent with the request.
   kind: object
   properties:
   - name: throughput
@@ -201,7 +176,7 @@ definitions:
     types:
     - uid: ManagedServiceIdentity
 - name: SqlContainerCreateUpdateParameters
-  description: Parameters to create and update Cosmos DB container.
+  description: The parameters to provide for the current SQL container.
   kind: object
   properties:
   - name: properties.resource
@@ -255,6 +230,7 @@ definitions:
     description: Indicates the indexing mode.
     types:
     - uid: IndexingMode
+    defaultValue: consistent
   - name: includedPaths
     description: List of paths to include in the indexing
     types:
@@ -288,6 +264,7 @@ definitions:
     description: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create
     types:
     - uid: PartitionKind
+    defaultValue: Hash
   - name: version
     description: Indicates the version of the partition key definition
     types:
@@ -314,6 +291,7 @@ definitions:
     description: Indicates the conflict resolution mode.
     types:
     - uid: ConflictResolutionMode
+    defaultValue: LastWriterWins
   - name: conflictResolutionPath
     description: The conflict resolution path in the case of LastWriterWins mode.
     types:
@@ -495,6 +473,7 @@ definitions:
     description: The datatype for which the indexing behavior is applied to.
     types:
     - uid: DataType
+    defaultValue: String
   - name: precision
     description: The precision of the index. -1 is maximum precision.
     types:
@@ -503,6 +482,7 @@ definitions:
     description: Indicates the type of index.
     types:
     - uid: IndexKind
+    defaultValue: Hash
 - name: DataType
   description: The datatype for which the indexing behavior is applied to.
   kind: enum
@@ -595,6 +575,66 @@ examples:
           "options": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/sqlDatabases/databaseName/containers/containerName?api-version=2021-11-15-preview
+
+      {
+        "location": "West US",
+        "tags": {},
+        "properties": {
+          "resource": {
+            "id": "containerName",
+            "indexingPolicy": {
+              "indexingMode": "consistent",
+              "automatic": true,
+              "includedPaths": [
+                {
+                  "path": "/*",
+                  "indexes": [
+                    {
+                      "kind": "Range",
+                      "dataType": "String",
+                      "precision": -1
+                    },
+                    {
+                      "kind": "Range",
+                      "dataType": "Number",
+                      "precision": -1
+                    }
+                  ]
+                }
+              ],
+              "excludedPaths": []
+            },
+            "partitionKey": {
+              "paths": [
+                "/AccountNumber"
+              ],
+              "kind": "Hash"
+            },
+            "defaultTtl": 100,
+            "uniqueKeyPolicy": {
+              "uniqueKeys": [
+                {
+                  "paths": [
+                    "/testPath"
+                  ]
+                }
+              ]
+            },
+            "conflictResolutionPolicy": {
+              "mode": "LastWriterWins",
+              "conflictResolutionPath": "/path"
+            }
+          },
+          "options": {}
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -666,5 +706,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB SQL container
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB SQL container
 errorCodes: []

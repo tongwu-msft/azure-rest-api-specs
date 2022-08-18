@@ -1,0 +1,270 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.webapplicationfirewall.managedrulesets.list1
+name: List
+service: Front Door Service
+groupName: Managed Rule Sets
+apiVersion: 2020-11-01
+summary: Lists all available managed rule sets.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets?api-version=2020-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The operation returns a list of all available web application firewall managed rule sets.
+  types:
+  - uid: ManagedRuleSetDefinitionList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ManagedRuleSetDefinitionList
+  description: List of managed rule set definitions available for use in a policy.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of managed rule set definitions.
+    types:
+    - uid: ManagedRuleSetDefinition
+      isArray: true
+  - name: nextLink
+    description: URL to retrieve next set of managed rule set definitions.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response indicates Front Door service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ManagedRuleSetDefinition
+  description: Describes the a managed rule set definition.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the managed rule set.
+    types:
+    - uid: string
+  - name: properties.ruleSetId
+    isReadyOnly: true
+    description: Id of the managed rule set.
+    types:
+    - uid: string
+  - name: properties.ruleSetType
+    isReadyOnly: true
+    description: Type of the managed rule set.
+    types:
+    - uid: string
+  - name: properties.ruleSetVersion
+    isReadyOnly: true
+    description: Version of the managed rule set type.
+    types:
+    - uid: string
+  - name: properties.ruleGroups
+    isReadyOnly: true
+    description: Rule groups of the managed rule set.
+    types:
+    - uid: ManagedRuleGroupDefinition
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ManagedRuleGroupDefinition
+  description: Describes a managed rule group.
+  kind: object
+  properties:
+  - name: ruleGroupName
+    isReadyOnly: true
+    description: Name of the managed rule group.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Description of the managed rule group.
+    types:
+    - uid: string
+  - name: rules
+    isReadyOnly: true
+    description: List of rules within the managed rule group.
+    types:
+    - uid: ManagedRuleDefinition
+      isArray: true
+- name: ManagedRuleDefinition
+  description: Describes a managed rule definition.
+  kind: object
+  properties:
+  - name: ruleId
+    isReadyOnly: true
+    description: Identifier for the managed rule.
+    types:
+    - uid: string
+  - name: defaultState
+    isReadyOnly: true
+    description: Describes the default state for the managed rule.
+    types:
+    - uid: ManagedRuleEnabledState
+  - name: defaultAction
+    isReadyOnly: true
+    description: Describes the default action to be applied when the managed rule matches.
+    types:
+    - uid: ActionType
+  - name: description
+    isReadyOnly: true
+    description: Describes the functionality of the managed rule.
+    types:
+    - uid: string
+- name: ManagedRuleEnabledState
+  description: Describes if the managed rule is in enabled or disabled state.
+  kind: enum
+  properties:
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Enabled
+    types:
+    - uid: string
+- name: ActionType
+  description: Defines the action to take on rule match.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
+    types:
+    - uid: string
+  - name: Redirect
+    types:
+    - uid: string
+examples:
+- name: List Policies in a Resource Group
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets?api-version=2020-11-01
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "DefaultRuleSet_1.0",
+            "id": "/subscriptions/subid/providers/Microsoft.Network/FrontDoorWebApplicationFirewallManagedRuleSets",
+            "type": "Microsoft.Network/frontdoorwebapplicationfirewallmanagedrulesets",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "ruleSetId": "8125d145-ddc5-4d90-9bc3-24c5f2de69a2",
+              "ruleSetType": "DefaultRuleSet",
+              "ruleSetVersion": "1.0",
+              "ruleGroups": [
+                {
+                  "ruleGroupName": "SQLI",
+                  "description": "SQL injection",
+                  "rules": [
+                    {
+                      "ruleId": "942100",
+                      "description": "SQL Injection Attack Detected via libinjection",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
+                    },
+                    {
+                      "ruleId": "942110",
+                      "description": "SQL Injection Attack: Common Injection Testing Detected",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
+                    }
+                  ]
+                },
+                {
+                  "ruleGroupName": "XSS",
+                  "description": "Cross-site scripting",
+                  "rules": [
+                    {
+                      "ruleId": "941100",
+                      "description": "XSS Attack Detected via libinjection",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
+                    },
+                    {
+                      "ruleId": "941101",
+                      "description": "XSS Attack Detected via libinjection",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
+                    },
+                    {
+                      "ruleId": "941110",
+                      "description": "XSS Filter - Category 1: Script Tag Vector",
+                      "defaultState": "Enabled",
+                      "defaultAction": "Block"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: Learn more about Front Door Service service - Lists all available managed rule sets.
+errorCodes: []

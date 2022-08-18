@@ -198,6 +198,71 @@ examples:
 - name: Get provider resource types.
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP/providerPermissions?api-version=2021-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.TestRP/providerPermissions?api-version=2021-04-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armresources_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armresources"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetProviderPermissions.json
+      func ExampleProvidersClient_ProviderPermissions() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armresources.NewProvidersClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ProviderPermissions(ctx,
+      		"Microsoft.TestRP",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmresources%2Fv1.0.0/sdk/resourcemanager/resources/armresources/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ResourceManagementClient } = require("@azure/arm-resources");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the provider permissions.
+       *
+       * @summary Get the provider permissions.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-04-01/examples/GetProviderPermissions.json
+       */
+      async function getProviderResourceTypes() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceProviderNamespace = "Microsoft.TestRP";
+        const credential = new DefaultAzureCredential();
+        const client = new ResourceManagementClient(credential, subscriptionId);
+        const result = await client.providers.providerPermissions(resourceProviderNamespace);
+        console.log(result);
+      }
+
+      getProviderResourceTypes().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-resources_5.0.1/sdk/resources/arm-resources/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -237,5 +302,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Resource Management service - Get the provider permissions.
+  description: >
+    Learn more about Resource Management service - Get the provider permissions.
 errorCodes: []

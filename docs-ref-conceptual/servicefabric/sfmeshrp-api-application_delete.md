@@ -1,8 +1,8 @@
 ---
-title: "Delete"
-description: Service Fabric Mesh Resource Manager API Reference
+title: Delete application resource
+description: Describes the process, request method, and parameters for deleting applications and provides examples of deleting an application.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Delete
+# Delete application resource
 Deletes the application resource.
 
 Deletes the application resource identified by the name.

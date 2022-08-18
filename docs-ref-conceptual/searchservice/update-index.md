@@ -4,7 +4,7 @@ description: "Update an existing index definition in a search service."
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh
@@ -12,38 +12,43 @@ ms.author: beloh
 ---
 # Update Index (Azure Cognitive Search REST API)
 
-Modifying an existing Azure Cognitive Search index typically requires an [index drop and rebuild](/azure/search/search-howto-reindex), with the exception of the following schema changes:
+Modifying an existing index typically requires an [index drop and rebuild](/azure/search/search-howto-reindex), except for the following schema changes:
 
-+ Add new fields
-+ [Add or change scoring profiles](/azure/search/index-add-scoring-profiles) 
++ Add new fields to a fields collection
+
++ Add newly created fields to a [suggester](/azure/search/index-add-suggesters)
+
++ Add or change [scoring profiles](/azure/search/index-add-scoring-profiles)
+
++ Add or change [encryption keys](/azure/search/search-security-manage-encryption-keys)
+
++ Add new [custom analyzers](/azure/search/index-add-custom-analyzers)
+
 + Change CORS options
-+ Change existing fields with any of the following three modifications:
 
-  + Show or hide fields (`retrievable`: true | false)
-  + Change the analyzer used at query time (`searchAnalyzer`)
-  + Add or edit the synonymMap used at query time (`synonymMaps`) 
++ Change existing fields with any of these three modifications:
 
-To make any of these schema changes to an existing index, specify the name of the index on the request URI, and then include a fully-specified index definition with the new or changed elements. 
+  + Change `retrievable` (values are true or false)
+  + Change `searchAnalyzer` (used at query time)
+  + Add or change `synonymMaps` (used at query time)
+
+To add these updates, put the index name on the request URI. In the request body, include a fully-specified index definition with your modifications.
 
 ```http  
 PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]  
   Content-Type: application/json  
   api-key: [admin key]  
-```  
+```
 
-> [!Note]  
-> Field attributes that can be changed without the need to re-create the index include: `retrievable`, `searchAnalyzer`, `synonymMaps`.
->  
+Existing fields and most field attributes can't be deleted or changed, nor can fields be added to suggesters. Only newly created fields can be added to a `suggester`.
 
-Although existing fields cannot be deleted and most attributes cannot be changed, new fields can be added to an existing index at any time. The same applies to a [`suggester`](/azure/search/index-add-suggesters). New fields may be added to a `suggester` at the same time fields are added, but existing fields cannot be removed from nor added to `suggesters` without an index rebuild.
+When a new field is added, all existing documents automatically get a null value for that field. No other storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
 
-When a new field is added, all existing documents in the index automatically have a null value for that field. No additional storage space is consumed until one of two things occur: a value is provided for the new field ([using merge](addupdate-or-delete-documents.md)), or new documents are added.
-
-Once an analyzer, a tokenizer, a token filter or a char filter is defined, it cannot be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
+Existing analyzers, tokenizers, token filters, and char filters can't be modified. New ones can be added to an existing index only if the `allowIndexDowntime` flag is set to true in the index update request:
 
 `PUT https://[search service name].search.windows.net/indexes/[index name]?api-version=[api-version]&allowIndexDowntime=true`
 
-This operation takes your index offline for at least a few seconds, causing your indexing and query requests to fail. Performance and write availability of the index can be impaired for several minutes after the index is updated, or longer for  indexes.
+This operation takes your index offline for a few seconds. Indexing and query requests will fail while the index is offline. Performance and write operations can be temporarily impaired for several minutes after the index is back online.
 
 ## URI Parameters
 
@@ -52,6 +57,7 @@ This operation takes your index offline for at least a few seconds, causing your
 | service name | Required. Set this to the unique, user-defined name of your search service. |
 | index name  | Required. The request URI specifies the name of the index to update.   |
 | api-version | Required. The current stable version is `api-version=2020-06-30`. See [API versions](search-service-api-versions.md) for more versions. |
+| allowIndexDowntime | Optional. False by default. Set to true for certain updates, such as adding or modifying an analyzer, tokenizer, token filter, char filter, or similarity property. The index is taken offline for the duration of the update, usually no more than several seconds. |
 
 ## Request Headers
 
@@ -66,13 +72,13 @@ The following table describes the required and optional request headers.
 
 The request body syntax is the same as for [Create Index](create-index.md).  
 
-When updating an existing index, the body must include the original schema definition, plus the new fields you are adding, as well as the modified scoring profiles and CORS options, if any. If you are not modifying the scoring profiles and CORS options, you must include the original values from when the index was created. In general, the best pattern to use for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
+When updating an existing index, the body must include the full schema definition, including any original definitions that you want to preserve. In general, the best pattern for updates is to retrieve the index definition with a GET, modify it, and then update it with PUT.  
 
 ## Response
   
 For a successful request, you should see "204 No Content".  
 
-By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body will contain the JSON for the index definition that was updated. In this case, the success status code will be "200 OK.  
+By default the response body will be empty. However, if the `Prefer` request header is set to `return=representation`, the response body contains the JSON of updated index. In this case, the success status code will be "200 OK.  
 
 ## See also
 

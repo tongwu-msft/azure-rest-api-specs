@@ -1,0 +1,351 @@
+### YamlMime:RESTOperation
+uid: keyvault.keys.rotatekey.rotatekey
+name: Rotate Key
+service: Key Vault
+groupName: Rotate Key
+apiVersion: "7.3"
+summary: "Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.  \nThe operation will rotate the key based on the key policy. It requires the keys/rotate permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {vaultBaseUrl}/keys/{key-name}/rotate?api-version=7.3
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: key-name
+  in: path
+  isRequired: true
+  description: The name of key to be rotated. The system will generate a new version in the specified key.
+  types:
+  - uid: string
+  pattern: ^[0-9a-zA-Z-]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: A key bundle containing the result of the rotate key request.
+  types:
+  - uid: KeyBundle
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: KeyBundle
+  description: A KeyBundle consisting of a WebKey plus its attributes.
+  kind: object
+  properties:
+  - name: key
+    description: The Json web key.
+    types:
+    - uid: JsonWebKey
+  - name: attributes
+    description: The key management attributes.
+    types:
+    - uid: KeyAttributes
+  - name: tags
+    description: Application specific metadata in the form of key-value pairs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: managed
+    isReadyOnly: true
+    description: True if the key's lifetime is managed by key vault. If this is a key backing a certificate, then managed will be true.
+    types:
+    - uid: boolean
+  - name: release_policy
+    description: The policy rules under which the key can be exported.
+    types:
+    - uid: KeyReleasePolicy
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: JsonWebKey
+  description: As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
+  kind: object
+  properties:
+  - name: kid
+    description: Key identifier.
+    types:
+    - uid: string
+  - name: kty
+    description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+    types:
+    - uid: JsonWebKeyType
+  - name: key_ops
+    description: Supported key operations.
+    types:
+    - uid: string
+      isArray: true
+  - name: n
+    description: RSA modulus.
+    types:
+    - uid: string
+  - name: e
+    description: RSA public exponent.
+    types:
+    - uid: string
+  - name: d
+    description: RSA private exponent, or the D component of an EC private key.
+    types:
+    - uid: string
+  - name: dp
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: dq
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: qi
+    description: RSA private key parameter.
+    types:
+    - uid: string
+  - name: p
+    description: RSA secret prime.
+    types:
+    - uid: string
+  - name: q
+    description: RSA secret prime, with p < q.
+    types:
+    - uid: string
+  - name: k
+    description: Symmetric key.
+    types:
+    - uid: string
+  - name: key_hsm
+    description: Protected Key, used with 'Bring Your Own Key'.
+    types:
+    - uid: string
+  - name: crv
+    description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+    types:
+    - uid: JsonWebKeyCurveName
+  - name: x
+    description: X component of an EC public key.
+    types:
+    - uid: string
+  - name: y
+    description: Y component of an EC public key.
+    types:
+    - uid: string
+- name: KeyAttributes
+  description: The attributes of a key managed by the key vault service.
+  kind: object
+  properties:
+  - name: recoverableDays
+    isReadyOnly: true
+    description: softDelete data retention days. Value should be >=7 and <=90 when softDelete enabled, otherwise 0.
+    types:
+    - uid: integer
+  - name: recoveryLevel
+    isReadyOnly: true
+    description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+    types:
+    - uid: DeletionRecoveryLevel
+  - name: exportable
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
+    types:
+    - uid: boolean
+  - name: enabled
+    description: Determines whether the object is enabled.
+    types:
+    - uid: boolean
+  - name: nbf
+    description: Not before date in UTC.
+    types:
+    - uid: integer
+  - name: exp
+    description: Expiry date in UTC.
+    types:
+    - uid: integer
+  - name: created
+    isReadyOnly: true
+    description: Creation time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: Last updated time in UTC.
+    types:
+    - uid: integer
+- name: KeyReleasePolicy
+  description: The policy rules under which the key can be exported.
+  kind: object
+  properties:
+  - name: contentType
+    description: Content type and version of key release policy
+    types:
+    - uid: string
+    defaultValue: application/json; charset=utf-8
+  - name: immutable
+    description: Defines the mutability state of the policy. Once marked immutable, this flag cannot be reset and the policy cannot be changed under any circumstances.
+    types:
+    - uid: boolean
+  - name: data
+    description: Blob encoding the policy rules under which the key can be released. Blob must be base64 URL encoded.
+    types:
+    - uid: string
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: JsonWebKeyType
+  description: JsonWebKey Key Type (kty), as defined in https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40.
+  kind: enum
+  properties:
+  - name: EC
+    description: Elliptic Curve.
+    types:
+    - uid: string
+  - name: EC-HSM
+    description: Elliptic Curve with a private key which is stored in the HSM.
+    types:
+    - uid: string
+  - name: RSA
+    description: RSA (https://tools.ietf.org/html/rfc3447)
+    types:
+    - uid: string
+  - name: RSA-HSM
+    description: RSA with a private key which is stored in the HSM.
+    types:
+    - uid: string
+  - name: oct
+    description: Octet sequence (used to represent symmetric keys)
+    types:
+    - uid: string
+  - name: oct-HSM
+    description: Octet sequence (used to represent symmetric keys) which is stored the HSM.
+    types:
+    - uid: string
+- name: JsonWebKeyCurveName
+  description: Elliptic curve name. For valid values, see JsonWebKeyCurveName.
+  kind: enum
+  properties:
+  - name: P-256
+    description: The NIST P-256 elliptic curve, AKA SECG curve SECP256R1.
+    types:
+    - uid: string
+  - name: P-384
+    description: The NIST P-384 elliptic curve, AKA SECG curve SECP384R1.
+    types:
+    - uid: string
+  - name: P-521
+    description: The NIST P-521 elliptic curve, AKA SECG curve SECP521R1.
+    types:
+    - uid: string
+  - name: P-256K
+    description: The SECG SECP256K1 elliptic curve.
+    types:
+    - uid: string
+- name: DeletionRecoveryLevel
+  description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
+  kind: enum
+  properties:
+  - name: Purgeable
+    description: Denotes a vault state in which deletion is an irreversible operation, without the possibility for recovery. This level corresponds to no protection being available against a Delete operation; the data is irretrievably lost upon accepting a Delete operation at the entity level or higher (vault, resource group, subscription etc.)
+    types:
+    - uid: string
+  - name: Recoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval (90 days), unless a Purge operation is requested, or the subscription is cancelled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: Recoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge). This level guarantees the recoverability of the deleted entity during the retention interval(90 days) and while the subscription is still available. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: Recoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable within retention interval (90 days), immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself  cannot be permanently canceled. System wil permanently delete it after 90 days, if not recovered
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+Purgeable
+    description: Denotes a vault state in which deletion is recoverable, and which also permits immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90). This level guarantees the recoverability of the deleted entity during the retention interval, unless a Purge operation is requested, or the subscription is cancelled.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable
+    description: Denotes a vault state in which deletion is recoverable without the possibility for immediate and permanent deletion (i.e. purge when 7<= SoftDeleteRetentionInDays < 90).This level guarantees the recoverability of the deleted entity during the retention interval and while the subscription is still available.
+    types:
+    - uid: string
+  - name: CustomizedRecoverable+ProtectedSubscription
+    description: Denotes a vault and subscription state in which deletion is recoverable, immediate and permanent deletion (i.e. purge) is not permitted, and in which the subscription itself cannot be permanently canceled when 7<= SoftDeleteRetentionInDays < 90. This level guarantees the recoverability of the deleted entity during the retention interval, and also reflects the fact that the subscription itself cannot be cancelled.
+    types:
+    - uid: string
+examples:
+- name: Rotate key
+  request:
+    uri: POST https://myvault.vault.azure.net//keys/Key01/rotate?api-version=7.3
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/Key01/rotate?api-version=7.3
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "key": {
+          "kid": "https://myvault.vault.azure.net/keys/CreateSoftKeyTest/78deebed173b48e48f55abf87ed4cf71",
+          "kty": "RSA",
+          "key_ops": [
+            "encrypt",
+            "decrypt",
+            "sign",
+            "verify",
+            "wrapKey",
+            "unwrapKey"
+          ],
+          "n": "2HJAE5fU3Cw2Rt9hEuq-F6XjINKGa-zskfISVqopqUy60GOs2eyhxbWbJBeUXNor_gf-tXtNeuqeBgitLeVa640UDvnEjYTKWjCniTxZRaU7ewY8BfTSk-7KxoDdLsPSpX_MX4rwlAx-_1UGk5t4sQgTbm9T6Fm2oqFd37dsz5-Gj27UP2GTAShfJPFD7MqU_zIgOI0pfqsbNL5xTQVM29K6rX4jSPtylZV3uWJtkoQIQnrIHhk1d0SC0KwlBV3V7R_LVYjiXLyIXsFzSNYgQ68ZjAwt8iL7I8Osa-ehQLM13DVvLASaf7Jnu3sC3CWl3Gyirgded6cfMmswJzY87w",
+          "e": "AQAB"
+        },
+        "attributes": {
+          "enabled": true,
+          "created": 1493942451,
+          "updated": 1493942451,
+          "recoveryLevel": "Recoverable+Purgeable"
+        },
+        "tags": {
+          "purpose": "unit test",
+          "test name ": "CreateGetDeleteKeyTest"
+        }
+      }
+security: []
+metadata:
+  description: Creates a new key version, stores it, then returns key parameters, attributes and policy to the client.
+errorCodes: []

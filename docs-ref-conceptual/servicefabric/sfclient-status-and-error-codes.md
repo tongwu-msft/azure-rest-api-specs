@@ -1,5 +1,6 @@
 ---
 title: "Status and Error Codes"
+description: Learn how REST API operations for Service Fabric return standard HTTP status codes, as defined in the HTTP/1.1 Status Code Definitions.  
 ms.date: "11/08/2021"
 ms.service: "service-fabric"
 ms.topic: "reference"

@@ -80,6 +80,7 @@ definitions:
     description: The type of this DNS zone (Public or Private).
     types:
     - uid: ZoneType
+    defaultValue: Public
   - name: properties.registrationVirtualNetworks
     description: A list of references to virtual networks that register hostnames in this DNS zone. This is a only when ZoneType is Private.
     types:
@@ -168,6 +169,99 @@ examples:
 - name: Get zone
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1?api-version=2018-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Zones GetByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetZone.json
+           */
+          /**
+           * Sample code: Get zone.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getZone(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getZones()
+                  .getByResourceGroupWithResponse("rg1", "zone1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetZone.json
+      func ExampleZonesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdns.NewZonesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"rg1",
+      		"zone1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv1.0.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+       *
+       * @summary Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/GetZone.json
+       */
+      async function getZone() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const result = await client.zones.get(resourceGroupName, zoneName);
+        console.log(result);
+      }
+
+      getZone().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -193,5 +287,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about DNS service - Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
+  description: >
+    Learn more about DNS service - Gets a DNS zone. Retrieves the zone properties, but not the record sets within the zone.
 errorCodes: []

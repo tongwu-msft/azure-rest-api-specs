@@ -257,6 +257,168 @@ examples:
           "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.Security/adaptiveNetworkHardenings/default/enforce?api-version=2020-01-01
+
+      {
+        "rules": [
+          {
+            "name": "rule1",
+            "direction": "Inbound",
+            "destinationPort": 3389,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": [
+              "100.10.1.1",
+              "200.20.2.2",
+              "81.199.3.0/24"
+            ]
+          },
+          {
+            "name": "rule2",
+            "direction": "Inbound",
+            "destinationPort": 22,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": []
+          }
+        ],
+        "networkSecurityGroups": [
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2"
+        ]
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
+      func ExampleAdaptiveNetworkHardeningsClient_BeginEnforce() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurity.NewAdaptiveNetworkHardeningsClient("20ff7fc3-e762-44dd-bd96-b71116dcdc23", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginEnforce(ctx,
+      		"rg1",
+      		"Microsoft.Compute",
+      		"virtualMachines",
+      		"vm1",
+      		"default",
+      		armsecurity.AdaptiveNetworkHardeningEnforceRequest{
+      			NetworkSecurityGroups: []*string{
+      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"),
+      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2")},
+      			Rules: []*armsecurity.Rule{
+      				{
+      					Name:            to.Ptr("rule1"),
+      					DestinationPort: to.Ptr[int32](3389),
+      					Direction:       to.Ptr(armsecurity.DirectionInbound),
+      					IPAddresses: []*string{
+      						to.Ptr("100.10.1.1"),
+      						to.Ptr("200.20.2.2"),
+      						to.Ptr("81.199.3.0/24")},
+      					Protocols: []*armsecurity.TransportProtocol{
+      						to.Ptr(armsecurity.TransportProtocolTCP)},
+      				},
+      				{
+      					Name:            to.Ptr("rule2"),
+      					DestinationPort: to.Ptr[int32](22),
+      					Direction:       to.Ptr(armsecurity.DirectionInbound),
+      					IPAddresses:     []*string{},
+      					Protocols: []*armsecurity.TransportProtocol{
+      						to.Ptr(armsecurity.TransportProtocolTCP)},
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Enforces the given rules on the NSG(s) listed in the request
+       *
+       * @summary Enforces the given rules on the NSG(s) listed in the request
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
+       */
+      async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const resourceGroupName = "rg1";
+        const resourceNamespace = "Microsoft.Compute";
+        const resourceType = "virtualMachines";
+        const resourceName = "vm1";
+        const adaptiveNetworkHardeningResourceName = "default";
+        const body = {
+          networkSecurityGroups: [
+            "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+            "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2",
+          ],
+          rules: [
+            {
+              name: "rule1",
+              destinationPort: 3389,
+              direction: "Inbound",
+              ipAddresses: ["100.10.1.1", "200.20.2.2", "81.199.3.0/24"],
+              protocols: ["TCP"],
+            },
+            {
+              name: "rule2",
+              destinationPort: 22,
+              direction: "Inbound",
+              ipAddresses: [],
+              protocols: ["TCP"],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const result = await client.adaptiveNetworkHardenings.beginEnforceAndWait(
+          resourceGroupName,
+          resourceNamespace,
+          resourceType,
+          resourceName,
+          adaptiveNetworkHardeningResourceName,
+          body
+        );
+        console.log(result);
+      }
+
+      enforcesTheGivenRulesOnTheNsgSListedInTheRequest().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -270,5 +432,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Security Center service - Enforces the given rules on the NSG(s) listed in the request
+  description: >
+    Learn more about Security Center service - Enforces the given rules on the NSG(s) listed in the request
 errorCodes: []

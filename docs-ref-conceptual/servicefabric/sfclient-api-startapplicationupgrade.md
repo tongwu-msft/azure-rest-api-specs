@@ -1,7 +1,7 @@
 ---
 title: "Start Application Upgrade"
 description: "Start Application Upgrade"
-ms.date: "10/20/2021"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -31,7 +31,7 @@ translation.priority.mt:
 Starts upgrading an application in the Service Fabric cluster.
 
 Validates the supplied application upgrade parameters and starts upgrading the application if the parameters are valid.
-Note, application parameters are not preserved across an application upgrade.
+Note, [ApplicationParameter](https://docs.microsoft.com/dotnet/api/system.fabric.description.applicationdescription.applicationparameters)s are not preserved across an application upgrade.
 In order to preserve current application parameters, the user should get the parameters using [GetApplicationInfo](./sfclient-api-getapplicationupgrade.md) operation first and pass them into the upgrade API call as shown in the example.
 
 

@@ -1,0 +1,337 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.labservices.users.listbylab
+name: List By Lab
+service: Lab Services
+groupName: Users
+apiVersion: 2022-08-01
+summary: "Get all users for a lab.  \nReturns a list of all users for a lab."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users?api-version=2022-08-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; response contains all users for the given lab.
+  types:
+  - uid: PagedUsers
+- name: Other Status Codes
+  description: The default error response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: PagedUsers
+  description: Paged list of users.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The array page of user results.
+    types:
+    - uid: User
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link to get the next page of image results.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: User
+  description: User of a lab that can register for and use virtual machines within the lab.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the user resource.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning state of the user resource.
+    types:
+    - uid: ProvisioningState
+  - name: properties.displayName
+    isReadyOnly: true
+    description: Display name of the user, for example user's full name.
+    types:
+    - uid: string
+  - name: properties.email
+    description: Email address of the user.
+    types:
+    - uid: string
+  - name: properties.registrationState
+    isReadyOnly: true
+    description: State of the user's registration within the lab.
+    types:
+    - uid: RegistrationState
+  - name: properties.invitationState
+    isReadyOnly: true
+    description: State of the invitation message for the user.
+    types:
+    - uid: InvitationState
+  - name: properties.invitationSent
+    isReadyOnly: true
+    description: Date and time when the invitation message was sent to the user.
+    types:
+    - uid: string
+  - name: properties.totalUsage
+    isReadyOnly: true
+    description: How long the user has used their virtual machines in this lab.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: properties.additionalUsageQuota
+    description: The amount of usage quota time the user gets in addition to the lab usage quota.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Current provisioning state of the user resource.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Resource is in the process of being created.
+    types:
+    - uid: string
+  - name: Updating
+    description: New property values are being applied to the resource.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Resource is in healthy state after creation or update operation.
+    types:
+    - uid: string
+  - name: Failed
+    description: Previous operation on the resource has failed leaving resource in unhealthy state.
+    types:
+    - uid: string
+  - name: Locked
+    description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
+    types:
+    - uid: string
+- name: RegistrationState
+  description: The user lab registration state.
+  kind: enum
+  properties:
+  - name: NotRegistered
+    description: User has registered with the lab.
+    types:
+    - uid: string
+  - name: Registered
+    description: User has not yet registered with the lab.
+    types:
+    - uid: string
+- name: InvitationState
+  description: The lab user invitation state.
+  kind: enum
+  properties:
+  - name: NotSent
+    description: The invitation has not been sent.
+    types:
+    - uid: string
+  - name: Sending
+    description: Currently sending the invitation.
+    types:
+    - uid: string
+  - name: Sent
+    description: The invitation has been successfully sent.
+    types:
+    - uid: string
+  - name: Failed
+    description: There was an error while sending the invitation.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: listUser
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users?api-version=2022-08-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": null,
+        "value": [
+          {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser",
+            "name": "default",
+            "type": "Microsoft.LabServices/User",
+            "systemData": {
+              "createdBy": "identity123",
+              "createdByType": "User",
+              "createdAt": "2020-05-01T10:00:00Z",
+              "lastModifiedBy": "identity123",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-06-01T09:12:28Z"
+            },
+            "properties": {
+              "provisioningState": "Succeeded",
+              "displayName": "Test User",
+              "email": "testuser@contoso.com",
+              "registrationState": "Registered",
+              "invitationState": "Sent",
+              "totalUsage": "PT10H",
+              "additionalUsageQuota": "PT10H"
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Lab Services service - Get all users for a lab.
+
+    Returns a list of all users for a lab.
+errorCodes: []

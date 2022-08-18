@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Delete Cloud Service1 | Microsoft Docs"
+description: Learn how the Delete Cloud Service operation deletes the specified cloud service from your subscription.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

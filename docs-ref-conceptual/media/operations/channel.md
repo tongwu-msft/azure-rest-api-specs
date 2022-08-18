@@ -1,5 +1,6 @@
 ---
 title: "Channel"
+description: Learn how the Channel entity represents a pipeline for processing live streaming content.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

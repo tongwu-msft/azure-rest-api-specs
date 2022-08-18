@@ -1,0 +1,209 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.labservices.usages.listbylocation
+name: List By Location
+service: Lab Services
+groupName: Usages
+apiVersion: 2022-08-01
+summary: "Gets the list of usages.  \nReturns list of usage per SKU family for the specified subscription in the specified region."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2022-08-01&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location name.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: The filter to apply to the operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; a list of usages is returned
+  types:
+  - uid: ListUsagesResult
+- name: Other Status Codes
+  description: The default error response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ListUsagesResult
+  description: List of Core Usages.
+  kind: object
+  properties:
+  - name: value
+    description: The array page of Usages.
+    types:
+    - uid: Usage
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The link to get the next page of Usage result.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Usage
+  description: The core usage details.
+  kind: object
+  properties:
+  - name: currentValue
+    description: The current usage.
+    types:
+    - uid: integer
+  - name: limit
+    description: The limit integer.
+    types:
+    - uid: integer
+  - name: unit
+    description: The unit details.
+    types:
+    - uid: UsageUnit
+  - name: name
+    description: The name.
+    types:
+    - uid: UsageName
+  - name: id
+    description: The fully qualified arm resource id.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: UsageUnit
+  description: The unit details.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+- name: UsageName
+  description: The Usage Names.
+  kind: object
+  properties:
+  - name: localizedValue
+    description: The localized name of the resource.
+    types:
+    - uid: string
+  - name: skuInstances
+    description: The instances of the resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: value
+    description: The name of the resource.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: listUsages
+  request:
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/locations/eastus2/usages?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/locations/eastus2/usages?api-version=2022-08-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nextLink": null,
+        "value": [
+          {
+            "currentValue": 10,
+            "limit": 100,
+            "unit": "Count",
+            "name": {
+              "value": "NCasv3T4"
+            },
+            "id": ""
+          },
+          {
+            "currentValue": 5,
+            "limit": 30,
+            "unit": "Count",
+            "name": {
+              "value": "ESv4"
+            },
+            "id": ""
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Gets the list of usages.
+
+    Returns list of usage per SKU family for the specified subscription in the specified region.
+errorCodes: []

@@ -4,7 +4,7 @@ description: A list of the HTTP status codes returned by the Azure Cognitive Sea
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

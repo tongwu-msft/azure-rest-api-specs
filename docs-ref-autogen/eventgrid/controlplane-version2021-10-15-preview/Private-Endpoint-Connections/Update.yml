@@ -1,0 +1,377 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2021-10-15-preview.privateendpointconnections.update
+name: Update
+service: Event Grid
+groupName: Private Endpoint Connections
+apiVersion: 2021-10-15-preview
+summary: Update a specific private endpoint connection under a topic, domain or partner namespace.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-10-15-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: parentType
+  in: path
+  isRequired: true
+  description: The type of the parent resource. This can be either \'topics\', \'domains\', or \'partnerNamespaces\'.
+  types:
+  - uid: ParentType
+- name: parentName
+  in: path
+  isRequired: true
+  description: The name of the parent resource (namely, either, the topic name, domain name, or partner namespace name).
+  types:
+  - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The name of the private endpoint connection connection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateEndpointConnection
+- name: 201 Created
+  description: Created
+  types:
+  - uid: PrivateEndpointConnection
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.privateEndpoint
+    in: body
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.groupIds
+    in: body
+    description: GroupIds from the private link service resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    in: body
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    in: body
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: ResourceProvisioningState
+requestHeader: []
+definitions:
+- name: ParentType
+  description: The type of the parent resource. This can be either \'topics\', \'domains\', or \'partnerNamespaces\'.
+  kind: enum
+  properties:
+  - name: topics
+    types:
+    - uid: string
+  - name: domains
+    types:
+    - uid: string
+  - name: partnerNamespaces
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: PrivateEndpoint information.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM identifier for Private Endpoint.
+    types:
+    - uid: string
+- name: ConnectionState
+  description: ConnectionState information.
+  kind: object
+  properties:
+  - name: status
+    description: Status of the connection.
+    types:
+    - uid: PersistedConnectionStatus
+  - name: description
+    description: Description of the connection state.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: Actions required (if any).
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The Private Endpoint resource for this Connection.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.groupIds
+    description: GroupIds from the private link service resource.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.privateLinkServiceConnectionState
+    description: Details about the state of the connection.
+    types:
+    - uid: ConnectionState
+  - name: properties.provisioningState
+    description: Provisioning state of the Private Endpoint Connection.
+    types:
+    - uid: ResourceProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: PersistedConnectionStatus
+  description: Status of the connection.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
+  - name: Disconnected
+    types:
+    - uid: string
+- name: ResourceProvisioningState
+  description: Provisioning state of the Private Endpoint Connection.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+examples:
+- name: PrivateEndpointConnections_Update
+  request:
+    uri: PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateEndpointConnections/BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B?api-version=2021-10-15-preview
+    body: >-
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "approving connection",
+            "actionsRequired": "None"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateEndpointConnections/BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B?api-version=2021-10-15-preview
+
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "approving connection",
+            "actionsRequired": "None"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.fluent.models.PrivateEndpointConnectionInner;
+      import com.azure.resourcemanager.eventgrid.models.ConnectionState;
+      import com.azure.resourcemanager.eventgrid.models.ParentType;
+      import com.azure.resourcemanager.eventgrid.models.PersistedConnectionStatus;
+
+      /** Samples for PrivateEndpointConnections Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/PrivateEndpointConnections_Update.json
+           */
+          /**
+           * Sample code: PrivateEndpointConnections_Update.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void privateEndpointConnectionsUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .privateEndpointConnections()
+                  .update(
+                      "examplerg",
+                      ParentType.TOPICS,
+                      "exampletopic1",
+                      "BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
+                      new PrivateEndpointConnectionInner()
+                          .withPrivateLinkServiceConnectionState(
+                              new ConnectionState()
+                                  .withStatus(PersistedConnectionStatus.APPROVED)
+                                  .withDescription("approving connection")
+                                  .withActionsRequired("None")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/PrivateEndpointConnections_Update.json
+      func ExamplePrivateEndpointConnectionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewPrivateEndpointConnectionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"<resource-group-name>",
+      		armeventgrid.ParentTypeTopics,
+      		"<parent-name>",
+      		"<private-endpoint-connection-name>",
+      		armeventgrid.PrivateEndpointConnection{
+      			Properties: &armeventgrid.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armeventgrid.ConnectionState{
+      					Description:     to.Ptr("<description>"),
+      					ActionsRequired: to.Ptr("<actions-required>"),
+      					Status:          to.Ptr(armeventgrid.PersistedConnectionStatusApproved),
+      				},
+      			},
+      		},
+      		&armeventgrid.PrivateEndpointConnectionsClientBeginUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.Network/privateEndpoints/bmtpe5"
+          },
+          "groupIds": [
+            "topic"
+          ],
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "approving connection",
+            "actionsRequired": "None"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/5B4B650E-28B9-4790-B3AB-DDBD88D727C4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateEndpointConnections/BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
+        "name": "BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
+        "type": "Microsoft.EventGrid/topics/privateEndpointConnections"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "properties": {
+          "privateEndpoint": {
+            "id": "/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.Network/privateEndpoints/bmtpe5"
+          },
+          "groupIds": [
+            "topic"
+          ],
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "approving connection",
+            "actionsRequired": "None"
+          },
+          "provisioningState": "Succeeded"
+        },
+        "id": "/subscriptions/5B4B650E-28B9-4790-B3AB-DDBD88D727C4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateEndpointConnections/BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
+        "name": "BMTPE5.8A30D251-4C61-489D-A1AA-B37C4A329B8B",
+        "type": "Microsoft.EventGrid/topics/privateEndpointConnections"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Event Grid service - Update a specific private endpoint connection under a topic, domain or partner namespace.
+errorCodes: []

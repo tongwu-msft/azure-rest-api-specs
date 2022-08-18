@@ -1,22 +1,22 @@
 ### YamlMime:RESTOperation
-uid: purview.scanningdataplane.scanrulesets.createorupdate
+uid: purview.azure.com.scan.purview.scanningdataplane.scanrulesets.createorupdate
 name: Create Or Update
 service: Purview
 groupName: Scan Rulesets
-apiVersion: 2018-12-01-preview
+apiVersion: 2022-02-01-preview
 summary: Creates or Updates a scan ruleset
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT {Endpoint}/scanrulesets/{scanRulesetName}?api-version=2018-12-01-preview
+- content: PUT {Endpoint}/scan/scanrulesets/{scanRulesetName}?api-version=2022-02-01-preview
 uriParameters:
 - name: Endpoint
   in: path
   isRequired: true
   skipUrlEncoding: true
-  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.scan.purview.azure.com'
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com'
   types:
   - uid: string
 - name: scanRulesetName
@@ -1631,7 +1631,7 @@ definitions:
 examples:
 - name: ScanRulesets_CreateOrUpdate
   request:
-    uri: PUT {Endpoint}/scanrulesets/nyScanRulesetName?api-version=2018-12-01-preview
+    uri: PUT {Endpoint}/scan/scanrulesets/nyScanRulesetName?api-version=2022-02-01-preview
     body: >-
       {
         "kind": "AzureStorage",
@@ -1680,6 +1680,61 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {Endpoint}/scan/scanrulesets/nyScanRulesetName?api-version=2022-02-01-preview
+
+      {
+        "kind": "AzureStorage",
+        "scanRulesetType": "Custom",
+        "properties": {
+          "scanningRule": {
+            "fileExtensions": [
+              "CSV",
+              "JSON",
+              "PSV",
+              "SSV",
+              "TSV",
+              "TXT",
+              "XML",
+              "PARQUET"
+            ],
+            "customFileExtensions": [
+              {
+                "customFileType": {
+                  "builtInType": null,
+                  "customDelimiter": "$"
+                },
+                "description": "model file type",
+                "enabled": true,
+                "fileExtension": ".model"
+              },
+              {
+                "customFileType": {
+                  "builtInType": "JSON",
+                  "customDelimiter": null
+                },
+                "description": "mdoel1 type",
+                "enabled": true,
+                "fileExtension": ".model1"
+              }
+            ]
+          },
+          "description": null,
+          "excludedSystemClassifications": [
+            "MICROSOFT.FINANCIAL.AUSTRALIA.BANK_ACCOUNT_NUMBER",
+            "MICROSOFT.MISCELLANEOUS.IPADDRESS"
+          ],
+          "includedCustomClassificationRuleNames": [
+            "BF_PII",
+            "Dummy_Rule2"
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -1795,5 +1850,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Purview service - Creates or Updates a scan ruleset
+  description: >
+    Learn more about Purview service - Creates or Updates a scan ruleset
 errorCodes: []

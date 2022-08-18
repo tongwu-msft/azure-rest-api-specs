@@ -1,0 +1,418 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.scheduledjobs.listjobs
+name: List Jobs
+service: IoT Central
+groupName: Scheduled Jobs
+apiVersion: 2022-06-30-preview
+summary: Get the list of jobs for a scheduled job definition
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/scheduledJobs/{scheduledJobId}/jobs?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: scheduledJobId
+  in: path
+  isRequired: true
+  description: Unique ID of the scheduled job.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: JobCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: JobCollection
+  description: The paged results of jobs.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of jobs.
+    types:
+    - uid: Job
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of jobs.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: Job
+  description: The job definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the job.
+    types:
+    - uid: string
+  - name: scheduledJobId
+    description: Id of the scheduled job definition that created this job.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the job.
+    types:
+    - uid: string
+  - name: description
+    description: Detailed description of the job.
+    types:
+    - uid: string
+  - name: group
+    description: The ID of the device group on which to execute the job.
+    types:
+    - uid: string
+  - name: batch
+    description: The batching configuration for the job.
+    types:
+    - uid: JobBatch
+  - name: cancellationThreshold
+    description: The cancellation threshold for the job.
+    types:
+    - uid: JobCancellationThreshold
+  - name: data
+    description: The capabilities being updated by the job and the values with which they are being updated.
+    types:
+    - uid: CloudPropertyJobData
+      isArray: true
+    - uid: CommandJobData
+      isArray: true
+    - uid: DeviceTemplateMigrationJobData
+      isArray: true
+    - uid: PropertyJobData
+      isArray: true
+    typesTitle: JobData[]
+  - name: start
+    isReadyOnly: true
+    description: The start time of the job
+    types:
+    - uid: string
+  - name: end
+    isReadyOnly: true
+    description: The end time of the job
+    types:
+    - uid: string
+  - name: progress
+    isReadyOnly: true
+    description: The progress statistics of the job.
+    types:
+    - uid: JobProgress
+  - name: status
+    isReadyOnly: true
+    description: Indicates whether the job is starting, running, etc.
+    types:
+    - uid: string
+  - name: organizations
+    description: List of organizations of the job, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: JobBatch
+  description: The job batch definition.
+  kind: object
+  properties:
+  - name: type
+    description: Whether batching is done on a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: JobBatchType
+  - name: value
+    description: The number or percentage of devices on which batching is done.
+    types:
+    - uid: number
+- name: JobCancellationThreshold
+  description: The job cancellation threshold definition.
+  kind: object
+  properties:
+  - name: type
+    description: Whether the cancellation threshold is per a specified number of devices or a percentage of the total devices.
+    types:
+    - uid: JobCancellationThresholdType
+  - name: value
+    description: The number or percentage of devices on which the cancellation threshold is applied.
+    types:
+    - uid: number
+  - name: batch
+    description: Whether the cancellation threshold applies per-batch or to the overall job.
+    types:
+    - uid: boolean
+- name: JobProgress
+  description: progress summary for a scheduled job.
+  kind: object
+  properties:
+  - name: total
+    description: The total number of entities targeted by the job.
+    types:
+    - uid: integer
+  - name: pending
+    description: The number of entities for which the job is not yet running.
+    types:
+    - uid: integer
+  - name: completed
+    description: The number of entities for which the job has completed.
+    types:
+    - uid: integer
+  - name: failed
+    description: The number of entities for which the job has failed.
+    types:
+    - uid: integer
+- name: JobBatchType
+  description: Whether batching is done on a specified number of devices or a percentage of the total devices.
+  kind: enum
+  properties:
+  - name: number
+    description: Job Batching based on number of devices.
+    types:
+    - uid: string
+  - name: percentage
+    description: Job Batching based percentage of total applied devices.
+    types:
+    - uid: string
+- name: JobCancellationThresholdType
+  description: Whether the cancellation threshold is per a specified number of devices or a percentage of the total devices.
+  kind: enum
+  properties:
+  - name: number
+    description: Job cancellation threshold based on specified number of devices.
+    types:
+    - uid: string
+  - name: percentage
+    description: Job cancellation threshold based on percentage of total devices.
+    types:
+    - uid: string
+- name: CloudPropertyJobData
+  description: The cloud property job data.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: cloudProperty
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+- name: CommandJobData
+  description: The command job data definition.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: command
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+- name: DeviceTemplateMigrationJobData
+  description: The device template migration job data definition.
+  kind: object
+  properties:
+  - name: template
+    description: The target device template to which devices will be migrated.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: deviceTemplateMigration
+    typesTitle: string
+- name: PropertyJobData
+  description: The property job data definition.
+  kind: object
+  properties:
+  - name: type
+    description: Type of the job data.
+    types:
+    - uid: property
+    typesTitle: string
+  - name: target
+    description: The device template which defines the target capability for the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path to the target capability within the device template.
+    types:
+    - uid: string
+  - name: value
+    description: The value used to update the target capability, if any.
+    types:
+    - {}
+examples:
+- name: Get role by ID
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/scheduledJobs/7d8f04b8-72d0-4c6e-a3ef-85ae2f398528/jobs?api-version=2022-06-30-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/scheduledJobs/7d8f04b8-72d0-4c6e-a3ef-85ae2f398528/jobs?api-version=2022-06-30-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "9324166a-641c-4c9c-82a6-928c54cd8683",
+            "displayName": "first - 15",
+            "description": "",
+            "group": "ad86219f-d224-48ad-a29b-b593a4e4bb38",
+            "data": [
+              {
+                "type": "command",
+                "target": "dtmi:modelDefinition:bhmvjf0oj:k6ulbcbyndp",
+                "path": "Reboot",
+                "value": {
+                  "timeout": 10000,
+                  "id": "1"
+                }
+              }
+            ],
+            "status": "complete",
+            "progress": {
+              "total": 1,
+              "pending": 0,
+              "completed": 0,
+              "failed": 1
+            },
+            "scheduledJobId": "7d8f04b8-72d0-4c6e-a3ef-85ae2f398528"
+          },
+          {
+            "id": "669fe7f3-d896-4d88-a2f1-661a74ead9a9",
+            "displayName": "first - 14",
+            "description": "",
+            "group": "ad86219f-d224-48ad-a29b-b593a4e4bb38",
+            "data": [
+              {
+                "type": "command",
+                "target": "dtmi:modelDefinition:bhmvjf0oj:k6ulbcbyndp",
+                "path": "Reboot",
+                "value": {
+                  "timeout": 10000,
+                  "id": "1"
+                }
+              }
+            ],
+            "status": "complete",
+            "progress": {
+              "total": 1,
+              "pending": 0,
+              "completed": 0,
+              "failed": 1
+            },
+            "scheduledJobId": "7d8f04b8-72d0-4c6e-a3ef-85ae2f398528"
+          },
+          {
+            "id": "d04edc97-d280-42c4-b083-759e8803783f",
+            "displayName": "first - 13",
+            "description": "",
+            "group": "ad86219f-d224-48ad-a29b-b593a4e4bb38",
+            "data": [
+              {
+                "type": "command",
+                "target": "dtmi:modelDefinition:bhmvjf0oj:k6ulbcbyndp",
+                "path": "Reboot",
+                "value": {
+                  "timeout": 10000,
+                  "id": "1"
+                }
+              }
+            ],
+            "status": "complete",
+            "progress": {
+              "total": 1,
+              "pending": 0,
+              "completed": 0,
+              "failed": 1
+            },
+            "scheduledJobId": "7d8f04b8-72d0-4c6e-a3ef-85ae2f398528"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Get the list of jobs for a scheduled job definition
+errorCodes: []

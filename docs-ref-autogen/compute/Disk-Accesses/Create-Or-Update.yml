@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskaccesses.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Disk Accesses
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Creates or updates a disk access resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}?api-version=2020-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskAccesses/{diskAccessName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskAccessName
   in: path
   isRequired: true
-  description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk access resource that is being created. The name can't be changed after the disk encryption set is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -52,6 +52,11 @@ responses:
 requestBody:
 - name: default
   parameters:
+  - name: extendedLocation
+    in: body
+    description: The extended location where the disk access will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: location
     in: body
     isRequired: true
@@ -69,6 +74,18 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: ExtendedLocation
+  description: The complex type of the extended location.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the extended location.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the extended location.
+    types:
+    - uid: ExtendedLocationTypes
 - name: PrivateEndpointConnection
   description: The Private Endpoint Connection resource.
   kind: object
@@ -106,6 +123,10 @@ definitions:
   description: disk access resource.
   kind: object
   properties:
+  - name: extendedLocation
+    description: The extended location where the disk access will be created. Extended location cannot be changed.
+    types:
+    - uid: ExtendedLocation
   - name: properties.privateEndpointConnections
     isReadyOnly: true
     description: A readonly collection of private endpoint connections created on the disk. Currently only one endpoint connection is supported.
@@ -157,6 +178,13 @@ definitions:
     description: Api error.
     types:
     - uid: ApiError
+- name: ExtendedLocationTypes
+  description: The type of the extended location.
+  kind: enum
+  properties:
+  - name: EdgeZone
+    types:
+    - uid: string
 - name: PrivateEndpoint
   description: The Private Endpoint resource.
   kind: object
@@ -267,11 +295,124 @@ definitions:
 examples:
 - name: Create a disk access resource.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2020-12-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2021-12-01
     body: >-
       {
         "location": "West US"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/myDiskAccess?api-version=2021-12-01
+
+      {
+        "location": "West US"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskAccessInner;
+
+      /** Samples for DiskAccesses CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateADiskAccess.json
+           */
+          /**
+           * Sample code: Create a disk access resource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createADiskAccessResource(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDiskAccesses()
+                  .createOrUpdate(
+                      "myResourceGroup", "myDiskAccess", new DiskAccessInner().withLocation("West US"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateADiskAccess.json
+      func ExampleDiskAccessesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDiskAccessesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myDiskAccess",
+      		armcompute.DiskAccess{
+      			Location: to.Ptr("West US"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk access resource
+       *
+       * @summary Creates or updates a disk access resource
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateADiskAccess.json
+       */
+      async function createADiskAccessResource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskAccessName = "myDiskAccess";
+        const diskAccess = { location: "West US" };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.diskAccesses.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          diskAccessName,
+          diskAccess
+        );
+        console.log(result);
+      }
+
+      createADiskAccessResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -302,5 +443,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Creates or updates a disk access resource
+  description: >
+    Learn more about Compute service - Creates or updates a disk access resource
 errorCodes: []

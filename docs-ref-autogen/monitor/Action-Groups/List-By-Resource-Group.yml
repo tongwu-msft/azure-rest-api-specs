@@ -78,6 +78,7 @@ definitions:
     description: Indicates whether this action group is enabled. If an action group is not enabled, then none of its receivers will receive communications.
     types:
     - uid: boolean
+    defaultValue: true
   - name: properties.emailReceivers
     description: The list of email receivers that are part of this action group.
     types:
@@ -148,16 +149,6 @@ definitions:
     description: Azure resource type
     types:
     - uid: string
-  - name: kind
-    isReadyOnly: true
-    description: Azure resource kind
-    types:
-    - uid: string
-  - name: identity
-    isReadyOnly: true
-    description: Azure resource identity
-    types:
-    - uid: string
   - name: location
     description: Resource location
     types:
@@ -186,6 +177,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
   - name: status
     isReadyOnly: true
     description: The receiver status of the e-mail.
@@ -228,10 +220,12 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
   - name: useAadAuth
     description: Indicates whether or not use AAD authentication.
     types:
     - uid: boolean
+    defaultValue: false
   - name: objectId
     description: Indicates the webhook app object Id for aad auth.
     types:
@@ -312,6 +306,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
 - name: VoiceReceiver
   description: A voice receiver.
   kind: object
@@ -348,6 +343,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
 - name: AzureFunctionReceiver
   description: An azure function receiver.
   kind: object
@@ -372,6 +368,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
 - name: ArmRoleReceiver
   description: An arm role receiver.
   kind: object
@@ -388,6 +385,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
 - name: EventHubReceiver
   description: An Event hub receiver.
   kind: object
@@ -408,6 +406,7 @@ definitions:
     description: Indicates whether to use common alert schema.
     types:
     - uid: boolean
+    defaultValue: false
   - name: tenantId
     description: The tenant Id for the subscription containing this event hub
     types:
@@ -430,9 +429,57 @@ definitions:
     types:
     - uid: string
 examples:
-- name: List action groups
+- name: List action groups at resource group level
   request:
     uri: GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/resourceGroups/Default-NotificationRules/providers/Microsoft.Insights/actionGroups?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/187f412d-1758-44d9-b052-169e2564721d/providers/Microsoft.Insights/actionGroups?api-version=2021-09-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2021-09-01/examples/listActionGroups.json
+      func ExampleActionGroupsClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewActionGroupsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	pager := client.NewListByResourceGroupPager("<resource-group-name>",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      			return
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.6.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -549,5 +596,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Get a list of all action groups in a resource group.
+  description: >
+    Learn more about Monitor service - Get a list of all action groups in a resource group.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
-title: "Create"
+title: Service Fabric Create Application Type
+description: API reference documentation for the operations available in the Create REST API for the Service Fabric application type name resource.
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"
@@ -24,7 +25,8 @@ translation.priority.mt:
   - "zh-cn"
   - "zh-tw"
 ---
-# Create
+# Service Fabric Create Application Type
+
 Creates or updates a Service Fabric application type name resource.
 
 Create or update a Service Fabric application type name resource with the specified name.

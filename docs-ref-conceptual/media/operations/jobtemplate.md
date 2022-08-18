@@ -1,5 +1,6 @@
 ---
 title: "JobTemplate"
+description: Learn how a JobTemplate provides reusable settings for Jobs that need to be run repeatedly and how to execute various operations with the Media Services REST API.  
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

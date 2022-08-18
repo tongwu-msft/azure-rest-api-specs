@@ -1,0 +1,320 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azurespringapps.operations.list
+name: List
+service: Azure Spring Apps
+groupName: Operations
+apiVersion: 2022-05-01-preview
+summary: Lists all of the available REST API operations of the Microsoft.AppPlatform provider.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.AppPlatform/operations?api-version=2022-05-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success. The response describes the list of operations.
+  types:
+  - uid: AvailableOperations
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AvailableOperations
+  description: Available operations of the service
+  kind: object
+  properties:
+  - name: value
+    description: Collection of available operation details
+    types:
+    - uid: OperationDetail
+      isArray: true
+  - name: nextLink
+    description: >-
+      URL client should use to fetch the next page (per server side paging).
+
+      It's null for now, added for future use.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: An error response from the service.
+    types:
+    - uid: CloudErrorBody
+- name: OperationDetail
+  description: Operation detail payload
+  kind: object
+  properties:
+  - name: name
+    description: Name of the operation
+    types:
+    - uid: string
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
+    types:
+    - uid: boolean
+  - name: display
+    description: Display of the operation
+    types:
+    - uid: OperationDisplay
+  - name: actionType
+    isReadyOnly: true
+    description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+    types:
+    - uid: ActionType
+  - name: origin
+    description: Origin of the operation
+    types:
+    - uid: string
+  - name: properties
+    description: Properties of the operation
+    types:
+    - uid: OperationProperties
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: OperationDisplay
+  description: Operation display payload
+  kind: object
+  properties:
+  - name: provider
+    description: Resource provider of the operation
+    types:
+    - uid: string
+  - name: resource
+    description: Resource of the operation
+    types:
+    - uid: string
+  - name: operation
+    description: Localized friendly name for the operation
+    types:
+    - uid: string
+  - name: description
+    description: Localized friendly description for the operation
+    types:
+    - uid: string
+- name: ActionType
+  description: Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs.
+  kind: enum
+  properties:
+  - name: Internal
+    types:
+    - uid: string
+- name: OperationProperties
+  description: Extra Operation properties
+  kind: object
+  properties:
+  - name: serviceSpecification
+    description: Service specifications of the operation
+    types:
+    - uid: ServiceSpecification
+- name: ServiceSpecification
+  description: Service specification payload
+  kind: object
+  properties:
+  - name: logSpecifications
+    description: Specifications of the Log for Azure Monitoring
+    types:
+    - uid: LogSpecification
+      isArray: true
+  - name: metricSpecifications
+    description: Specifications of the Metrics for Azure Monitoring
+    types:
+    - uid: MetricSpecification
+      isArray: true
+- name: LogSpecification
+  description: Specifications of the Log for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the log
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the log
+    types:
+    - uid: string
+  - name: blobDuration
+    description: Blob duration of the log
+    types:
+    - uid: string
+- name: MetricSpecification
+  description: Specifications of the Metrics for Azure Monitoring
+  kind: object
+  properties:
+  - name: name
+    description: Name of the metric
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the metric
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Localized friendly description of the metric
+    types:
+    - uid: string
+  - name: unit
+    description: Unit that makes sense for the metric
+    types:
+    - uid: string
+  - name: category
+    description: Name of the metric category that the metric belongs to. A metric can only belong to a single category.
+    types:
+    - uid: string
+  - name: aggregationType
+    description: 'Only provide one value for this field. Valid values: Average, Minimum, Maximum, Total, Count.'
+    types:
+    - uid: string
+  - name: supportedAggregationTypes
+    description: Supported aggregation types
+    types:
+    - uid: string
+      isArray: true
+  - name: supportedTimeGrainTypes
+    description: Supported time grain types
+    types:
+    - uid: string
+      isArray: true
+  - name: fillGapWithZero
+    description: Optional. If set to true, then zero will be returned for time duration where no metric is emitted/published.
+    types:
+    - uid: boolean
+  - name: dimensions
+    description: Dimensions of the metric
+    types:
+    - uid: MetricDimension
+      isArray: true
+  - name: sourceMdmNamespace
+    description: Name of the MDM namespace. Optional.
+    types:
+    - uid: string
+- name: MetricDimension
+  description: Specifications of the Dimension of metrics
+  kind: object
+  properties:
+  - name: name
+    description: Name of the dimension
+    types:
+    - uid: string
+  - name: displayName
+    description: Localized friendly display name of the dimension
+    types:
+    - uid: string
+  - name: toBeExportedForShoebox
+    description: Whether this dimension should be included for the Shoebox export scenario
+    types:
+    - uid: boolean
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.AppPlatform/operations?api-version=2022-05-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.AppPlatform/operations?api-version=2022-05-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armappplatform_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Operations_List.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappplatform.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.AppPlatform/Spring/read",
+            "isDataAction": false,
+            "display": {
+              "provider": "Microsoft Azure Distributed Managed Service for Spring",
+              "resource": "Managed Applications",
+              "operation": "Create or Update Managed Applications",
+              "description": "Create or Update Managed Applications"
+            },
+            "origin": "user,system",
+            "properties": {
+              "serviceSpecification": null
+            }
+          }
+        ],
+        "nextLink": "providers/Microsoft.AppPlatform?$skipToken={opaqueString}"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Azure Spring Apps service - Lists all of the available REST API operations of the Microsoft.AppPlatform provider.
+errorCodes: []

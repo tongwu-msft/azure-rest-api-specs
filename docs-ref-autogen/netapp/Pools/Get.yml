@@ -57,43 +57,11 @@ definitions:
   description: Capacity pool resource
   kind: object
   properties:
-  - name: location
-    description: Resource location
-    types:
-    - uid: string
-  - name: id
-    isReadyOnly: true
-    description: Resource Id
-    types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource name
-    types:
-    - uid: string
   - name: etag
     isReadyOnly: true
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type
-    types:
-    - uid: string
-  - name: tags
-    description: Resource tags
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: systemData
-    isReadyOnly: true
-    description: The system meta data relating to this resource.
-    types:
-    - uid: systemData
   - name: properties.poolId
     isReadyOnly: true
     description: "poolId  \nUUID v4 used to identify the Pool"
@@ -103,10 +71,12 @@ definitions:
     description: "size  \nProvisioned size of the pool (in bytes). Allowed values are in 1TiB chunks (value must be multiply of 4398046511104)."
     types:
     - uid: integer
+    defaultValue: 4398046511104
   - name: properties.serviceLevel
     description: "serviceLevel  \nThe service level of the file system"
     types:
     - uid: ServiceLevel
+    defaultValue: Premium
   - name: properties.provisioningState
     isReadyOnly: true
     description: Azure lifecycle management
@@ -126,40 +96,42 @@ definitions:
     description: "qosType  \nThe qos type of the pool"
     types:
     - uid: qosType
+    defaultValue: Auto
   - name: properties.coolAccess
     description: If enabled (true) the pool can contain cool Access enabled volumes.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.encryptionType
     description: "encryptionType  \nEncryption type of the capacity pool, set encryption type for data at rest for this pool and all volumes in it. This value can only be set when creating new pool."
     types:
     - uid: encryptionType
-- name: systemData
-  description: Metadata pertaining to creation and last modification of the resource.
-  kind: object
-  properties:
-  - name: createdBy
-    description: The identity that created the resource.
+    defaultValue: Single
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
     types:
     - uid: string
-  - name: createdByType
-    description: The type of identity that created the resource.
-    types:
-    - uid: createdByType
-  - name: createdAt
-    description: The timestamp of resource creation (UTC).
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
-  - name: lastModifiedBy
-    description: The identity that last modified the resource.
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
     types:
     - uid: string
-  - name: lastModifiedByType
-    description: The type of identity that last modified the resource.
-    types:
-    - uid: createdByType
-  - name: lastModifiedAt
-    description: The timestamp of resource last modification (UTC)
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
 - name: ServiceLevel
@@ -206,26 +178,100 @@ definitions:
     description: EncryptionType Double, volumes will use double encryption at rest
     types:
     - uid: string
-- name: createdByType
-  description: The type of identity that created the resource.
-  kind: enum
-  properties:
-  - name: User
-    types:
-    - uid: string
-  - name: Application
-    types:
-    - uid: string
-  - name: ManagedIdentity
-    types:
-    - uid: string
-  - name: Key
-    types:
-    - uid: string
 examples:
 - name: Pools_Get
   request:
     uri: GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/capacityPools/pool1?api-version=2021-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Pools Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Pools_Get.json
+           */
+          /**
+           * Sample code: Pools_Get.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void poolsGet(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              manager.pools().getWithResponse("myRG", "account1", "pool1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Pools_Get.json
+      func ExamplePoolsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewPoolsClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myRG",
+      		"account1",
+      		"pool1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get details of the specified capacity pool
+       *
+       * @summary Get details of the specified capacity pool
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Pools_Get.json
+       */
+      async function poolsGet() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const poolName = "pool1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.pools.get(resourceGroupName, accountName, poolName);
+        console.log(result);
+      }
+
+      poolsGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -254,5 +300,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Azure NetApp Files service - Describe a Capacity Pool  \nGet details of the specified capacity pool"
+  description: >
+    Learn more about Azure NetApp Files service - Describe a Capacity Pool
+
+    Get details of the specified capacity pool
 errorCodes: []

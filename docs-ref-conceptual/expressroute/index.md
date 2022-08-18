@@ -1,5 +1,6 @@
 ---
 title: ExpressRoute REST API | Microsoft Docs
+description: Learn how Azure ExpressRoute lets you create private connections between Azure datacenters and infrastructure on your premises or in a colocation environment. 
 ms.date: 08/09/2017
 ms.service: expressroute
 ms.topic: reference

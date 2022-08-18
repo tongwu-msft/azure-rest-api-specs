@@ -1,0 +1,215 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-07-31dataplane.devices.create
+name: Create
+service: IoT Central
+groupName: Devices
+apiVersion: 2022-07-31
+summary: "Create or update a device  \nCreate a new device."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{subdomain}.{baseDomain}/api/devices/{deviceId}?api-version=2022-07-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: deviceId
+  in: path
+  isRequired: true
+  description: Unique ID of the device.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Device
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: etag
+    in: body
+    description: ETag used to prevent conflict in device updates.
+    types:
+    - uid: string
+  - name: displayName
+    in: body
+    description: Display name of the device.
+    types:
+    - uid: string
+  - name: template
+    in: body
+    description: The device template definition for the device.
+    types:
+    - uid: string
+  - name: enabled
+    in: body
+    description: Whether the device connection to IoT Central has been enabled.
+    types:
+    - uid: boolean
+  - name: simulated
+    in: body
+    description: Whether the device is simulated.
+    types:
+    - uid: boolean
+  - name: organizations
+    in: body
+    description: List of organization IDs that the device is a part of, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: Device
+  description: The device definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the device.
+    types:
+    - uid: string
+  - name: etag
+    description: ETag used to prevent conflict in device updates.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the device.
+    types:
+    - uid: string
+  - name: template
+    description: The device template definition for the device.
+    types:
+    - uid: string
+  - name: enabled
+    description: Whether the device connection to IoT Central has been enabled.
+    types:
+    - uid: boolean
+  - name: provisioned
+    isReadyOnly: true
+    description: Whether resources have been allocated for the device.
+    types:
+    - uid: boolean
+  - name: simulated
+    description: Whether the device is simulated.
+    types:
+    - uid: boolean
+  - name: organizations
+    description: List of organization IDs that the device is a part of, only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: Create device
+  request:
+    uri: PUT https://appsubdomain.azureiotcentral.com/api/devices/ccc?api-version=2022-07-31
+    body: >-
+      {
+        "displayName": "CheckoutThermostatccc",
+        "template": "dtmi:contoso:testDeviceTemplate;1",
+        "simulated": true,
+        "enabled": true,
+        "organizations": [
+          "seattle"
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/devices/ccc?api-version=2022-07-31
+
+      {
+        "displayName": "CheckoutThermostatccc",
+        "template": "dtmi:contoso:testDeviceTemplate;1",
+        "simulated": true,
+        "enabled": true,
+        "organizations": [
+          "seattle"
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "ccc",
+        "etag": "eyJoZWFkZXIiOiJcIjE1MDE2ZDFiLTAwMDAtMGQwMC0wMDAwLTVkYWNkNDIxMDAwMFwiIiwiZGF0YSI6IlwiMTUwMTZhMWItMDAwMC0wZDAwLTAwMDAtNWRhY2Q0MjEwMDAwXCIifQ",
+        "displayName": "CheckoutThermostatccc",
+        "template": "dtmi:contoso:testDeviceTemplate;1",
+        "simulated": true,
+        "provisioned": false,
+        "enabled": true,
+        "organizations": [
+          "seattle"
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Create or update a device
+
+    Create a new device.
+errorCodes: []

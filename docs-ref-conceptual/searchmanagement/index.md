@@ -63,6 +63,6 @@ Alternatives include the following Azure SDKs, which are independently updated o
 
 ## See also
 
-+ [Azure Cognitive Search documentation](/documentation/services/search/)
++ [Azure Cognitive Search documentation](/azure/search/)
 + [PowerShell administration](/azure/search/search-manage-powershell)
 + [Scale an Azure Cognitive Search service](/azure/search/search-capacity-planning)

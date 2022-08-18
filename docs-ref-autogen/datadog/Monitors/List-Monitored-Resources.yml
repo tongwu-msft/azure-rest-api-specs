@@ -1,0 +1,236 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.datadog.monitors.listmonitoredresources
+name: List Monitored Resources
+service: Datadog
+groupName: Monitors
+apiVersion: 2021-03-01
+summary: List the resources currently being monitored by the Datadog monitor resource.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Datadog/monitors/{monitorName}/listMonitoredResources?api-version=2021-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: monitorName
+  in: path
+  isRequired: true
+  description: Monitor resource name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: MonitoredResourceListResponse
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: MonitoredResourceListResponse
+  description: Response of a list operation.
+  kind: object
+  properties:
+  - name: value
+    description: Results of a list operation.
+    types:
+    - uid: MonitoredResource
+      isArray: true
+  - name: nextLink
+    description: Link to the next set of results, if any.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: MonitoredResource
+  description: The properties of a resource currently being monitored by the Datadog monitor resource.
+  kind: object
+  properties:
+  - name: id
+    description: The ARM id of the resource.
+    types:
+    - uid: string
+  - name: sendingMetrics
+    description: Flag indicating if resource is sending metrics to Datadog.
+    types:
+    - uid: boolean
+  - name: reasonForMetricsStatus
+    description: Reason for why the resource is sending metrics (or why it is not sending).
+    types:
+    - uid: string
+  - name: sendingLogs
+    description: Flag indicating if resource is sending logs to Datadog.
+    types:
+    - uid: boolean
+  - name: reasonForLogsStatus
+    description: Reason for why the resource is sending logs (or why it is not sending).
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Monitors_ListMonitoredResources
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor/listMonitoredResources?api-version=2021-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor/listMonitoredResources?api-version=2021-03-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdatadog_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datadog/armdatadog"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/MonitoredResources_List.json
+      func ExampleMonitorsClient_NewListMonitoredResourcesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatadog.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListMonitoredResourcesPager("myResourceGroup",
+      		"myMonitor",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatadog%2Farmdatadog%2Fv1.0.0/sdk/resourcemanager/datadog/armdatadog/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List the resources currently being monitored by the Datadog monitor resource.
+       *
+       * @summary List the resources currently being monitored by the Datadog monitor resource.
+       * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/MonitoredResources_List.json
+       */
+      async function monitorsListMonitoredResources() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftDatadogClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.monitors.listMonitoredResources(resourceGroupName, monitorName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      monitorsListMonitoredResources().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datadog_3.0.1/sdk/datadog/arm-datadog/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/myVault",
+            "sendingMetrics": true,
+            "reasonForMetricsStatus": "CapturedByRules",
+            "sendingLogs": true,
+            "reasonForLogsStatus": "CapturedByRules"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Datadog service - List the resources currently being monitored by the Datadog monitor resource.
+errorCodes: []

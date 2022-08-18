@@ -1,16 +1,15 @@
 ---
 title: Bing Spell Check API v5 reference | Microsoft Docs
-description: Describes the programming elements of the Bing Video Search API.
+description: Describes the v5 iteration of the Bing Spell Check API and provides technical details about query parameters to request spell checking.
 services: cognitive-services
 author: swhite-msft
 manager: ehansen
-
 ms.assetid: 2CB12DAB-1659-4AC1-8018-6A1D481E625F
 ms.service: cognitive-services
 ms.subservice: bing-spell-check
 ms.topic: reference
 ms.date: 06/21/2016
-ms.author: scottwhi
+ms.author: stefhan
 ---
 
 

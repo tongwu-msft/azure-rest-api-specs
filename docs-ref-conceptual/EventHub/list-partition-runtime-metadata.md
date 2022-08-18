@@ -1,5 +1,6 @@
 ---
 title: "List partition runtime metadata"
+description: Learn how the List Partition Runtime Metadata operation returns the metadata for all partitions on an Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

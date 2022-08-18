@@ -1,5 +1,6 @@
 ---
 title: "ClusterVersionDetails"
+description: "Gives the detail of the Service Fabric runtime version result. Properties include CodeVersion, supportExpiryUtc, and environment."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

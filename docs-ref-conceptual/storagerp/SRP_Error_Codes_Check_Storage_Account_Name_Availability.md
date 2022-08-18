@@ -1,5 +1,6 @@
 ---
 title: "Error Codes for Check Storage Account Name Availability (Azure Storage)"
+description: Error codes and HTTP status codes for the Check Storage Account Name Availability operation.
 ---
 # Error Codes for Check Storage Account Name Availability
 

@@ -29,7 +29,7 @@ To list role assignment approval requests, you can use the [Role Assignment Appr
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/providers/Microsoft.Authorization/roleAssignmentApprovals?api-version=2021-01-01-preview&$filter={filter}
     ```    
 
 1. Replace *{filter}* with the condition that you want to apply to filter the role assignment list.

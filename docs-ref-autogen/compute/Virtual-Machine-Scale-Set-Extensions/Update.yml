@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesetextensions.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Set Extensions
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: The operation to update an extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2021-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/extensions/{vmssExtensionName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -317,7 +317,7 @@ definitions:
 examples:
 - name: VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aaaa?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -335,6 +335,183 @@ examples:
           "suppressFailures": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aaaa?api-version=2022-03-01
+
+      {
+        "properties": {
+          "autoUpgradeMinorVersion": true,
+          "publisher": "{extension-Publisher}",
+          "type": "{extension-Type}",
+          "typeHandlerVersion": "{handler-version}",
+          "settings": {},
+          "forceUpdateTag": "aaaaaaaaa",
+          "enableAutomaticUpgrade": true,
+          "protectedSettings": {},
+          "provisionAfterExtensions": [
+            "aa"
+          ],
+          "suppressFailures": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.compute.models.VirtualMachineScaleSetExtensionUpdate;
+      import java.io.IOException;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachineScaleSetExtensions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetExtensionsUpdateMaximumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetExtensions()
+                  .update(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "aaaa",
+                      new VirtualMachineScaleSetExtensionUpdate()
+                          .withForceUpdateTag("aaaaaaaaa")
+                          .withPublisher("{extension-Publisher}")
+                          .withTypePropertiesType("{extension-Type}")
+                          .withTypeHandlerVersion("{handler-version}")
+                          .withAutoUpgradeMinorVersion(true)
+                          .withEnableAutomaticUpgrade(true)
+                          .withSettings(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{}", Object.class, SerializerEncoding.JSON))
+                          .withProtectedSettings(
+                              SerializerFactory
+                                  .createDefaultManagementSerializerAdapter()
+                                  .deserialize("{}", Object.class, SerializerEncoding.JSON))
+                          .withProvisionAfterExtensions(Arrays.asList("aa"))
+                          .withSuppressFailures(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
+      func ExampleVirtualMachineScaleSetExtensionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetExtensionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"rgcompute",
+      		"aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      		"aaaa",
+      		armcompute.VirtualMachineScaleSetExtensionUpdate{
+      			Properties: &armcompute.VirtualMachineScaleSetExtensionProperties{
+      				Type:                    to.Ptr("{extension-Type}"),
+      				AutoUpgradeMinorVersion: to.Ptr(true),
+      				EnableAutomaticUpgrade:  to.Ptr(true),
+      				ForceUpdateTag:          to.Ptr("aaaaaaaaa"),
+      				ProtectedSettings:       map[string]interface{}{},
+      				ProvisionAfterExtensions: []*string{
+      					to.Ptr("aa")},
+      				Publisher:          to.Ptr("{extension-Publisher}"),
+      				Settings:           map[string]interface{}{},
+      				SuppressFailures:   to.Ptr(true),
+      				TypeHandlerVersion: to.Ptr("{handler-version}"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to update an extension.
+       *
+       * @summary The operation to update an extension.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MaximumSet_Gen.json
+       */
+      async function virtualMachineScaleSetExtensionsUpdateMaximumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+        const vmssExtensionName = "aaaa";
+        const extensionParameters = {
+          typePropertiesType: "{extension-Type}",
+          autoUpgradeMinorVersion: true,
+          enableAutomaticUpgrade: true,
+          forceUpdateTag: "aaaaaaaaa",
+          protectedSettings: {},
+          provisionAfterExtensions: ["aa"],
+          publisher: "{extension-Publisher}",
+          settings: {},
+          suppressFailures: true,
+          typeHandlerVersion: "{handler-version}",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          vmssExtensionName,
+          extensionParameters
+        );
+        console.log(result);
+      }
+
+      virtualMachineScaleSetExtensionsUpdateMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -385,8 +562,82 @@ examples:
       }
 - name: VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aa?api-version=2022-03-01
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaaaaaaaaaaaaaa/extensions/aa?api-version=2022-03-01
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.VirtualMachineScaleSetExtensionUpdate;
+
+      /** Samples for VirtualMachineScaleSetExtensions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void virtualMachineScaleSetExtensionsUpdateMinimumSetGen(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetExtensions()
+                  .update(
+                      "rgcompute",
+                      "aaaaaaaaaaaaaaaaaaaaaaaaaa",
+                      "aa",
+                      new VirtualMachineScaleSetExtensionUpdate(),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to update an extension.
+       *
+       * @summary The operation to update an extension.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetExtensions_Update_MinimumSet_Gen.json
+       */
+      async function virtualMachineScaleSetExtensionsUpdateMinimumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const vmScaleSetName = "aaaaaaaaaaaaaaaaaaaaaaaaaa";
+        const vmssExtensionName = "aa";
+        const extensionParameters = {};
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSetExtensions.beginUpdateAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          vmssExtensionName,
+          extensionParameters
+        );
+        console.log(result);
+      }
+
+      virtualMachineScaleSetExtensionsUpdateMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: '{}'
@@ -405,5 +656,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - The operation to update an extension.
+  description: >
+    Learn more about Compute service - The operation to update an extension.
 errorCodes: []

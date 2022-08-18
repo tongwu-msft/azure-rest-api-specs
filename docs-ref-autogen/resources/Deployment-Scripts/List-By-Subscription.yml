@@ -152,6 +152,7 @@ definitions:
     description: The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
     types:
     - uid: cleanupOptions
+    defaultValue: Always
   - name: properties.provisioningState
     isReadyOnly: true
     description: State of the script execution. This only appears in the response.
@@ -205,6 +206,7 @@ definitions:
     description: Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
     types:
     - uid: string
+    defaultValue: P1D
 - name: AzureCliScript
   description: Object model for the Azure CLI script.
   kind: object
@@ -266,6 +268,7 @@ definitions:
     description: The clean up preference when the script execution gets in a terminal state. Default setting is 'Always'.
     types:
     - uid: cleanupOptions
+    defaultValue: Always
   - name: properties.provisioningState
     isReadyOnly: true
     description: State of the script execution. This only appears in the response.
@@ -319,6 +322,7 @@ definitions:
     description: Maximum allowed script execution time specified in ISO 8601 format. Default value is P1D
     types:
     - uid: string
+    defaultValue: P1D
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -527,6 +531,50 @@ examples:
 - name: DeploymentScriptsListBySubscription
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deploymentScripts?api-version=2020-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Resources/deploymentScripts?api-version=2020-10-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdeploymentscripts_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armdeploymentscripts"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2020-10-01/examples/DeploymentScripts_ListBySubscription.json
+      func ExampleClient_NewListBySubscriptionPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdeploymentscripts.NewClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListBySubscriptionPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmdeploymentscripts%2Fv1.0.0/sdk/resourcemanager/resources/armdeploymentscripts/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -581,5 +629,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Resource Management service - Lists all deployment scripts for a given subscription.
+  description: >
+    Learn more about Resource Management service - Lists all deployment scripts for a given subscription.
 errorCodes: []

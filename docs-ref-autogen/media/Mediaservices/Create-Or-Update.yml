@@ -3,14 +3,14 @@ uid: management.azure.com.media.mediaservices.createorupdate
 name: Create Or Update
 service: Media Services
 groupName: Mediaservices
-apiVersion: 2021-06-01
+apiVersion: 2021-11-01
 summary: "Create or update a Media Services account  \nCreates or updates a Media Services account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}?api-version=2021-06-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}?api-version=2021-11-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -38,10 +38,24 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
+  headers:
+  - name: Retry-After
+    value: integer
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
   description: OK
   types:
   - uid: MediaService
 - name: 201 Created
+  headers:
+  - name: Retry-After
+    value: integer
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
   description: Created
   types:
   - uid: MediaService
@@ -100,31 +114,6 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: MediaServiceIdentity
-  kind: object
-  properties:
-  - name: type
-    description: The identity type.
-    types:
-    - uid: string
-  - name: principalId
-    isReadyOnly: true
-    description: The Principal ID of the identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The Tenant ID of the identity.
-    types:
-    - uid: string
-  - name: userAssignedIdentities
-    description: The user assigned managed identities.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: UserAssignedManagedIdentity
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -153,6 +142,31 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: MediaServiceIdentity
+  kind: object
+  properties:
+  - name: type
+    description: The identity type.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The Principal ID of the identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The Tenant ID of the identity.
+    types:
+    - uid: string
+  - name: userAssignedIdentities
+    description: The user assigned managed identities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
 - name: StorageAccount
   description: The storage account details.
   kind: object
@@ -201,19 +215,51 @@ definitions:
     description: The access control properties for Key Delivery.
     types:
     - uid: AccessControl
+- name: PrivateEndpointConnection
+  description: The Private Endpoint Connection resource.
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The resource of private end point.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: A collection of information about the state of the connection between service consumer and provider.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the private endpoint connection resource.
+    types:
+    - uid: PrivateEndpointConnectionProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: MediaService
   description: A Media Services account.
   kind: object
   properties:
-  - name: identity
-    description: The Managed Identity for the Media Services account.
-    types:
-    - uid: MediaServiceIdentity
   - name: systemData
     isReadyOnly: true
     description: The system metadata relating to this resource.
     types:
     - uid: systemData
+  - name: identity
+    description: The Managed Identity for the Media Services account.
+    types:
+    - uid: MediaServiceIdentity
   - name: properties.mediaServiceId
     isReadyOnly: true
     description: The Media Services account ID.
@@ -240,6 +286,17 @@ definitions:
     description: Whether or not public network access is allowed for resources under the Media Services account.
     types:
     - uid: PublicNetworkAccess
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the Media Services account.
+    types:
+    - uid: ProvisioningState
+  - name: properties.privateEndpointConnections
+    isReadyOnly: true
+    description: The Private Endpoint Connections created for the Media Service account.
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
   - name: tags
     description: Resource tags.
     types:
@@ -275,19 +332,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: UserAssignedManagedIdentity
-  kind: object
-  properties:
-  - name: clientId
-    isReadyOnly: true
-    description: The client ID.
-    types:
-    - uid: string
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID.
-    types:
-    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -302,6 +346,19 @@ definitions:
     types:
     - uid: string
   - name: Key
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  kind: object
+  properties:
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID.
     types:
     - uid: string
 - name: StorageAccountType
@@ -363,6 +420,47 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: PrivateEndpoint
+  description: The Private Endpoint resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ARM identifier for Private Endpoint
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: A collection of information about the state of the connection between service consumer and provider.
+  kind: object
+  properties:
+  - name: status
+    description: Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service.
+    types:
+    - uid: PrivateEndpointServiceConnectionStatus
+  - name: description
+    description: The reason for approval/rejection of the connection.
+    types:
+    - uid: string
+  - name: actionsRequired
+    description: A message indicating if changes on the service provider require any updates on the consumer.
+    types:
+    - uid: string
+- name: PrivateEndpointConnectionProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
 - name: StorageAuthentication
   kind: enum
   properties:
@@ -384,6 +482,22 @@ definitions:
     - uid: string
   - name: Disabled
     description: Public network access is disabled.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Provisioning state of the Media Services account.
+  kind: enum
+  properties:
+  - name: Failed
+    description: Provisioning state failed.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Provisioning state in progress.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Provisioning state succeeded.
     types:
     - uid: string
 - name: ErrorDetail
@@ -429,6 +543,19 @@ definitions:
     description: Public IP addresses are blocked.
     types:
     - uid: string
+- name: PrivateEndpointServiceConnectionStatus
+  description: The private endpoint connection status.
+  kind: enum
+  properties:
+  - name: Pending
+    types:
+    - uid: string
+  - name: Approved
+    types:
+    - uid: string
+  - name: Rejected
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -446,7 +573,7 @@ definitions:
 examples:
 - name: Create a Media Services account
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports?api-version=2021-06-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports?api-version=2021-11-01
     body: >-
       {
         "location": "South Central US",
@@ -457,18 +584,15 @@ examples:
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
           }
         },
         "properties": {
           "encryption": {
             "type": "CustomerKey",
-            "keyVaultProperties": {
-              "keyIdentifier": "https://keyvault.vault.azure.net/keys/key1"
-            },
             "identity": {
-              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
               "useSystemAssignedIdentity": false
             }
           },
@@ -477,15 +601,383 @@ examples:
               "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
               "type": "Primary",
               "identity": {
-                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
                 "useSystemAssignedIdentity": false
               }
             }
           ],
-          "storageAuthentication": "ManagedIdentity"
+          "storageAuthentication": "ManagedIdentity",
+          "publicNetworkAccess": "Enabled",
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow"
+            }
+          }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports?api-version=2021-11-01
+
+      {
+        "location": "South Central US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
+          }
+        },
+        "properties": {
+          "encryption": {
+            "type": "CustomerKey",
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+              "useSystemAssignedIdentity": false
+            }
+          },
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              "type": "Primary",
+              "identity": {
+                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                "useSystemAssignedIdentity": false
+              }
+            }
+          ],
+          "storageAuthentication": "ManagedIdentity",
+          "publicNetworkAccess": "Enabled",
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.mediaservices.models.AccessControl;
+      import com.azure.resourcemanager.mediaservices.models.AccountEncryption;
+      import com.azure.resourcemanager.mediaservices.models.AccountEncryptionKeyType;
+      import com.azure.resourcemanager.mediaservices.models.DefaultAction;
+      import com.azure.resourcemanager.mediaservices.models.KeyDelivery;
+      import com.azure.resourcemanager.mediaservices.models.MediaServiceIdentity;
+      import com.azure.resourcemanager.mediaservices.models.PublicNetworkAccess;
+      import com.azure.resourcemanager.mediaservices.models.ResourceIdentity;
+      import com.azure.resourcemanager.mediaservices.models.StorageAccount;
+      import com.azure.resourcemanager.mediaservices.models.StorageAccountType;
+      import com.azure.resourcemanager.mediaservices.models.StorageAuthentication;
+      import com.azure.resourcemanager.mediaservices.models.UserAssignedManagedIdentity;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Mediaservices CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/async-accounts-create.json
+           */
+          /**
+           * Sample code: Create a Media Services account.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void createAMediaServicesAccount(
+              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              manager
+                  .mediaservices()
+                  .define("contososports")
+                  .withRegion("South Central US")
+                  .withExistingResourceGroup("contoso")
+                  .withTags(mapOf("key1", "value1", "key2", "value2"))
+                  .withIdentity(
+                      new MediaServiceIdentity()
+                          .withType("UserAssigned")
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                                  new UserAssignedManagedIdentity(),
+                                  "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2",
+                                  new UserAssignedManagedIdentity())))
+                  .withStorageAccounts(
+                      Arrays
+                          .asList(
+                              new StorageAccount()
+                                  .withId(
+                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore")
+                                  .withType(StorageAccountType.PRIMARY)
+                                  .withIdentity(
+                                      new ResourceIdentity()
+                                          .withUserAssignedIdentity(
+                                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1")
+                                          .withUseSystemAssignedIdentity(false))))
+                  .withStorageAuthentication(StorageAuthentication.MANAGED_IDENTITY)
+                  .withEncryption(
+                      new AccountEncryption()
+                          .withType(AccountEncryptionKeyType.CUSTOMER_KEY)
+                          .withIdentity(
+                              new ResourceIdentity()
+                                  .withUserAssignedIdentity(
+                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1")
+                                  .withUseSystemAssignedIdentity(false)))
+                  .withKeyDelivery(
+                      new KeyDelivery().withAccessControl(new AccessControl().withDefaultAction(DefaultAction.ALLOW)))
+                  .withPublicNetworkAccess(PublicNetworkAccess.ENABLED)
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/async-accounts-create.json
+      func ExampleClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"contoso",
+      		"contososports",
+      		armmediaservices.MediaService{
+      			Location: to.Ptr("South Central US"),
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      				"key2": to.Ptr("value2"),
+      			},
+      			Identity: &armmediaservices.MediaServiceIdentity{
+      				Type: to.Ptr("UserAssigned"),
+      				UserAssignedIdentities: map[string]*armmediaservices.UserAssignedManagedIdentity{
+      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {},
+      				},
+      			},
+      			Properties: &armmediaservices.MediaServiceProperties{
+      				Encryption: &armmediaservices.AccountEncryption{
+      					Type: to.Ptr(armmediaservices.AccountEncryptionKeyTypeCustomerKey),
+      					Identity: &armmediaservices.ResourceIdentity{
+      						UseSystemAssignedIdentity: to.Ptr(false),
+      						UserAssignedIdentity:      to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"),
+      					},
+      				},
+      				KeyDelivery: &armmediaservices.KeyDelivery{
+      					AccessControl: &armmediaservices.AccessControl{
+      						DefaultAction: to.Ptr(armmediaservices.DefaultActionAllow),
+      					},
+      				},
+      				PublicNetworkAccess: to.Ptr(armmediaservices.PublicNetworkAccessEnabled),
+      				StorageAccounts: []*armmediaservices.StorageAccount{
+      					{
+      						Type: to.Ptr(armmediaservices.StorageAccountTypePrimary),
+      						ID:   to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore"),
+      						Identity: &armmediaservices.ResourceIdentity{
+      							UseSystemAssignedIdentity: to.Ptr(false),
+      							UserAssignedIdentity:      to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1"),
+      						},
+      					}},
+      				StorageAuthentication: to.Ptr(armmediaservices.StorageAuthenticationManagedIdentity),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Media Services account
+       *
+       * @summary Creates or updates a Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/async-accounts-create.json
+       */
+      async function createAMediaServicesAccount() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contososports";
+        const parameters = {
+          encryption: {
+            type: "CustomerKey",
+            identity: {
+              useSystemAssignedIdentity: false,
+              userAssignedIdentity:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+            },
+          },
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/00000000000000000000000000000000/resourceGroups/contoso/providers/MicrosoftManagedIdentity/userAssignedIdentities/id1":
+                {},
+              "/subscriptions/00000000000000000000000000000000/resourceGroups/contoso/providers/MicrosoftManagedIdentity/userAssignedIdentities/id2":
+                {},
+            },
+          },
+          keyDelivery: { accessControl: { defaultAction: "Allow" } },
+          location: "South Central US",
+          publicNetworkAccess: "Enabled",
+          storageAccounts: [
+            {
+              type: "Primary",
+              id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              identity: {
+                useSystemAssignedIdentity: false,
+                userAssignedIdentity:
+                  "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+              },
+            },
+          ],
+          storageAuthentication: "ManagedIdentity",
+          tags: { key1: "value1", key2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.mediaservices.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAMediaServicesAccount().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
+  - statusCode: "201"
+    headers:
+    - name: azure-asyncoperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/westus2/mediaServicesOperationStatuses/62e4d893-d233-4005-988e-a428d9f77076?api-version=2021-11-01
+    - name: location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Media/locations/westus2/mediaServicesOperationResults/62e4d893-d233-4005-988e-a428d9f77076?api-version=2021-11-01
+    body: >-
+      {
+        "location": "South Central US",
+        "tags": {
+          "key1": "value1",
+          "key2": "value2"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
+          }
+        },
+        "properties": {
+          "provisioningState": "InProgress",
+          "encryption": {
+            "type": "CustomerKey",
+            "keyVaultProperties": {
+              "keyIdentifier": "https://keyvault.vault.azure.net/keys/key1",
+              "currentKeyIdentifier": "https://keyvault.vault.azure.net/keys/key1/ver1"
+            },
+            "identity": {
+              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+              "useSystemAssignedIdentity": false
+            }
+          },
+          "storageAccounts": [
+            {
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
+              "type": "Primary",
+              "identity": {
+                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                "useSystemAssignedIdentity": false
+              }
+            }
+          ],
+          "storageAuthentication": "ManagedIdentity",
+          "publicNetworkAccess": "Enabled",
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow"
+            }
+          },
+          "privateEndpointConnections": [
+            {
+              "name": "00000000-0000-0000-0000-000000000001",
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports/privateEndpointConnections/00000000-0000-0000-0000-000000000001",
+              "type": "Microsoft.Media/mediaservices/privateEndpointConnections",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "test description"
+                },
+                "privateEndpoint": {
+                  "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/reosuceGroup1/providers/Microsoft.Network/privateEndpoints/pe1"
+                }
+              }
+            },
+            {
+              "name": "00000000-0000-0000-0000-000000000002",
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports/privateEndpointConnections/00000000-0000-0000-0000-000000000002",
+              "type": "Microsoft.Media/mediaservices/privateEndpointConnections",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateLinkServiceConnectionState": {
+                  "status": "Pending",
+                  "description": "test description"
+                },
+                "privateEndpoint": {
+                  "id": "/subscriptions/22222222-2222-2222-2222-222222222222/resourceGroups/reosuceGroup2/providers/Microsoft.Network/privateEndpoints/pe2"
+                }
+              }
+            }
+          ]
+        }
+      }
   - statusCode: "200"
     body: >-
       {
@@ -497,11 +989,12 @@ examples:
         "identity": {
           "type": "UserAssigned",
           "userAssignedIdentities": {
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
           }
         },
         "properties": {
+          "provisioningState": "InProgress",
           "encryption": {
             "type": "CustomerKey",
             "keyVaultProperties": {
@@ -509,7 +1002,7 @@ examples:
               "currentKeyIdentifier": "https://keyvault.vault.azure.net/keys/key1/ver1"
             },
             "identity": {
-              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
               "useSystemAssignedIdentity": false
             }
           },
@@ -518,55 +1011,56 @@ examples:
               "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
               "type": "Primary",
               "identity": {
-                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
+                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
                 "useSystemAssignedIdentity": false
               }
             }
           ],
-          "storageAuthentication": "ManagedIdentity"
-        }
-      }
-  - statusCode: "201"
-    body: >-
-      {
-        "location": "South Central US",
-        "tags": {
-          "key1": "value1",
-          "key2": "value2"
-        },
-        "identity": {
-          "type": "UserAssigned",
-          "userAssignedIdentities": {
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
-            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {}
-          }
-        },
-        "properties": {
-          "encryption": {
-            "type": "CustomerKey",
-            "keyVaultProperties": {
-              "keyIdentifier": "https://keyvault.vault.azure.net/keys/key1",
-              "currentKeyIdentifier": "https://keyvault.vault.azure.net/keys/key1/ver1"
-            },
-            "identity": {
-              "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
-              "useSystemAssignedIdentity": false
+          "storageAuthentication": "ManagedIdentity",
+          "publicNetworkAccess": "Enabled",
+          "keyDelivery": {
+            "accessControl": {
+              "defaultAction": "Allow"
             }
           },
-          "storageAccounts": [
+          "privateEndpointConnections": [
             {
-              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Storage/storageAccounts/contososportsstore",
-              "type": "Primary",
-              "identity": {
-                "userAssignedIdentity": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/rg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1",
-                "useSystemAssignedIdentity": false
+              "name": "00000000-0000-0000-0000-000000000001",
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports/privateEndpointConnections/00000000-0000-0000-0000-000000000001",
+              "type": "Microsoft.Media/mediaservices/privateEndpointConnections",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateLinkServiceConnectionState": {
+                  "status": "Approved",
+                  "description": "test description"
+                },
+                "privateEndpoint": {
+                  "id": "/subscriptions/11111111-1111-1111-1111-111111111111/resourceGroups/reosuceGroup1/providers/Microsoft.Network/privateEndpoints/pe1"
+                }
+              }
+            },
+            {
+              "name": "00000000-0000-0000-0000-000000000002",
+              "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contososports/privateEndpointConnections/00000000-0000-0000-0000-000000000002",
+              "type": "Microsoft.Media/mediaservices/privateEndpointConnections",
+              "properties": {
+                "provisioningState": "Succeeded",
+                "privateLinkServiceConnectionState": {
+                  "status": "Pending",
+                  "description": "test description"
+                },
+                "privateEndpoint": {
+                  "id": "/subscriptions/22222222-2222-2222-2222-222222222222/resourceGroups/reosuceGroup2/providers/Microsoft.Network/privateEndpoints/pe2"
+                }
               }
             }
-          ],
-          "storageAuthentication": "ManagedIdentity"
+          ]
         }
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Create or update a Media Services account  \nCreates or updates a Media Services account"
+  description: >
+    Learn more about Media Services service - Create or update a Media Services account
+
+    Creates or updates a Media Services account
 errorCodes: []

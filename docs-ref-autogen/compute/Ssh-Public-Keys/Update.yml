@@ -3,14 +3,14 @@ uid: management.azure.com.compute.sshpublickeys.update
 name: Update
 service: Compute
 groupName: Ssh Public Keys
-apiVersion: 2021-11-01
+apiVersion: 2022-03-01
 summary: Updates a new SSH public key resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2021-11-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/sshPublicKeys/{sshPublicKeyName}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -179,7 +179,7 @@ definitions:
 examples:
 - name: SshPublicKeys_Update_MaximumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaaa?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -189,6 +189,140 @@ examples:
           "key2854": "a"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaaa?api-version=2022-03-01
+
+      {
+        "properties": {
+          "publicKey": "{ssh-rsa public key}"
+        },
+        "tags": {
+          "key2854": "a"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.SshPublicKeyUpdateResource;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for SshPublicKeys Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
+           */
+          /**
+           * Sample code: SshPublicKeys_Update_MaximumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void sshPublicKeysUpdateMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSshPublicKeys()
+                  .updateWithResponse(
+                      "rgcompute",
+                      "aaaaaaaaaaaa",
+                      new SshPublicKeyUpdateResource().withTags(mapOf("key2854", "a")).withPublicKey("{ssh-rsa public key}"),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
+      func ExampleSSHPublicKeysClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewSSHPublicKeysClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rgcompute",
+      		"aaaaaaaaaaaa",
+      		armcompute.SSHPublicKeyUpdateResource{
+      			Tags: map[string]*string{
+      				"key2854": to.Ptr("a"),
+      			},
+      			Properties: &armcompute.SSHPublicKeyResourceProperties{
+      				PublicKey: to.Ptr("{ssh-rsa public key}"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a new SSH public key resource.
+       *
+       * @summary Updates a new SSH public key resource.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Update_MaximumSet_Gen.json
+       */
+      async function sshPublicKeysUpdateMaximumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const sshPublicKeyName = "aaaaaaaaaaaa";
+        const parameters = {
+          publicKey: "{ssh-rsa public key}",
+          tags: { key2854: "a" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.sshPublicKeys.update(resourceGroupName, sshPublicKeyName, parameters);
+        console.log(result);
+      }
+
+      sshPublicKeysUpdateMaximumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -207,8 +341,83 @@ examples:
       }
 - name: SshPublicKeys_Update_MinimumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaa?api-version=2021-11-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaa?api-version=2022-03-01
     body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/sshPublicKeys/aaaaaaaaaaa?api-version=2022-03-01
+
+      {}
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.SshPublicKeyUpdateResource;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for SshPublicKeys Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Update_MinimumSet_Gen.json
+           */
+          /**
+           * Sample code: SshPublicKeys_Update_MinimumSet_Gen.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void sshPublicKeysUpdateMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSshPublicKeys()
+                  .updateWithResponse("rgcompute", "aaaaaaaaaaa", new SshPublicKeyUpdateResource(), Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a new SSH public key resource.
+       *
+       * @summary Updates a new SSH public key resource.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/sshPublicKeyExamples/SshPublicKeys_Update_MinimumSet_Gen.json
+       */
+      async function sshPublicKeysUpdateMinimumSetGen() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "rgcompute";
+        const sshPublicKeyName = "aaaaaaaaaaa";
+        const parameters = {};
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.sshPublicKeys.update(resourceGroupName, sshPublicKeyName, parameters);
+        console.log(result);
+      }
+
+      sshPublicKeysUpdateMinimumSetGen().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -225,5 +434,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Updates a new SSH public key resource.
+  description: >
+    Learn more about Compute service - Updates a new SSH public key resource.
 errorCodes: []

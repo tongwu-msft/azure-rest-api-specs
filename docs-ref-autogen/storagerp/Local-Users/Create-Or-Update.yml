@@ -1,0 +1,607 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagerp.localusers.createorupdate
+name: Create Or Update
+service: Storage Resource Provider
+groupName: Local Users
+apiVersion: 2021-09-01
+summary: Create or update the properties of a local user associated with the storage account
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/localUsers/{username}?api-version=2021-09-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: accountName
+  in: path
+  isRequired: true
+  description: The name of the storage account within the specified resource group. Storage account names must be between 3 and 24 characters in length and use numbers and lower-case letters only.
+  types:
+  - uid: string
+- name: username
+  in: path
+  isRequired: true
+  description: The name of local user. The username must contain lowercase letters and numbers only. It must be unique only within the storage account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK -- Put local user successfully.
+  types:
+  - uid: LocalUser
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.permissionScopes
+    in: body
+    description: The permission scopes of the local user.
+    types:
+    - uid: PermissionScope
+      isArray: true
+  - name: properties.homeDirectory
+    in: body
+    description: Optional, local user home directory.
+    types:
+    - uid: string
+  - name: properties.sshAuthorizedKeys
+    in: body
+    description: Optional, local user ssh authorized keys for SFTP.
+    types:
+    - uid: SshPublicKey
+      isArray: true
+  - name: properties.hasSharedKey
+    in: body
+    description: Indicates whether shared key exists. Set it to false to remove existing shared key.
+    types:
+    - uid: boolean
+  - name: properties.hasSshKey
+    in: body
+    description: Indicates whether ssh key exists. Set it to false to remove existing SSH key.
+    types:
+    - uid: boolean
+  - name: properties.hasSshPassword
+    in: body
+    description: Indicates whether ssh password exists. Set it to false to remove existing SSH password.
+    types:
+    - uid: boolean
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: PermissionScope
+  kind: object
+  properties:
+  - name: permissions
+    description: 'The permissions for the local user. Possible values include: Read (r), Write (w), Delete (d), List (l), and Create (c).'
+    types:
+    - uid: string
+  - name: service
+    description: The service used by the local user, e.g. blob, file.
+    types:
+    - uid: string
+  - name: resourceName
+    description: The name of resource, normally the container name or the file share name, used by the local user.
+    types:
+    - uid: string
+- name: SshPublicKey
+  kind: object
+  properties:
+  - name: description
+    description: Optional. It is used to store the function/usage of the key
+    types:
+    - uid: string
+  - name: key
+    description: "Ssh public key base64 encoded. The format should be: '<keyType> <keyData>', e.g. ssh-rsa AAAABBBB"
+    types:
+    - uid: string
+- name: LocalUser
+  description: The local user associated with the storage accounts.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
+  - name: properties.permissionScopes
+    description: The permission scopes of the local user.
+    types:
+    - uid: PermissionScope
+      isArray: true
+  - name: properties.homeDirectory
+    description: Optional, local user home directory.
+    types:
+    - uid: string
+  - name: properties.sshAuthorizedKeys
+    description: Optional, local user ssh authorized keys for SFTP.
+    types:
+    - uid: SshPublicKey
+      isArray: true
+  - name: properties.sid
+    isReadyOnly: true
+    description: A unique Security Identifier that is generated by the server.
+    types:
+    - uid: string
+  - name: properties.hasSharedKey
+    description: Indicates whether shared key exists. Set it to false to remove existing shared key.
+    types:
+    - uid: boolean
+  - name: properties.hasSshKey
+    description: Indicates whether ssh key exists. Set it to false to remove existing SSH key.
+    types:
+    - uid: boolean
+  - name: properties.hasSshPassword
+    description: Indicates whether ssh password exists. Set it to false to remove existing SSH password.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: An error response from the storage resource provider.
+  kind: object
+  properties:
+  - name: error
+    description: Azure Storage Resource Provider error response body.
+    types:
+    - uid: ErrorResponseBody
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorResponseBody
+  description: Error response body contract.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+examples:
+- name: CreateLocalUser
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/localUsers/user1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "permissionScopes": [
+            {
+              "permissions": "rwd",
+              "service": "file",
+              "resourceName": "share1"
+            },
+            {
+              "permissions": "rw",
+              "service": "file",
+              "resourceName": "share2"
+            }
+          ],
+          "homeDirectory": "homedirectory",
+          "hasSshPassword": true,
+          "sshAuthorizedKeys": [
+            {
+              "description": "key name",
+              "key": "ssh-rsa keykeykeykeykey="
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/localUsers/user1?api-version=2021-09-01
+
+      {
+        "properties": {
+          "permissionScopes": [
+            {
+              "permissions": "rwd",
+              "service": "file",
+              "resourceName": "share1"
+            },
+            {
+              "permissions": "rw",
+              "service": "file",
+              "resourceName": "share2"
+            }
+          ],
+          "homeDirectory": "homedirectory",
+          "hasSshPassword": true,
+          "sshAuthorizedKeys": [
+            {
+              "description": "key name",
+              "key": "ssh-rsa keykeykeykeykey="
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.LocalUserInner;
+      import com.azure.resourcemanager.storage.models.PermissionScope;
+      import com.azure.resourcemanager.storage.models.SshPublicKey;
+      import java.util.Arrays;
+
+      /** Samples for LocalUsersOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/LocalUserCreate.json
+           */
+          /**
+           * Sample code: CreateLocalUser.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createLocalUser(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getLocalUsersOperations()
+                  .createOrUpdateWithResponse(
+                      "res6977",
+                      "sto2527",
+                      "user1",
+                      new LocalUserInner()
+                          .withPermissionScopes(
+                              Arrays
+                                  .asList(
+                                      new PermissionScope()
+                                          .withPermissions("rwd")
+                                          .withService("file")
+                                          .withResourceName("share1"),
+                                      new PermissionScope()
+                                          .withPermissions("rw")
+                                          .withService("file")
+                                          .withResourceName("share2")))
+                          .withHomeDirectory("homedirectory")
+                          .withSshAuthorizedKeys(
+                              Arrays
+                                  .asList(new SshPublicKey().withDescription("key name").withKey("ssh-rsa keykeykeykeykey=")))
+                          .withHasSshPassword(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/LocalUserCreate.json
+      func ExampleLocalUsersClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewLocalUsersClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"res6977",
+      		"sto2527",
+      		"user1",
+      		armstorage.LocalUser{
+      			Properties: &armstorage.LocalUserProperties{
+      				HasSSHPassword: to.Ptr(true),
+      				HomeDirectory:  to.Ptr("homedirectory"),
+      				PermissionScopes: []*armstorage.PermissionScope{
+      					{
+      						Permissions:  to.Ptr("rwd"),
+      						ResourceName: to.Ptr("share1"),
+      						Service:      to.Ptr("file"),
+      					},
+      					{
+      						Permissions:  to.Ptr("rw"),
+      						ResourceName: to.Ptr("share2"),
+      						Service:      to.Ptr("file"),
+      					}},
+      				SSHAuthorizedKeys: []*armstorage.SSHPublicKey{
+      					{
+      						Description: to.Ptr("key name"),
+      						Key:         to.Ptr("ssh-rsa keykeykeykeykey="),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
+       *
+       * @summary Create or update the properties of a local user associated with the storage account
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/LocalUserCreate.json
+       */
+      async function createLocalUser() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res6977";
+        const accountName = "sto2527";
+        const username = "user1";
+        const properties = {
+          hasSshPassword: true,
+          homeDirectory: "homedirectory",
+          permissionScopes: [
+            { permissions: "rwd", resourceName: "share1", service: "file" },
+            { permissions: "rw", resourceName: "share2", service: "file" },
+          ],
+          sshAuthorizedKeys: [{ description: "key name", key: "ssh-rsa keykeykeykeykey=" }],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.localUsersOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          username,
+          properties
+        );
+        console.log(result);
+      }
+
+      createLocalUser().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/loalUsers/user1",
+        "name": "user1",
+        "type": "Microsoft.Storage/storageAccounts/localUsers",
+        "properties": {
+          "permissionScopes": [
+            {
+              "permissions": "rwd",
+              "service": "file",
+              "resourceName": "share1"
+            },
+            {
+              "permissions": "rw",
+              "service": "file",
+              "resourceName": "share2"
+            }
+          ],
+          "homeDirectory": "homedirectory",
+          "sshAuthorizedKeys": [
+            {
+              "description": "key name",
+              "key": "ssh-rsa keykeykeykeykey="
+            }
+          ],
+          "sid": "S-1-2-0-125132-153423-36235-1000"
+        }
+      }
+- name: UpdateLocalUser
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/localUsers/user1?api-version=2021-09-01
+    body: >-
+      {
+        "properties": {
+          "homeDirectory": "homedirectory2",
+          "hasSharedKey": false,
+          "hasSshPassword": false,
+          "hasSshKey": false
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/localUsers/user1?api-version=2021-09-01
+
+      {
+        "properties": {
+          "homeDirectory": "homedirectory2",
+          "hasSharedKey": false,
+          "hasSshPassword": false,
+          "hasSshKey": false
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.fluent.models.LocalUserInner;
+
+      /** Samples for LocalUsersOperation CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/LocalUserUpdate.json
+           */
+          /**
+           * Sample code: UpdateLocalUser.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateLocalUser(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getLocalUsersOperations()
+                  .createOrUpdateWithResponse(
+                      "res6977",
+                      "sto2527",
+                      "user1",
+                      new LocalUserInner()
+                          .withHomeDirectory("homedirectory2")
+                          .withHasSharedKey(false)
+                          .withHasSshKey(false)
+                          .withHasSshPassword(false),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the properties of a local user associated with the storage account
+       *
+       * @summary Create or update the properties of a local user associated with the storage account
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/LocalUserUpdate.json
+       */
+      async function updateLocalUser() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res6977";
+        const accountName = "sto2527";
+        const username = "user1";
+        const properties = {
+          hasSharedKey: false,
+          hasSshKey: false,
+          hasSshPassword: false,
+          homeDirectory: "homedirectory2",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const result = await client.localUsersOperations.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          username,
+          properties
+        );
+        console.log(result);
+      }
+
+      updateLocalUser().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/res6977/providers/Microsoft.Storage/storageAccounts/sto2527/loalUsers/user1",
+        "name": "user1",
+        "type": "Microsoft.Storage/storageAccounts/localUsers",
+        "properties": {
+          "homeDirectory": "homedirectory2",
+          "sid": "S-1-2-0-3528686663-1788730862-2791910117-1000",
+          "hasSharedKey": false,
+          "hasSshPassword": false,
+          "hasSshKey": false
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Storage Resource Provider service - Create or update the properties of a local user associated with the storage account
+errorCodes: []

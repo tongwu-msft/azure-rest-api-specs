@@ -1,5 +1,6 @@
 ﻿---
 title: "Send a Google Cloud Messaging (GCM) native notification"
+description: Use this API reference documentation to send a GCM native notification through a notification hub. 
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

@@ -22,6 +22,9 @@ The IoT Central REST API enables you to develop clients that integrate with your
 
 Try our [guided learning journey](/learn/modules/manage-iot-central-apps-with-rest-api/) to learn about how to use the IoT Central APIs.
 
+## Release History
+[Versions](versions.md)
+
 ## Operation groups
 
 The IoT Central REST API provides operations for working with the following resources:
@@ -32,7 +35,7 @@ The IoT Central REST API provides operations for working with the following reso
 | [Destinations](https://aka.ms/iotcapi-destinations) | Manage destinations utilized to configure data exports within your IoT Central application | [Configure your destination](/azure/iot-central/preview/howto-export-data#destinations)|
 | [Device Templates](https://aka.ms/iotcapi-devicetemplates) | Create, read, and delete device templates within an IoT Central application| [Setup device template](/azure/iot-central/core/howto-set-up-template)|
 | [Devices](https://aka.ms/iotcapi-devices) | Get information about and manage devices and IoT Edge modules in your IoT Central application| [Manage your devices](/azure/iot-central/preview/howto-manage-devices)|
-| [Device Groups](https://aka.ms/iotc-devicegroups)| List the set of device groups within your application | [List Device Groups](/azure/iot-central/core/tutorial-use-device-groups) |
+| [Device Groups](https://aka.ms/iotc-devicegroups)| Create, read, and delete device groups within an IoT Central application | [Manage Device Groups](/azure/iot-central/core/tutorial-use-device-groups) |
 | [Exports](https://aka.ms/iotcapi-cde) | Manage data export definitions within your IoT Central application | [Manage your data exports](/azure/iot-central/preview/howto-export-data)|
 | [File Upload](https://aka.ms/iotcapi-fileupload) | Update, retrieve and delete file upload configurations| [Configure File Upload](/azure/iot-central/core/howto-configure-file-uploads)|
 | [Jobs](https://aka.ms/iotcapi-jobs)|Get information about and manage jobs within your application | [Manage your jobs](/azure/iot-central/core/howto-run-a-job) |

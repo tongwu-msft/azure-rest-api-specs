@@ -25,7 +25,7 @@ The Entity Search API lets you send a search query to Bing and get back search r
 > [!NOTE]
 > Entity responses support multiple markets, but the Places response supports only US Business locations. 
 
-This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/search-the-web). 
+This section provides technical details about the response objects, and the query parameters and headers that affect the search results. For examples that show how to make requests, see [Search the web for entities and places](/azure/cognitive-services/bing-entities-search/search-the-web).
   
 For information about headers that requests should include, see [Headers](#headers).  
   
@@ -33,7 +33,7 @@ For information about query parameters that requests should include, see [Query 
   
 For information about the JSON objects that the response includes, see [Response objects](#response-objects).
 
-For information about permitted use and display of results, see [Use and display requirements](https://docs.microsoft.com/azure/cognitive-services/bing-entities-search/use-display-requirements).
+For information about permitted use and display of results, see [Use and display requirements](/azure/cognitive-services/bing-entities-search/use-display-requirements).
 
 > [!NOTE]
 > Because URL formats and parameters are subject to change without notice, use all URLs as-is. You should not take dependencies on the URL format or parameters except where noted.
@@ -44,7 +44,7 @@ To request entity search results, send a GET request to:
 ``` 
 https://api.cognitive.microsoft.com/bing/v7.0/entities
 ```
-For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](https://docs.microsoft.com/azure/cognitive-services/authentication#supported-regions).
+For multi-service subscriptions, you must include the region in the URL. For example: westus.api.cognitive.microsoft.com. See [Supported Regions](/azure/cognitive-services/authentication#supported-regions).
 
 The request must use the HTTPS protocol.  
   
@@ -165,7 +165,7 @@ The top-level object that the response includes when the request fails.
 Defines an image.  
   
 > [!NOTE]
-> Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
+> Because the URL format and parameters are subject to change without notice, all image URLs should be used as-is; you should not take dependencies on the URL format or parameters. The exception is those parameters and values discussed by [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).  
   
 |Name|Value|Type|  
 |----------|-----------|----------|  
@@ -173,7 +173,7 @@ Defines an image.
 |hostPageUrl|The URL of the webpage that includes the image.<br /><br /> This URL and `contentUrl` may be the same URL.|String|  
 |name|An optional text string that contains random information about the image.|String|  
 |provider|The source of the image. The array will contain a single item.<br /><br /> You must attribute the image to the provider. For example, you may display the provider's name as the cursor hovers over the image or make the image a click-through link to the provider's website where the image is found.|[Organization](#organization)[]|  
-|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](https://docs.microsoft.com/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
+|thumbnailUrl|The URL to a thumbnail of the image. For information about resizing the image, see [Resize and crop thumbnail images](/azure/cognitive-services/bing-web-search/resize-and-crop-thumbnails).|String|  
 |width|The width of the source image, in pixels.|Unsigned Short|  
   
   
@@ -292,6 +292,7 @@ Defines the query context that Bing used for the request.
 <a name="rankinggroup"></a>  
 ### RankingGroup
 Defines a search results group, such as mainline.
+
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |items|A list of search results to display in the group.|RankingItem|
@@ -299,6 +300,7 @@ Defines a search results group, such as mainline.
 <a name="rankingitem"></a>  
 ### RankingItem
 Defines a search result item to display.
+
 |Name|Value|Type|  
 |-------------|-----------------|----------|
 |resultIndex|A zero-based index of the item in the answer to display. If the item does not include this field, display all items in the answer. For example, display all news articles in the News answer.|Integer|

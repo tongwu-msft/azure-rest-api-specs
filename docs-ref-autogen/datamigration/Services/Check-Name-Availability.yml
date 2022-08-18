@@ -3,19 +3,19 @@ uid: management.azure.com.datamigration.services.checknameavailability
 name: Check Name Availability
 service: Data Migration
 groupName: Services
-apiVersion: 2018-04-19
+apiVersion: 2022-01-30-preview
 summary: "Check name validity and availability  \nThis method checks whether a proposed top-level resource name is valid and available."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability?api-version=2018-04-19
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DataMigration/locations/{location}/checkNameAvailability?api-version=2022-01-30-preview
 uriParameters:
 - name: subscriptionId
   in: path
   isRequired: true
-  description: Identifier of the subscription
+  description: Subscription ID that identifies an Azure subscription.
   types:
   - uid: string
 - name: location
@@ -59,17 +59,14 @@ definitions:
   kind: object
   properties:
   - name: nameAvailable
-    isReadyOnly: true
     description: If true, the name is valid and available. If false, 'reason' describes why not.
     types:
     - uid: boolean
   - name: reason
-    isReadyOnly: true
     description: The reason why the name is not available, if nameAvailable is false
     types:
     - uid: NameCheckFailureReason
   - name: message
-    isReadyOnly: true
     description: The localized reason why the name is not available, if nameAvailable is false
     types:
     - uid: string
@@ -81,6 +78,11 @@ definitions:
     description: Error information in OData format
     types:
     - uid: ODataError
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: SystemData
 - name: NameAvailabilityRequest
   description: A resource type and proposed name
   kind: object
@@ -108,32 +110,81 @@ definitions:
   kind: object
   properties:
   - name: code
-    isReadyOnly: true
     description: The machine-readable description of the error, such as 'InvalidRequest' or 'InternalServerError'
     types:
     - uid: string
   - name: message
-    isReadyOnly: true
     description: The human-readable description of the error
     types:
     - uid: string
   - name: details
-    isReadyOnly: true
     description: Inner errors that caused this error
     types:
     - uid: ODataError
       isArray: true
+- name: SystemData
+  kind: object
+  properties:
+  - name: createdBy
+    description: ''
+    types:
+    - uid: string
+  - name: createdByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: ''
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: ''
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: ''
+    types:
+    - uid: string
+- name: createdByType
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 examples:
 - name: Services_CheckNameAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/providers/Microsoft.DataMigration/locations/eastus/checkNameAvailability?api-version=2018-04-19
+    uri: POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/providers/Microsoft.DataMigration/locations/eastus/checkNameAvailability?api-version=2022-01-30-preview
     body: >-
       {
-        "requestedName": {
-          "name": "DmsSdkService",
-          "type": "services"
-        }
+        "name": "DmsSdkService",
+        "type": "services"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/fc04246f-04c5-437e-ac5e-206a19e7193f/providers/Microsoft.DataMigration/locations/eastus/checkNameAvailability?api-version=2022-01-30-preview
+
+      {
+        "name": "DmsSdkService",
+        "type": "services"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -150,5 +201,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Check name validity and availability  \nThis method checks whether a proposed top-level resource name is valid and available."
+  description: >
+    Check name validity and availability
+
+    This method checks whether a proposed top-level resource name is valid and available.
 errorCodes: []

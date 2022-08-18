@@ -1,5 +1,5 @@
 ### YamlMime:RESTOperation
-uid: atlas.microsoft.com.maps.spatial.getclosestpoint
+uid: maps.spatial.getclosestpoint
 name: Get Closest Point
 service: Maps
 groupName: Spatial
@@ -16,25 +16,26 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
-- content: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key={subscription-key}&api-version=1.0&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
+- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
+- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
   isOptional: true
 uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
 - name: format
   in: path
   isRequired: true
   description: Desired format of the response. Only `json` format is supported.
   types:
   - uid: JsonFormat
-- name: subscription-key
-  in: query
-  description: One of the Azure Maps keys provided from an Azure Map Account. Please refer to this [article](https://docs.microsoft.com/azure/azure-maps/how-to-manage-authentication) for details on how to manage authentication.
-  types:
-  - uid: string
 - name: api-version
   in: query
   isRequired: true
-  description: Version number of Azure Maps API. Current version is 1.0
+  description: Version number of Azure Maps API.
   types:
   - uid: string
 - name: udid
@@ -46,13 +47,13 @@ uriParameters:
 - name: lat
   in: query
   isRequired: true
-  description: 'The base point latitude of the location being passed.  Example: 47.622942.'
+  description: 'The latitude of the location being passed.  Example: 48.36.'
   types:
   - uid: number
 - name: lon
   in: query
   isRequired: true
-  description: 'The base point longitude of the location being passed.  Example: -122.316456.'
+  description: 'The longitude of the location being passed.  Example: -124.63.'
   types:
   - uid: number
 - name: numberOfClosestPoints
@@ -64,30 +65,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: GetClosestPointResponse
-- name: 400 Bad Request
-  description: 'Bad request: one or more parameters were incorrectly specified or are mutually exclusive.'
+  - uid: ClosestPointResponse
+- name: Other Status Codes
+  description: An unexpected error occurred.
   types:
-  - uid: ODataErrorResponse
-- name: 401 Unauthorized
-  headers:
-  - name: WWW-Authenticate
-    value: string
-  description: Access denied due to invalid subscription key or invalid Azure Active Directory (Azure AD) bearer token.  Make sure to provide a valid key for an active Azure subscription and Maps resource.  Otherwise, verify the [WWW-Authenticate](https://tools.ietf.org/html/rfc6750#section-3.1) header for error code and description of the provided Azure AD bearer token.
-  types:
-  - uid: ODataErrorResponse
-- name: 403 Forbidden
-  description: Permission, capacity, or authentication issues.
-  types:
-  - uid: ODataErrorResponse
-- name: 404 Not Found
-  description: 'Not Found: the requested resource could not be found, but it may be available again in the future.'
-  types:
-  - uid: ODataErrorResponse
-- name: 500 Internal Server Error
-  description: An error occurred while processing the request. Please try again later.
-  types:
-  - uid: ODataErrorResponse
+  - uid: ErrorResponse
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -103,36 +85,36 @@ definitions:
     description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
     types:
     - uid: string
-- name: GetClosestPointResponse
-  description: This object is returned from a successful Get Spatial Closest Point call
+- name: ClosestPointResponse
+  description: This object is returned from a successful Spatial Closest Point call
   kind: object
   properties:
   - name: summary
     isReadyOnly: true
-    description: Get Closest Point Summary object
+    description: Closest Point Summary object
     types:
-    - uid: GetClosestPointSummary
+    - uid: ClosestPointSummary
   - name: result
     description: Closest Point Result Array
     types:
-    - uid: ClosestPointResultEntry
+    - uid: ClosestPoint
       isArray: true
-- name: ODataErrorResponse
-  description: This response object is returned when an error occurs in the Azure Maps API.
+- name: ErrorResponse
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: This object is returned when an error occurs in the Azure Maps API.
+    description: The error object.
     types:
-    - uid: ODataError
-- name: GetClosestPointSummary
-  description: Get Closest Point Summary object
+    - uid: ErrorDetail
+- name: ClosestPointSummary
+  description: Closest Point Summary object
   kind: object
   properties:
   - name: sourcePoint
-    description: A location represented as a latitude and longitude
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: SpatialCoordinate
+    - uid: LatLongPairAbbreviated
   - name: udid
     isReadyOnly: true
     description: A unique data id (udid) for the uploaded content
@@ -143,7 +125,7 @@ definitions:
     description: Processing information
     types:
     - uid: string
-- name: ClosestPointResultEntry
+- name: ClosestPoint
   description: Closest Point Result Entry Object
   kind: object
   properties:
@@ -153,56 +135,81 @@ definitions:
     types:
     - uid: number
   - name: position
-    description: A location represented as a latitude and longitude
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
     types:
-    - uid: SpatialCoordinate
+    - uid: LatLongPairAbbreviated
   - name: geometryId
     isReadyOnly: true
     description: The unique id identifies a geometry
     types:
     - uid: string
-- name: ODataError
-  description: This object is returned when an error occurs in the Azure Maps API.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
     isReadyOnly: true
-    description: The ODataError code.
+    description: The error code.
     types:
     - uid: string
   - name: message
     isReadyOnly: true
-    description: If available, a human-readable description of the error.
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: This object is returned when an error occurs in the Azure Maps API.
-    types:
-    - uid: ODataError
-      isArray: true
-  - name: target
     isReadyOnly: true
-    description: If available, the target causing the error.
+    description: The error details.
     types:
-    - uid: string
-- name: SpatialCoordinate
-  description: A location represented as a latitude and longitude
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: LatLongPairAbbreviated
+  description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
   kind: object
   properties:
   - name: lat
-    isReadyOnly: true
     description: Latitude property
     types:
     - uid: number
   - name: lon
-    isReadyOnly: true
     description: Longitude property
     types:
     - uid: number
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
 examples:
 - name: GetClosestPoint
   request:
-    uri: GET https://atlas.microsoft.com/spatial/closestPoint/json?subscription-key=[subscription-key]&api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+    uri: GET https://us.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://us.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -219,56 +226,12 @@ examples:
           {
             "distanceInMeters": 1587492.66,
             "position": {
-              "lat": 40.516153406773952,
+              "lat": 40.51615340677395,
               "lon": -105.02860293715861
             },
             "geometryId": "1001"
           }
         ]
-      }
-  - statusCode: "400"
-    body: >-
-      {
-        "error": {
-          "code": "ClientParams",
-          "message": "One or more parameters are missing.",
-          "innererror": {
-            "code": "MissingQueryParameter",
-            "message": "Input parameter lon is missing."
-          }
-        }
-      }
-  - statusCode: "401"
-    body: >-
-      {
-        "error": {
-          "code": "401 Unauthorized",
-          "message": "Access denied due to invalid subscription key. Make sure to provide a valid key for an active subscription."
-        }
-      }
-  - statusCode: "403"
-    body: >-
-      {
-        "error": {
-          "code": "403 Forbidden",
-          "message": "Permission, capacity, or authentication issues."
-        }
-      }
-  - statusCode: "404"
-    body: >-
-      {
-        "error": {
-          "code": "404 NotFound",
-          "message": "Not Found: the requested resource could not be found, but it may be available again in the future."
-        }
-      }
-  - statusCode: "500"
-    body: >-
-      {
-        "error": {
-          "code": "500 InternalServerError",
-          "message": "An error occurred while processing the request. Please try again later."
-        }
       }
 security:
 - name: AADToken
@@ -282,11 +245,11 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
 
-     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
 
-     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
   in: query
 - name: SAS Token
   type: apiKey
@@ -298,5 +261,8 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "**Applies to**: S1 pricing tier.\n\nThis API returns the closest point between a base point and a given set of points in the user uploaded data set identified by "
+  description: >-
+    Applies to: S1 pricing tier.
+
+    This API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udid.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.adminrules.createorupdate
 name: Create Or Update
 service: Network Manager
 groupName: Admin Rules
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Creates or updates an admin rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2021-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: ruleCollectionName
@@ -75,11 +75,6 @@ requestBody:
 - name: AdminRule
   description: Network admin rule.
   parameters:
-  - name: properties.displayName
-    in: body
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     in: body
     description: A description for this rule. Restricted to 140 chars.
@@ -123,6 +118,7 @@ requestBody:
     - uid: SecurityConfigurationRuleAccess
   - name: properties.priority
     in: body
+    isRequired: true
     description: The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
     types:
     - uid: integer
@@ -160,10 +156,6 @@ definitions:
   description: Network admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     description: A description for this rule. Restricted to 140 chars.
     types:
@@ -243,11 +235,6 @@ definitions:
   description: Network default admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    isReadyOnly: true
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     isReadyOnly: true
     description: A description for this rule. Restricted to 140 chars.
@@ -495,7 +482,7 @@ definitions:
 examples:
 - name: Create an admin rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2021-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2022-01-01
     body: >-
       {
         "kind": "Custom",
@@ -525,6 +512,146 @@ examples:
           "direction": "Inbound"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2022-01-01
+
+      {
+        "kind": "Custom",
+        "properties": {
+          "description": "This is Sample Admin Rule",
+          "protocol": "Tcp",
+          "sources": [
+            {
+              "addressPrefixType": "ServiceTag",
+              "addressPrefix": "Internet"
+            }
+          ],
+          "destinations": [
+            {
+              "addressPrefixType": "IPPrefix",
+              "addressPrefix": "*"
+            }
+          ],
+          "sourcePortRanges": [
+            "0-65535"
+          ],
+          "destinationPortRanges": [
+            "22"
+          ],
+          "access": "Deny",
+          "priority": 1,
+          "direction": "Inbound"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRulePut.json
+      func ExampleAdminRulesClient_CreateOrUpdate_networkManagerAdminRulePut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewAdminRulesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "rg1", "testNetworkManager", "myTestSecurityConfig", "testRuleCollection", "SampleAdminRule", &armnetwork.AdminRule{
+      		Kind: to.Ptr(armnetwork.AdminRuleKindCustom),
+      		Properties: &armnetwork.AdminPropertiesFormat{
+      			Description: to.Ptr("This is Sample Admin Rule"),
+      			Access:      to.Ptr(armnetwork.SecurityConfigurationRuleAccessDeny),
+      			DestinationPortRanges: []*string{
+      				to.Ptr("22")},
+      			Destinations: []*armnetwork.AddressPrefixItem{
+      				{
+      					AddressPrefix:     to.Ptr("*"),
+      					AddressPrefixType: to.Ptr(armnetwork.AddressPrefixTypeIPPrefix),
+      				}},
+      			Direction: to.Ptr(armnetwork.SecurityConfigurationRuleDirectionInbound),
+      			Priority:  to.Ptr[int32](1),
+      			SourcePortRanges: []*string{
+      				to.Ptr("0-65535")},
+      			Sources: []*armnetwork.AddressPrefixItem{
+      				{
+      					AddressPrefix:     to.Ptr("Internet"),
+      					AddressPrefixType: to.Ptr(armnetwork.AddressPrefixTypeServiceTag),
+      				}},
+      			Protocol: to.Ptr(armnetwork.SecurityConfigurationRuleProtocolTCP),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an admin rule.
+       *
+       * @summary Creates or updates an admin rule.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRulePut.json
+       */
+      async function createAnAdminRule() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const configurationName = "myTestSecurityConfig";
+        const ruleCollectionName = "testRuleCollection";
+        const ruleName = "SampleAdminRule";
+        const adminRule = {
+          description: "This is Sample Admin Rule",
+          access: "Deny",
+          destinationPortRanges: ["22"],
+          destinations: [{ addressPrefix: "*", addressPrefixType: "IPPrefix" }],
+          direction: "Inbound",
+          kind: "Custom",
+          priority: 1,
+          sourcePortRanges: ["0-65535"],
+          sources: [{ addressPrefix: "Internet", addressPrefixType: "ServiceTag" }],
+          protocol: "Tcp",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.adminRules.createOrUpdate(
+          resourceGroupName,
+          networkManagerName,
+          configurationName,
+          ruleCollectionName,
+          ruleName,
+          adminRule
+        );
+        console.log(result);
+      }
+
+      createAnAdminRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -612,7 +739,7 @@ examples:
       }
 - name: Create a default admin rule
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleDefaultAdminRule?api-version=2021-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleDefaultAdminRule?api-version=2022-01-01
     body: >-
       {
         "kind": "Default",
@@ -620,6 +747,98 @@ examples:
           "flag": "AllowVnetInbound"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleDefaultAdminRule?api-version=2022-01-01
+
+      {
+        "kind": "Default",
+        "properties": {
+          "flag": "AllowVnetInbound"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerDefaultAdminRulePut.json
+      func ExampleAdminRulesClient_CreateOrUpdate_networkManagerDefaultAdminRulePut() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewAdminRulesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "rg1", "testNetworkManager", "myTestSecurityConfig", "testRuleCollection", "SampleDefaultAdminRule", &armnetwork.DefaultAdminRule{
+      		Kind: to.Ptr(armnetwork.AdminRuleKindDefault),
+      		Properties: &armnetwork.DefaultAdminPropertiesFormat{
+      			Flag: to.Ptr("AllowVnetInbound"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an admin rule.
+       *
+       * @summary Creates or updates an admin rule.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerDefaultAdminRulePut.json
+       */
+      async function createADefaultAdminRule() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const configurationName = "myTestSecurityConfig";
+        const ruleCollectionName = "testRuleCollection";
+        const ruleName = "SampleDefaultAdminRule";
+        const adminRule = {
+          flag: "AllowVnetInbound",
+          kind: "Default",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.adminRules.createOrUpdate(
+          resourceGroupName,
+          networkManagerName,
+          configurationName,
+          ruleCollectionName,
+          ruleName,
+          adminRule
+        );
+        console.log(result);
+      }
+
+      createADefaultAdminRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -717,5 +936,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Creates or updates an admin rule.
+  description: >
+    Learn more about Network Manager service - Creates or updates an admin rule.
 errorCodes: []

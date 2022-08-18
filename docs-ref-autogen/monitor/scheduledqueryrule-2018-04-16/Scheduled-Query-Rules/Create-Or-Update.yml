@@ -175,6 +175,7 @@ definitions:
     description: The flag that indicates whether the alert should be automatically resolved or not. The default is false.
     types:
     - uid: boolean
+    defaultValue: false
   - name: properties.enabled
     description: The flag which indicates whether the Log Search rule is enabled. Value should be true or false
     types:
@@ -368,6 +369,7 @@ definitions:
     description: Evaluation operation for rule - 'GreaterThan' or 'LessThan.
     types:
     - uid: ConditionalOperator
+    defaultValue: GreaterThanOrEqual
   - name: threshold
     description: Result or count threshold based on which rule should be triggered.
     types:
@@ -416,6 +418,7 @@ definitions:
     description: Evaluation operation for Metric -'GreaterThan' or 'LessThan' or 'Equal'.
     types:
     - uid: ConditionalOperator
+    defaultValue: GreaterThanOrEqual
   - name: threshold
     description: The threshold of the metric trigger.
     types:
@@ -424,6 +427,7 @@ definitions:
     description: Metric Trigger Type - 'Consecutive' or 'Total'
     types:
     - uid: metricTriggerType
+    defaultValue: Consecutive
   - name: metricColumn
     description: Evaluation of metric on a particular column
     types:
@@ -503,6 +507,185 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/Microsoft.Insights/scheduledQueryRules/logalertfoo?api-version=2018-04-16
+
+      {
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "description": "log alert description",
+          "enabled": "true",
+          "source": {
+            "query": "Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)",
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+            "queryType": "ResultCount"
+          },
+          "schedule": {
+            "frequencyInMinutes": 15,
+            "timeWindowInMinutes": 15
+          },
+          "action": {
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+            "severity": "1",
+            "aznsAction": {
+              "actionGroup": [],
+              "emailSubject": "Email Header",
+              "customWebhookPayload": "{}"
+            },
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 3,
+              "metricTrigger": {
+                "thresholdOperator": "GreaterThan",
+                "threshold": 5,
+                "metricTriggerType": "Consecutive",
+                "metricColumn": "Computer"
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRules.json
+      func ExampleScheduledQueryRulesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewScheduledQueryRulesClient("b67f7fec-69fc-4974-9099-a26bd6ffeda3", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"Rac46PostSwapRG",
+      		"logalertfoo",
+      		armmonitor.LogSearchRuleResource{
+      			Location: to.Ptr("eastus"),
+      			Tags:     map[string]*string{},
+      			Properties: &armmonitor.LogSearchRule{
+      				Description: to.Ptr("log alert description"),
+      				Action: &armmonitor.AlertingAction{
+      					ODataType: to.Ptr("Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"),
+      					AznsAction: &armmonitor.AzNsActionGroup{
+      						ActionGroup:          []*string{},
+      						CustomWebhookPayload: to.Ptr("{}"),
+      						EmailSubject:         to.Ptr("Email Header"),
+      					},
+      					Severity: to.Ptr(armmonitor.AlertSeverityOne),
+      					Trigger: &armmonitor.TriggerCondition{
+      						MetricTrigger: &armmonitor.LogMetricTrigger{
+      							MetricColumn:      to.Ptr("Computer"),
+      							MetricTriggerType: to.Ptr(armmonitor.MetricTriggerTypeConsecutive),
+      							Threshold:         to.Ptr[float64](5),
+      							ThresholdOperator: to.Ptr(armmonitor.ConditionalOperatorGreaterThan),
+      						},
+      						Threshold:         to.Ptr[float64](3),
+      						ThresholdOperator: to.Ptr(armmonitor.ConditionalOperatorGreaterThan),
+      					},
+      				},
+      				Enabled: to.Ptr(armmonitor.EnabledTrue),
+      				Schedule: &armmonitor.Schedule{
+      					FrequencyInMinutes:  to.Ptr[int32](15),
+      					TimeWindowInMinutes: to.Ptr[int32](15),
+      				},
+      				Source: &armmonitor.Source{
+      					DataSourceID: to.Ptr("/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace"),
+      					Query:        to.Ptr("Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)"),
+      					QueryType:    to.Ptr(armmonitor.QueryTypeResultCount),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an log search rule.
+       *
+       * @summary Creates or updates an log search rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRules.json
+       */
+      async function createOrUpdateRuleAlertingAction() {
+        const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+        const resourceGroupName = "Rac46PostSwapRG";
+        const ruleName = "logalertfoo";
+        const parameters = {
+          description: "log alert description",
+          action: {
+            aznsAction: {
+              actionGroup: [],
+              customWebhookPayload: "{}",
+              emailSubject: "Email Header",
+            },
+            odataType:
+              "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+            severity: "1",
+            trigger: {
+              metricTrigger: {
+                metricColumn: "Computer",
+                metricTriggerType: "Consecutive",
+                threshold: 5,
+                thresholdOperator: "GreaterThan",
+              },
+              threshold: 3,
+              thresholdOperator: "GreaterThan",
+            },
+          },
+          enabled: "true",
+          location: "eastus",
+          schedule: { frequencyInMinutes: 15, timeWindowInMinutes: 15 },
+          source: {
+            dataSourceId:
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+            query: "Heartbeat | summarize AggregatedValue = count() by bin(TimeGenerated, 5m)",
+            queryType: "ResultCount",
+          },
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.scheduledQueryRules.createOrUpdate(
+          resourceGroupName,
+          ruleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateRuleAlertingAction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -623,6 +806,107 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/Rac46PostSwapRG/providers/Microsoft.Insights/scheduledQueryRules/SampleCrossResourceAlert?api-version=2018-04-16
+
+      {
+        "location": "eastus",
+        "tags": {},
+        "properties": {
+          "description": "Sample Cross Resource alert",
+          "enabled": "true",
+          "source": {
+            "query": "union requests, workspace(\"sampleWorkspace\").Update",
+            "authorizedResources": [
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI"
+            ],
+            "dataSourceId": "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            "queryType": "ResultCount"
+          },
+          "schedule": {
+            "frequencyInMinutes": 60,
+            "timeWindowInMinutes": 60
+          },
+          "action": {
+            "severity": "3",
+            "aznsAction": {
+              "actionGroup": [
+                "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag"
+              ],
+              "emailSubject": "Cross Resource Mail!!"
+            },
+            "trigger": {
+              "thresholdOperator": "GreaterThan",
+              "threshold": 5000
+            },
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction"
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an log search rule.
+       *
+       * @summary Creates or updates an log search rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRuleswithCrossResource.json
+       */
+      async function createOrUpdateRuleAlertingActionWithCrossResource() {
+        const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+        const resourceGroupName = "Rac46PostSwapRG";
+        const ruleName = "SampleCrossResourceAlert";
+        const parameters = {
+          description: "Sample Cross Resource alert",
+          action: {
+            aznsAction: {
+              actionGroup: [
+                "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/actiongroups/test-ag",
+              ],
+              emailSubject: "Cross Resource Mail!!",
+            },
+            odataType:
+              "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.AlertingAction",
+            severity: "3",
+            trigger: { threshold: 5000, thresholdOperator: "GreaterThan" },
+          },
+          enabled: "true",
+          location: "eastus",
+          schedule: { frequencyInMinutes: 60, timeWindowInMinutes: 60 },
+          source: {
+            authorizedResources: [
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/Microsoft.OperationalInsights/workspaces/sampleWorkspace",
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            ],
+            dataSourceId:
+              "/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourceGroups/Rac46PostSwapRG/providers/microsoft.insights/components/sampleAI",
+            query: 'union requests, workspace("sampleWorkspace").Update',
+            queryType: "ResultCount",
+          },
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.scheduledQueryRules.createOrUpdate(
+          resourceGroupName,
+          ruleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateRuleAlertingActionWithCrossResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -732,6 +1016,78 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourcegroups/alertsweu/providers/Microsoft.Insights/scheduledQueryRules/logtometricfoo?api-version=2018-04-16
+
+      {
+        "location": "West Europe",
+        "tags": {},
+        "properties": {
+          "description": "log to metric description",
+          "enabled": "true",
+          "source": {
+            "dataSourceId": "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu"
+          },
+          "action": {
+            "criteria": [
+              {
+                "metricName": "Average_% Idle Time",
+                "dimensions": []
+              }
+            ],
+            "odata.type": "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction"
+          }
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an log search rule.
+       *
+       * @summary Creates or updates an log search rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2018-04-16/examples/createOrUpdateScheduledQueryRule-LogToMetricAction.json
+       */
+      async function createOrUpdateRuleLogToMetricAction() {
+        const subscriptionId = "af52d502-a447-4bc6-8cb7-4780fbb00490";
+        const resourceGroupName = "alertsweu";
+        const ruleName = "logtometricfoo";
+        const parameters = {
+          description: "log to metric description",
+          action: {
+            criteria: [{ dimensions: [], metricName: "Average_% Idle Time" }],
+            odataType:
+              "Microsoft.WindowsAzure.Management.Monitoring.Alerts.Models.Microsoft.AppInsights.Nexus.DataContracts.Resources.ScheduledQueryRules.LogToMetricAction",
+          },
+          enabled: "true",
+          location: "West Europe",
+          source: {
+            dataSourceId:
+              "/subscriptions/af52d502-a447-4bc6-8cb7-4780fbb00490/resourceGroups/alertsweu/providers/Microsoft.OperationalInsights/workspaces/alertsweu",
+          },
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.scheduledQueryRules.createOrUpdate(
+          resourceGroupName,
+          ruleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateRuleLogToMetricAction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -802,5 +1158,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Creates or updates an log search rule.
+  description: >
+    Learn more about Monitor service - Creates or updates an log search rule.
 errorCodes: []

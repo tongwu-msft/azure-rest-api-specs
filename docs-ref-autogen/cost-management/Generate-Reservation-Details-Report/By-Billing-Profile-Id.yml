@@ -4,7 +4,7 @@ name: By Billing Profile Id
 service: Cost Management
 groupName: Generate Reservation Details Report
 apiVersion: 2021-10-01
-summary: Generates the reservations details report for provided date range asynchronously by billing profile.
+summary: Generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain enterprise roles by default. For more details on the roles see, https://docs.microsoft.com/en-us/azure/cost-management-billing/reservations/reservation-utilization#view-utilization-in-the-azure-portal-with-azure-rbac-access
 consumes:
 - application/json
 produces:
@@ -69,9 +69,9 @@ definitions:
     types:
     - uid: OperationStatusType
   - name: properties.reportUrl
-    description: The URL to download the generated report.
+    description: The CSV file from the reportUrl blob link consists of reservation usage data with the following schema at daily granularity
     types:
-    - uid: string
+    - uid: ReservationReportSchema
   - name: properties.validUntil
     description: The time at which report URL becomes invalid.
     types:
@@ -97,6 +97,43 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: ReservationReportSchema
+  description: The CSV file from the reportUrl blob link consists of reservation usage data with the following schema at daily granularity
+  kind: enum
+  properties:
+  - name: InstanceFlexibilityGroup
+    types:
+    - uid: string
+  - name: InstanceFlexibilityRatio
+    types:
+    - uid: string
+  - name: InstanceId
+    types:
+    - uid: string
+  - name: Kind
+    types:
+    - uid: string
+  - name: ReservationId
+    types:
+    - uid: string
+  - name: ReservationOrderId
+    types:
+    - uid: string
+  - name: ReservedHours
+    types:
+    - uid: string
+  - name: SkuName
+    types:
+    - uid: string
+  - name: TotalReservedQuantity
+    types:
+    - uid: string
+  - name: UsageDate
+    types:
+    - uid: string
+  - name: UsedHours
+    types:
+    - uid: string
 - name: ErrorDetails
   description: The details of the error.
   kind: object
@@ -115,6 +152,12 @@ examples:
 - name: ReservationDetails
   request:
     uri: POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000/billingProfiles/CZSFR-SDFXC-DSDF/providers/Microsoft.CostManagement/generateReservationDetailsReport?startDate=2020-01-01&endDate=2020-01-30&api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.Billing/billingAccounts/00000000-0000-0000-0000-000000000000/billingProfiles/CZSFR-SDFXC-DSDF/providers/Microsoft.CostManagement/generateReservationDetailsReport?startDate=2020-01-01&endDate=2020-01-30&api-version=2021-10-01
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -141,5 +184,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Cost Management service - Generates the reservations details report for provided date range asynchronously by billing profile.
+  description: Generates the reservations details report for provided date range asynchronously by billing profile. The Reservation usage details can be viewed by only certain
 errorCodes: []

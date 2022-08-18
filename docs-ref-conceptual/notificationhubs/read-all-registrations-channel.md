@@ -1,5 +1,6 @@
 ﻿---
 title: "Read all registrations of a channel"
+description: Use this API reference documentation to retrieve all registrations for a channel (for example, ChannelUri, device token, GCM registrationId).
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

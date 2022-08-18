@@ -1,5 +1,6 @@
 ---
 title: "ServiceResourcePropertiesBase"
+description: "Properties are placementConstraints, correlationScheme, serviceLoadMetrics, servicePlacementPolicies, and DefaultMoveCost."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

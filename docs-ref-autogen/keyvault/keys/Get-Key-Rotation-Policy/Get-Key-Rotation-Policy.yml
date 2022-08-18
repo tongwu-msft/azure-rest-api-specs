@@ -1,0 +1,198 @@
+### YamlMime:RESTOperation
+uid: keyvault.keys.getkeyrotationpolicy.getkeyrotationpolicy
+name: Get Key Rotation Policy
+service: Key Vault
+groupName: Get Key Rotation Policy
+apiVersion: "7.3"
+summary: "Lists the policy for a key.  \nThe GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault. This operation requires the keys/get permission."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {vaultBaseUrl}/keys/{key-name}/rotationpolicy?api-version=7.3
+uriParameters:
+- name: vaultBaseUrl
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The vault name, for example https://myvault.vault.azure.net.
+  types:
+  - uid: string
+- name: key-name
+  in: path
+  isRequired: true
+  description: The name of the key in a given key vault.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The key rotation policy.
+  types:
+  - uid: KeyRotationPolicy
+- name: Other Status Codes
+  description: Key Vault error response describing why the operation failed.
+  types:
+  - uid: KeyVaultError
+requestHeader: []
+definitions:
+- name: KeyRotationPolicy
+  description: Management policy for a key.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The key policy id.
+    types:
+    - uid: string
+  - name: lifetimeActions
+    description: 'Actions that will be performed by Key Vault over the lifetime of a key. For preview, lifetimeActions can only have two items at maximum: one for rotate, one for notify. Notification time would be default to 30 days before expiry and it is not configurable.'
+    types:
+    - uid: LifetimeActions
+      isArray: true
+  - name: attributes
+    description: The key rotation policy attributes.
+    types:
+    - uid: KeyRotationPolicyAttributes
+- name: KeyVaultError
+  description: The key vault error exception.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: LifetimeActions
+  description: Action and its trigger that will be performed by Key Vault over the lifetime of a key.
+  kind: object
+  properties:
+  - name: trigger
+    description: The condition that will execute the action.
+    types:
+    - uid: LifetimeActionsTrigger
+  - name: action
+    description: The action that will be executed.
+    types:
+    - uid: LifetimeActionsType
+- name: KeyRotationPolicyAttributes
+  description: The key rotation policy attributes.
+  kind: object
+  properties:
+  - name: expiryTime
+    description: 'The expiryTime will be applied on the new key version. It should be at least 28 days. It will be in ISO 8601 Format. Examples: 90 days: P90D, 3 months: P3M, 48 hours: PT48H, 1 year and 10 days: P1Y10D'
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: The key rotation policy created time in UTC.
+    types:
+    - uid: integer
+  - name: updated
+    isReadyOnly: true
+    description: The key rotation policy's last updated time in UTC.
+    types:
+    - uid: integer
+- name: Error
+  description: The key vault server error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: innererror
+    isReadyOnly: true
+    description: The key vault server error.
+    types:
+    - uid: Error
+- name: LifetimeActionsTrigger
+  description: A condition to be satisfied for an action to be executed.
+  kind: object
+  properties:
+  - name: timeAfterCreate
+    description: 'Time after creation to attempt to rotate. It only applies to rotate. It will be in ISO 8601 duration format. Example: 90 days : "P90D" '
+    types:
+    - uid: string
+  - name: timeBeforeExpiry
+    description: 'Time before expiry to attempt to rotate or notify. It will be in ISO 8601 duration format. Example: 90 days : "P90D"'
+    types:
+    - uid: string
+- name: LifetimeActionsType
+  description: The action that will be executed.
+  kind: object
+  properties:
+  - name: type
+    description: The type of the action.
+    types:
+    - uid: ActionType
+- name: ActionType
+  description: The type of the action.
+  kind: enum
+  properties:
+  - name: rotate
+    description: Rotate the key based on the key policy.
+    types:
+    - uid: string
+  - name: notify
+    description: Trigger event grid events. For preview, the notification time is not configurable and it is default to 30 days before expiry.
+    types:
+    - uid: string
+examples:
+- name: GetKeyRotationPolicy
+  request:
+    uri: GET https://myvault.vault.azure.net//keys/key01/rotationpolicy?api-version=7.3
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://myvault.vault.azure.net//keys/key01/rotationpolicy?api-version=7.3
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "https://myvault.vault.azure.net/keys/key01/rotationpolicy",
+        "lifetimeActions": [
+          {
+            "trigger": {
+              "timeAfterCreate": "P90D"
+            },
+            "action": {
+              "type": "rotate"
+            }
+          },
+          {
+            "trigger": {
+              "timeBeforeExpiry": "P30D"
+            },
+            "action": {
+              "type": "notify"
+            }
+          }
+        ],
+        "attributes": {
+          "expiryTime": "P2Y",
+          "created": 1482188947,
+          "updated": 1482188948
+        }
+      }
+security: []
+metadata:
+  description: >-
+    Lists the policy for a key.
+
+    The GetKeyRotationPolicy operation returns the specified key policy resources in the specified key vault.
+errorCodes: []

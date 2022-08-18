@@ -1,5 +1,6 @@
 ---
 title: "List consumer groups"
+description: Learn how the List Consumer Groups operation retrieves all consumer groups associated with the specified Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

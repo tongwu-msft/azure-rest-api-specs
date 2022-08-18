@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Update Deployment Status | Microsoft Docs"
+description: Learn how the Update Deployment Status asynchronous operation changes the running status of a deployment.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

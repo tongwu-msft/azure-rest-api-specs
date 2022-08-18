@@ -1,5 +1,6 @@
 ---
 title: "Delete consumer group"
+description: Learn that this operation deletes a consumer group and also removes all associated state. 
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

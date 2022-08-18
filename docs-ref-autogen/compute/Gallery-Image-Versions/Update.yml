@@ -3,14 +3,14 @@ uid: management.azure.com.compute.galleryimageversions.update
 name: Update
 service: Compute
 groupName: Gallery Image Versions
-apiVersion: 2021-10-01
+apiVersion: 2022-01-03
 summary: Update a gallery image version.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2021-10-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/galleries/{galleryName}/images/{galleryImageName}/versions/{galleryImageVersionName}?api-version=2022-01-03
 uriParameters:
 - name: subscriptionId
   in: path
@@ -163,15 +163,9 @@ definitions:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.storageProfile
     description: This is the storage profile of a Gallery Image Version.
     types:
@@ -226,15 +220,9 @@ definitions:
     - uid: GalleryImageVersionPublishingProfile
   - name: properties.provisioningState
     isReadyOnly: true
-    description: "The current state of the gallery image version.  \nThe provisioning state, which only appears in the response."
+    description: "The current state of the gallery or gallery artifact.  \nThe provisioning state, which only appears in the response."
     types:
-    - uid: Creating
-    - uid: Updating
-    - uid: Failed
-    - uid: Succeeded
-    - uid: Deleting
-    - uid: Migrating
-    typesTitle: enum
+    - uid: GalleryProvisioningState
   - name: properties.storageProfile
     description: This is the storage profile of a Gallery Image Version.
     types:
@@ -423,6 +411,28 @@ definitions:
     description: It indicates progress of the replication job.
     types:
     - uid: integer
+- name: GalleryProvisioningState
+  description: The current state of the gallery or gallery artifact.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Migrating
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -592,7 +602,7 @@ definitions:
 examples:
 - name: Update a simple Gallery Image Version (Managed Image as source).
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "properties": {
@@ -616,6 +626,206 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionUpdate;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Update.json
+           */
+          /**
+           * Sample code: Update a simple Gallery Image Version (Managed Image as source).
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateASimpleGalleryImageVersionManagedImageAsSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .update(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionUpdate()
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion().withName("West US").withRegionalReplicaCount(1),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Update.json
+      func ExampleGalleryImageVersionsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewGalleryImageVersionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myResourceGroup",
+      		"myGalleryName",
+      		"myGalleryImageName",
+      		"1.0.0",
+      		armcompute.GalleryImageVersionUpdate{
+      			Properties: &armcompute.GalleryImageVersionProperties{
+      				PublishingProfile: &armcompute.GalleryImageVersionPublishingProfile{
+      					TargetRegions: []*armcompute.TargetRegion{
+      						{
+      							Name:                 to.Ptr("West US"),
+      							RegionalReplicaCount: to.Ptr[int32](1),
+      						},
+      						{
+      							Name:                 to.Ptr("East US"),
+      							RegionalReplicaCount: to.Ptr[int32](2),
+      							StorageAccountType:   to.Ptr(armcompute.StorageAccountTypeStandardZRS),
+      						}},
+      				},
+      				StorageProfile: &armcompute.GalleryImageVersionStorageProfile{
+      					Source: &armcompute.GalleryArtifactVersionSource{
+      						ID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"),
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a gallery image version.
+       *
+       * @summary Update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Update.json
+       */
+      async function updateASimpleGalleryImageVersionManagedImageAsSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          publishingProfile: {
+            targetRegions: [
+              { name: "West US", regionalReplicaCount: 1 },
+              {
+                name: "East US",
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      updateASimpleGalleryImageVersionManagedImageAsSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -672,7 +882,7 @@ examples:
       }
 - name: Update a simple Gallery Image Version without source id.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2021-10-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
     body: >-
       {
         "properties": {
@@ -692,6 +902,128 @@ examples:
           "storageProfile": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
+              }
+            ]
+          },
+          "storageProfile": {}
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionUpdate;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+           */
+          /**
+           * Sample code: Update a simple Gallery Image Version without source id.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateASimpleGalleryImageVersionWithoutSourceId(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .update(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionUpdate()
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion().withName("West US").withRegionalReplicaCount(1),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS))))
+                          .withStorageProfile(new GalleryImageVersionStorageProfile()),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a gallery image version.
+       *
+       * @summary Update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Update_WithoutSourceId.json
+       */
+      async function updateASimpleGalleryImageVersionWithoutSourceId() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          publishingProfile: {
+            targetRegions: [
+              { name: "West US", regionalReplicaCount: 1 },
+              {
+                name: "East US",
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      updateASimpleGalleryImageVersionWithoutSourceId().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -756,5 +1088,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Update a gallery image version.
+  description: >
+    Learn more about Compute service - Update a gallery image version.
 errorCodes: []

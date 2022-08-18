@@ -3,14 +3,14 @@ uid: management.azure.com.chaosstudio.experiments.getexecutiondetails
 name: Get Execution Details
 service: Chaos Studio
 groupName: Experiments
-apiVersion: 2021-09-15-preview
+apiVersion: 2022-07-01-preview
 summary: Get an execution detail of a Experiment resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executionDetails/{executionDetailsId}?api-version=2021-09-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}/executionDetails/{executionDetailsId}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -32,7 +32,7 @@ uriParameters:
   description: String that represents a Experiment resource name.
   types:
   - uid: string
-  pattern: ^[a-zA-Z0-9_\-\.]+$
+  pattern: ^[^<>%&:?#/\\]+$
 - name: executionDetailsId
   in: path
   isRequired: true
@@ -92,22 +92,22 @@ definitions:
     description: The reason why the execution failed.
     types:
     - uid: string
-  - name: properties.createdDateUtc
+  - name: properties.createdDateTime
     isReadyOnly: true
     description: String that represents the created date time.
     types:
     - uid: string
-  - name: properties.lastActionDateUtc
+  - name: properties.lastActionDateTime
     isReadyOnly: true
     description: String that represents the last action date time.
     types:
     - uid: string
-  - name: properties.startDateUtc
+  - name: properties.startDateTime
     isReadyOnly: true
     description: String that represents the start date time.
     types:
     - uid: string
-  - name: properties.stopDateUtc
+  - name: properties.stopDateTime
     isReadyOnly: true
     description: String that represents the stop date time.
     types:
@@ -170,12 +170,12 @@ definitions:
   description: Model that represents the a list of branches and branch statuses.
   kind: object
   properties:
-  - name: name
+  - name: stepName
     isReadyOnly: true
     description: The name of the step.
     types:
     - uid: string
-  - name: id
+  - name: stepId
     isReadyOnly: true
     description: The id of the step.
     types:
@@ -209,12 +209,12 @@ definitions:
   description: Model that represents the a list of actions and action statuses.
   kind: object
   properties:
-  - name: name
+  - name: branchName
     isReadyOnly: true
     description: The name of the branch status.
     types:
     - uid: string
-  - name: id
+  - name: branchId
     isReadyOnly: true
     description: The id of the branch status.
     types:
@@ -234,12 +234,12 @@ definitions:
   description: Model that represents the an action and its status.
   kind: object
   properties:
-  - name: name
+  - name: actionName
     isReadyOnly: true
     description: The name of the action status.
     types:
     - uid: string
-  - name: id
+  - name: actionId
     isReadyOnly: true
     description: The id of the action status.
     types:
@@ -247,6 +247,16 @@ definitions:
   - name: status
     isReadyOnly: true
     description: The status of the action.
+    types:
+    - uid: string
+  - name: startTime
+    isReadyOnly: true
+    description: String that represents the start time of the action.
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: String that represents the end time of the action.
     types:
     - uid: string
   - name: targets
@@ -269,12 +279,12 @@ definitions:
     description: The target for the action.
     types:
     - uid: string
-  - name: failedDateUtc
+  - name: targetFailedTime
     isReadyOnly: true
     description: String that represents the failed date time.
     types:
     - uid: string
-  - name: completedDateUtc
+  - name: targetCompletedTime
     isReadyOnly: true
     description: String that represents the completed date time.
     types:
@@ -301,7 +311,13 @@ definitions:
 examples:
 - name: Get experiment execution details
   request:
-    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/executionDetails/f24500ad-744e-4a26-864b-b76199eac333?api-version=2021-09-15-preview
+    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/executionDetails/f24500ad-744e-4a26-864b-b76199eac333?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/executionDetails/f24500ad-744e-4a26-864b-b76199eac333?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -309,44 +325,46 @@ examples:
         "type": "Microsoft.Chaos/experiments/executionDetails",
         "id": "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment/executionDetails/f24500ad-744e-4a26-864b-b76199eac333",
         "name": "f24500ad-744e-4a26-864b-b76199eac333",
-        "properites": {
-          "createdDateUtc": "2020-12-14T21:52:42.917983Z",
-          "lastActionDateUtc": "2020-12-14T21:52:52.2552574Z",
-          "startDateUtc": "2020-12-14T21:52:52.2552574Z",
-          "stopDateUtc": "2020-12-14T21:56:18.9281956Z",
+        "properties": {
+          "createdDateTime": "2020-12-14T21:52:42.917983Z",
+          "lastActionDateTime": "2020-12-14T21:52:52.2552574Z",
+          "startDateTime": "2020-12-14T21:52:52.2552574Z",
+          "stopDateTime": "2020-12-14T21:56:18.9281956Z",
+          "experimentId": "f24500ad-744e-4a26-864b-b76199eac333",
           "status": "failed",
           "failureReason": "Dependency failure",
           "runInformation": {
             "steps": [
               {
-                "name": "FirstStep",
-                "id": "FirstStep",
+                "stepName": "FirstStep",
+                "stepId": "FirstStep",
                 "status": "failed",
                 "branches": [
                   {
-                    "name": "FirstBranch",
-                    "id": "FirstBranch",
+                    "branchName": "FirstBranch",
+                    "branchId": "FirstBranch",
                     "status": "failed",
                     "actions": [
                       {
-                        "name": "urn:provider:agent-v2:Microsoft.Azure.Chaos.Fault.CPUPressureAllProcessors",
-                        "id": "59499d33-6751-4b6e-a1f6-58f4d56a040a",
+                        "actionName": "urn:provider:agent-v2:Microsoft.Azure.Chaos.Fault.CPUPressureAllProcessors",
+                        "actionId": "59499d33-6751-4b6e-a1f6-58f4d56a040a",
                         "status": "failed",
+                        "startTime": "2020-12-14T13:56:13.6270153-08:00",
+                        "endTime": "2020-12-14T13:56:13.6270153-08:00",
                         "targets": [
                           {
                             "status": "succeeded",
                             "target": "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/VM1",
-                            "failedDateUtc": "2021-04-02T16:30:55+00:00",
-                            "completedDateUtc": "2021-04-02T17:30:55+00:00"
+                            "targetFailedTime": "2021-04-02T16:30:55+00:00",
+                            "targetCompletedTime": "2021-04-02T17:30:55+00:00"
                           },
                           {
                             "status": "failed",
                             "target": "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/VM1",
-                            "failedDateUtc": "2021-04-02T16:30:55+00:00",
-                            "completedDateUtc": "2021-04-02T17:30:55+00:00"
+                            "targetFailedTime": "2021-04-02T16:30:55+00:00",
+                            "targetCompletedTime": "2021-04-02T17:30:55+00:00"
                           }
-                        ],
-                        "lastUpdatedDateUtc": "2020-12-14T13:56:13.6270153-08:00"
+                        ]
                       }
                     ]
                   }
@@ -366,5 +384,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Chaos Studio service - Get an execution detail of a Experiment resource.
+  description: >
+    Learn more about Chaos Studio service - Get an execution detail of a Experiment resource.
 errorCodes: []

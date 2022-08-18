@@ -7,7 +7,7 @@ manager: douge
 ms.author: bryanla
 ms.date: 11/30/2016
 ms.topic: reference
-ms.technology: azure
+ms.service: azure
 ms.devlang: rest-api
 ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 ---
@@ -89,7 +89,7 @@ This section covers the first 3 of the 5 components we discussed earlier. First 
 Once you have a valid client registration, there are essentially 2 ways of integrating with Azure AD to acquire an access token:
 
 - Azure AD's platform/language-neutral OAuth2 service endpoints, which is what we will use. Just like the Azure REST API endpoints you are using, the instructions provided in this section make no assumptions about your client's platform or language/script when using the Azure AD endpoints; only that it can send/receive HTTPS requests to/from Azure AD, and parse the response message.  
-- The platform/language-specific Azure AD Authentication Libraries (ADAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Azure Active Directory Authentication Libraries][AAD-Auth-Libraries].
+- The platform/language-specific Microsoft Authentication Libraries (MSAL). The libraries provide asynchronous wrappers for the OAuth2 endpoint requests, and robust token handling features such as caching and refresh token management. For more details, including reference documentation, library downloads, and sample code, please see [Microsoft Authentication Libraries][AAD-Auth-Libraries].
 
 The 2 Azure AD endpoints you will be using to authenticate your client and acquire an access token are referred to as the OAuth2 `/authorize` and `/token` endpoints. How you use them will be dependent on your application's registration, and the type of [OAuth2 authorization grant flow][AAD-Glossary-Authorization-Grant] you need in order to support your application at run-time. For the purposes of this article, we will assume that your client will be using one of the following authorization grant flows: authorization code or client credentials. Follow the instructions for the one that best matches your scenario, to acquire the access token you will use in the remaining sections.
 
@@ -242,7 +242,7 @@ Please use the LiveFyre comments section that follows this article to provide fe
 <!--Reference style links: ACOM -->
 <!--
 [AAD-Apps-And-Sps]: https://azure.microsoft.com/documentation/articles/active-directory-application-objects/
-[AAD-Auth-Libraries]: https://azure.microsoft.com/documentation/articles/active-directory-authentication-libraries/
+[AAD-Auth-Libraries]: https://docs.microsoft.com/azure/active-directory/develop/msal-overview
 [AAD-Dev-Guide]: https://azure.microsoft.com/documentation/articles/active-directory-developers-guide/
 [AAD-Glossary-Access-Token]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#access-token
 [AAD-Glossary-Authorization-Grant]: https://azure.microsoft.com/documentation/articles/active-directory-dev-glossary/#authorization-grant

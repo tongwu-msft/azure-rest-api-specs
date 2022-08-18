@@ -1,0 +1,283 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2022-06-15.channels.update
+name: Update
+service: Event Grid
+groupName: Channels
+apiVersion: 2022-06-15
+summary: "Update a Channel.  \nSynchronously updates a channel with the specified parameters."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerNamespaces/{partnerNamespaceName}/channels/{channelName}?api-version=2022-06-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the partners subscription.
+  types:
+  - uid: string
+- name: partnerNamespaceName
+  in: path
+  isRequired: true
+  description: Name of the partner namespace.
+  types:
+  - uid: string
+- name: channelName
+  in: path
+  isRequired: true
+  description: Name of the channel.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.expirationTimeIfNotActivatedUtc
+    in: body
+    description: >-
+      Expiration time of the channel. If this timer expires while the corresponding partner topic or partner destination is never activated,
+
+      the channel and corresponding partner topic or partner destination are deleted.
+    types:
+    - uid: string
+  - name: properties.partnerTopicInfo
+    in: body
+    description: Partner topic properties which can be updated if the channel is of type PartnerTopic.
+    types:
+    - uid: PartnerUpdateTopicInfo
+requestHeader: []
+definitions:
+- name: PartnerUpdateTopicInfo
+  description: Update properties for the corresponding partner topic of a channel.
+  kind: object
+  properties:
+  - name: eventTypeInfo
+    description: Event type info for the partner topic
+    types:
+    - uid: EventTypeInfo
+- name: ChannelUpdateParameters
+  description: Properties of the Channel update.
+  kind: object
+  properties:
+  - name: properties.expirationTimeIfNotActivatedUtc
+    description: >-
+      Expiration time of the channel. If this timer expires while the corresponding partner topic or partner destination is never activated,
+
+      the channel and corresponding partner topic or partner destination are deleted.
+    types:
+    - uid: string
+  - name: properties.partnerTopicInfo
+    description: Partner topic properties which can be updated if the channel is of type PartnerTopic.
+    types:
+    - uid: PartnerUpdateTopicInfo
+- name: EventTypeInfo
+  description: The event type information for Channels.
+  kind: object
+  properties:
+  - name: kind
+    description: The kind of event type used.
+    types:
+    - uid: EventDefinitionKind
+  - name: inlineEventTypes
+    description: >-
+      A collection of inline event types for the resource. The inline event type keys are of type string which represents the name of the event.
+
+      An example of a valid inline event name is "Contoso.OrderCreated".
+
+      The inline event type values are of type InlineEventProperties and will contain additional information for every inline event type.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: InlineEventProperties
+- name: EventDefinitionKind
+  description: The kind of event type used.
+  kind: enum
+  properties:
+  - name: Inline
+    types:
+    - uid: string
+- name: InlineEventProperties
+  description: Additional information about every inline event.
+  kind: object
+  properties:
+  - name: description
+    description: The description for the inline event.
+    types:
+    - uid: string
+  - name: displayName
+    description: The displayName for the inline event.
+    types:
+    - uid: string
+  - name: documentationUrl
+    description: The documentationUrl for the inline event.
+    types:
+    - uid: string
+  - name: dataSchemaUrl
+    description: The dataSchemaUrl for the inline event.
+    types:
+    - uid: string
+examples:
+- name: Channels_Update
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerNamespaces/examplePartnerNamespaceName1/channels/exampleChannelName1?api-version=2022-06-15
+    body: >-
+      {
+        "properties": {
+          "expirationTimeIfNotActivatedUtc": "2022-03-23T23:06:11.785Z"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerNamespaces/examplePartnerNamespaceName1/channels/exampleChannelName1?api-version=2022-06-15
+
+      {
+        "properties": {
+          "expirationTimeIfNotActivatedUtc": "2022-03-23T23:06:11.785Z"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.ChannelUpdateParameters;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Channels Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_Update.json
+           */
+          /**
+           * Sample code: Channels_Update.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void channelsUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .channels()
+                  .updateWithResponse(
+                      "examplerg",
+                      "examplePartnerNamespaceName1",
+                      "exampleChannelName1",
+                      new ChannelUpdateParameters()
+                          .withExpirationTimeIfNotActivatedUtc(OffsetDateTime.parse("2022-03-23T23:06:11.785Z")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_Update.json
+      func ExampleChannelsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewChannelsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Update(ctx,
+      		"examplerg",
+      		"examplePartnerNamespaceName1",
+      		"exampleChannelName1",
+      		armeventgrid.ChannelUpdateParameters{
+      			Properties: &armeventgrid.ChannelUpdateParametersProperties{
+      				ExpirationTimeIfNotActivatedUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2022-03-23T23:06:11.785Z"); return t }()),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Synchronously updates a channel with the specified parameters.
+       *
+       * @summary Synchronously updates a channel with the specified parameters.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/Channels_Update.json
+       */
+      async function channelsUpdate() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const partnerNamespaceName = "examplePartnerNamespaceName1";
+        const channelName = "exampleChannelName1";
+        const channelUpdateParameters = {
+          expirationTimeIfNotActivatedUtc: new Date("2022-03-23T23:06:11.785Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.channels.update(
+          resourceGroupName,
+          partnerNamespaceName,
+          channelName,
+          channelUpdateParameters
+        );
+        console.log(result);
+      }
+
+      channelsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+security: []
+metadata:
+  description: >
+    Learn more about Event Grid service - Update a Channel.
+
+    Synchronously updates a channel with the specified parameters.
+errorCodes: []

@@ -1,0 +1,117 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.getuser.getuser
+name: Get User
+service: Azure confidential ledger
+groupName: Get User
+apiVersion: 2022-05-13
+summary: Gets a user.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {ledgerEndpoint}/app/users/{userId}?api-version=2022-05-13
+uriParameters:
+- name: ledgerEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: userId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The user id, either an AAD object ID or certificate fingerprint.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Details about the specified user.
+  types:
+  - uid: LedgerUser
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestHeader: []
+definitions:
+- name: LedgerUser
+  description: Details about a Confidential Ledger user.
+  kind: object
+  properties:
+  - name: assignedRole
+    description: Represents an assignable role.
+    types:
+    - uid: ConfidentialLedgerUserRoleName
+  - name: userId
+    isReadyOnly: true
+    description: Identifier for the user. This must either be an AAD object id or a certificate fingerprint.
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: ConfidentialLedgerUserRoleName
+  description: Represents an assignable role.
+  kind: enum
+  properties:
+  - name: Administrator
+    types:
+    - uid: string
+  - name: Contributor
+    types:
+    - uid: string
+  - name: Reader
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: GetUser
+  request:
+    uri: GET {ledgerEndpoint}/app/users/AAD object id?api-version=2022-05-13
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {ledgerEndpoint}/app/users/AAD object id?api-version=2022-05-13
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "assignedRole": "Administrator",
+        "userId": "AAD object id"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Azure confidential ledger service - Gets a user.
+errorCodes: []

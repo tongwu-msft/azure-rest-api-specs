@@ -1,5 +1,6 @@
 ---
 title: "WebHDFS FileSystem APIs"
+description: Learn how Azure Data Lake Store is a cloud-scale file system that is compatible with Hadoop Distributed File System (HDFS) and works with the Hadoop ecosystem.
 ms.custom: ""
 ms.date: 12/20/2016
 ms.reviewer: ""

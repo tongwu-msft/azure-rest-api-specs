@@ -1,0 +1,760 @@
+### YamlMime:RESTOperation
+uid: language.conversationalanalysisauthoring.import
+name: Import
+service: Cognitive Services - Language
+groupName: Conversational Analysis Authoring
+apiVersion: 2022-05-01
+summary: Triggers a job to import a project. If a project with the same name already exists, the data of that project is replaced.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {Endpoint}/language/authoring/analyze-conversations/projects/{projectName}/:import?api-version=2022-05-01
+- content: POST {Endpoint}/language/authoring/analyze-conversations/projects/{projectName}/:import?format={format}&api-version=2022-05-01
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: format
+  in: query
+  description: The format of the exported project file to use.
+  types:
+  - uid: ExportedProjectFormat
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: operation-location
+    value: string
+  description: A successful call results with an Operation-Location header used to check the status of the job.
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: projectFileVersion
+    in: body
+    isRequired: true
+    description: The version of the exported file.
+    types:
+    - uid: string
+  - name: stringIndexType
+    in: body
+    isRequired: true
+    description: Specifies the method used to interpret string offsets. For additional information see https://aka.ms/text-analytics-offsets.
+    types:
+    - uid: StringIndexType
+  - name: metadata
+    in: body
+    isRequired: true
+    description: Represents the project metadata.
+    types:
+    - uid: ConversationalAnalysisAuthoringCreateProjectOptions
+  - name: assets
+    in: body
+    description: Represents the project assets.
+    types:
+    - uid: ConversationalAnalysisAuthoringConversationExportedProjectAssets
+    - uid: ConversationalAnalysisAuthoringOrchestrationExportedProjectAssets
+    typesTitle: ConversationalAnalysisAuthoringExportedProjectAssets
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: ExportedProjectFormat
+  description: The format of the exported project file to use.
+  kind: enum
+  properties:
+  - name: Conversation
+    description: Specifies the format for a conversational project.
+    types:
+    - uid: string
+  - name: Luis
+    description: Specifies the format for an application that was exported from LUIS.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringCreateProjectOptions
+  description: Represents the options used to create or update a project.
+  kind: object
+  properties:
+  - name: projectKind
+    description: Represents the project kind.
+    types:
+    - uid: ProjectKind
+  - name: settings
+    description: The project settings.
+    types:
+    - uid: ConversationalAnalysisAuthoringProjectSettings
+  - name: projectName
+    description: The new project name.
+    types:
+    - uid: string
+  - name: multilingual
+    description: Whether the project would be used for multiple languages or not.
+    types:
+    - uid: boolean
+  - name: description
+    description: The project description.
+    types:
+    - uid: string
+  - name: language
+    description: The project language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: ConversationalAnalysisAuthoringExportedProject
+  description: Represents an exported project.
+  kind: object
+  properties:
+  - name: projectFileVersion
+    description: The version of the exported file.
+    types:
+    - uid: string
+  - name: stringIndexType
+    description: Specifies the method used to interpret string offsets. For additional information see https://aka.ms/text-analytics-offsets.
+    types:
+    - uid: StringIndexType
+  - name: metadata
+    description: Represents the project metadata.
+    types:
+    - uid: ConversationalAnalysisAuthoringCreateProjectOptions
+  - name: assets
+    description: Represents the project assets.
+    types:
+    - uid: ConversationalAnalysisAuthoringConversationExportedProjectAssets
+    - uid: ConversationalAnalysisAuthoringOrchestrationExportedProjectAssets
+    typesTitle: ConversationalAnalysisAuthoringExportedProjectAssets
+- name: ProjectKind
+  description: Represents the project kind.
+  kind: enum
+  properties:
+  - name: Conversation
+    description: A project to build natural language into apps, bots, and IoT devices.
+    types:
+    - uid: string
+  - name: Orchestration
+    description: A project to connect and orchestrate Conversation, Custom question answering and LUIS projects together in one single project.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringProjectSettings
+  description: Represents the settings used to define the project behavior.
+  kind: object
+  properties:
+  - name: confidenceThreshold
+    description: The threshold of the intent with the highest confidence, at which the prediction will automatically be changed to "None".
+    types:
+    - uid: number
+- name: ConversationalAnalysisAuthoringConversationExportedProjectAssets
+  description: Represents the exported assets of a conversational project.
+  kind: object
+  properties:
+  - name: intents
+    description: The intents defined in the project.
+    types:
+    - uid: ConversationalAnalysisAuthoringConversationExportedIntent
+      isArray: true
+  - name: entities
+    description: The entities defined in the project.
+    types:
+    - uid: ConversationalAnalysisAuthoringConversationExportedEntity
+      isArray: true
+  - name: utterances
+    description: The utterances defined in the project.
+    types:
+    - uid: ConversationalAnalysisAuthoringConversationExportedUtterance
+      isArray: true
+  - name: projectKind
+    description: The type of project containing the assets.
+    types:
+    - uid: Conversation
+    typesTitle: string
+- name: ConversationalAnalysisAuthoringOrchestrationExportedProjectAssets
+  description: Represents the assets of an orchestration project.
+  kind: object
+  properties:
+  - name: intents
+    description: Represents the intents of the project.
+    types:
+    - uid: ConversationalAnalysisAuthoringOrchestrationExportedIntent
+      isArray: true
+  - name: utterances
+    description: Represents the utterances of the project.
+    types:
+    - uid: ConversationalAnalysisAuthoringOrchestrationExportedUtterance
+      isArray: true
+  - name: projectKind
+    description: The type of project containing the assets.
+    types:
+    - uid: Orchestration
+    typesTitle: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: StringIndexType
+  description: Specifies the method used to interpret string offsets. For additional information see https://aka.ms/text-analytics-offsets.
+  kind: enum
+  properties:
+  - name: Utf16CodeUnit
+    description: The offset and length values will correspond to UTF-16 code units. Use this option if your application is written in a language that support Unicode, for example Java, JavaScript.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringConversationExportedIntent
+  description: Represents an exported intent of a conversational project.
+  kind: object
+  properties:
+  - name: category
+    description: The intent category.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringConversationExportedEntity
+  description: Represents an entity with its components.
+  kind: object
+  properties:
+  - name: category
+    description: The category of the entity.
+    types:
+    - uid: string
+  - name: compositionSetting
+    description: The behavior to follow when the entity's components overlap with each other.
+    types:
+    - uid: CompositionSetting
+  - name: list
+    description: The list component of the entity.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedEntityList
+  - name: prebuilts
+    description: The prebuilt entities components.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedPrebuiltEntity
+      isArray: true
+- name: ConversationalAnalysisAuthoringConversationExportedUtterance
+  description: Represents an exported utterance for a conversational project.
+  kind: object
+  properties:
+  - name: entities
+    description: Represents the entity labels of the utterance.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedUtteranceEntityLabel
+      isArray: true
+  - name: text
+    description: The utterance text.
+    types:
+    - uid: string
+  - name: language
+    description: Represents the utterance's language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent of the utterance.
+    types:
+    - uid: string
+  - name: dataset
+    description: The dataset for this utterance. Allowed values are 'Train' and 'Test'.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringOrchestrationExportedIntent
+  description: Represents an exported intent for an orchestration project.
+  kind: object
+  properties:
+  - name: orchestration
+    description: Specifies the behavior of this intent in the orchestration flow.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedConversationOrchestrationOptions
+    - uid: ConversationalAnalysisAuthoringExportedLuisOrchestrationOptions
+    - uid: ConversationalAnalysisAuthoringExportedQuestionAnsweringOrchestrationOptions
+    typesTitle: ConversationalAnalysisAuthoringExportedOrchestrationOptions
+  - name: category
+    description: The intent category.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringOrchestrationExportedUtterance
+  description: Represents an utterance of an orchestration project.
+  kind: object
+  properties:
+  - name: text
+    description: The utterance text.
+    types:
+    - uid: string
+  - name: language
+    description: Represents the utterance's language. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent of the utterance.
+    types:
+    - uid: string
+  - name: dataset
+    description: The dataset for this utterance. Allowed values are 'Train' and 'Test'.
+    types:
+    - uid: string
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: CompositionSetting
+  description: The behavior to follow when the entity's components overlap with each other.
+  kind: enum
+  properties:
+  - name: returnLongestOverlap
+    description: When two or more components are found in the text and overlap, the component with the longest set of characters is returned.
+    types:
+    - uid: string
+  - name: requireExactOverlap
+    description: All components must overlap at the exact same characters in the text for the entity to return. If one of the defined components is not matched or predicted, the entity will not return.
+    types:
+    - uid: string
+  - name: separateComponents
+    description: Every component's match or prediction is returned as a separate instance of the entity.
+    types:
+    - uid: string
+  - name: combineComponents
+    description: When two or more components are found in the text and overlap, the components' spans are merged together into one span combining all of them.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringExportedEntityList
+  description: Represents a list component of an entity.
+  kind: object
+  properties:
+  - name: sublists
+    description: The sub-lists of the list component.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedEntitySublist
+      isArray: true
+- name: ConversationalAnalysisAuthoringExportedPrebuiltEntity
+  description: Represents an exported prebuilt entity component
+  kind: object
+  properties:
+  - name: category
+    description: The prebuilt entity category.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringExportedUtteranceEntityLabel
+  description: Represents an entity label for an utterance.
+  kind: object
+  properties:
+  - name: category
+    description: The category of the entity label.
+    types:
+    - uid: string
+  - name: offset
+    description: Start position for the entity text.
+    types:
+    - uid: integer
+  - name: length
+    description: Length for the entity text.
+    types:
+    - uid: integer
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringExportedEntitySublist
+  description: Represents a sub-list inside a list component.
+  kind: object
+  properties:
+  - name: listKey
+    description: The key of the sub-list.
+    types:
+    - uid: string
+  - name: synonyms
+    description: The phrases of that correspond to the sub-list.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedEntityListSynonym
+      isArray: true
+- name: ConversationalAnalysisAuthoringExportedConversationOrchestrationOptions
+  description: Represents the orchestration options for a Conversational project target.
+  kind: object
+  properties:
+  - name: conversationOrchestration
+    description: The Conversational project target details.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedConversationOrchestration
+  - name: targetProjectKind
+    description: The kind of the target used in the orchestration flow.
+    types:
+    - uid: Conversation
+    typesTitle: string
+- name: ConversationalAnalysisAuthoringExportedLuisOrchestrationOptions
+  description: Represents the orchestration options for a LUIS application target.
+  kind: object
+  properties:
+  - name: luisOrchestration
+    description: The LUIS application target details.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedLuisOrchestration
+  - name: targetProjectKind
+    description: The kind of the target used in the orchestration flow.
+    types:
+    - uid: Luis
+    typesTitle: string
+- name: ConversationalAnalysisAuthoringExportedQuestionAnsweringOrchestrationOptions
+  description: Represents the orchestration options for a Question Answering project target.
+  kind: object
+  properties:
+  - name: questionAnsweringOrchestration
+    description: The Question Answering project details.
+    types:
+    - uid: ConversationalAnalysisAuthoringExportedQuestionAnsweringOrchestration
+  - name: targetProjectKind
+    description: The kind of the target used in the orchestration flow.
+    types:
+    - uid: QuestionAnswering
+    typesTitle: string
+- name: ConversationalAnalysisAuthoringExportedEntityListSynonym
+  description: Represents a list of synonyms inside a list component
+  kind: object
+  properties:
+  - name: language
+    description: Represents the language of the synonyms. This is BCP-47 representation of a language. For example, use "en" for English, "en-gb" for English (UK), "es" for Spanish etc.
+    types:
+    - uid: string
+  - name: values
+    description: The list of synonyms.
+    types:
+    - uid: string
+      isArray: true
+- name: ConversationalAnalysisAuthoringExportedConversationOrchestration
+  description: Defines the orchestration details for a Conversational project target.
+  kind: object
+  properties:
+  - name: projectName
+    description: The name of the targeted project.
+    types:
+    - uid: string
+  - name: deploymentName
+    description: The name of the targeted deployment.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringExportedLuisOrchestration
+  description: Defines the orchestration details for a LUIS application target.
+  kind: object
+  properties:
+  - name: appId
+    description: The LUIS application ID.
+    types:
+    - uid: string
+  - name: appVersion
+    description: The targeted version Id.
+    types:
+    - uid: string
+  - name: slotName
+    description: The targeted slot name.
+    types:
+    - uid: string
+- name: ConversationalAnalysisAuthoringExportedQuestionAnsweringOrchestration
+  description: Defines the orchestration details for a Question Answering project target.
+  kind: object
+  properties:
+  - name: projectName
+    description: The name of the target project.
+    types:
+    - uid: string
+examples:
+- name: Successful Import Project
+  request:
+    uri: POST {Endpoint}/language/authoring/analyze-conversations/projects/EmailApp/:import?api-version=2022-05-01
+    body: >-
+      {
+        "projectFileVersion": "2022-05-01",
+        "stringIndexType": "Utf16CodeUnit",
+        "metadata": {
+          "projectKind": "Conversation",
+          "settings": {
+            "confidenceThreshold": 0.7
+          },
+          "projectName": "EmailApp",
+          "multilingual": true,
+          "description": "Trying out CLU",
+          "language": "en-us"
+        },
+        "assets": {
+          "projectKind": "Conversation",
+          "intents": [
+            {
+              "category": "Read"
+            },
+            {
+              "category": "Delete"
+            }
+          ],
+          "entities": [
+            {
+              "category": "Sender"
+            }
+          ],
+          "utterances": [
+            {
+              "text": "Open Blake's email",
+              "dataset": "Train",
+              "intent": "Read",
+              "entities": [
+                {
+                  "category": "Sender",
+                  "offset": 5,
+                  "length": 5
+                }
+              ]
+            },
+            {
+              "text": "Delete last email",
+              "language": "en-gb",
+              "dataset": "Test",
+              "intent": "Delete",
+              "entities": []
+            }
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST {Endpoint}/language/authoring/analyze-conversations/projects/EmailApp/:import?api-version=2022-05-01
+
+
+      {
+        "projectFileVersion": "2022-05-01",
+        "stringIndexType": "Utf16CodeUnit",
+        "metadata": {
+          "projectKind": "Conversation",
+          "settings": {
+            "confidenceThreshold": 0.7
+          },
+          "projectName": "EmailApp",
+          "multilingual": true,
+          "description": "Trying out CLU",
+          "language": "en-us"
+        },
+        "assets": {
+          "projectKind": "Conversation",
+          "intents": [
+            {
+              "category": "Read"
+            },
+            {
+              "category": "Delete"
+            }
+          ],
+          "entities": [
+            {
+              "category": "Sender"
+            }
+          ],
+          "utterances": [
+            {
+              "text": "Open Blake's email",
+              "dataset": "Train",
+              "intent": "Read",
+              "entities": [
+                {
+                  "category": "Sender",
+                  "offset": 5,
+                  "length": 5
+                }
+              ]
+            },
+            {
+              "text": "Delete last email",
+              "language": "en-gb",
+              "dataset": "Test",
+              "intent": "Delete",
+              "entities": []
+            }
+          ]
+        }
+      }
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: operation-location
+      value: '{Endpoint}/language/authoring/analyze-conversations/projects/EmailApp/import/jobs/4d37982f-fded-4c2c-afe3-15953b5919b6_637858368000000000?api-version=2022-05-01'
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Triggers a job to import a project. If a project with the same name already exists, the data of that project is replaced.
+errorCodes: []

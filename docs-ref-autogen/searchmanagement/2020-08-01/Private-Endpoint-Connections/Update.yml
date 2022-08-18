@@ -134,6 +134,7 @@ definitions:
     description: A description of any extra actions that may be required.
     types:
     - uid: string
+    defaultValue: None
 - name: CloudErrorBody
   description: Describes a particular API error with an error code and a message.
   kind: object
@@ -184,6 +185,150 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices/mysearchservice/privateEndpointConnections/testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546?api-version=2020-08-01
+
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Rejected",
+            "description": "Rejected for some reason"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.search.fluent.models.PrivateEndpointConnectionInner;
+      import com.azure.resourcemanager.search.models.PrivateEndpointConnectionProperties;
+      import com.azure.resourcemanager.search.models.PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState;
+      import com.azure.resourcemanager.search.models.PrivateLinkServiceConnectionStatus;
+
+      /** Samples for PrivateEndpointConnections Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/UpdatePrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: PrivateEndpointConnectionUpdate.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void privateEndpointConnectionUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .searchServices()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpointConnections()
+                  .updateWithResponse(
+                      "rg1",
+                      "mysearchservice",
+                      "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
+                      new PrivateEndpointConnectionInner()
+                          .withProperties(
+                              new PrivateEndpointConnectionProperties()
+                                  .withPrivateLinkServiceConnectionState(
+                                      new PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState()
+                                          .withStatus(PrivateLinkServiceConnectionStatus.REJECTED)
+                                          .withDescription("Rejected for some reason"))),
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsearch_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/UpdatePrivateEndpointConnection.json
+      func ExamplePrivateEndpointConnectionsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsearch.NewPrivateEndpointConnectionsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg1",
+      		"mysearchservice",
+      		"testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546",
+      		armsearch.PrivateEndpointConnection{
+      			Properties: &armsearch.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armsearch.PrivateEndpointConnectionPropertiesPrivateLinkServiceConnectionState{
+      					Description: to.Ptr("Rejected for some reason"),
+      					Status:      to.Ptr(armsearch.PrivateLinkServiceConnectionStatusRejected),
+      				},
+      			},
+      		},
+      		&armsearch.SearchManagementRequestOptions{ClientRequestID: nil},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsearch%2Farmsearch%2Fv1.0.0/sdk/resourcemanager/search/armsearch/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates a Private Endpoint connection to the search service in the given resource group.
+       *
+       * @summary Updates a Private Endpoint connection to the search service in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/UpdatePrivateEndpointConnection.json
+       */
+      async function privateEndpointConnectionUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const searchServiceName = "mysearchservice";
+        const privateEndpointConnectionName = "testEndpoint.50bf4fbe-d7c1-4b48-a642-4f5892642546";
+        const privateEndpointConnection = {
+          properties: {
+            privateLinkServiceConnectionState: {
+              description: "Rejected for some reason",
+              status: "Rejected",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnections.update(
+          resourceGroupName,
+          searchServiceName,
+          privateEndpointConnectionName,
+          privateEndpointConnection
+        );
+        console.log(result);
+      }
+
+      privateEndpointConnectionUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -212,5 +357,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Search Management service - Updates a Private Endpoint connection to the search service in the given resource group.
+  description: >
+    Learn more about Search Management service - Updates a Private Endpoint connection to the search service in the given resource group.
 errorCodes: []

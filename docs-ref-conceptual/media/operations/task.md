@@ -1,5 +1,6 @@
 ---
 title: "Task"
+description: Learn how a Task is an individual operation of work on an Asset and is defined in a Job.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

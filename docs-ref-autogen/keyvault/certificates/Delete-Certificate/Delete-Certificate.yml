@@ -3,14 +3,14 @@ uid: keyvault.certificates.deletecertificate.deletecertificate
 name: Delete Certificate
 service: Key Vault
 groupName: Delete Certificate
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "Deletes a certificate from a specified key vault.  \nDeletes all versions of a certificate object along with its associated policy. Delete certificate cannot be used to remove individual versions of a certificate object. This operation requires the certificates/delete permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE {vaultBaseUrl}/certificates/{certificate-name}?api-version=7.2
+- content: DELETE {vaultBaseUrl}/certificates/{certificate-name}?api-version=7.3
 uriParameters:
 - name: vaultBaseUrl
   in: path
@@ -90,7 +90,7 @@ definitions:
     types:
     - uid: string
   - name: contentType
-    description: The content type of the secret.
+    description: "The content type of the secret. eg. 'application/x-pem-file' or 'application/x-pkcs12', "
     types:
     - uid: string
   - name: attributes
@@ -208,7 +208,7 @@ definitions:
   kind: object
   properties:
   - name: exportable
-    description: Not supported in this version. Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: kty
@@ -411,7 +411,13 @@ definitions:
 examples:
 - name: DeleteCertificate
   request:
-    uri: DELETE https://myvault.vault.azure.net//certificates/importCert01?api-version=7.2
+    uri: DELETE https://myvault.vault.azure.net//certificates/importCert01?api-version=7.3
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://myvault.vault.azure.net//certificates/importCert01?api-version=7.3
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -471,5 +477,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Deletes a certificate from a specified key vault.  \nDeletes all versions of a certificate object along with its associated policy."
+  description: >-
+    Deletes a certificate from a specified key vault.
+
+    Deletes all versions of a certificate object along with its associated policy.
 errorCodes: []

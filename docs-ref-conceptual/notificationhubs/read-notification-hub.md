@@ -1,5 +1,6 @@
 ﻿---
 title: "Read a notification hub"
+description: Use this API reference documentation to retrieve information about a notification hub.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

@@ -2,14 +2,14 @@
 title: Create or Update Data Source (2021-04-30-Preview)
 titleSuffix: Azure Cognitive Search
 description: Preview version of the Create or Update Data Source REST API for Azure Cognitive Search.
-ms.date: 07/20/2021
+ms.date: 03/22/2022
 
 ms.service: cognitive-search
 ms.topic: reference
 ms.devlang: rest-api
 
-author: jennifermarsman
-ms.author: jennmar
+author: gmndrg
+ms.author: gimondra
 ---
 
 # Create or Update Data Source (Preview REST API)
@@ -20,9 +20,12 @@ ms.author: jennmar
 > 2021-04-30-Preview adds managed identity support for indexer connections to other Azure resources:
 > + [**"credentials"**](#credentials) accepts an Azure resource ID as a value, provided that the search service runs under a managed identity and Azure role assignments grant read access to data.
 > + **"identity"** accepts a user-assigned managed identity. This property is first-level for data connections. It's also under [**"encryptionKey"**](#encryptionkey) for retrieving a customer-managed key in Azure Key Vault.
+> + **Azure Files** support is in preview. Use a preview API to index from this data source.
 > 
 > 2020-06-30-Preview adds:
 > + [**"dataDeletionDetectionPolicy"**](#datadeletiondetectionpolicy) accepts "NativeBlobSoftDeleteDeletionDetectionPolicy" for blob indexers.
+> + **Azure Database for MySQL** support is in preview. Use a preview API to index from this data source.
+> + **Cosmos DB MongoDB API and Gremlin API** support is in preview. Use a preview API to index from this data source.
 
 In Azure Cognitive Search, a data source is used with [indexers](../create-indexer.md), providing the connection information for on demand or scheduled data refresh of a target index, pulling data from [supported data sources](/azure/search/search-indexer-overview#supported-data-sources). 
 
@@ -42,7 +45,7 @@ PUT https://[service name].search.windows.net/datasources/[data source name]?api
     api-key: [admin key]    
 ```
 
- HTTPS is required for all service requests. If the object doesn't exist, it is created. If it already exists, it is overwritten using the new definition.
+ HTTPS is required for all service requests. If the object doesn't exist, it's created. If it already exists, it's overwritten using the new definition.
 
 > [!NOTE]  
 > Once a data source exists, you cannot change the type property on an update request. Instead, you should create a new data source using the type you want.
@@ -62,7 +65,7 @@ The following table describes the required and optional request headers.
 |Fields              |Description      |  
 |--------------------|-----------------|  
 |Content-Type|Required. Set this to `application/json`|  
-|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It is a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
+|api-key|Required. The `api-key` is used to authenticate the request to your Search service. It's a string value, unique to your service. Create requests must include an `api-key` header set to your admin key (as opposed to a query key). You can [find the API key](/azure/search/search-security-api-keys#find-existing-keys) in your search service dashboard in the Azure portal.|  
 
 ## Request Body
 
@@ -96,16 +99,16 @@ The following JSON is a high-level representation of the main parts of the defin
 
 |Property|Description|  
 |--------------|-----------------|  
-|name|Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
+| name |Required. The name of the data source. A data source name must only contain lowercase letters, digits or dashes, cannot start or end with dashes and is limited to 128 characters.|  
 |description|An optional description.|  
-|type|Required. Must be one of the supported data source types: </br></br>`azuresql` for [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`cosmosdb` for the [Azure Cosmos DB SQL API](/azure/search/search-howto-index-cosmosdb) </br>`azureblob` for [Azure Blob Storage](/azure/search/search-howto-indexing-azure-blob-storage) </br>`adlsgen2` for [Azure Data Lake Storage Gen2](/azure/search/search-howto-index-azure-data-lake-storage) </br>`azuretable` for [Azure Table Storage](/azure/search/search-howto-indexing-azure-tables)|
+| type |Required. Must be one of the supported data source types: </br></br>`adlsgen2` for [Azure Data Lake Storage Gen2](/azure/search/search-howto-index-azure-data-lake-storage) </br>`azureblob` for [Azure Blob Storage](/azure/search/search-howto-indexing-azure-blob-storage) </br>`azurefiles` for [Azure File Storage](/azure/search/search-file-storage-integration)</br>`azuresql` for [Azure SQL Database](/azure/search/search-howto-connecting-azure-sql-database-to-azure-search-using-indexers) </br>`azuretable` for [Azure Table Storage](/azure/search/search-howto-indexing-azure-tables)</br>`cosmosdb` for the Azure Cosmos DB [SQL API](/azure/search/search-howto-index-cosmosdb), [MongoDB API](/azure/search/search-howto-index-cosmosdb-mongodb), [Gremlin API](/azure/search/search-howto-index-cosmosdb-gremlin) </br>`mysql` for [Azure Database for MySQL](/azure/search/search-howto-index-mysql) |
 | [credentials](#credentials) |Required. Contains a `connectionString` property that specifies how to connect. |  
-|container| Required. Specifies the container, collection, table, or view containing the data to be indexed. |
+| container | Required. Specifies the container, collection, table, or view containing the data to be indexed. |
 | [dataChangeDetectionPolicy](#datachangedetectionpolicy) | Optional. Specifies the mechanism provided by the data platform for identifying changed data items. |
 | [dataDeletionDetectionPolicy](#datadeletiondetectionpolicy) | Optional. Identifies how the data platform deletes data. |
 | [encryptionKey](#encryptionkey) | Optional. Used for additional encryption of data source credentials, through [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys) in Azure Key Vault. Available for billable search services created on or after 2019-01-01.|
-|disabled| Optional. Boolean value indicating whether the indexer is created in a disabled state, which prevents it from running immediately. False by default. |
-|identity| Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `credentials` having the connection string in the right format for managed identity connections for each data source type. </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
+| disabled | Optional. Boolean value indicating whether the indexer is created in a disabled state, which prevents it from running immediately. False by default. |
+| identity | Optional. It contains a `userAssignedIdentity` of type `#Microsoft.Azure.Search.DataUserAssignedIdentity` and specifies the [user-assigned managed identity](/azure/active-directory/managed-identities-azure-resources/how-to-manage-ua-identity-portal) of the external resource. This property depends on `credentials` having the connection string in the right format (a Resource ID) for managed identity connections for each data source type. </br></br>If the `identity` property is null, the connection to a resource ID is made using the system-managed property. </br></br>If this property is assigned to the type `#Microsoft.Azure.Search.DataNoneIdentity`, any explicit identity that was previously specified is cleared. |
 
 ## Response
 
@@ -114,6 +117,8 @@ For a successful request: 201 Created if a new data source was created, and 204 
 ## Examples
 
 **Example: Azure roles and a system-assigned managed identity**
+
+If your search service has a system-assigned managed identity and a role assignment, the data source connection can be the unique resource ID of your storage account.
 
 ```json
 {
@@ -133,6 +138,8 @@ For a successful request: 201 Created if a new data source was created, and 204 
 ```
 
 **Example: Azure roles and a user-assigned managed identity (preview)**
+
+This example demonstrates an Azure AD authenticated connection for a search service that has a user-assigned managed identity.
 
 ```json
 {
@@ -183,7 +190,7 @@ For a successful request: 201 Created if a new data source was created, and 204 
 
 **Example: Azure SQL with change detection with deletion detection**
 
-Recall that the properties for deletion detection are `softDeleteColumnName` and `softDeleteMarkerValue`.
+Recall that the properties for deletion detection are "softDeleteColumnName" and "softDeleteMarkerValue".
 
 ```json
 {   
@@ -294,17 +301,17 @@ Specifies the container, collection, table, or view containing the data to be in
 
 ### credentials
 
-Contains a `connectionString` property that specifies how an indexer connects to an Azure resource. 
+Contains a "connectionString" property that specifies how an indexer connects to an Azure resource. 
 
 |Attribute|Description|  
 |---------------|-----------------|  
 |connectionString| Required. Specifies a connection to an indexer data source. If you are updating the data source definition, the connection string is not required. The values `<unchanged>` or `<redacted>` can be used in place of the actual connection string. </p>For connections that are authenticated using keys or login credentials, those values are visible in the connection string. The format of the connection string depends on the data source type: </br></br>For Azure SQL Database, this is the usual SQL Server connection string. If you're using Azure portal to retrieve the connection string, choose the `ADO.NET connection string` option. </br></br>For Azure Cosmos DB, the connection string must be in the following format: `"AccountEndpoint=https://[your account name].documents.azure.com;AccountKey=[your account key];Database=[your database id]"`. All of the values are required. You can find them in the [Azure portal](https://portal.azure.com). </p>If you are using a [managed identity to authenticate](/azure/search/search-howto-managed-identities-data-sources), you can omit credentials on the connection. |
 
-For connections that are authenticated using a managed identity, the connection string includes the resource ID (see these links for connection string format: [Azure Storage](/azure/search/search-howto-managed-identities-storage), [Cosmos DB](/azure/search/search-howto-managed-identities-cosmos-db),[SQL Database](/azure/search/search-howto-managed-identities-sql)). 
+For connections that are authenticated using a managed identity, the connection string specifies the Azure resource ID (see these links for connection string format: [Azure Storage](/azure/search/search-howto-managed-identities-storage), [Cosmos DB](/azure/search/search-howto-managed-identities-cosmos-db),[SQL Database](/azure/search/search-howto-managed-identities-sql)). 
 
 Role assignments scoped to the external data source determine whether the indexer can connect, and the search service must be configured to run as a trusted service in Azure Active Directory. 
 
-If the `identity` property is also specified, the connection is made using the user-assigned managed identity provided by the `identity` property. Otherwise, if `identity` is unspecified or null, the connection is through the system-managed identity.
+If the "identity" property is also specified, the connection is made using the search service user-assigned managed identity provided by the "identity" property. Otherwise, if "identity" is unspecified or null, the connection is through the system-managed identity.
 
 <a name="dataChangeDetectionPolicy"> </a>
 
@@ -314,7 +321,7 @@ Specifies the mechanism provided by the data platform for identifying changed da
 
 |Attribute|Description|  
 |---------------|-----------------|  
-| dataChangeDetectionPolicy | Optional. Valid policies include </br>`HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </br>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </br>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
+| dataChangeDetectionPolicy | Optional. Valid policies include `HighWatermarkChangeDetectionPolicy` or `SqlIntegratedChangeDetectionPolicy`. </p>`HighWatermarkChangeDetectionPolicy` depends on an existing column or property that is updated in tandem with other updates (all inserts result in an update to the watermark column), and the change in value is higher. </p>`SqlIntegratedChangeDetectionPolicy` is used to reference the native change detection features in SQL Server.  This policy can only be used with tables; it cannot be used with views. You need to enable change tracking for the table you're using before you can use this policy. See [Enable and disable change tracking](/sql/relational-databases/track-changes/enable-and-disable-change-tracking-sql-server) for instructions. | 
 | highWaterMarkColumnName | Required for `HighWatermarkChangeDetectionPolicy`. For Cosmos DB, the column must be `_ts` property. For Azure SQL, an indexed `rowversion` column is recommended. For Azure Storage, change detection is built-in using lastModified values, eliminating any need to set the dataChangeDetectionPolicy. |
 
 <a name="dataDeletionDetectionPolicy"> </a>
@@ -333,18 +340,18 @@ Specifies the mechanism provided by the data platform for identifying deleted da
 
 ### encryptionKey
 
-Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Available for billable search services created on or after 2019-01-01. 
+Configures a connection to Azure Key Vault for supplemental [customer-managed encryption keys (CMK)](/azure/search/search-security-manage-encryption-keys). Encryption with customer-managed keys is not available for free services. For billable services, it's only available for search services created on or after 2019-01-01.
 
-A connection to the key vault must be authenticated. You can use either `accessCredentials` or a managed identity for this purpose. 
+A connection to the key vault must be authenticated. You can use either "accessCredentials" or a managed identity for this purpose. 
 
-Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both `identity` and `accessCredentials`, and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the `identity` property to the resource ID of that identity.
+Managed identities can be system or user-assigned (preview). If the search service has both a system-assigned managed identity and a role assignment that grants read access to the key vault, you can omit both "identity" and "accessCredentials", and the request will authenticate using the managed identity. If the search service has user-assigned identity and role assignment, set the "identity" property to the resource ID of that identity.
 
 |Attribute|Description|  
 |---------------|-----------------|  
 | keyVaultKeyName | Required. Name of the Azure Key Vault key used for encryption. |
 | keyVaultKeyVersion | Required. Version of the Azure Key Vault key. |
-| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be https://my-keyvault-name.vault.azure.net |
-| accessCredentials | Optional if you are using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
+| keyVaultUri  | Required. URI of Azure Key Vault, also referred to as DNS name, that provides the key. An example URI might be `https://my-keyvault-name.vault.azure.net`. |
+| accessCredentials | Omit if you're using a managed identity. Otherwise, the properties of `accessCredentials` include `applicationId` (an Azure Active Directory Application ID that has access permissions to your specified Azure Key Vault), and `applicationSecret` (the authentication key of the specified Azure AD application). |
 | identity | Optional unless you are using a user-assigned managed identity for the search service connection to Azure Key Vault. The format is `"/subscriptions/[subscription ID]/resourceGroups/[resource group name]/providers/Microsoft.ManagedIdentity/userAssignedIdentities/[managed identity name]"`. |
 
 ## See also  

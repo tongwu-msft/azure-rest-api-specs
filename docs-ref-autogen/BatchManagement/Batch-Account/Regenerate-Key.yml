@@ -3,14 +3,14 @@ uid: management.azure.com.batchmanagement.batchaccount.regeneratekey
 name: Regenerate Key
 service: Batch Management
 groupName: Batch Account
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: "Regenerates the specified account key for the Batch account.  \nThis operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/regenerateKeys?api-version=2022-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -128,11 +128,54 @@ definitions:
 examples:
 - name: BatchAccountRegenerateKey
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/regenerateKeys?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/regenerateKeys?api-version=2022-06-01
     body: >-
       {
         "keyName": "Primary"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/regenerateKeys?api-version=2022-06-01
+
+      {
+        "keyName": "Primary"
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
+       *
+       * @summary This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey'. If the Batch account doesn't contain 'SharedKey' in its allowedAuthenticationMode, clients cannot use shared keys to authenticate, and must use another allowedAuthenticationModes instead. In this case, regenerating the keys will fail.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/BatchAccountRegenerateKey.json
+       */
+      async function batchAccountRegenerateKey() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const parameters = {
+          keyName: "Primary",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const result = await client.batchAccountOperations.regenerateKey(
+          resourceGroupName,
+          accountName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      batchAccountRegenerateKey().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -151,5 +194,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Regenerates the specified account key for the Batch account.  \nThis operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedK"
+  description: >-
+    Regenerates the specified account key for the Batch account.
+
+    This operation applies only to Batch accounts with allowedAuthenticationModes containing 'SharedKey
 errorCodes: []

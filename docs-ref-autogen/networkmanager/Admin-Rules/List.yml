@@ -3,15 +3,15 @@ uid: management.azure.com.networkmanager.adminrules.list
 name: List
 service: Network Manager
 groupName: Admin Rules
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: List all network manager security configuration admin rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules?api-version=2021-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules?api-version=2021-02-01-preview&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules?api-version=2022-01-01&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -35,7 +35,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: ruleCollectionName
@@ -121,10 +121,6 @@ definitions:
   description: Network admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     description: A description for this rule. Restricted to 140 chars.
     types:
@@ -204,11 +200,6 @@ definitions:
   description: Network default admin rule.
   kind: object
   properties:
-  - name: properties.displayName
-    isReadyOnly: true
-    description: A friendly name for the rule.
-    types:
-    - uid: string
   - name: properties.description
     isReadyOnly: true
     description: A description for this rule. Restricted to 140 chars.
@@ -427,7 +418,88 @@ definitions:
 examples:
 - name: List security admin rules
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules?api-version=2021-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRuleList.json
+      func ExampleAdminRulesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewAdminRulesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rg1", "testNetworkManager", "myTestSecurityConfig", "testRuleCollection", &armnetwork.AdminRulesClientListOptions{Top: nil,
+      		SkipToken: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List all network manager security configuration admin rules.
+       *
+       * @summary List all network manager security configuration admin rules.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRuleList.json
+       */
+      async function listSecurityAdminRules() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const configurationName = "myTestSecurityConfig";
+        const ruleCollectionName = "testRuleCollection";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.adminRules.list(
+          resourceGroupName,
+          networkManagerName,
+          configurationName,
+          ruleCollectionName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listSecurityAdminRules().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -474,7 +546,7 @@ examples:
             }
           }
         ],
-        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkManagers/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules?api-version=2021-02-01-preview&$skipToken=10"
+        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkManagers/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules?api-version=2022-01-01&$skipToken=10"
       }
 security:
 - name: azure_auth
@@ -486,5 +558,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - List all network manager security configuration admin rules.
+  description: >
+    Learn more about Network Manager service - List all network manager security configuration admin rules.
 errorCodes: []

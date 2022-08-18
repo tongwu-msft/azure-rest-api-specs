@@ -1,0 +1,781 @@
+### YamlMime:RESTOperation
+uid: language.textanalysisauthoring.getmodelevaluationsummary
+name: Get Model Evaluation Summary
+service: Cognitive Services - Language
+groupName: Text Analysis Authoring
+apiVersion: 2022-05-01
+summary: Gets the evaluation summary of a trained model. The summary includes high level performance measurements of the model e.g., F1, Precision, Recall, etc.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/authoring/analyze-text/projects/{projectName}/models/{trainedModelLabel}/evaluation/summary-result?api-version=2022-05-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: trainedModelLabel
+  in: path
+  isRequired: true
+  description: The trained model label.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of all evaluation results.
+  types:
+  - uid: TextAnalysisAuthoringCustomEntityRecognitionEvaluationSummary
+  - uid: TextAnalysisAuthoringCustomMultiLabelClassificationEvaluationSummary
+  - uid: TextAnalysisAuthoringCustomSingleLabelClassificationEvaluationSummary
+  typesTitle: TextAnalysisAuthoringEvaluationSummary
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: TextAnalysisAuthoringCustomEntityRecognitionEvaluationSummary
+  description: Represents the evaluation summary for a custom entity recognition project.
+  kind: object
+  properties:
+  - name: customEntityRecognitionEvaluation
+    description: Contains the data related to extraction evaluation.
+    types:
+    - uid: TextAnalysisAuthoringEntityRecognitionEvaluationSummary
+  - name: projectKind
+    description: Represents the project type that the evaluation ran on.
+    types:
+    - uid: CustomEntityRecognition
+    typesTitle: string
+  - name: evaluationOptions
+    description: Represents the options used running the evaluation.
+    types:
+    - uid: TextAnalysisAuthoringEvaluationOptions
+- name: TextAnalysisAuthoringCustomMultiLabelClassificationEvaluationSummary
+  description: Represents the evaluation summary for a custom multi-label classification project.
+  kind: object
+  properties:
+  - name: customMultiLabelClassificationEvaluation
+    description: Contains the data related to multi label classification evaluation.
+    types:
+    - uid: TextAnalysisAuthoringMultiLabelClassificationEvaluationSummary
+  - name: projectKind
+    description: Represents the project type that the evaluation ran on.
+    types:
+    - uid: CustomMultiLabelClassification
+    typesTitle: string
+  - name: evaluationOptions
+    description: Represents the options used running the evaluation.
+    types:
+    - uid: TextAnalysisAuthoringEvaluationOptions
+- name: TextAnalysisAuthoringCustomSingleLabelClassificationEvaluationSummary
+  description: Represents the evaluation summary for a custom single-label classification project.
+  kind: object
+  properties:
+  - name: customSingleLabelClassificationEvaluation
+    description: Contains the data related to single label classification evaluation.
+    types:
+    - uid: TextAnalysisAuthoringSingleLabelClassificationEvaluationSummary
+  - name: projectKind
+    description: Represents the project type that the evaluation ran on.
+    types:
+    - uid: CustomSingleLabelClassification
+    typesTitle: string
+  - name: evaluationOptions
+    description: Represents the options used running the evaluation.
+    types:
+    - uid: TextAnalysisAuthoringEvaluationOptions
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: TextAnalysisAuthoringEntityRecognitionEvaluationSummary
+  description: Represents the evaluation summary for a custom entity recognition project.
+  kind: object
+  properties:
+  - name: confusionMatrix
+    description: Represents the confusion matrix between two entities (the two entities can be the same). The matrix is between the entity that was labelled and the entity that was predicted.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: entities
+    description: Represents the entities evaluation
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TextAnalysisAuthoringEntityEvaluationSummary
+  - name: microF1
+    description: Represents the micro F1
+    types:
+    - uid: number
+  - name: microPrecision
+    description: Represents the micro precision
+    types:
+    - uid: number
+  - name: microRecall
+    description: Represents the micro recall
+    types:
+    - uid: number
+  - name: macroF1
+    description: Represents the macro F1
+    types:
+    - uid: number
+  - name: macroPrecision
+    description: Represents the macro precision
+    types:
+    - uid: number
+  - name: macroRecall
+    description: Represents the macro recall
+    types:
+    - uid: number
+- name: ProjectKind
+  description: The project kind.
+  kind: enum
+  properties:
+  - name: CustomSingleLabelClassification
+    description: For building a classification model to classify text using your own data. Each file will have only one label. For example, file 1 is classified as A and file 2 is classified as B.
+    types:
+    - uid: string
+  - name: CustomMultiLabelClassification
+    description: For building a classification model to classify text using your own data. Each file can have one or many labels. For example, file 1 is classified as A, B, and C and file 2 is classified as B and C.
+    types:
+    - uid: string
+  - name: CustomEntityRecognition
+    description: For building an extraction model to identify your domain categories using your own data.
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringEvaluationOptions
+  description: Represents the options used running the evaluation.
+  kind: object
+  properties:
+  - name: kind
+    description: Represents the evaluation kind. By default, the evaluation kind is set to percentage.
+    types:
+    - uid: EvaluationKind
+  - name: trainingSplitPercentage
+    description: Represents the training dataset split percentage. Only needed in case the evaluation kind is percentage.
+    types:
+    - uid: integer
+  - name: testingSplitPercentage
+    description: Represents the testing dataset split percentage. Only needed in case the evaluation kind is percentage.
+    types:
+    - uid: integer
+- name: TextAnalysisAuthoringMultiLabelClassificationEvaluationSummary
+  description: Represents the evaluation summary for a multi-label classification project.
+  kind: object
+  properties:
+  - name: classes
+    description: Represents the classes evaluation
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TextAnalysisAuthoringMultiLabelClassEvaluationSummary
+  - name: microF1
+    description: Represents the micro F1
+    types:
+    - uid: number
+  - name: microPrecision
+    description: Represents the micro precision
+    types:
+    - uid: number
+  - name: microRecall
+    description: Represents the micro recall
+    types:
+    - uid: number
+  - name: macroF1
+    description: Represents the macro F1
+    types:
+    - uid: number
+  - name: macroPrecision
+    description: Represents the macro precision
+    types:
+    - uid: number
+  - name: macroRecall
+    description: Represents the macro recall
+    types:
+    - uid: number
+- name: TextAnalysisAuthoringSingleLabelClassificationEvaluationSummary
+  description: Represents the evaluation summary for a custom single-label classification project.
+  kind: object
+  properties:
+  - name: confusionMatrix
+    description: Represents the confusion matrix between two classes (the two classes can be the same). The matrix is between the class that was labelled and the class that was predicted.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: classes
+    description: Represents the classes evaluation
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: TextAnalysisAuthoringSingleLabelClassEvaluationSummary
+  - name: microF1
+    description: Represents the micro F1
+    types:
+    - uid: number
+  - name: microPrecision
+    description: Represents the micro precision
+    types:
+    - uid: number
+  - name: microRecall
+    description: Represents the micro recall
+    types:
+    - uid: number
+  - name: macroF1
+    description: Represents the macro F1
+    types:
+    - uid: number
+  - name: macroPrecision
+    description: Represents the macro precision
+    types:
+    - uid: number
+  - name: macroRecall
+    description: Represents the macro recall
+    types:
+    - uid: number
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: TextAnalysisAuthoringEntityEvaluationSummary
+  description: Represents the evaluation summary for an entity.
+  kind: object
+  properties:
+  - name: f1
+    description: Represents the model precision
+    types:
+    - uid: number
+  - name: precision
+    description: Represents the model recall
+    types:
+    - uid: number
+  - name: recall
+    description: Represents the model F1 score
+    types:
+    - uid: number
+  - name: truePositiveCount
+    description: Represents the count of true positive
+    types:
+    - uid: integer
+  - name: trueNegativeCount
+    description: Represents the count of true negative
+    types:
+    - uid: integer
+  - name: falsePositiveCount
+    description: Represents the count of false positive
+    types:
+    - uid: integer
+  - name: falseNegativeCount
+    description: Represents the count of false negative
+    types:
+    - uid: integer
+- name: EvaluationKind
+  description: Represents the evaluation kind. By default, the evaluation kind is set to percentage.
+  kind: enum
+  properties:
+  - name: percentage
+    description: Split the data into training and test sets according to user-defined percentages.
+    types:
+    - uid: string
+  - name: manual
+    description: Split the data according to the chosen dataset for every example in the data.
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringMultiLabelClassEvaluationSummary
+  description: Represents the evaluation summary of a class in a multi-label classification project.
+  kind: object
+  properties:
+  - name: f1
+    description: Represents the model precision
+    types:
+    - uid: number
+  - name: precision
+    description: Represents the model recall
+    types:
+    - uid: number
+  - name: recall
+    description: Represents the model F1 score
+    types:
+    - uid: number
+  - name: truePositiveCount
+    description: Represents the count of true positive
+    types:
+    - uid: integer
+  - name: trueNegativeCount
+    description: Represents the count of true negative
+    types:
+    - uid: integer
+  - name: falsePositiveCount
+    description: Represents the count of false positive
+    types:
+    - uid: integer
+  - name: falseNegativeCount
+    description: Represents the count of false negative
+    types:
+    - uid: integer
+- name: TextAnalysisAuthoringSingleLabelClassEvaluationSummary
+  description: Represents the evaluation summary for a class in a single-label classification project.
+  kind: object
+  properties:
+  - name: f1
+    description: Represents the model precision
+    types:
+    - uid: number
+  - name: precision
+    description: Represents the model recall
+    types:
+    - uid: number
+  - name: recall
+    description: Represents the model F1 score
+    types:
+    - uid: number
+  - name: truePositiveCount
+    description: Represents the count of true positive
+    types:
+    - uid: integer
+  - name: trueNegativeCount
+    description: Represents the count of true negative
+    types:
+    - uid: integer
+  - name: falsePositiveCount
+    description: Represents the count of false positive
+    types:
+    - uid: integer
+  - name: falseNegativeCount
+    description: Represents the count of false negative
+    types:
+    - uid: integer
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Get Model Evaluation Summary
+  request:
+    uri: GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/models/model2/evaluation/summary-result?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/models/model2/evaluation/summary-result?api-version=2022-05-01
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "projectKind": "CustomEntityRecognition",
+        "customEntityRecognitionEvaluation": {
+          "confusionMatrix": {
+            "BorrowerAddress": {
+              "BorrowerAddress": {
+                "normalizedValue": 86.206894,
+                "rawValue": 3.4482758
+              },
+              "$none": {
+                "normalizedValue": 13.793103,
+                "rawValue": 0.55172414
+              }
+            },
+            "BorrowerCity": {
+              "BorrowerCity": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "BorrowerName": {
+              "BorrowerName": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "BorrowerState": {
+              "BorrowerState": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "Date": {
+              "Date": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "Interest": {
+              "Interest": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LenderAddress": {
+              "LenderAddress": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LenderCity": {
+              "LenderCity": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LenderName": {
+              "LenderName": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LenderState": {
+              "LenderState": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LoanAmountNumbers": {
+              "LoanAmountNumbers": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "LoanAmountWords": {
+              "LoanAmountWords": {
+                "normalizedValue": 100,
+                "rawValue": 4
+              }
+            },
+            "$none": {
+              "$none": {
+                "normalizedValue": 99.81485,
+                "rawValue": 51.90372
+              },
+              "BorrowerAddress": {
+                "normalizedValue": 0.18315019,
+                "rawValue": 0.0952381
+              },
+              "Interest": {
+                "normalizedValue": 0.002005294,
+                "rawValue": 0.0010427529
+              }
+            }
+          },
+          "entities": {
+            "Date": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "BorrowerName": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "BorrowerAddress": {
+              "f1": 0.6666666865348816,
+              "precision": 0.6000000238418579,
+              "recall": 0.75,
+              "truePositiveCount": 3,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 2,
+              "falseNegativeCount": 1
+            },
+            "BorrowerCity": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "BorrowerState": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LenderName": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LenderAddress": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LenderCity": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LenderState": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LoanAmountWords": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "LoanAmountNumbers": {
+              "f1": 1,
+              "precision": 1,
+              "recall": 1,
+              "truePositiveCount": 4,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 0,
+              "falseNegativeCount": 0
+            },
+            "Interest": {
+              "f1": 0.75,
+              "precision": 0.75,
+              "recall": 0.75,
+              "truePositiveCount": 3,
+              "trueNegativeCount": 0,
+              "falsePositiveCount": 1,
+              "falseNegativeCount": 1
+            }
+          },
+          "microF1": 0.94845366,
+          "microPrecision": 0.93877554,
+          "microRecall": 0.9583333,
+          "macroF1": 0.9513889,
+          "macroPrecision": 0.9458334,
+          "macroRecall": 0.9583333
+        },
+        "evaluationOptions": {
+          "kind": "percentage",
+          "trainingSplitPercentage": 80,
+          "testingSplitPercentage": 20
+        }
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Gets the evaluation summary of a trained model. The summary includes high level performance measurements of the model e.g., F1, Precision, Recall, etc.
+errorCodes: []

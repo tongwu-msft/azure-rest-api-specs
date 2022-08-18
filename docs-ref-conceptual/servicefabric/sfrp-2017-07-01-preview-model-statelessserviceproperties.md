@@ -1,5 +1,6 @@
 ---
 title: "StatelessServiceProperties"
+description: "Describe the properties of a stateless service resource. Properties Name and Type are listed in the following table."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

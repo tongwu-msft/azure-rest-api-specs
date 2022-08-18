@@ -3,14 +3,14 @@ uid: management.azure.com.automation.runbook.createorupdate
 name: Create Or Update
 service: Automation
 groupName: Runbook
-apiVersion: 2015-10-31
+apiVersion: 2019-06-01
 summary: Create the runbook identified by runbook name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}?api-version=2015-10-31
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/runbooks/{runbookName}?api-version=2019-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -52,8 +52,6 @@ responses:
   description: Created
   types:
   - uid: Runbook
-- name: 400 Bad Request
-  description: Bad Request. Cannot specify the content link for a published runbook and draft at the same time.
 - name: Other Status Codes
   description: Automation error response describing why the operation failed.
   types:
@@ -380,6 +378,12 @@ definitions:
   - name: GraphPowerShell
     types:
     - uid: string
+  - name: Python2
+    types:
+    - uid: string
+  - name: Python3
+    types:
+    - uid: string
 - name: RunbookState
   description: Gets or sets the state of the runbook.
   kind: enum
@@ -403,7 +407,7 @@ definitions:
 examples:
 - name: Create or update runbook and publish it
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2015-10-31
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2019-06-01
     body: >-
       {
         "properties": {
@@ -427,6 +431,36 @@ examples:
           "tag02": "value02"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2019-06-01
+
+      {
+        "properties": {
+          "logVerbose": false,
+          "logProgress": true,
+          "runbookType": "PowerShellWorkflow",
+          "publishContentLink": {
+            "uri": "https://raw.githubusercontent.com/Azure/azure-quickstart-templates/master/101-automation-runbook-getvms/Runbooks/Get-AzureVMTutorial.ps1",
+            "contentHash": {
+              "algorithm": "SHA256",
+              "value": "115775B8FF2BE672D8A946BD0B489918C724DDE15A440373CA54461D53010A80"
+            }
+          },
+          "description": "Description of the Runbook",
+          "logActivityTrace": 1
+        },
+        "name": "Get-AzureVMTutorial",
+        "location": "East US 2",
+        "tags": {
+          "tag01": "value01",
+          "tag02": "value02"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -484,10 +518,9 @@ examples:
           "lastModifiedTime": "2017-03-28T21:04:46.6+00:00"
         }
       }
-  - statusCode: "400"
 - name: Create runbook as draft
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2015-10-31
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2019-06-01
     body: >-
       {
         "properties": {
@@ -504,6 +537,29 @@ examples:
           "tag02": "value02"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/ContoseAutomationAccount/runbooks/Get-AzureVMTutorial?api-version=2019-06-01
+
+      {
+        "properties": {
+          "logVerbose": false,
+          "logProgress": false,
+          "runbookType": "PowerShellWorkflow",
+          "description": "Description of the Runbook",
+          "draft": {}
+        },
+        "name": "Get-AzureVMTutorial",
+        "location": "East US 2",
+        "tags": {
+          "tag01": "value01",
+          "tag02": "value02"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -558,7 +614,6 @@ examples:
           "lastModifiedTime": "2018-02-09T03:25:59.097+00:00"
         }
       }
-  - statusCode: "400"
 security:
 - name: azure_auth
   type: oauth2
@@ -569,5 +624,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Automation service - Create the runbook identified by runbook name.
+  description: >
+    Learn more about Automation service - Create the runbook identified by runbook name.
 errorCodes: []

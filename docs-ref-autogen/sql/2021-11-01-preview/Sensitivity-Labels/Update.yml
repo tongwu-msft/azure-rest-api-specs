@@ -1,0 +1,450 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.sensitivitylabels.update
+name: Update
+service: SQL Database
+groupName: Sensitivity Labels
+apiVersion: 2021-11-01-preview
+summary: Update sensitivity labels of a given database using an operations batch.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/currentSensitivityLabels?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated sensitivity labels.
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 DatawarehouseDatabaseIsDeactivated - Could not execute Data Classification operation because the database is paused. Please resume it.
+
+     * 400 DatawarehouseDatabaseIsDeactivated - Could not execute Data Classification operation because the database is paused. Please resume it.
+
+     * 400 SensitivityLabelSourceNameNotSupported - The specified sensitivity label source is not valid
+
+     * 400 InvalidSensitivityLabelsBatch - The specified sensitivity labels batch is not valid. Please provide batch operations
+
+     * 400 SensitivityLabelsMissingSchema - Operation[{0}]: Missing schema information
+
+     * 400 SensitivityLabelsMissingTable - Operation[{0}]: Missing table information
+
+     * 400 SensitivityLabelsMissingColumn - Operation[{0}]: Missing column information
+
+     * 400 SensitivityLabelsUpdateSameColumnMoreThanOnce - The column {0} can not be updated more than once in a single command
+
+     * 400 InvalidSensitivityLabelResource - The specified sensitivity label resource is not valid
+
+     * 400 SensitivityLabelLabelNameAndInfoTypeNotProvided - At least one of LabelName and InformationType must be specified
+
+     * 400 LabelNameTooLong - Label name cannot exceed {0} characters
+
+     * 400 InformationTypeTooLong - Information type cannot exceed {0} characters
+
+     * 400 LabelIdMustBeGuid - The provided ‘labelId’ is invalid. Value must be a GUID
+
+     * 400 InformationTypeIdMustBeGuid - The provided ‘informationTypeId’ is invalid. Value must be a GUID
+
+     * 400 LabelMissing - Label is required. At least one of ‘labelName’ or ‘labelId’ must be provided
+
+     * 400 InformationTypeMissing - Information type is required. At least one of ‘informationType’ or ‘informationTypeId’ must be provided
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SensitivityLabelsLabelNotFound - The specified sensitivity label could not be found
+
+     * 404 SensitivityLabelsSchemaNotFound - The schema {0} could not be found
+
+     * 404 SensitivityLabelsTableNotFound - The table {0} could not be found in schema {1}
+
+     * 404 SensitivityLabelsColumnNotFound - The column {0} could not be found in table {2}.{1}
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+requestBody:
+- name: default
+  parameters:
+  - name: operations
+    in: body
+    description: A sensitivity label update operation.
+    types:
+    - uid: SensitivityLabelUpdate
+      isArray: true
+requestHeader: []
+definitions:
+- name: SensitivityLabelUpdate
+  description: A sensitivity label update operation.
+  kind: object
+  properties:
+  - name: properties.op
+    description: ''
+    types:
+    - uid: SensitivityLabelUpdateKind
+  - name: properties.schema
+    description: Schema name of the column to update.
+    types:
+    - uid: string
+  - name: properties.table
+    description: Table name of the column to update.
+    types:
+    - uid: string
+  - name: properties.column
+    description: Column name to update.
+    types:
+    - uid: string
+  - name: properties.sensitivityLabel
+    description: The sensitivity label information to apply on a column.
+    types:
+    - uid: SensitivityLabel
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SensitivityLabelUpdateList
+  description: A list of sensitivity label update operations.
+  kind: object
+  properties:
+  - name: operations
+    description: A sensitivity label update operation.
+    types:
+    - uid: SensitivityLabelUpdate
+      isArray: true
+- name: SensitivityLabelUpdateKind
+  kind: enum
+  properties:
+  - name: set
+    types:
+    - uid: string
+  - name: remove
+    types:
+    - uid: string
+- name: SensitivityLabel
+  description: A sensitivity label.
+  kind: object
+  properties:
+  - name: managedBy
+    isReadyOnly: true
+    description: Resource that manages the sensitivity label.
+    types:
+    - uid: string
+  - name: properties.schemaName
+    isReadyOnly: true
+    description: The schema name.
+    types:
+    - uid: string
+  - name: properties.tableName
+    isReadyOnly: true
+    description: The table name.
+    types:
+    - uid: string
+  - name: properties.columnName
+    isReadyOnly: true
+    description: The column name.
+    types:
+    - uid: string
+  - name: properties.labelName
+    description: The label name.
+    types:
+    - uid: string
+  - name: properties.labelId
+    description: The label ID.
+    types:
+    - uid: string
+  - name: properties.informationType
+    description: The information type.
+    types:
+    - uid: string
+  - name: properties.informationTypeId
+    description: The information type ID.
+    types:
+    - uid: string
+  - name: properties.isDisabled
+    isReadyOnly: true
+    description: Is sensitivity recommendation disabled. Applicable for recommended sensitivity label only. Specifies whether the sensitivity recommendation on this column is disabled (dismissed) or not.
+    types:
+    - uid: boolean
+  - name: properties.rank
+    description: ''
+    types:
+    - uid: SensitivityLabelRank
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: SensitivityLabelRank
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Low
+    types:
+    - uid: string
+  - name: Medium
+    types:
+    - uid: string
+  - name: High
+    types:
+    - uid: string
+  - name: Critical
+    types:
+    - uid: string
+examples:
+- name: Update sensitivity labels of a given database using an operations batch.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/currentSensitivityLabels?api-version=2021-11-01-preview
+    body: >-
+      {
+        "operations": [
+          {
+            "properties": {
+              "op": "set",
+              "schema": "dbo",
+              "table": "table1",
+              "column": "column1",
+              "sensitivityLabel": {
+                "properties": {
+                  "labelName": "Highly Confidential",
+                  "labelId": "3A477B16-9423-432B-AA97-6069B481CEC3",
+                  "informationType": "Financial",
+                  "informationTypeId": "1D3652D6-422C-4115-82F1-65DAEBC665C8",
+                  "rank": "Low"
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "op": "set",
+              "schema": "dbo",
+              "table": "table2",
+              "column": "column2",
+              "sensitivityLabel": {
+                "properties": {
+                  "informationType": "PhoneNumber",
+                  "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+                  "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+                  "labelName": "PII",
+                  "rank": "Critical"
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "op": "remove",
+              "schema": "dbo",
+              "table": "Table1",
+              "column": "Column3"
+            }
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/currentSensitivityLabels?api-version=2021-11-01-preview
+
+      {
+        "operations": [
+          {
+            "properties": {
+              "op": "set",
+              "schema": "dbo",
+              "table": "table1",
+              "column": "column1",
+              "sensitivityLabel": {
+                "properties": {
+                  "labelName": "Highly Confidential",
+                  "labelId": "3A477B16-9423-432B-AA97-6069B481CEC3",
+                  "informationType": "Financial",
+                  "informationTypeId": "1D3652D6-422C-4115-82F1-65DAEBC665C8",
+                  "rank": "Low"
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "op": "set",
+              "schema": "dbo",
+              "table": "table2",
+              "column": "column2",
+              "sensitivityLabel": {
+                "properties": {
+                  "informationType": "PhoneNumber",
+                  "informationTypeId": "d22fa6e9-5ee4-3bde-4c2b-a409604c4646",
+                  "labelId": "bf91e08c-f4f0-478a-b016-25164b2a65ff",
+                  "labelName": "PII",
+                  "rank": "Critical"
+                }
+              }
+            }
+          },
+          {
+            "properties": {
+              "op": "remove",
+              "schema": "dbo",
+              "table": "Table1",
+              "column": "Column3"
+            }
+          }
+        ]
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/SensitivityLabelsCurrentUpdate.json
+      func ExampleSensitivityLabelsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewSensitivityLabelsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	_, err = client.Update(ctx,
+      		"<resource-group-name>",
+      		"<server-name>",
+      		"<database-name>",
+      		armsql.SensitivityLabelUpdateList{
+      			Operations: []*armsql.SensitivityLabelUpdate{
+      				{
+      					Properties: &armsql.SensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("<schema>"),
+      						Column: to.Ptr("<column>"),
+      						Op:     to.Ptr(armsql.SensitivityLabelUpdateKindSet),
+      						SensitivityLabel: &armsql.SensitivityLabel{
+      							Properties: &armsql.SensitivityLabelProperties{
+      								InformationType:   to.Ptr("<information-type>"),
+      								InformationTypeID: to.Ptr("<information-type-id>"),
+      								LabelID:           to.Ptr("<label-id>"),
+      								LabelName:         to.Ptr("<label-name>"),
+      								Rank:              to.Ptr(armsql.SensitivityLabelRankLow),
+      							},
+      						},
+      						Table: to.Ptr("<table>"),
+      					},
+      				},
+      				{
+      					Properties: &armsql.SensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("<schema>"),
+      						Column: to.Ptr("<column>"),
+      						Op:     to.Ptr(armsql.SensitivityLabelUpdateKindSet),
+      						SensitivityLabel: &armsql.SensitivityLabel{
+      							Properties: &armsql.SensitivityLabelProperties{
+      								InformationType:   to.Ptr("<information-type>"),
+      								InformationTypeID: to.Ptr("<information-type-id>"),
+      								LabelID:           to.Ptr("<label-id>"),
+      								LabelName:         to.Ptr("<label-name>"),
+      								Rank:              to.Ptr(armsql.SensitivityLabelRankCritical),
+      							},
+      						},
+      						Table: to.Ptr("<table>"),
+      					},
+      				},
+      				{
+      					Properties: &armsql.SensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("<schema>"),
+      						Column: to.Ptr("<column>"),
+      						Op:     to.Ptr(armsql.SensitivityLabelUpdateKindRemove),
+      						Table:  to.Ptr("<table>"),
+      					},
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv0.5.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Update sensitivity labels of a given database using an operations batch.
+errorCodes: []

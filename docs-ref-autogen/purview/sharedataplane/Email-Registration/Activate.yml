@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: purview.sharedataplane.emailregistration.activate
+name: Activate
+service: Purview
+groupName: Email Registration
+apiVersion: 2021-09-01-preview
+summary: "Activates the tenant and email combination using the activation code received.  \nActivates the email registration for current tenant"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST {endpoint}/activateEmail?api-version=2021-09-01-preview
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: 'The scanning endpoint of your purview account. Example: https://{accountName}.purview.azure.com/share'
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The api version to use.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: TenantEmailRegistration
+- name: Other Status Codes
+  description: Default error response.
+  types:
+  - uid: PurviewShareError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.activationCode
+    in: body
+    isRequired: true
+    description: Activation code for the registration.
+    types:
+    - uid: string
+requestHeader:
+- name: repeatability-request-id
+  in: header
+  description: If specified, the client directs that the request is repeatable; that is, that the client can make the request multiple times with the same Repeatability-Request-Id and get back an appropriate response without the server executing the request multiple times. The value of the Repeatability-Request-Id is an opaque string representing a client-generated, globally unique for all time, identifier for the request. It is recommended to use version 4 (random) UUIDs.
+  types:
+  - uid: string
+definitions:
+- name: TenantEmailRegistration
+  description: A tenant email registration data transfer object.
+  kind: object
+  properties:
+  - name: properties.activationCode
+    description: Activation code for the registration.
+    types:
+    - uid: string
+  - name: properties.activationExpiration
+    isReadyOnly: true
+    description: Date of the activation expiration.
+    types:
+    - uid: string
+  - name: properties.email
+    isReadyOnly: true
+    description: The email to register.
+    types:
+    - uid: string
+  - name: properties.registrationStatus
+    isReadyOnly: true
+    description: Defines the supported types for registration.
+    types:
+    - uid: RegistrationStatus
+  - name: properties.tenantId
+    isReadyOnly: true
+    description: The tenant id to register.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: The resource id of the resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+- name: PurviewShareError
+  description: The purview share error model.
+  kind: object
+  properties:
+  - name: error
+    description: The purview share error body model.
+    types:
+    - uid: PurviewShareErrorInfo
+- name: RegistrationStatus
+  description: Defines the supported types for registration.
+  kind: enum
+  properties:
+  - name: ActivationPending
+    types:
+    - uid: string
+  - name: Activated
+    types:
+    - uid: string
+  - name: ActivationAttemptsExhausted
+    types:
+    - uid: string
+- name: PurviewShareErrorInfo
+  description: The purview share error body model.
+  kind: object
+  properties:
+  - name: code
+    description: Code of the error
+    types:
+    - uid: string
+  - name: details
+    description: Nested details of the error model
+    types:
+    - uid: PurviewShareErrorInfo
+      isArray: true
+  - name: message
+    description: Message of the error
+    types:
+    - uid: string
+  - name: target
+    description: Target of the error
+    types:
+    - uid: string
+examples:
+- name: EmailRegistration_Activate
+  request:
+    uri: POST accountName.purview.azure.com/share/activateEmail?api-version=2021-09-01-preview
+    body: >-
+      {
+        "properties": {
+          "activationCode": "15ee7153fe0df5a3a449a897d6cec836"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST accountName.purview.azure.com/share/activateEmail?api-version=2021-09-01-preview
+
+
+      {
+        "properties": {
+          "activationCode": "15ee7153fe0df5a3a449a897d6cec836"
+        }
+      }
+
+      ```
+
+    headers:
+    - name: repeatability-request-id
+      value: b470712a-ffbc-4d9f-ab99-6640db8bbcb8
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Date
+      value: Wed, 13 Sep 2017 18:04:32 GMT
+    - name: x-ms-correlation-request-id
+      value: 25c78f97-0b0a-4fe9-ad39-883a482265cd
+    body: >-
+      {
+        "properties": {
+          "activationCode": "15ee7153fe0df5a3a449a897d6cec836",
+          "activationExpiration": "2022-08-16T22:35:17.2093506Z",
+          "email": "john.smith@contoso.com",
+          "registrationStatus": "Activated",
+          "tenantId": "f686d426-8d16-42db-81b7-ab578e110ccd"
+        },
+        "id": "/tenantEmailRegistration/cb817140-a0cf-464f-8a82-0a9627a026ab",
+        "name": "cb817140-a0cf-464f-8a82-0a9627a026ab",
+        "type": "tenantEmailRegistration"
+      }
+security: []
+metadata:
+  description: >
+    Activates the tenant and email combination using the activation code received.
+
+    Activates the email registration for current tenant
+errorCodes: []

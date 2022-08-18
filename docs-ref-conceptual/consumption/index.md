@@ -1,17 +1,17 @@
 ---
 ms.assetid:
 title: Azure Consumption REST APIs
+description: Learn how the Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources.
 ms.service: cost-management-billing
-author: ms-premp
-ms.author: prprak
-ms.manager: srsrikum
-service_description: To be added..
+author: bandersmsft
+ms.author: banders
+ms.reviewer: adwise
 ---
 
 
 # Azure Consumption
 
-The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. These APIs currently only support Enterprise Enrollments and Web Direct  Subscriptions (with a few exceptions). The APIs are continually updated to support other types of Azure subscriptions.
+The Azure Consumption APIs give you programmatic access to cost and usage data for your Azure resources. The APIs currently only support Enterprise Enrollments, Web Direct subscriptions (with a few exceptions), and CSP Azure plan subscriptions. The APIs are continually updated to support other types of Azure subscriptions.
 
 Azure Consumption APIs provide access to:
 * Enterprise Customers Only
@@ -43,7 +43,7 @@ Azure Consumption APIs provide access to:
 | Operation Group | Description |
 |-----------------|-------------|
 | [Budgets](xref:management.azure.com.consumption.budgets) | Provides operations to set, update, and delete budgets at a Subscription or resource group scope. Supports cost and usage budgets.
-  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions and Billing accounts.
+  [Price Sheet](xref:management.azure.com.consumption.pricesheet) | Provides operations to get price sheet for Enterprise Subscriptions.
   [Marketplace Charges](xref:management.azure.com.consumption.marketplaces) | Provides operations to get usage information for marketplace resources on subscription or Enterprise Billing accounts.
   [Usage Details](xref:management.azure.com.consumption.usagedetails) | Provides operations to get usage information on subscription or Enterprise Billing accounts. |
   [Reservation Details](xref:management.azure.com.consumption.reservationsdetails) | Provides operations to get reservation detailed usage for Pay as you go and Enterprise Subscriptions. |
@@ -76,7 +76,7 @@ Maximum allowed date range is 12 months in one request and data is available fro
 ### Getting list of billing periods
 For providing a valid billing period in request, client should first get a list of available billing periods by subscription, using following API
 
-       GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview
+`GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Billing/billingPeriods?api-version=2017-04-24-preview`
 
 Using this list, client can pick a specific billing period to get consumption data.
 
@@ -96,38 +96,39 @@ These changes will result in a few scenarios that will need to be addressed when
 
 Sample Call for Additional Details:
 
-       GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31&$expand=properties/additionalProperties
+`GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Consumption/usageDetails?api-version=2018-03-31&$expand=properties/additionalProperties`
 
 Sample Response snippet:
 
-        "properties":{
-            "billingPeriodId":"/subscriptions/{subscriptionid}/providers/Microsoft.Billing/billingPeriods/20180501",
-            "usageStart":"2018-05-01T00:00:00.0000000Z",
-            "usageEnd":"2018-05-01T23:59:59.0000000Z
-            instanceId":"/subscriptions/{subscriptionid}/resourceGroups/{resourcegroup}/providers/Microsoft.Cdn/profiles/{profile}",
-            "instanceName":"{id}",
-            "instanceLocation":"SouthCentralUS",
-            "meterId":"6b88ada0-cbc0-4874-be0e-23004f8b4de7",
-            "usageQuantity":0.002065,
-            "pretaxCost":0,
-            "currency":"USD",
-            "additionalProperties":"{
-                \"Provider\": \"1\",
-                \"ConsumptionBeginTime\": \"2018-05-01T19:00:00\",
-                \"ConsumptionEndTime\": \"2018-05-01T20:00:00\"
-                }",
-
-
+```json
+  "properties": {
+    "billingPeriodId":"/subscriptions/{subscriptionid}/providers/Microsoft.Billing/billingPeriods/20180501",
+    "usageStart":"2018-05-01T00:00:00.0000000Z",
+    "usageEnd":"2018-05-01T23:59:59.0000000Z",
+    "instanceId":"/subscriptions/{subscriptionid}/resourceGroups/{resourcegroup}/providers/Microsoft.Cdn/profiles/{profile}",
+    "instanceName":"{id}",
+    "instanceLocation":"SouthCentralUS",
+    "meterId":"6b88ada0-cbc0-4874-be0e-23004f8b4de7",
+    "usageQuantity":0.002065,
+    "pretaxCost":0,
+    "currency":"USD",
+    "additionalProperties": {
+      "Provider": "1",
+      "ConsumptionBeginTime": "2018-05-01T19:00:00",
+      "ConsumptionEndTime": "2018-05-01T20:00:00"
+    }
+  }
+```
 
 ## See also
 
 For more information about using this API in one of the language-specific SDKs, visit the following
 
-[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python)
+[Azure Consumption Python SDK](/python/api/overview/azure/consumption?view=azure-python&preserve-view=true)
 
-[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest)
+[Azure Consumption CLI](/cli/azure/consumption?view=azure-cli-latest&preserve-view=true)
 
-[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet)
+[Azure Consumption .NET SDK](/dotnet/api/overview/azure/consumption/management?view=azure-dotnet&preserve-view=true)
 
 [Azure Consumption NodeJS SDK](/javascript/api/overview/azure/consumption)
 

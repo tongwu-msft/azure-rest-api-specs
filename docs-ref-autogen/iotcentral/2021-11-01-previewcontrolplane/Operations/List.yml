@@ -1,0 +1,1029 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.iotcentral.2021-11-01-previewcontrolplane.operations.list
+name: List
+service: IoT Central
+groupName: Operations
+apiVersion: 2021-11-01-preview
+summary: Lists all of the available IoT Central Resource Provider operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.IoTCentral/operations?api-version=2021-11-01-preview
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. The request has succeeded.
+  types:
+  - uid: OperationListResult
+- name: Other Status Codes
+  description: DefaultErrorResponse
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: A list of IoT Central operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: nextLink
+    description: The link used to get the next page of IoT Central description objects.
+    types:
+    - uid: string
+  - name: value
+    isReadyOnly: true
+    description: A list of operations supported by the Microsoft.IoTCentral resource provider.
+    types:
+    - uid: Operation
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Operation
+  description: IoT Central REST API operation
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: 'Operation name: {provider}/{resource}/{read | write | action | delete}'
+    types:
+    - uid: string
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: OperationDisplay
+  - name: origin
+    isReadyOnly: true
+    description: The intended executor of the operation.
+    types:
+    - uid: string
+  - name: properties
+    isReadyOnly: true
+    description: Additional descriptions for the operation.
+    types:
+    - uid: object
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: OperationDisplay
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: 'Service provider: Microsoft IoT Central'
+    types:
+    - uid: string
+  - name: resource
+    isReadyOnly: true
+    description: 'Resource Type: IoT Central'
+    types:
+    - uid: string
+  - name: operation
+    isReadyOnly: true
+    description: Name of the operation
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Friendly description for the operation,
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Operations_List
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.IoTCentral/operations?api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.IoTCentral/operations?api-version=2021-11-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Operations_List.json
+           */
+          /**
+           * Sample code: Operations_List.
+           *
+           * @param manager Entry point to IotCentralManager.
+           */
+          public static void operationsList(com.azure.resourcemanager.iotcentral.IotCentralManager manager) {
+              manager.operations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-iotcentral_1.1.0-beta.1/sdk/iotcentral/azure-resourcemanager-iotcentral/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armiotcentral_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iotcentral/armiotcentral/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Operations_List.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armiotcentral.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fiotcentral%2Farmiotcentral%2Fv2.0.0-beta.1/sdk/resourcemanager/iotcentral/armiotcentral/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { IotCentralClient } = require("@azure/arm-iotcentral");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available IoT Central Resource Provider operations.
+       *
+       * @summary Lists all of the available IoT Central Resource Provider operations.
+       * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Operations_List.json
+       */
+      async function operationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new IotCentralClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      operationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-iotcentral_7.0.0-beta.1/sdk/iotcentral/arm-iotcentral/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    headers:
+    - name: Code
+      value: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.IoTCentral/iotApps/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Get/List IoTApp resource(s)",
+              "description": "Read IoTApp resources"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/write",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Create/Update/Patch IoTApp resources",
+              "description": "Create or update a IoTApp resource"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/delete",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Delete IoTApp resource",
+              "description": "Delete IoTApp resource"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/checkNameAvailability/action",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "",
+              "operation": "Check IoTApp resource name availability",
+              "description": "Checks if a IoTApp resource name is available"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/checkSubdomainAvailability/action",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "",
+              "operation": "Check IoTApp resource subdomain availability",
+              "description": "Check if a IoTApp resource subdomain is available"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/operations/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "",
+              "operation": "Get/List operations",
+              "description": "Get/List all the available operations for IoT Central"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/appTemplates/action",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "Azure IoT Central resource provider",
+              "operation": "List app templates",
+              "description": "Lists application templates for IoTApps resources."
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/register/action",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "Azure IoT Central resource provider",
+              "operation": "Register Microsoft.IoTCentral resource provider",
+              "description": "Register the subscription for the IoTCentral resource provider"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateLinkResources/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateLinkResources",
+              "operation": "Get/List private link resources",
+              "description": "Read private link resources"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnections/write",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnections",
+              "operation": "Approve/Reject/Disconnect private endpoint connections",
+              "description": "Approve/reject/disconnect private endpoint connections"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnections/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnections",
+              "operation": "Get/List private endpoint connections",
+              "description": "Read private endpoint connections"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnections/delete",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnections",
+              "operation": "Delete private endpoint connections",
+              "description": "Delete private endpoint connections"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnectionProxies/validate/action",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnectionProxies",
+              "operation": "Validate private endpoint connection proxies",
+              "description": "Validate private endpoint connection proxies during Create/Update/Patch"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnectionProxies/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnectionProxies",
+              "operation": "Get/List private endpoint connection proxies",
+              "description": "Read private endpoint connection proxies"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnectionProxies/write",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnectionProxies",
+              "operation": "Create/Update/Patch private endpoint connection proxies",
+              "description": "Create/Update/Patch private endpoint connection proxies"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/privateEndpointConnectionProxies/delete",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps/privateEndpointConnectionProxies",
+              "operation": "Delete private endpoint connection proxies",
+              "description": "Deletes private endpoint connection proxies"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/locations/operationResults/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "locations/operationResults",
+              "operation": "Get async operation results",
+              "description": "Get async operation results for IoT Central"
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/providers/Microsoft.Insights/metricDefinitions/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Get/List metric definitions",
+              "description": "Read all the available metric definitions for IoT Central"
+            },
+            "origin": "system",
+            "properties": {
+              "serviceSpecification": {
+                "metricSpecifications": [
+                  {
+                    "name": "connectedDeviceCount",
+                    "displayName": "Total Connected Devices",
+                    "displayDescription": "Number of devices connected to IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Average"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": true,
+                    "lockAggregationType": "Total"
+                  },
+                  {
+                    "name": "c2d.property.read.success",
+                    "displayName": "Successful Device Property Reads from IoT Central",
+                    "displayDescription": "The count of all successful property reads initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.property.read.failure",
+                    "displayName": "Failed Device Property Reads from IoT Central",
+                    "displayDescription": "The count of all failed property reads initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.property.read.success",
+                    "displayName": "Successful Device Property Reads from Devices",
+                    "displayDescription": "The count of all successful property reads initiated from devices",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.property.read.failure",
+                    "displayName": "Failed Device Property Reads from Devices",
+                    "displayDescription": "The count of all failed property reads initiated from devices",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.property.update.success",
+                    "displayName": "Successful Device Property Updates from IoT Central",
+                    "displayDescription": "The count of all successful property updates initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.property.update.failure",
+                    "displayName": "Failed Device Property Updates from IoT Central",
+                    "displayDescription": "The count of all failed property updates initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.property.update.success",
+                    "displayName": "Successful Device Property Updates from Devices",
+                    "displayDescription": "The count of all successful property updates initiated from devices",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.property.update.failure",
+                    "displayName": "Failed Device Property Updates from Devices",
+                    "displayDescription": "The count of all failed property updates initiated from devices",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "provisionedDeviceCount",
+                    "displayName": "Total Provisioned Devices",
+                    "displayDescription": "Number of devices provisioned in IoT Central application",
+                    "unit": "Count",
+                    "aggregationType": "Average",
+                    "supportedAggregationTypes": [
+                      "Average"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": true,
+                    "lockAggregationType": "Total"
+                  },
+                  {
+                    "name": "deviceDataUsage",
+                    "displayName": "Total Device Data Usage",
+                    "displayDescription": "Bytes transferred to and from any devices connected to IoT Central application",
+                    "unit": "Bytes",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": true
+                  },
+                  {
+                    "name": "c2d.commands.success",
+                    "displayName": "Successful command invocations",
+                    "displayDescription": "The count of all successful command requests initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.commands.failure",
+                    "displayName": "Failed command invocations",
+                    "displayDescription": "The count of all failed command requests initiated from IoT Central",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.commands.requestSize",
+                    "displayName": "Request size of command invocations",
+                    "displayDescription": "Request size of all command requests initiated from IoT Central",
+                    "unit": "Bytes",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "c2d.commands.responseSize",
+                    "displayName": "Response size of command invocations",
+                    "displayDescription": "Response size of all command responses initiated from IoT Central",
+                    "unit": "Bytes",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.telemetry.ingress.allProtocol",
+                    "displayName": "Total Telemetry Message Send Attempts",
+                    "displayDescription": "Number of device-to-cloud telemetry messages attempted to be sent to the IoT Central application",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "d2c.telemetry.ingress.success",
+                    "displayName": "Total Telemetry Messages Sent",
+                    "displayDescription": "Number of device-to-cloud telemetry messages successfully sent to the IoT Central application",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false
+                  },
+                  {
+                    "name": "dataExport.messages.received",
+                    "displayName": "Data Export Messages Received",
+                    "displayDescription": "Number of messages incoming to data export, before filtering and enrichment processing",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false,
+                    "dimensions": [
+                      {
+                        "name": "exportId",
+                        "displayName": "Export Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "exportDisplayName",
+                        "displayName": "Export Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationId",
+                        "displayName": "Destination Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationDisplayName",
+                        "displayName": "Destination Display Name",
+                        "toBeExportedForShoebox": true
+                      }
+                    ]
+                  },
+                  {
+                    "name": "dataExport.messages.filtered",
+                    "displayName": "Data Export Messages Filtered",
+                    "displayDescription": "Number of messages that have passed through filters in data export",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false,
+                    "dimensions": [
+                      {
+                        "name": "exportId",
+                        "displayName": "Export Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "exportDisplayName",
+                        "displayName": "Export Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationId",
+                        "displayName": "Destination Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationDisplayName",
+                        "displayName": "Destination Display Name",
+                        "toBeExportedForShoebox": true
+                      }
+                    ]
+                  },
+                  {
+                    "name": "dataExport.messages.written",
+                    "displayName": "Data Export Messages Written",
+                    "displayDescription": "Number of messages written to a destination",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": false,
+                    "dimensions": [
+                      {
+                        "name": "exportId",
+                        "displayName": "Export Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "exportDisplayName",
+                        "displayName": "Export Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationId",
+                        "displayName": "Destination Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationDisplayName",
+                        "displayName": "Destination Display Name",
+                        "toBeExportedForShoebox": true
+                      }
+                    ]
+                  },
+                  {
+                    "name": "dataExport.error",
+                    "displayName": "Data Export Errors",
+                    "displayDescription": "Number of errors encountered for data export",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": true,
+                    "dimensions": [
+                      {
+                        "name": "exportId",
+                        "displayName": "Export Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "exportDisplayName",
+                        "displayName": "Export Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationId",
+                        "displayName": "Destination Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationDisplayName",
+                        "displayName": "Destination Display Name",
+                        "toBeExportedForShoebox": true
+                      }
+                    ]
+                  },
+                  {
+                    "name": "dataExport.statusChange",
+                    "displayName": "Data Export Status Change",
+                    "displayDescription": "Number of status changes",
+                    "unit": "Count",
+                    "aggregationType": "Total",
+                    "supportedAggregationTypes": [
+                      "Total"
+                    ],
+                    "supportedTimeGrainTypes": [
+                      "PT1M",
+                      "PT5M",
+                      "PT15M",
+                      "PT30M",
+                      "PT1H",
+                      "PT6H",
+                      "PT12H",
+                      "P1D"
+                    ],
+                    "fillGapWithZero": true,
+                    "dimensions": [
+                      {
+                        "name": "exportId",
+                        "displayName": "Export Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "exportDisplayName",
+                        "displayName": "Export Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationId",
+                        "displayName": "Destination Id",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "destinationDisplayName",
+                        "displayName": "Destination Display Name",
+                        "toBeExportedForShoebox": true
+                      },
+                      {
+                        "name": "status",
+                        "displayName": "Status",
+                        "toBeExportedForShoebox": true
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/providers/Microsoft.Insights/diagnosticSettings/read",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Get/List diagnostic settings",
+              "description": "Get/List all the diagnostic settings for the resource"
+            },
+            "origin": "system"
+          },
+          {
+            "name": "Microsoft.IoTCentral/iotApps/providers/Microsoft.Insights/diagnosticSettings/write",
+            "display": {
+              "provider": "Azure IoT Central",
+              "resource": "IoTApps",
+              "operation": "Create/Update/Patch diagnostic settings",
+              "description": "Set diagnostic settings for the resource"
+            },
+            "origin": "system"
+          }
+        ],
+        "nextLink": null
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Lists all of the available IoT Central Resource Provider operations.
+errorCodes: []

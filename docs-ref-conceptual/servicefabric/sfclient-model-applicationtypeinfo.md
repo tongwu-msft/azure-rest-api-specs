@@ -1,7 +1,7 @@
 ---
 title: "ApplicationTypeInfo"
 description: "ApplicationTypeInfo"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -40,6 +40,7 @@ Information about an application type.
 | [`Status`](#status) | string (enum) | No |
 | [`StatusDetails`](#statusdetails) | string | No |
 | [`ApplicationTypeDefinitionKind`](#applicationtypedefinitionkind) | string (enum) | No |
+| [`ApplicationTypeMetadata`](#applicationtypemetadata) | [ApplicationTypeMetadata](sfclient-model-applicationtypemetadata.md) | No |
 
 ____
 ### `Name`
@@ -106,3 +107,10 @@ Possible values are:
   - `Compose` - Indicates the application type is defined and created implicitly as part of a compose deployment. The value is 2.
 
 
+
+____
+### `ApplicationTypeMetadata`
+__Type__: [ApplicationTypeMetadata](sfclient-model-applicationtypemetadata.md) <br/>
+__Required__: No<br/>
+<br/>
+Metadata associated with a specific application type.

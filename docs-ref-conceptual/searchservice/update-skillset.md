@@ -4,7 +4,7 @@ description: Modify an existing skillset. A skillset is a collection of cognitiv
 ms.date: 06/30/2020
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: HeidiSteen

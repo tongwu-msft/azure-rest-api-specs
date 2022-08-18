@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - List Cloud Services | Microsoft Docs"
+description: Learn how the List Cloud Services operation lists the cloud services that are available under the specified subscription.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"
@@ -123,4 +124,4 @@ The `List Cloud Services` operation lists the cloud services that are available 
 ## Remarks  
  If the `x-ms-version` is older than 2012-03-01, cloud services that contain virtual machine deployments will not be returned.  
   
- You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/servicemanagement/azure/get-azureservice) cmdlet.
+ You can see the cloud services that exist in your subscription by looking in the Cloud Services section of the Management Portal. You can also get a list of cloud services by using the [Get-AzureService](/powershell/module/servicemanagement/azure.service/get-azureservice?view=azuresmps-4.0.0) cmdlet.

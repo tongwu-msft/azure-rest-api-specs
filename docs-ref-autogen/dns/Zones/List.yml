@@ -98,6 +98,7 @@ definitions:
     description: The type of this DNS zone (Public or Private).
     types:
     - uid: ZoneType
+    defaultValue: Public
   - name: properties.registrationVirtualNetworks
     description: A list of references to virtual networks that register hostnames in this DNS zone. This is a only when ZoneType is Private.
     types:
@@ -178,6 +179,97 @@ examples:
 - name: List zones by subscription
   request:
     uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dnszones?api-version=2018-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/dnszones?api-version=2018-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Zones List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListZonesBySubscription.json
+           */
+          /**
+           * Sample code: List zones by subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listZonesBySubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.dnsZones().manager().serviceClient().getZones().list(null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListZonesBySubscription.json
+      func ExampleZonesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdns.NewZonesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(&armdns.ZonesClientListOptions{Top: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv1.0.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the DNS zones in all resource groups in a subscription.
+       *
+       * @summary Lists the DNS zones in all resource groups in a subscription.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListZonesBySubscription.json
+       */
+      async function listZonesBySubscription() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.zones.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listZonesBySubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -225,5 +317,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about DNS service - Lists the DNS zones in all resource groups in a subscription.
+  description: >
+    Learn more about DNS service - Lists the DNS zones in all resource groups in a subscription.
 errorCodes: []

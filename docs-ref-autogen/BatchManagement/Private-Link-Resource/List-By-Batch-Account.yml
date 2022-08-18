@@ -3,15 +3,15 @@ uid: management.azure.com.batchmanagement.privatelinkresource.listbybatchaccount
 name: List By Batch Account
 service: Batch Management
 groupName: Private Link Resource
-apiVersion: 2022-01-01
+apiVersion: 2022-06-01
 summary: Lists all of the private link resources in the specified account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2022-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2022-01-01&maxresults={maxresults}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2022-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Batch/batchAccounts/{accountName}/privateLinkResources?api-version=2022-06-01&maxresults={maxresults}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -142,15 +142,52 @@ definitions:
 examples:
 - name: ListPrivateLinkResource
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources?api-version=2022-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources?api-version=2022-06-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { BatchManagementClient } = require("@azure/arm-batch");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the private link resources in the specified account.
+       *
+       * @summary Lists all of the private link resources in the specified account.
+       * x-ms-original-file: specification/batch/resource-manager/Microsoft.Batch/stable/2022-06-01/examples/PrivateLinkResourcesList.json
+       */
+      async function listPrivateLinkResource() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "default-azurebatch-japaneast";
+        const accountName = "sampleacct";
+        const credential = new DefaultAzureCredential();
+        const client = new BatchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.privateLinkResourceOperations.listByBatchAccount(
+          resourceGroupName,
+          accountName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listPrivateLinkResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-batch_7.2.0/sdk/batch/arm-batch/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources/testprivateLinkResource",
-            "name": "testprivateLinkResource",
+            "id": "/subscriptions/subid/resourceGroups/default-azurebatch-japaneast/providers/Microsoft.Batch/batchAccounts/sampleacct/privateLinkResources/batchAccount",
+            "name": "batchAccount",
             "type": "Microsoft.Batch/batchAccounts/privateLinkResources",
             "properties": {
               "groupId": "batchAccount",
@@ -174,5 +211,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Batch Management service - Lists all of the private link resources in the specified account.
+  description: >
+    Learn more about Batch Management service - Lists all of the private link resources in the specified account.
 errorCodes: []

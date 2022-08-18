@@ -1,0 +1,195 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.servermetrics.getservermetrics
+name: Get Server Metrics
+service: Azure Load Testing
+groupName: Server Metrics
+apiVersion: 2022-06-01-preview
+summary: Get server metrics configuration for a test or test run by its name.
+produces:
+- application/json
+paths:
+- content: GET https://{Endpoint}/serverMetricsConfig?api-version=2022-06-01-preview
+- content: GET https://{Endpoint}/serverMetricsConfig?testRunId={testRunId}&api-version=2022-06-01-preview&testId={testId}
+  isOptional: true
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
+- name: testRunId
+  in: query
+  description: '[Required, if testId is not provided] Test run Id.'
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version
+  types:
+  - uid: string
+- name: testId
+  in: query
+  description: Unique name for load test, must be a valid URL character ^[a-z0-9_-]*$.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+responses:
+- name: 200 OK
+  description: Requested server metrics
+  types:
+  - uid: ServerMetricsModel
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Load Testing service error response.
+  types:
+  - uid: ErrorResponseBody
+requestHeader: []
+definitions:
+- name: ServerMetricsModel
+  description: Server metrics config model.
+  kind: object
+  properties:
+  - name: name
+    isReadyOnly: true
+    description: Server metrics config name.
+    types:
+    - uid: string
+  - name: testId
+    description: '[Required, if testRunId is not given] Load test unique identifier'
+    types:
+    - uid: string
+  - name: testRunId
+    description: '[Required, if testId is not given] Load test run unique identifier'
+    types:
+    - uid: string
+  - name: metrics
+    description: 'Metrics map {metric id : metrics object} (Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition for metric id).'
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: ResourceMetricModel
+- name: ErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error from a REST request.
+    types:
+    - uid: Error
+- name: ResourceMetricModel
+  description: 'Associated metric definition for particular metrics of the azure resource ( Refer : https://docs.microsoft.com/en-us/rest/api/monitor/metric-definitions/list#metricdefinition).'
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique identifier for metric.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Azure resource Id.
+    types:
+    - uid: string
+  - name: metricnamespace
+    description: Metric name space.
+    types:
+    - uid: string
+  - name: displayDescription
+    description: Metric description.
+    types:
+    - uid: string
+  - name: name
+    description: Metric name object.
+    types:
+    - uid: ServerMetricName
+  - name: aggregation
+    description: Metric aggregation.
+    types:
+    - uid: string
+  - name: unit
+    description: Metric unit.
+    types:
+    - uid: string
+  - name: resourceType
+    description: Azure resource type.
+    types:
+    - uid: string
+- name: Error
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: Error
+      isArray: true
+- name: ServerMetricName
+  description: Metric name object.
+  kind: object
+  properties:
+  - name: value
+    description: Metric name value.
+    types:
+    - uid: string
+  - name: localizedValue
+    description: Metric localized name.
+    types:
+    - uid: string
+examples:
+- name: GetServerMetrics
+  request:
+    uri: GET https://{Endpoint}/serverMetricsConfig?api-version=2022-06-01-preview&testId=12345678-1234-1234-1234-123456789012
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://{Endpoint}/serverMetricsConfig?api-version=2022-06-01-preview&testId=12345678-1234-1234-1234-123456789012
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "edc6e529-d009-4b99-b763-ca492e3a2823",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "metrics": {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource/providers/microsoft.insights/metricdefinitions/requests/duration": {
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource/providers/microsoft.insights/metricdefinitions/requests/duration",
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "metricnamespace": "microsoft.insights/components",
+            "displayDescription": "sample description",
+            "name": {
+              "value": "requests/duration",
+              "localizedValue": "Server Response Time"
+            },
+            "aggregation": "Average",
+            "unit": null,
+            "resourceType": "microsoft.insights/components"
+          }
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Azure Load Testing service - Get server metrics configuration for a test or test run by its name.
+errorCodes: []

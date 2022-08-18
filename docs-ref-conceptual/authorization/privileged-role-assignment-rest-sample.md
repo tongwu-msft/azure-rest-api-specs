@@ -32,10 +32,10 @@ To list active role assignments (list access), you can use one of the [Role Assi
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleInstances?api-version=2020-10-01&$filter={filter}
     ```    
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentSchedules?api-version=2020-10-01&$filter={filter}
     ```    
 
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.
@@ -69,7 +69,7 @@ To create an active role assignment (grant access), you use the [Role Assignment
 1. Start with the following request and body:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01
     ```
 
     ```json
@@ -116,7 +116,7 @@ To remove an active role assignment (remove access), use the [Role Assignment Sc
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01
     ```
     
     ```json
@@ -151,7 +151,7 @@ To activate an eligible role assignment (gain activated access), use the [Role A
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01
     ```
     
    ```json
@@ -193,7 +193,7 @@ To de-activate an activated role assignment (remove activated access), use the [
 1. Start with the following request:
 
     ```http
-    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01-preview
+    PUT https://management.azure.com/{scope}/providers/Microsoft.Authorization/roleAssignmentScheduleRequests/{roleAssignmentScheduleRequestName}?api-version=2020-10-01
     ```
     
    ```json
@@ -226,7 +226,7 @@ To get a list of all children of a resource on which you have eligible access yo
 1. Start with the following request:
 
     ```http
-    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/eligibleChildResources?api-version=2020-10-01-preview&$filter={filter}
+    GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/eligibleChildResources?api-version=2020-10-01&$filter={filter}
     ```    
 
 1. Within the URI, replace *{scope}* with the scope for which you want to list the role assignments.

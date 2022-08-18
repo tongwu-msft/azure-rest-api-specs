@@ -1,0 +1,1019 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-06-30-previewdataplane.dashboards.update
+name: Update
+service: IoT Central
+groupName: Dashboards
+apiVersion: 2022-06-30-preview
+summary: Update a dashboard
+consumes:
+- application/json
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{subdomain}.{baseDomain}/api/dashboards/{dashboardId}?api-version=2022-06-30-preview
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: dashboardId
+  in: path
+  isRequired: true
+  description: Unique ID for the dashboard.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9:;]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: Dashboard
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestBody:
+- name: default
+  parameters:
+  - name: body
+    in: body
+    description: Dashboard definition.
+    types:
+    - uid: object
+requestHeader: []
+definitions:
+- name: Dashboard
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the dashboard.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the dashboard.
+    types:
+    - uid: string
+  - name: tiles
+    description: The tiles displayed by the dashboard.
+    types:
+    - uid: Tile
+      isArray: true
+  - name: personal
+    isReadyOnly: true
+    description: Whether the dashboard is personal and can only be viewed by the current user.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: favorite
+    description: Whether the dashboard is favorited or not
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: etag
+    description: Etag to prevent conflict when updating the dashboard.
+    types:
+    - uid: string
+  - name: organizations
+    description: The organization the dashboard belongs to. If not present, the dashboard is root-level or personal. only one organization is supported today, multiple organizations will be supported soon.
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: Tile
+  description: Configuration specifying tile object, including the layout, display name and configuration.
+  kind: object
+  properties:
+  - name: displayName
+    description: Display name of the tile.
+    types:
+    - uid: string
+  - name: configuration
+    description: The configuration for the tile
+    types:
+    - uid: BarChartConfiguration
+    - uid: CommandConfiguration
+    - uid: CommandTileConfiguration
+    - uid: DataExplorerTileConfiguration
+    - uid: DeviceCountTileConfiguration
+    - uid: EventChartConfiguration
+    - uid: EventHistoryChartConfiguration
+    - uid: ExternalContentTileConfiguration
+    - uid: HeatMapConfiguration
+    - uid: ImageTileConfiguration
+    - uid: KpiTileConfiguration
+    - uid: LabelTileConfiguration
+    - uid: LineChartConfiguration
+    - uid: LkvTileConfiguration
+    - uid: MapPropertyConfiguration
+    - uid: MapTelemetryConfiguration
+    - uid: MarkdownTileConfiguration
+    - uid: PieChartConfiguration
+    - uid: PropertyTileConfiguration
+    - uid: StateChartConfiguration
+    - uid: StateHistoryChartConfiguration
+    typesTitle: TileConfiguration
+  - name: height
+    description: Height of the tile
+    types:
+    - uid: number
+  - name: width
+    description: Width of the tile
+    types:
+    - uid: number
+  - name: x
+    description: Horizontal position of the tile
+    types:
+    - uid: number
+  - name: y
+    description: Vertical position of the tile
+    types:
+    - uid: number
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+- name: BarChartConfiguration
+  description: Configuration specifying options for a bar chart tile.
+  kind: object
+  properties:
+  - name: format
+    description: The format configuration of the chart
+    types:
+    - uid: ChartFormatConfiguration
+  - name: queryRange
+    description: The query range configuration of the chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: barChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: CommandConfiguration
+  description: Configuration specifying options for a command tile.
+  kind: object
+  properties:
+  - name: device
+    description: The device id that the command is associated with
+    types:
+    - uid: string
+  - name: command
+    description: The command id to associate the tile to
+    types:
+    - uid: string
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: command
+    typesTitle: string
+- name: CommandTileConfiguration
+  description: Configuration specifying options for a command tile
+  kind: object
+  properties:
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: command
+    description: The command to reference in the tile
+    types:
+    - uid: string
+  - name: device
+    description: The device to reference in the tile
+    types:
+    - {}
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: command
+    typesTitle: string
+- name: DataExplorerTileConfiguration
+  description: Configuration specifying options for an image tile
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: query
+    description: The id of the Data Explorer query to show in the tile
+    types:
+    - uid: string
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: dataExplorer
+    typesTitle: string
+- name: DeviceCountTileConfiguration
+  description: Configuration specifying options for a device count tile.
+  kind: object
+  properties:
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: format
+    description: The format configuration of the lkv tile
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: deviceCount
+    typesTitle: string
+- name: EventChartConfiguration
+  description: Configuration specifying options for a event chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the event chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: eventChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: EventHistoryChartConfiguration
+  description: Configuration specifying options for a event history chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the event chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: format
+    description: The format configuration of the event history chart
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: eventHistoryChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: ExternalContentTileConfiguration
+  description: Configuration specifying options for an external content tile.
+  kind: object
+  properties:
+  - name: sourceUrl
+    description: URL of the website to render inside the tile. Must be a valid HTTPS URL.
+    types:
+    - uid: string
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: externalContent
+    typesTitle: string
+- name: HeatMapConfiguration
+  description: Configuration specifying options for a heat map tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the heat map chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: format
+    description: The format configuration of the heatmap chart
+    types:
+    - uid: ChartFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: heatMapChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: ImageTileConfiguration
+  description: Configuration specifying options for an image tile
+  kind: object
+  properties:
+  - name: image
+    description: The asset id of the image to display
+    types:
+    - uid: string
+  - name: href
+    description: The URL the tile links to when clicked
+    types:
+    - uid: string
+  - name: format
+    description: Format options for the image tile
+    types:
+    - uid: Format
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: image
+    typesTitle: string
+- name: KpiTileConfiguration
+  description: Configuration specifying options for kpi tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the KPI chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: format
+    description: The format configuration of the lkv tile
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: kpi
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: LabelTileConfiguration
+  description: Configuration specifying options for a label tile
+  kind: object
+  properties:
+  - name: text
+    description: The text to display in the tile
+    types:
+    - uid: string
+  - name: textSize
+    description: The font size of the text being displayed
+    types:
+    - uid: number
+    defaultValue: 24
+  - name: textSizeUnit
+    description: The unit of size for the text in the tile
+    types:
+    - uid: TileTextSizeUnit
+    defaultValue: pt
+  - name: wordWrap
+    description: Whether to wrap the text being displayed
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: label
+    typesTitle: string
+- name: LineChartConfiguration
+  description: Configuration specifying options for a line chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the line chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+    - uid: CountQueryRangeConfiguration
+    typesTitle: QueryRangeConfiguration
+  - name: format
+    description: The format configuration of the line chart
+    types:
+    - uid: ChartFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: lineChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: LkvTileConfiguration
+  description: Configuration specifying options for a last known value tile.
+  kind: object
+  properties:
+  - name: showTrend
+    description: Show the trend between the last known value and the value before that
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: format
+    description: The format configuration of the lkv tile
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: lkv
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: MapPropertyConfiguration
+  description: Configuration specifying options for a map property tile.
+  kind: object
+  properties:
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: mapProperty
+    typesTitle: string
+  - name: zoomLevel
+    description: The zoom level of the map
+    types:
+    - uid: number
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: MapTelemetryConfiguration
+  description: Configuration specifying options for a map telemetry tile.
+  kind: object
+  properties:
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: mapTelemetry
+    typesTitle: string
+  - name: zoomLevel
+    description: The zoom level of the map
+    types:
+    - uid: number
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: MarkdownTileConfiguration
+  description: Configuration specifying options for a markdown tile.
+  kind: object
+  properties:
+  - name: href
+    description: Link to visit when tile is clicked
+    types:
+    - uid: string
+  - name: description
+    description: Markdown string to render inside the tile
+    types:
+    - uid: string
+  - name: image
+    description: Base64 encoded
+    types:
+    - uid: string
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: markdown
+    typesTitle: string
+- name: PieChartConfiguration
+  description: Configuration specifying options for a pie chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the pie chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: format
+    description: The format configuration of the pie chart
+    types:
+    - uid: ChartFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: pieChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: PropertyTileConfiguration
+  description: Configuration specifying options for a property tile.
+  kind: object
+  properties:
+  - name: format
+    description: The format configuration of the property tile
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: property
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: StateChartConfiguration
+  description: Configuration specifying options for a state chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the state chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: stateChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: StateHistoryChartConfiguration
+  description: Configuration specifying options for a state history chart tile.
+  kind: object
+  properties:
+  - name: queryRange
+    description: The query range configuration of the state chart
+    types:
+    - uid: TimeQueryRangeConfiguration
+  - name: format
+    description: The format configuration of the state history chart
+    types:
+    - uid: TextFormatConfiguration
+  - name: type
+    description: The type of widget the tile renders
+    types:
+    - uid: stateHistoryChart
+    typesTitle: string
+  - name: group
+    description: The ID of the device group to display
+    types:
+    - uid: string
+  - name: devices
+    description: The list of associated devices to display
+    types:
+    - uid: string
+      isArray: true
+  - name: capabilities
+    description: Specifies the capability to be displayed in the tile.
+    types:
+    - uid: TileCapability
+      isArray: true
+- name: ChartFormatConfiguration
+  description: Configuration specifying formatting options for a chart tile.
+  kind: object
+  properties:
+  - name: xAxisEnabled
+    description: Whether to display the x-axis
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: yAxisEnabled
+    description: Whether to display the y-axis
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: legendEnabled
+    description: Whether to display the legend
+    types:
+    - uid: boolean
+    defaultValue: true
+- name: TimeQueryRangeConfiguration
+  description: Configuration specifying the time range and resolution of data to return for a tile.
+  kind: object
+  properties:
+  - name: duration
+    description: The time range to use when querying data.
+    types:
+    - uid: TileTimeRangeDuration
+  - name: resolution
+    description: The resolution to aggregate data over.
+    types:
+    - uid: TileTimeRangeResolution
+    defaultValue: PT5M
+  - name: type
+    description: The type of time range - 'count' or 'time'.
+    types:
+    - uid: time
+    typesTitle: string
+- name: TileCapability
+  description: Specifies the capability to be displayed in the tile.
+  kind: object
+  properties:
+  - name: capability
+    description: The path of the capability associated with data to be rendered in the tile.
+    types:
+    - uid: string
+  - name: aggregateFunction
+    description: The aggregate function to apply to the data.
+    types:
+    - uid: CapabilityAggregateType
+    defaultValue: count
+- name: TextFormatConfiguration
+  description: Configuration specifying formatting options for a text based tile.
+  kind: object
+  properties:
+  - name: abbreviateValue
+    description: Whether to abbreviate the value
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: decimalPlaces
+    description: The number of decimal places being displayed
+    types:
+    - uid: integer
+  - name: textSize
+    description: The font size of the text being displayed
+    types:
+    - uid: number
+  - name: unit
+    description: The unit of size for the text in the tile
+    types:
+    - uid: TileTextSizeUnit
+    defaultValue: pt
+  - name: wordWrap
+    description: Whether to wrap the text being displayed
+    types:
+    - uid: boolean
+    defaultValue: true
+- name: Format
+  description: Format options for the image tile
+  kind: object
+  properties:
+  - name: backgroundColor
+    description: The background color to show behind the image
+    types:
+    - uid: string
+    defaultValue: '#FFFFFF'
+  - name: fitImage
+    description: Whether to stretch the image to fit the aspect ratio of the tile or display in the image's native aspect ratio
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: textColor
+    description: The color of the text in the tile
+    types:
+    - uid: string
+    defaultValue: '#FFFFFF'
+  - name: textSize
+    description: Size of the test in the tile
+    types:
+    - uid: number
+    defaultValue: 14
+  - name: textSizeUnit
+    description: The unit of size for the text in the tile
+    types:
+    - uid: ImageTileTextUnits
+    defaultValue: px
+  - name: showTitle
+    description: Whether or not to show the display name text on the tile
+    types:
+    - uid: boolean
+- name: TileTextSizeUnit
+  description: The unit of size for the text in the tile
+  kind: enum
+  properties:
+  - name: pt
+    description: Set the text unit to points
+    types:
+    - uid: string
+- name: TileTimeRangeDuration
+  description: The time range to use when querying data.
+  kind: enum
+  properties:
+  - name: PT30M
+    description: 30 Minutes
+    types:
+    - uid: string
+  - name: PT1H
+    description: 1 Hour
+    types:
+    - uid: string
+  - name: PT12H
+    description: 12 Hours
+    types:
+    - uid: string
+  - name: P1D
+    description: 1 Day
+    types:
+    - uid: string
+  - name: P1W
+    description: 1 Week
+    types:
+    - uid: string
+  - name: P30D
+    description: 30 Days
+    types:
+    - uid: string
+- name: TileTimeRangeResolution
+  description: The resolution to aggregate data over.
+  kind: enum
+  properties:
+  - name: PT1M
+    description: 1 Minute
+    types:
+    - uid: string
+  - name: PT5M
+    description: 5 Minutes
+    types:
+    - uid: string
+  - name: PT10M
+    description: 10 Minutes
+    types:
+    - uid: string
+  - name: PT30M
+    description: 30 Minutes
+    types:
+    - uid: string
+  - name: PT1H
+    description: 1 Hour
+    types:
+    - uid: string
+  - name: PT12H
+    description: 12 Hours
+    types:
+    - uid: string
+  - name: P1D
+    description: 1 Day
+    types:
+    - uid: string
+  - name: P1W
+    description: 1 Week
+    types:
+    - uid: string
+- name: CapabilityAggregateType
+  description: The aggregate function to apply to the data.
+  kind: enum
+  properties:
+  - name: sum
+    description: Sum of the capability data
+    types:
+    - uid: string
+  - name: count
+    description: Count of the capability data
+    types:
+    - uid: string
+  - name: max
+    description: Maximum of the capability data
+    types:
+    - uid: string
+  - name: min
+    description: Minimum of the capability data
+    types:
+    - uid: string
+  - name: avg
+    description: Average of the capability data
+    types:
+    - uid: string
+- name: ImageTileTextUnits
+  description: The unit of size for the text in the tile
+  kind: enum
+  properties:
+  - name: px
+    description: Set the text unit to pixels
+    types:
+    - uid: string
+- name: CountQueryRangeConfiguration
+  description: Configuration specifying the number of data points to query for a tile.
+  kind: object
+  properties:
+  - name: count
+    description: The maximum number of data points to query for.
+    types:
+    - uid: integer
+    defaultValue: 100
+  - name: type
+    description: The type of time range - 'count' or 'time'.
+    types:
+    - uid: count
+    typesTitle: string
+examples:
+- name: Update a dashboard
+  request:
+    uri: PATCH https://appsubdomain.azureiotcentral.com/api/dashboards/urn:homepageView:uqxri3i7x?api-version=2022-06-30-preview
+    body: >-
+      {
+        "displayName": "New Dashboard Name"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://appsubdomain.azureiotcentral.com/api/dashboards/urn:homepageView:uqxri3i7x?api-version=2022-06-30-preview
+
+      {
+        "displayName": "New Dashboard Name"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "urn:homepageView:uqxri3i7x",
+        "displayName": "New Dashboard Name",
+        "personal": false,
+        "tiles": [
+          {
+            "displayName": "My Line Chart",
+            "configuration": {
+              "devices": [
+                "myDevice"
+              ],
+              "group": "myGroupId",
+              "type": "lineChart",
+              "format": {
+                "xAxisEnabled": true,
+                "yAxisEnabled": true,
+                "legendEnabled": true
+              },
+              "capabilities": [
+                {
+                  "capability": "componentName.telemetryName",
+                  "aggregateFunction": "avg"
+                }
+              ],
+              "queryRange": {
+                "type": "time",
+                "duration": "P1W",
+                "resolution": "PT12H"
+              }
+            },
+            "x": 0,
+            "y": 0,
+            "width": 3,
+            "height": 3
+          }
+        ],
+        "favorite": false
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Update a dashboard
+errorCodes: []

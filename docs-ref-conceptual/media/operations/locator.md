@@ -1,5 +1,6 @@
 ---
 title: "Locator"
+description: Learn how Locator provides an entry point to access the files contained in an Asset.
 ms.custom: ""
 ms.date: "03/14/2018"
 ms.reviewer: ""

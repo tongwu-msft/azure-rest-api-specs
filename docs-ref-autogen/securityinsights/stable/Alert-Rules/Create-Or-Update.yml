@@ -158,6 +158,11 @@ requestBody:
     description: The Name of the alert rule template used to create this rule.
     types:
     - uid: string
+  - name: properties.templateVersion
+    in: body
+    description: The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2>
+    types:
+    - uid: string
   - name: properties.description
     in: body
     description: The description of the alert rule.
@@ -419,6 +424,10 @@ definitions:
   properties:
   - name: properties.alertRuleTemplateName
     description: The Name of the alert rule template used to create this rule.
+    types:
+    - uid: string
+  - name: properties.templateVersion
+    description: The version of the alert rule template used to create this rule - in format <a.b.c>, where all are numbers, for example 0 <1.0.2>
     types:
     - uid: string
   - name: properties.description
@@ -928,6 +937,85 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/73e01a99-5cd7-4139-a149-9f2736ff2ab5?api-version=2021-10-01
+
+      {
+        "kind": "Scheduled",
+        "etag": "\"0300bf09-0000-0000-0000-5c37296e0000\"",
+        "properties": {
+          "displayName": "My scheduled rule",
+          "description": "An example for a scheduled rule",
+          "severity": "High",
+          "enabled": true,
+          "tactics": [
+            "Persistence",
+            "LateralMovement"
+          ],
+          "query": "Heartbeat",
+          "queryFrequency": "PT1H",
+          "queryPeriod": "P2DT1H30M",
+          "triggerOperator": "GreaterThan",
+          "triggerThreshold": 0,
+          "suppressionDuration": "PT1H",
+          "suppressionEnabled": false,
+          "eventGroupingSettings": {
+            "aggregationKind": "AlertPerResult"
+          },
+          "customDetails": {
+            "OperatingSystemName": "OSName",
+            "OperatingSystemType": "OSType"
+          },
+          "entityMappings": [
+            {
+              "entityType": "Host",
+              "fieldMappings": [
+                {
+                  "identifier": "FullName",
+                  "columnName": "Computer"
+                }
+              ]
+            },
+            {
+              "entityType": "IP",
+              "fieldMappings": [
+                {
+                  "identifier": "Address",
+                  "columnName": "ComputerIP"
+                }
+              ]
+            }
+          ],
+          "alertDetailsOverride": {
+            "alertDisplayNameFormat": "Alert from {{Computer}}",
+            "alertDescriptionFormat": "Suspicious activity was made by {{ComputerIP}}"
+          },
+          "incidentConfiguration": {
+            "createIncident": true,
+            "groupingConfiguration": {
+              "enabled": true,
+              "reopenClosedIncident": false,
+              "lookbackDuration": "PT5H",
+              "matchingMethod": "Selected",
+              "groupByEntities": [
+                "Host"
+              ],
+              "groupByAlertDetails": [
+                "DisplayName"
+              ],
+              "groupByCustomDetails": [
+                "OperatingSystemType",
+                "OperatingSystemName"
+              ]
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1101,6 +1189,68 @@ examples:
           "alertRuleTemplateName": "f71aba3d-28fb-450b-b192-4e76a83015c8"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/myFirstFusionRule?api-version=2021-10-01
+
+      {
+        "kind": "Fusion",
+        "etag": "3d00c3ca-0000-0100-0000-5d42d5010000",
+        "properties": {
+          "enabled": true,
+          "alertRuleTemplateName": "f71aba3d-28fb-450b-b192-4e76a83015c8"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurityinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/securityinsights/armsecurityinsights"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/securityinsights/resource-manager/Microsoft.SecurityInsights/stable/2021-10-01/examples/alertRules/CreateFusionAlertRule.json
+      func ExampleAlertRulesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurityinsights.NewAlertRulesClient("d0cfe6b2-9ac0-4464-9919-dccaee2e48c0", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"myRg",
+      		"myWorkspace",
+      		"myFirstFusionRule",
+      		&armsecurityinsights.FusionAlertRule{
+      			Etag: to.Ptr("3d00c3ca-0000-0100-0000-5d42d5010000"),
+      			Kind: to.Ptr(armsecurityinsights.AlertRuleKindFusion),
+      			Properties: &armsecurityinsights.FusionAlertRuleProperties{
+      				AlertRuleTemplateName: to.Ptr("f71aba3d-28fb-450b-b192-4e76a83015c8"),
+      				Enabled:               to.Ptr(true),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurityinsights%2Farmsecurityinsights%2Fv1.0.0/sdk/resourcemanager/securityinsights/armsecurityinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1161,6 +1311,23 @@ examples:
           "enabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/alertRules/microsoftSecurityIncidentCreationRuleExample?api-version=2021-10-01
+
+      {
+        "etag": "\"260097e0-0000-0d00-0000-5d6fa88f0000\"",
+        "kind": "MicrosoftSecurityIncidentCreation",
+        "properties": {
+          "productFilter": "Microsoft Cloud App Security",
+          "displayName": "testing displayname",
+          "enabled": true
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1210,5 +1377,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Creates or updates the alert rule.
+  description: >
+    Learn more about Sentinel service - Creates or updates the alert rule.
 errorCodes: []

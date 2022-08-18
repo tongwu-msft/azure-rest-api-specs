@@ -1,0 +1,246 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.dnsresolver.dnsforwardingrulesets.listbyvirtualnetwork
+name: List By Virtual Network
+service: DNS
+groupName: Dns Forwarding Rulesets
+apiVersion: 2020-04-01-preview
+summary: Lists DNS forwarding ruleset resource IDs attached to a virtual network.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsForwardingRulesets?api-version=2020-04-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/listDnsForwardingRulesets?api-version=2020-04-01-preview&$top={$top}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: virtualNetworkName
+  in: path
+  isRequired: true
+  description: The name of the virtual network.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The maximum number of results to return. If not specified, returns up to 100 results.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: List of DNS forwarding ruleset resource IDs and virtual network link resource IDs attached to the virtual network.
+  types:
+  - uid: VirtualNetworkDnsForwardingRulesetListResult
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: VirtualNetworkDnsForwardingRulesetListResult
+  description: The response to an enumeration operation on Virtual Network DNS Forwarding Ruleset.
+  kind: object
+  properties:
+  - name: value
+    description: Enumeration of the Virtual Network DNS Forwarding Ruleset.
+    types:
+    - uid: VirtualNetworkDnsForwardingRuleset
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token for the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: VirtualNetworkDnsForwardingRuleset
+  description: Reference to DNS forwarding ruleset and associated virtual network link.
+  kind: object
+  properties:
+  - name: id
+    description: DNS Forwarding Ruleset Resource ID.
+    types:
+    - uid: string
+  - name: properties.virtualNetworkLink
+    description: The reference to the virtual network link.
+    types:
+    - uid: SubResource
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: SubResource
+  description: Reference to another ARM resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+examples:
+- name: List DNS forwarding rulesets by virtual network
+  request:
+    uri: POST https://management.azure.com/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/virtualNetworks/sampleVirtualNetwork/listDnsForwardingRulesets?api-version=2020-04-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/virtualNetworks/sampleVirtualNetwork/listDnsForwardingRulesets?api-version=2020-04-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DnsForwardingRulesets ListByVirtualNetwork. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsForwardingRuleset_ListByVirtualNetwork.json
+           */
+          /**
+           * Sample code: List DNS forwarding rulesets by virtual network.
+           *
+           * @param manager Entry point to DnsResolverManager.
+           */
+          public static void listDNSForwardingRulesetsByVirtualNetwork(
+              com.azure.resourcemanager.dnsresolver.DnsResolverManager manager) {
+              manager
+                  .dnsForwardingRulesets()
+                  .listByVirtualNetwork("sampleResourceGroup", "sampleVirtualNetwork", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dnsresolver_1.0.0-beta.1/sdk/dnsresolver/azure-resourcemanager-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdnsresolver_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsForwardingRuleset_ListByVirtualNetwork.json
+      func ExampleDNSForwardingRulesetsClient_NewListByVirtualNetworkPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdnsresolver.NewDNSForwardingRulesetsClient("abdd4249-9f34-4cc6-8e42-c2e32110603e", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByVirtualNetworkPager("sampleResourceGroup",
+      		"sampleVirtualNetwork",
+      		&armdnsresolver.DNSForwardingRulesetsClientListByVirtualNetworkOptions{Top: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdnsresolver%2Farmdnsresolver%2Fv0.4.0/sdk/resourcemanager/dnsresolver/armdnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsResolverManagementClient } = require("@azure/arm-dnsresolver");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists DNS forwarding ruleset resource IDs attached to a virtual network.
+       *
+       * @summary Lists DNS forwarding ruleset resource IDs attached to a virtual network.
+       * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsForwardingRuleset_ListByVirtualNetwork.json
+       */
+      async function listDnsForwardingRulesetsByVirtualNetwork() {
+        const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+        const resourceGroupName = "sampleResourceGroup";
+        const virtualNetworkName = "sampleVirtualNetwork";
+        const credential = new DefaultAzureCredential();
+        const client = new DnsResolverManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.dnsForwardingRulesets.listByVirtualNetwork(
+          resourceGroupName,
+          virtualNetworkName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listDnsForwardingRulesetsByVirtualNetwork().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dnsresolver_1.0.0-beta.3/sdk/dnsresolver/arm-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsForwardingRulesets/sampleDnsForwardingRuleset",
+            "properties": {
+              "virtualNetworkLink": {
+                "id": "/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsForwardingRuleset/sampleDnsForwardingRuleset/virtualNetworkLinks/sampleVirtualNetworkLink"
+              }
+            }
+          }
+        ],
+        "nextLink": null
+      }
+security: []
+metadata:
+  description: >
+    Learn more about DNS service - Lists DNS forwarding ruleset resource IDs attached to a virtual network.
+errorCodes: []

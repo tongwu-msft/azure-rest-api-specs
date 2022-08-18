@@ -1,5 +1,6 @@
 ---
 title: "StatefulServiceUpdateProperties"
+description: "Learn about the properties of a stateful service resource for patch operations. These properties are described and listed in the following table."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

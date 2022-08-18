@@ -3,15 +3,15 @@ uid: management.azure.com.container-instances.containers.listlogs
 name: List Logs
 service: Container Instances
 groupName: Containers
-apiVersion: 2021-09-01
+apiVersion: 2021-10-01
 summary: Get the logs for a specified container instance in a specified resource group and container group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-09-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-09-01&tail={tail}&timestamps={timestamps}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-10-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ContainerInstance/containerGroups/{containerGroupName}/containers/{containerName}/logs?api-version=2021-10-01&tail={tail}&timestamps={timestamps}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -106,7 +106,112 @@ definitions:
 examples:
 - name: ContainerListLogs
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/logs?api-version=2021-09-01&tail=10
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/logs?api-version=2021-10-01&tail=10
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/demo/providers/Microsoft.ContainerInstance/containerGroups/demo1/containers/container1/logs?api-version=2021-10-01&tail=10
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Containers ListLogs. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerListLogs.json
+           */
+          /**
+           * Sample code: ContainerListLogs.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void containerListLogs(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .containerGroups()
+                  .manager()
+                  .serviceClient()
+                  .getContainers()
+                  .listLogsWithResponse("demo", "demo1", "container1", 10, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerinstance_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerinstance/armcontainerinstance"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerListLogs.json
+      func ExampleContainersClient_ListLogs() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerinstance.NewContainersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListLogs(ctx,
+      		"demo",
+      		"demo1",
+      		"container1",
+      		&armcontainerinstance.ContainersClientListLogsOptions{Tail: to.Ptr[int32](10),
+      			Timestamps: nil,
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerinstance%2Farmcontainerinstance%2Fv1.0.0/sdk/resourcemanager/containerinstance/armcontainerinstance/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerInstanceManagementClient } = require("@azure/arm-containerinstance");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the logs for a specified container instance in a specified resource group and container group.
+       *
+       * @summary Get the logs for a specified container instance in a specified resource group and container group.
+       * x-ms-original-file: specification/containerinstance/resource-manager/Microsoft.ContainerInstance/stable/2021-10-01/examples/ContainerListLogs.json
+       */
+      async function containerListLogs() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "demo";
+        const containerGroupName = "demo1";
+        const containerName = "container1";
+        const tail = 10;
+        const options = { tail };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerInstanceManagementClient(credential, subscriptionId);
+        const result = await client.containers.listLogs(
+          resourceGroupName,
+          containerGroupName,
+          containerName,
+          options
+        );
+        console.log(result);
+      }
+
+      containerListLogs().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerinstance_8.2.0/sdk/containerinstance/arm-containerinstance/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -123,5 +228,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Container Instances service - Get the logs for a specified container instance in a specified resource group and container group.
+  description: >
+    Learn more about Container Instances service - Get the logs for a specified container instance in a specified resource group and container group.
 errorCodes: []

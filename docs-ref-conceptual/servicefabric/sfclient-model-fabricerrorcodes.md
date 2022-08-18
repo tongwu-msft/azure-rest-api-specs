@@ -1,7 +1,7 @@
 ---
 title: "FabricErrorCodes"
 description: "FabricErrorCodes"
-ms.date: "10/21/2020"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
 ms.topic: "reference"
 applies_to: 
@@ -117,6 +117,7 @@ Defines the fabric error codes that be returned as part of the error object in r
     - "FABRIC_E_VOLUME_ALREADY_EXISTS"
     - "FABRIC_E_VOLUME_NOT_FOUND"
     - "SerializationError"
+    - "FABRIC_E_CERTIFICATE_NOT_FOUND"
 
   - Possible values of the error code for HTTP status code 503 (Service Unavailable)
     - "FABRIC_E_NO_WRITE_QUORUM"

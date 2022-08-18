@@ -1,0 +1,358 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.media.tracks.get
+name: Get
+service: Media Services
+groupName: Tracks
+apiVersion: 2021-11-01
+summary: "Get a Track  \nGet the details of a Track in the Asset"
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}/tracks/{trackName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The unique identifier for a Microsoft Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: The Media Services account name.
+  types:
+  - uid: string
+- name: assetName
+  in: path
+  isRequired: true
+  description: The Asset name.
+  types:
+  - uid: string
+- name: trackName
+  in: path
+  isRequired: true
+  description: The Asset Track name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: AssetTrack
+- name: Other Status Codes
+  description: Detailed error information.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AssetTrack
+  description: An Asset Track resource.
+  kind: object
+  properties:
+  - name: properties.track
+    description: Detailed information about a track in the asset.
+    types:
+    - uid: AudioTrack
+    - uid: VideoTrack
+    - uid: TextTrack
+    typesTitle: TrackBase
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the asset track.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ProvisioningState
+  description: Provisioning state of the asset track.
+  kind: enum
+  properties:
+  - name: Failed
+    description: Provisioning state failed.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Provisioning state in progress.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Provisioning state succeeded.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: AudioTrack
+  description: Represents an audio track in the asset.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.AudioTrack'
+    typesTitle: string
+- name: VideoTrack
+  description: Represents a video track in the asset.
+  kind: object
+  properties:
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.VideoTrack'
+    typesTitle: string
+- name: TextTrack
+  description: Represents a text track in an asset. A text track is usually used for sparse data related to the audio or video tracks.
+  kind: object
+  properties:
+  - name: fileName
+    description: The file name to the source file. This file is located in the storage container of the asset.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name of the text track on a video player. In HLS, this maps to the NAME attribute of EXT-X-MEDIA.
+    types:
+    - uid: string
+  - name: languageCode
+    isReadyOnly: true
+    description: The RFC5646 language code for the text track.
+    types:
+    - uid: string
+  - name: playerVisibility
+    description: When PlayerVisibility is set to "Visible", the text track will be present in the DASH manifest or HLS playlist when requested by a client. When the PlayerVisibility is set to "Hidden", the text will not be available to the client. The default value is "Visible".
+    types:
+    - uid: Visibility
+  - name: hlsSettings
+    description: The HLS specific setting for the text track.
+    types:
+    - uid: HlsSettings
+  - name: '@odata.type'
+    description: The discriminator for derived types.
+    types:
+    - uid: '#Microsoft.Media.TextTrack'
+    typesTitle: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: Visibility
+  description: When PlayerVisibility is set to "Visible", the text track will be present in the DASH manifest or HLS playlist when requested by a client. When the PlayerVisibility is set to "Hidden", the text will not be available to the client. The default value is "Visible".
+  kind: enum
+  properties:
+  - name: Hidden
+    description: The track is hidden to video player.
+    types:
+    - uid: string
+  - name: Visible
+    description: The track is visible to video player.
+    types:
+    - uid: string
+- name: HlsSettings
+  description: The HLS setting for a text track.
+  kind: object
+  properties:
+  - name: default
+    description: The default for the HLS setting.
+    types:
+    - uid: boolean
+  - name: forced
+    description: The forced for the HLS setting.
+    types:
+    - uid: boolean
+  - name: characteristics
+    description: The characteristics for the HLS setting.
+    types:
+    - uid: string
+examples:
+- name: Get a Track by name
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountRainer/tracks/text1?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountRainer/tracks/text1?api-version=2021-11-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Tracks Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/asset-tracks-get-by-name.json
+           */
+          /**
+           * Sample code: Get a Track by name.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void getATrackByName(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              manager.tracks().getWithResponse("contoso", "contosomedia", "ClimbingMountRainer", "text1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/asset-tracks-get-by-name.json
+      func ExampleTracksClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewTracksClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"contoso",
+      		"contosomedia",
+      		"ClimbingMountRainer",
+      		"text1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the details of a Track in the Asset
+       *
+       * @summary Get the details of a Track in the Asset
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/asset-tracks-get-by-name.json
+       */
+      async function getATrackByName() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const assetName = "ClimbingMountRainer";
+        const trackName = "text1";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.tracks.get(resourceGroupName, accountName, assetName, trackName);
+        console.log(result);
+      }
+
+      getATrackByName().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "text1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/assets/ClimbingMountRainer/tracks/text1",
+        "type": "Microsoft.Media/mediaservices/assets/tracks",
+        "properties": {
+          "track": {
+            "@odata.type": "#Microsoft.Media.TextTrack",
+            "fileName": "auto_generated.ttml",
+            "displayName": "Auto generated",
+            "languageCode": "en-us",
+            "playerVisibility": "Visible"
+          },
+          "provisioningState": "Succeeded"
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Media Services service - Get a Track
+
+    Get the details of a Track in the Asset
+errorCodes: []

@@ -1,8 +1,8 @@
 ---
 title: "Layer4IngressConfig"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Describe the layer4 configuration for public connectivity for networks and provides the properties of layer 4 configuration.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

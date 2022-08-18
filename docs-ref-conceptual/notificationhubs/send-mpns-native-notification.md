@@ -1,5 +1,6 @@
 ﻿---
 title: "Send Microsoft Push Notification Service (MPNS) notification"
+description: Use this API reference documentation to send an MPNS native notification through a notification hub.
 ms.custom: ""
 ms.date: 08/05/2021
 ms.reviewer: ""

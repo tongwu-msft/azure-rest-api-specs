@@ -1,5 +1,6 @@
 ---
 title: "Revoke publisher"
+description: Learn how the Revoke Publisher operation revokes a publisher and how a revoked publisher will encounter errors when sending an event to the specified Event Hub.
 ms.custom: ""
 ms.date: 07/14/2020
 ms.reviewer: ""

@@ -3,15 +3,15 @@ uid: keyvault.keys.getkeys.getkeys
 name: Get Keys
 service: Key Vault
 groupName: Get Keys
-apiVersion: "7.2"
+apiVersion: "7.3"
 summary: "List keys in the specified vault.  \nRetrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public part of a stored key. The LIST operation is applicable to all key types, however only the base key identifier, attributes, and tags are provided in the response. Individual versions of a key are not listed in the response. This operation requires the keys/list permission."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET {vaultBaseUrl}/keys?api-version=7.2
-- content: GET {vaultBaseUrl}/keys?maxresults={maxresults}&api-version=7.2
+- content: GET {vaultBaseUrl}/keys?api-version=7.3
+- content: GET {vaultBaseUrl}/keys?maxresults={maxresults}&api-version=7.3
   isOptional: true
 uriParameters:
 - name: vaultBaseUrl
@@ -126,6 +126,10 @@ definitions:
     description: Reflects the deletion recovery level currently in effect for keys in the current vault. If it contains 'Purgeable' the key can be permanently deleted by a privileged user; otherwise, only the system can purge the key, at the end of the retention interval.
     types:
     - uid: DeletionRecoveryLevel
+  - name: exportable
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
+    types:
+    - uid: boolean
   - name: enabled
     description: Determines whether the object is enabled.
     types:
@@ -183,7 +187,13 @@ definitions:
 examples:
 - name: GetKeys
   request:
-    uri: GET https://myvault.vault.azure.net//keys?maxresults=1&api-version=7.2
+    uri: GET https://myvault.vault.azure.net//keys?maxresults=1&api-version=7.3
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://myvault.vault.azure.net//keys?maxresults=1&api-version=7.3
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -203,5 +213,8 @@ examples:
       }
 security: []
 metadata:
-  description: "List keys in the specified vault.  \nRetrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public part of a stored key."
+  description: >-
+    List keys in the specified vault.
+
+    Retrieves a list of the keys in the Key Vault as JSON Web Key structures that contain the public part of a stored key.
 errorCodes: []

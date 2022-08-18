@@ -1,0 +1,576 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.listactivesecurityadminrules.listactivesecurityadminrules
+name: List Active Security Admin Rules
+service: Network Manager
+groupName: List Active Security Admin Rules
+apiVersion: 2022-01-01
+summary: Lists active security admin rules in a network manager.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/listActiveSecurityAdminRules?api-version=2022-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: networkManagerName
+  in: path
+  isRequired: true
+  description: The name of the network manager.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Post successful. The operation returns the specified Managed Network active security admin rules resource.
+  types:
+  - uid: ActiveSecurityAdminRulesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: regions
+    in: body
+    description: List of regions.
+    types:
+    - uid: string
+      isArray: true
+  - name: skipToken
+    in: body
+    description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ActiveSecurityAdminRulesListResult
+  description: Result of the request to list active security admin rules. It contains a list of active security admin rules and a skiptoken to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: Gets a page of active security admin rules.
+    types:
+    - uid: ActiveSecurityAdminRule
+      isArray: true
+    - uid: ActiveDefaultSecurityAdminRule
+      isArray: true
+    typesTitle: ActiveBaseSecurityAdminRule[]
+  - name: skipToken
+    description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: ActiveConfigurationParameter
+  description: Effective Virtual Networks Parameter.
+  kind: object
+  properties:
+  - name: regions
+    description: List of regions.
+    types:
+    - uid: string
+      isArray: true
+  - name: skipToken
+    description: When present, the value can be passed to a subsequent query call (together with the same query and scopes used in the current request) to retrieve the next page of data.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: ActiveSecurityAdminRule
+  description: Network admin rule.
+  kind: object
+  properties:
+  - name: properties.description
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.protocol
+    description: Network protocol this rule applies to.
+    types:
+    - uid: SecurityConfigurationRuleProtocol
+  - name: properties.sources
+    description: The CIDR or source IP ranges.
+    types:
+    - uid: AddressPrefixItem
+      isArray: true
+  - name: properties.destinations
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - uid: AddressPrefixItem
+      isArray: true
+  - name: properties.sourcePortRanges
+    description: The source port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationPortRanges
+    description: The destination port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.access
+    description: Indicates the access allowed for this particular rule
+    types:
+    - uid: SecurityConfigurationRuleAccess
+  - name: properties.priority
+    description: The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+  - name: properties.direction
+    description: Indicates if the traffic matched against the rule in inbound or outbound.
+    types:
+    - uid: SecurityConfigurationRuleDirection
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: commitTime
+    description: Deployment time string.
+    types:
+    - uid: string
+  - name: region
+    description: Deployment region.
+    types:
+    - uid: string
+  - name: configurationDescription
+    description: A description of the security admin configuration.
+    types:
+    - uid: string
+  - name: ruleCollectionDescription
+    description: A description of the rule collection.
+    types:
+    - uid: string
+  - name: ruleCollectionAppliesToGroups
+    description: Groups for rule collection
+    types:
+    - uid: NetworkManagerSecurityGroupItem
+      isArray: true
+  - name: ruleGroups
+    description: Effective configuration groups.
+    types:
+    - uid: ConfigurationGroup
+      isArray: true
+  - name: kind
+    description: Whether the rule is custom or default.
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: ActiveDefaultSecurityAdminRule
+  description: Network default admin rule.
+  kind: object
+  properties:
+  - name: properties.description
+    isReadyOnly: true
+    description: A description for this rule. Restricted to 140 chars.
+    types:
+    - uid: string
+  - name: properties.flag
+    description: Default rule flag.
+    types:
+    - uid: string
+  - name: properties.protocol
+    isReadyOnly: true
+    description: Network protocol this rule applies to.
+    types:
+    - uid: SecurityConfigurationRuleProtocol
+  - name: properties.sources
+    isReadyOnly: true
+    description: The CIDR or source IP ranges.
+    types:
+    - uid: AddressPrefixItem
+      isArray: true
+  - name: properties.destinations
+    isReadyOnly: true
+    description: The destination address prefixes. CIDR or destination IP ranges.
+    types:
+    - uid: AddressPrefixItem
+      isArray: true
+  - name: properties.sourcePortRanges
+    isReadyOnly: true
+    description: The source port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.destinationPortRanges
+    isReadyOnly: true
+    description: The destination port ranges.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.access
+    isReadyOnly: true
+    description: Indicates the access allowed for this particular rule
+    types:
+    - uid: SecurityConfigurationRuleAccess
+  - name: properties.priority
+    isReadyOnly: true
+    description: The priority of the rule. The value can be between 1 and 4096. The priority number must be unique for each rule in the collection. The lower the priority number, the higher the priority of the rule.
+    types:
+    - uid: integer
+  - name: properties.direction
+    isReadyOnly: true
+    description: Indicates if the traffic matched against the rule in inbound or outbound.
+    types:
+    - uid: SecurityConfigurationRuleDirection
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: commitTime
+    description: Deployment time string.
+    types:
+    - uid: string
+  - name: region
+    description: Deployment region.
+    types:
+    - uid: string
+  - name: configurationDescription
+    description: A description of the security admin configuration.
+    types:
+    - uid: string
+  - name: ruleCollectionDescription
+    description: A description of the rule collection.
+    types:
+    - uid: string
+  - name: ruleCollectionAppliesToGroups
+    description: Groups for rule collection
+    types:
+    - uid: NetworkManagerSecurityGroupItem
+      isArray: true
+  - name: ruleGroups
+    description: Effective configuration groups.
+    types:
+    - uid: ConfigurationGroup
+      isArray: true
+  - name: kind
+    description: Whether the rule is custom or default.
+    types:
+    - uid: Default
+    typesTitle: string
+- name: SecurityConfigurationRuleProtocol
+  description: Network protocol this rule applies to.
+  kind: enum
+  properties:
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Udp
+    types:
+    - uid: string
+  - name: Icmp
+    types:
+    - uid: string
+  - name: Esp
+    types:
+    - uid: string
+  - name: Any
+    types:
+    - uid: string
+  - name: Ah
+    types:
+    - uid: string
+- name: AddressPrefixItem
+  description: Address prefix item.
+  kind: object
+  properties:
+  - name: addressPrefix
+    description: Address prefix.
+    types:
+    - uid: string
+  - name: addressPrefixType
+    description: Address prefix type.
+    types:
+    - uid: AddressPrefixType
+- name: SecurityConfigurationRuleAccess
+  description: Whether network traffic is allowed or denied.
+  kind: enum
+  properties:
+  - name: Allow
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: AlwaysAllow
+    types:
+    - uid: string
+- name: SecurityConfigurationRuleDirection
+  description: The direction of the rule. The direction specifies if the rule will be evaluated on incoming or outgoing traffic.
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: NetworkManagerSecurityGroupItem
+  description: Network manager security group item.
+  kind: object
+  properties:
+  - name: networkGroupId
+    description: Network manager group Id.
+    types:
+    - uid: string
+- name: ConfigurationGroup
+  description: The network configuration group resource
+  kind: object
+  properties:
+  - name: id
+    description: Network group ID.
+    types:
+    - uid: string
+  - name: properties.description
+    description: A description of the network group.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the scope assignment resource.
+    types:
+    - uid: ProvisioningState
+- name: AddressPrefixType
+  description: Address prefix type.
+  kind: enum
+  properties:
+  - name: IPPrefix
+    types:
+    - uid: string
+  - name: ServiceTag
+    types:
+    - uid: string
+examples:
+- name: List Active Security Admin Rules
+  request:
+    uri: POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2022-01-01
+    body: >-
+      {
+        "regions": [
+          "westus"
+        ],
+        "skipToken": "fakeSkipTokenCode"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/listActiveSecurityAdminRules?api-version=2022-01-01
+
+      {
+        "regions": [
+          "westus"
+        ],
+        "skipToken": "fakeSkipTokenCode"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
+      func ExampleManagementClient_ListActiveSecurityAdminRules() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewManagementClient("subscriptionA", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListActiveSecurityAdminRules(ctx, "myResourceGroup", "testNetworkManager", armnetwork.ActiveConfigurationParameter{
+      		Regions: []*string{
+      			to.Ptr("westus")},
+      		SkipToken: to.Ptr("fakeSkipTokenCode"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists active security admin rules in a network manager.
+       *
+       * @summary Lists active security admin rules in a network manager.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerActiveSecurityAdminRulesList.json
+       */
+      async function listActiveSecurityAdminRules() {
+        const subscriptionId = "subscriptionA";
+        const resourceGroupName = "myResourceGroup";
+        const networkManagerName = "testNetworkManager";
+        const parameters = {
+          regions: ["westus"],
+          skipToken: "fakeSkipTokenCode",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.listActiveSecurityAdminRules(
+          resourceGroupName,
+          networkManagerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      listActiveSecurityAdminRules().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "region": "westus",
+            "commitTime": "2020-07-10T18:03:22.2578238+05:30",
+            "id": "/subscriptions/subscriptionA/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule",
+            "configurationDescription": "SampleDescription",
+            "ruleCollectionDescription": "SampleRuleCollectionDescription",
+            "ruleCollectionAppliesToGroups": [
+              {
+                "networkGroupId": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1"
+              }
+            ],
+            "kind": "Default",
+            "properties": {
+              "description": "Sample Admin Rule",
+              "flag": "AllowVnetInbound",
+              "protocol": "Tcp",
+              "sources": [
+                {
+                  "addressPrefixType": "IPPrefix",
+                  "addressPrefix": "*"
+                }
+              ],
+              "destinations": [
+                {
+                  "addressPrefixType": "IPPrefix",
+                  "addressPrefix": "*"
+                }
+              ],
+              "sourcePortRanges": [
+                "0-65535"
+              ],
+              "destinationPortRanges": [
+                "22"
+              ],
+              "direction": "Inbound",
+              "access": "Deny",
+              "priority": 1,
+              "provisioningState": "Succeeded"
+            },
+            "ruleGroups": [
+              {
+                "id": "/subscriptions/subscriptionA/resourceGroup/myResourceGroup/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/group1",
+                "properties": {
+                  "description": "A group for all test Virtual Networks",
+                  "provisioningState": "Succeeded"
+                }
+              }
+            ]
+          }
+        ],
+        "skipToken": "FakeSkipTokenCode"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Network Manager service - Lists active security admin rules in a network manager.
+errorCodes: []

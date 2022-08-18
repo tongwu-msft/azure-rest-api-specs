@@ -326,6 +326,142 @@ examples:
           "resourceOwnerPassword": "pwd"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/authorizationServers/newauthServer?api-version=2021-08-01
+
+      {
+        "properties": {
+          "displayName": "test2",
+          "description": "test server",
+          "clientRegistrationEndpoint": "https://www.contoso.com/apps",
+          "authorizationEndpoint": "https://www.contoso.com/oauth2/auth",
+          "authorizationMethods": [
+            "GET"
+          ],
+          "tokenEndpoint": "https://www.contoso.com/oauth2/token",
+          "supportState": true,
+          "defaultScope": "read write",
+          "grantTypes": [
+            "authorizationCode",
+            "implicit"
+          ],
+          "bearerTokenSendingMethods": [
+            "authorizationHeader"
+          ],
+          "clientId": "1",
+          "clientSecret": "2",
+          "resourceOwnerUsername": "un",
+          "resourceOwnerPassword": "pwd"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.AuthorizationMethod;
+      import com.azure.resourcemanager.apimanagement.models.BearerTokenSendingMethod;
+      import com.azure.resourcemanager.apimanagement.models.GrantType;
+      import java.util.Arrays;
+
+      /** Samples for AuthorizationServer CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateAuthorizationServer.json
+           */
+          /**
+           * Sample code: ApiManagementCreateAuthorizationServer.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateAuthorizationServer(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .authorizationServers()
+                  .define("newauthServer")
+                  .withExistingService("rg1", "apimService1")
+                  .withDisplayName("test2")
+                  .withClientRegistrationEndpoint("https://www.contoso.com/apps")
+                  .withAuthorizationEndpoint("https://www.contoso.com/oauth2/auth")
+                  .withGrantTypes(Arrays.asList(GrantType.AUTHORIZATION_CODE, GrantType.IMPLICIT))
+                  .withClientId("1")
+                  .withClientSecret("2")
+                  .withDescription("test server")
+                  .withAuthorizationMethods(Arrays.asList(AuthorizationMethod.GET))
+                  .withTokenEndpoint("https://www.contoso.com/oauth2/token")
+                  .withSupportState(true)
+                  .withDefaultScope("read write")
+                  .withBearerTokenSendingMethods(Arrays.asList(BearerTokenSendingMethod.AUTHORIZATION_HEADER))
+                  .withResourceOwnerUsername("un")
+                  .withResourceOwnerPassword("pwd")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateAuthorizationServer.json
+      func ExampleAuthorizationServerClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewAuthorizationServerClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		"newauthServer",
+      		armapimanagement.AuthorizationServerContract{
+      			Properties: &armapimanagement.AuthorizationServerContractProperties{
+      				Description: to.Ptr("test server"),
+      				AuthorizationMethods: []*armapimanagement.AuthorizationMethod{
+      					to.Ptr(armapimanagement.AuthorizationMethodGET)},
+      				BearerTokenSendingMethods: []*armapimanagement.BearerTokenSendingMethod{
+      					to.Ptr(armapimanagement.BearerTokenSendingMethodAuthorizationHeader)},
+      				DefaultScope:               to.Ptr("read write"),
+      				ResourceOwnerPassword:      to.Ptr("pwd"),
+      				ResourceOwnerUsername:      to.Ptr("un"),
+      				SupportState:               to.Ptr(true),
+      				TokenEndpoint:              to.Ptr("https://www.contoso.com/oauth2/token"),
+      				AuthorizationEndpoint:      to.Ptr("https://www.contoso.com/oauth2/auth"),
+      				ClientID:                   to.Ptr("1"),
+      				ClientRegistrationEndpoint: to.Ptr("https://www.contoso.com/apps"),
+      				ClientSecret:               to.Ptr("2"),
+      				DisplayName:                to.Ptr("test2"),
+      				GrantTypes: []*armapimanagement.GrantType{
+      					to.Ptr(armapimanagement.GrantTypeAuthorizationCode),
+      					to.Ptr(armapimanagement.GrantTypeImplicit)},
+      			},
+      		},
+      		&armapimanagement.AuthorizationServerClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -395,5 +531,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Creates new authorization server or updates an existing authorization server.
+  description: >
+    Learn more about API Management service - Creates new authorization server or updates an existing authorization server.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: Use Azure Active Directory authentication to send messages to an event hub
+description: Learn how to get an Azure Active Directory (Azure AD) token that you can use to send events to and receive events from a Service Bus namespace.
 ms.date: "07/15/2020"
 ms.service: "event-hubs"
 ms.topic: "reference"
@@ -96,10 +97,10 @@ In this example, we are only sending messaging to the event hub, so add the appl
     1. Add `Authorization` key and value for it in the following format: `Bearer <TOKEN from Azure AD>`. When you copy/paste the token, don't copy the enclosing double quotes. 
     1. Add `Content-Type` key and `application/atom+xml;type=entry;charset=utf-8` as the value for it. 
 
-        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::
+        :::image type="content" source="./media/get-azure-active-directory-token/postman-headers-message.png" alt-text="Screenshot of the Headers tab emphasized in the Event Hub" lightbox="./media/get-azure-active-directory-token/postman-headers-message.png":::
 5. On the **Body** tab, select **raw** for the data type, and enter `This is a message` or any message for the body. 
 
-    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Header for the message" lightbox="./media/get-azure-active-directory-token/postman-body-message.png":::    
+    :::image type="content" source="./media/get-azure-active-directory-token/postman-body-message.png" alt-text="Screenshot of the test event in the raw Body view in the Event Hub." lightbox="./media/get-azure-active-directory-token/postman-body-message.png":::    
 1. Select **Send** to send the message to the queue. You see the status as `Created` with the code 201 as shown in the following image. 
 
     :::image type="content" source="./media/get-azure-active-directory-token/status-201.png" alt-text="Succeeded status" lightbox="./media/get-azure-active-directory-token/status-201.png":::

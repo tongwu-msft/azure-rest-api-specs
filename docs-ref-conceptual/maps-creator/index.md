@@ -1,7 +1,8 @@
 ---
 title: Azure IoT Maps Creator Functional API | Microsoft Docs
+description: Learn how IoT Maps Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK.
 ms.date: 07/12/2018
-ms.service: maps
+ms.service: azure
 ms.topic: reference
 ms.devlang: rest-api
 author: sethmanheim

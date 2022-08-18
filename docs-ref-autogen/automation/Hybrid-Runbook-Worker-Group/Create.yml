@@ -1,0 +1,319 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.automation.hybridrunbookworkergroup.create
+name: Create
+service: Automation
+groupName: Hybrid Runbook Worker Group
+apiVersion: 2022-02-22
+summary: Create a hybrid runbook worker group.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Automation/automationAccounts/{automationAccountName}/hybridRunbookWorkerGroups/{hybridRunbookWorkerGroupName}?api-version=2022-02-22
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Gets subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of an Azure Resource group.
+  types:
+  - uid: string
+  pattern: ^[-\w\._]+$
+- name: automationAccountName
+  in: path
+  isRequired: true
+  description: The name of the automation account.
+  types:
+  - uid: string
+- name: hybridRunbookWorkerGroupName
+  in: path
+  isRequired: true
+  description: The hybrid runbook worker group name
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client Api Version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: HybridRunbookWorkerGroup
+- name: Other Status Codes
+  description: Automation error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: name
+    in: body
+    description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+  - name: properties.credential
+    in: body
+    description: Sets the credential of a worker group.
+    types:
+    - uid: RunAsCredentialAssociationProperty
+requestHeader: []
+definitions:
+- name: RunAsCredentialAssociationProperty
+  description: Definition of RunAs credential to use for hybrid worker.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the credential.
+    types:
+    - uid: string
+- name: HybridRunbookWorkerGroup
+  description: Definition of hybrid runbook worker group.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
+  - name: properties.groupType
+    description: Type of the HybridWorkerGroup.
+    types:
+    - uid: GroupTypeEnum
+  - name: properties.credential
+    description: Sets the credential of a worker group.
+    types:
+    - uid: RunAsCredentialAssociationProperty
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource Id for the resource
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response of an operation failure
+  kind: object
+  properties:
+  - name: code
+    description: Error code
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: HybridRunbookWorkerGroupCreateOrUpdateParameters
+  description: The parameters supplied to the create hybrid runbook worker group operation.
+  kind: object
+  properties:
+  - name: name
+    description: Gets or sets the name of the resource.
+    types:
+    - uid: string
+  - name: properties.credential
+    description: Sets the credential of a worker group.
+    types:
+    - uid: RunAsCredentialAssociationProperty
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: GroupTypeEnum
+  description: Type of the HybridWorkerGroup.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: System
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Create a hybrid worker group
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup?api-version=2022-02-22
+    body: >-
+      {
+        "properties": {
+          "credential": {
+            "name": "myRunAsCredentialName"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup?api-version=2022-02-22
+
+      {
+        "properties": {
+          "credential": {
+            "name": "myRunAsCredentialName"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.automation.models.RunAsCredentialAssociationProperty;
+
+      /** Samples for HybridRunbookWorkerGroup Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/putHybridRunbookWorkerGroup.json
+           */
+          /**
+           * Sample code: Create a hybrid worker group.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void createAHybridWorkerGroup(com.azure.resourcemanager.automation.AutomationManager manager) {
+              manager
+                  .hybridRunbookWorkerGroups()
+                  .define("TestHybridGroup")
+                  .withExistingAutomationAccount("rg", "testaccount")
+                  .withCredential(new RunAsCredentialAssociationProperty().withName("myRunAsCredentialName"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2022-02-22/examples/putHybridRunbookWorkerGroup.json
+      func ExampleHybridRunbookWorkerGroupClient_Create() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewHybridRunbookWorkerGroupClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Create(ctx,
+      		"rg",
+      		"testaccount",
+      		"TestHybridGroup",
+      		armautomation.HybridRunbookWorkerGroupCreateOrUpdateParameters{
+      			Properties: &armautomation.HybridRunbookWorkerGroupCreateOrUpdateProperties{
+      				Credential: &armautomation.RunAsCredentialAssociationProperty{
+      					Name: to.Ptr("myRunAsCredentialName"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/testaccount/hybridRunbookWorkerGroups/TestHybridGroup",
+        "name": "TestHybridGroup",
+        "properties": {
+          "groupType": "User",
+          "credential": {
+            "name": "myRunAsCredentialName"
+          }
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Automation service - Create a hybrid runbook worker group.
+errorCodes: []

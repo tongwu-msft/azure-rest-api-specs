@@ -1,0 +1,252 @@
+### YamlMime:RESTOperation
+uid: loadtesting.dataplane.appcomponent.createorupdateappcomponents
+name: Create Or Update App Components
+service: Azure Load Testing
+groupName: App Component
+apiVersion: 2022-06-01-preview
+summary: Associate an App Component (Azure resource) to a test or test run.
+consumes:
+- application/merge-patch+json
+produces:
+- application/json
+paths:
+- content: PATCH https://{Endpoint}/appcomponents/{name}?api-version=2022-06-01-preview
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: URL to perform data plane API operations on the resource.
+  types:
+  - uid: string
+  format: uri
+- name: name
+  in: path
+  isRequired: true
+  description: Unique name of the App Component, must be a valid URL character ^[a-z0-9_-]*$.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9_-]*$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The App Component is updated.
+  types:
+  - uid: AppComponentsMap
+- name: 201 Created
+  description: The app component is created.
+  types:
+  - uid: AppComponentsMap
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: Load Testing service error response.
+  types:
+  - uid: ErrorResponseBody
+requestBody:
+- name: default
+  parameters:
+  - name: testId
+    in: body
+    description: '[Required, if testRunId is not given] Load test unique identifier'
+    types:
+    - uid: string
+  - name: testRunId
+    in: body
+    description: '[Required if testId is not given] Load test run unique identifier'
+    types:
+    - uid: string
+  - name: value
+    in: body
+    isRequired: true
+    description: 'AppComponents Map { resource id (Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } '
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AppComponent
+requestHeader: []
+definitions:
+- name: AppComponent
+  description: 'An Azure resource object (Refer azure generic resource model : https://docs.microsoft.com/en-us/rest/api/resources/resources/get-by-id#genericresource)'
+  kind: object
+  properties:
+  - name: resourceId
+    description: Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}
+    types:
+    - uid: string
+  - name: resourceName
+    description: Azure resource name
+    types:
+    - uid: string
+  - name: resourceType
+    description: Azure resource type
+    types:
+    - uid: string
+  - name: displayName
+    description: Azure resource display name
+    types:
+    - uid: string
+  - name: resourceGroup
+    isReadyOnly: true
+    description: Resource group name of the Azure resource
+    types:
+    - uid: string
+  - name: subscriptionId
+    isReadyOnly: true
+    description: Subscription Id of the Azure resource
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of Azure resource type
+    types:
+    - uid: string
+- name: AppComponentsMap
+  description: App Components model
+  kind: object
+  properties:
+  - name: resourceId
+    isReadyOnly: true
+    description: Azure Load Testing resource Id
+    types:
+    - uid: string
+  - name: testId
+    description: '[Required, if testRunId is not given] Load test unique identifier'
+    types:
+    - uid: string
+  - name: testRunId
+    description: '[Required if testId is not given] Load test run unique identifier'
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: AppComponent name
+    types:
+    - uid: string
+  - name: value
+    description: 'AppComponents Map { resource id (Fully qualified resource Id e.g subscriptions/{subId}/resourceGroups/{rg}/providers/Microsoft.LoadTestService/loadtests/{resName}) : resource object } '
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: AppComponent
+- name: ErrorResponseBody
+  description: The definition of an error object.
+  kind: object
+  properties:
+  - name: error
+    description: Error from a REST request.
+    types:
+    - uid: Error
+- name: Error
+  description: Error from a REST request.
+  kind: object
+  properties:
+  - name: code
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    description: Additional details and inner errors.
+    types:
+    - uid: Error
+      isArray: true
+examples:
+- name: CreateOrUpdateAppComponents
+  request:
+    uri: PATCH https://{Endpoint}/appcomponents/ee843bd9-a6d4-4364-a45c-427a03c39fa7?api-version=2022-06-01-preview
+    body: >-
+      {
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "value": {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource": {
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "resourceType": "microsoft.insights/components",
+            "resourceName": "appcomponentresource",
+            "displayName": "Performance_LoadTest_Insights",
+            "kind": "web"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://{Endpoint}/appcomponents/ee843bd9-a6d4-4364-a45c-427a03c39fa7?api-version=2022-06-01-preview
+
+      {
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "value": {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource": {
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "resourceType": "microsoft.insights/components",
+            "resourceName": "appcomponentresource",
+            "displayName": "Performance_LoadTest_Insights",
+            "kind": "web"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.loadtestservice/sampleresourcetype/sampleresourcename",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "name": "ee843bd9-a6d4-4364-a45c-427a03c39fa7",
+        "value": {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource": {
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "resourceType": "microsoft.insights/components",
+            "resourceName": "appcomponentresource",
+            "displayName": "Performance_LoadTest_Insights",
+            "resourceGroup": "samplerg",
+            "subscriptionId": "00000000-0000-0000-0000-000000000000",
+            "kind": "web"
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.loadtestservice/sampleresourcetype/sampleresourcename",
+        "testId": "12345678-1234-1234-1234-123456789012",
+        "testRunId": "12316678-1234-1234-1234-122451189012",
+        "name": "ee843bd9-a6d4-4364-a45c-427a03c39fa7",
+        "value": {
+          "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource": {
+            "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplerg/providers/microsoft.insights/components/appcomponentresource",
+            "resourceType": "microsoft.insights/components",
+            "resourceName": "appcomponentresource",
+            "displayName": "Performance_LoadTest_Insights",
+            "resourceGroup": "samplerg",
+            "subscriptionId": "00000000-0000-0000-0000-000000000000",
+            "kind": "web"
+          }
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Azure Load Testing service - Associate an App Component (Azure resource) to a test or test run.
+errorCodes: []

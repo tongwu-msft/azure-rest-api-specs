@@ -4,7 +4,7 @@ description: HTTP codes returned by Azure Cognitive Search when making REST API 
 ms.date: 07/19/2021
 
 ms.service: cognitive-search
-ms.topic: language-reference
+ms.topic: reference
 ms.devlang: rest-api
 
 author: bevloh

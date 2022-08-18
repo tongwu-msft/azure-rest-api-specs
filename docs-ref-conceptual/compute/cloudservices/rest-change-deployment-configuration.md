@@ -1,5 +1,6 @@
 ---
 title: "Azure Cloud Services REST - Change Deployment Configuration | Microsoft Docs"
+description: Learn how the Change Deployment Configuration asynchronous operation initiates a change to the deployment configuration.
 ms.custom: 
   - "VMClassic"
 ms.date: "06/28/2015"

@@ -1,5 +1,6 @@
 ---
 title: "ServiceResourceUpdateProperties"
+description: "Describe the service resource properties for patch operations. The table lists the value of the Kind property and corresponding derived type it represents."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

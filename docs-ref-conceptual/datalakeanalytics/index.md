@@ -1,5 +1,6 @@
 ---
 title: Azure Data Lake Analytics REST API Reference
+description: Learn how to use the Azure Data Lake Analytics REST APIs to create and manage Data Lake Analytics resources through Azure Resource Manager.
 ms.service: data-lake-analytics
 author: jasonwhowell
 ms.author: jasonh

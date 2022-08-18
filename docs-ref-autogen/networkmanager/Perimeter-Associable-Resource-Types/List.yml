@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.networkmanager.perimeterassociableresourcetypes.list
+name: List
+service: Network Manager
+groupName: Perimeter Associable Resource Types
+apiVersion: 2021-02-01-preview
+summary: Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/perimeterAssociableResourceTypes?api-version=2021-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: The location of network security perimeter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the list of resources that are onboarded with network security perimeter feature.
+  types:
+  - uid: PerimeterAssociableResourcesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PerimeterAssociableResourcesListResult
+  description: Paged list of perimeter associable resources.
+  kind: object
+  properties:
+  - name: value
+    description: Gets paged list of perimeter associable resources.
+    types:
+    - uid: PerimeterAssociableResource
+      isArray: true
+  - name: nextLink
+    description: Gets the URL to get the next page of results.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: PerimeterAssociableResource
+  description: Resource that is onboarded to use network security perimeter. Also referred as perimeter associable resource.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Identifier of the perimeter associable resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.displayName
+    isReadyOnly: true
+    description: A friendly name for the properties of perimeter associable resources.
+    types:
+    - uid: string
+  - name: properties.resourceType
+    isReadyOnly: true
+    description: Resource type/provider name.
+    types:
+    - uid: string
+  - name: properties.publicDnsZones
+    isReadyOnly: true
+    description: Public DNS zone names of the resources.
+    types:
+    - uid: string
+      isArray: true
+  - name: location
+    description: Resource location.
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Check Dns Name Availability
+  request:
+    uri: GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Network/locations/westus/perimeterAssociableResourceTypes?api-version=2021-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subId/providers/Microsoft.Network/locations/westus/perimeterAssociableResourceTypes?api-version=2021-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "Microsoft.Sql.servers",
+            "id": "/subscriptions/{subscriptionID}/providers/Microsoft.Network/perimeterAssociableResourceTypes/Microsoft.Sql.servers",
+            "type": "Microsoft.Network/PerimeterAssociableResourceTypes",
+            "properties": {
+              "resourceType": "Microsoft.Sql/servers",
+              "displayName": "Microsoft.Sql/servers",
+              "publicDnsZones": [
+                "database.windows.net"
+              ]
+            }
+          },
+          {
+            "name": "Microsoft.Storage.accounts",
+            "id": "/subscriptions/{subscriptionId}/providers/Microsoft.Network/perimeterAssociableResourceTypes/Microsoft.Storage.storageAccounts",
+            "type": "Microsoft.Network/PerimeterAssociableResourceTypes",
+            "properties": {
+              "resourceType": "Microsoft.Storage/accounts",
+              "displayName": "Microsoft.Storage/accounts",
+              "publicDnsZones": [
+                "blob.core.windows.net",
+                "table.core.windows.net",
+                "queue.core.windows.net",
+                "file.core.windows.net"
+              ]
+            }
+          }
+        ],
+        "nextLink": "{baseurl}/subscriptions/{subscriptionId}/providers/Microsoft.Network/locations/{location}/perimeterAssociableResourceTypes?api-version=2021-02-01-preview&$skipToken=10"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Gets the list of resources that are onboarded with NSP. These resources can be associated with a network security perimeter
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.cre
 name: Create Or Update
 service: Application Gateway
 groupName: Web Application Firewall Policies
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Creates or update policy with specified rule set name within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -225,10 +225,20 @@ definitions:
     types:
     - uid: ApplicationGatewayBackendHttpSettings
       isArray: true
+  - name: properties.backendSettingsCollection
+    description: Backend settings of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayBackendSettings
+      isArray: true
   - name: properties.httpListeners
     description: Http listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
     types:
     - uid: ApplicationGatewayHttpListener
+      isArray: true
+  - name: properties.listeners
+    description: Listeners of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
+    types:
+    - uid: ApplicationGatewayListener
       isArray: true
   - name: properties.sslProfiles
     description: SSL profiles of the application gateway resource. For default limits, see [Application Gateway limits](https://docs.microsoft.com/azure/azure-subscription-service-limits#application-gateway-limits).
@@ -244,6 +254,11 @@ definitions:
     description: Request routing rules of the application gateway resource.
     types:
     - uid: ApplicationGatewayRequestRoutingRule
+      isArray: true
+  - name: properties.routingRules
+    description: Routing rules of the application gateway resource.
+    types:
+    - uid: ApplicationGatewayRoutingRule
       isArray: true
   - name: properties.rewriteRuleSets
     description: Rewrite rules for the application gateway resource.
@@ -902,6 +917,10 @@ definitions:
     description: Whether the host header should be picked from the backend http settings. Default value is false.
     types:
     - uid: boolean
+  - name: properties.pickHostNameFromBackendSettings
+    description: Whether the server name indication should be picked from the backend settings for Tls protocol. Default value is false.
+    types:
+    - uid: boolean
   - name: properties.minServers
     description: Minimum number of servers that are always marked healthy. Default value is 0.
     types:
@@ -1042,6 +1061,62 @@ definitions:
     description: Resource ID.
     types:
     - uid: string
+- name: ApplicationGatewayBackendSettings
+  description: Backend address pool settings of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the backend settings that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.port
+    description: The destination port on the backend.
+    types:
+    - uid: integer
+  - name: properties.protocol
+    description: The protocol used to communicate with the backend.
+    types:
+    - uid: ApplicationGatewayProtocol
+  - name: properties.timeout
+    description: Connection timeout in seconds. Application Gateway will fail the request if response is not received within ConnectionTimeout. Acceptable values are from 1 second to 86400 seconds.
+    types:
+    - uid: integer
+  - name: properties.probe
+    description: Probe resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.trustedRootCertificates
+    description: Array of references to application gateway trusted root certificates.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.hostName
+    description: Server name indication to be sent to the backend servers for Tls protocol.
+    types:
+    - uid: string
+  - name: properties.pickHostNameFromBackendAddress
+    description: Whether to pick server name indication from the host name of the backend server for Tls protocol. Default value is false.
+    types:
+    - uid: boolean
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the backend HTTP settings resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: ApplicationGatewayHttpListener
   description: Http listener of an application gateway.
   kind: object
@@ -1107,6 +1182,53 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayListener
+  description: Listener of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the listener that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.frontendIPConfiguration
+    description: Frontend IP configuration resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.frontendPort
+    description: Frontend port resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.protocol
+    description: Protocol of the listener.
+    types:
+    - uid: ApplicationGatewayProtocol
+  - name: properties.sslCertificate
+    description: SSL certificate resource of an application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.sslProfile
+    description: SSL profile resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the listener resource.
+    types:
+    - uid: ProvisioningState
   - name: id
     description: Resource ID.
     types:
@@ -1255,6 +1377,53 @@ definitions:
     - uid: SubResource
   - name: properties.loadDistributionPolicy
     description: Load Distribution Policy resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the request routing rule resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ApplicationGatewayRoutingRule
+  description: Routing rule of an application gateway.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the routing rule that is unique within an Application Gateway.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.ruleType
+    description: Rule type.
+    types:
+    - uid: ApplicationGatewayRequestRoutingRuleType
+  - name: properties.priority
+    description: Priority of the routing rule.
+    types:
+    - uid: integer
+  - name: properties.backendAddressPool
+    description: Backend address pool resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.backendSettings
+    description: Backend settings resource of the application gateway.
+    types:
+    - uid: SubResource
+  - name: properties.listener
+    description: Listener resource of the application gateway.
     types:
     - uid: SubResource
   - name: properties.provisioningState
@@ -1687,6 +1856,9 @@ definitions:
   - name: GeoMatch
     types:
     - uid: string
+  - name: Any
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -1762,6 +1934,9 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: CustomV2
+    types:
+    - uid: string
 - name: ApplicationGatewaySslPolicyName
   description: Name of Ssl predefined policy.
   kind: enum
@@ -1775,6 +1950,12 @@ definitions:
   - name: AppGwSslPolicy20170401S
     types:
     - uid: string
+  - name: AppGwSslPolicy20220101
+    types:
+    - uid: string
+  - name: AppGwSslPolicy20220101S
+    types:
+    - uid: string
 - name: ApplicationGatewaySslProtocol
   description: Minimum version of Ssl protocol to be supported on application gateway.
   kind: enum
@@ -1786,6 +1967,9 @@ definitions:
     types:
     - uid: string
   - name: TLSv1_2
+    types:
+    - uid: string
+  - name: TLSv1_3
     types:
     - uid: string
 - name: IPAllocationMethod
@@ -1806,6 +1990,12 @@ definitions:
     types:
     - uid: string
   - name: Https
+    types:
+    - uid: string
+  - name: Tcp
+    types:
+    - uid: string
+  - name: Tls
     types:
     - uid: string
 - name: ApplicationGatewayProbeHealthResponseMatch
@@ -2521,6 +2711,10 @@ definitions:
     description: The provisioning state of the backend address pool resource.
     types:
     - uid: ProvisioningState
+  - name: properties.drainPeriodInSeconds
+    description: Amount of seconds Load Balancer waits for before sending RESET to client and backend address.
+    types:
+    - uid: integer
   - name: id
     description: Resource ID.
     types:
@@ -2709,10 +2903,12 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
     - uid: VirtualNetworkPrivateLinkServiceNetworkPolicies
+    defaultValue: Enabled
   - name: properties.applicationGatewayIpConfigurations
     description: Application gateway IP configurations of virtual network resource.
     types:
@@ -3011,7 +3207,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -3055,6 +3251,10 @@ definitions:
     description: Migration phase of Network Interface resource.
     types:
     - uid: NetworkInterfaceMigrationPhase
+  - name: properties.auxiliaryMode
+    description: Auxiliary mode of Network Interface resource.
+    types:
+    - uid: NetworkInterfaceAuxiliaryMode
   - name: id
     description: Resource ID.
     types:
@@ -3363,6 +3563,10 @@ definitions:
     types:
     - uid: NatRulePortMapping
       isArray: true
+  - name: properties.adminState
+    description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+    types:
+    - uid: LoadBalancerBackendAddressAdminState
 - name: TransportProtocol
   description: The transport protocol for the endpoint.
   kind: enum
@@ -3385,6 +3589,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -3619,6 +3827,7 @@ definitions:
     description: The private IP address allocation method.
     types:
     - uid: IPAllocationMethod
+    defaultValue: Dynamic
   - name: properties.subnet
     description: The reference to the subnet resource.
     types:
@@ -4143,6 +4352,19 @@ definitions:
   - name: Committed
     types:
     - uid: string
+- name: NetworkInterfaceAuxiliaryMode
+  description: Auxiliary mode of Network Interface resource.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: MaxConnections
+    types:
+    - uid: string
+  - name: Floating
+    types:
+    - uid: string
 - name: ExclusionManagedRule
   description: Defines a managed rule to use for exclusion.
   kind: object
@@ -4200,6 +4422,22 @@ definitions:
     description: Backend port.
     types:
     - uid: integer
+- name: LoadBalancerBackendAddressAdminState
+  description: A list of administrative states which once set can override health probe so that Load Balancer will always forward new connections to backend, or deny new connections and reset existing connections.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: Up
+    types:
+    - uid: string
+  - name: Down
+    types:
+    - uid: string
+  - name: Drain
+    types:
+    - uid: string
 - name: SecurityRule
   description: Network security rule.
   kind: object
@@ -4636,10 +4874,12 @@ definitions:
     description: Number of days to retain flow log records.
     types:
     - uid: integer
+    defaultValue: 0
   - name: enabled
     description: Flag to enable/disable retention.
     types:
     - uid: boolean
+    defaultValue: false
 - name: FlowLogFormatParameters
   description: Parameters that define the flow log format.
   kind: object
@@ -4652,6 +4892,7 @@ definitions:
     description: The version (revision) of the flow log.
     types:
     - uid: integer
+    defaultValue: 0
 - name: TrafficAnalyticsProperties
   description: Parameters that define the configuration of traffic analytics.
   kind: object
@@ -4720,7 +4961,7 @@ definitions:
 examples:
 - name: Creates or updates a WAF policy within a resource group
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2022-01-01
     body: >-
       {
         "location": "WestUs",
@@ -4838,6 +5079,368 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2022-01-01
+
+      {
+        "location": "WestUs",
+        "properties": {
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "OWASP",
+                "ruleSetVersion": "3.2"
+              }
+            ],
+            "exclusions": [
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.2",
+                    "ruleGroups": [
+                      {
+                        "ruleGroupName": "REQUEST-930-APPLICATION-ATTACK-LFI",
+                        "rules": [
+                          {
+                            "ruleId": "930120"
+                          }
+                        ]
+                      },
+                      {
+                        "ruleGroupName": "REQUEST-932-APPLICATION-ATTACK-RCE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "EndsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.1",
+                    "ruleGroups": []
+                  }
+                ]
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "test"
+              },
+              {
+                "matchVariable": "RequestArgValues",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "test"
+              }
+            ]
+          },
+          "customRules": [
+            {
+              "name": "Rule1",
+              "priority": 1,
+              "ruleType": "MatchRule",
+              "action": "Block",
+              "matchConditions": [
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RemoteAddr",
+                      "selector": null
+                    }
+                  ],
+                  "operator": "IPMatch",
+                  "matchValues": [
+                    "192.168.1.0/24",
+                    "10.0.0.0/24"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rule2",
+              "priority": 2,
+              "ruleType": "MatchRule",
+              "matchConditions": [
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RemoteAddr",
+                      "selector": null
+                    }
+                  ],
+                  "operator": "IPMatch",
+                  "matchValues": [
+                    "192.168.1.0/24"
+                  ]
+                },
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RequestHeaders",
+                      "selector": "UserAgent"
+                    }
+                  ],
+                  "operator": "Contains",
+                  "matchValues": [
+                    "Windows"
+                  ]
+                }
+              ],
+              "action": "Block"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafPolicyCreateOrUpdate.json
+      func ExampleWebApplicationFirewallPoliciesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewWebApplicationFirewallPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "rg1", "Policy1", armnetwork.WebApplicationFirewallPolicy{
+      		Location: to.Ptr("WestUs"),
+      		Properties: &armnetwork.WebApplicationFirewallPolicyPropertiesFormat{
+      			CustomRules: []*armnetwork.WebApplicationFirewallCustomRule{
+      				{
+      					Name:   to.Ptr("Rule1"),
+      					Action: to.Ptr(armnetwork.WebApplicationFirewallActionBlock),
+      					MatchConditions: []*armnetwork.MatchCondition{
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("192.168.1.0/24"),
+      								to.Ptr("10.0.0.0/24")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRemoteAddr),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorIPMatch),
+      						}},
+      					Priority: to.Ptr[int32](1),
+      					RuleType: to.Ptr(armnetwork.WebApplicationFirewallRuleTypeMatchRule),
+      				},
+      				{
+      					Name:   to.Ptr("Rule2"),
+      					Action: to.Ptr(armnetwork.WebApplicationFirewallActionBlock),
+      					MatchConditions: []*armnetwork.MatchCondition{
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("192.168.1.0/24")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRemoteAddr),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorIPMatch),
+      						},
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("Windows")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									Selector:     to.Ptr("UserAgent"),
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRequestHeaders),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorContains),
+      						}},
+      					Priority: to.Ptr[int32](2),
+      					RuleType: to.Ptr(armnetwork.WebApplicationFirewallRuleTypeMatchRule),
+      				}},
+      			ManagedRules: &armnetwork.ManagedRulesDefinition{
+      				Exclusions: []*armnetwork.OwaspCrsExclusionEntry{
+      					{
+      						ExclusionManagedRuleSets: []*armnetwork.ExclusionManagedRuleSet{
+      							{
+      								RuleGroups: []*armnetwork.ExclusionManagedRuleGroup{
+      									{
+      										RuleGroupName: to.Ptr("REQUEST-930-APPLICATION-ATTACK-LFI"),
+      										Rules: []*armnetwork.ExclusionManagedRule{
+      											{
+      												RuleID: to.Ptr("930120"),
+      											}},
+      									},
+      									{
+      										RuleGroupName: to.Ptr("REQUEST-932-APPLICATION-ATTACK-RCE"),
+      									}},
+      								RuleSetType:    to.Ptr("OWASP"),
+      								RuleSetVersion: to.Ptr("3.2"),
+      							}},
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("hello"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					},
+      					{
+      						ExclusionManagedRuleSets: []*armnetwork.ExclusionManagedRuleSet{
+      							{
+      								RuleGroups:     []*armnetwork.ExclusionManagedRuleGroup{},
+      								RuleSetType:    to.Ptr("OWASP"),
+      								RuleSetVersion: to.Ptr("3.1"),
+      							}},
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("hello"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorEndsWith),
+      					},
+      					{
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("test"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					},
+      					{
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgValues),
+      						Selector:              to.Ptr("test"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					}},
+      				ManagedRuleSets: []*armnetwork.ManagedRuleSet{
+      					{
+      						RuleSetType:    to.Ptr("OWASP"),
+      						RuleSetVersion: to.Ptr("3.2"),
+      					}},
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
+       *
+       * @summary Creates or update policy with specified rule set name within a resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafPolicyCreateOrUpdate.json
+       */
+      async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const policyName = "Policy1";
+        const parameters = {
+          customRules: [
+            {
+              name: "Rule1",
+              action: "Block",
+              matchConditions: [
+                {
+                  matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
+                  matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                  operator: "IPMatch",
+                },
+              ],
+              priority: 1,
+              ruleType: "MatchRule",
+            },
+            {
+              name: "Rule2",
+              action: "Block",
+              matchConditions: [
+                {
+                  matchValues: ["192.168.1.0/24"],
+                  matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                  operator: "IPMatch",
+                },
+                {
+                  matchValues: ["Windows"],
+                  matchVariables: [{ selector: "UserAgent", variableName: "RequestHeaders" }],
+                  operator: "Contains",
+                },
+              ],
+              priority: 2,
+              ruleType: "MatchRule",
+            },
+          ],
+          location: "WestUs",
+          managedRules: {
+            exclusions: [
+              {
+                exclusionManagedRuleSets: [
+                  {
+                    ruleGroups: [
+                      {
+                        ruleGroupName: "REQUEST-930-APPLICATION-ATTACK-LFI",
+                        rules: [{ ruleId: "930120" }],
+                      },
+                      { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" },
+                    ],
+                    ruleSetType: "OWASP",
+                    ruleSetVersion: "3.2",
+                  },
+                ],
+                matchVariable: "RequestArgNames",
+                selector: "hello",
+                selectorMatchOperator: "StartsWith",
+              },
+              {
+                exclusionManagedRuleSets: [
+                  { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" },
+                ],
+                matchVariable: "RequestArgNames",
+                selector: "hello",
+                selectorMatchOperator: "EndsWith",
+              },
+              {
+                matchVariable: "RequestArgNames",
+                selector: "test",
+                selectorMatchOperator: "StartsWith",
+              },
+              {
+                matchVariable: "RequestArgValues",
+                selector: "test",
+                selectorMatchOperator: "StartsWith",
+              },
+            ],
+            managedRuleSets: [{ ruleSetType: "OWASP", ruleSetVersion: "3.2" }],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.webApplicationFirewallPolicies.createOrUpdate(
+          resourceGroupName,
+          policyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAWafPolicyWithinAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5125,5 +5728,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Gateway service - Creates or update policy with specified rule set name within a resource group.
+  description: >
+    Learn more about Application Gateway service - Creates or update policy with specified rule set name within a resource group.
 errorCodes: []

@@ -1,0 +1,339 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualwan.configurationpolicygroups.listbyvpnserverconfiguration
+name: List By Vpn Server Configuration
+service: Virtual WAN
+groupName: configuration Policy Groups
+apiVersion: 2022-01-01
+summary: Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnServerConfigurations/{vpnServerConfigurationName}/configurationPolicyGroups?api-version=2022-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The resource group name of the VpnServerConfiguration.
+  types:
+  - uid: string
+- name: vpnServerConfigurationName
+  in: path
+  isRequired: true
+  description: The name of the VpnServerConfiguration.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. Returns the details of all the VpnServerConfigurations in the resource group.
+  types:
+  - uid: ListVpnServerConfigurationPolicyGroupsResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ListVpnServerConfigurationPolicyGroupsResult
+  description: Result of the request to list VpnServerConfigurationPolicyGroups. It contains a list of VpnServerConfigurationPolicyGroups and a URL nextLink to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of VpnServerConfigurationPolicyGroups.
+    types:
+    - uid: VpnServerConfigurationPolicyGroup
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: VpnServerConfigurationPolicyGroup
+  description: VpnServerConfigurationPolicyGroup Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.isDefault
+    description: Shows if this is a Default VpnServerConfigurationPolicyGroup or not.
+    types:
+    - uid: boolean
+  - name: properties.priority
+    description: Priority for VpnServerConfigurationPolicyGroup.
+    types:
+    - uid: integer
+  - name: properties.policyMembers
+    description: Multiple PolicyMembers for VpnServerConfigurationPolicyGroup.
+    types:
+    - uid: VpnServerConfigurationPolicyGroupMember
+      isArray: true
+  - name: properties.p2SConnectionConfigurations
+    isReadyOnly: true
+    description: List of references to P2SConnectionConfigurations.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the VpnServerConfigurationPolicyGroup resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+- name: VpnServerConfigurationPolicyGroupMember
+  description: VpnServerConfiguration PolicyGroup member
+  kind: object
+  properties:
+  - name: name
+    description: Name of the VpnServerConfigurationPolicyGroupMember.
+    types:
+    - uid: string
+  - name: attributeType
+    description: The Vpn Policy member attribute type.
+    types:
+    - uid: VpnPolicyMemberAttributeType
+  - name: attributeValue
+    description: The value of Attribute used for this VpnServerConfigurationPolicyGroupMember.
+    types:
+    - uid: string
+- name: SubResource
+  description: Reference to another subresource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The current provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: VpnPolicyMemberAttributeType
+  description: The Vpn Policy member attribute type.
+  kind: enum
+  properties:
+  - name: CertificateGroupId
+    types:
+    - uid: string
+  - name: AADGroupId
+    types:
+    - uid: string
+  - name: RadiusAzureGroupId
+    types:
+    - uid: string
+examples:
+- name: ConfigurationPolicyGroupListByVpnServerConfiguration
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/configurationPolicyGroups?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/configurationPolicyGroups?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ConfigurationPolicyGroupListByVpnServerConfiguration.json
+      func ExampleConfigurationPolicyGroupsClient_NewListByVPNServerConfigurationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewConfigurationPolicyGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByVPNServerConfigurationPager("rg1", "vpnServerConfiguration1", nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
+       *
+       * @summary Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ConfigurationPolicyGroupListByVpnServerConfiguration.json
+       */
+      async function configurationPolicyGroupListByVpnServerConfiguration() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const vpnServerConfigurationName = "vpnServerConfiguration1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.configurationPolicyGroups.listByVpnServerConfiguration(
+          resourceGroupName,
+          vpnServerConfigurationName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      configurationPolicyGroupListByVpnServerConfiguration().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "policyGroup1",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup1",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "type": "Microsoft.Network/vpnServerConfigurations/configurationPolicyGroups",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "isDefault": true,
+              "priority": 0,
+              "policyMembers": [
+                {
+                  "name": "policy1",
+                  "attributeType": "RadiusAzureGroupId",
+                  "attributeValue": "6ad1bd08"
+                },
+                {
+                  "name": "policy2",
+                  "attributeType": "CertificateGroupId",
+                  "attributeValue": "red.com"
+                }
+              ],
+              "p2SConnectionConfigurations": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2sVpnGateways/p2sVpnGateway1/p2sConnectionConfigurations/P2SConnectionConfig1"
+                }
+              ]
+            }
+          },
+          {
+            "name": "policyGroup2",
+            "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup2",
+            "etag": "w/\\00000000-0000-0000-0000-000000000000\\",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "isDefault": true,
+              "priority": 0,
+              "policyMembers": [
+                {
+                  "name": "policy1",
+                  "attributeType": "RadiusAzureGroupId",
+                  "attributeValue": "6ad1bd08"
+                },
+                {
+                  "name": "policy2",
+                  "attributeType": "CertificateGroupId",
+                  "attributeValue": "red.com"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Virtual WAN service - Lists all the configurationPolicyGroups in a resource group for a vpnServerConfiguration.
+errorCodes: []

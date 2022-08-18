@@ -149,6 +149,8 @@ definitions:
       isArray: true
     - uid: WaitActivity
       isArray: true
+    - uid: FailActivity
+      isArray: true
     - uid: UntilActivity
       isArray: true
     - uid: ValidationActivity
@@ -1020,10 +1022,6 @@ definitions:
     description: 'Value and type setting for stored procedure parameters. Example: "{Parameter1: {value: "1", type: "int"}}".'
     types:
     - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: StoredProcedureParameter
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1786,6 +1784,10 @@ definitions:
     description: 'Concurrent run setting used for data flow execution. Allows sinks with the same save order to be processed concurrently. Type: boolean (or Expression with resultType boolean)'
     types:
     - uid: object
+  - name: typeProperties.sourceStagingConcurrency
+    description: 'Specify number of parallel staging for sources applicable to the sink. Type: integer (or Expression with resultType integer)'
+    types:
+    - uid: object
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -1881,6 +1883,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: NotebookParameter
+  - name: typeProperties.executorSize
+    description: "Number of core and memory to be used for executors allocated in the specified Spark pool for the session, which will be used for overriding 'executorCores' and 'executorMemory' of the notebook you provide. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.conf
+    description: Spark configuration properties, which will override the 'conf' of the notebook you provide.
+    types:
+    - uid: object
+  - name: typeProperties.driverSize
+    description: "Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.numExecutors
+    description: Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide.
+    types:
+    - uid: integer
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -2111,6 +2129,8 @@ definitions:
       isArray: true
     - uid: WaitActivity
       isArray: true
+    - uid: FailActivity
+      isArray: true
     - uid: UntilActivity
       isArray: true
     - uid: ValidationActivity
@@ -2194,6 +2214,8 @@ definitions:
     - uid: ForEachActivity
       isArray: true
     - uid: WaitActivity
+      isArray: true
+    - uid: FailActivity
       isArray: true
     - uid: UntilActivity
       isArray: true
@@ -2314,6 +2336,8 @@ definitions:
     - uid: ForEachActivity
       isArray: true
     - uid: WaitActivity
+      isArray: true
+    - uid: FailActivity
       isArray: true
     - uid: UntilActivity
       isArray: true
@@ -2438,6 +2462,8 @@ definitions:
       isArray: true
     - uid: WaitActivity
       isArray: true
+    - uid: FailActivity
+      isArray: true
     - uid: UntilActivity
       isArray: true
     - uid: ValidationActivity
@@ -2490,6 +2516,41 @@ definitions:
     description: Type of activity.
     types:
     - uid: Wait
+    typesTitle: string
+  - name: description
+    description: Activity description.
+    types:
+    - uid: string
+  - name: dependsOn
+    description: Activity depends on condition.
+    types:
+    - uid: ActivityDependency
+      isArray: true
+  - name: userProperties
+    description: Activity user properties.
+    types:
+    - uid: UserProperty
+      isArray: true
+- name: FailActivity
+  description: This activity will fail within its own scope and output a custom error message and error code. The error message and code can provided either as a string literal or as an expression that can be evaluated to a string at runtime. The activity scope can be the whole pipeline or a control activity (e.g. foreach, switch, until), if the fail activity is contained in it.
+  kind: object
+  properties:
+  - name: typeProperties.message
+    description: "The error message that surfaced in the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.errorCode
+    description: "The error code that categorizes the error type of the Fail activity. It can be dynamic content that's evaluated to a non empty/blank string at runtime. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: name
+    description: Activity name.
+    types:
+    - uid: string
+  - name: type
+    description: Type of activity.
+    types:
+    - uid: Fail
     typesTitle: string
   - name: description
     description: Activity description.
@@ -2587,6 +2648,8 @@ definitions:
     - uid: ForEachActivity
       isArray: true
     - uid: WaitActivity
+      isArray: true
+    - uid: FailActivity
       isArray: true
     - uid: UntilActivity
       isArray: true
@@ -3524,6 +3587,8 @@ definitions:
       isArray: true
     - uid: WaitActivity
       isArray: true
+    - uid: FailActivity
+      isArray: true
     - uid: UntilActivity
       isArray: true
     - uid: ValidationActivity
@@ -3888,6 +3953,12 @@ examples:
 - name: Pipelines_ListByWorkspace
   request:
     uri: GET exampleWorkspace.dev.azuresynapse.net/pipelines?api-version=2020-12-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET exampleWorkspace.dev.azuresynapse.net/pipelines?api-version=2020-12-01
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -3973,5 +4044,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Lists pipelines.
+  description: >
+    Learn more about Synapse service - Lists pipelines.
 errorCodes: []

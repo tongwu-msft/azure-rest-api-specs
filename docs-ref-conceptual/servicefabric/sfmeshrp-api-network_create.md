@@ -1,8 +1,8 @@
 ---
-title: "Create"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Create Network Resource"
+description: Describes the process to create a network resource with a specified name and description, includes Request Method and Parameters.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Create
+# Create Network Resource
 Creates or updates a network resource.
 
 Creates a network resource with the specified name and description. If a network with the same name already exists, then its description is updated to the one indicated in this request.

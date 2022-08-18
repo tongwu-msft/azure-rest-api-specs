@@ -1,0 +1,193 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.dns.dnsresolver.dnsresolvers.delete
+name: Delete
+service: DNS
+groupName: Dns Resolvers
+apiVersion: 2020-04-01-preview
+summary: 'Deletes a DNS resolver. WARNING: This operation cannot be undone.'
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/dnsResolvers/{dnsResolverName}?api-version=2020-04-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: dnsResolverName
+  in: path
+  isRequired: true
+  description: The name of the DNS resolver.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The DNS resolver has been deleted.
+- name: 202 Accepted
+  description: The operation to delete DNS resolver has been accepted and will complete asynchronously.
+- name: 204 No Content
+  description: The DNS resolver was not found.
+- name: Other Status Codes
+  description: Default response. It will be deserialized as per the Error definition.
+  types:
+  - uid: CloudError
+requestHeader:
+- name: If-Match
+  in: header
+  description: ETag of the resource. Omit this value to always overwrite the current resource. Specify the last-seen ETag value to prevent accidentally overwriting any concurrent changes.
+  types:
+  - uid: string
+definitions:
+- name: CloudError
+  description: An error message
+  kind: object
+  properties:
+  - name: error
+    description: The error message body
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: The body of an error message
+  kind: object
+  properties:
+  - name: code
+    description: The error code
+    types:
+    - uid: string
+  - name: message
+    description: A description of what caused the error
+    types:
+    - uid: string
+  - name: target
+    description: The target resource of the error message
+    types:
+    - uid: string
+  - name: details
+    description: Extra error information
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Delete DNS resolver
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver?api-version=2020-04-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/dnsResolvers/sampleDnsResolver?api-version=2020-04-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DnsResolvers Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsResolver_Delete.json
+           */
+          /**
+           * Sample code: Delete DNS resolver.
+           *
+           * @param manager Entry point to DnsResolverManager.
+           */
+          public static void deleteDNSResolver(com.azure.resourcemanager.dnsresolver.DnsResolverManager manager) {
+              manager.dnsResolvers().delete("sampleResourceGroup", "sampleDnsResolver", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-dnsresolver_1.0.0-beta.1/sdk/dnsresolver/azure-resourcemanager-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdnsresolver_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dnsresolver/armdnsresolver"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsResolver_Delete.json
+      func ExampleDNSResolversClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdnsresolver.NewDNSResolversClient("abdd4249-9f34-4cc6-8e42-c2e32110603e", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx,
+      		"sampleResourceGroup",
+      		"sampleDnsResolver",
+      		&armdnsresolver.DNSResolversClientBeginDeleteOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdnsresolver%2Farmdnsresolver%2Fv0.4.0/sdk/resourcemanager/dnsresolver/armdnsresolver/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsResolverManagementClient } = require("@azure/arm-dnsresolver");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes a DNS resolver. WARNING: This operation cannot be undone.
+       *
+       * @summary Deletes a DNS resolver. WARNING: This operation cannot be undone.
+       * x-ms-original-file: specification/dnsresolver/resource-manager/Microsoft.Network/preview/2020-04-01-preview/examples/DnsResolver_Delete.json
+       */
+      async function deleteDnsResolver() {
+        const subscriptionId = "abdd4249-9f34-4cc6-8e42-c2e32110603e";
+        const resourceGroupName = "sampleResourceGroup";
+        const dnsResolverName = "sampleDnsResolver";
+        const credential = new DefaultAzureCredential();
+        const client = new DnsResolverManagementClient(credential, subscriptionId);
+        const result = await client.dnsResolvers.beginDeleteAndWait(resourceGroupName, dnsResolverName);
+        console.log(result);
+      }
+
+      deleteDnsResolver().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dnsresolver_1.0.0-beta.3/sdk/dnsresolver/arm-dnsresolver/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+  - statusCode: "204"
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/api/mresolver/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/locations/westus2/dnsResolverOperationResults/asyncOperationId?api-version=2020-04-01-preview
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/api/mresolver/subscriptions/abdd4249-9f34-4cc6-8e42-c2e32110603e/resourceGroups/sampleResourceGroup/providers/Microsoft.Network/locations/westus2/dnsResolverOperationStatuses/asyncOperationId?api-version=2020-04-01-preview
+security: []
+metadata:
+  description: >
+    Learn more about DNS service - Deletes a DNS resolver. WARNING: This operation cannot be undone.
+errorCodes: []

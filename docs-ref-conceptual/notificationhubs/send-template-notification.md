@@ -1,5 +1,6 @@
 ﻿---
 title: "Send a template notification"
+description: Use this API reference documentation to send a notification to a template registration on a notification hub.
 ms.custom: ""
 ms.date: 04/05/2019
 ms.reviewer: ""

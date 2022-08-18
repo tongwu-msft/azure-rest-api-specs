@@ -1,9 +1,12 @@
 ---
-title: "Service fabric client table of contents v8.1"
-description: Service Fabric client table of contents
+title: "Service Fabric table of contents"
+description: "Service Fabric table of contents"
+ms.date: "04/25/2022"
 ms.service: "service-fabric"
+author: "erikadoyle"
+ms.author: "edoyle"
+manager: "gwallace"
 ---
-
 # [Service Fabric Client APIs](sfclient-index.md)
 ## [Authenticating Service Fabric REST Requests](sfclient-authenticating-service-fabric-rest-requests.md)
 ## [Service Fabric Names and JSON Serialization](sfclient-service-fabric-names-and-json-serialization.md)
@@ -55,7 +58,9 @@ ms.service: "service-fabric"
 ### [Get Application Type Info List By Name](sfclient-api-getapplicationtypeinfolistbyname.md)
 ### [Provision Application Type](sfclient-api-provisionapplicationtype.md)
 ### [Unprovision Application Type](sfclient-api-unprovisionapplicationtype.md)
+### [Update Application Type Arm Metadata](sfclient-api-updateapplicationtypearmmetadata.md)
 ### [Get Application Manifest](sfclient-api-getapplicationmanifest.md)
+### [Update Application Arm Metadata](sfclient-api-updateapplicationarmmetadata.md)
 ## [ServiceType](sfclient-index-servicetype.md)
 ### [Get Service Type Info List](sfclient-api-getservicetypeinfolist.md)
 ### [Get Service Type Info By Name](sfclient-api-getservicetypeinfobyname.md)
@@ -96,6 +101,7 @@ ms.service: "service-fabric"
 ### [Report Service Health](sfclient-api-reportservicehealth.md)
 ### [Resolve Service](sfclient-api-resolveservice.md)
 ### [Get Unplaced Replica Information](sfclient-api-getunplacedreplicainformation.md)
+### [Update Service Arm Metadata](sfclient-api-updateservicearmmetadata.md)
 ## [Partition](sfclient-index-partition.md)
 ### [Get Loaded Partition Info List](sfclient-api-getloadedpartitioninfolist.md)
 ### [Get Partition Info List](sfclient-api-getpartitioninfolist.md)
@@ -284,6 +290,8 @@ ms.service: "service-fabric"
 ### [ApplicationParameter](sfclient-model-applicationparameter.md)
 ### [ManagedApplicationIdentity](sfclient-model-managedapplicationidentity.md)
 ### [ManagedApplicationIdentityDescription](sfclient-model-managedapplicationidentitydescription.md)
+### [ArmMetadata](sfclient-model-armmetadata.md)
+### [ApplicationMetadata](sfclient-model-applicationmetadata.md)
 ### [ApplicationInfo](sfclient-model-applicationinfo.md)
 ### [ApplicationLoadMetricInformation](sfclient-model-applicationloadmetricinformation.md)
 ### [ApplicationLoadInfo](sfclient-model-applicationloadinfo.md)
@@ -291,6 +299,7 @@ ms.service: "service-fabric"
 ### [ApplicationsHealthEvaluation](sfclient-model-applicationshealthevaluation.md)
 ### [ApplicationTypeApplicationsHealthEvaluation](sfclient-model-applicationtypeapplicationshealthevaluation.md)
 ### [ApplicationTypeHealthPolicyMapItem](sfclient-model-applicationtypehealthpolicymapitem.md)
+### [ApplicationTypeMetadata](sfclient-model-applicationtypemetadata.md)
 ### [ApplicationTypeInfo](sfclient-model-applicationtypeinfo.md)
 ### [PagedApplicationTypeInfoList](sfclient-model-pagedapplicationtypeinfolist.md)
 ### [ApplicationTypeManifest](sfclient-model-applicationtypemanifest.md)
@@ -375,6 +384,7 @@ ms.service: "service-fabric"
 ### [PagedNodeInfoList](sfclient-model-pagednodeinfolist.md)
 ### [PagedServicePartitionInfoList](sfclient-model-pagedservicepartitioninfolist.md)
 ### [PagedReplicaInfoList](sfclient-model-pagedreplicainfolist.md)
+### [ServiceMetadata](sfclient-model-servicemetadata.md)
 ### [PagedServiceInfoList](sfclient-model-pagedserviceinfolist.md)
 ### [PartitionAnalysisEvent](sfclient-model-partitionanalysisevent.md)
 ### [PartitionEvent](sfclient-model-partitionevent.md)

@@ -3,15 +3,15 @@ uid: management.azure.com.compute.sharedgalleryimageversions.list
 name: List
 service: Compute
 groupName: Shared Gallery Image Versions
-apiVersion: 2021-07-01
+apiVersion: 2022-01-03
 summary: List shared gallery image versions by subscription id or tenant id.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2021-07-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2021-07-01&sharedTo=tenant
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2022-01-03
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/locations/{location}/sharedGalleries/{galleryUniqueName}/images/{galleryImageName}/versions?api-version=2022-01-03&sharedTo=tenant
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -100,6 +100,14 @@ definitions:
     description: The end of life date of the gallery image version Definition. This property can be used for decommissioning purposes. This property is updatable.
     types:
     - uid: string
+  - name: properties.excludeFromLatest
+    description: If set to true, Virtual Machines deployed from the latest version of the Image Definition won't use this Image Version.
+    types:
+    - uid: boolean
+  - name: properties.storageProfile
+    description: Describes the storage profile of the image version.
+    types:
+    - uid: SharedGalleryImageVersionStorageProfile
   - name: identifier.uniqueId
     description: The unique id of this shared gallery.
     types:
@@ -139,6 +147,19 @@ definitions:
     description: The error message.
     types:
     - uid: string
+- name: SharedGalleryImageVersionStorageProfile
+  description: This is the storage profile of a Gallery Image Version.
+  kind: object
+  properties:
+  - name: osDiskImage
+    description: This is the OS disk image.
+    types:
+    - uid: SharedGalleryOSDiskImage
+  - name: dataDiskImages
+    description: A list of data disk images.
+    types:
+    - uid: SharedGalleryDataDiskImage
+      isArray: true
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -167,10 +188,159 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
+- name: SharedGalleryOSDiskImage
+  description: This is the OS disk image.
+  kind: object
+  properties:
+  - name: diskSizeGB
+    isReadyOnly: true
+    description: This property indicates the size of the VHD to be created.
+    types:
+    - uid: integer
+  - name: hostCaching
+    description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
+    types:
+    - uid: SharedGalleryHostCaching
+- name: SharedGalleryDataDiskImage
+  description: This is the data disk image.
+  kind: object
+  properties:
+  - name: lun
+    description: This property specifies the logical unit number of the data disk. This value is used to identify data disks within the Virtual Machine and therefore must be unique for each data disk attached to the Virtual Machine.
+    types:
+    - uid: integer
+  - name: diskSizeGB
+    isReadyOnly: true
+    description: This property indicates the size of the VHD to be created.
+    types:
+    - uid: integer
+  - name: hostCaching
+    description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
+    types:
+    - uid: SharedGalleryHostCaching
+- name: SharedGalleryHostCaching
+  description: The host caching of the disk. Valid values are 'None', 'ReadOnly', and 'ReadWrite'
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: ReadOnly
+    types:
+    - uid: string
+  - name: ReadWrite
+    types:
+    - uid: string
 examples:
-- name: Get a gallery.
+- name: List shared gallery image versions.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName/images/myGalleryImageName/versions?api-version=2021-07-01&sharedTo=tenant
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName/images/myGalleryImageName/versions?api-version=2022-01-03&sharedTo=tenant
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/locations/myLocation/sharedGalleries/galleryUniqueName/images/myGalleryImageName/versions?api-version=2022-01-03&sharedTo=tenant
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SharedGalleryImageVersions List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
+           */
+          /**
+           * Sample code: List shared gallery image versions.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listSharedGalleryImageVersions(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSharedGalleryImageVersions()
+                  .list("myLocation", "galleryUniqueName", "myGalleryImageName", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
+      func ExampleSharedGalleryImageVersionsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewSharedGalleryImageVersionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("myLocation",
+      		"galleryUniqueName",
+      		"myGalleryImageName",
+      		&armcompute.SharedGalleryImageVersionsClientListOptions{SharedTo: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List shared gallery image versions by subscription id or tenant id.
+       *
+       * @summary List shared gallery image versions by subscription id or tenant id.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/sharedGalleryExamples/SharedGalleryImageVersions_List.json
+       */
+      async function listSharedGalleryImageVersions() {
+        const subscriptionId = "{subscription-id}";
+        const location = "myLocation";
+        const galleryUniqueName = "galleryUniqueName";
+        const galleryImageName = "myGalleryImageName";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.sharedGalleryImageVersions.list(
+          location,
+          galleryUniqueName,
+          galleryImageName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listSharedGalleryImageVersions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -179,7 +349,14 @@ examples:
           {
             "properties": {
               "publishedDate": "2018-03-20T09:12:28Z",
-              "endOfLifeDate": "2022-03-20T09:12:28Z"
+              "endOfLifeDate": "2022-03-20T09:12:28Z",
+              "excludeFromLatest": false,
+              "storageProfile": {
+                "osDiskImage": {
+                  "diskSizeGB": 29,
+                  "hostCaching": "None"
+                }
+              }
             },
             "location": "myLocation",
             "name": "myGalleryImageVersionName",
@@ -200,5 +377,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - List shared gallery image versions by subscription id or tenant id.
+  description: >
+    Learn more about Compute service - List shared gallery image versions by subscription id or tenant id.
 errorCodes: []

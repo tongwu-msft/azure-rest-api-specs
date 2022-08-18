@@ -1,5 +1,6 @@
 ---
 title: Azure Red Hat OpenShift REST API reference
+description: Use the Azure Red Hat OpenShift API Reference documentation to deploy fully managed OpenShift clusters. 
 author: tylermsft
 ms.author: twhitney
 ms.date: 05/06/2019

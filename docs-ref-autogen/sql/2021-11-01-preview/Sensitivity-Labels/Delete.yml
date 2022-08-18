@@ -1,0 +1,161 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01-preview.sensitivitylabels.delete
+name: Delete
+service: SQL Database
+groupName: Sensitivity Labels
+apiVersion: 2021-11-01-preview
+summary: Deletes the sensitivity label of a given column
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables/{tableName}/columns/{columnName}/sensitivityLabels/current?api-version=2021-11-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema.
+  types:
+  - uid: string
+- name: tableName
+  in: path
+  isRequired: true
+  description: The name of the table.
+  types:
+  - uid: string
+- name: columnName
+  in: path
+  isRequired: true
+  description: The name of the column.
+  types:
+  - uid: string
+- name: sensitivityLabelSource
+  in: path
+  isRequired: true
+  description: The source of the sensitivity label.
+  types:
+  - uid: WritableSensitivityLabelSource
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully deleted the sensitivity label.
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 DatawarehouseDatabaseIsDeactivated - Could not execute Data Classification operation because the database is paused. Please resume it.
+
+     * 400 SensitivityLabelSourceNameNotSupported - The specified sensitivity label source is not valid
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 SensitivityLabelsLabelNotFound - The specified sensitivity label could not be found
+
+     * 404 SensitivityLabelsSchemaNotFound - The schema {0} could not be found
+
+     * 404 SensitivityLabelsTableNotFound - The table {0} could not be found in schema {1}
+
+     * 404 SensitivityLabelsColumnNotFound - The column {0} could not be found in table {2}.{1}
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+
+     * 501 SensitivityLabelRecommendedSourceNameNotSupported - 'Recommended' sensitivity label source is not supported yet
+requestHeader: []
+definitions:
+- name: WritableSensitivityLabelSource
+  description: The source of the sensitivity label.
+  kind: enum
+  properties:
+  - name: current
+    types:
+    - uid: string
+examples:
+- name: Deletes the sensitivity label of a given column
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current?api-version=2021-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/myServer/databases/myDatabase/schemas/dbo/tables/myTable/columns/myColumn/sensitivityLabels/current?api-version=2021-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-11-01-preview/examples/ColumnSensitivityLabelDelete.json
+      func ExampleSensitivityLabelsClient_Delete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewSensitivityLabelsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	_, err = client.Delete(ctx,
+      		"<resource-group-name>",
+      		"<server-name>",
+      		"<database-name>",
+      		"<schema-name>",
+      		"<table-name>",
+      		"<column-name>",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv0.5.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Deletes the sensitivity label of a given column
+errorCodes: []

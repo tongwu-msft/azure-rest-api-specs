@@ -1,0 +1,928 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.azurefrontdoorstandardpremium.routes.create
+name: Create
+service: Front Door Service
+groupName: Routes
+apiVersion: 2021-06-01
+summary: Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/afdEndpoints/{endpointName}/routes/{routeName}?api-version=2021-06-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium profile which is unique within the resource group.
+  types:
+  - uid: string
+- name: endpointName
+  in: path
+  isRequired: true
+  description: Name of the endpoint under the profile which is unique globally.
+  types:
+  - uid: string
+- name: routeName
+  in: path
+  isRequired: true
+  description: Name of the routing rule.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: Route
+- name: 201 Created
+  description: Created. The request has been fulfilled and a new endpoint has been created.
+  types:
+  - uid: Route
+- name: 202 Accepted
+  description: Accepted. The request has been accepted for processing and the operation will complete asynchronously.
+  types:
+  - uid: Route
+- name: Other Status Codes
+  description: CDN error response describing why the operation failed.
+  types:
+  - uid: AfdErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.customDomains
+    in: body
+    description: Domains referenced by this endpoint.
+    types:
+    - uid: ActivatedResourceReference
+      isArray: true
+  - name: properties.originGroup
+    in: body
+    isRequired: true
+    description: A reference to the origin group.
+    types:
+    - uid: ResourceReference
+  - name: properties.originPath
+    in: body
+    description: A directory path on the origin that AzureFrontDoor can use to retrieve content from, e.g. contoso.cloudapp.net/originpath.
+    types:
+    - uid: string
+  - name: properties.ruleSets
+    in: body
+    description: rule sets referenced by this endpoint.
+    types:
+    - uid: ResourceReference
+      isArray: true
+  - name: properties.supportedProtocols
+    in: body
+    description: List of supported protocols for this route.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.patternsToMatch
+    in: body
+    description: The route patterns of the rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.cacheConfiguration
+    in: body
+    description: The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object.
+    types:
+    - uid: AfdRouteCacheConfiguration
+  - name: properties.forwardingProtocol
+    in: body
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: ForwardingProtocol
+  - name: properties.linkToDefaultDomain
+    in: body
+    description: whether this route will be linked to the default endpoint domain.
+    types:
+    - uid: LinkToDefaultDomain
+  - name: properties.httpsRedirect
+    in: body
+    description: Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed.
+    types:
+    - uid: httpsRedirect
+  - name: properties.enabledState
+    in: body
+    description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+    types:
+    - uid: EnabledState
+requestHeader: []
+definitions:
+- name: SystemData
+  description: Read only system data
+  kind: object
+  properties:
+  - name: createdBy
+    description: An identifier for the identity that created the resource
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource
+    types:
+    - uid: IdentityType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC)
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: An identifier for the identity that last modified the resource
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource
+    types:
+    - uid: IdentityType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ActivatedResourceReference
+  description: Reference to another resource along with its state.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: isActive
+    isReadyOnly: true
+    description: Whether the resource is active or inactive
+    types:
+    - uid: boolean
+- name: ResourceReference
+  description: Reference to another resource.
+  kind: object
+  properties:
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: AfdRouteCacheConfiguration
+  description: Caching settings for a caching-type route. To disable caching, do not provide a cacheConfiguration object.
+  kind: object
+  properties:
+  - name: queryStringCachingBehavior
+    description: Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.
+    types:
+    - uid: afdQueryStringCachingBehavior
+  - name: queryParameters
+    description: query parameters to include or exclude (comma separated).
+    types:
+    - uid: string
+  - name: compressionSettings
+    description: compression settings.
+    types:
+    - uid: CompressionSettings
+- name: Route
+  description: Friendly Routes name mapping to the any Routes or secret related information.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Read only system data
+    types:
+    - uid: SystemData
+  - name: properties.endpointName
+    isReadyOnly: true
+    description: The name of the endpoint which holds the route.
+    types:
+    - uid: string
+  - name: properties.customDomains
+    description: Domains referenced by this endpoint.
+    types:
+    - uid: ActivatedResourceReference
+      isArray: true
+  - name: properties.originGroup
+    description: A reference to the origin group.
+    types:
+    - uid: ResourceReference
+  - name: properties.originPath
+    description: A directory path on the origin that AzureFrontDoor can use to retrieve content from, e.g. contoso.cloudapp.net/originpath.
+    types:
+    - uid: string
+  - name: properties.ruleSets
+    description: rule sets referenced by this endpoint.
+    types:
+    - uid: ResourceReference
+      isArray: true
+  - name: properties.supportedProtocols
+    description: List of supported protocols for this route.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.patternsToMatch
+    description: The route patterns of the rule.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.cacheConfiguration
+    description: The caching configuration for this route. To disable caching, do not provide a cacheConfiguration object.
+    types:
+    - uid: AfdRouteCacheConfiguration
+  - name: properties.forwardingProtocol
+    description: Protocol this rule will use when forwarding traffic to backends.
+    types:
+    - uid: ForwardingProtocol
+  - name: properties.linkToDefaultDomain
+    description: whether this route will be linked to the default endpoint domain.
+    types:
+    - uid: LinkToDefaultDomain
+  - name: properties.httpsRedirect
+    description: Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed.
+    types:
+    - uid: httpsRedirect
+  - name: properties.enabledState
+    description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+    types:
+    - uid: EnabledState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning status
+    types:
+    - uid: AfdProvisioningState
+  - name: properties.deploymentStatus
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: DeploymentStatus
+- name: AfdErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: IdentityType
+  description: The type of identity that creates/modifies resources
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: application
+    types:
+    - uid: string
+  - name: managedIdentity
+    types:
+    - uid: string
+  - name: key
+    types:
+    - uid: string
+- name: afdQueryStringCachingBehavior
+  description: Defines how Frontdoor caches requests that include query strings. You can ignore any query strings when caching, ignore specific query strings, cache every request with a unique URL, or cache specific query strings.
+  kind: enum
+  properties:
+  - name: IgnoreQueryString
+    types:
+    - uid: string
+  - name: UseQueryString
+    types:
+    - uid: string
+  - name: IgnoreSpecifiedQueryStrings
+    types:
+    - uid: string
+  - name: IncludeSpecifiedQueryStrings
+    types:
+    - uid: string
+- name: CompressionSettings
+  description: settings for compression.
+  kind: object
+  properties:
+  - name: contentTypesToCompress
+    description: List of content types on which compression applies. The value should be a valid MIME type.
+    types:
+    - uid: string
+      isArray: true
+  - name: isCompressionEnabled
+    description: Indicates whether content compression is enabled on AzureFrontDoor. Default value is false. If compression is enabled, content will be served as compressed if user requests for a compressed version. Content won't be compressed on AzureFrontDoor when requested content is smaller than 1 byte or larger than 1 MB.
+    types:
+    - uid: boolean
+- name: ForwardingProtocol
+  description: Protocol this rule will use when forwarding traffic to backends.
+  kind: enum
+  properties:
+  - name: HttpOnly
+    types:
+    - uid: string
+  - name: HttpsOnly
+    types:
+    - uid: string
+  - name: MatchRequest
+    types:
+    - uid: string
+- name: LinkToDefaultDomain
+  description: whether this route will be linked to the default endpoint domain.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: httpsRedirect
+  description: Whether to automatically redirect HTTP traffic to HTTPS traffic. Note that this is a easy way to set up this rule and it will be the first rule that gets executed.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: EnabledState
+  description: Whether to enable use of this rule. Permitted values are 'Enabled' or 'Disabled'
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: AfdProvisioningState
+  description: Provisioning status
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Creating
+    types:
+    - uid: string
+- name: DeploymentStatus
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Routes_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1/routes/route1?api-version=2021-06-01
+    body: >-
+      {
+        "properties": {
+          "customDomains": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"
+            }
+          ],
+          "originGroup": {
+            "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"
+          },
+          "originPath": null,
+          "ruleSets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"
+            }
+          ],
+          "supportedProtocols": [
+            "Https",
+            "Http"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "cacheConfiguration": {
+            "compressionSettings": {
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true
+            },
+            "queryStringCachingBehavior": "IgnoreSpecifiedQueryStrings",
+            "queryParameters": "querystring=test"
+          },
+          "forwardingProtocol": "MatchRequest",
+          "linkToDefaultDomain": "Enabled",
+          "httpsRedirect": "Enabled",
+          "enabledState": "Enabled"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1/routes/route1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "customDomains": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"
+            }
+          ],
+          "originGroup": {
+            "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"
+          },
+          "originPath": null,
+          "ruleSets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"
+            }
+          ],
+          "supportedProtocols": [
+            "Https",
+            "Http"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "cacheConfiguration": {
+            "compressionSettings": {
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true
+            },
+            "queryStringCachingBehavior": "IgnoreSpecifiedQueryStrings",
+            "queryParameters": "querystring=test"
+          },
+          "forwardingProtocol": "MatchRequest",
+          "linkToDefaultDomain": "Enabled",
+          "httpsRedirect": "Enabled",
+          "enabledState": "Enabled"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.cdn.fluent.models.RouteInner;
+      import com.azure.resourcemanager.cdn.models.ActivatedResourceReference;
+      import com.azure.resourcemanager.cdn.models.AfdEndpointProtocols;
+      import com.azure.resourcemanager.cdn.models.AfdQueryStringCachingBehavior;
+      import com.azure.resourcemanager.cdn.models.AfdRouteCacheConfiguration;
+      import com.azure.resourcemanager.cdn.models.EnabledState;
+      import com.azure.resourcemanager.cdn.models.ForwardingProtocol;
+      import com.azure.resourcemanager.cdn.models.HttpsRedirect;
+      import com.azure.resourcemanager.cdn.models.LinkToDefaultDomain;
+      import com.azure.resourcemanager.cdn.models.ResourceReference;
+      import java.io.IOException;
+      import java.util.Arrays;
+
+      /** Samples for Routes Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+           */
+          /**
+           * Sample code: Routes_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void routesCreate(com.azure.resourcemanager.AzureResourceManager azure) throws IOException {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getRoutes()
+                  .create(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      "route1",
+                      new RouteInner()
+                          .withCustomDomains(
+                              Arrays
+                                  .asList(
+                                      new ActivatedResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1")))
+                          .withOriginGroup(
+                              new ResourceReference()
+                                  .withId(
+                                      "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"))
+                          .withRuleSets(
+                              Arrays
+                                  .asList(
+                                      new ResourceReference()
+                                          .withId(
+                                              "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1")))
+                          .withSupportedProtocols(Arrays.asList(AfdEndpointProtocols.HTTPS, AfdEndpointProtocols.HTTP))
+                          .withPatternsToMatch(Arrays.asList("/*"))
+                          .withCacheConfiguration(
+                              new AfdRouteCacheConfiguration()
+                                  .withQueryStringCachingBehavior(
+                                      AfdQueryStringCachingBehavior.IGNORE_SPECIFIED_QUERY_STRINGS)
+                                  .withQueryParameters("querystring=test")
+                                  .withCompressionSettings(
+                                      SerializerFactory
+                                          .createDefaultManagementSerializerAdapter()
+                                          .deserialize(
+                                              "{\"contentTypesToCompress\":[\"text/html\",\"application/octet-stream\"],\"isCompressionEnabled\":true}",
+                                              Object.class,
+                                              SerializerEncoding.JSON)))
+                          .withForwardingProtocol(ForwardingProtocol.MATCH_REQUEST)
+                          .withLinkToDefaultDomain(LinkToDefaultDomain.ENABLED)
+                          .withHttpsRedirect(HttpsRedirect.ENABLED)
+                          .withEnabledState(EnabledState.ENABLED),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+      func ExampleRoutesClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewRoutesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"route1",
+      		armcdn.Route{
+      			Properties: &armcdn.RouteProperties{
+      				CacheConfiguration: &armcdn.AfdRouteCacheConfiguration{
+      					CompressionSettings: &armcdn.CompressionSettings{
+      						ContentTypesToCompress: []*string{
+      							to.Ptr("text/html"),
+      							to.Ptr("application/octet-stream")},
+      						IsCompressionEnabled: to.Ptr(true),
+      					},
+      					QueryParameters:            to.Ptr("querystring=test"),
+      					QueryStringCachingBehavior: to.Ptr(armcdn.AfdQueryStringCachingBehaviorIgnoreSpecifiedQueryStrings),
+      				},
+      				CustomDomains: []*armcdn.ActivatedResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"),
+      					}},
+      				EnabledState:        to.Ptr(armcdn.EnabledStateEnabled),
+      				ForwardingProtocol:  to.Ptr(armcdn.ForwardingProtocolMatchRequest),
+      				HTTPSRedirect:       to.Ptr(armcdn.HTTPSRedirectEnabled),
+      				LinkToDefaultDomain: to.Ptr(armcdn.LinkToDefaultDomainEnabled),
+      				OriginGroup: &armcdn.ResourceReference{
+      					ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"),
+      				},
+      				PatternsToMatch: []*string{
+      					to.Ptr("/*")},
+      				RuleSets: []*armcdn.ResourceReference{
+      					{
+      						ID: to.Ptr("/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"),
+      					}},
+      				SupportedProtocols: []*armcdn.AFDEndpointProtocols{
+      					to.Ptr(armcdn.AFDEndpointProtocolsHTTPS),
+      					to.Ptr(armcdn.AFDEndpointProtocolsHTTP)},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+       *
+       * @summary Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Routes_Create.json
+       */
+      async function routesCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const routeName = "route1";
+        const route = {
+          cacheConfiguration: {
+            compressionSettings: {
+              contentTypesToCompress: ["text/html", "application/octet-stream"],
+              isCompressionEnabled: true,
+            },
+            queryParameters: "querystring=test",
+            queryStringCachingBehavior: "IgnoreSpecifiedQueryStrings",
+          },
+          customDomains: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1",
+            },
+          ],
+          enabledState: "Enabled",
+          forwardingProtocol: "MatchRequest",
+          httpsRedirect: "Enabled",
+          linkToDefaultDomain: "Enabled",
+          originGroup: {
+            id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1",
+          },
+          originPath: undefined,
+          patternsToMatch: ["/*"],
+          ruleSets: [
+            {
+              id: "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1",
+            },
+          ],
+          supportedProtocols: ["Https", "Http"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.routes.beginCreateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          routeName,
+          route
+        );
+        console.log(result);
+      }
+
+      routesCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "route1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdendpoints/endpoint1/routes/route1",
+        "type": "Microsoft.Cdn/profiles/afdendpoints/routes",
+        "properties": {
+          "customDomains": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"
+            }
+          ],
+          "originGroup": {
+            "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"
+          },
+          "originPath": null,
+          "ruleSets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"
+            }
+          ],
+          "supportedProtocols": [
+            "Https",
+            "Http"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "cacheConfiguration": {
+            "compressionSettings": {
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true
+            },
+            "queryStringCachingBehavior": "IgnoreSpecifiedQueryStrings",
+            "queryParameters": "querystring=test"
+          },
+          "forwardingProtocol": "MatchRequest",
+          "linkToDefaultDomain": "Enabled",
+          "httpsRedirect": "Enabled",
+          "enabledState": "Enabled",
+          "provisioningState": "Succeeded",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "route1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdendpoints/endpoint1/routes/route1",
+        "type": "Microsoft.Cdn/profiles/afdendpoints/routes",
+        "properties": {
+          "customDomains": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"
+            }
+          ],
+          "originGroup": {
+            "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"
+          },
+          "originPath": null,
+          "ruleSets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"
+            }
+          ],
+          "supportedProtocols": [
+            "Https",
+            "Http"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "cacheConfiguration": {
+            "compressionSettings": {
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true
+            },
+            "queryStringCachingBehavior": "IgnoreSpecifiedQueryStrings",
+            "queryParameters": "querystring=test"
+          },
+          "forwardingProtocol": "MatchRequest",
+          "linkToDefaultDomain": "Enabled",
+          "httpsRedirect": "Enabled",
+          "enabledState": "Enabled",
+          "provisioningState": "Succeeded",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+  - statusCode: "202"
+    body: >-
+      {
+        "name": "route1",
+        "id": "/subscriptions/subid/resourcegroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdendpoints/endpoint1/routes/route1",
+        "type": "Microsoft.Cdn/profiles/afdendpoints/routes",
+        "properties": {
+          "customDomains": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/customDomains/domain1"
+            }
+          ],
+          "originGroup": {
+            "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/originGroup1"
+          },
+          "originPath": null,
+          "ruleSets": [
+            {
+              "id": "/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/ruleSets/ruleSet1"
+            }
+          ],
+          "supportedProtocols": [
+            "Https",
+            "Http"
+          ],
+          "patternsToMatch": [
+            "/*"
+          ],
+          "cacheConfiguration": {
+            "compressionSettings": {
+              "contentTypesToCompress": [
+                "text/html",
+                "application/octet-stream"
+              ],
+              "isCompressionEnabled": true
+            },
+            "queryStringCachingBehavior": "IgnoreSpecifiedQueryStrings",
+            "queryParameters": "querystring=test"
+          },
+          "forwardingProtocol": "MatchRequest",
+          "linkToDefaultDomain": "Enabled",
+          "httpsRedirect": "Enabled",
+          "enabledState": "Enabled",
+          "provisioningState": "Creating",
+          "deploymentStatus": "NotStarted"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Creates a new route with the specified route name under the specified subscription, resource group, profile, and AzureFrontDoor endpoint.
+errorCodes: []

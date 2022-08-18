@@ -23,6 +23,7 @@
 ## Services
 ### [Get Service Statistics](preview-api/get-service-statistics.md)
 ## Skillsets
+### [Create or Update Skillset](preview-api/create-or-update-skillset.md)
 ### [Reset Skills](preview-api/reset-skills.md)
 # Reference (Stable)
 ## [Indexes](index-operations.md)

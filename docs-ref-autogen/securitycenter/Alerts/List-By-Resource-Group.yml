@@ -437,6 +437,51 @@ examples:
 - name: Get security alerts on a resource group
   request:
     uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/alerts?api-version=2021-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg1/providers/Microsoft.Security/alerts?api-version=2021-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2021-01-01/examples/Alerts/GetAlertsResourceGroup_example.json
+      func ExampleAlertsClient_ListByResourceGroup() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armsecurity.NewAlertsClient("<subscription-id>",
+      		"<asc-location>", cred, nil)
+      	pager := client.ListByResourceGroup("<resource-group-name>",
+      		nil)
+      	for {
+      		nextResult := pager.NextPage(ctx)
+      		if err := pager.Err(); err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		if !nextResult {
+      			break
+      		}
+      		for _, v := range pager.PageResponse().Value {
+      			log.Printf("Pager result: %#v\n", v)
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.4.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -520,5 +565,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Security Center service - List all the alerts that are associated with the resource group
+  description: >
+    Learn more about Security Center service - List all the alerts that are associated with the resource group
 errorCodes: []

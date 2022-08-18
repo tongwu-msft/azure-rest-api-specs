@@ -1,0 +1,328 @@
+### YamlMime:RESTOperation
+uid: language.textanalysisauthoring.getexportstatus
+name: Get Export Status
+service: Cognitive Services - Language
+groupName: Text Analysis Authoring
+apiVersion: 2022-05-01
+summary: Gets the status of an export job. Once job completes, returns the project metadata, and assets.
+produces:
+- application/json
+paths:
+- content: GET {Endpoint}/language/authoring/analyze-text/projects/{projectName}/export/jobs/{jobId}?api-version=2022-05-01
+uriParameters:
+- name: Endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: Supported Cognitive Services endpoint (e.g., https://<resource-name>.api.cognitiveservices.azure.com).
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project to use.
+  types:
+  - uid: string
+- name: jobId
+  in: path
+  isRequired: true
+  description: The job ID.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The status of the long running operation.
+  types:
+  - uid: TextAnalysisAuthoringExportProjectJobState
+- name: Other Status Codes
+  description: Error response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: Ocp-Apim-Subscription-Key
+  in: header
+  isRequired: true
+  description: A subscription key for a Language service resource.
+  types:
+  - uid: string
+definitions:
+- name: TextAnalysisAuthoringExportProjectJobState
+  description: Represents the state of an export job.
+  kind: object
+  properties:
+  - name: resultUrl
+    description: The URL to use in order to download the exported project.
+    types:
+    - uid: string
+  - name: jobId
+    description: The job ID.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: The creation date time of the job.
+    types:
+    - uid: string
+  - name: lastUpdatedDateTime
+    description: The last date time the job was updated.
+    types:
+    - uid: string
+  - name: expirationDateTime
+    description: The expiration date time of the job.
+    types:
+    - uid: string
+  - name: status
+    description: The job status.
+    types:
+    - uid: JobStatus
+  - name: warnings
+    description: The warnings that were encountered while executing the job.
+    types:
+    - uid: TextAnalysisAuthoringWarning
+      isArray: true
+  - name: errors
+    description: The errors encountered while executing the job.
+    types:
+    - uid: Error
+      isArray: true
+- name: ErrorResponse
+  description: Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+- name: JobStatus
+  description: The job status.
+  kind: enum
+  properties:
+  - name: notStarted
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: succeeded
+    types:
+    - uid: string
+  - name: failed
+    types:
+    - uid: string
+  - name: cancelled
+    types:
+    - uid: string
+  - name: cancelling
+    types:
+    - uid: string
+  - name: partiallyCompleted
+    types:
+    - uid: string
+- name: TextAnalysisAuthoringWarning
+  description: Represents a warning that was encountered while executing the request.
+  kind: object
+  properties:
+  - name: code
+    description: The warning code.
+    types:
+    - uid: string
+  - name: message
+    description: The warning message.
+    types:
+    - uid: string
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: ErrorCode
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of details about specific errors that led to this reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: ErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidArgument
+    types:
+    - uid: string
+  - name: Unauthorized
+    types:
+    - uid: string
+  - name: Forbidden
+    types:
+    - uid: string
+  - name: NotFound
+    types:
+    - uid: string
+  - name: ProjectNotFound
+    types:
+    - uid: string
+  - name: OperationNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexNotFound
+    types:
+    - uid: string
+  - name: TooManyRequests
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchIndexLimitReached
+    types:
+    - uid: string
+  - name: InternalServerError
+    types:
+    - uid: string
+  - name: ServiceUnavailable
+    types:
+    - uid: string
+  - name: Timeout
+    types:
+    - uid: string
+  - name: QuotaExceeded
+    types:
+    - uid: string
+  - name: Conflict
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: InnerErrorModel
+  description: An object containing more specific information about the error. As per Microsoft One API guidelines - https://github.com/Microsoft/api-guidelines/blob/vNext/Guidelines.md#7102-error-condition-responses.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: InnerErrorCode
+  - name: message
+    description: Error message.
+    types:
+    - uid: string
+  - name: details
+    description: Error details.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: target
+    description: Error target.
+    types:
+    - uid: string
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerErrorModel
+- name: InnerErrorCode
+  description: Human-readable error code.
+  kind: enum
+  properties:
+  - name: InvalidRequest
+    types:
+    - uid: string
+  - name: InvalidParameterValue
+    types:
+    - uid: string
+  - name: KnowledgeBaseNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchNotFound
+    types:
+    - uid: string
+  - name: AzureCognitiveSearchThrottling
+    types:
+    - uid: string
+  - name: ExtractionFailure
+    types:
+    - uid: string
+  - name: InvalidRequestBodyFormat
+    types:
+    - uid: string
+  - name: EmptyRequest
+    types:
+    - uid: string
+  - name: MissingInputDocuments
+    types:
+    - uid: string
+  - name: InvalidDocument
+    types:
+    - uid: string
+  - name: ModelVersionIncorrect
+    types:
+    - uid: string
+  - name: InvalidDocumentBatch
+    types:
+    - uid: string
+  - name: UnsupportedLanguageCode
+    types:
+    - uid: string
+  - name: InvalidCountryHint
+    types:
+    - uid: string
+examples:
+- name: Successful Get Export Status
+  request:
+    uri: GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/export/jobs/c95efa2a-44e8-461e-8aa5-04b4677bfa84_637858368000000000?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/export/jobs/c95efa2a-44e8-461e-8aa5-04b4677bfa84_637858368000000000?api-version=2022-05-01
+
+      ```
+
+    headers:
+    - name: Ocp-Apim-Subscription-Key
+      value: '{API key}'
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "resultUrl": "{Endpoint}/language/authoring/analyze-text/projects/LoanAgreements/export/jobs/c4946bfa-4fbf-493b-bfcf-2d232eb9de69_637858368000000000/result?api-version=2022-05-01",
+        "jobId": "c4946bfa-4fbf-493b-bfcf-2d232eb9de69_637858368000000000",
+        "createdDateTime": "2022-04-18T15:23:07Z",
+        "lastUpdatedDateTime": "2022-04-18T15:23:08Z",
+        "expirationDateTime": "2022-04-25T15:23:07Z",
+        "status": "succeeded"
+      }
+security:
+- name: Ocp-Apim-Subscription-Key
+  type: apiKey
+  description: A subscription key for a Language service resource.
+  in: header
+metadata:
+  description: >
+    Learn more about Cognitive Services - Language service - Gets the status of an export job. Once job completes, returns the project metadata, and assets.
+errorCodes: []

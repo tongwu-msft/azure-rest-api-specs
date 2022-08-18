@@ -1,7 +1,8 @@
 ---
 title: Maps Management API | Microsoft Docs
+description: Learn how Azure Maps (AzMaps) is a portfolio of geospatial services that include service APIs for Maps, Search, Routing, Traffic and Time Zones.
 ms.date: 05/07/2018
-ms.service: maps
+ms.service: azure
 ms.topic: reference
 ms.devlang: rest-api
 author: dsk-2015

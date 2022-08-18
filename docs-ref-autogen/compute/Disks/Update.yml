@@ -3,14 +3,14 @@ uid: management.azure.com.compute.disks.update
 name: Update
 service: Compute
 groupName: Disks
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Updates (patches) a disk.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2020-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/disks/{diskName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: diskName
   in: path
   isRequired: true
-  description: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the managed disk that is being created. The name can't be changed after the disk is created. Supported characters for the name are a-z, A-Z, 0-9, _ and -. The maximum name length is 80 characters.
   types:
   - uid: string
 - name: api-version
@@ -132,11 +132,26 @@ requestBody:
     description: Purchase plan information to be added on the OS disk
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    in: body
+    description: List of supported capabilities to be added on the OS disk.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.supportsHibernation
     in: body
     description: Indicates the OS on a disk supports hibernation.
     types:
     - uid: boolean
+  - name: properties.publicNetworkAccess
+    in: body
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.dataAccessAuthMode
+    in: body
+    description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+    types:
+    - uid: DataAccessAuthMode
 requestHeader: []
 definitions:
 - name: DiskSku
@@ -201,6 +216,18 @@ definitions:
     description: The Offer Promotion Code.
     types:
     - uid: string
+- name: SupportedCapabilities
+  description: List of supported capabilities persisted on the disk resource for VM use.
+  kind: object
+  properties:
+  - name: acceleratedNetwork
+    description: True if the image from which the OS disk is created supports accelerated networking.
+    types:
+    - uid: boolean
+  - name: architecture
+    description: CPU architecture supported by an OS disk.
+    types:
+    - uid: Architecture
 - name: PropertyUpdatesInProgress
   description: Properties of the disk for which update is pending.
   kind: object
@@ -254,6 +281,10 @@ definitions:
     description: 'Purchase plan information for the the image from which the OS disk was created. E.g. - {name: 2019-Datacenter, publisher: MicrosoftWindowsServer, product: WindowsServer}'
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    description: List of supported capabilities for the image from which the OS disk was created.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.creationData
     description: Disk source information. CreationData information cannot be changed after the disk has been created.
     types:
@@ -345,6 +376,18 @@ definitions:
     description: Contains the security related information for the resource.
     types:
     - uid: DiskSecurityProfile
+  - name: properties.completionPercent
+    description: Percentage complete for the background copy when a resource is created via the CopyStart operation.
+    types:
+    - uid: number
+  - name: properties.publicNetworkAccess
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.dataAccessAuthMode
+    description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+    types:
+    - uid: DataAccessAuthMode
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -444,6 +487,10 @@ definitions:
     description: Purchase plan information to be added on the OS disk
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    description: List of supported capabilities to be added on the OS disk.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.propertyUpdatesInProgress
     isReadyOnly: true
     description: Properties of the disk for which update is pending.
@@ -453,6 +500,14 @@ definitions:
     description: Indicates the OS on a disk supports hibernation.
     types:
     - uid: boolean
+  - name: properties.publicNetworkAccess
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.dataAccessAuthMode
+    description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+    types:
+    - uid: DataAccessAuthMode
 - name: DiskStorageAccountTypes
   description: The sku name.
   kind: enum
@@ -507,6 +562,16 @@ definitions:
     - uid: string
   - name: EncryptionAtRestWithPlatformAndCustomerKeys
     description: Disk is encrypted at rest with 2 layers of encryption. One of the keys is Customer managed and the other key is Platform managed.
+    types:
+    - uid: string
+- name: Architecture
+  description: CPU architecture supported by an OS disk.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
     types:
     - uid: string
 - name: ExtendedLocation
@@ -582,6 +647,10 @@ definitions:
     description: Logical sector size in bytes for Ultra disks. Supported values are 512 ad 4096. 4096 is the default.
     types:
     - uid: integer
+  - name: securityDataUri
+    description: If createOption is ImportSecure, this is the URI of a blob to be imported into VM guest state.
+    types:
+    - uid: string
 - name: DiskState
   description: This enumerates the possible state of the disk.
   kind: enum
@@ -591,15 +660,23 @@ definitions:
     types:
     - uid: string
   - name: Attached
-    description: The disk is currently mounted to a running VM.
+    description: The disk is currently attached to a running VM.
     types:
     - uid: string
   - name: Reserved
-    description: The disk is mounted to a stopped-deallocated VM
+    description: The disk is attached to a stopped-deallocated VM.
+    types:
+    - uid: string
+  - name: Frozen
+    description: The disk is attached to a VM which is in hibernated state.
     types:
     - uid: string
   - name: ActiveSAS
     description: The disk currently has an Active SAS Uri associated with it.
+    types:
+    - uid: string
+  - name: ActiveSASFrozen
+    description: The disk is attached to a VM in hibernated state and has an active SAS URI associated with it.
     types:
     - uid: string
   - name: ReadyToUpload
@@ -642,6 +719,34 @@ definitions:
     description: Specifies the SecurityType of the VM. Applicable for OS disks only.
     types:
     - uid: DiskSecurityTypes
+  - name: secureVMDiskEncryptionSetId
+    description: ResourceId of the disk encryption set associated to Confidential VM supported disk encrypted with customer managed key
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Policy for controlling export on the disk.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: You can generate a SAS URI to access the underlying data of the disk publicly on the internet when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+  - name: Disabled
+    description: You cannot access the underlying data of the disk publicly on the internet even when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+- name: DataAccessAuthMode
+  description: Additional authentication requirements when exporting or uploading to a disk or snapshot.
+  kind: enum
+  properties:
+  - name: AzureActiveDirectory
+    description: When export/upload URL is used, the system checks if the user has an identity in Azure Active Directory and has necessary permissions to export/upload the data. Please refer to aka.ms/DisksAzureADAuth.
+    types:
+    - uid: string
+  - name: None
+    description: No additional authentication would be performed when accessing export/upload URL.
+    types:
+    - uid: string
 - name: KeyVaultAndSecretReference
   description: 'Key Vault Secret Url and vault id of the encryption key '
   kind: object
@@ -705,6 +810,18 @@ definitions:
     description: Create a new disk by obtaining a write token and using it to directly upload the contents of the disk.
     types:
     - uid: string
+  - name: CopyStart
+    description: Create a new disk by using a deep copy process, where the resource creation is considered complete only after all data has been copied from the source.
+    types:
+    - uid: string
+  - name: ImportSecure
+    description: Similar to Import create option. Create a new Trusted Launch VM or Confidential VM supported disk by importing additional blob for VM guest state specified by securityDataUri in storage account specified by storageAccountId
+    types:
+    - uid: string
+  - name: UploadPreparedSecure
+    description: Similar to Upload create option. Create a new Trusted Launch VM or Confidential VM supported disk and upload using write token in both disk and VM guest state
+    types:
+    - uid: string
 - name: ImageDiskReference
   description: The source image used for creating the disk.
   kind: object
@@ -725,6 +842,18 @@ definitions:
     description: Trusted Launch provides security features such as secure boot and virtual Trusted Platform Module (vTPM)
     types:
     - uid: string
+  - name: ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with only VM guest state encrypted
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithPlatformKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a platform managed key
+    types:
+    - uid: string
+  - name: ConfidentialVM_DiskEncryptedWithCustomerKey
+    description: Indicates Confidential VM disk with both OS disk and VM guest state encrypted with a customer managed key
+    types:
+    - uid: string
 - name: SourceVault
   description: The vault id is an Azure Resource Manager Resource id in the form /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.KeyVault/vaults/{vaultName}
   kind: object
@@ -736,15 +865,90 @@ definitions:
 examples:
 - name: Update managed disk to remove disk access resource association.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
           "networkAccessPolicy": "AllowAll"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "networkAccessPolicy": "AllowAll"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+      import com.azure.resourcemanager.compute.models.NetworkAccessPolicy;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToRemoveDiskAccess.json
+           */
+          /**
+           * Sample code: Update managed disk to remove disk access resource association.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateManagedDiskToRemoveDiskAccessResourceAssociation(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskUpdate().withNetworkAccessPolicy(NetworkAccessPolicy.ALLOW_ALL),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToRemoveDiskAccess.json
+       */
+      async function updateManagedDiskToRemoveDiskAccessResourceAssociation() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { networkAccessPolicy: "AllowAll" };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateManagedDiskToRemoveDiskAccessResourceAssociation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -774,7 +978,7 @@ examples:
       }
 - name: Update a managed disk to add purchase plan.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
@@ -786,8 +990,100 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "purchasePlan": {
+            "name": "myPurchasePlanName",
+            "publisher": "myPurchasePlanPublisher",
+            "product": "myPurchasePlanProduct",
+            "promotionCode": "myPurchasePlanPromotionCode"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+      import com.azure.resourcemanager.compute.models.PurchasePlanAutoGenerated;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddPurchasePlan.json
+           */
+          /**
+           * Sample code: Update a managed disk to add purchase plan.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToAddPurchasePlan(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskUpdate()
+                          .withPurchasePlan(
+                              new PurchasePlanAutoGenerated()
+                                  .withName("myPurchasePlanName")
+                                  .withPublisher("myPurchasePlanPublisher")
+                                  .withProduct("myPurchasePlanProduct")
+                                  .withPromotionCode("myPurchasePlanPromotionCode")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddPurchasePlan.json
+       */
+      async function updateAManagedDiskToAddPurchasePlan() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          purchasePlan: {
+            name: "myPurchasePlanName",
+            product: "myPurchasePlanProduct",
+            promotionCode: "myPurchasePlanPromotionCode",
+            publisher: "myPurchasePlanPublisher",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToAddPurchasePlan().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "name": "myDisk",
@@ -845,15 +1141,84 @@ examples:
       }
 - name: Update a managed disk to disable bursting.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
           "burstingEnabled": false
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "burstingEnabled": false
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToDisableBursting.json
+           */
+          /**
+           * Sample code: Update a managed disk to disable bursting.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToDisableBursting(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update("myResourceGroup", "myDisk", new DiskUpdate().withBurstingEnabled(false), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToDisableBursting.json
+       */
+      async function updateAManagedDiskToDisableBursting() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { burstingEnabled: false };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToDisableBursting().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -879,7 +1244,7 @@ examples:
       }
 - name: Create or update a bursting enabled managed disk.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
@@ -887,8 +1252,129 @@ examples:
           "burstingEnabled": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "diskSizeGB": 1024,
+          "burstingEnabled": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateOrUpdateABurstingEnabledManagedDisk.json
+           */
+          /**
+           * Sample code: Create or update a bursting enabled managed disk.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateABurstingEnabledManagedDisk(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskUpdate().withDiskSizeGB(1024).withBurstingEnabled(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateOrUpdateABurstingEnabledManagedDisk.json
+      func ExampleDisksClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDisksClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myResourceGroup",
+      		"myDisk",
+      		armcompute.DiskUpdate{
+      			Properties: &armcompute.DiskUpdateProperties{
+      				BurstingEnabled: to.Ptr(true),
+      				DiskSizeGB:      to.Ptr[int32](1024),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateOrUpdateABurstingEnabledManagedDisk.json
+       */
+      async function createOrUpdateABurstingEnabledManagedDisk() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { burstingEnabled: true, diskSizeGB: 1024 };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createOrUpdateABurstingEnabledManagedDisk().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -917,15 +1403,85 @@ examples:
       }
 - name: Update a managed disk to add supportsHibernation.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
           "supportsHibernation": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "supportsHibernation": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddSupportsHibernation.json
+           */
+          /**
+           * Sample code: Update a managed disk to add supportsHibernation.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToAddSupportsHibernation(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update("myResourceGroup", "myDisk", new DiskUpdate().withSupportsHibernation(true), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddSupportsHibernation.json
+       */
+      async function updateAManagedDiskToAddSupportsHibernation() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { supportsHibernation: true };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToAddSupportsHibernation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "name": "myDisk",
@@ -967,17 +1523,227 @@ examples:
           "provisioningState": "Succeeded"
         }
       }
+- name: Update a managed disk to add accelerated networking.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+    body: >-
+      {
+        "properties": {
+          "supportedCapabilities": {
+            "acceleratedNetwork": false
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "supportedCapabilities": {
+            "acceleratedNetwork": false
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+      import com.azure.resourcemanager.compute.models.SupportedCapabilities;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddAcceleratedNetworking.json
+           */
+          /**
+           * Sample code: Update a managed disk to add accelerated networking.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToAddAcceleratedNetworking(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskUpdate().withSupportedCapabilities(new SupportedCapabilities().withAcceleratedNetwork(false)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddAcceleratedNetworking.json
+       */
+      async function updateAManagedDiskToAddAcceleratedNetworking() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          supportedCapabilities: { acceleratedNetwork: false },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToAddAcceleratedNetworking().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "westus",
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "supportedCapabilities": {
+            "acceleratedNetwork": false
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscription-id}/Providers/Microsoft.Compute/Locations/westus/Publishers/test_test_pmc2pc1/ArtifactTypes/VMImage/Offers/marketplace_vm_test/Skus/test_sku/Versions/1.0.0"
+            }
+          },
+          "diskSizeGB": 127,
+          "provisioningState": "Updating"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "westus",
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "supportedCapabilities": {
+            "acceleratedNetwork": false
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscription-id}/Providers/Microsoft.Compute/Locations/westus/Publishers/test_test_pmc2pc1/ArtifactTypes/VMImage/Offers/marketplace_vm_test/Skus/test_sku/Versions/1.0.0"
+            }
+          },
+          "diskSizeGB": 127,
+          "provisioningState": "Succeeded"
+        }
+      }
 - name: Update a managed disk to change tier.
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2020-12-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
     body: >-
       {
         "properties": {
           "tier": "P30"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "tier": "P30"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToChangeTier.json
+           */
+          /**
+           * Sample code: Update a managed disk to change tier.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToChangeTier(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update("myResourceGroup", "myDisk", new DiskUpdate().withTier("P30"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToChangeTier.json
+       */
+      async function updateAManagedDiskToChangeTier() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { tier: "P30" };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToChangeTier().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-04-01
     body: >-
       {
         "properties": {
@@ -1006,6 +1772,146 @@ examples:
         "location": "West US",
         "name": "myDisk"
       }
+- name: Update a managed disk to add architecture.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+    body: >-
+      {
+        "properties": {
+          "supportedCapabilities": {
+            "architecture": "Arm64"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "properties": {
+          "supportedCapabilities": {
+            "architecture": "Arm64"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.models.Architecture;
+      import com.azure.resourcemanager.compute.models.DiskUpdate;
+      import com.azure.resourcemanager.compute.models.SupportedCapabilities;
+
+      /** Samples for Disks Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddArchitecture.json
+           */
+          /**
+           * Sample code: Update a managed disk to add architecture.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateAManagedDiskToAddArchitecture(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .update(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskUpdate()
+                          .withSupportedCapabilities(new SupportedCapabilities().withArchitecture(Architecture.ARM64)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates (patches) a disk.
+       *
+       * @summary Updates (patches) a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/UpdateAManagedDiskToAddArchitecture.json
+       */
+      async function updateAManagedDiskToAddArchitecture() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = { supportedCapabilities: { architecture: "Arm64" } };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      updateAManagedDiskToAddArchitecture().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "westus",
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "supportedCapabilities": {
+            "architecture": "Arm64"
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscription-id}/Providers/Microsoft.Compute/Locations/westus/Publishers/test_test_pmc2pc1/ArtifactTypes/VMImage/Offers/marketplace_vm_test/Skus/test_sku/Versions/1.0.0"
+            }
+          },
+          "diskSizeGB": 127,
+          "provisioningState": "Updating"
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "myDisk",
+        "location": "westus",
+        "sku": {
+          "name": "Standard_LRS",
+          "tier": "Standard"
+        },
+        "properties": {
+          "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "supportedCapabilities": {
+            "architecture": "Arm64"
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscription-id}/Providers/Microsoft.Compute/Locations/westus/Publishers/test_test_pmc2pc1/ArtifactTypes/VMImage/Offers/marketplace_vm_test/Skus/test_sku/Versions/1.0.0"
+            }
+          },
+          "diskSizeGB": 127,
+          "provisioningState": "Succeeded"
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -1016,5 +1922,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Updates (patches) a disk.
+  description: >
+    Learn more about Compute service - Updates (patches) a disk.
 errorCodes: []

@@ -1,5 +1,6 @@
 ---
 title: "ClusterCodeVersionsListResult"
+description: "Gives the The list results of the Service Fabric runtime versions. Properties include value and nextLink."
 ms.date: 05/25/2018
 ms.service: "service-fabric"
 ms.topic: "reference"

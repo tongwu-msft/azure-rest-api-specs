@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.storagetargets.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Storage Targets
-apiVersion: 2021-05-01
+apiVersion: 2022-05-01
 summary: Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2021-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/storageTargets/{storageTargetName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -74,6 +74,11 @@ requestBody:
     description: Type of the Storage Target.
     types:
     - uid: StorageTargetType
+  - name: properties.state
+    in: body
+    description: Storage target operational state.
+    types:
+    - uid: OperationalStateType
   - name: properties.nfs3
     in: body
     description: Properties when targetType is nfs3.
@@ -116,6 +121,7 @@ definitions:
     description: Name of the access policy applied to this junction.
     types:
     - uid: string
+    defaultValue: default
 - name: Nfs3Target
   description: Properties pertaining to the Nfs3Target
   kind: object
@@ -206,6 +212,10 @@ definitions:
     description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
     types:
     - uid: ProvisioningStateType
+  - name: properties.state
+    description: Storage target operational state.
+    types:
+    - uid: OperationalStateType
   - name: properties.nfs3
     description: Properties when targetType is nfs3.
     types:
@@ -222,6 +232,11 @@ definitions:
     description: Properties when targetType is blobNfs.
     types:
     - uid: BlobNfsTarget
+  - name: properties.allocationPercentage
+    isReadyOnly: true
+    description: The percentage of cache space allocated for this storage target
+    types:
+    - uid: integer
   - name: name
     isReadyOnly: true
     description: Name of the Storage Target.
@@ -309,6 +324,22 @@ definitions:
   - name: Updating
     types:
     - uid: string
+- name: OperationalStateType
+  description: Storage target operational state.
+  kind: enum
+  properties:
+  - name: Ready
+    types:
+    - uid: string
+  - name: Busy
+    types:
+    - uid: string
+  - name: Suspended
+    types:
+    - uid: string
+  - name: Flushing
+    types:
+    - uid: string
 - name: CloudErrorBody
   description: An error response.
   kind: object
@@ -333,7 +364,7 @@ definitions:
 examples:
 - name: StorageTargets_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -358,6 +389,195 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
+
+      {
+        "properties": {
+          "junctions": [
+            {
+              "namespacePath": "/path/on/cache",
+              "targetPath": "/path/on/exp1",
+              "nfsExport": "exp1",
+              "nfsAccessPolicy": "default"
+            },
+            {
+              "namespacePath": "/path2/on/cache",
+              "targetPath": "/path2/on/exp2",
+              "nfsExport": "exp2",
+              "nfsAccessPolicy": "rootSquash"
+            }
+          ],
+          "targetType": "nfs3",
+          "nfs3": {
+            "target": "10.0.44.44",
+            "usageModel": "READ_HEAVY_INFREQ"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.storagecache.models.NamespaceJunction;
+      import com.azure.resourcemanager.storagecache.models.Nfs3Target;
+      import com.azure.resourcemanager.storagecache.models.StorageTargetType;
+      import java.util.Arrays;
+
+      /** Samples for StorageTargets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: StorageTargets_CreateOrUpdate.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void storageTargetsCreateOrUpdate(
+              com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .storageTargets()
+                  .define("st1")
+                  .withExistingCache("scgroup", "sc1")
+                  .withJunctions(
+                      Arrays
+                          .asList(
+                              new NamespaceJunction()
+                                  .withNamespacePath("/path/on/cache")
+                                  .withTargetPath("/path/on/exp1")
+                                  .withNfsExport("exp1")
+                                  .withNfsAccessPolicy("default"),
+                              new NamespaceJunction()
+                                  .withNamespacePath("/path2/on/cache")
+                                  .withTargetPath("/path2/on/exp2")
+                                  .withNfsExport("exp2")
+                                  .withNfsAccessPolicy("rootSquash")))
+                  .withTargetType(StorageTargetType.NFS3)
+                  .withNfs3(new Nfs3Target().withTarget("10.0.44.44").withUsageModel("READ_HEAVY_INFREQ"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate.json
+      func ExampleStorageTargetsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewStorageTargetsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"scgroup",
+      		"sc1",
+      		"st1",
+      		armstoragecache.StorageTarget{
+      			Properties: &armstoragecache.StorageTargetProperties{
+      				Junctions: []*armstoragecache.NamespaceJunction{
+      					{
+      						NamespacePath:   to.Ptr("/path/on/cache"),
+      						NfsAccessPolicy: to.Ptr("default"),
+      						NfsExport:       to.Ptr("exp1"),
+      						TargetPath:      to.Ptr("/path/on/exp1"),
+      					},
+      					{
+      						NamespacePath:   to.Ptr("/path2/on/cache"),
+      						NfsAccessPolicy: to.Ptr("rootSquash"),
+      						NfsExport:       to.Ptr("exp2"),
+      						TargetPath:      to.Ptr("/path2/on/exp2"),
+      					}},
+      				Nfs3: &armstoragecache.Nfs3Target{
+      					Target:     to.Ptr("10.0.44.44"),
+      					UsageModel: to.Ptr("READ_HEAVY_INFREQ"),
+      				},
+      				TargetType: to.Ptr(armstoragecache.StorageTargetTypeNfs3),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       *
+       * @summary Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate.json
+       */
+      async function storageTargetsCreateOrUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const storageTargetName = "st1";
+        const storagetarget = {
+          junctions: [
+            {
+              namespacePath: "/path/on/cache",
+              nfsAccessPolicy: "default",
+              nfsExport: "exp1",
+              targetPath: "/path/on/exp1",
+            },
+            {
+              namespacePath: "/path2/on/cache",
+              nfsAccessPolicy: "rootSquash",
+              nfsExport: "exp2",
+              targetPath: "/path2/on/exp2",
+            },
+          ],
+          nfs3: { target: "10.0.44.44", usageModel: "READ_HEAVY_INFREQ" },
+          targetType: "nfs3",
+        };
+        const options = { storagetarget };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.storageTargets.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cacheName,
+          storageTargetName,
+          options
+        );
+        console.log(result);
+      }
+
+      storageTargetsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -388,6 +608,7 @@ examples:
               "nfsAccessPolicy": "rootSquash"
             }
           ],
+          "state": "Ready",
           "targetType": "nfs3",
           "nfs3": {
             "target": "10.0.44.44",
@@ -424,6 +645,7 @@ examples:
               "nfsAccessPolicy": "rootSquash"
             }
           ],
+          "state": "Ready",
           "targetType": "nfs3",
           "nfs3": {
             "target": "10.0.44.44",
@@ -434,7 +656,7 @@ examples:
   - statusCode: "202"
 - name: StorageTargets_CreateOrUpdate_NoJunctions
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -445,6 +667,88 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
+
+      {
+        "properties": {
+          "targetType": "nfs3",
+          "nfs3": {
+            "target": "10.0.44.44",
+            "usageModel": "READ_HEAVY_INFREQ"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.storagecache.models.Nfs3Target;
+      import com.azure.resourcemanager.storagecache.models.StorageTargetType;
+
+      /** Samples for StorageTargets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
+           */
+          /**
+           * Sample code: StorageTargets_CreateOrUpdate_NoJunctions.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void storageTargetsCreateOrUpdateNoJunctions(
+              com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .storageTargets()
+                  .define("st1")
+                  .withExistingCache("scgroup", "sc1")
+                  .withTargetType(StorageTargetType.NFS3)
+                  .withNfs3(new Nfs3Target().withTarget("10.0.44.44").withUsageModel("READ_HEAVY_INFREQ"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       *
+       * @summary Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_NoJunctions.json
+       */
+      async function storageTargetsCreateOrUpdateNoJunctions() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const storageTargetName = "st1";
+        const storagetarget = {
+          nfs3: { target: "10.0.44.44", usageModel: "READ_HEAVY_INFREQ" },
+          targetType: "nfs3",
+        };
+        const options = { storagetarget };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.storageTargets.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cacheName,
+          storageTargetName,
+          options
+        );
+        console.log(result);
+      }
+
+      storageTargetsCreateOrUpdateNoJunctions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -462,6 +766,7 @@ examples:
         },
         "properties": {
           "targetType": "nfs3",
+          "state": "Ready",
           "nfs3": {
             "target": "10.0.44.44",
             "usageModel": "READ_HEAVY_INFREQ"
@@ -484,6 +789,7 @@ examples:
         },
         "properties": {
           "targetType": "nfs3",
+          "state": "Ready",
           "nfs3": {
             "target": "10.0.44.44",
             "usageModel": "READ_HEAVY_INFREQ"
@@ -493,7 +799,7 @@ examples:
   - statusCode: "202"
 - name: StorageTargets_CreateOrUpdate_BlobNfs
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2021-05-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -509,6 +815,105 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/storageTargets/st1?api-version=2022-05-01
+
+      {
+        "properties": {
+          "targetType": "blobNfs",
+          "junctions": [
+            {
+              "namespacePath": "/blobnfs"
+            }
+          ],
+          "blobNfs": {
+            "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
+            "usageModel": "WRITE_WORKLOAD_15"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.storagecache.models.BlobNfsTarget;
+      import com.azure.resourcemanager.storagecache.models.NamespaceJunction;
+      import com.azure.resourcemanager.storagecache.models.StorageTargetType;
+      import java.util.Arrays;
+
+      /** Samples for StorageTargets CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
+           */
+          /**
+           * Sample code: StorageTargets_CreateOrUpdate_BlobNfs.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void storageTargetsCreateOrUpdateBlobNfs(
+              com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .storageTargets()
+                  .define("st1")
+                  .withExistingCache("scgroup", "sc1")
+                  .withJunctions(Arrays.asList(new NamespaceJunction().withNamespacePath("/blobnfs")))
+                  .withTargetType(StorageTargetType.BLOB_NFS)
+                  .withBlobNfs(
+                      new BlobNfsTarget()
+                          .withTarget(
+                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs")
+                          .withUsageModel("WRITE_WORKLOAD_15"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       *
+       * @summary Create or update a Storage Target. This operation is allowed at any time, but if the Cache is down or unhealthy, the actual creation/modification of the Storage Target may be delayed until the Cache is healthy again.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/StorageTargets_CreateOrUpdate_BlobNfs.json
+       */
+      async function storageTargetsCreateOrUpdateBlobNfs() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const storageTargetName = "st1";
+        const storagetarget = {
+          blobNfs: {
+            target:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
+            usageModel: "WRITE_WORKLOAD_15",
+          },
+          junctions: [{ namespacePath: "/blobnfs" }],
+          targetType: "blobNfs",
+        };
+        const options = { storagetarget };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.storageTargets.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cacheName,
+          storageTargetName,
+          options
+        );
+        console.log(result);
+      }
+
+      storageTargetsCreateOrUpdateBlobNfs().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -531,6 +936,7 @@ examples:
               "namespacePath": "/blobnfs"
             }
           ],
+          "state": "Ready",
           "blobNfs": {
             "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
             "usageModel": "WRITE_WORKLOAD_15"
@@ -558,6 +964,7 @@ examples:
               "namespacePath": "/blobnfs"
             }
           ],
+          "state": "Ready",
           "blobNfs": {
             "target": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Storage/storageAccounts/blofnfs/blobServices/default/containers/blobnfs",
             "usageModel": "WRITE_WORKLOAD_15"

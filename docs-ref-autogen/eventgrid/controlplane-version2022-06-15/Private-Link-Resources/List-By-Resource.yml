@@ -1,0 +1,254 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.eventgrid.controlplane-version2022-06-15.privatelinkresources.listbyresource
+name: List By Resource
+service: Event Grid
+groupName: Private Link Resources
+apiVersion: 2022-06-15
+summary: "List private link resources under specific topic, domain, or partner namespace.  \nList all the private link resources under a topic, domain, or partner namespace."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources?api-version=2022-06-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/{parentType}/{parentName}/privateLinkResources?api-version=2022-06-15&$filter={$filter}&$top={$top}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials that uniquely identify a Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription.
+  types:
+  - uid: string
+- name: parentType
+  in: path
+  isRequired: true
+  description: The type of the parent resource. This can be either \'topics\', \'domains\', or \'partnerNamespaces\'.
+  types:
+  - uid: string
+- name: parentName
+  in: path
+  isRequired: true
+  description: The name of the parent resource (namely, either, the topic name, domain name, or partner namespace name).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "The query used to filter the search results using OData syntax. Filtering is permitted on the 'name' property only and with limited number of OData operations. These operations are: the 'contains' function as well as the following logical operations: not, and, or, eq (for equal), and ne (for not equal). No arithmetic operations are supported. The following is a valid filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is not a valid filter example: $filter=location eq 'westus'."
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: The number of results to return per page for the list operation. Valid range for top parameter is 1 to 100. If not specified, the default number of results to be returned is 20 items per page.
+  types:
+  - uid: integer
+  format: int32
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PrivateLinkResourcesListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 Bad Request.
+
+     * 500 Internal Server Error.
+requestHeader: []
+definitions:
+- name: PrivateLinkResourcesListResult
+  description: Result of the List private link resources operation.
+  kind: object
+  properties:
+  - name: value
+    description: A collection of private link resources
+    types:
+    - uid: PrivateLinkResource
+      isArray: true
+  - name: nextLink
+    description: A link for the next page of private link resources.
+    types:
+    - uid: string
+- name: PrivateLinkResource
+  description: Information of the private link resource.
+  kind: object
+  properties:
+  - name: id
+    description: Fully qualified identifier of the resource.
+    types:
+    - uid: string
+  - name: name
+    description: Name of the resource.
+    types:
+    - uid: string
+  - name: type
+    description: Type of the resource.
+    types:
+    - uid: string
+  - name: properties.groupId
+    description: ''
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: ''
+    types:
+    - uid: string
+  - name: properties.requiredMembers
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.requiredZoneNames
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+examples:
+- name: PrivateLinkResources_ListByResource
+  request:
+    uri: GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateLinkResources?api-version=2022-06-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/topics/exampletopic1/privateLinkResources?api-version=2022-06-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PrivateLinkResources ListByResource. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PrivateLinkResources_ListByResource.json
+           */
+          /**
+           * Sample code: PrivateLinkResources_ListByResource.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void privateLinkResourcesListByResource(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager.privateLinkResources().listByResource("examplerg", "topics", "exampletopic1", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PrivateLinkResources_ListByResource.json
+      func ExamplePrivateLinkResourcesClient_NewListByResourcePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewPrivateLinkResourcesClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourcePager("examplerg",
+      		"topics",
+      		"exampletopic1",
+      		&armeventgrid.PrivateLinkResourcesClientListByResourceOptions{Filter: nil,
+      			Top: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List all the private link resources under a topic, domain, or partner namespace.
+       *
+       * @summary List all the private link resources under a topic, domain, or partner namespace.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PrivateLinkResources_ListByResource.json
+       */
+      async function privateLinkResourcesListByResource() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const parentType = "topics";
+        const parentName = "exampletopic1";
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.privateLinkResources.listByResource(
+          resourceGroupName,
+          parentType,
+          parentName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      privateLinkResourcesListByResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "properties": {
+              "groupId": "topic",
+              "displayName": "Event Grid topic",
+              "requiredMembers": [
+                "topic"
+              ],
+              "requiredZoneNames": [
+                "privatelink.eventgrid.azure.net"
+              ]
+            },
+            "id": "/subscriptions/5B4B650E-28B9-4790-B3AB-DDBD88D727C4/resourceGroups/amh/providers/Microsoft.EventGrid/topics/exampletopic1/privateLinkResources/topic",
+            "name": "topic",
+            "type": "Microsoft.EventGrid/topics/privateLinkResources"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >-
+    List private link resources under specific topic, domain, or partner namespace.
+
+    List all the private link resources under a topic, domain, or partner namespace.
+errorCodes: []

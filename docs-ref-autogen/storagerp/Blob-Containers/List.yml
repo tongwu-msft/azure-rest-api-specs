@@ -3,15 +3,15 @@ uid: management.azure.com.storagerp.blobcontainers.list
 name: List
 service: Storage Resource Provider
 groupName: Blob Containers
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01
 summary: Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-04-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-04-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$include=deleted
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Storage/storageAccounts/{accountName}/blobServices/default/containers?api-version=2021-09-01&$maxpagesize={$maxpagesize}&$filter={$filter}&$include=deleted
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -171,6 +171,14 @@ definitions:
     description: The object level immutability property of the container. The property is immutable and can only be set to true at the container creation time. Existing containers must undergo a migration process.
     types:
     - uid: ImmutableStorageWithVersioning
+  - name: properties.enableNfsV3RootSquash
+    description: Enable NFSv3 root squash on blob container.
+    types:
+    - uid: boolean
+  - name: properties.enableNfsV3AllSquash
+    description: Enable NFSv3 all squash on blob container.
+    types:
+    - uid: boolean
   - name: etag
     isReadyOnly: true
     description: Resource Etag.
@@ -268,7 +276,11 @@ definitions:
     types:
     - uid: ImmutabilityPolicyState
   - name: properties.allowProtectedAppendWrites
-    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: properties.allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
     types:
     - uid: boolean
 - name: LegalHoldProperties
@@ -285,6 +297,10 @@ definitions:
     types:
     - uid: TagProperty
       isArray: true
+  - name: protectedAppendWritesHistory
+    description: Protected append blob writes history.
+    types:
+    - uid: ProtectedAppendWritesHistory
 - name: ImmutableStorageWithVersioning
   description: Object level immutability properties of the container.
   kind: object
@@ -337,6 +353,14 @@ definitions:
     description: Returns the User Principal Name of the user who updated the ImmutabilityPolicy.
     types:
     - uid: string
+  - name: allowProtectedAppendWrites
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to an append blob while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API.
+    types:
+    - uid: boolean
+  - name: allowProtectedAppendWritesAll
+    description: This property can only be changed for unlocked time-based retention policies. When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining immutability protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted. This property cannot be changed with ExtendImmutabilityPolicy API. The 'allowProtectedAppendWrites' and 'allowProtectedAppendWritesAll' properties are mutually exclusive.
+    types:
+    - uid: boolean
 - name: ImmutabilityPolicyState
   description: 'The ImmutabilityPolicy state of a blob container, possible values include: Locked and Unlocked.'
   kind: enum
@@ -376,6 +400,19 @@ definitions:
     description: Returns the User Principal Name of the user who added the tag.
     types:
     - uid: string
+- name: ProtectedAppendWritesHistory
+  description: Protected append writes history setting for the blob container with Legal holds.
+  kind: object
+  properties:
+  - name: allowProtectedAppendWritesAll
+    description: When enabled, new blocks can be written to both 'Append and Bock Blobs' while maintaining legal hold protection and compliance. Only new blocks can be added and any existing blocks cannot be modified or deleted.
+    types:
+    - uid: boolean
+  - name: timestamp
+    isReadyOnly: true
+    description: Returns the date and time the tag was added.
+    types:
+    - uid: string
 - name: MigrationState
   description: This property denotes the container level immutability to object level immutability migration state.
   kind: enum
@@ -402,7 +439,110 @@ definitions:
 examples:
 - name: ListContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-04-01&$include=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-09-01&$include=deleted
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-09-01&$include=deleted
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for BlobContainers List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersList.json
+           */
+          /**
+           * Sample code: ListContainers.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listContainers(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobContainers()
+                  .list("res9290", "sto1590", null, null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersList.json
+      func ExampleBlobContainersClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewBlobContainersClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("res9290",
+      		"sto1590",
+      		&armstorage.BlobContainersClientListOptions{Maxpagesize: nil,
+      			Filter:  nil,
+      			Include: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+       *
+       * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/BlobContainersList.json
+       */
+      async function listContainers() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9290";
+        const accountName = "sto1590";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.blobContainers.list(resourceGroupName, accountName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listContainers().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -437,11 +577,74 @@ examples:
             }
           }
         ],
-        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2020-08-01-preview&$maxpagesize=2&$skipToken=/sto1590/container5103"
+        "nextLink": "https://sto1590endpoint/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-09-01&$maxpagesize=2&$skipToken=/sto1590/container5103"
       }
 - name: ListDeletedContainers
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-04-01&$include=deleted
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-09-01&$include=deleted
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/res9290/providers/Microsoft.Storage/storageAccounts/sto1590/blobServices/default/containers?api-version=2021-09-01&$include=deleted
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storage.models.ListContainersInclude;
+
+      /** Samples for BlobContainers List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/DeletedBlobContainersList.json
+           */
+          /**
+           * Sample code: ListDeletedContainers.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listDeletedContainers(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getBlobContainers()
+                  .list("res9290", "sto1590", null, null, ListContainersInclude.DELETED, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+       *
+       * @summary Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/DeletedBlobContainersList.json
+       */
+      async function listDeletedContainers() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "res9290";
+        const accountName = "sto1590";
+        const include = "deleted";
+        const options = { include };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.blobContainers.list(resourceGroupName, accountName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listDeletedContainers().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -491,5 +694,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
+  description: >
+    Lists all containers and does not support a prefix like data plane. Also SRP today does not return continuation token.
 errorCodes: []

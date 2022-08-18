@@ -1,0 +1,379 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.labservices.schedules.update
+name: Update
+service: Lab Services
+groupName: Schedules
+apiVersion: 2022-08-01
+summary: Operation to update a lab schedule.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/schedules/{scheduleName}?api-version=2022-08-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: labName
+  in: path
+  isRequired: true
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
+  types:
+  - uid: string
+- name: scheduleName
+  in: path
+  isRequired: true
+  description: The name of the schedule that uniquely identifies it within containing lab. Used in resource URIs.
+  types:
+  - uid: string
+  pattern: ^[-\w\\._\\(\\)]+$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The schedule was updated; response contains the lab schedule.
+  types:
+  - uid: Schedule
+- name: Other Status Codes
+  description: The default error response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.startAt
+    in: body
+    description: When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.stopAt
+    in: body
+    description: When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.recurrencePattern
+    in: body
+    description: The recurrence pattern of the scheduled actions.
+    types:
+    - uid: RecurrencePattern
+  - name: properties.timeZoneId
+    in: body
+    description: The IANA timezone id for the schedule.
+    types:
+    - uid: string
+  - name: properties.notes
+    in: body
+    description: Notes for this schedule.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: RecurrencePattern
+  description: Recurrence pattern of a lab schedule.
+  kind: object
+  properties:
+  - name: frequency
+    description: The frequency of the recurrence.
+    types:
+    - uid: RecurrenceFrequency
+  - name: weekDays
+    description: The week days the schedule runs. Used for when the Frequency is set to Weekly.
+    types:
+    - uid: string
+      isArray: true
+  - name: interval
+    description: The interval to invoke the schedule on. For example, interval = 2 and RecurrenceFrequency.Daily will run every 2 days. When no interval is supplied, an interval of 1 is used.
+    types:
+    - uid: integer
+  - name: expirationDate
+    description: When the recurrence will expire. This date is inclusive.
+    types:
+    - uid: string
+- name: Schedule
+  description: Schedule for automatically turning virtual machines in a lab on and off at specified times.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the schedule.
+    types:
+    - uid: systemData
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Current provisioning state of the schedule.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: properties.startAt
+    description: When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.stopAt
+    description: When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.recurrencePattern
+    description: The recurrence pattern of the scheduled actions.
+    types:
+    - uid: RecurrencePattern
+  - name: properties.timeZoneId
+    description: The IANA timezone id for the schedule.
+    types:
+    - uid: string
+  - name: properties.notes
+    description: Notes for this schedule.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: ScheduleUpdate
+  description: Schedule for automatically turning virtual machines in a lab on and off at specified times. Used for updates.
+  kind: object
+  properties:
+  - name: properties.startAt
+    description: When lab user virtual machines will be started. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.stopAt
+    description: When lab user virtual machines will be stopped. Timestamp offsets will be ignored and timeZoneId is used instead.
+    types:
+    - uid: string
+  - name: properties.recurrencePattern
+    description: The recurrence pattern of the scheduled actions.
+    types:
+    - uid: RecurrencePattern
+  - name: properties.timeZoneId
+    description: The IANA timezone id for the schedule.
+    types:
+    - uid: string
+  - name: properties.notes
+    description: Notes for this schedule.
+    types:
+    - uid: string
+- name: RecurrenceFrequency
+  description: Schedule recurrence frequencies.
+  kind: enum
+  properties:
+  - name: Daily
+    description: Schedule will run every days.
+    types:
+    - uid: string
+  - name: Weekly
+    description: Schedule will run every week on days specified in weekDays.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: Current provisioning state of the schedule.
+  kind: enum
+  properties:
+  - name: Creating
+    description: Resource is in the process of being created.
+    types:
+    - uid: string
+  - name: Updating
+    description: New property values are being applied to the resource.
+    types:
+    - uid: string
+  - name: Deleting
+    description: Resource is in the process of being deleted.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Resource is in healthy state after creation or update operation.
+    types:
+    - uid: string
+  - name: Failed
+    description: Previous operation on the resource has failed leaving resource in unhealthy state.
+    types:
+    - uid: string
+  - name: Locked
+    description: The resource is locked and changes are currently blocked. This could be due to maintenance or a scheduled operation. The state will go back to succeeded once the locking operation has finished.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: patchSchedule
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2022-08-01
+    body: >-
+      {
+        "properties": {
+          "recurrencePattern": {
+            "frequency": "Daily",
+            "interval": 2,
+            "expirationDate": "2020-08-14T23:59:59Z"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1?api-version=2022-08-01
+
+      {
+        "properties": {
+          "recurrencePattern": {
+            "frequency": "Daily",
+            "interval": 2,
+            "expirationDate": "2020-08-14T23:59:59Z"
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/schedules/schedule1",
+        "name": "schedule1",
+        "type": "Microsoft.LabServices/Schedule",
+        "systemData": {
+          "createdBy": "identity123",
+          "createdByType": "User",
+          "createdAt": "2020-05-01T10:00:00Z",
+          "lastModifiedBy": "identity123",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-06-01T09:12:28Z"
+        },
+        "properties": {
+          "provisioningState": "Succeeded",
+          "startAt": "2020-05-26T12:00:00Z",
+          "stopAt": "2020-05-26T18:00:00Z",
+          "recurrencePattern": {
+            "frequency": "Daily",
+            "interval": 2,
+            "expirationDate": "2020-08-14T23:59:59Z"
+          },
+          "timeZoneId": "America/Los_Angeles",
+          "notes": "Schedule 1 for students"
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Lab Services service - Operation to update a lab schedule.
+errorCodes: []

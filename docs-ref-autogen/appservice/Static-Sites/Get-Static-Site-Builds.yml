@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.getstaticsitebuilds
 name: Get Static Site Builds
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
+apiVersion: 2022-03-01
 summary: Description for Gets all static site builds for a particular static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -115,6 +115,12 @@ definitions:
     description: User provided function apps registered with the static site build
     types:
     - uid: StaticSiteUserProvidedFunctionApp
+      isArray: true
+  - name: properties.linkedBackends
+    isReadyOnly: true
+    description: Backends linked to the static side build
+    types:
+    - uid: StaticSiteLinkedBackend
       isArray: true
   - name: id
     isReadyOnly: true
@@ -225,6 +231,28 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: StaticSiteLinkedBackend
+  description: Static Site Linked Backend ARM resource.
+  kind: object
+  properties:
+  - name: backendResourceId
+    description: The resource id of the backend linked to the static site
+    types:
+    - uid: string
+  - name: region
+    description: The region of the backend linked to the static site
+    types:
+    - uid: string
+  - name: createdOn
+    isReadyOnly: true
+    description: The date and time on which the backend was linked to the static site.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the linking process.
+    types:
+    - uid: string
 - name: Details
   kind: object
   properties:
@@ -246,7 +274,107 @@ definitions:
 examples:
 - name: Get all builds for a static site
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for StaticSites GetStaticSiteBuilds. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSiteBuilds.json
+           */
+          /**
+           * Sample code: Get all builds for a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAllBuildsForAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .getStaticSiteBuilds("rg", "testStaticSite0", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSiteBuilds.json
+      func ExampleStaticSitesClient_NewGetStaticSiteBuildsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewGetStaticSiteBuildsPager("rg",
+      		"testStaticSite0",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Gets all static site builds for a particular static site.
+       *
+       * @summary Description for Gets all static site builds for a particular static site.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/GetStaticSiteBuilds.json
+       */
+      async function getAllBuildsForAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.staticSites.listStaticSiteBuilds(resourceGroupName, name)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getAllBuildsForAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -261,7 +389,8 @@ examples:
               "createdTimeUtc": "2020-03-04T17:33:11.641Z",
               "lastUpdatedOn": "2020-03-04T17:33:11.641Z",
               "status": "Ready",
-              "userProvidedFunctionApps": []
+              "userProvidedFunctionApps": null,
+              "linkedBackends": []
             }
           },
           {
@@ -273,7 +402,15 @@ examples:
               "createdTimeUtc": "2020-03-04T17:33:11.641Z",
               "lastUpdatedOn": "2020-03-04T17:33:11.641Z",
               "status": "Ready",
-              "userProvidedFunctionApps": []
+              "userProvidedFunctionApps": null,
+              "linkedBackends": [
+                {
+                  "backendResourceId": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.ApiManagement/service/apimService0",
+                  "region": null,
+                  "createdOn": "2022-03-27T04:57:24.8058474",
+                  "provisioningState": "Succeeded"
+                }
+              ]
             }
           }
         ],
@@ -289,5 +426,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Description for Gets all static site builds for a particular static site.
+  description: >
+    Learn more about App Service service - Description for Gets all static site builds for a particular static site.
 errorCodes: []

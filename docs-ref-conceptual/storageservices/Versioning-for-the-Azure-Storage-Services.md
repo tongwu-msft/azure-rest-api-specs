@@ -3,7 +3,7 @@ title: Versioning for the Azure Storage services
 description: The Azure Storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.
 author: seanmcc-msft
 
-ms.date: 11/02/2021
+ms.date: 05/04/2022
 ms.service: storage
 ms.topic: reference
 ms.author: seanmcc
@@ -13,15 +13,7 @@ ms.author: seanmcc
 
 The Microsoft Azure storage services support multiple versions. To make a request against the storage services, you must specify the version that you want to use for that operation, unless the request is anonymous.  
   
-The current version of the Azure storage services is 2021-04-10, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
-
-## Version 2021-04-10
-
-The 2021-04-10 service version includes the following features:
-
-- A new API [Rename File](rename-file.md) allowing a file to be renamed.
-- A new API [Rename Directory](rename-directory.md) allowing a directory to be renamed.
-- A new API [Find Blobs by Tag on Container](find-blobs-by-tags-container.md) allowing finding blobs by tag on the container level.
+The current version of the Azure storage services is 2021-08-06, and using that version is recommended where possible. For a list of all other supported versions, and for information about using each version, see [Previous Azure Storage service versions](Previous-Azure-Storage-Service-Versions.md).
 
 ## Specifying service versions in requests  
 

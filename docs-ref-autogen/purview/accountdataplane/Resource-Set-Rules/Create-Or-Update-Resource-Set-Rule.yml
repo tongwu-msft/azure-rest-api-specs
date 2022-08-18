@@ -90,6 +90,7 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: AzureDataCatalog
   - name: normalizationRules
     description: ''
     types:
@@ -114,6 +115,7 @@ definitions:
     description: ''
     types:
     - uid: integer
+    defaultValue: 0
 - name: ResourceSetRuleConfig
   description: ResourceSetRuleConfig implementation class.
   kind: object
@@ -157,10 +159,12 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: AzureDataCatalog
   - name: filterType
     description: ''
     types:
     - uid: filterType
+    defaultValue: Pattern
   - name: lastUpdatedTimestamp
     description: ''
     types:
@@ -169,6 +173,7 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: AzureDataCatalog
   - name: name
     description: ''
     types:
@@ -263,6 +268,7 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: AzureDataCatalog
   - name: description
     description: ''
     types:
@@ -287,6 +293,7 @@ definitions:
     description: ''
     types:
     - uid: string
+    defaultValue: AzureDataCatalog
   - name: name
     description: ''
     types:
@@ -407,6 +414,7 @@ definitions:
     description: ''
     types:
     - uid: boolean
+    defaultValue: true
   - name: lastUpdatedTimestamp
     description: ''
     types:
@@ -661,6 +669,226 @@ examples:
           "resourceSetProcessing": "Default"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT {endpoint}/resourceSetRuleConfigs/defaultResourceSetRuleConfig?api-version=2019-11-01-preview
+
+      {
+        "pathPatternConfig": {
+          "rejectedPatterns": [
+            {
+              "name": "OfficeDocuments",
+              "filterType": "Regex",
+              "path": "^.*\\.(?i)(DOC|DOCM|DOCX|DOT|ODP|ODS|ODT|PDF|POT|PPS|PPSX|PPT|PPTM|PPTX|XLC|XLS|XLSB|XLSM|XLSX|XLT)(?-i)$",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            }
+          ],
+          "acceptedPatterns": [],
+          "enableDefaultPatterns": true,
+          "createdBy": "AzureDataCatalog",
+          "modifiedBy": "AzureDataCatalog",
+          "lastUpdatedTimestamp": 0,
+          "regexReplacers": [
+            {
+              "name": "Guid",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "([0-9A-F]{32}|[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12})",
+                "options": 9,
+                "minHex": 32
+              },
+              "replaceWith": "{GUID}",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "Number",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "^\\d+$",
+                "options": 8,
+                "minDigits": 1
+              },
+              "replaceWith": "{N}",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "yyyy-mm-ddThh-MM-ss",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(20)[1-9][0-9]([-\\._@]?)(0[1-9]|1[012])([-\\._@]?)(0[1-9]|[12][0-9]|3[01])([T])(2[0-3]|[01]?[0-9])([-\\._@]?)([0-5][0-9])([-\\._@]?)([0-5][0-9])(Z)?",
+                "options": 8,
+                "minDigits": 12
+              },
+              "replaceWith": "{N}$2{N}$4{N}$6{N}$8{N}$10{N}$12",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "yyyy-mm-ddThh",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(20)[1-9][0-9]([-\\._@]?)(0[1-9]|1[012])([-\\._@]?)(0[1-9]|[12][0-9]|3[01])([T])(2[0-3]|[01]?[0-9])(Z)?",
+                "options": 8,
+                "minDigits": 8
+              },
+              "replaceWith": "{N}$2{N}$4{N}$6{N}$8",
+              "condition": "ApplyToNonFileName",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "yyyy-mm-ddZ",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(20)[1-9][0-9]([-\\._@]?)(0[1-9]|1[012])([-\\._@]?)(0[1-9]|[12][0-9]|3[01])(Z)",
+                "options": 8,
+                "minDigits": 6
+              },
+              "replaceWith": "{N}$2{N}$4{N}$6",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "yyyy-mm-dd-hhZ",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(20)[1-9][0-9]([-\\._@]?)(0[1-9]|1[012])([-\\._@]?)(0[1-9]|[12][0-9]|3[01])([-\\._@]?)(2[0-3]|[01]?[0-9])(Z)",
+                "options": 8,
+                "minDigits": 8
+              },
+              "replaceWith": "{N}$2{N}$4{N}$6{N}$8",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "NumberBetweenDelimiter",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(?<=[-\\._@])([\\d]+)(?=[-\\._@])|^(\\d+)(?=[-\\._@])|(?<=[-\\._@])(\\d+)$",
+                "options": 8,
+                "minDigits": 1
+              },
+              "replaceWith": "{N}",
+              "doNotReplaceRegex": {
+                "regexStr": "(?<=[-\\._@]|^)[v](\\d+)[\\.](\\d+)[\\.]?(\\d+)?(?=[-\\._@]|$)",
+                "options": 9,
+                "minDigits": 1,
+                "minLetters": 1
+              },
+              "condition": "ApplyToFileNameOrNonVersionString",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "4ByteHex",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(?<=[-\\._@]|^)([0-9A-F]{8,16})(?=[-\\._@]|$)",
+                "options": 9,
+                "minDigitsOrLetters": 8
+              },
+              "replaceWith": "{HEX}",
+              "doNotReplaceRegex": {
+                "regexStr": "(?<=[-\\._@]|^)[v](\\d+)[\\.](\\d+)[\\.]?(\\d+)?(?=[-\\._@]|$)",
+                "options": 9,
+                "minDigits": 1,
+                "minLetters": 1
+              },
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "NumberInFile",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(\\d+)",
+                "options": 8,
+                "minDigits": 1
+              },
+              "replaceWith": "{N}",
+              "doNotReplaceRegex": {
+                "regexStr": "(?<=[-\\._@]|^)[v](\\d+)[\\.](\\d+)[\\.]?(\\d+)?(?=[-\\._@]|$)",
+                "options": 9,
+                "minDigits": 1,
+                "minLetters": 1
+              },
+              "condition": "ApplyToFileName",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "Localization(DashSeparated)",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(?<=[-\\._@]|^)(ar-eg|ar-sa|cy-gb|da-dk|de-at|de-ch|de-de|en-au|en-ca|en-gb|en-ie|en-in|en-my|en-nz|en-ph|en-sg|en-us|en-ww|en-xa|en-za|es-ar|es-cl|es-es|es-mx|es-us|es-xl|fi-fi|fr-be|fr-ca|fr-ch|fr-fr|gu-in|hi-in|id-id|it-it|ja-jp|nb-no|nl-nl|nl-be|pt-br|pt-pt|pl-pl|ru-ru|sv-se|ta-in|te-in|zh-cn|zh-hk|zh-tw|ko-kr|tr-tr)(?=[-\\._@]|$)",
+                "options": 9,
+                "minLetters": 4,
+                "minDashes": 1
+              },
+              "replaceWith": "{LOC}",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            },
+            {
+              "name": "Localization(UnderscoreSeparated)",
+              "disabled": false,
+              "description": null,
+              "regex": {
+                "regexStr": "(?<=[-\\._@]|^)(ar_eg|ar_sa|cy_gb|da_dk|de_at|de_ch|de_de|en_au|en_ca|en_gb|en_ie|en_in|en_my|en_nz|en_ph|en_sg|en_us|en_ww|en_xa|en_za|es_ar|es_cl|es_es|es_mx|es_us|es_xl|fi_fi|fr_be|fr_ca|fr_ch|fr_fr|gu_in|hi_in|id_id|it_it|ja_jp|nb_no|nl_nl|nl_be|pt_br|pt_pt|pl_pl|ru_ru|sv_se|ta_in|te_in|zh_cn|zh_hk|zh_tw|ko_kr|tr_tr)(?=[-\\._@]|$)",
+                "options": 9,
+                "minLetters": 4,
+                "minUnderscores": 1
+              },
+              "replaceWith": "{LOC}",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            }
+          ],
+          "complexReplacers": [
+            {
+              "name": "SparkPath",
+              "disabled": false,
+              "description": null,
+              "typeName": "Microsoft.DataMap.PathPattern.SparkPathReplacer",
+              "createdBy": "AzureDataCatalog",
+              "modifiedBy": "AzureDataCatalog",
+              "lastUpdatedTimestamp": 0
+            }
+          ]
+        },
+        "advancedResourceSet": {
+          "resourceSetProcessing": "Default"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     headers:
@@ -909,5 +1137,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Purview service - Creates or updates an resource set config.
+  description: >
+    Learn more about Purview service - Creates or updates an resource set config.
 errorCodes: []

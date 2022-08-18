@@ -3,14 +3,14 @@ uid: management.azure.com.compute.diskrestorepoint.get
 name: Get
 service: Compute
 groupName: Disk Restore Point
-apiVersion: 2020-12-01
+apiVersion: 2021-12-01
 summary: Get disk restorePoint resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}?api-version=2020-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/restorePointCollections/{restorePointCollectionName}/restorePoints/{vmRestorePointName}/diskRestorePoints/{diskRestorePointName}?api-version=2021-12-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,19 +27,19 @@ uriParameters:
 - name: restorePointCollectionName
   in: path
   isRequired: true
-  description: The name of the restore point collection that the disk restore point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the restore point collection that the disk restore point belongs.
   types:
   - uid: string
 - name: vmRestorePointName
   in: path
   isRequired: true
-  description: The name of the vm restore point that the disk disk restore point belongs. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the vm restore point that the disk disk restore point belongs.
   types:
   - uid: string
 - name: diskRestorePointName
   in: path
   isRequired: true
-  description: The name of the disk restore point created. Supported characters for the name are a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+  description: The name of the disk restore point created.
   types:
   - uid: string
 - name: api-version
@@ -70,7 +70,7 @@ definitions:
     - uid: string
   - name: properties.sourceResourceId
     isReadyOnly: true
-    description: arm id of source disk
+    description: arm id of source disk or source disk restore point.
     types:
     - uid: string
   - name: properties.osType
@@ -86,6 +86,10 @@ definitions:
     description: Purchase plan information for the the image from which the OS disk was created.
     types:
     - uid: PurchasePlan
+  - name: properties.supportedCapabilities
+    description: List of supported capabilities for the image from which the OS disk was created.
+    types:
+    - uid: SupportedCapabilities
   - name: properties.familyId
     isReadyOnly: true
     description: id of the backing snapshot's MIS family
@@ -105,6 +109,32 @@ definitions:
     description: Indicates the OS on a disk supports hibernation.
     types:
     - uid: boolean
+  - name: properties.networkAccessPolicy
+    description: Policy for accessing the disk via network.
+    types:
+    - uid: NetworkAccessPolicy
+  - name: properties.publicNetworkAccess
+    description: Policy for controlling export on the disk.
+    types:
+    - uid: PublicNetworkAccess
+  - name: properties.diskAccessId
+    description: ARM id of the DiskAccess resource for using private endpoints on disks.
+    types:
+    - uid: string
+  - name: properties.completionPercent
+    description: Percentage complete for the background copy of disk restore point when source resource is from a different region.
+    types:
+    - uid: number
+  - name: properties.replicationState
+    isReadyOnly: true
+    description: Replication state of disk restore point when source resource is from a different region.
+    types:
+    - uid: string
+  - name: properties.sourceResourceLocation
+    isReadyOnly: true
+    description: Location of source disk or source disk restore point when source resource is from a different region.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -168,6 +198,18 @@ definitions:
     description: The Offer Promotion Code.
     types:
     - uid: string
+- name: SupportedCapabilities
+  description: List of supported capabilities persisted on the disk resource for VM use.
+  kind: object
+  properties:
+  - name: acceleratedNetwork
+    description: True if the image from which the OS disk is created supports accelerated networking.
+    types:
+    - uid: boolean
+  - name: architecture
+    description: CPU architecture supported by an OS disk.
+    types:
+    - uid: Architecture
 - name: Encryption
   description: Encryption at rest settings for disk or snapshot
   kind: object
@@ -180,6 +222,34 @@ definitions:
     description: The type of key used to encrypt the data of the disk.
     types:
     - uid: EncryptionType
+- name: NetworkAccessPolicy
+  description: Policy for accessing the disk via network.
+  kind: enum
+  properties:
+  - name: AllowAll
+    description: The disk can be exported or uploaded to from any network.
+    types:
+    - uid: string
+  - name: AllowPrivate
+    description: The disk can be exported or uploaded to using a DiskAccess resource's private endpoints.
+    types:
+    - uid: string
+  - name: DenyAll
+    description: The disk cannot be exported.
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: Policy for controlling export on the disk.
+  kind: enum
+  properties:
+  - name: Enabled
+    description: You can generate a SAS URI to access the underlying data of the disk publicly on the internet when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
+  - name: Disabled
+    description: You cannot access the underlying data of the disk publicly on the internet even when NetworkAccessPolicy is set to AllowAll. You can access the data via the SAS URI only from your trusted Azure VNET when NetworkAccessPolicy is set to AllowPrivate.
+    types:
+    - uid: string
 - name: ApiError
   description: Api error.
   kind: object
@@ -203,6 +273,16 @@ definitions:
     - uid: string
   - name: message
     description: The error message.
+    types:
+    - uid: string
+- name: Architecture
+  description: CPU architecture supported by an OS disk.
+  kind: enum
+  properties:
+  - name: x64
+    types:
+    - uid: string
+  - name: Arm64
     types:
     - uid: string
 - name: EncryptionType
@@ -252,7 +332,114 @@ definitions:
 examples:
 - name: Get an incremental disk restorePoint resource.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745?api-version=2020-12-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745?api-version=2021-12-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745?api-version=2021-12-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DiskRestorePoint Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetDiskRestorePointResources.json
+           */
+          /**
+           * Sample code: Get an incremental disk restorePoint resource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAnIncrementalDiskRestorePointResource(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDiskRestorePoints()
+                  .getWithResponse(
+                      "myResourceGroup",
+                      "rpc",
+                      "vmrp",
+                      "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetDiskRestorePointResources.json
+      func ExampleDiskRestorePointClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDiskRestorePointClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"rpc",
+      		"vmrp",
+      		"TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get disk restorePoint resource
+       *
+       * @summary Get disk restorePoint resource
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetDiskRestorePointResources.json
+       */
+      async function getAnIncrementalDiskRestorePointResource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const restorePointCollectionName = "rpc";
+        const vmRestorePointName = "vmrp";
+        const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.diskRestorePointOperations.get(
+          resourceGroupName,
+          restorePointCollectionName,
+          vmRestorePointName,
+          diskRestorePointName
+        );
+        console.log(result);
+      }
+
+      getAnIncrementalDiskRestorePointResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -265,7 +452,102 @@ examples:
           "osType": "Windows",
           "hyperVGeneration": "V1",
           "familyId": "996bf3ce-b6ff-4e86-9db6-dc27ea06cea5",
-          "sourceUniqueId": "48e058b1-7eea-4968-b532-10a8a1130c13"
+          "sourceUniqueId": "48e058b1-7eea-4968-b532-10a8a1130c13",
+          "networkAccessPolicy": "AllowAll",
+          "publicNetworkAccess": "Disabled"
+        }
+      }
+- name: Get an incremental disk restorePoint when source resource is from a different region
+  request:
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745?api-version=2021-12-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745?api-version=2021-12-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DiskRestorePoint Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetDiskRestorePointWhenSourceResourceIsFromDifferentRegion.json
+           */
+          /**
+           * Sample code: Get an incremental disk restorePoint when source resource is from a different region.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDiskRestorePoints()
+                  .getWithResponse(
+                      "myResourceGroup",
+                      "rpc",
+                      "vmrp",
+                      "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get disk restorePoint resource
+       *
+       * @summary Get disk restorePoint resource
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/GetDiskRestorePointWhenSourceResourceIsFromDifferentRegion.json
+       */
+      async function getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const restorePointCollectionName = "rpc";
+        const vmRestorePointName = "vmrp";
+        const diskRestorePointName = "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745";
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.diskRestorePointOperations.get(
+          resourceGroupName,
+          restorePointCollectionName,
+          vmRestorePointName,
+          diskRestorePointName
+        );
+        console.log(result);
+      }
+
+      getAnIncrementalDiskRestorePointWhenSourceResourceIsFromADifferentRegion().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/restorePointCollections/rpc/restorePoints/vmrp/diskRestorePoints/TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+        "name": "TestDisk45ceb03433006d1baee0_b70cd924-3362-4a80-93c2-9415eaa12745",
+        "properties": {
+          "timeCreated": "2020-09-16T04:41:35.079872+00:00",
+          "sourceResourceId": "/subscriptions/d2260d06-e00d-422f-8b63-93df551a59ae/resourceGroups/rg0680fb0c-89f1-41b4-96c0-35733a181558/providers/Microsoft.Compute/disks/TestDisk45ceb03433006d1baee0",
+          "osType": "Windows",
+          "hyperVGeneration": "V1",
+          "familyId": "996bf3ce-b6ff-4e86-9db6-dc27ea06cea5",
+          "sourceUniqueId": "48e058b1-7eea-4968-b532-10a8a1130c13",
+          "networkAccessPolicy": "AllowAll",
+          "publicNetworkAccess": "Disabled",
+          "replicationState": "Succeeded",
+          "completionPercent": 100,
+          "sourceResourceLocation": "eastus2"
         }
       }
 security:
@@ -278,5 +560,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Get disk restorePoint resource
+  description: >
+    Learn more about Compute service - Get disk restorePoint resource
 errorCodes: []

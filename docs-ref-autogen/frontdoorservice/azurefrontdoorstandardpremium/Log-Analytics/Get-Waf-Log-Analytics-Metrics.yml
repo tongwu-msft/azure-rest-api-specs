@@ -1,0 +1,488 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.frontdoorservice.azurefrontdoorstandardpremium.loganalytics.getwafloganalyticsmetrics
+name: Get Waf Log Analytics Metrics
+service: Front Door Service
+groupName: Log Analytics
+apiVersion: 2021-06-01
+summary: Get Waf related log analytics report for AFD profile.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsMetrics?api-version=2021-06-01&metrics={metrics}&dateTimeBegin={dateTimeBegin}&dateTimeEnd={dateTimeEnd}&granularity={granularity}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/getWafLogAnalyticsMetrics?api-version=2021-06-01&metrics={metrics}&dateTimeBegin={dateTimeBegin}&dateTimeEnd={dateTimeEnd}&granularity={granularity}&actions={actions}&groupBy={groupBy}&ruleTypes={ruleTypes}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure Subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the Resource group within the Azure subscription.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: profileName
+  in: path
+  isRequired: true
+  description: Name of the Azure Front Door Standard or Azure Front Door Premium profile which is unique within the resource group. which is unique within the resource group.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request. Current version is 2021-06-01.
+  types:
+  - uid: string
+- name: metrics
+  in: query
+  isRequired: true
+  types:
+  - uid: array
+- name: dateTimeBegin
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+  format: date-time
+- name: dateTimeEnd
+  in: query
+  isRequired: true
+  types:
+  - uid: string
+  format: date-time
+- name: granularity
+  in: query
+  isRequired: true
+  types:
+  - uid: WafGranularity
+- name: actions
+  in: query
+  types:
+  - uid: array
+- name: groupBy
+  in: query
+  types:
+  - uid: array
+- name: ruleTypes
+  in: query
+  types:
+  - uid: array
+responses:
+- name: 200 OK
+  description: Describe the result of a successful operation.
+  types:
+  - uid: WafMetricsResponse
+- name: Other Status Codes
+  description: CDN Error response describing why the operation failed.
+  types:
+  - uid: AfdErrorResponse
+requestHeader: []
+definitions:
+- name: WafGranularity
+  kind: enum
+  properties:
+  - name: PT5M
+    types:
+    - uid: string
+  - name: PT1H
+    types:
+    - uid: string
+  - name: P1D
+    types:
+    - uid: string
+- name: WafMetricsResponse
+  description: Waf Metrics Response
+  kind: object
+  properties:
+  - name: dateTimeBegin
+    description: ''
+    types:
+    - uid: string
+  - name: dateTimeEnd
+    description: ''
+    types:
+    - uid: string
+  - name: granularity
+    description: ''
+    types:
+    - uid: PT5M
+    - uid: PT1H
+    - uid: P1D
+    typesTitle: enum
+  - name: series
+    description: ''
+    types:
+    - uid: Series
+      isArray: true
+- name: AfdErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Series
+  kind: object
+  properties:
+  - name: metric
+    description: ''
+    types:
+    - uid: string
+  - name: unit
+    description: ''
+    types:
+    - uid: count
+    - uid: bytes
+    - uid: bitsPerSecond
+    - uid: milliSeconds
+    typesTitle: enum
+  - name: groups
+    description: ''
+    types:
+    - uid: Groups
+      isArray: true
+  - name: data
+    description: ''
+    types:
+    - uid: Data
+      isArray: true
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Groups
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - uid: string
+- name: Data
+  kind: object
+  properties:
+  - name: dateTime
+    description: ''
+    types:
+    - uid: string
+  - name: value
+    description: ''
+    types:
+    - uid: number
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: LogAnalytics_GetWafLogAnalyticsMetrics
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/getWafLogAnalyticsMetrics?api-version=2021-06-01&metrics=clientRequestCount&dateTimeBegin=2020-11-04T06:49:27.554Z&dateTimeEnd=2020-11-04T09:49:27.554Z&granularity=PT5M&actions=block&actions=log
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/getWafLogAnalyticsMetrics?api-version=2021-06-01&metrics=clientRequestCount&dateTimeBegin=2020-11-04T06:49:27.554Z&dateTimeEnd=2020-11-04T09:49:27.554Z&granularity=PT5M&actions=block&actions=log
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.WafAction;
+      import com.azure.resourcemanager.cdn.models.WafGranularity;
+      import com.azure.resourcemanager.cdn.models.WafMetric;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+
+      /** Samples for LogAnalytics GetWafLogAnalyticsMetrics. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
+           */
+          /**
+           * Sample code: LogAnalytics_GetWafLogAnalyticsMetrics.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void logAnalyticsGetWafLogAnalyticsMetrics(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getLogAnalytics()
+                  .getWafLogAnalyticsMetricsWithResponse(
+                      "RG",
+                      "profile1",
+                      Arrays.asList(WafMetric.CLIENT_REQUEST_COUNT),
+                      OffsetDateTime.parse("2020-11-04T06:49:27.554Z"),
+                      OffsetDateTime.parse("2020-11-04T09:49:27.554Z"),
+                      WafGranularity.PT5M,
+                      Arrays.asList(WafAction.BLOCK, WafAction.LOG),
+                      null,
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
+      func ExampleLogAnalyticsClient_GetWafLogAnalyticsMetrics() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewLogAnalyticsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GetWafLogAnalyticsMetrics(ctx,
+      		"RG",
+      		"profile1",
+      		[]armcdn.WafMetric{
+      			armcdn.WafMetricClientRequestCount},
+      		func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-04T06:49:27.554Z"); return t }(),
+      		func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2020-11-04T09:49:27.554Z"); return t }(),
+      		armcdn.WafGranularityPT5M,
+      		&armcdn.LogAnalyticsClientGetWafLogAnalyticsMetricsOptions{Actions: []armcdn.WafAction{
+      			armcdn.WafActionBlock,
+      			armcdn.WafActionLog},
+      			GroupBy:   []armcdn.WafRankingGroupBy{},
+      			RuleTypes: []armcdn.WafRuleType{},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get Waf related log analytics report for AFD profile.
+       *
+       * @summary Get Waf related log analytics report for AFD profile.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/LogAnalytics_GetWafLogAnalyticsMetrics.json
+       */
+      async function logAnalyticsGetWafLogAnalyticsMetrics() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const metrics = ["clientRequestCount"];
+        const dateTimeBegin = new Date("2020-11-04T06:49:27.554Z");
+        const dateTimeEnd = new Date("2020-11-04T09:49:27.554Z");
+        const granularity = "PT5M";
+        const actions = ["block", "log"];
+        const options = {
+          actions,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.logAnalytics.getWafLogAnalyticsMetrics(
+          resourceGroupName,
+          profileName,
+          metrics,
+          dateTimeBegin,
+          dateTimeEnd,
+          granularity,
+          options
+        );
+        console.log(result);
+      }
+
+      logAnalyticsGetWafLogAnalyticsMetrics().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "dateTimeBegin": "2020-11-04T14:30:27.554+08:00",
+        "dateTimeEnd": "2020-11-04T17:00:27.554+08:00",
+        "granularity": "PT5M",
+        "series": [
+          {
+            "metric": "clientRequestCount",
+            "unit": "count",
+            "groups": [],
+            "data": [
+              {
+                "dateTime": "2020-11-04T07:05:00+00:00",
+                "value": 2
+              },
+              {
+                "dateTime": "2020-11-04T07:10:00+00:00",
+                "value": 32
+              },
+              {
+                "dateTime": "2020-11-04T07:15:00+00:00",
+                "value": 31
+              },
+              {
+                "dateTime": "2020-11-04T07:20:00+00:00",
+                "value": 63
+              },
+              {
+                "dateTime": "2020-11-04T07:25:00+00:00",
+                "value": 50
+              },
+              {
+                "dateTime": "2020-11-04T07:30:00+00:00",
+                "value": 12
+              },
+              {
+                "dateTime": "2020-11-04T07:35:00+00:00",
+                "value": 8
+              },
+              {
+                "dateTime": "2020-11-04T07:40:00+00:00",
+                "value": 21
+              },
+              {
+                "dateTime": "2020-11-04T07:45:00+00:00",
+                "value": 30
+              },
+              {
+                "dateTime": "2020-11-04T07:50:00+00:00",
+                "value": 18
+              },
+              {
+                "dateTime": "2020-11-04T07:55:00+00:00",
+                "value": 28
+              },
+              {
+                "dateTime": "2020-11-04T08:00:00+00:00",
+                "value": 3
+              },
+              {
+                "dateTime": "2020-11-04T08:05:00+00:00",
+                "value": 58
+              },
+              {
+                "dateTime": "2020-11-04T08:10:00+00:00",
+                "value": 42
+              },
+              {
+                "dateTime": "2020-11-04T08:15:00+00:00",
+                "value": 17
+              },
+              {
+                "dateTime": "2020-11-04T08:20:00+00:00",
+                "value": 21
+              },
+              {
+                "dateTime": "2020-11-04T08:25:00+00:00",
+                "value": 41
+              },
+              {
+                "dateTime": "2020-11-04T08:30:00+00:00",
+                "value": 8
+              },
+              {
+                "dateTime": "2020-11-04T08:35:00+00:00",
+                "value": 15
+              },
+              {
+                "dateTime": "2020-11-04T08:40:00+00:00",
+                "value": 25
+              },
+              {
+                "dateTime": "2020-11-04T08:45:00+00:00",
+                "value": 13
+              },
+              {
+                "dateTime": "2020-11-04T08:50:00+00:00",
+                "value": 17
+              },
+              {
+                "dateTime": "2020-11-04T08:55:00+00:00",
+                "value": 29
+              },
+              {
+                "dateTime": "2020-11-04T09:00:00+00:00",
+                "value": 17
+              }
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Front Door Service service - Get Waf related log analytics report for AFD profile.
+errorCodes: []

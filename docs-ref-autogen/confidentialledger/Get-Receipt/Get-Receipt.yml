@@ -1,0 +1,205 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.getreceipt.getreceipt
+name: Get Receipt
+service: Azure confidential ledger
+groupName: Get Receipt
+apiVersion: 2022-05-13
+summary: Gets a receipt certifying ledger contents at a particular transaction id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {ledgerEndpoint}/app/transactions/{transactionId}/receipt?api-version=2022-05-13
+uriParameters:
+- name: ledgerEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: transactionId
+  in: path
+  isRequired: true
+  description: Identifies a write transaction.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The receipt for the write occurring at the transaction id.
+  types:
+  - uid: TransactionReceipt
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestHeader: []
+definitions:
+- name: TransactionReceipt
+  description: A receipt certifying the transaction at the specified id.
+  kind: object
+  properties:
+  - name: receipt
+    description: ''
+    types:
+    - uid: ReceiptContents
+  - name: state
+    description: State of a ledger query.
+    types:
+    - uid: ConfidentialLedgerQueryState
+  - name: transactionId
+    description: A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read.
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: ReceiptContents
+  kind: object
+  properties:
+  - name: cert
+    description: ''
+    types:
+    - uid: string
+  - name: leaf
+    description: ''
+    types:
+    - uid: string
+  - name: leafComponents
+    description: ''
+    types:
+    - uid: ReceiptLeafComponents
+  - name: nodeId
+    description: ''
+    types:
+    - uid: string
+  - name: proof
+    description: ''
+    types:
+    - uid: ReceiptElement
+      isArray: true
+  - name: root
+    description: ''
+    types:
+    - uid: string
+  - name: serviceEndorsements
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: signature
+    description: ''
+    types:
+    - uid: string
+- name: ConfidentialLedgerQueryState
+  description: State of a ledger query.
+  kind: enum
+  properties:
+  - name: Loading
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+- name: ReceiptLeafComponents
+  kind: object
+  properties:
+  - name: claimsDigest
+    description: ''
+    types:
+    - uid: string
+  - name: commitEvidence
+    description: ''
+    types:
+    - uid: string
+  - name: writeSetDigest
+    description: ''
+    types:
+    - uid: string
+- name: ReceiptElement
+  kind: object
+  properties:
+  - name: left
+    description: ''
+    types:
+    - uid: string
+  - name: right
+    description: ''
+    types:
+    - uid: string
+examples:
+- name: GetReceipt
+  request:
+    uri: GET {ledgerEndpoint}/app/transactions/3.14/receipt?api-version=2022-05-13
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {ledgerEndpoint}/app/transactions/3.14/receipt?api-version=2022-05-13
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "state": "Ready",
+        "receipt": {
+          "leaf": "fdc977c49d3a8bdf986176984e9432a09b5f6fe0c04e0b1c2dd177c03fdca9ec",
+          "nodeId": "682c161e1bc0aec694cac58a6ea456e1caa6c9c56d8dd873da9455c341947065",
+          "proof": [
+            {
+              "left": "f847e5efe3965b0dacb5c15c666602807a11fdecd465d0976779eed27121ffa3"
+            },
+            {
+              "left": "a56ce9efb73957f561f12d60513281fd2aaf16440234e2fd56e7d3d2ff4be8b0"
+            },
+            {
+              "left": "d91c982f525302244b13b6add92cd0925e1e0fb621ff2a7bb408ecc51be8528e"
+            },
+            {
+              "left": "6d87faceda763ce65914f95dfcc04b37ea3f26bc552764752a0f2720039f76be"
+            },
+            {
+              "left": "e0cc83ea2fae6c535fc44605fb25ba9fdfb319e0e577b3541760f9a3565c549b"
+            },
+            {
+              "left": "f0e95ed85f5f6c0197aed4f6685b93dc56edd823a2532bd717558a5ab77267cb"
+            }
+          ],
+          "root": "06fef62c80b6471c7005c1b114166fd1b0e077845f5ad544ad4eea4fb1d31f78",
+          "signature": "MGQCMACklXqd0ge+gBS8WzewrwtwzRzSKy+bfrLZVx0YHmQvtsqs7dExYESsqrUrB8ZcKwIwS3NPKaGq0w2QlPlCqUC3vQoQvhcZgPHPu2GkFYa7JEOdSKLknNPHaCRv80zx2RGF"
+        },
+        "transactionId": "3.14"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Azure confidential ledger service - Gets a receipt certifying ledger contents at a particular transaction id.
+errorCodes: []

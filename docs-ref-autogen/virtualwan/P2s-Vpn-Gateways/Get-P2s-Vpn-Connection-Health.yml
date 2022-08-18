@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.p2svpngateways.getp2svpnconnectionhealth
 name: Get P2s Vpn Connection Health
 service: Virtual WAN
 groupName: P2s Vpn Gateways
-apiVersion: 2021-05-01
+apiVersion: 2022-01-01
 summary: Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth?api-version=2021-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/getP2sVpnConnectionHealth?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -161,6 +161,18 @@ definitions:
     description: Flag indicating whether the enable internet security flag is turned on for the P2S Connections or not.
     types:
     - uid: boolean
+  - name: properties.configurationPolicyGroupAssociations
+    isReadyOnly: true
+    description: List of Configuration Policy Groups that this P2SConnectionConfiguration is attached to.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.previousConfigurationPolicyGroupAssociations
+    isReadyOnly: true
+    description: List of previous Configuration Policy Groups that this P2SConnectionConfiguration was attached to.
+    types:
+    - uid: VpnServerConfigurationPolicyGroup
+      isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the P2SConnectionConfiguration resource.
@@ -255,6 +267,52 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+- name: VpnServerConfigurationPolicyGroup
+  description: VpnServerConfigurationPolicyGroup Resource.
+  kind: object
+  properties:
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+  - name: properties.isDefault
+    description: Shows if this is a Default VpnServerConfigurationPolicyGroup or not.
+    types:
+    - uid: boolean
+  - name: properties.priority
+    description: Priority for VpnServerConfigurationPolicyGroup.
+    types:
+    - uid: integer
+  - name: properties.policyMembers
+    description: Multiple PolicyMembers for VpnServerConfigurationPolicyGroup.
+    types:
+    - uid: VpnServerConfigurationPolicyGroupMember
+      isArray: true
+  - name: properties.p2SConnectionConfigurations
+    isReadyOnly: true
+    description: List of references to P2SConnectionConfigurations.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the VpnServerConfigurationPolicyGroup resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
 - name: PropagatedRouteTable
   description: The list of RouteTables to advertise the routes to.
   kind: object
@@ -284,6 +342,22 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+- name: VpnServerConfigurationPolicyGroupMember
+  description: VpnServerConfiguration PolicyGroup member
+  kind: object
+  properties:
+  - name: name
+    description: Name of the VpnServerConfigurationPolicyGroupMember.
+    types:
+    - uid: string
+  - name: attributeType
+    description: The Vpn Policy member attribute type.
+    types:
+    - uid: VpnPolicyMemberAttributeType
+  - name: attributeValue
+    description: The value of Attribute used for this VpnServerConfigurationPolicyGroupMember.
+    types:
+    - uid: string
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -301,10 +375,94 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VpnPolicyMemberAttributeType
+  description: The Vpn Policy member attribute type.
+  kind: enum
+  properties:
+  - name: CertificateGroupId
+    types:
+    - uid: string
+  - name: AADGroupId
+    types:
+    - uid: string
+  - name: RadiusAzureGroupId
+    types:
+    - uid: string
 examples:
 - name: P2SVpnGatewayGetConnectionHealth
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1/getP2sVpnConnectionHealth?api-version=2021-05-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1/getP2sVpnConnectionHealth?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/p2svpnGateways/p2sVpnGateway1/getP2sVpnConnectionHealth?api-version=2022-01-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/P2SVpnGatewayGetConnectionHealth.json
+      func ExampleP2SVPNGatewaysClient_BeginGetP2SVPNConnectionHealth() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewP2SVPNGatewaysClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginGetP2SVPNConnectionHealth(ctx, "rg1", "p2sVpnGateway1", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+       *
+       * @summary Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/P2SVpnGatewayGetConnectionHealth.json
+       */
+      async function p2SVpnGatewayGetConnectionHealth() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const gatewayName = "p2sVpnGateway1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.p2SVpnGateways.beginGetP2SVpnConnectionHealthAndWait(
+          resourceGroupName,
+          gatewayName
+        );
+        console.log(result);
+      }
+
+      p2SVpnGatewayGetConnectionHealth().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -334,6 +492,29 @@ examples:
                     "101.3.0.0/16"
                   ]
                 },
+                "configurationPolicyGroupAssociations": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/configurationPolicyGroups/policyGroup1"
+                  }
+                ],
+                "previousConfigurationPolicyGroupAssociations": [
+                  {
+                    "name": "policyGroup1",
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnServerConfigurations/vpnServerConfiguration1/vpnServerConfigurationPolicyGroups/policyGroup1",
+                    "properties": {
+                      "provisioningState": "Succeeded",
+                      "isDefault": true,
+                      "priority": 0,
+                      "policyMembers": [
+                        {
+                          "name": "policy1",
+                          "attributeType": "RadiusAzureGroupId",
+                          "attributeValue": "6ad1bd08"
+                        }
+                      ]
+                    }
+                  }
+                ],
                 "enableInternetSecurity": false
               }
             }
@@ -365,5 +546,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
+  description: >
+    Gets the connection health of P2S clients of the virtual wan P2SVpnGateway in the specified resource group.
 errorCodes: []

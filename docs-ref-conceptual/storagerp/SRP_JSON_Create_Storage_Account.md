@@ -1,5 +1,6 @@
 ---
 title: "JSON payloads for Create Storage Account (Azure Storage)"
+description: JSON request and response payloads for the Create Storage Account operation.
 ---
 # JSON payloads for Create Storage Account
 

@@ -153,6 +153,7 @@ definitions:
     description: "The maximum number of tasks that can be executed in parallel for the job.  \nThe value of maxParallelTasks must be -1 or greater than 0 if specified. If not specified, the default value is -1, which means there's no limit to the number of tasks that can be run at once. You can update a job's maxParallelTasks after it has been created using the update job API."
     types:
     - uid: integer
+    defaultValue: -1
   - name: displayName
     description: "The display name for Jobs created under this schedule.  \nThe name need not be unique and can contain any Unicode characters up to a maximum length of 1024."
     types:
@@ -1564,6 +1565,32 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH account.region.batch.azure.com/jobschedules/jobScheduleId?api-version=2022-01-01.15.0
+
+
+
+      {
+        "schedule": {
+          "doNotRunUntil": "2025-01-01T12:30:00Z"
+        },
+        "jobSpecification": {
+          "priority": 0,
+          "usesTaskDependencies": false,
+          "constraints": {
+            "maxWallClockTime": "P10675199DT2H48M5.4775807S",
+            "maxTaskRetryCount": 0
+          },
+          "poolInfo": {
+            "poolId": "poolId"
+          }
+        }
+      }
+
+      ```
+
     headers:
     - name: client-request-id
       value: 00000000-0000-0000-0000-000000000000
@@ -1584,5 +1611,8 @@ security:
   type: apiKey
   in: header
 metadata:
-  description: "Updates the properties of the specified Job Schedule.  \nThis replaces only the Job Schedule properties specified in the request."
+  description: >-
+    Updates the properties of the specified Job Schedule.
+
+    This replaces only the Job Schedule properties specified in the request.
 errorCodes: []
