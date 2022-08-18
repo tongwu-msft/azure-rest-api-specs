@@ -1,0 +1,142 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.accessreviewcalls.scopeaccessreviewinstance.recordalldecisions
+name: Record All Decisions
+service: Authorization
+groupName: Scope Access Review Instance
+apiVersion: 2021-12-01-preview
+summary: An action to approve/deny all decisions for a review with certain filters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/recordAllDecisions?api-version=2021-12-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of the resource.
+  types:
+  - uid: string
+- name: scheduleDefinitionId
+  in: path
+  isRequired: true
+  description: The id of the access review schedule definition.
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: The id of the access review instance.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 204 No Content
+  description: Describe the result of a successful operation.
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorDefinition
+requestBody:
+- name: default
+  parameters:
+  - name: decision
+    in: body
+    description: The decision to make. Approvers can take action of Approve/Deny
+    types:
+    - uid: RecordAllDecisionsResult
+  - name: justification
+    in: body
+    description: Justification provided by approvers for their action
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: ErrorDefinition
+  description: Error
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nError of the list gateway status."
+    types:
+    - uid: ErrorDefinitionProperties
+- name: RecordAllDecisionsProperties
+  description: Record All Decisions payload.
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The id of principal which needs to be approved/denied.
+    types:
+    - uid: string
+  - name: resourceId
+    isReadyOnly: true
+    description: The id of resource which needs to be approved/denied.
+    types:
+    - uid: string
+  - name: decision
+    description: The decision to make. Approvers can take action of Approve/Deny
+    types:
+    - uid: RecordAllDecisionsResult
+  - name: justification
+    description: Justification provided by approvers for their action
+    types:
+    - uid: string
+- name: ErrorDefinitionProperties
+  description: Error
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+- name: RecordAllDecisionsResult
+  description: The decision to make. Approvers can take action of Approve/Deny
+  kind: enum
+  properties:
+  - name: Approve
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+examples:
+- name: AccessReviewInstanceRecordAllDecisions
+  request:
+    uri: POST https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/instances/d9b9e056-7004-470b-bf21-1635e98487da/recordAllDecisions?api-version=2021-12-01-preview
+    body: '{}'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/instances/d9b9e056-7004-470b-bf21-1635e98487da/recordAllDecisions?api-version=2021-12-01-preview
+
+      {}
+
+      ```
+
+  responses:
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Authorization service - An action to approve/deny all decisions for a review with certain filters.
+errorCodes: []

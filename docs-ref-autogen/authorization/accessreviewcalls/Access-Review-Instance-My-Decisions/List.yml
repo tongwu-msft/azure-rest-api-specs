@@ -3,15 +3,15 @@ uid: management.azure.com.authorization.accessreviewcalls.accessreviewinstancemy
 name: List
 service: Authorization
 groupName: Access Review Instance My Decisions
-apiVersion: 2021-07-01-preview
+apiVersion: 2021-12-01-preview
 summary: Get my access review instance decisions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions?api-version=2021-07-01-preview
-- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions?api-version=2021-07-01-preview&$filter={$filter}
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances/{id}/decisions?api-version=2021-12-01-preview&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: scheduleDefinitionId
@@ -116,6 +116,11 @@ definitions:
     description: The date and time when the review decision was applied.
     types:
     - uid: string
+  - name: properties.insights
+    description: This is the collection of insights for this decision item.
+    types:
+    - uid: AccessReviewDecisionInsight
+      isArray: true
   - name: properties.principal.type
     description: 'The type of decision target : User/ServicePrincipal'
     types:
@@ -184,6 +189,11 @@ definitions:
     description: The user principal name(if valid)
     types:
     - uid: string
+  - name: properties.principalResourceMembership.membershipTypes
+    description: Every decision item in an access review represents a principal's membership to a resource. This property represents details of the membership. Examples of this detail might be whether the principal has direct access or indirect access
+    types:
+    - uid: string
+      isArray: true
 - name: ErrorDefinitionProperties
   description: Error
   kind: object
@@ -251,6 +261,41 @@ definitions:
   - name: ApplyNotSupported
     types:
     - uid: string
+- name: AccessReviewDecisionInsight
+  description: Access Review Decision Insight.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review insight id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review insight name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.type
+    description: The type of insight
+    types:
+    - uid: AccessReviewDecisionInsightType
+  - name: properties.insightCreatedDateTime
+    isReadyOnly: true
+    description: Date Time when the insight was created.
+    types:
+    - {}
+- name: DecisionResourceType
+  description: The type of resource
+  kind: enum
+  properties:
+  - name: azureRole
+    types:
+    - uid: string
 - name: AccessReviewActorIdentityType
   description: 'The identity type : user/servicePrincipal'
   kind: enum
@@ -264,11 +309,11 @@ definitions:
 examples:
 - name: GetAccessReviews
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/488a6d0e-0a63-4946-86e3-1f5bbc934661/instances/4135f961-be78-4005-8101-c72a5af307a2/decisions?api-version=2021-07-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/488a6d0e-0a63-4946-86e3-1f5bbc934661/instances/4135f961-be78-4005-8101-c72a5af307a2/decisions?api-version=2021-12-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/488a6d0e-0a63-4946-86e3-1f5bbc934661/instances/4135f961-be78-4005-8101-c72a5af307a2/decisions?api-version=2021-07-01-preview
+      GET https://management.azure.com/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/488a6d0e-0a63-4946-86e3-1f5bbc934661/instances/4135f961-be78-4005-8101-c72a5af307a2/decisions?api-version=2021-12-01-preview
       ```
 
   responses:
@@ -309,6 +354,12 @@ examples:
                 "type": "azureRole",
                 "id": "a6c7aecb-cbfd-4763-87ef-e91b4bd509d9",
                 "displayName": "Owner"
+              },
+              "principalResourceMembership": {
+                "membershipTypes": [
+                  "direct",
+                  "indirect"
+                ]
               }
             }
           }
