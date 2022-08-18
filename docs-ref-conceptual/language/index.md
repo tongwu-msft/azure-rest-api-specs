@@ -33,5 +33,5 @@ The API reference for authoring and runtime APIs for Conversational Language Und
 | Sentiment analysis - Runtime |Runtime prediction calls to query sentiment models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Text analytics for health - Runtime |Runtime prediction calls to query text analytics for health models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Question Answering - Runtime|Runtime prediction calls to query question answering models. |[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
-| Summarization for documents - Runtime|Runtime prediction calls to query summarization for documents models.|[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
+| Summarization for documents - Runtime|Runtime prediction calls to query summarization for documents models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Summarization for conversation - Runtime|Runtime prediction calls to query conversation summarization models.|[Reference](/rest/api/language/conversation-analysis-runtime)|
