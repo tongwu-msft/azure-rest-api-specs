@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.managedbackupshorttermretentionpolicies.listbydatabase
+name: List By Database
+service: SQL Database
+groupName: Managed Backup Short Term Retention Policies
+apiVersion: 2022-02-01-preview
+summary: Gets a managed database's short term retention policy list.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupShortTermRetentionPolicies?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved the policy.
+  types:
+  - uid: ManagedBackupShortTermRetentionPolicyListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidBackupRetentionDays - The retention days of {0} is not a valid configuration. Valid backup retention must be in 7-day increments (7, 14, 21, etc.)
+
+     * 400 InvalidRestorableDroppedDatabaseDeletionDate - The restorable dropped database deletion date given is invalid
+
+     * 400 InvalidRestorableDroppedDatabaseId - Invalid restorable dropped database identifier
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: ManagedBackupShortTermRetentionPolicyListResult
+  description: A list of short term retention policies.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: ManagedBackupShortTermRetentionPolicy
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: ManagedBackupShortTermRetentionPolicy
+  description: A short term retention policy.
+  kind: object
+  properties:
+  - name: properties.retentionDays
+    description: The backup retention period in days. This is how many days Point-in-Time Restore will be supported.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Get the short term retention policy list for the database.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb/backupShortTermRetentionPolicies?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb/backupShortTermRetentionPolicies?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/managedInstances/testsvr/databases/testdb,131403269876900000/backupShortTermRetentionPolicies/default",
+            "name": "default",
+            "type": "Microsoft.Sql/managedInstances/restorableDroppedDatabases/backupShortTermRetentionPolicies",
+            "properties": {
+              "retentionDays": 14
+            }
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a managed database's short term retention policy list.
+errorCodes: []

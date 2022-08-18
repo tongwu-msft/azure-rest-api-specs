@@ -1,0 +1,282 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.monitor.predictivemetric.get
+name: Get
+service: Monitor
+groupName: Predictive Metric
+apiVersion: 2022-10-01
+summary: get predictive autoscale metric future data
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}/predictiveMetrics?timespan={timespan}&interval={interval}&metricNamespace={metricNamespace}&metricName={metricName}&aggregation={aggregation}&api-version=2022-10-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: autoscaleSettingName
+  in: path
+  isRequired: true
+  description: The autoscale setting name.
+  types:
+  - uid: string
+- name: timespan
+  in: query
+  isRequired: true
+  description: The timespan of the query. It is a string with the following format 'startDateTime_ISO/endDateTime_ISO'.
+  types:
+  - uid: string
+- name: interval
+  in: query
+  isRequired: true
+  description: The interval (i.e. timegrain) of the query.
+  types:
+  - uid: string
+  format: duration
+- name: metricNamespace
+  in: query
+  isRequired: true
+  description: Metric namespace to query metric definitions for.
+  types:
+  - uid: string
+- name: metricName
+  in: query
+  isRequired: true
+  description: "The names of the metrics (comma separated) to retrieve. Special case: If a metricname itself has a comma in it then use %2 to indicate it. Eg: 'Metric,Name1' should be **'Metric%2Name1'**"
+  types:
+  - uid: string
+- name: aggregation
+  in: query
+  isRequired: true
+  description: The list of aggregation types (comma separated) to retrieve.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: AutoscaleErrorResponse
+- name: 200 OK
+  description: Successful request to get the list of metric values.
+  types:
+  - uid: PredictiveResponse
+requestHeader: []
+definitions:
+- name: AutoscaleErrorResponse
+  description: Describes the format of Error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata related to the response.
+    types:
+    - uid: systemData
+- name: PredictiveResponse
+  description: The response to a metrics query.
+  kind: object
+  properties:
+  - name: timespan
+    description: The timespan for which the data was retrieved. Its value consists of two datetimes concatenated, separated by '/'.  This may be adjusted in the future and returned back from what was originally requested.
+    types:
+    - uid: string
+  - name: interval
+    description: The interval (window size) for which the metric data was returned in.  This may be adjusted in the future and returned back from what was originally requested.  This is not present if a metadata request was made.
+    types:
+    - uid: string
+  - name: metricName
+    description: The metrics being queried
+    types:
+    - uid: string
+  - name: targetResourceId
+    description: resource of the predictive metric.
+    types:
+    - uid: string
+  - name: data
+    description: the value of the collection.
+    types:
+    - uid: PredictiveValue
+      isArray: true
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
+  - name: code
+    description: One of a server-defined set of error codes.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: PredictiveValue
+  description: Represents a predictive metric value in the given bucket.
+  kind: object
+  properties:
+  - name: timeStamp
+    description: the timestamp for the metric value in ISO 8601 format.
+    types:
+    - uid: string
+  - name: value
+    description: Predictive value in this time bucket.
+    types:
+    - uid: number
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Get Metric for data
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myRG/providers/Microsoft.Insights/autoscalesettings/vmss1-Autoscale-775/predictiveMetrics?timespan=2021-10-14T22:00:00.000Z/2021-10-16T22:00:00.000Z&interval=PT1H&metricNamespace=Microsoft.Compute/virtualMachineScaleSets&metricName=PercentageCPU&aggregation=Total&api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myRG/providers/Microsoft.Insights/autoscalesettings/vmss1-Autoscale-775/predictiveMetrics?timespan=2021-10-14T22:00:00.000Z/2021-10-16T22:00:00.000Z&interval=PT1H&metricNamespace=Microsoft.Compute/virtualMachineScaleSets&metricName=PercentageCPU&aggregation=Total&api-version=2022-10-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to get predictive autoscale metric future data
+       *
+       * @summary get predictive autoscale metric future data
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/GetPredictiveMetric.json
+       */
+      async function getMetricForData() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myRG";
+        const autoscaleSettingName = "vmss1-Autoscale-775";
+        const timespan = "2021-10-14T22:00:00.000Z/2021-10-16T22:00:00.000Z";
+        const interval = "PT1H";
+        const metricNamespace = "Microsoft.Compute/virtualMachineScaleSets";
+        const metricName = "PercentageCPU";
+        const aggregation = "Total";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.predictiveMetric.get(
+          resourceGroupName,
+          autoscaleSettingName,
+          timespan,
+          interval,
+          metricNamespace,
+          metricName,
+          aggregation
+        );
+        console.log(result);
+      }
+
+      getMetricForData().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "timespan": "2021-10-14T22:00:00.000Z/2021-10-16T22:00:00.000Z",
+        "interval": "PT1H",
+        "metricName": "PercentageCPU",
+        "targetResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myRG/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1",
+        "data": [
+          {
+            "timeStamp": "2021-10-14T22:00:00Z",
+            "value": 123
+          },
+          {
+            "timeStamp": "2021-10-14T22:02:00Z",
+            "value": 120
+          },
+          {
+            "timeStamp": "2021-10-14T22:02:00Z",
+            "value": 88
+          },
+          {
+            "timeStamp": "2021-10-14T22:03:00Z",
+            "value": 100
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Monitor service - get predictive autoscale metric future data
+errorCodes: []

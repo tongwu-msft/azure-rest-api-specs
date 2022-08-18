@@ -1,0 +1,288 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.serverdevopsauditsettings.createorupdate
+name: Create Or Update
+service: SQL Database
+groupName: Server DevOps Audit Settings
+apiVersion: 2021-11-01
+summary: Creates or updates a server's DevOps audit settings.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/devOpsAuditingSettings/{devOpsAuditingSettingsName}?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: devOpsAuditingSettingsName
+  in: path
+  isRequired: true
+  description: The name of the devops audit settings. This should always be 'default'.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully updated the DevOps audit settings.
+  types:
+  - uid: ServerDevOpsAuditingSettings
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidServerDevOpsAuditSettingsCreateRequest - The create server DevOps audit policy request does not exist or has no properties object.
+
+     * 400 DataSecurityInvalidUserSuppliedParameter - An invalid parameter value was provided by the client.
+
+     * 400 InvalidServerDevOpsAuditSettingsName - Invalid server DevOps policy name.
+
+     * 400 DevOpsAuditInvalidStorageAccountCredentials - The provided storage account or access key is not valid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 409 ServerDevOpsAuditSettingsInProgress - Set server DevOps audit is already in progress.
+- name: 202 Accepted
+  description: Updating the audit DevOps settings is in progress.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.isAzureMonitorTargetEnabled
+    in: body
+    description: "Specifies whether DevOps audit events are sent to Azure Monitor. \nIn order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true.\n\nWhen using REST API to configure DevOps audit, Diagnostic Settings with 'DevOpsOperationsAudit' diagnostic logs category on the master database should be also created.\n\nDiagnostic Settings URI format:\nPUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview\n\nFor more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207)\nor [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)\r"
+    types:
+    - uid: boolean
+  - name: properties.state
+    in: body
+    isRequired: true
+    description: Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
+    types:
+    - uid: BlobAuditingPolicyState
+  - name: properties.storageEndpoint
+    in: body
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    in: body
+    description: "Specifies the identifier key of the auditing storage account. \nIf state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage.\nPrerequisites for using managed identity authentication:\n1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).\n2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity.\nFor more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355)"
+    types:
+    - uid: string
+  - name: properties.storageAccountSubscriptionId
+    in: body
+    description: Specifies the blob storage subscription Id.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ServerDevOpsAuditingSettings
+  description: A server DevOps auditing settings.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: SystemData of ServerDevOpsAuditSettingsResource.
+    types:
+    - uid: systemData
+  - name: properties.isAzureMonitorTargetEnabled
+    description: "Specifies whether DevOps audit events are sent to Azure Monitor. \nIn order to send the events to Azure Monitor, specify 'State' as 'Enabled' and 'IsAzureMonitorTargetEnabled' as true.\n\nWhen using REST API to configure DevOps audit, Diagnostic Settings with 'DevOpsOperationsAudit' diagnostic logs category on the master database should be also created.\n\nDiagnostic Settings URI format:\nPUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Sql/servers/{serverName}/databases/master/providers/microsoft.insights/diagnosticSettings/{settingsName}?api-version=2017-05-01-preview\n\nFor more information, see [Diagnostic Settings REST API](https://go.microsoft.com/fwlink/?linkid=2033207)\nor [Diagnostic Settings PowerShell](https://go.microsoft.com/fwlink/?linkid=2033043)\r"
+    types:
+    - uid: boolean
+  - name: properties.state
+    description: Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
+    types:
+    - uid: BlobAuditingPolicyState
+  - name: properties.storageEndpoint
+    description: Specifies the blob storage endpoint (e.g. https://MyAccount.blob.core.windows.net). If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled is required.
+    types:
+    - uid: string
+  - name: properties.storageAccountAccessKey
+    description: "Specifies the identifier key of the auditing storage account. \nIf state is Enabled and storageEndpoint is specified, not specifying the storageAccountAccessKey will use SQL server system-assigned managed identity to access the storage.\nPrerequisites for using managed identity authentication:\n1. Assign SQL Server a system-assigned managed identity in Azure Active Directory (AAD).\n2. Grant SQL Server identity access to the storage account by adding 'Storage Blob Data Contributor' RBAC role to the server identity.\nFor more information, see [Auditing to storage using Managed Identity authentication](https://go.microsoft.com/fwlink/?linkid=2114355)"
+    types:
+    - uid: string
+  - name: properties.storageAccountSubscriptionId
+    description: Specifies the blob storage subscription Id.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: BlobAuditingPolicyState
+  description: Specifies the state of the audit. If state is Enabled, storageEndpoint or isAzureMonitorTargetEnabled are required.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+examples:
+- name: Update a server's DevOps audit settings with minimal input
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default?api-version=2021-11-01
+
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000"
+        }
+      }
+  - statusCode: "202"
+- name: Update a server's DevOps audit settings with all params
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default?api-version=2021-11-01
+    body: >-
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isAzureMonitorTargetEnabled": true
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default?api-version=2021-11-01
+
+      {
+        "properties": {
+          "state": "Enabled",
+          "storageAccountAccessKey": "sdlfkjabc+sdlfkjsdlkfsjdfLDKFTERLKFDFKLjsdfksjdflsdkfD2342309432849328476458/3RSD==",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isAzureMonitorTargetEnabled": true
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/devAuditTestRG/providers/Microsoft.Sql/servers/devOpsAuditTestSvr/devOpsAuditingSettings/default",
+        "name": "default",
+        "type": "Microsoft.Sql/servers/devOpsAuditingSettings",
+        "properties": {
+          "state": "Enabled",
+          "storageEndpoint": "https://mystorage.blob.core.windows.net",
+          "storageAccountSubscriptionId": "00000000-1234-0000-5678-000000000000",
+          "isAzureMonitorTargetEnabled": true
+        }
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Creates or updates a server's DevOps audit settings.
+errorCodes: []

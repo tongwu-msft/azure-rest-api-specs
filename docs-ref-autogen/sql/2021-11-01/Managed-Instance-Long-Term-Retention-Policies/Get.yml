@@ -1,0 +1,143 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2021-11-01.managedinstancelongtermretentionpolicies.get
+name: Get
+service: SQL Database
+groupName: Managed Instance Long Term Retention Policies
+apiVersion: 2021-11-01
+summary: Gets a managed database's long term retention policy.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: managedInstanceName
+  in: path
+  isRequired: true
+  description: The name of the managed instance.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: policyName
+  in: path
+  isRequired: true
+  description: The policy name. Should always be Default.
+  types:
+  - uid: ManagedInstanceLongTermRetentionPolicyName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully got LTR policy for managed database.
+  types:
+  - uid: ManagedInstanceLongTermRetentionPolicy
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 LTRNotSupportedForPerDBCMK - Long-term Backup Retention is not supported when Database-level CMK is configured in preview.
+
+     * 400 LongTermRetentionPolicyNotSupported - Long Term Retention is not supported on this database.
+
+     * 400 LongTermRetentionPolicyInvalid - Long Term Retention policy is invalid.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+requestHeader: []
+definitions:
+- name: ManagedInstanceLongTermRetentionPolicyName
+  description: The policy name. Should always be Default.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: ManagedInstanceLongTermRetentionPolicy
+  description: A long term retention policy.
+  kind: object
+  properties:
+  - name: properties.weeklyRetention
+    description: The weekly retention policy for an LTR backup in an ISO 8601 format.
+    types:
+    - uid: string
+  - name: properties.monthlyRetention
+    description: The monthly retention policy for an LTR backup in an ISO 8601 format.
+    types:
+    - uid: string
+  - name: properties.yearlyRetention
+    description: The yearly retention policy for an LTR backup in an ISO 8601 format.
+    types:
+    - uid: string
+  - name: properties.weekOfYear
+    description: The week of year to take the yearly backup in an ISO 8601 format.
+    types:
+    - uid: integer
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+examples:
+- name: Get the long term retention policy for the managed database.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testResourceGroup/providers/Microsoft.Sql/managedInstances/testInstance/databases/testDatabase/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/testResourceGroup/providers/Microsoft.Sql/managedInstances/testInstance/databases/testDatabase/backupLongTermRetentionPolicies/default?api-version=2021-11-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/resourceGroups/testResourceGroup/managedInstances/testInstance/databases/testDatabase/backupLongTermRetentionPolicies/default",
+        "name": "default",
+        "type": "Microsoft.Sql/resourceGroups/managedInstances/databases/backupLongTermRetentionPolicies",
+        "properties": {
+          "weeklyRetention": "P1M",
+          "monthlyRetention": "P1Y",
+          "yearlyRetention": "P5Y",
+          "weekOfYear": 5
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Gets a managed database's long term retention policy.
+errorCodes: []
