@@ -14223,6 +14223,7 @@
 #### [Create](monitor/Data-Collection-Rule-Associations/Create.yml)
 #### [Delete](monitor/Data-Collection-Rule-Associations/Delete.yml)
 #### [Get](monitor/Data-Collection-Rule-Associations/Get.yml)
+#### [List By Data Collection Endpoint](monitor/Data-Collection-Rule-Associations/List-By-Data-Collection-Endpoint.yml)
 #### [List By Resource](monitor/Data-Collection-Rule-Associations/List-By-Resource.yml)
 #### [List By Rule](monitor/Data-Collection-Rule-Associations/List-By-Rule.yml)
 ### Data Collection Rules

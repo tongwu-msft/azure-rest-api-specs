@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionruleassociations.create
 name: Create
 service: Monitor
 groupName: Data Collection Rule Associations
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Creates or updates an association.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}?api-version=2021-04-01
+- content: PUT https://management.azure.com/{resourceUri}/providers/Microsoft.Insights/dataCollectionRuleAssociations/{associationName}?api-version=2021-09-01-preview
 uriParameters:
 - name: resourceUri
   in: path
@@ -92,6 +92,15 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: Metadata
+  description: Metadata about the resource
+  kind: object
+  properties:
+  - name: provisionedBy
+    isReadyOnly: true
+    description: Azure offering managing this resource on-behalf-of customer.
+    types:
+    - uid: string
 - name: DataCollectionRuleAssociationProxyOnlyResource
   description: Definition of generic ARM proxy resource.
   kind: object
@@ -138,6 +147,11 @@ definitions:
     description: The resource provisioning state.
     types:
     - uid: KnownDataCollectionRuleAssociationProvisioningState
+  - name: properties.metadata
+    isReadyOnly: true
+    description: Metadata about the resource
+    types:
+    - uid: Metadata
 - name: ErrorResponseCommonV2
   description: Error response
   kind: object
@@ -229,7 +243,7 @@ definitions:
 examples:
 - name: Create or update association
   request:
-    uri: PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation?api-version=2021-09-01-preview
     body: >-
       {
         "properties": {
@@ -239,7 +253,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation?api-version=2021-04-01
+      PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm/providers/Microsoft.Insights/dataCollectionRuleAssociations/myAssociation?api-version=2021-09-01-preview
 
       {
         "properties": {
@@ -262,31 +276,70 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
       )
 
-      // x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-04-01/examples/DataCollectionRuleAssociationsCreate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsCreate.json
       func ExampleDataCollectionRuleAssociationsClient_Create() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmonitor.NewDataCollectionRuleAssociationsClient("<subscription-id>", cred, nil)
+      	client, err := armmonitor.NewDataCollectionRuleAssociationsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.Create(ctx,
-      		"<resource-uri>",
-      		"<association-name>",
+      		"subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm",
+      		"myAssociation",
       		&armmonitor.DataCollectionRuleAssociationsClientCreateOptions{Body: &armmonitor.DataCollectionRuleAssociationProxyOnlyResource{
       			Properties: &armmonitor.DataCollectionRuleAssociationProxyOnlyResourceProperties{
-      				DataCollectionRuleID: to.StringPtr("<data-collection-rule-id>"),
+      				DataCollectionRuleID: to.Ptr("/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule"),
       			},
       		},
       		})
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("Response result: %#v\n", res.DataCollectionRuleAssociationsClientCreateResult)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.4.1/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an association.
+       *
+       * @summary Creates or updates an association.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsCreate.json
+       */
+      async function createOrUpdateAssociation() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceUri =
+          "subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVm";
+        const associationName = "myAssociation";
+        const body = {
+          dataCollectionRuleId:
+            "/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule",
+        };
+        const options = { body };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.dataCollectionRuleAssociations.create(
+          resourceUri,
+          associationName,
+          options
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAssociation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
