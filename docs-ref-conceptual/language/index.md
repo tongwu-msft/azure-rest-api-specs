@@ -29,9 +29,9 @@ The API reference for authoring and runtime APIs for Conversational Language Und
 | Entity linking - Runtime |Runtime prediction calls to query entity linking models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Language detection - Runtime  |Runtime prediction calls to query langauge detection models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Key phrase extraction - Runtime |Runtime prediction calls to query Key phrase extraction models.|[Reference](/rest/api/language/text-analysis-runtime)|
-| Personally Identifiable Information (PII) - runtime |Runtime prediction calls to query PII models.|[Reference](/rest/api/language/text-analysis-runtime)|
+| Personally Identifiable Information (PII) - Runtime |Runtime prediction calls to query PII models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Sentiment analysis - Runtime |Runtime prediction calls to query sentiment models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Text analytics for health - Runtime |Runtime prediction calls to query text analytics for health models.|[Reference](/rest/api/language/text-analysis-runtime)|
 | Question Answering - Runtime|Runtime prediction calls to query question answering models. |[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
-| Summarization for documents|Runtime prediction calls to query summarization for documents models.|[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
-| Summarization for conversation|Runtime prediction calls to query conversation summarization models.|[Reference](/rest/api/language/conversation-analysis-runtime)|
+| Summarization for documents - Runtime|Runtime prediction calls to query summarization for documents models.|[Reference](/rest/api/cognitiveservices/questionanswering/question-answering/get-answers-from-text)|
+| Summarization for conversation - Runtime|Runtime prediction calls to query conversation summarization models.|[Reference](/rest/api/language/conversation-analysis-runtime)|
