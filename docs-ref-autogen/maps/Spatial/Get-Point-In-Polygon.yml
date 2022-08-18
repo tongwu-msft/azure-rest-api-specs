@@ -1,20 +1,20 @@
 ### YamlMime:RESTOperation
-uid: maps.spatial.evaluatepointinpolygon
-name: Evaluate Point In Polygon
+uid: maps.spatial.getpointinpolygon
+name: Get Point In Polygon
 service: Maps
 groupName: Spatial
-apiVersion: "1.0"
-summary: "**Applies to**: S1 pricing tier.\n\nThis API returns a boolean value indicating whether a point is inside a set of polygons. The set of polygons is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries(referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.\n\n \nTo test this API, you can upload the sample data from [Post Point In Polygon API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postpointinpolygon#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getpointinpolygon#examples) with the udid returned by Data Upload API."
+apiVersion: 2022-08-01
+summary: "**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThis API returns a boolean value indicating whether a point is inside a set of polygons. The set of polygons is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries(referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.\n\n \nTo test this API, you can upload the sample data from [Post Point In Polygon API](https://docs.microsoft.com/rest/api/maps/spatial/postpointinpolygon#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/rest/api/maps/spatial/getpointinpolygon#examples) with the udid returned by Data Upload API."
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
+- content: GET https://{geography}.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid={udid}&lat={lat}&lon={lon}
 uriParameters:
 - name: geography
   in: path
   isRequired: true
-  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  description: Location of the Azure Maps Account. Valid values are us (East US, West Central US, West US 2) and eu (North Europe, West Europe). This parameter is required when a `udid` is supplied in the request. For example, if the Azure Maps Account is located in East US, only requests to us geography will be accepted.
   types:
   - uid: string
 - name: format
@@ -32,7 +32,7 @@ uriParameters:
 - name: udid
   in: query
   isRequired: true
-  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
   types:
   - uid: string
 - name: lat
@@ -185,11 +185,11 @@ definitions:
 examples:
 - name: GetPointInPolygon
   request:
-    uri: GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+    uri: GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+      GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
       ```
 
   responses:
@@ -201,7 +201,7 @@ examples:
             "lat": 33.5362475,
             "lon": -111.9267386
           },
-          "udid": "[udid from request]",
+          "udid": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
           "information": "4 polygons processed in user data"
         },
         "result": {
@@ -224,12 +224,12 @@ security:
 - name: subscription-key
   type: apiKey
   description: >-
-    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
+    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
 
-     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
+     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
 
-     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
-  in: query
+     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+  in: header
 - name: SAS Token
   type: apiKey
   description: >-
@@ -241,7 +241,7 @@ security:
   in: header
 metadata:
   description: >-
-    Applies to: S1 pricing tier.
+    Applies to: see pricing tiers.
 
     This API returns a boolean value indicating whether a point is inside a set of polygons.
 errorCodes: []

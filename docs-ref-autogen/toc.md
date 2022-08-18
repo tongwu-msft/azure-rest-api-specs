@@ -13442,11 +13442,11 @@
 ### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
-### [Evaluate Point In Polygon](maps/Spatial/Evaluate-Point-In-Polygon.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
 ### [Get Closest Point](maps/Spatial/Get-Closest-Point.yml)
 ### [Get Geofence](maps/Spatial/Get-Geofence.yml)
 ### [Get Great Circle Distance](maps/Spatial/Get-Great-Circle-Distance.yml)
+### [Get Point In Polygon](maps/Spatial/Get-Point-In-Polygon.yml)
 ### [Post Buffer](maps/Spatial/Post-Buffer.yml)
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
