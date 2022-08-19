@@ -1,0 +1,267 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.defenderforcloud.workspacesettings.list
+name: List
+service: Defender for Cloud
+groupName: Workspace Settings
+apiVersion: 2017-08-01-preview
+summary: Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/workspaceSettings?api-version=2017-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: WorkspaceSettingList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: WorkspaceSettingList
+  description: List of workspace settings response
+  kind: object
+  properties:
+  - name: value
+    description: List of workspace settings
+    types:
+    - uid: WorkspaceSetting
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: WorkspaceSetting
+  description: Configures where to store the OMS agent data for workspaces under a scope
+  kind: object
+  properties:
+  - name: properties.workspaceId
+    description: The full Azure ID of the workspace to save the data in
+    types:
+    - uid: string
+  - name: properties.scope
+    description: All the VMs in this scope will send their security data to the mentioned workspace unless overridden by a setting with more specific scope
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get workspace settings on subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings?api-version=2017-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings?api-version=2017-08-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/GetWorkspaceSettings_example.json
+      func ExampleWorkspaceSettingsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurity.NewWorkspaceSettingsClient("20ff7fc3-e762-44dd-bd96-b71116dcdc23", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
+       *
+       * @summary Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2017-08-01-preview/examples/WorkspaceSettings/GetWorkspaceSettings_example.json
+       */
+      async function getWorkspaceSettingsOnSubscription() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.workspaceSettings.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getWorkspaceSettingsOnSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/workspaceSettings/default",
+            "name": "default",
+            "type": "Microsoft.Security/workspaceSettings",
+            "properties": {
+              "workspaceId": "/subscriptions/c4930e90-cd72-4aa5-93e9-2d081d129569/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace1",
+              "scope": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg/providers/Microsoft.Security/workspaceSettings/myRg",
+            "name": "myRg",
+            "type": "Microsoft.Security/workspaceSettings",
+            "properties": {
+              "workspaceId": "/subscriptions/c4930e90-cd72-4aa5-93e9-2d081d129569/resourceGroups/myOtherRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace2",
+              "scope": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/myRg"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Settings about where we should store your security data and logs. If the result is empty, it means that no custom-workspace configuration was set
+errorCodes: []

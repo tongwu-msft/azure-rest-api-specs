@@ -1,0 +1,437 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.defenderforcloud.adaptivenetworkhardenings.enforce
+name: Enforce
+service: Defender for Cloud
+groupName: Adaptive Network Hardenings
+apiVersion: 2020-01-01
+summary: Enforces the given rules on the NSG(s) listed in the request
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceNamespace}/{resourceType}/{resourceName}/providers/Microsoft.Security/adaptiveNetworkHardenings/{adaptiveNetworkHardeningResourceName}/enforce?api-version=2020-01-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group within the user's subscription. The name is case insensitive.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+$
+- name: resourceNamespace
+  in: path
+  isRequired: true
+  description: The Namespace of the resource.
+  types:
+  - uid: string
+- name: resourceType
+  in: path
+  isRequired: true
+  description: The type of the resource.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: Name of the resource.
+  types:
+  - uid: string
+- name: adaptiveNetworkHardeningResourceName
+  in: path
+  isRequired: true
+  description: The name of the Adaptive Network Hardening resource.
+  types:
+  - uid: string
+- name: adaptiveNetworkHardeningEnforceAction
+  in: path
+  isRequired: true
+  description: Enforces the given rules on the NSG(s) listed in the request
+  types:
+  - uid: AdaptiveNetworkHardeningEnforceAction
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK.
+- name: 202 Accepted
+  description: Accepted
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: rules
+    in: body
+    isRequired: true
+    description: The rules to enforce
+    types:
+    - uid: Rule
+      isArray: true
+  - name: networkSecurityGroups
+    in: body
+    isRequired: true
+    description: The Azure resource IDs of the effective network security groups that will be updated with the created security rules from the Adaptive Network Hardening rules
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: AdaptiveNetworkHardeningEnforceAction
+  description: Enforces the given rules on the NSG(s) listed in the request
+  kind: enum
+  properties:
+  - name: enforce
+    types:
+    - uid: string
+- name: Rule
+  description: Describes remote addresses that is recommended to communicate with the Azure resource on some (Protocol, Port, Direction). All other remote addresses are recommended to be blocked
+  kind: object
+  properties:
+  - name: name
+    description: The name of the rule
+    types:
+    - uid: string
+  - name: direction
+    description: The rule's direction
+    types:
+    - uid: direction
+  - name: destinationPort
+    description: The rule's destination port
+    types:
+    - uid: integer
+  - name: protocols
+    description: The rule's transport protocols
+    types:
+    - uid: string
+      isArray: true
+  - name: ipAddresses
+    description: The remote IP addresses that should be able to communicate with the Azure resource on the rule's destination port and protocol
+    types:
+    - uid: string
+      isArray: true
+- name: CloudError
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: AdaptiveNetworkHardeningEnforceRequest
+  kind: object
+  properties:
+  - name: rules
+    description: The rules to enforce
+    types:
+    - uid: Rule
+      isArray: true
+  - name: networkSecurityGroups
+    description: The Azure resource IDs of the effective network security groups that will be updated with the created security rules from the Adaptive Network Hardening rules
+    types:
+    - uid: string
+      isArray: true
+- name: direction
+  description: The rule's direction
+  kind: enum
+  properties:
+  - name: Inbound
+    types:
+    - uid: string
+  - name: Outbound
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Enforces the given rules on the NSG(s) listed in the request
+  request:
+    uri: POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.Security/adaptiveNetworkHardenings/default/enforce?api-version=2020-01-01
+    body: >-
+      {
+        "rules": [
+          {
+            "name": "rule1",
+            "direction": "Inbound",
+            "destinationPort": 3389,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": [
+              "100.10.1.1",
+              "200.20.2.2",
+              "81.199.3.0/24"
+            ]
+          },
+          {
+            "name": "rule2",
+            "direction": "Inbound",
+            "destinationPort": 22,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": []
+          }
+        ],
+        "networkSecurityGroups": [
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2"
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Compute/virtualMachines/vm1/providers/Microsoft.Security/adaptiveNetworkHardenings/default/enforce?api-version=2020-01-01
+
+      {
+        "rules": [
+          {
+            "name": "rule1",
+            "direction": "Inbound",
+            "destinationPort": 3389,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": [
+              "100.10.1.1",
+              "200.20.2.2",
+              "81.199.3.0/24"
+            ]
+          },
+          {
+            "name": "rule2",
+            "direction": "Inbound",
+            "destinationPort": 22,
+            "protocols": [
+              "TCP"
+            ],
+            "ipAddresses": []
+          }
+        ],
+        "networkSecurityGroups": [
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+          "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2"
+        ]
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
+      func ExampleAdaptiveNetworkHardeningsClient_BeginEnforce() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurity.NewAdaptiveNetworkHardeningsClient("20ff7fc3-e762-44dd-bd96-b71116dcdc23", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginEnforce(ctx,
+      		"rg1",
+      		"Microsoft.Compute",
+      		"virtualMachines",
+      		"vm1",
+      		"default",
+      		armsecurity.AdaptiveNetworkHardeningEnforceRequest{
+      			NetworkSecurityGroups: []*string{
+      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"),
+      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2")},
+      			Rules: []*armsecurity.Rule{
+      				{
+      					Name:            to.Ptr("rule1"),
+      					DestinationPort: to.Ptr[int32](3389),
+      					Direction:       to.Ptr(armsecurity.DirectionInbound),
+      					IPAddresses: []*string{
+      						to.Ptr("100.10.1.1"),
+      						to.Ptr("200.20.2.2"),
+      						to.Ptr("81.199.3.0/24")},
+      					Protocols: []*armsecurity.TransportProtocol{
+      						to.Ptr(armsecurity.TransportProtocolTCP)},
+      				},
+      				{
+      					Name:            to.Ptr("rule2"),
+      					DestinationPort: to.Ptr[int32](22),
+      					Direction:       to.Ptr(armsecurity.DirectionInbound),
+      					IPAddresses:     []*string{},
+      					Protocols: []*armsecurity.TransportProtocol{
+      						to.Ptr(armsecurity.TransportProtocolTCP)},
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Enforces the given rules on the NSG(s) listed in the request
+       *
+       * @summary Enforces the given rules on the NSG(s) listed in the request
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
+       */
+      async function enforcesTheGivenRulesOnTheNsgSListedInTheRequest() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const resourceGroupName = "rg1";
+        const resourceNamespace = "Microsoft.Compute";
+        const resourceType = "virtualMachines";
+        const resourceName = "vm1";
+        const adaptiveNetworkHardeningResourceName = "default";
+        const body = {
+          networkSecurityGroups: [
+            "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+            "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2",
+          ],
+          rules: [
+            {
+              name: "rule1",
+              destinationPort: 3389,
+              direction: "Inbound",
+              ipAddresses: ["100.10.1.1", "200.20.2.2", "81.199.3.0/24"],
+              protocols: ["TCP"],
+            },
+            {
+              name: "rule2",
+              destinationPort: 22,
+              direction: "Inbound",
+              ipAddresses: [],
+              protocols: ["TCP"],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const result = await client.adaptiveNetworkHardenings.beginEnforceAndWait(
+          resourceGroupName,
+          resourceNamespace,
+          resourceType,
+          resourceName,
+          adaptiveNetworkHardeningResourceName,
+          body
+        );
+        console.log(result);
+      }
+
+      enforcesTheGivenRulesOnTheNsgSListedInTheRequest().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Defender for Cloud service - Enforces the given rules on the NSG(s) listed in the request
+errorCodes: []
