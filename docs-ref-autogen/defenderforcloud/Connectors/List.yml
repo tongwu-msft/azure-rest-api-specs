@@ -1,0 +1,580 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.defenderforcloud.connectors.list
+name: List
+service: Defender for Cloud
+groupName: Connectors
+apiVersion: 2020-01-01-preview
+summary: Cloud accounts connectors of a subscription
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/connectors?api-version=2020-01-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: ConnectorSettingList
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: ConnectorSettingList
+  description: For a subscription, list of all cloud account connectors and their settings
+  kind: object
+  properties:
+  - name: value
+    description: List of all the cloud account connector settings
+    types:
+    - uid: ConnectorSetting
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The URI to fetch the next page.
+    types:
+    - uid: string
+- name: CloudError
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ConnectorSetting
+  description: The connector setting
+  kind: object
+  properties:
+  - name: properties.hybridComputeSettings
+    description: Settings for hybrid compute management. These settings are relevant only for Arc autoProvision (Hybrid Compute).
+    types:
+    - uid: HybridComputeSettingsProperties
+  - name: properties.authenticationDetails
+    description: Settings for authentication management, these settings are relevant only for the cloud connector.
+    types:
+    - uid: AwsCredsAuthenticationDetailsProperties
+    - uid: AwAssumeRoleAuthenticationDetailsProperties
+    - uid: GcpCredentialsDetailsProperties
+    typesTitle: AuthenticationDetailsProperties
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: HybridComputeSettingsProperties
+  description: Settings for hybrid compute management
+  kind: object
+  properties:
+  - name: hybridComputeProvisioningState
+    isReadyOnly: true
+    description: State of the service principal and its secret
+    types:
+    - uid: hybridComputeProvisioningState
+  - name: autoProvision
+    description: Whether or not to automatically install Azure Arc (hybrid compute) agents on machines
+    types:
+    - uid: autoProvision
+  - name: resourceGroupName
+    description: The name of the resource group where Arc (Hybrid Compute) connectors are connected.
+    types:
+    - uid: string
+  - name: region
+    description: The location where the metadata of machines will be stored
+    types:
+    - uid: string
+  - name: proxyServer
+    description: For a non-Azure machine that is not connected directly to the internet, specify a proxy server that the non-Azure machine can use.
+    types:
+    - uid: ProxyServerProperties
+  - name: servicePrincipal
+    description: An object to access resources that are secured by an Azure AD tenant.
+    types:
+    - uid: ServicePrincipalProperties
+- name: hybridComputeProvisioningState
+  description: State of the service principal and its secret
+  kind: enum
+  properties:
+  - name: Valid
+    description: Valid service principal details.
+    types:
+    - uid: string
+  - name: Invalid
+    description: Invalid service principal details.
+    types:
+    - uid: string
+  - name: Expired
+    description: the service principal details are expired
+    types:
+    - uid: string
+- name: autoProvision
+  description: Whether or not to automatically install Azure Arc (hybrid compute) agents on machines
+  kind: enum
+  properties:
+  - name: On
+    description: Install missing Azure Arc agents on machines automatically
+    types:
+    - uid: string
+  - name: Off
+    description: Do not install Azure Arc agent on the machines automatically
+    types:
+    - uid: string
+- name: ProxyServerProperties
+  description: For a non-Azure machine that is not connected directly to the internet, specify a proxy server that the non-Azure machine can use.
+  kind: object
+  properties:
+  - name: ip
+    description: Proxy server IP
+    types:
+    - uid: string
+  - name: port
+    description: Proxy server port
+    types:
+    - uid: string
+- name: ServicePrincipalProperties
+  description: Details of the service principal.
+  kind: object
+  properties:
+  - name: applicationId
+    description: Application ID of service principal.
+    types:
+    - uid: string
+  - name: secret
+    description: A secret string that the application uses to prove its identity, also can be referred to as application password (write only).
+    types:
+    - uid: string
+- name: AwsCredsAuthenticationDetailsProperties
+  description: AWS cloud account connector based credentials, the credentials is composed of access key ID and secret key, for more details, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">Creating an IAM User in Your AWS Account (write only)</a>
+  kind: object
+  properties:
+  - name: accountId
+    isReadyOnly: true
+    description: The ID of the cloud account
+    types:
+    - uid: string
+  - name: awsAccessKeyId
+    description: Public key element of the AWS credential object (write only)
+    types:
+    - uid: string
+  - name: awsSecretAccessKey
+    description: Secret key element of the AWS credential object (write only)
+    types:
+    - uid: string
+  - name: authenticationProvisioningState
+    isReadyOnly: true
+    description: State of the multi-cloud connector
+    types:
+    - uid: authenticationProvisioningState
+  - name: grantedPermissions
+    isReadyOnly: true
+    description: The permissions detected in the cloud account.
+    types:
+    - uid: string
+      isArray: true
+  - name: authenticationType
+    description: Connect to your cloud account, for AWS use either account credentials or role-based authentication. For GCP use account organization credentials.
+    types:
+    - uid: awsCreds
+    typesTitle: string
+- name: AwAssumeRoleAuthenticationDetailsProperties
+  description: AWS cloud account connector based assume role, the role enables delegating access to your AWS resources. The role is composed of role Amazon Resource Name (ARN) and external ID. For more details, refer to <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html">Creating a Role to Delegate Permissions to an IAM User (write only)</a>
+  kind: object
+  properties:
+  - name: accountId
+    isReadyOnly: true
+    description: The ID of the cloud account
+    types:
+    - uid: string
+  - name: awsAssumeRoleArn
+    description: Assumed role ID is an identifier that you can use to create temporary security credentials.
+    types:
+    - uid: string
+  - name: awsExternalId
+    description: A unique identifier that is required when you assume a role in another account.
+    types:
+    - uid: string
+  - name: authenticationProvisioningState
+    isReadyOnly: true
+    description: State of the multi-cloud connector
+    types:
+    - uid: authenticationProvisioningState
+  - name: grantedPermissions
+    isReadyOnly: true
+    description: The permissions detected in the cloud account.
+    types:
+    - uid: string
+      isArray: true
+  - name: authenticationType
+    description: Connect to your cloud account, for AWS use either account credentials or role-based authentication. For GCP use account organization credentials.
+    types:
+    - uid: awsAssumeRole
+    typesTitle: string
+- name: GcpCredentialsDetailsProperties
+  description: GCP cloud account connector based service to service credentials, the credentials are composed of the organization ID and a JSON API key (write only)
+  kind: object
+  properties:
+  - name: organizationId
+    description: The organization ID of the GCP cloud account
+    types:
+    - uid: string
+  - name: type
+    description: Type field of the API key (write only)
+    types:
+    - uid: string
+  - name: projectId
+    description: Project ID field of the API key (write only)
+    types:
+    - uid: string
+  - name: privateKeyId
+    description: Private key ID field of the API key (write only)
+    types:
+    - uid: string
+  - name: privateKey
+    description: Private key field of the API key (write only)
+    types:
+    - uid: string
+  - name: clientEmail
+    description: Client email field of the API key (write only)
+    types:
+    - uid: string
+  - name: clientId
+    description: Client ID field of the API key (write only)
+    types:
+    - uid: string
+  - name: authUri
+    description: Auth URI field of the API key (write only)
+    types:
+    - uid: string
+  - name: tokenUri
+    description: Token URI field of the API key (write only)
+    types:
+    - uid: string
+  - name: authProviderX509CertUrl
+    description: Auth provider x509 certificate URL field of the API key (write only)
+    types:
+    - uid: string
+  - name: clientX509CertUrl
+    description: Client x509 certificate URL field of the API key (write only)
+    types:
+    - uid: string
+  - name: authenticationProvisioningState
+    isReadyOnly: true
+    description: State of the multi-cloud connector
+    types:
+    - uid: authenticationProvisioningState
+  - name: grantedPermissions
+    isReadyOnly: true
+    description: The permissions detected in the cloud account.
+    types:
+    - uid: string
+      isArray: true
+  - name: authenticationType
+    description: Connect to your cloud account, for AWS use either account credentials or role-based authentication. For GCP use account organization credentials.
+    types:
+    - uid: gcpCredentials
+    typesTitle: string
+- name: authenticationProvisioningState
+  description: State of the multi-cloud connector
+  kind: enum
+  properties:
+  - name: Valid
+    description: Valid connector
+    types:
+    - uid: string
+  - name: Invalid
+    description: Invalid connector
+    types:
+    - uid: string
+  - name: Expired
+    description: the connection has expired
+    types:
+    - uid: string
+  - name: IncorrectPolicy
+    description: Incorrect policy of the connector
+    types:
+    - uid: string
+examples:
+- name: Get all cloud accounts connectors of a subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/connectors?api-version=2020-01-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/connectors?api-version=2020-01-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/Connectors/GetListConnectorSubscription_example.json
+      func ExampleAccountConnectorsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurity.NewAccountConnectorsClient("20ff7fc3-e762-44dd-bd96-b71116dcdc23", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Cloud accounts connectors of a subscription
+       *
+       * @summary Cloud accounts connectors of a subscription
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/Connectors/GetListConnectorSubscription_example.json
+       */
+      async function getAllCloudAccountsConnectorsOfASubscription() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.connectors.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getAllCloudAccountsConnectorsOfASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/connectors/aws_dev1",
+            "name": "aws_dev1",
+            "type": "Microsoft.Security/connectors",
+            "properties": {
+              "hybridComputeSettings": {
+                "hybridComputeProvisioningState": "Valid",
+                "autoProvision": "On",
+                "resourceGroupName": "AwsConnectorRG",
+                "region": "West US 2",
+                "proxyServer": {
+                  "ip": "287.221.107.152",
+                  "port": "34"
+                },
+                "servicePrincipal": {
+                  "applicationId": "ad9bcd79-be9c-45ab-abd8-80ca1654a7d1"
+                }
+              },
+              "authenticationDetails": {
+                "authenticationProvisioningState": "Valid",
+                "grantedPermissions": [
+                  "AWS::AWSSecurityHubReadOnlyAccess",
+                  "AWS::SecurityAudit",
+                  "AWS::AmazonSSMAutomationRole"
+                ],
+                "authenticationType": "awsCreds",
+                "accountId": "922315681122",
+                "awsAccessKeyId": "",
+                "awsSecretAccessKey": ""
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/connectors/aws_dev2",
+            "name": "aws_dev2",
+            "type": "Microsoft.Security/connectors",
+            "properties": {
+              "hybridComputeSettings": {
+                "hybridComputeProvisioningState": "Valid",
+                "autoProvision": "On",
+                "resourceGroupName": "AwsConnectorRG",
+                "region": "West US 2",
+                "proxyServer": {
+                  "ip": "167.210.187.160",
+                  "port": "34"
+                },
+                "servicePrincipal": {
+                  "applicationId": "ad9bcd79-be9c-45ab-abd8-80ca1654a7d1"
+                }
+              },
+              "authenticationDetails": {
+                "authenticationProvisioningState": "Valid",
+                "grantedPermissions": [
+                  "AWS::AWSSecurityHubReadOnlyAccess",
+                  "AWS::SecurityAudit",
+                  "AWS::AmazonSSMAutomationRole"
+                ],
+                "authenticationType": "awsAssumeRole",
+                "accountId": "81231569658",
+                "awsAssumeRoleArn": "arn:aws:iam::81231569658:role/AscConnector",
+                "awsExternalId": "20ff7fc3-e762-44dd-bd96-b71116dcdc23"
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/connectors/gcp_dev",
+            "name": "gcp_dev",
+            "type": "Microsoft.Security/connectors",
+            "properties": {
+              "hybridComputeSettings": {
+                "hybridComputeProvisioningState": "Invalid",
+                "autoProvision": "Off",
+                "resourceGroupName": "",
+                "region": "",
+                "proxyServer": null,
+                "servicePrincipal": null
+              },
+              "authenticationDetails": {
+                "authenticationProvisioningState": "Valid",
+                "grantedPermissions": [
+                  "GCP::Security Center Admin Viewer"
+                ],
+                "authenticationType": "gcpCredentials",
+                "organizationId": "AscDemoOrg",
+                "type": "",
+                "projectId": "",
+                "privateKeyId": "",
+                "privateKey": "",
+                "clientEmail": "",
+                "clientId": "",
+                "authUri": "",
+                "tokenUri": "",
+                "authProviderX509CertUrl": "",
+                "clientX509CertUrl": ""
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Defender for Cloud service - Cloud accounts connectors of a subscription
+errorCodes: []
