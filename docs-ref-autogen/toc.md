@@ -9317,7 +9317,7 @@
 ### [Get](datadog/Tag-Rules/Get.yml)
 ### [List](datadog/Tag-Rules/List.yml)
 # Defender for Cloud
-## [Overview](../docs-ref-conceptual/securitycenter/index.md)
+## [Overview](../docs-ref-conceptual/defenderforcloud/index.md)
 ## Adaptive Application Controls
 ### [Overview](defenderforcloud/Adaptive-Application-Controls.yml)
 ### [Delete](defenderforcloud/Adaptive-Application-Controls/Delete.yml)
