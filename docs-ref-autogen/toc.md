@@ -2692,6 +2692,20 @@
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Default-Settings.yml)
 ##### [Get](authorization/accessreviewcalls/Access-Review-Default-Settings/Get.yml)
 ##### [Put](authorization/accessreviewcalls/Access-Review-Default-Settings/Put.yml)
+#### Access Review History Definition
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition.yml)
+##### [Create](authorization/accessreviewcalls/Access-Review-History-Definition/Create.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Access-Review-History-Definition/Delete-By-Id.yml)
+#### Access Review History Definition Instance
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition-Instance.yml)
+##### [Generate Download Uri](authorization/accessreviewcalls/Access-Review-History-Definition-Instance/Generate-Download-Uri.yml)
+#### Access Review History Definition Instances
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definition-Instances.yml)
+##### [List](authorization/accessreviewcalls/Access-Review-History-Definition-Instances/List.yml)
+#### Access Review History Definitions
+##### [Overview](authorization/accessreviewcalls/Access-Review-History-Definitions.yml)
+##### [Get By Id](authorization/accessreviewcalls/Access-Review-History-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Access-Review-History-Definitions/List.yml)
 #### Access Review Instance
 ##### [Overview](authorization/accessreviewcalls/Access-Review-Instance.yml)
 ##### [Accept Recommendations](authorization/accessreviewcalls/Access-Review-Instance/Accept-Recommendations.yml)
@@ -2732,6 +2746,49 @@
 #### Operations
 ##### [Overview](authorization/accessreviewcalls/Operations.yml)
 ##### [List](authorization/accessreviewcalls/Operations/List.yml)
+#### Scope Access Review Default Settings
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings.yml)
+##### [Get](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings/Get.yml)
+##### [Put](authorization/accessreviewcalls/Scope-Access-Review-Default-Settings/Put.yml)
+#### Scope Access Review History Definition
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition.yml)
+##### [Create](authorization/accessreviewcalls/Scope-Access-Review-History-Definition/Create.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Scope-Access-Review-History-Definition/Delete-By-Id.yml)
+#### Scope Access Review History Definition Instance
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instance.yml)
+##### [Generate Download Uri](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instance/Generate-Download-Uri.yml)
+#### Scope Access Review History Definition Instances
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instances.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-History-Definition-Instances/List.yml)
+#### Scope Access Review History Definitions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-History-Definitions/List.yml)
+#### Scope Access Review Instance
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance.yml)
+##### [Apply Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Apply-Decisions.yml)
+##### [Record All Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Record-All-Decisions.yml)
+##### [Reset Decisions](authorization/accessreviewcalls/Scope-Access-Review-Instance/Reset-Decisions.yml)
+##### [Send Reminders](authorization/accessreviewcalls/Scope-Access-Review-Instance/Send-Reminders.yml)
+##### [Stop](authorization/accessreviewcalls/Scope-Access-Review-Instance/Stop.yml)
+#### Scope Access Review Instance Contacted Reviewers
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance-Contacted-Reviewers.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instance-Contacted-Reviewers/List.yml)
+#### Scope Access Review Instance Decisions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instance-Decisions.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instance-Decisions/List.yml)
+#### Scope Access Review Instances
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Instances.yml)
+##### [Create](authorization/accessreviewcalls/Scope-Access-Review-Instances/Create.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-Instances/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Instances/List.yml)
+#### Scope Access Review Schedule Definitions
+##### [Overview](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions.yml)
+##### [Create Or Update By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Create-Or-Update-By-Id.yml)
+##### [Delete By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Delete-By-Id.yml)
+##### [Get By Id](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Get-By-Id.yml)
+##### [List](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/List.yml)
+##### [Stop](authorization/accessreviewcalls/Scope-Access-Review-Schedule-Definitions/Stop.yml)
 #### Tenant Level Access Review Instance Contacted Reviewers
 ##### [Overview](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers.yml)
 ##### [List](authorization/accessreviewcalls/Tenant-Level-Access-Review-Instance-Contacted-Reviewers/List.yml)
@@ -13724,11 +13781,11 @@
 ### [Get Geocoding Batch](maps/Search-V2/Get-Geocoding-Batch.yml)
 ## Spatial
 ### [Overview](maps/Spatial.yml)
-### [Evaluate Point In Polygon](maps/Spatial/Evaluate-Point-In-Polygon.yml)
 ### [Get Buffer](maps/Spatial/Get-Buffer.yml)
 ### [Get Closest Point](maps/Spatial/Get-Closest-Point.yml)
 ### [Get Geofence](maps/Spatial/Get-Geofence.yml)
 ### [Get Great Circle Distance](maps/Spatial/Get-Great-Circle-Distance.yml)
+### [Get Point In Polygon](maps/Spatial/Get-Point-In-Polygon.yml)
 ### [Post Buffer](maps/Spatial/Post-Buffer.yml)
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
@@ -14448,6 +14505,7 @@
 #### [Create](monitor/Data-Collection-Rule-Associations/Create.yml)
 #### [Delete](monitor/Data-Collection-Rule-Associations/Delete.yml)
 #### [Get](monitor/Data-Collection-Rule-Associations/Get.yml)
+#### [List By Data Collection Endpoint](monitor/Data-Collection-Rule-Associations/List-By-Data-Collection-Endpoint.yml)
 #### [List By Resource](monitor/Data-Collection-Rule-Associations/List-By-Resource.yml)
 #### [List By Rule](monitor/Data-Collection-Rule-Associations/List-By-Rule.yml)
 ### Data Collection Rules

@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionruleassociations.listbyrule
 name: List By Rule
 service: Monitor
 groupName: Data Collection Rule Associations
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Lists associations for the specified data collection rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}/associations?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -114,6 +114,11 @@ definitions:
     description: The resource provisioning state.
     types:
     - uid: KnownDataCollectionRuleAssociationProvisioningState
+  - name: properties.metadata
+    isReadyOnly: true
+    description: Metadata about the resource
+    types:
+    - uid: Metadata
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -192,6 +197,15 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: Metadata
+  description: Metadata about the resource
+  kind: object
+  properties:
+  - name: provisionedBy
+    isReadyOnly: true
+    description: Azure offering managing this resource on-behalf-of customer.
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -225,11 +239,11 @@ definitions:
 examples:
 - name: List associations for specified data collection rule
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2021-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2021-04-01
+      GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule/associations?api-version=2021-09-01-preview
       ```
 
       # [Go](#tab/Go)
@@ -244,33 +258,65 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
       )
 
-      // x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-04-01/examples/DataCollectionRuleAssociationsListByRule.json
-      func ExampleDataCollectionRuleAssociationsClient_ListByRule() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsListByRule.json
+      func ExampleDataCollectionRuleAssociationsClient_NewListByRulePager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmonitor.NewDataCollectionRuleAssociationsClient("<subscription-id>", cred, nil)
-      	pager := client.ListByRule("<resource-group-name>",
-      		"<data-collection-rule-name>",
+      	client, err := armmonitor.NewDataCollectionRuleAssociationsClient("703362b3-f278-4e4b-9179-c76eaf41ffc2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByRulePager("myResourceGroup",
+      		"myCollectionRule",
       		nil)
-      	for {
-      		nextResult := pager.NextPage(ctx)
-      		if err := pager.Err(); err != nil {
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
       		}
-      		if !nextResult {
-      			break
-      		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("Pager result: %#v\n", v)
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
       		}
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.4.1/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists associations for the specified data collection rule.
+       *
+       * @summary Lists associations for the specified data collection rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRuleAssociationsListByRule.json
+       */
+      async function listAssociationsForSpecifiedDataCollectionRule() {
+        const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+        const resourceGroupName = "myResourceGroup";
+        const dataCollectionRuleName = "myCollectionRule";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.dataCollectionRuleAssociations.listByRule(
+          resourceGroupName,
+          dataCollectionRuleName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAssociationsForSpecifiedDataCollectionRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

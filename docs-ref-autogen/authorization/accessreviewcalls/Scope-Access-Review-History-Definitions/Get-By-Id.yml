@@ -1,0 +1,422 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.accessreviewcalls.scopeaccessreviewhistorydefinitions.getbyid
+name: Get By Id
+service: Authorization
+groupName: Scope Access Review History Definitions
+apiVersion: 2021-12-01-preview
+summary: Get access review history definition by definition Id
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/{historyDefinitionId}?api-version=2021-12-01-preview
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of the resource.
+  types:
+  - uid: string
+- name: historyDefinitionId
+  in: path
+  isRequired: true
+  description: The id of the access review history definition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: AccessReviewHistoryDefinition
+  types:
+  - uid: AccessReviewHistoryDefinition
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorDefinition
+requestHeader: []
+definitions:
+- name: AccessReviewHistoryDefinition
+  description: Access Review History Definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review history definition id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review history definition unique id.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name for the history definition.
+    types:
+    - uid: string
+  - name: properties.reviewHistoryPeriodStartDateTime
+    isReadyOnly: true
+    description: Date time used when selecting review data, all reviews included in data start on or after this date. For use only with one-time/non-recurring reports.
+    types:
+    - uid: string
+  - name: properties.reviewHistoryPeriodEndDateTime
+    isReadyOnly: true
+    description: Date time used when selecting review data, all reviews included in data end on or before this date. For use only with one-time/non-recurring reports.
+    types:
+    - uid: string
+  - name: properties.decisions
+    description: Collection of review decisions which the history data should be filtered on. For example if Approve and Deny are supplied the data will only contain review results in which the decision maker approved or denied a review request.
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.status
+    isReadyOnly: true
+    description: This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
+    types:
+    - uid: AccessReviewHistoryDefinitionStatus
+  - name: properties.createdDateTime
+    isReadyOnly: true
+    description: Date time when history definition was created
+    types:
+    - uid: string
+  - name: properties.scopes
+    description: A collection of scopes used when selecting review history data
+    types:
+    - uid: AccessReviewScope
+      isArray: true
+  - name: properties.instances
+    description: Set of access review history instances for this history definition.
+    types:
+    - uid: AccessReviewHistoryInstance
+      isArray: true
+  - name: properties.createdBy.principalId
+    isReadyOnly: true
+    description: The identity id
+    types:
+    - uid: string
+  - name: properties.createdBy.principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: AccessReviewActorIdentityType
+  - name: properties.createdBy.principalName
+    isReadyOnly: true
+    description: The identity display name
+    types:
+    - uid: string
+  - name: properties.createdBy.userPrincipalName
+    isReadyOnly: true
+    description: The user principal name(if valid)
+    types:
+    - uid: string
+  - name: properties.settings.pattern.type
+    description: 'The recurrence type : weekly, monthly, etc.'
+    types:
+    - uid: AccessReviewRecurrencePatternType
+  - name: properties.settings.pattern.interval
+    description: 'The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly.'
+    types:
+    - uid: integer
+  - name: properties.settings.range.type
+    description: 'The recurrence range type. The possible values are: endDate, noEnd, numbered.'
+    types:
+    - uid: AccessReviewRecurrenceRangeType
+  - name: properties.settings.range.numberOfOccurrences
+    description: The number of times to repeat the access review. Required and must be positive if type is numbered.
+    types:
+    - uid: integer
+  - name: properties.settings.range.startDate
+    description: The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create.
+    types:
+    - uid: string
+  - name: properties.settings.range.endDate
+    description: The DateTime when the review is scheduled to end. Required if type is endDate
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nError of the list gateway status."
+    types:
+    - uid: ErrorDefinitionProperties
+- name: AccessReviewHistoryDefinitionStatus
+  description: This read-only field specifies the of the requested review history data. This is either requested, in-progress, done or error.
+  kind: enum
+  properties:
+  - name: Requested
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Done
+    types:
+    - uid: string
+  - name: Error
+    types:
+    - uid: string
+- name: AccessReviewScope
+  description: Descriptor for what needs to be reviewed
+  kind: object
+  properties:
+  - name: resourceId
+    isReadyOnly: true
+    description: ResourceId in which this review is getting created
+    types:
+    - uid: string
+  - name: roleDefinitionId
+    isReadyOnly: true
+    description: This is used to indicate the role being reviewed
+    types:
+    - uid: string
+  - name: principalType
+    isReadyOnly: true
+    description: The identity type user/servicePrincipal to review
+    types:
+    - uid: AccessReviewScopePrincipalType
+  - name: assignmentState
+    isReadyOnly: true
+    description: The role assignment state eligible/active to review
+    types:
+    - uid: AccessReviewScopeAssignmentState
+  - name: inactiveDuration
+    description: 'Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+    types:
+    - uid: string
+  - name: expandNestedMemberships
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: includeInheritedAccess
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: includeAccessBelowResource
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: excludeResourceId
+    description: This is used to indicate the resource id(s) to exclude
+    types:
+    - uid: string
+  - name: excludeRoleDefinitionId
+    description: This is used to indicate the role definition id(s) to exclude
+    types:
+    - uid: string
+- name: AccessReviewHistoryInstance
+  description: Access Review History Definition Instance.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review history definition instance id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review history definition instance unique id.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.reviewHistoryPeriodStartDateTime
+    description: Date time used when selecting review data, all reviews included in data start on or after this date. For use only with one-time/non-recurring reports.
+    types:
+    - uid: string
+  - name: properties.reviewHistoryPeriodEndDateTime
+    description: Date time used when selecting review data, all reviews included in data end on or before this date. For use only with one-time/non-recurring reports.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name for the parent history definition.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Status of the requested review history instance data. This is either requested, in-progress, done or error. The state transitions are as follows - Requested -> InProgress -> Done -> Expired
+    types:
+    - uid: AccessReviewHistoryDefinitionStatus
+  - name: properties.runDateTime
+    description: Date time when the history data report is scheduled to be generated.
+    types:
+    - uid: string
+  - name: properties.fulfilledDateTime
+    description: Date time when the history data report is scheduled to be generated.
+    types:
+    - uid: string
+  - name: properties.downloadUri
+    isReadyOnly: true
+    description: Uri which can be used to retrieve review history data. To generate this Uri, generateDownloadUri() must be called for a specific accessReviewHistoryDefinitionInstance. The link expires after a 24 hour period. Callers can see the expiration date time by looking at the 'se' parameter in the generated uri.
+    types:
+    - uid: string
+  - name: properties.expiration
+    description: Date time when history data report expires and the associated data is deleted.
+    types:
+    - uid: string
+- name: AccessReviewActorIdentityType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+- name: AccessReviewRecurrencePatternType
+  description: 'The recurrence type : weekly, monthly, etc.'
+  kind: enum
+  properties:
+  - name: weekly
+    types:
+    - uid: string
+  - name: absoluteMonthly
+    types:
+    - uid: string
+- name: AccessReviewRecurrenceRangeType
+  description: 'The recurrence range type. The possible values are: endDate, noEnd, numbered.'
+  kind: enum
+  properties:
+  - name: endDate
+    types:
+    - uid: string
+  - name: noEnd
+    types:
+    - uid: string
+  - name: numbered
+    types:
+    - uid: string
+- name: ErrorDefinitionProperties
+  description: Error
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+- name: AccessReviewScopePrincipalType
+  description: The identity type user/servicePrincipal to review
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: guestUser
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+  - name: user,group
+    types:
+    - uid: string
+  - name: redeemedGuestUser
+    types:
+    - uid: string
+- name: AccessReviewScopeAssignmentState
+  description: The role assignment state eligible/active to review
+  kind: enum
+  properties:
+  - name: eligible
+    types:
+    - uid: string
+  - name: active
+    types:
+    - uid: string
+examples:
+- name: GetAccessReviewHistoryDefinition
+  request:
+    uri: GET https://management.azure.com/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/44724910-d7a5-4c29-b28f-db73e717165a?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/44724910-d7a5-4c29-b28f-db73e717165a?api-version=2021-12-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a/providers/Microsoft.Authorization/accessReviewHistoryDefinitions/44724910-d7a5-4c29-b28f-db73e717165a",
+        "name": "44724910-d7a5-4c29-b28f-db73e717165a",
+        "type": "Microsoft.Authorization/accessReviewHistoryDefinition",
+        "properties": {
+          "displayName": "Hello world name",
+          "reviewHistoryPeriodStartDateTime": "2021-10-01T00:00:00-07:00",
+          "reviewHistoryPeriodEndDateTime": "2021-12-01T00:00:00-08:00",
+          "decisions": [
+            "Approve",
+            "Deny",
+            "NotReviewed",
+            "DontKnow",
+            "NotNotified"
+          ],
+          "status": "Done",
+          "createdDateTime": "2021-12-23T00:27:33.6905189+00:00",
+          "createdBy": {
+            "principalId": "673ad0d8-7b0e-4201-aaeb-74cdcbf22af9",
+            "principalType": null,
+            "principalName": "levi",
+            "userPrincipalName": "levi"
+          },
+          "scopes": [
+            {
+              "resourceId": "/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a",
+              "roleDefinitionId": "/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a/providers/Microsoft.Authorization/roleDefinitions",
+              "principalType": "user",
+              "assignmentState": null,
+              "inactiveDuration": null,
+              "expandNestedMemberships": true
+            },
+            {
+              "resourceId": "/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a",
+              "roleDefinitionId": "/subscriptions/129a304b-4aea-4b86-a9f7-ba7e2b23737a/providers/Microsoft.Authorization/roleDefinitions/1562cf42-00b9-457c-86ef-5702d4132904",
+              "principalType": "user",
+              "assignmentState": null,
+              "inactiveDuration": null,
+              "expandNestedMemberships": false
+            }
+          ],
+          "settings": {
+            "range": {
+              "type": "endDate",
+              "numberOfOccurrences": 1,
+              "startDate": "2021-12-01T00:00:00-08:00",
+              "endDate": "2023-12-01T00:00:00-08:00"
+            }
+          }
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Authorization service - Get access review history definition by definition Id
+errorCodes: []

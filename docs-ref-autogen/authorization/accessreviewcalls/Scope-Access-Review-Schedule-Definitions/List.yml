@@ -1,0 +1,579 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.accessreviewcalls.scopeaccessreviewscheduledefinitions.list
+name: List
+service: Authorization
+groupName: Scope Access Review Schedule Definitions
+apiVersion: 2021-12-01-preview
+summary: Get access review schedule definitions
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-12-01-preview&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of the resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned"
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Describe the result of a successful operation.
+  types:
+  - uid: AccessReviewScheduleDefinitionListResult
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorDefinition
+requestHeader: []
+definitions:
+- name: AccessReviewScheduleDefinitionListResult
+  description: List of Access Review Schedule Definitions.
+  kind: object
+  properties:
+  - name: value
+    description: Access Review Schedule Definition list.
+    types:
+    - uid: AccessReviewScheduleDefinition
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nError of the list gateway status."
+    types:
+    - uid: ErrorDefinitionProperties
+- name: AccessReviewScheduleDefinition
+  description: Access Review Schedule Definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review schedule definition id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review schedule definition unique id.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.displayName
+    description: The display name for the schedule definition.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: This read-only field specifies the status of an accessReview.
+    types:
+    - uid: AccessReviewScheduleDefinitionStatus
+  - name: properties.descriptionForAdmins
+    description: The description provided by the access review creator and visible to admins.
+    types:
+    - uid: string
+  - name: properties.descriptionForReviewers
+    description: The description provided by the access review creator to be shown to reviewers.
+    types:
+    - uid: string
+  - name: properties.reviewers
+    description: This is the collection of reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.backupReviewers
+    description: This is the collection of backup reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.reviewersType
+    isReadyOnly: true
+    description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+    types:
+    - uid: AccessReviewScheduleDefinitionReviewersType
+  - name: properties.instances
+    description: This is the collection of instances returned when one does an expand on it.
+    types:
+    - uid: AccessReviewInstance
+      isArray: true
+  - name: properties.createdBy.principalId
+    isReadyOnly: true
+    description: The identity id
+    types:
+    - uid: string
+  - name: properties.createdBy.principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: AccessReviewActorIdentityType
+  - name: properties.createdBy.principalName
+    isReadyOnly: true
+    description: The identity display name
+    types:
+    - uid: string
+  - name: properties.createdBy.userPrincipalName
+    isReadyOnly: true
+    description: The user principal name(if valid)
+    types:
+    - uid: string
+  - name: properties.settings.mailNotificationsEnabled
+    description: Flag to indicate whether sending mails to reviewers and the review creator is enabled.
+    types:
+    - uid: boolean
+  - name: properties.settings.reminderNotificationsEnabled
+    description: Flag to indicate whether sending reminder emails to reviewers are enabled.
+    types:
+    - uid: boolean
+  - name: properties.settings.defaultDecisionEnabled
+    description: Flag to indicate whether reviewers are required to provide a justification when reviewing access.
+    types:
+    - uid: boolean
+  - name: properties.settings.justificationRequiredOnApproval
+    description: Flag to indicate whether the reviewer is required to pass justification when recording a decision.
+    types:
+    - uid: boolean
+  - name: properties.settings.defaultDecision
+    description: This specifies the behavior for the autoReview feature when an access review completes.
+    types:
+    - uid: DefaultDecisionType
+  - name: properties.settings.autoApplyDecisionsEnabled
+    description: Flag to indicate whether auto-apply capability, to automatically change the target object access resource, is enabled. If not enabled, a user must, after the review completes, apply the access review.
+    types:
+    - uid: boolean
+  - name: properties.settings.recommendationsEnabled
+    description: Flag to indicate whether showing recommendations to reviewers is enabled.
+    types:
+    - uid: boolean
+  - name: properties.settings.recommendationLookBackDuration
+    description: 'Recommendations for access reviews are calculated by looking back at 30 days of data(w.r.t the start date of the review) by default. However, in some scenarios, customers want to change how far back to look at and want to configure 60 days, 90 days, etc. instead. This setting allows customers to configure this duration. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+    types:
+    - uid: string
+  - name: properties.settings.instanceDurationInDays
+    description: The duration in days for an instance.
+    types:
+    - uid: integer
+  - name: properties.settings.recurrence.pattern.type
+    description: 'The recurrence type : weekly, monthly, etc.'
+    types:
+    - uid: AccessReviewRecurrencePatternType
+  - name: properties.settings.recurrence.pattern.interval
+    description: 'The interval for recurrence. For a quarterly review, the interval is 3 for type : absoluteMonthly.'
+    types:
+    - uid: integer
+  - name: properties.settings.recurrence.range.type
+    description: 'The recurrence range type. The possible values are: endDate, noEnd, numbered.'
+    types:
+    - uid: AccessReviewRecurrenceRangeType
+  - name: properties.settings.recurrence.range.numberOfOccurrences
+    description: The number of times to repeat the access review. Required and must be positive if type is numbered.
+    types:
+    - uid: integer
+  - name: properties.settings.recurrence.range.startDate
+    description: The DateTime when the review is scheduled to be start. This could be a date in the future. Required on create.
+    types:
+    - uid: string
+  - name: properties.settings.recurrence.range.endDate
+    description: The DateTime when the review is scheduled to end. Required if type is endDate
+    types:
+    - uid: string
+  - name: properties.scope.resourceId
+    isReadyOnly: true
+    description: ResourceId in which this review is getting created
+    types:
+    - uid: string
+  - name: properties.scope.roleDefinitionId
+    isReadyOnly: true
+    description: This is used to indicate the role being reviewed
+    types:
+    - uid: string
+  - name: properties.scope.principalType
+    isReadyOnly: true
+    description: The identity type user/servicePrincipal to review
+    types:
+    - uid: AccessReviewScopePrincipalType
+  - name: properties.scope.assignmentState
+    isReadyOnly: true
+    description: The role assignment state eligible/active to review
+    types:
+    - uid: AccessReviewScopeAssignmentState
+  - name: properties.scope.inactiveDuration
+    description: 'Duration users are inactive for. The value should be in ISO  8601 format (http://en.wikipedia.org/wiki/ISO_8601#Durations).This code can be used to convert TimeSpan to a valid interval string: XmlConvert.ToString(new TimeSpan(hours, minutes, seconds))'
+    types:
+    - uid: string
+  - name: properties.scope.expandNestedMemberships
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: properties.scope.includeInheritedAccess
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: properties.scope.includeAccessBelowResource
+    description: Flag to indicate whether to expand nested memberships or not.
+    types:
+    - uid: boolean
+  - name: properties.scope.excludeResourceId
+    description: This is used to indicate the resource id(s) to exclude
+    types:
+    - uid: string
+  - name: properties.scope.excludeRoleDefinitionId
+    description: This is used to indicate the role definition id(s) to exclude
+    types:
+    - uid: string
+- name: ErrorDefinitionProperties
+  description: Error
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+- name: AccessReviewScheduleDefinitionStatus
+  description: This read-only field specifies the status of an accessReview.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Applied
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: Applying
+    types:
+    - uid: string
+  - name: Completing
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: AutoReviewing
+    types:
+    - uid: string
+  - name: AutoReviewed
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+- name: AccessReviewReviewer
+  description: Descriptor for what needs to be reviewed
+  kind: object
+  properties:
+  - name: principalId
+    description: The id of the reviewer(user/servicePrincipal)
+    types:
+    - uid: string
+  - name: principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: AccessReviewReviewerType
+- name: AccessReviewScheduleDefinitionReviewersType
+  description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Self
+    types:
+    - uid: string
+  - name: Managers
+    types:
+    - uid: string
+- name: AccessReviewInstance
+  description: Access Review Instance.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review instance id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review instance name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: This read-only field specifies the status of an access review instance.
+    types:
+    - uid: AccessReviewInstanceStatus
+  - name: properties.startDateTime
+    description: The DateTime when the review instance is scheduled to be start.
+    types:
+    - uid: string
+  - name: properties.endDateTime
+    description: The DateTime when the review instance is scheduled to end.
+    types:
+    - uid: string
+  - name: properties.reviewers
+    description: This is the collection of reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.backupReviewers
+    description: This is the collection of backup reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.reviewersType
+    isReadyOnly: true
+    description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+    types:
+    - uid: AccessReviewInstanceReviewersType
+- name: AccessReviewActorIdentityType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+- name: DefaultDecisionType
+  description: This specifies the behavior for the autoReview feature when an access review completes.
+  kind: enum
+  properties:
+  - name: Approve
+    types:
+    - uid: string
+  - name: Deny
+    types:
+    - uid: string
+  - name: Recommendation
+    types:
+    - uid: string
+- name: AccessReviewRecurrencePatternType
+  description: 'The recurrence type : weekly, monthly, etc.'
+  kind: enum
+  properties:
+  - name: weekly
+    types:
+    - uid: string
+  - name: absoluteMonthly
+    types:
+    - uid: string
+- name: AccessReviewRecurrenceRangeType
+  description: 'The recurrence range type. The possible values are: endDate, noEnd, numbered.'
+  kind: enum
+  properties:
+  - name: endDate
+    types:
+    - uid: string
+  - name: noEnd
+    types:
+    - uid: string
+  - name: numbered
+    types:
+    - uid: string
+- name: AccessReviewScopePrincipalType
+  description: The identity type user/servicePrincipal to review
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: guestUser
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+  - name: user,group
+    types:
+    - uid: string
+  - name: redeemedGuestUser
+    types:
+    - uid: string
+- name: AccessReviewScopeAssignmentState
+  description: The role assignment state eligible/active to review
+  kind: enum
+  properties:
+  - name: eligible
+    types:
+    - uid: string
+  - name: active
+    types:
+    - uid: string
+- name: AccessReviewReviewerType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+- name: AccessReviewInstanceStatus
+  description: This read-only field specifies the status of an access review instance.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Applied
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: Applying
+    types:
+    - uid: string
+  - name: Completing
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: AutoReviewing
+    types:
+    - uid: string
+  - name: AutoReviewed
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+- name: AccessReviewInstanceReviewersType
+  description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Self
+    types:
+    - uid: string
+  - name: Managers
+    types:
+    - uid: string
+examples:
+- name: GetAccessReviews
+  request:
+    uri: GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions?api-version=2021-12-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d",
+            "type": "Microsoft.Authorization/accessReviewScheduleDefinitions",
+            "name": "fa73e90b-5bf1-45fd-a182-35ce5fc0674d",
+            "properties": {
+              "displayName": "Hello world",
+              "status": "InProgress",
+              "descriptionForAdmins": "asdfasdf",
+              "descriptionForReviewers": "asdfasdf",
+              "createdBy": {
+                "principalType": "user",
+                "principalId": "a6c7aecb-cbfd-4763-87ef-e91b4bd509d9",
+                "principalName": "Shubham Gupta",
+                "userPrincipalName": "shugup@microsoft.com"
+              },
+              "scope": {
+                "resourceId": "/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d",
+                "roleDefinitionId": "/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/roleDefinitions/b225c7ff-4338-4cdc-a790-6b34d987f7cd"
+              },
+              "reviewers": [
+                {
+                  "principalId": "fa73e90b-5bf1-45fd-a182-35ce5fc0674d ",
+                  "principalType": "user"
+                }
+              ],
+              "reviewersType": "Assigned",
+              "settings": {
+                "mailNotificationsEnabled": true,
+                "reminderNotificationsEnabled": true,
+                "justificationRequiredOnApproval": true,
+                "recommendationsEnabled": true,
+                "instanceDurationInDays": 30,
+                "recurrence": {
+                  "range": {
+                    "type": "endDate",
+                    "numberOfOccurrences": 1,
+                    "startDate": "2018-08-03T21:02:30.667Z",
+                    "endDate": "2018-08-03T21:17:30.513Z"
+                  }
+                },
+                "defaultDecisionEnabled": true,
+                "defaultDecision": "Approve",
+                "autoApplyDecisionsEnabled": true
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Authorization service - Get access review schedule definitions
+errorCodes: []

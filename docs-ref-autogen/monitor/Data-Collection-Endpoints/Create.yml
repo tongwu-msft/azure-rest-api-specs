@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionendpoints.create
 name: Create
 service: Monitor
 groupName: Data Collection Endpoints
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Creates or updates a data collection endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-04-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,7 +84,7 @@ requestBody:
     - uid: string
   - name: properties.configurationAccess
     in: body
-    description: The endpoint used by agents to access their configuration.
+    description: The endpoint used by clients to access their configuration.
     types:
     - uid: ConfigurationAccess
   - name: properties.logsIngestion
@@ -128,7 +128,7 @@ definitions:
     types:
     - uid: string
 - name: ConfigurationAccess
-  description: The endpoint used by agents to access their configuration.
+  description: The endpoint used by clients to access their configuration.
   kind: object
   properties:
   - name: endpoint
@@ -207,7 +207,7 @@ definitions:
     types:
     - uid: string
   - name: properties.configurationAccess
-    description: The endpoint used by agents to access their configuration.
+    description: The endpoint used by clients to access their configuration.
     types:
     - uid: ConfigurationAccess
   - name: properties.logsIngestion
@@ -334,7 +334,7 @@ definitions:
 examples:
 - name: Create or update data collection endpoint
   request:
-    uri: PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-04-01
+    uri: PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
     body: >-
       {
         "location": "eastus",
@@ -347,7 +347,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-04-01
+      PUT https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
 
       {
         "location": "eastus",
@@ -373,34 +373,72 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
       )
 
-      // x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2021-04-01/examples/DataCollectionEndpointsCreate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsCreate.json
       func ExampleDataCollectionEndpointsClient_Create() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmonitor.NewDataCollectionEndpointsClient("<subscription-id>", cred, nil)
+      	client, err := armmonitor.NewDataCollectionEndpointsClient("703362b3-f278-4e4b-9179-c76eaf41ffc2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
       	res, err := client.Create(ctx,
-      		"<resource-group-name>",
-      		"<data-collection-endpoint-name>",
+      		"myResourceGroup",
+      		"myCollectionEndpoint",
       		&armmonitor.DataCollectionEndpointsClientCreateOptions{Body: &armmonitor.DataCollectionEndpointResource{
-      			Location: to.StringPtr("<location>"),
+      			Location: to.Ptr("eastus"),
       			Properties: &armmonitor.DataCollectionEndpointResourceProperties{
       				NetworkACLs: &armmonitor.DataCollectionEndpointNetworkACLs{
-      					PublicNetworkAccess: armmonitor.KnownPublicNetworkAccessOptions("Enabled").ToPtr(),
+      					PublicNetworkAccess: to.Ptr(armmonitor.KnownPublicNetworkAccessOptionsEnabled),
       				},
       			},
       		},
       		})
       	if err != nil {
-      		log.Fatal(err)
+      		log.Fatalf("failed to finish the request: %v", err)
       	}
-      	log.Printf("Response result: %#v\n", res.DataCollectionEndpointsClientCreateResult)
+      	// TODO: use response item
+      	_ = res
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.4.1/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a data collection endpoint.
+       *
+       * @summary Creates or updates a data collection endpoint.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsCreate.json
+       */
+      async function createOrUpdateDataCollectionEndpoint() {
+        const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+        const resourceGroupName = "myResourceGroup";
+        const dataCollectionEndpointName = "myCollectionEndpoint";
+        const body = {
+          location: "eastus",
+          networkAcls: { publicNetworkAccess: "Enabled" },
+        };
+        const options = { body };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.dataCollectionEndpoints.create(
+          resourceGroupName,
+          dataCollectionEndpointName,
+          options
+        );
+        console.log(result);
+      }
+
+      createOrUpdateDataCollectionEndpoint().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
