@@ -11,11 +11,10 @@ ms.subservice: text-analytics
 ms.devlang: rest-api
 ---
 
+# Text Analytics REST API reference - Azure Cognitive Services
+
 > [!IMPORTANT]
 > This article describes an outdated version of the REST API. For up-to-date information, see [Cognitive Service for Language REST API](/rest/api/language/text-analysis-runtime).
-
-
-# Text Analytics REST API reference - Azure Cognitive Services
 
 This article demonstrates how to call a REST API endpoint for Text Analytics, a service in Azure Cognitive Services suite. The Text Analytics API is a cloud-based service that provides Natural Language Processing (NLP) features for text mining and text analysis, including sentiment analysis, opinion mining, key phrase extraction, language detection, and named entity recognition.
 
@@ -39,6 +38,6 @@ Visit the [Cognitive Services REST API Sample Github repo](https://github.com/Az
 
 ## See also
 
-- For an overview of the service, see [What is Text Analytics?](https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview)
-- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account).
+- For an overview of the service, see [What is Text Analytics?](/azure/cognitive-services/text-analytics/overview)
+- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](/azure/cognitive-services/cognitive-services-apis-create-account).
 - To access REST specifications for previous versions of Text Analytics API, see this [Github repo](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/cognitiveservices/data-plane/TextAnalytics).
