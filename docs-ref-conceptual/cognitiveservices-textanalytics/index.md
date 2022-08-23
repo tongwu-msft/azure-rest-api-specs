@@ -4,7 +4,7 @@ description: Learn how to get started with making REST calls for Azure Cognitive
 author: nitinme
 ms.author: nitinme
 ms.manager: nitinme
-ms.date: 02/17/2021
+ms.date: 08/23/2022
 ms.topic: reference
 ms.service: cognitive-services
 ms.subservice: text-analytics
@@ -12,7 +12,7 @@ ms.devlang: rest-api
 ---
 
 > [!IMPORTANT]
-> This article describes an outdated version of the REST API. For up-to-date information, see [Cognitive Service for Language REST API](https://docs.microsoft.com/en-us/rest/api/language/text-analysis-runtime).
+> This article describes an outdated version of the REST API. For up-to-date information, see [Cognitive Service for Language REST API](/rest/api/language/text-analysis-runtime).
 
 
 # Text Analytics REST API reference - Azure Cognitive Services
@@ -22,8 +22,8 @@ This article demonstrates how to call a REST API endpoint for Text Analytics, a 
 
 ## Call the Text Analytics endpoint
 
-1. Start by creating an Azure Cognitive Services resource, and within that specifically a Text Analytics resource. For instructions, see [Create a Cognitive Services resource using the portal](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account).
-1. From the Azure Portal, copy the key and endpoint required to make the call. For instructions, see [Get the keys for your resource](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account#get-the-keys-for-your-resource).
+1. Start by creating an Azure Cognitive Services resource, and within that specifically a Text Analytics resource. For instructions, see [Create a Cognitive Services resource using the portal](/azure/cognitive-services/cognitive-services-apis-create-account).
+1. From the Azure Portal, copy the key and endpoint required to make the call. For instructions, see [Get the keys for your resource](/azure/cognitive-services/cognitive-services-apis-create-account#get-the-keys-for-your-resource).
 1. From the left navigation on this article, expand the node for the version of the API you want to work on, select the operation that you want to perform (e.g., **Sentiment**). On the right pane, select **Try It**.
 1. In the **REST API Try It** pane, perform the following steps:
 
