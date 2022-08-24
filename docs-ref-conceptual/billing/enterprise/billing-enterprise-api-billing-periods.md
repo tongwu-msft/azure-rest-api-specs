@@ -14,8 +14,8 @@ ms.author: banders
 # Reporting APIs for Enterprise customers - Billing Periods
 
 > [!Note]
-> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs whenever possible.
-> The Azure Billing - Billing Periods API is replaced by the [Preview version](/rest/api/billing/2017-04-24-preview/billingperiods).
+> Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 The Billing Periods API returns a list of billing periods that have consumption data for the specified Enrollment in reverse chronological order. Each Period contains a property pointing to the API route for the four sets of data - BalanceSummary, UsageDetails, Marketplace Charges, and PriceSheet. If the period does not have data, the corresponding property is null.
 

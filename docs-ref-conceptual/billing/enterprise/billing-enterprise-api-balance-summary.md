@@ -14,8 +14,8 @@ ms.author: banders
 # Reporting APIs for Enterprise customers - Balance and Summary
 
 > [!Note]
-> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
-> The Azure Billing - Balance and Summary API is replaced by the [Azure Consumption - Balances API](/rest/api/consumption/balances).
+> Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 The Balance and Summary API offers a monthly summary of information on balances, new purchases, Azure Marketplace service charges, adjustments, and overage charges.
 

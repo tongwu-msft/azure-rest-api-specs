@@ -14,8 +14,8 @@ ms.author: banders
 # Reporting APIs for Enterprise customers - Usage Details
 
 > [!Note]
-> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
-> The Azure Billing - Usage Details API is replaced by the [Azure Consumption - Usage Details API](/rest/api/consumption/usagedetails).
+> Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 This API only supports usage records with up to 400 tag characters for a given resource. The API might fail if you have records exceeding the maximum number of tags. If you experience this problem,  migrate to [Exports](/azure/cost-management-billing/costs/tutorial-export-acm-data) or the [Exports API](/rest/api/cost-management/exports/create-or-update).
 

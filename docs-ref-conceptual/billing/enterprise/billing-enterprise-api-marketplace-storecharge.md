@@ -14,8 +14,8 @@ ms.author: banders
 # Reporting APIs for Enterprise customers - Marketplace Store Charge
 
 > [!Note]
-> Microsoft no longer updates the Enterprise Reporting APIs. Instead, you should use [Azure Consumption](/rest/api/consumption) APIs.
-> The Azure Billing - Marketplace Charges API is replaced by the [Azure Consumption - Charges API](/rest/api/consumption/charges).
+> Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 The Marketplace Store Charge API returns the usage-based marketplace charges breakdown by day for the specified Billing Period or start and end dates. Recurring Charges are returned as a part of the API response.
 
