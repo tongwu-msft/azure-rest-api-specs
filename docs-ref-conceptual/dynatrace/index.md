@@ -10,7 +10,7 @@ ms.author: agarwald
 
 # Dynatrace REST API reference
 
-The Dynatrace REST API includes operations to manage Dynatrace resources. Dynatrace is a partner solution that integrates with Microsoft Azure to monitor the health and performance of your Azure environment. For more information, see [What is Dynatrace integration with Azure?](/azure/partner-solutions/dynatrace/overview)
+The Dynatrace REST API includes operations to manage Dynatrace resources. Dynatrace is a partner solution that integrates with Microsoft Azure to monitor the health and performance of your Azure environment. For more information, see [What is Dynatrace integration with Azure?](/azure/partner-solutions/dynatrace/dynatrace-overview)
 
 ## REST operation groups
 
