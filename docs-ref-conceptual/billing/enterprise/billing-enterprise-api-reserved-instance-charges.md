@@ -13,9 +13,9 @@ ms.author: banders
 ---
 # Get Reserved Instance transaction charges for enterprise customers
 
-> [!Note]
+> [!NOTE]
 > Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
-> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 Reserved Instance charges API shows the billing transactions made on the Enterprise enrollment. If the reservation has been moved from the purchasing enrollment to a different enrollment, it will show the purchasing and the current enrollment of the reservation.
 

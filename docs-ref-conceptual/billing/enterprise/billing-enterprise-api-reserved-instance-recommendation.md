@@ -13,9 +13,9 @@ ms.author: banders
 ---
 # Reserved instance purchase recommendation APIs for enterprise customers
 
-> [!Note]
+> [!NOTE]
 > Microsoft is retiring the Azure Enterprise Reporting APIs. EA customers - please move to the Cost Management APIs. 
-> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview - Microsoft Cost Management | Microsoft Docs](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
+> To learn more, see [Migrate from Azure Enterprise Reporting to Microsoft Cost Management APIs overview](/azure/cost-management-billing/automate/migrate-ea-reporting-arm-apis-overview).
 
 The Reserved Instance recommendations API looks at Customer's 7, 30 or 60 days virtual machine usage and offers Single and Shared Purchase recommendations.
 
