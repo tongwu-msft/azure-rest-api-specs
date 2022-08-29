@@ -8731,17 +8731,17 @@
 #### [Delete](datafactory/Linked-Services/Delete.yml)
 #### [Get](datafactory/Linked-Services/Get.yml)
 #### [List By Factory](datafactory/Linked-Services/List-By-Factory.yml)
+### Managed Private Endpoints
+#### [Overview](datafactory/Managed-Private-Endpoints.yml)
+#### [Create Or Update](datafactory/Managed-Private-Endpoints/Create-Or-Update.yml)
+#### [Delete](datafactory/Managed-Private-Endpoints/Delete.yml)
+#### [Get](datafactory/Managed-Private-Endpoints/Get.yml)
+#### [List By Factory](datafactory/Managed-Private-Endpoints/List-By-Factory.yml)
 ### Managed Virtual Networks
 #### [Overview](datafactory/Managed-Virtual-Networks.yml)
 #### [Create Or Update](datafactory/Managed-Virtual-Networks/Create-Or-Update.yml)
 #### [Get](datafactory/Managed-Virtual-Networks/Get.yml)
 #### [List By Factory](datafactory/Managed-Virtual-Networks/List-By-Factory.yml)
-### ManagedPrivateEndpoints(stable)
-#### [Overview](datafactory/ManagedPrivateEndpoints(stable).yml)
-#### [Create Or Update](datafactory/ManagedPrivateEndpoints(stable)/Create-Or-Update.yml)
-#### [Delete](datafactory/ManagedPrivateEndpoints(stable)/Delete.yml)
-#### [Get](datafactory/ManagedPrivateEndpoints(stable)/Get.yml)
-#### [List By Factory](datafactory/ManagedPrivateEndpoints(stable)/List-By-Factory.yml)
 ### Operations
 #### [Overview](datafactory/Operations.yml)
 #### [List](datafactory/Operations/List.yml)
