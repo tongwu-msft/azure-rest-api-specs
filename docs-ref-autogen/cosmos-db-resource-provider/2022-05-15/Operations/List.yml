@@ -1,0 +1,196 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.operations.list
+name: List
+service: Cosmos DB Resource Provider
+groupName: Operations
+apiVersion: 2022-05-15
+summary: Lists all of the available Cosmos DB Resource Provider operations.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2022-05-15
+uriParameters:
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: OperationListResult
+requestHeader: []
+definitions:
+- name: OperationListResult
+  description: Result of the request to list Resource Provider operations. It contains a list of operations and a URL link to get the next set of results.
+  kind: object
+  properties:
+  - name: value
+    description: List of operations supported by the Resource Provider.
+    types:
+    - uid: Operation
+      isArray: true
+  - name: nextLink
+    description: URL to get the next set of operation list results if there are any.
+    types:
+    - uid: string
+- name: Operation
+  description: REST API operation
+  kind: object
+  properties:
+  - name: name
+    description: 'Operation name: {provider}/{resource}/{operation}'
+    types:
+    - uid: string
+  - name: display
+    description: The object that represents the operation.
+    types:
+    - uid: Display
+- name: Display
+  description: The object that represents the operation.
+  kind: object
+  properties:
+  - name: Provider
+    description: 'Service provider: Microsoft.ResourceProvider'
+    types:
+    - uid: string
+  - name: Resource
+    description: 'Resource on which the operation is performed: Profile, endpoint, etc.'
+    types:
+    - uid: string
+  - name: Operation
+    description: 'Operation type: Read, write, delete, etc.'
+    types:
+    - uid: string
+  - name: Description
+    description: Description of operation
+    types:
+    - uid: string
+examples:
+- name: CosmosDBOperationsList
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2022-05-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.DocumentDB/operations?api-version=2022-05-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Operations List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBOperationsList.json
+           */
+          /**
+           * Sample code: CosmosDBOperationsList.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBOperationsList(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.cosmosDBAccounts().manager().serviceClient().getOperations().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBOperationsList.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all of the available Cosmos DB Resource Provider operations.
+       *
+       * @summary Lists all of the available Cosmos DB Resource Provider operations.
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBOperationsList.json
+       */
+      async function cosmosDbOperationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      cosmosDbOperationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "name": "operationName",
+            "display": {
+              "Provider": "providerName",
+              "Resource": "resourceName",
+              "Operation": "operationName",
+              "Description": "description"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Lists all of the available Cosmos DB Resource Provider operations.
+errorCodes: []

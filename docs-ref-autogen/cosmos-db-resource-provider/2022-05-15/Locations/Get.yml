@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.locations.get
+name: Get
+service: Cosmos DB Resource Provider
+groupName: Locations
+apiVersion: 2022-05-15
+summary: Get the properties of an existing Cosmos DB location
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}?api-version=2022-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Cosmos DB region, with spaces between words and each word capitalized.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The Cosmos DB location properties were retrieved successfully.
+  types:
+  - uid: LocationGetResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: LocationGetResult
+  description: Cosmos DB location get result
+  kind: object
+  properties:
+  - name: properties
+    description: Cosmos DB location metadata
+    types:
+    - uid: LocationProperties
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the database account.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the database account.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: LocationProperties
+  description: Cosmos DB location metadata
+  kind: object
+  properties:
+  - name: supportsAvailabilityZone
+    isReadyOnly: true
+    description: Flag indicating whether the location supports availability zones or not.
+    types:
+    - uid: boolean
+  - name: isResidencyRestricted
+    isReadyOnly: true
+    description: Flag indicating whether the location is residency sensitive.
+    types:
+    - uid: boolean
+  - name: backupStorageRedundancies
+    isReadyOnly: true
+    description: The properties of available backup storage redundancies.
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBLocationGet
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus?api-version=2022-05-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus?api-version=2022-05-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Locations Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBLocationGet.json
+           */
+          /**
+           * Sample code: CosmosDBLocationGet.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBLocationGet(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.cosmosDBAccounts().manager().serviceClient().getLocations().getWithResponse("westus", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBLocationGet.json
+      func ExampleLocationsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewLocationsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"westus",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Get the properties of an existing Cosmos DB location
+       *
+       * @summary Get the properties of an existing Cosmos DB location
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBLocationGet.json
+       */
+      async function cosmosDbLocationGet() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const location = "westus";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const result = await client.locations.get(location);
+        console.log(result);
+      }
+
+      cosmosDbLocationGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DocumentDB/locations/westus",
+        "type": "Microsoft.DocumentDB/locations",
+        "name": "westus",
+        "properties": {
+          "supportsAvailabilityZone": true,
+          "isResidencyRestricted": true,
+          "backupStorageRedundancies": [
+            "Local",
+            "Geo"
+          ]
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Get the properties of an existing Cosmos DB location
+errorCodes: []

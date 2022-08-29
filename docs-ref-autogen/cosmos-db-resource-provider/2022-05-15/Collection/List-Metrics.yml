@@ -1,0 +1,362 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.collection.listmetrics
+name: List Metrics
+service: Cosmos DB Resource Provider
+groupName: Collection
+apiVersion: 2022-05-15
+summary: Retrieves the metrics determined by the given filter for the given database account and collection.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics?api-version=2022-05-15&$filter={$filter}
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: databaseRid
+  in: path
+  isRequired: true
+  description: Cosmos DB database rid.
+  types:
+  - uid: string
+- name: collectionRid
+  in: path
+  isRequired: true
+  description: Cosmos DB collection rid.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  isRequired: true
+  description: An OData filter expression that describes a subset of metrics to return. The parameters that can be filtered are name.value (name of the metric, can have an or of multiple names), startTime, endTime, and timeGrain. The supported operator is eq.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The metrics for the database account were retrieved successfully.
+  types:
+  - uid: MetricListResult
+requestHeader: []
+definitions:
+- name: MetricListResult
+  description: The response to a list metrics request.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The list of metrics for the account.
+    types:
+    - uid: Metric
+      isArray: true
+- name: Metric
+  description: Metric data
+  kind: object
+  properties:
+  - name: startTime
+    isReadyOnly: true
+    description: The start time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: endTime
+    isReadyOnly: true
+    description: The end time for the metric (ISO-8601 format).
+    types:
+    - uid: string
+  - name: timeGrain
+    isReadyOnly: true
+    description: The time grain to be used to summarize the metric values.
+    types:
+    - uid: string
+  - name: unit
+    isReadyOnly: true
+    description: The unit of the metric.
+    types:
+    - uid: UnitType
+  - name: name
+    isReadyOnly: true
+    description: The name information for the metric.
+    types:
+    - uid: MetricName
+  - name: metricValues
+    isReadyOnly: true
+    description: The metric values for the specified time window and timestep.
+    types:
+    - uid: MetricValue
+      isArray: true
+- name: UnitType
+  description: The unit of the metric.
+  kind: enum
+  properties:
+  - name: Count
+    types:
+    - uid: string
+  - name: Bytes
+    types:
+    - uid: string
+  - name: Seconds
+    types:
+    - uid: string
+  - name: Percent
+    types:
+    - uid: string
+  - name: CountPerSecond
+    types:
+    - uid: string
+  - name: BytesPerSecond
+    types:
+    - uid: string
+  - name: Milliseconds
+    types:
+    - uid: string
+- name: MetricName
+  description: A metric name.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The name of the metric.
+    types:
+    - uid: string
+  - name: localizedValue
+    isReadyOnly: true
+    description: The friendly name of the metric.
+    types:
+    - uid: string
+- name: MetricValue
+  description: Represents metrics values.
+  kind: object
+  properties:
+  - name: _count
+    isReadyOnly: true
+    description: The number of values for the metric.
+    types:
+    - uid: number
+  - name: average
+    isReadyOnly: true
+    description: The average value of the metric.
+    types:
+    - uid: number
+  - name: maximum
+    isReadyOnly: true
+    description: The max value of the metric.
+    types:
+    - uid: number
+  - name: minimum
+    isReadyOnly: true
+    description: The min value of the metric.
+    types:
+    - uid: number
+  - name: timestamp
+    isReadyOnly: true
+    description: The metric timestamp (ISO-8601 format).
+    types:
+    - uid: string
+  - name: total
+    isReadyOnly: true
+    description: The total value of the metric.
+    types:
+    - uid: number
+examples:
+- name: CosmosDBCollectionGetMetrics
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2022-05-15&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/databases/databaseRid/collections/collectionRid/metrics?api-version=2022-05-15&$filter=$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Collection ListMetrics. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionGetMetrics.json
+           */
+          /**
+           * Sample code: CosmosDBCollectionGetMetrics.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBCollectionGetMetrics(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getCollections()
+                  .listMetrics(
+                      "rg1",
+                      "ddb1",
+                      "databaseRid",
+                      "collectionRid",
+                      "$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq"
+                          + " '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z",
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionGetMetrics.json
+      func ExampleCollectionClient_NewListMetricsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewCollectionClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListMetricsPager("rg1",
+      		"ddb1",
+      		"databaseRid",
+      		"collectionRid",
+      		"$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves the metrics determined by the given filter for the given database account and collection.
+       *
+       * @summary Retrieves the metrics determined by the given filter for the given database account and collection.
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBCollectionGetMetrics.json
+       */
+      async function cosmosDbCollectionGetMetrics() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const accountName = "ddb1";
+        const databaseRid = "databaseRid";
+        const collectionRid = "collectionRid";
+        const filter =
+          "$filter=(name.value eq 'Total Requests') and timeGrain eq duration'PT5M' and startTime eq '2017-11-19T23:53:55.2780000Z' and endTime eq '2017-11-20T00:13:55.2780000Z";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.collection.listMetrics(
+          resourceGroupName,
+          accountName,
+          databaseRid,
+          collectionRid,
+          filter
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      cosmosDbCollectionGetMetrics().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "timeGrain": "PT5M",
+            "startTime": "2017-11-19T23:53:55.2780000Z",
+            "endTime": "2017-11-20T00:13:55.2780000Z",
+            "unit": "Count",
+            "metricValues": [
+              {
+                "timestamp": "2017-11-19T23:53:55.2780000Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-19T23:58:55.2780000Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-20T00:03:55.2780000Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              },
+              {
+                "timestamp": "2017-11-20T00:08:55.2780000Z",
+                "total": 0,
+                "_count": 0,
+                "average": 0
+              }
+            ],
+            "name": {
+              "value": "Total Requests",
+              "localizedValue": "Total Requests"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Retrieves the metrics determined by the given filter for the given database account and collection.
+errorCodes: []
