@@ -3,14 +3,14 @@ uid: management.azure.com.media.streamingpolicies.create
 name: Create
 service: Media Services
 groupName: Streaming Policies
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: Create a Streaming Policy in the Media Services account
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/streamingPolicies/{streamingPolicyName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -151,6 +151,10 @@ definitions:
     description: Configuration of DRMs for CommonEncryptionCenc encryption scheme
     types:
     - uid: CencDrmConfiguration
+  - name: clearKeyEncryptionConfiguration
+    description: Optional configuration supporting ClearKey in CommonEncryptionCenc encryption scheme.
+    types:
+    - uid: ClearKeyEncryptionConfiguration
 - name: CommonEncryptionCbcs
   description: Class for CommonEncryptionCbcs encryption scheme
   kind: object
@@ -172,6 +176,10 @@ definitions:
     description: Configuration of DRMs for current encryption scheme
     types:
     - uid: CbcsDrmConfiguration
+  - name: clearKeyEncryptionConfiguration
+    description: Optional configuration supporting ClearKey in CommonEncryptionCbcs encryption scheme.
+    types:
+    - uid: ClearKeyEncryptionConfiguration
 - name: NoEncryption
   description: Class for NoEncryption scheme
   kind: object
@@ -307,6 +315,14 @@ definitions:
     description: Widevine configurations
     types:
     - uid: StreamingPolicyWidevineConfiguration
+- name: ClearKeyEncryptionConfiguration
+  description: Class to specify ClearKey configuration of common encryption schemes in Streaming Policy
+  kind: object
+  properties:
+  - name: customKeysAcquisitionUrlTemplate
+    description: Template for the URL of the custom service delivering content keys to end user players. Not required when using Azure Media Services for issuing licenses. The template supports replaceable tokens that the service will update at runtime with the value specific to the request.  The currently supported token value is {AlternativeMediaId}, which is replaced with the value of StreamingLocatorId.AlternativeMediaId.
+    types:
+    - uid: string
 - name: CbcsDrmConfiguration
   description: Class to specify DRM configurations of CommonEncryptionCbcs scheme in Streaming Policy
   kind: object
@@ -472,7 +488,7 @@ definitions:
 examples:
 - name: Creates a Streaming Policy with clear streaming
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedClearStreamingPolicy?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedClearStreamingPolicy?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -489,7 +505,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedClearStreamingPolicy?api-version=2021-11-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedClearStreamingPolicy?api-version=2022-08-01
 
       {
         "properties": {
@@ -506,130 +522,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.mediaservices.models.EnabledProtocols;
-      import com.azure.resourcemanager.mediaservices.models.NoEncryption;
-
-      /** Samples for StreamingPolicies Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-clear.json
-           */
-          /**
-           * Sample code: Creates a Streaming Policy with clear streaming.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void createsAStreamingPolicyWithClearStreaming(
-              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager
-                  .streamingPolicies()
-                  .define("UserCreatedClearStreamingPolicy")
-                  .withExistingMediaService("contoso", "contosomedia")
-                  .withNoEncryption(
-                      new NoEncryption()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(true)
-                                  .withDash(true)
-                                  .withHls(true)
-                                  .withSmoothStreaming(true)))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armmediaservices_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-clear.json
-      func ExampleStreamingPoliciesClient_Create() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armmediaservices.NewStreamingPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	_, err = client.Create(ctx,
-      		"contoso",
-      		"contosomedia",
-      		"UserCreatedClearStreamingPolicy",
-      		armmediaservices.StreamingPolicy{
-      			Properties: &armmediaservices.StreamingPolicyProperties{
-      				NoEncryption: &armmediaservices.NoEncryption{
-      					EnabledProtocols: &armmediaservices.EnabledProtocols{
-      						Dash:            to.Ptr(true),
-      						Download:        to.Ptr(true),
-      						Hls:             to.Ptr(true),
-      						SmoothStreaming: to.Ptr(true),
-      					},
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.0.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Streaming Policy in the Media Services account
-       *
-       * @summary Create a Streaming Policy in the Media Services account
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-clear.json
-       */
-      async function createsAStreamingPolicyWithClearStreaming() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const resourceGroupName = "contoso";
-        const accountName = "contosomedia";
-        const streamingPolicyName = "UserCreatedClearStreamingPolicy";
-        const parameters = {
-          noEncryption: {
-            enabledProtocols: {
-              dash: true,
-              download: true,
-              hls: true,
-              smoothStreaming: true,
-            },
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const result = await client.streamingPolicies.create(
-          resourceGroupName,
-          accountName,
-          streamingPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createsAStreamingPolicyWithClearStreaming().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -651,7 +543,7 @@ examples:
       }
 - name: Creates a Streaming Policy with envelopeEncryption only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -675,7 +567,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly?api-version=2021-11-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly?api-version=2022-08-01
 
       {
         "properties": {
@@ -699,93 +591,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.mediaservices.models.DefaultKey;
-      import com.azure.resourcemanager.mediaservices.models.EnabledProtocols;
-      import com.azure.resourcemanager.mediaservices.models.EnvelopeEncryption;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyContentKeys;
-
-      /** Samples for StreamingPolicies Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-envelopeEncryption-only.json
-           */
-          /**
-           * Sample code: Creates a Streaming Policy with envelopeEncryption only.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void createsAStreamingPolicyWithEnvelopeEncryptionOnly(
-              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager
-                  .streamingPolicies()
-                  .define("UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly")
-                  .withExistingMediaService("contoso", "contosomedia")
-                  .withDefaultContentKeyPolicyName("PolicyWithClearKeyOptionAndTokenRestriction")
-                  .withEnvelopeEncryption(
-                      new EnvelopeEncryption()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(true)
-                                  .withHls(true)
-                                  .withSmoothStreaming(true))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("aesDefaultKey")))
-                          .withCustomKeyAcquisitionUrlTemplate(
-                              "https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}"))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Streaming Policy in the Media Services account
-       *
-       * @summary Create a Streaming Policy in the Media Services account
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-envelopeEncryption-only.json
-       */
-      async function createsAStreamingPolicyWithEnvelopeEncryptionOnly() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const resourceGroupName = "contoso";
-        const accountName = "contosomedia";
-        const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithEnvelopeEncryptionOnly";
-        const parameters = {
-          defaultContentKeyPolicyName: "PolicyWithClearKeyOptionAndTokenRestriction",
-          envelopeEncryption: {
-            contentKeys: { defaultKey: { label: "aesDefaultKey" } },
-            customKeyAcquisitionUrlTemplate:
-              "https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}",
-            enabledProtocols: {
-              dash: true,
-              download: false,
-              hls: true,
-              smoothStreaming: true,
-            },
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const result = await client.streamingPolicies.create(
-          resourceGroupName,
-          accountName,
-          streamingPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createsAStreamingPolicyWithEnvelopeEncryptionOnly().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -816,7 +621,7 @@ examples:
       }
 - name: Creates a Streaming Policy with commonEncryptionCenc only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -859,7 +664,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2021-11-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2022-08-01
 
       {
         "properties": {
@@ -902,135 +707,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.mediaservices.models.CencDrmConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.CommonEncryptionCenc;
-      import com.azure.resourcemanager.mediaservices.models.DefaultKey;
-      import com.azure.resourcemanager.mediaservices.models.EnabledProtocols;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyContentKeys;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyPlayReadyConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyWidevineConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyCompareOperation;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyCondition;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyType;
-      import com.azure.resourcemanager.mediaservices.models.TrackSelection;
-      import java.util.Arrays;
-
-      /** Samples for StreamingPolicies Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-commonEncryptionCenc-only.json
-           */
-          /**
-           * Sample code: Creates a Streaming Policy with commonEncryptionCenc only.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void createsAStreamingPolicyWithCommonEncryptionCencOnly(
-              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager
-                  .streamingPolicies()
-                  .define("UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly")
-                  .withExistingMediaService("contoso", "contosomedia")
-                  .withDefaultContentKeyPolicyName("PolicyWithPlayReadyOptionAndOpenRestriction")
-                  .withCommonEncryptionCenc(
-                      new CommonEncryptionCenc()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(true)
-                                  .withHls(false)
-                                  .withSmoothStreaming(true))
-                          .withClearTracks(
-                              Arrays
-                                  .asList(
-                                      new TrackSelection()
-                                          .withTrackSelections(
-                                              Arrays
-                                                  .asList(
-                                                      new TrackPropertyCondition()
-                                                          .withProperty(TrackPropertyType.FOUR_CC)
-                                                          .withOperation(TrackPropertyCompareOperation.EQUAL)
-                                                          .withValue("hev1")))))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("cencDefaultKey")))
-                          .withDrm(
-                              new CencDrmConfiguration()
-                                  .withPlayReady(
-                                      new StreamingPolicyPlayReadyConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/playready/{ContentKeyId}")
-                                          .withPlayReadyCustomAttributes("PlayReady CustomAttributes"))
-                                  .withWidevine(
-                                      new StreamingPolicyWidevineConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId"))))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Streaming Policy in the Media Services account
-       *
-       * @summary Create a Streaming Policy in the Media Services account
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-commonEncryptionCenc-only.json
-       */
-      async function createsAStreamingPolicyWithCommonEncryptionCencOnly() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const resourceGroupName = "contoso";
-        const accountName = "contosomedia";
-        const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly";
-        const parameters = {
-          commonEncryptionCenc: {
-            clearTracks: [
-              {
-                trackSelections: [{ operation: "Equal", property: "FourCC", value: "hev1" }],
-              },
-            ],
-            contentKeys: { defaultKey: { label: "cencDefaultKey" } },
-            drm: {
-              playReady: {
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/playready/{ContentKeyId}",
-                playReadyCustomAttributes: "PlayReady CustomAttributes",
-              },
-              widevine: {
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId",
-              },
-            },
-            enabledProtocols: {
-              dash: true,
-              download: false,
-              hls: false,
-              smoothStreaming: true,
-            },
-          },
-          defaultContentKeyPolicyName: "PolicyWithPlayReadyOptionAndOpenRestriction",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const result = await client.streamingPolicies.create(
-          resourceGroupName,
-          accountName,
-          streamingPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createsAStreamingPolicyWithCommonEncryptionCencOnly().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1071,7 +747,7 @@ examples:
                 "playReadyCustomAttributes": "PlayReady CustomAttributes"
               },
               "widevine": {
-                "customLicenseAcquisitionUrlTemplate": "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId"
+                "customLicenseAcquisitionUrlTemplate": "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId}"
               }
             }
           }
@@ -1079,7 +755,7 @@ examples:
       }
 - name: Creates a Streaming Policy with commonEncryptionCbcs only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -1108,7 +784,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2021-11-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2022-08-01
 
       {
         "properties": {
@@ -1137,105 +813,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.mediaservices.models.CbcsDrmConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.CommonEncryptionCbcs;
-      import com.azure.resourcemanager.mediaservices.models.DefaultKey;
-      import com.azure.resourcemanager.mediaservices.models.EnabledProtocols;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyContentKeys;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyFairPlayConfiguration;
-
-      /** Samples for StreamingPolicies Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-commonEncryptionCbcs-only.json
-           */
-          /**
-           * Sample code: Creates a Streaming Policy with commonEncryptionCbcs only.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void createsAStreamingPolicyWithCommonEncryptionCbcsOnly(
-              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager
-                  .streamingPolicies()
-                  .define("UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly")
-                  .withExistingMediaService("contoso", "contosomedia")
-                  .withDefaultContentKeyPolicyName("PolicyWithMultipleOptions")
-                  .withCommonEncryptionCbcs(
-                      new CommonEncryptionCbcs()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(false)
-                                  .withHls(true)
-                                  .withSmoothStreaming(false))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("cbcsDefaultKey")))
-                          .withDrm(
-                              new CbcsDrmConfiguration()
-                                  .withFairPlay(
-                                      new StreamingPolicyFairPlayConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}")
-                                          .withAllowPersistentLicense(true))))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Streaming Policy in the Media Services account
-       *
-       * @summary Create a Streaming Policy in the Media Services account
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-commonEncryptionCbcs-only.json
-       */
-      async function createsAStreamingPolicyWithCommonEncryptionCbcsOnly() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const resourceGroupName = "contoso";
-        const accountName = "contosomedia";
-        const streamingPolicyName = "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly";
-        const parameters = {
-          commonEncryptionCbcs: {
-            contentKeys: { defaultKey: { label: "cbcsDefaultKey" } },
-            drm: {
-              fairPlay: {
-                allowPersistentLicense: true,
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}",
-              },
-            },
-            enabledProtocols: {
-              dash: false,
-              download: false,
-              hls: true,
-              smoothStreaming: false,
-            },
-          },
-          defaultContentKeyPolicyName: "PolicyWithMultipleOptions",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const result = await client.streamingPolicies.create(
-          resourceGroupName,
-          accountName,
-          streamingPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createsAStreamingPolicyWithCommonEncryptionCbcsOnly().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1271,7 +848,7 @@ examples:
       }
 - name: Creates a Streaming Policy with secure streaming
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicy?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicy?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -1347,7 +924,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicy?api-version=2021-11-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicy?api-version=2022-08-01
 
       {
         "properties": {
@@ -1423,195 +1000,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.resourcemanager.mediaservices.models.CbcsDrmConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.CencDrmConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.CommonEncryptionCbcs;
-      import com.azure.resourcemanager.mediaservices.models.CommonEncryptionCenc;
-      import com.azure.resourcemanager.mediaservices.models.DefaultKey;
-      import com.azure.resourcemanager.mediaservices.models.EnabledProtocols;
-      import com.azure.resourcemanager.mediaservices.models.EnvelopeEncryption;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyContentKeys;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyFairPlayConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyPlayReadyConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.StreamingPolicyWidevineConfiguration;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyCompareOperation;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyCondition;
-      import com.azure.resourcemanager.mediaservices.models.TrackPropertyType;
-      import com.azure.resourcemanager.mediaservices.models.TrackSelection;
-      import java.util.Arrays;
-
-      /** Samples for StreamingPolicies Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-secure-streaming.json
-           */
-          /**
-           * Sample code: Creates a Streaming Policy with secure streaming.
-           *
-           * @param manager Entry point to MediaServicesManager.
-           */
-          public static void createsAStreamingPolicyWithSecureStreaming(
-              com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
-              manager
-                  .streamingPolicies()
-                  .define("UserCreatedSecureStreamingPolicy")
-                  .withExistingMediaService("contoso", "contosomedia")
-                  .withDefaultContentKeyPolicyName("PolicyWithMultipleOptions")
-                  .withEnvelopeEncryption(
-                      new EnvelopeEncryption()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(true)
-                                  .withHls(true)
-                                  .withSmoothStreaming(true))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("aesDefaultKey")))
-                          .withCustomKeyAcquisitionUrlTemplate(
-                              "https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}"))
-                  .withCommonEncryptionCenc(
-                      new CommonEncryptionCenc()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(true)
-                                  .withHls(false)
-                                  .withSmoothStreaming(true))
-                          .withClearTracks(
-                              Arrays
-                                  .asList(
-                                      new TrackSelection()
-                                          .withTrackSelections(
-                                              Arrays
-                                                  .asList(
-                                                      new TrackPropertyCondition()
-                                                          .withProperty(TrackPropertyType.FOUR_CC)
-                                                          .withOperation(TrackPropertyCompareOperation.EQUAL)
-                                                          .withValue("hev1")))))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("cencDefaultKey")))
-                          .withDrm(
-                              new CencDrmConfiguration()
-                                  .withPlayReady(
-                                      new StreamingPolicyPlayReadyConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/playready/{ContentKeyId}")
-                                          .withPlayReadyCustomAttributes("PlayReady CustomAttributes"))
-                                  .withWidevine(
-                                      new StreamingPolicyWidevineConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId"))))
-                  .withCommonEncryptionCbcs(
-                      new CommonEncryptionCbcs()
-                          .withEnabledProtocols(
-                              new EnabledProtocols()
-                                  .withDownload(false)
-                                  .withDash(false)
-                                  .withHls(true)
-                                  .withSmoothStreaming(false))
-                          .withContentKeys(
-                              new StreamingPolicyContentKeys().withDefaultKey(new DefaultKey().withLabel("cbcsDefaultKey")))
-                          .withDrm(
-                              new CbcsDrmConfiguration()
-                                  .withFairPlay(
-                                      new StreamingPolicyFairPlayConfiguration()
-                                          .withCustomLicenseAcquisitionUrlTemplate(
-                                              "https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}")
-                                          .withAllowPersistentLicense(true))))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureMediaServices } = require("@azure/arm-mediaservices");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Streaming Policy in the Media Services account
-       *
-       * @summary Create a Streaming Policy in the Media Services account
-       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/streaming-policies-create-secure-streaming.json
-       */
-      async function createsAStreamingPolicyWithSecureStreaming() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const resourceGroupName = "contoso";
-        const accountName = "contosomedia";
-        const streamingPolicyName = "UserCreatedSecureStreamingPolicy";
-        const parameters = {
-          commonEncryptionCbcs: {
-            contentKeys: { defaultKey: { label: "cbcsDefaultKey" } },
-            drm: {
-              fairPlay: {
-                allowPersistentLicense: true,
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}",
-              },
-            },
-            enabledProtocols: {
-              dash: false,
-              download: false,
-              hls: true,
-              smoothStreaming: false,
-            },
-          },
-          commonEncryptionCenc: {
-            clearTracks: [
-              {
-                trackSelections: [{ operation: "Equal", property: "FourCC", value: "hev1" }],
-              },
-            ],
-            contentKeys: { defaultKey: { label: "cencDefaultKey" } },
-            drm: {
-              playReady: {
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/playready/{ContentKeyId}",
-                playReadyCustomAttributes: "PlayReady CustomAttributes",
-              },
-              widevine: {
-                customLicenseAcquisitionUrlTemplate:
-                  "https://contoso.com/{AssetAlternativeId}/widevine/{ContentKeyId",
-              },
-            },
-            enabledProtocols: {
-              dash: true,
-              download: false,
-              hls: false,
-              smoothStreaming: true,
-            },
-          },
-          defaultContentKeyPolicyName: "PolicyWithMultipleOptions",
-          envelopeEncryption: {
-            contentKeys: { defaultKey: { label: "aesDefaultKey" } },
-            customKeyAcquisitionUrlTemplate:
-              "https://contoso.com/{AssetAlternativeId}/envelope/{ContentKeyId}",
-            enabledProtocols: {
-              dash: true,
-              download: false,
-              hls: true,
-              smoothStreaming: true,
-            },
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureMediaServices(credential, subscriptionId);
-        const result = await client.streamingPolicies.create(
-          resourceGroupName,
-          accountName,
-          streamingPolicyName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createsAStreamingPolicyWithSecureStreaming().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_12.1.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -1691,6 +1079,206 @@ examples:
                 "customLicenseAcquisitionUrlTemplate": "https://contoso.com/{AssetAlternativeId}/fairplay/{ContentKeyId}",
                 "allowPersistentLicense": true
               }
+            }
+          }
+        }
+      }
+- name: Creates a Streaming Policy with ClearKey encryption in commonEncryptionCenc.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2022-08-01
+    body: >-
+      {
+        "properties": {
+          "defaultContentKeyPolicyName": "PolicyWithPlayReadyOptionAndOpenRestriction",
+          "commonEncryptionCenc": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": true,
+              "hls": false,
+              "smoothStreaming": true
+            },
+            "clearTracks": [
+              {
+                "trackSelections": [
+                  {
+                    "property": "FourCC",
+                    "operation": "Equal",
+                    "value": "hev1"
+                  }
+                ]
+              }
+            ],
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cencDefaultKey"
+              }
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly?api-version=2022-08-01
+
+      {
+        "properties": {
+          "defaultContentKeyPolicyName": "PolicyWithPlayReadyOptionAndOpenRestriction",
+          "commonEncryptionCenc": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": true,
+              "hls": false,
+              "smoothStreaming": true
+            },
+            "clearTracks": [
+              {
+                "trackSelections": [
+                  {
+                    "property": "FourCC",
+                    "operation": "Equal",
+                    "value": "hev1"
+                  }
+                ]
+              }
+            ],
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cencDefaultKey"
+              }
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCencOnly",
+        "type": "Microsoft.Media/mediaservices/streamingPolicies",
+        "properties": {
+          "created": "2018-08-08T18:29:31.4678543Z",
+          "defaultContentKeyPolicyName": "PolicyWithPlayReadyOptionAndOpenRestriction",
+          "commonEncryptionCenc": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": true,
+              "hls": false,
+              "smoothStreaming": true
+            },
+            "clearTracks": [
+              {
+                "trackSelections": [
+                  {
+                    "property": "FourCC",
+                    "operation": "Equal",
+                    "value": "hev1"
+                  }
+                ]
+              }
+            ],
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cencDefaultKey"
+              },
+              "keyToTrackMappings": []
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
+            }
+          }
+        }
+      }
+- name: Creates a Streaming Policy with ClearKey encryption in commonEncryptionCbcs.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2022-08-01
+    body: >-
+      {
+        "properties": {
+          "defaultContentKeyPolicyName": "PolicyWithMultipleOptions",
+          "commonEncryptionCbcs": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": false,
+              "hls": true,
+              "smoothStreaming": false
+            },
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cbcsDefaultKey"
+              }
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly?api-version=2022-08-01
+
+      {
+        "properties": {
+          "defaultContentKeyPolicyName": "PolicyWithMultipleOptions",
+          "commonEncryptionCbcs": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": false,
+              "hls": true,
+              "smoothStreaming": false
+            },
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cbcsDefaultKey"
+              }
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "name": "UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaservices/contosomedia/streamingPolicies/UserCreatedSecureStreamingPolicyWithCommonEncryptionCbcsOnly",
+        "type": "Microsoft.Media/mediaservices/streamingPolicies",
+        "properties": {
+          "created": "2018-08-08T18:29:31.6197199Z",
+          "defaultContentKeyPolicyName": "PolicyWithMultipleOptions",
+          "commonEncryptionCbcs": {
+            "enabledProtocols": {
+              "download": false,
+              "dash": false,
+              "hls": true,
+              "smoothStreaming": false
+            },
+            "clearTracks": [],
+            "contentKeys": {
+              "defaultKey": {
+                "label": "cbcsDefaultKey"
+              },
+              "keyToTrackMappings": []
+            },
+            "clearKeyEncryptionConfiguration": {
+              "customKeysAcquisitionUrlTemplate": "https://contoso.com/{AlternativeMediaId}/clearkey/"
             }
           }
         }
