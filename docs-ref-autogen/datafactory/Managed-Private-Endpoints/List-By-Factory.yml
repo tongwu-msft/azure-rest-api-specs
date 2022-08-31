@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.datafactory.managedprivateendpoints(stable).get
-name: Get
+uid: management.azure.com.datafactory.managedprivateendpoints.listbyfactory
+name: List By Factory
 service: Data Factory
-groupName: ManagedPrivateEndpoints(stable)
+groupName: Managed Private Endpoints
 apiVersion: 2018-06-01
-summary: Gets a managed private endpoint.
+summary: Lists managed private endpoints.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints/{managedPrivateEndpointName}?api-version=2018-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataFactory/factories/{factoryName}/managedVirtualNetworks/{managedVirtualNetworkName}/managedPrivateEndpoints?api-version=2018-06-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -39,13 +39,6 @@ uriParameters:
   types:
   - uid: string
   pattern: ^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$
-- name: managedPrivateEndpointName
-  in: path
-  isRequired: true
-  description: Managed private endpoint name
-  types:
-  - uid: string
-  pattern: ^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$
 - name: api-version
   in: query
   isRequired: true
@@ -56,18 +49,47 @@ responses:
 - name: 200 OK
   description: OK.
   types:
-  - uid: ManagedPrivateEndpointResource
+  - uid: managedPrivateEndpointListResponse
 - name: Other Status Codes
-  description: An error response received from GET managed private endpoint operation.
+  description: An error response received from the Azure Data Factory service.
   types:
   - uid: CloudError
-requestHeader:
-- name: If-None-Match
-  in: header
-  description: ETag of the managed private endpoint entity. Should only be specified for get. If the ETag matches the existing entity tag, or if * was provided, then no content will be returned.
-  types:
-  - uid: string
+requestHeader: []
 definitions:
+- name: managedPrivateEndpointListResponse
+  description: A list of managed private endpoint resources.
+  kind: object
+  properties:
+  - name: value
+    description: List of managed private endpoints.
+    types:
+    - uid: ManagedPrivateEndpointResource
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of results, if any remaining results exist.
+    types:
+    - uid: string
+- name: CloudError
+  description: The object that defines the structure of an Azure Data Factory error response.
+  kind: object
+  properties:
+  - name: error.code
+    description: Error code.
+    types:
+    - uid: string
+  - name: error.message
+    description: Error message.
+    types:
+    - uid: string
+  - name: error.target
+    description: Property name/path in request associated with error.
+    types:
+    - uid: string
+  - name: error.details
+    description: Array with additional error details.
+    types:
+    - uid: CloudError
+      isArray: true
 - name: ManagedPrivateEndpointResource
   description: Managed private endpoint resource type.
   kind: object
@@ -96,27 +118,6 @@ definitions:
     description: Etag identifies change in the resource.
     types:
     - uid: string
-- name: CloudError
-  description: The object that defines the structure of an Azure Data Factory error response.
-  kind: object
-  properties:
-  - name: error.code
-    description: Error code.
-    types:
-    - uid: string
-  - name: error.message
-    description: Error message.
-    types:
-    - uid: string
-  - name: error.target
-    description: Property name/path in request associated with error.
-    types:
-    - uid: string
-  - name: error.details
-    description: Array with additional error details.
-    types:
-    - uid: CloudError
-      isArray: true
 - name: ManagedPrivateEndpoint
   description: Properties of a managed private endpoint
   kind: object
@@ -168,39 +169,35 @@ definitions:
     types:
     - uid: string
 examples:
-- name: ManagedPrivateEndpoints_Get
+- name: ManagedPrivateEndpoints_ListByFactory
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints/exampleManagedPrivateEndpointName?api-version=2018-06-01
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints?api-version=2018-06-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints/exampleManagedPrivateEndpointName?api-version=2018-06-01
+      GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints?api-version=2018-06-01
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
 
-      /** Samples for ManagedPrivateEndpoints Get. */
+      /** Samples for ManagedPrivateEndpoints ListByFactory. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_Get.json
+           * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_ListByFactory.json
            */
           /**
-           * Sample code: ManagedPrivateEndpoints_Get.
+           * Sample code: ManagedPrivateEndpoints_ListByFactory.
            *
            * @param manager Entry point to DataFactoryManager.
            */
-          public static void managedPrivateEndpointsGet(com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
+          public static void managedPrivateEndpointsListByFactory(
+              com.azure.resourcemanager.datafactory.DataFactoryManager manager) {
               manager
                   .managedPrivateEndpoints()
-                  .getWithResponse(
-                      "exampleResourceGroup",
-                      "exampleFactoryName",
-                      "exampleManagedVirtualNetworkName",
-                      "exampleManagedPrivateEndpointName",
-                      null,
-                      Context.NONE);
+                  .listByFactory(
+                      "exampleResourceGroup", "exampleFactoryName", "exampleManagedVirtualNetworkName", Context.NONE);
           }
       }
 
@@ -218,8 +215,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_Get.json
-      func ExampleManagedPrivateEndpointsClient_Get() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_ListByFactory.json
+      func ExampleManagedPrivateEndpointsClient_NewListByFactoryPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -229,17 +226,20 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.Get(ctx,
-      		"exampleResourceGroup",
+      	pager := client.NewListByFactoryPager("exampleResourceGroup",
       		"exampleFactoryName",
       		"exampleManagedVirtualNetworkName",
-      		"exampleManagedPrivateEndpointName",
-      		&armdatafactory.ManagedPrivateEndpointsClientGetOptions{IfNoneMatch: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
       	}
-      	// TODO: use response item
-      	_ = res
       }
 
       ```
@@ -250,29 +250,30 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Gets a managed private endpoint.
+       * This sample demonstrates how to Lists managed private endpoints.
        *
-       * @summary Gets a managed private endpoint.
-       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_Get.json
+       * @summary Lists managed private endpoints.
+       * x-ms-original-file: specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/ManagedPrivateEndpoints_ListByFactory.json
        */
-      async function managedPrivateEndpointsGet() {
+      async function managedPrivateEndpointsListByFactory() {
         const subscriptionId = "12345678-1234-1234-1234-12345678abc";
         const resourceGroupName = "exampleResourceGroup";
         const factoryName = "exampleFactoryName";
         const managedVirtualNetworkName = "exampleManagedVirtualNetworkName";
-        const managedPrivateEndpointName = "exampleManagedPrivateEndpointName";
         const credential = new DefaultAzureCredential();
         const client = new DataFactoryManagementClient(credential, subscriptionId);
-        const result = await client.managedPrivateEndpoints.get(
+        const resArray = new Array();
+        for await (let item of client.managedPrivateEndpoints.listByFactory(
           resourceGroupName,
           factoryName,
-          managedVirtualNetworkName,
-          managedPrivateEndpointName
-        );
-        console.log(result);
+          managedVirtualNetworkName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
       }
 
-      managedPrivateEndpointsGet().catch(console.error);
+      managedPrivateEndpointsListByFactory().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
@@ -280,32 +281,36 @@ examples:
   - statusCode: "200"
     headers:
     - name: Date
-      value: Mon, 22 Apr 2019 18:33:47 GMT
+      value: Wed, 13 Jun 2020 21:33:05 GMT
     - name: X-Content-Type-Options
       value: nosniff
     - name: x-ms-ratelimit-remaining-subscription-reads
-      value: "11997"
+      value: "14909"
     - name: x-ms-request-id
       value: 9e6639e9-bece-4c0c-85de-4cadc30a73a6
     - name: x-ms-correlation-request-id
       value: 9e6639e9-bece-4c0c-85de-4cadc30a73a6
     body: >-
       {
-        "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints/exampleManagedPrivateEndpointName",
-        "name": "exampleManagedPrivateEndpointName",
-        "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
-        "properties": {
-          "provisioningState": "Succeeded",
-          "privateLinkResourceId": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Storage/storageAccounts/exampleBlobStorage",
-          "groupId": "blob",
-          "fqdns": [],
-          "connectionState": {
-            "status": "Pending",
-            "description": "",
-            "actionsRequired": "None"
+        "value": [
+          {
+            "id": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.DataFactory/factories/exampleFactoryName/managedVirtualNetworks/exampleManagedVirtualNetworkName/managedPrivateEndpoints/exampleManagedPrivateEndpointName",
+            "name": "exampleManagedPrivateEndpointName",
+            "type": "Microsoft.DataFactory/factories/managedVirtualNetworks/managedPrivateEndpoints",
+            "properties": {
+              "provisioningState": "Succeeded",
+              "privateLinkResourceId": "/subscriptions/12345678-1234-1234-1234-12345678abc/resourceGroups/exampleResourceGroup/providers/Microsoft.Storage/storageAccounts/exampleBlobStorage",
+              "groupId": "blob",
+              "fqdns": [],
+              "connectionState": {
+                "status": "Pending",
+                "description": "",
+                "actionsRequired": "None"
+              }
+            },
+            "etag": "000046c4-0000-0000-0000-5b2198bf0000"
           }
-        },
-        "etag": "000046c4-0000-0000-0000-5b2198bf0000"
+        ]
       }
 security:
 - name: azure_auth
@@ -318,5 +323,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Data Factory service - Gets a managed private endpoint.
+    Learn more about Data Factory service - Lists managed private endpoints.
 errorCodes: []
