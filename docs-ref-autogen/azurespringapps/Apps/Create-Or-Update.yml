@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.apps.createorupdate
 name: Create Or Update
 service: Azure Spring Apps
 groupName: Apps
-apiVersion: 2022-05-01-preview
+apiVersion: 2022-09-01-preview
 summary: Create a new App or update an exiting App.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-05-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -109,6 +109,7 @@ definitions:
     types:
     - uid: AppResourceProvisioningState
   - name: fqdn
+    isReadyOnly: true
     description: Fully qualified dns Name.
     types:
     - uid: string
@@ -144,6 +145,10 @@ definitions:
     description: Additional App settings in vnet injection instance
     types:
     - uid: AppVNetAddons
+  - name: ingressSettings
+    description: App ingress settings payload.
+    types:
+    - uid: IngressSettings
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -329,6 +334,34 @@ definitions:
     description: URL of the App in vnet injection instance which could be accessed from internet
     types:
     - uid: string
+- name: IngressSettings
+  description: App ingress settings payload.
+  kind: object
+  properties:
+  - name: readTimeoutInSeconds
+    description: Ingress read time out in seconds.
+    types:
+    - uid: integer
+  - name: sendTimeoutInSeconds
+    description: Ingress send time out in seconds.
+    types:
+    - uid: integer
+  - name: sessionAffinity
+    description: Type of the affinity, set this to Cookie to enable session affinity.
+    types:
+    - uid: SessionAffinity
+  - name: sessionCookieMaxAge
+    description: Time in seconds until the cookie expires.
+    types:
+    - uid: integer
+  - name: backendProtocol
+    description: How ingress should communicate with this app backend service.
+    types:
+    - uid: BackendProtocol
+  - name: clientAuth
+    description: Client-Certification Authentication.
+    types:
+    - uid: ClientAuth
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -412,6 +445,35 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: SessionAffinity
+  description: Type of the affinity, set this to Cookie to enable session affinity.
+  kind: enum
+  properties:
+  - name: Cookie
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: BackendProtocol
+  description: How ingress should communicate with this app backend service.
+  kind: enum
+  properties:
+  - name: GRPC
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: ClientAuth
+  description: Client-Certification Authentication.
+  kind: object
+  properties:
+  - name: certificates
+    description: Collection of certificate resource id.
+    types:
+    - uid: string
+      isArray: true
 - name: AzureFileVolume
   description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
   kind: object
@@ -441,12 +503,11 @@ definitions:
 examples:
 - name: Apps_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
@@ -512,12 +573,11 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
 
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
@@ -583,103 +643,6 @@ examples:
 
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armappplatform_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Apps_CreateOrUpdate.json
-      func ExampleAppsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armappplatform.NewAppsClient("00000000-0000-0000-0000-000000000000", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"myResourceGroup",
-      		"myservice",
-      		"myapp",
-      		armappplatform.AppResource{
-      			Identity: &armappplatform.ManagedIdentityProperties{
-      				Type: to.Ptr(armappplatform.ManagedIdentityTypeSystemAssignedUserAssigned),
-      				UserAssignedIdentities: map[string]*armappplatform.UserAssignedManagedIdentity{
-      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {},
-      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {},
-      				},
-      			},
-      			Location: to.Ptr("eastus"),
-      			Properties: &armappplatform.AppResourceProperties{
-      				AddonConfigs: map[string]map[string]interface{}{
-      					"ApplicationConfigurationService": {
-      						"resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/configurationServices/myacs",
-      					},
-      					"ServiceRegistry": {
-      						"resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/serviceRegistries/myServiceRegistry",
-      					},
-      				},
-      				CustomPersistentDisks: []*armappplatform.CustomPersistentDiskResource{
-      					{
-      						CustomPersistentDiskProperties: &armappplatform.AzureFileVolume{
-      							Type: to.Ptr(armappplatform.TypeAzureFileVolume),
-      							MountOptions: []*string{
-      								to.Ptr("uid=0"),
-      								to.Ptr("gid=0"),
-      								to.Ptr("dir_mode=0777"),
-      								to.Ptr("file_mode=0777")},
-      							MountPath: to.Ptr("/mypath1/mypath2"),
-      							ShareName: to.Ptr("myFileShare"),
-      						},
-      						StorageID: to.Ptr("myASCStorageID"),
-      					}},
-      				EnableEndToEndTLS: to.Ptr(false),
-      				Fqdn:              to.Ptr("myapp.mydomain.com"),
-      				HTTPSOnly:         to.Ptr(false),
-      				LoadedCertificates: []*armappplatform.LoadedCertificate{
-      					{
-      						LoadTrustStore: to.Ptr(false),
-      						ResourceID:     to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert1"),
-      					},
-      					{
-      						LoadTrustStore: to.Ptr(true),
-      						ResourceID:     to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/certificates/mycert2"),
-      					}},
-      				PersistentDisk: &armappplatform.PersistentDisk{
-      					MountPath: to.Ptr("/mypersistentdisk"),
-      					SizeInGB:  to.Ptr[int32](2),
-      				},
-      				Public: to.Ptr(true),
-      				TemporaryDisk: &armappplatform.TemporaryDisk{
-      					MountPath: to.Ptr("/mytemporarydisk"),
-      					SizeInGB:  to.Ptr[int32](2),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -899,12 +862,11 @@ examples:
       }
 - name: Apps_CreateOrUpdate_VNetInjection
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.private.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "vnetAddons": {
@@ -973,12 +935,11 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
 
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.private.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "vnetAddons": {

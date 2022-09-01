@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.apps.list
 name: List
 service: Azure Spring Apps
 groupName: Apps
-apiVersion: 2022-05-01-preview
+apiVersion: 2022-09-01-preview
 summary: Handles requests to list all resources in a Service.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps?api-version=2022-05-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps?api-version=2022-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -155,6 +155,7 @@ definitions:
     types:
     - uid: AppResourceProvisioningState
   - name: fqdn
+    isReadyOnly: true
     description: Fully qualified dns Name.
     types:
     - uid: string
@@ -190,6 +191,10 @@ definitions:
     description: Additional App settings in vnet injection instance
     types:
     - uid: AppVNetAddons
+  - name: ingressSettings
+    description: App ingress settings payload.
+    types:
+    - uid: IngressSettings
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -331,6 +336,34 @@ definitions:
     description: URL of the App in vnet injection instance which could be accessed from internet
     types:
     - uid: string
+- name: IngressSettings
+  description: App ingress settings payload.
+  kind: object
+  properties:
+  - name: readTimeoutInSeconds
+    description: Ingress read time out in seconds.
+    types:
+    - uid: integer
+  - name: sendTimeoutInSeconds
+    description: Ingress send time out in seconds.
+    types:
+    - uid: integer
+  - name: sessionAffinity
+    description: Type of the affinity, set this to Cookie to enable session affinity.
+    types:
+    - uid: SessionAffinity
+  - name: sessionCookieMaxAge
+    description: Time in seconds until the cookie expires.
+    types:
+    - uid: integer
+  - name: backendProtocol
+    description: How ingress should communicate with this app backend service.
+    types:
+    - uid: BackendProtocol
+  - name: clientAuth
+    description: Client-Certification Authentication.
+    types:
+    - uid: ClientAuth
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -393,6 +426,35 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: SessionAffinity
+  description: Type of the affinity, set this to Cookie to enable session affinity.
+  kind: enum
+  properties:
+  - name: Cookie
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: BackendProtocol
+  description: How ingress should communicate with this app backend service.
+  kind: enum
+  properties:
+  - name: GRPC
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: ClientAuth
+  description: Client-Certification Authentication.
+  kind: object
+  properties:
+  - name: certificates
+    description: Collection of certificate resource id.
+    types:
+    - uid: string
+      isArray: true
 - name: AzureFileVolume
   description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
   kind: object
@@ -422,53 +484,13 @@ definitions:
 examples:
 - name: Apps_List
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-09-01-preview
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armappplatform_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appplatform/armappplatform"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appplatform/resource-manager/Microsoft.AppPlatform/preview/2022-05-01-preview/examples/Apps_List.json
-      func ExampleAppsClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armappplatform.NewAppsClient("00000000-0000-0000-0000-000000000000", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("myResourceGroup",
-      		"myservice",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappplatform%2Farmappplatform%2Fv1.1.0-beta.1/sdk/resourcemanager/appplatform/armappplatform/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -550,11 +572,11 @@ examples:
       }
 - name: Apps_List_VNetInjection
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-05-01-preview
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps?api-version=2022-09-01-preview
       ```
 
   responses:
