@@ -1,0 +1,648 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.restorablesqlcontainers.list
+name: List
+service: Cosmos DB Resource Provider
+groupName: Restorable Sql Containers
+apiVersion: 2022-05-15
+summary: Show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlContainers?api-version=2022-05-15
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts/{instanceId}/restorableSqlContainers?api-version=2022-05-15&restorableSqlDatabaseRid={restorableSqlDatabaseRid}&startTime={startTime}&endTime={endTime}
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Cosmos DB region, with spaces between words and each word capitalized.
+  types:
+  - uid: string
+- name: instanceId
+  in: path
+  isRequired: true
+  description: The instanceId GUID of a restorable database account.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+- name: restorableSqlDatabaseRid
+  in: query
+  description: The resource ID of the SQL database.
+  types:
+  - uid: string
+- name: startTime
+  in: query
+  description: The snapshot create timestamp after which snapshots need to be listed.
+  types:
+  - uid: string
+- name: endTime
+  in: query
+  description: The snapshot create timestamp before which snapshots need to be listed.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: RestorableSqlContainersListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: RestorableSqlContainersListResult
+  description: The List operation response, that contains the SQL container events and their properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of SQL container events and their properties.
+    types:
+    - uid: RestorableSqlContainerGetResult
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: RestorableSqlContainerGetResult
+  description: An Azure Cosmos DB SQL container event
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The unique resource Identifier of the ARM resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the ARM resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: properties.resource
+    description: The resource of an Azure Cosmos DB SQL container event
+    types:
+    - uid: Resource
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: Resource
+  description: The resource of an Azure Cosmos DB SQL container event
+  kind: object
+  properties:
+  - name: _rid
+    isReadyOnly: true
+    description: A system generated property. A unique identifier.
+    types:
+    - uid: string
+  - name: operationType
+    isReadyOnly: true
+    description: The operation type of this container event.
+    types:
+    - uid: OperationType
+  - name: eventTimestamp
+    isReadyOnly: true
+    description: The when this container event happened.
+    types:
+    - uid: string
+  - name: ownerId
+    isReadyOnly: true
+    description: The name of this SQL container.
+    types:
+    - uid: string
+  - name: ownerResourceId
+    isReadyOnly: true
+    description: The resource ID of this SQL container.
+    types:
+    - uid: string
+  - name: container
+    description: Cosmos DB SQL container resource object
+    types:
+    - uid: Container
+- name: OperationType
+  description: Enum to indicate the operation type of the event.
+  kind: enum
+  properties:
+  - name: Create
+    types:
+    - uid: string
+  - name: Replace
+    types:
+    - uid: string
+  - name: Delete
+    types:
+    - uid: string
+  - name: SystemOperation
+    types:
+    - uid: string
+- name: Container
+  description: Cosmos DB SQL container resource object
+  kind: object
+  properties:
+  - name: _self
+    isReadyOnly: true
+    description: A system generated property that specifies the addressable path of the container resource.
+    types:
+    - uid: string
+  - name: id
+    description: Name of the Cosmos DB SQL container
+    types:
+    - uid: string
+  - name: indexingPolicy
+    description: The configuration of the indexing policy. By default, the indexing is automatic for all document paths within the container
+    types:
+    - uid: IndexingPolicy
+  - name: partitionKey
+    description: The configuration of the partition key to be used for partitioning data into multiple partitions
+    types:
+    - uid: ContainerPartitionKey
+  - name: defaultTtl
+    description: Default time to live
+    types:
+    - uid: integer
+  - name: uniqueKeyPolicy
+    description: The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
+    types:
+    - uid: UniqueKeyPolicy
+  - name: conflictResolutionPolicy
+    description: The conflict resolution policy for the container.
+    types:
+    - uid: ConflictResolutionPolicy
+  - name: analyticalStorageTtl
+    description: Analytical TTL.
+    types:
+    - uid: integer
+  - name: _rid
+    isReadyOnly: true
+    description: A system generated property. A unique identifier.
+    types:
+    - uid: string
+  - name: _ts
+    isReadyOnly: true
+    description: A system generated property that denotes the last updated timestamp of the resource.
+    types:
+    - uid: number
+  - name: _etag
+    isReadyOnly: true
+    description: A system generated property representing the resource etag required for optimistic concurrency control.
+    types:
+    - uid: string
+- name: IndexingPolicy
+  description: Cosmos DB indexing policy
+  kind: object
+  properties:
+  - name: automatic
+    description: Indicates if the indexing policy is automatic
+    types:
+    - uid: boolean
+  - name: indexingMode
+    description: Indicates the indexing mode.
+    types:
+    - uid: IndexingMode
+    defaultValue: consistent
+  - name: includedPaths
+    description: List of paths to include in the indexing
+    types:
+    - uid: IncludedPath
+      isArray: true
+  - name: excludedPaths
+    description: List of paths to exclude from indexing
+    types:
+    - uid: ExcludedPath
+      isArray: true
+  - name: compositeIndexes
+    description: List of composite path list
+    types:
+    - uid: array
+      isArray: true
+  - name: spatialIndexes
+    description: List of spatial specifics
+    types:
+    - uid: SpatialSpec
+      isArray: true
+- name: ContainerPartitionKey
+  description: The configuration of the partition key to be used for partitioning data into multiple partitions
+  kind: object
+  properties:
+  - name: paths
+    description: List of paths using which data within the container can be partitioned
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create
+    types:
+    - uid: PartitionKind
+    defaultValue: Hash
+  - name: version
+    description: Indicates the version of the partition key definition
+    types:
+    - uid: integer
+  - name: systemKey
+    isReadyOnly: true
+    description: Indicates if the container is using a system generated partition key
+    types:
+    - uid: boolean
+- name: UniqueKeyPolicy
+  description: The unique key policy configuration for specifying uniqueness constraints on documents in the collection in the Azure Cosmos DB service.
+  kind: object
+  properties:
+  - name: uniqueKeys
+    description: List of unique keys on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+    types:
+    - uid: UniqueKey
+      isArray: true
+- name: ConflictResolutionPolicy
+  description: The conflict resolution policy for the container.
+  kind: object
+  properties:
+  - name: mode
+    description: Indicates the conflict resolution mode.
+    types:
+    - uid: ConflictResolutionMode
+    defaultValue: LastWriterWins
+  - name: conflictResolutionPath
+    description: The conflict resolution path in the case of LastWriterWins mode.
+    types:
+    - uid: string
+  - name: conflictResolutionProcedure
+    description: The procedure to resolve conflicts in the case of custom mode.
+    types:
+    - uid: string
+- name: IndexingMode
+  description: Indicates the indexing mode.
+  kind: enum
+  properties:
+  - name: consistent
+    types:
+    - uid: string
+  - name: lazy
+    types:
+    - uid: string
+  - name: none
+    types:
+    - uid: string
+- name: IncludedPath
+  description: The paths that are included in indexing
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+  - name: indexes
+    description: List of indexes for this path
+    types:
+    - uid: Indexes
+      isArray: true
+- name: ExcludedPath
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+- name: SpatialSpec
+  kind: object
+  properties:
+  - name: path
+    description: The path for which the indexing behavior applies to. Index paths typically start with root and end with wildcard (/path/*)
+    types:
+    - uid: string
+  - name: types
+    description: List of path's spatial type
+    types:
+    - uid: string
+      isArray: true
+- name: PartitionKind
+  description: Indicates the kind of algorithm used for partitioning. For MultiHash, multiple partition keys (upto three maximum) are supported for container create
+  kind: enum
+  properties:
+  - name: Hash
+    types:
+    - uid: string
+  - name: Range
+    types:
+    - uid: string
+  - name: MultiHash
+    types:
+    - uid: string
+- name: UniqueKey
+  description: The unique key on that enforces uniqueness constraint on documents in the collection in the Azure Cosmos DB service.
+  kind: object
+  properties:
+  - name: paths
+    description: List of paths must be unique for each document in the Azure Cosmos DB service
+    types:
+    - uid: string
+      isArray: true
+- name: ConflictResolutionMode
+  description: Indicates the conflict resolution mode.
+  kind: enum
+  properties:
+  - name: LastWriterWins
+    types:
+    - uid: string
+  - name: Custom
+    types:
+    - uid: string
+- name: Indexes
+  description: The indexes for the path.
+  kind: object
+  properties:
+  - name: dataType
+    description: The datatype for which the indexing behavior is applied to.
+    types:
+    - uid: DataType
+    defaultValue: String
+  - name: precision
+    description: The precision of the index. -1 is maximum precision.
+    types:
+    - uid: integer
+  - name: kind
+    description: Indicates the type of index.
+    types:
+    - uid: IndexKind
+    defaultValue: Hash
+- name: DataType
+  description: The datatype for which the indexing behavior is applied to.
+  kind: enum
+  properties:
+  - name: String
+    types:
+    - uid: string
+  - name: Number
+    types:
+    - uid: string
+  - name: Point
+    types:
+    - uid: string
+  - name: Polygon
+    types:
+    - uid: string
+  - name: LineString
+    types:
+    - uid: string
+  - name: MultiPolygon
+    types:
+    - uid: string
+- name: IndexKind
+  description: Indicates the type of index.
+  kind: enum
+  properties:
+  - name: Hash
+    types:
+    - uid: string
+  - name: Range
+    types:
+    - uid: string
+  - name: Spatial
+    types:
+    - uid: string
+examples:
+- name: CosmosDBRestorableSqlContainerList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/98a570f2-63db-4117-91f0-366327b7b353/restorableSqlContainers?api-version=2022-05-15&restorableSqlDatabaseRid=3fu-hg==
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/locations/WestUS/restorableDatabaseAccounts/98a570f2-63db-4117-91f0-366327b7b353/restorableSqlContainers?api-version=2022-05-15&restorableSqlDatabaseRid=3fu-hg==
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for RestorableSqlContainers List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableSqlContainerList.json
+           */
+          /**
+           * Sample code: CosmosDBRestorableSqlContainerList.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBRestorableSqlContainerList(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getRestorableSqlContainers()
+                  .list("WestUS", "98a570f2-63db-4117-91f0-366327b7b353", "3fu-hg==", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableSqlContainerList.json
+      func ExampleRestorableSQLContainersClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewRestorableSQLContainersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("WestUS",
+      		"98a570f2-63db-4117-91f0-366327b7b353",
+      		&armcosmos.RestorableSQLContainersClientListOptions{RestorableSQLDatabaseRid: to.Ptr("3fu-hg=="),
+      			StartTime: nil,
+      			EndTime:   nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+       *
+       * @summary Show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.  This helps in scenario where container was accidentally deleted.  This API requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/.../read' permission
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableSqlContainerList.json
+       */
+      async function cosmosDbRestorableSqlContainerList() {
+        const subscriptionId = "subid";
+        const location = "WestUS";
+        const instanceId = "98a570f2-63db-4117-91f0-366327b7b353";
+        const restorableSqlDatabaseRid = "3fu-hg==";
+        const options = {
+          restorableSqlDatabaseRid,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.restorableSqlContainers.list(location, instanceId, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      cosmosDbRestorableSqlContainerList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDb/locations/westus/restorableDatabaseAccounts/98a570f2-63db-4117-91f0-366327b7b353/restorableSqlContainers/79609a98-3394-41f8-911f-cfab0c075c86",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts/restorableSqlContainers",
+            "name": "79609a98-3394-41f8-911f-cfab0c075c86",
+            "properties": {
+              "resource": {
+                "_rid": "zAyAPQAAAA==",
+                "eventTimestamp": "2020-10-13T04:56:42Z",
+                "ownerId": "Container1",
+                "ownerResourceId": "V18LoLrv-qA=",
+                "operationType": "Create",
+                "container": {
+                  "id": "Container1",
+                  "indexingPolicy": {
+                    "indexingMode": "consistent",
+                    "automatic": true,
+                    "includedPaths": [
+                      {
+                        "path": "/*"
+                      },
+                      {
+                        "path": "/\"_ts\"/?"
+                      }
+                    ],
+                    "excludedPaths": [
+                      {
+                        "path": "/\"_etag\"/?"
+                      }
+                    ]
+                  },
+                  "conflictResolutionPolicy": {
+                    "mode": "LastWriterWins",
+                    "conflictResolutionPath": "/_ts",
+                    "conflictResolutionProcedure": ""
+                  },
+                  "_rid": "V18LoLrv-qA=",
+                  "_self": "dbs/V18LoA==/colls/V18LoLrv-qA=/",
+                  "_etag": "\"00003e00-0000-0700-0000-5f85338a0000\""
+                }
+              }
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDb/locations/westus/restorableDatabaseAccounts/98a570f2-63db-4117-91f0-366327b7b353/restorableSqlContainers/e85298a1-c631-4726-825e-a7ca092e9098",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts/restorableSqlContainers",
+            "name": "e85298a1-c631-4726-825e-a7ca092e9098",
+            "properties": {
+              "resource": {
+                "_rid": "PrArcgAAAA==",
+                "eventTimestamp": "2020-10-13T05:03:27Z",
+                "ownerId": "Container1",
+                "ownerResourceId": "V18LoLrv-qA=",
+                "operationType": "Replace",
+                "container": {
+                  "id": "Container1",
+                  "indexingPolicy": {
+                    "indexingMode": "consistent",
+                    "automatic": true,
+                    "includedPaths": [
+                      {
+                        "path": "/*"
+                      },
+                      {
+                        "path": "/\"_ts\"/?"
+                      }
+                    ],
+                    "excludedPaths": [
+                      {
+                        "path": "/\"_etag\"/?"
+                      }
+                    ]
+                  },
+                  "defaultTtl": 12345,
+                  "conflictResolutionPolicy": {
+                    "mode": "LastWriterWins",
+                    "conflictResolutionPath": "/_ts",
+                    "conflictResolutionProcedure": ""
+                  },
+                  "_rid": "V18LoLrv-qA=",
+                  "_self": "dbs/V18LoA==/colls/V18LoLrv-qA=/",
+                  "_etag": "\"00004400-0000-0700-0000-5f85351f0000\""
+                }
+              }
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Show the event feed of all mutations done on all the Azure Cosmos DB SQL containers under a specific database.
+errorCodes: []
