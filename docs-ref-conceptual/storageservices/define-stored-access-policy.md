@@ -13,7 +13,7 @@ ms.topic: reference
 
 A stored access policy provides an additional level of control over service-level shared access signatures (SASs) on the server side. Establishing a stored access policy serves to group shared access signatures and to provide additional restrictions for signatures that are bound by the policy. 
 
-You can use a stored access policy to change the start time, expiration time, or permissions for a signature. You can also use a stored access policy to revoke a signature after it has been issued.  
+You can use a stored access policy to change the start time, expiry time, or permissions for a signature. You can also use a stored access policy to revoke a signature after it has been issued.  
   
  The following storage resources support stored access policies:  
   
@@ -29,7 +29,7 @@ You can use a stored access policy to change the start time, expiration time, or
   
 ## Create or modify a stored access policy
   
-The access policy for a shared access signature consists of the start time, expiration time, and permissions for the signature. You can specify either of the following options or combine them:
+The access policy for a shared access signature consists of the start time, expiry time, and permissions for the signature. You can specify either of the following options or combine them:
 
 - All of these parameters on the signature URI and none on the stored access policy
 - All of these parameters on the stored access policy and none on the URI 
@@ -45,7 +45,7 @@ To create or modify a stored access policy, call the `Set ACL` operation for the
     <Id>unique-64-char-value</Id>  
     <AccessPolicy>  
       <Start>start-time</Start>  
-      <Expiry>expiration-time</Expiry>  
+      <Expiry>expiry-time</Expiry>  
       <Permission>abbreviated-permission-list</Permission>  
     </AccessPolicy>  
   </SignedIdentifier>  
@@ -61,11 +61,11 @@ You can set a maximum of five access policies on a container, table, queue, or s
 
 ## Modify or revoke a stored access policy
 
-To modify the parameters of a stored access policy, you can call the access control list (ACL) operation for the resource type to replace the existing policy. In that operation, specify a new start time, expiration time, or set of permissions. 
+To modify the parameters of a stored access policy, you can call the access control list (ACL) operation for the resource type to replace the existing policy. In that operation, specify a new start time, expiry time, or set of permissions. 
 
 For example, if your existing policy grants read and write permissions to a resource, you can modify it to grant only read permissions for all future requests. In this case, the signed identifier of the new policy, as specified by the `ID` field, would be identical to the signed identifier of the policy that you're replacing.  
 
-To revoke a stored access policy, you can delete it, rename it by changing the signed identifier, or change the expiration time to a value in the past. Changing the signed identifier breaks the associations between any existing signatures and the stored access policy. Changing the expiration time to a value in the past causes any associated signatures to expire. Deleting or modifying the stored access policy immediately affects all of the shared access signatures associated with it.  
+To revoke a stored access policy, you can delete it, rename it by changing the signed identifier, or change the expiry time to a value in the past. Changing the signed identifier breaks the associations between any existing signatures and the stored access policy. Changing the expiry time to a value in the past causes any associated signatures to expire. Deleting or modifying the stored access policy immediately affects all of the shared access signatures associated with it.  
 
 To remove a single access policy, call the resource's `Set ACL` operation. Pass in the set of signed identifiers that you want to maintain on the container. To remove all access policies from the resource, call the `Set ACL` operation with an empty request body.  
   
