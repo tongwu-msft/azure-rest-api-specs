@@ -1,5 +1,5 @@
 ---
-title: Find Blobs by Tags for a container (REST API) - Azure Storage
+title: Find Blobs by Tags in Container (REST API) - Azure Storage
 description: The Find Blobs by Tags in Container operation returns all blobs whose tags match a search expression in a container.
 author: akharit
 
@@ -11,11 +11,11 @@ ms.author: akharit
 
 # Find Blobs by Tags in Container operation
 
-The `Find Blobs by Tags` operation finds all blobs whose tags match a search expression in a container.  
+The `Find Blobs by Tags in Container` operation finds all blobs whose tags match a search expression in a container.  
   
 ## Request  
 
-You can construct the `Find Blobs by Tags` request as follows. We recommend HTTPS. Replace *myaccount* with the name of your storage account and *mycontainer* with name of your storage container.  
+You can construct the `Find Blobs by Tags in Container` request as follows. We recommend HTTPS. Replace *myaccount* with the name of your storage account and *mycontainer* with name of your storage container.  
   
 |GET method request URI|HTTP version|  
 |------------------------------------|------------------|  
@@ -112,9 +112,9 @@ The following users can perform this operation:
   
 ## Remarks  
 
-The `Find Blobs by Tags` operation on a container is supported in REST API version 2021-04-10 and later.  
+The `Find Blobs by Tags in Container` operation is supported in REST API version 2021-04-10 and later.  
   
-The secondary index that `Find Blobs by Tags` uses is eventually consistent. Updates to blob tags via `Set Blob Tags` might not be immediately visible to `Find Blobs by Tags` operations.  
+The secondary index that `Find Blobs by Tags in Container` uses is eventually consistent. Updates to blob tags via `Set Blob Tags` might not be immediately visible to `Find Blobs by Tags in Container` operations.  
   
 ### Constructing a search expression
   
