@@ -48,7 +48,7 @@ Sends a new event to an Event Hub.
  If the request is successful, the response body is empty. If the request isn't successful, the body contains an error code and error message.  
   
 ## Examples  
- The following HTTP request sends an event with no `BrokerProperties` or `UserProperties`:  
+ The following HTTP request sends an event with no `UserProperties`:  
 
 > [!NOTE]
 > You can also use an **Azure Active Directory** token for the **Authorization** header as noted in the [Common parameters and headers](event-hubs-management-rest.md). For example: `Authorization: Bearer <Azure AD token>`.
@@ -63,18 +63,6 @@ Host: your-namespace.servicebus.windows.net
   
 ```  
   
- The following example is a request with `BrokerProperties`:  
-  
-```  
-POST https://your-namespace.servicebus.windows.net/your-event-hub/messages?timeout=60&api-version=2014-01 HTTP/1.1  
-Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=tYu8qdH563Pc96Lky0SFs5PhbGnljF7mLYQwCZmk9M0%3d&se=1403736877&skn=RootManageSharedAccessKey  
-Content-Type: application/atom+xml;type=entry;charset=utf-8  
-Host: your-namespace.servicebus.windows.net  
-BrokerProperties: {"CorrelationId":"32119834-65f3-48c1-b366-619df2e4c400"}  
-  
-{ "DeviceId":"dev-01", "Temperature":"37.0" }  
-  
-```  
   
  The following example is a request with `UserProperties`:  
   
