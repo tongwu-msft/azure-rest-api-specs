@@ -1,6 +1,6 @@
 ---
 title: Find Blobs by Tags for a container (REST API) - Azure Storage
-description: The Find Blobs by Tags operation returns all blobs whose tags match a search expression in a container.
+description: The Find Blobs by Tags in Container operation returns all blobs whose tags match a search expression in a container.
 author: akharit
 
 ms.date: 03/22/2022
