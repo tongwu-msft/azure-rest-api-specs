@@ -10,7 +10,7 @@ ms.author: wgries
 ---
 
 # Force Close Handles
-The `Force Close Handles` operation closes a handle or handles opened on a directory or a file at the service. It supports closing a single handle specified by handle ID on a file or directory. It also supports closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
+The `Force Close Handles` operation closes a handle or handles opened on a directory or a file. It supports closing a single handle specified by handle ID on a file or directory. It also supports closing all handles opened on that resource. It optionally supports recursively closing handles on subresources when the resource is a directory.
 
 You use this operation alongside [List Handles](List-Handles.md) to force-close handles that block operations, such as renaming a directory. SMB clients might have leaked or lost track of these handles. The operation has a client-side impact on the handle that you're closing, including user-visible errors due to failed attempts to read or write files. This operation is not intended as a replacement or alternative for closing an SMB session.
 
