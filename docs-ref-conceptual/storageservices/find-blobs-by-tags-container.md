@@ -9,7 +9,7 @@ ms.topic: reference
 ms.author: akharit
 ---
 
-# Find Blobs by Tags for a container
+# Find Blobs by Tags in Container operation
 
 The `Find Blobs by Tags` operation finds all blobs whose tags match a search expression in a container.  
   
