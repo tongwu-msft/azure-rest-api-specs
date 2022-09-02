@@ -1,6 +1,6 @@
 ---
 title: Force Close Handles (FileREST API) - Azure Files
-description: The Force Close Handles operation closes handles opened on a directory or a file at the service.
+description: The Force Close Handles operation closes handles opened on a directory or a file.
 author: wmgries
 
 ms.date: 06/05/2021
