@@ -1,6 +1,6 @@
 ---
 title: Delegate access by using a shared access signature - Azure Storage
-description: Learn how to provide a shared access signature to users who shouldn't be trusted with your storage account key when you want to delegate access to certain storage account resources.
+description: Learn how to provide a shared access signature to clients who shouldn't be trusted with your storage account key when you want to delegate access to certain storage account resources.
 author: tamram
 
 ms.date: 12/18/2019
@@ -12,9 +12,9 @@ ms.topic: reference
 
 # Delegate access by using a shared access signature
 
-A shared access signature (SAS) is a URI that grants restricted access rights to Azure Storage resources. You can provide a shared access signature to users who shouldn't be trusted with your storage account key but who need access to certain storage account resources. By distributing an SAS URI to these users, you can grant them access to a resource for a specified period of time, with a specified set of permissions.  
+A shared access signature (SAS) is a URI that grants restricted access rights to Azure Storage resources. You can provide a shared access signature to clients who shouldn't be trusted with your storage account key but who need access to certain storage account resources. By distributing an SAS URI to these clients, you can grant them access to a resource for a specified period of time, with a specified set of permissions.  
 
-The URI query parameters that compose the SAS token incorporate all of the information necessary to grant controlled access to a storage resource. A user who has the SAS can make a request against Azure Storage by using just the SAS URI. The information in the SAS token is used to authorize the request.  
+The URI query parameters that compose the SAS token incorporate all of the information necessary to grant controlled access to a storage resource. A client who has the SAS can make a request against Azure Storage by using just the SAS URI. The information in the SAS token is used to authorize the request.  
 
 ## Types of shared access signatures
   
