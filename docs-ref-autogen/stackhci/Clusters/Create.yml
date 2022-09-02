@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.create
 name: Create
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2022-05-01
+apiVersion: 2022-09-01
 summary: Create an HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -103,6 +103,11 @@ requestBody:
     description: Id of cluster identity service principal.
     types:
     - uid: string
+  - name: properties.softwareAssuranceProperties
+    in: body
+    description: Software Assurance properties of the cluster.
+    types:
+    - uid: SoftwareAssuranceProperties
   - name: properties.desiredProperties
     in: body
     description: Desired properties of the cluster.
@@ -125,6 +130,23 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: SoftwareAssuranceProperties
+  description: Software Assurance properties of the cluster.
+  kind: object
+  properties:
+  - name: softwareAssuranceStatus
+    description: Status of the Software Assurance for the cluster.
+    types:
+    - uid: SoftwareAssuranceStatus
+  - name: softwareAssuranceIntent
+    description: Customer Intent for Software Assurance Benefit.
+    types:
+    - uid: SoftwareAssuranceIntent
+  - name: lastUpdated
+    isReadyOnly: true
+    description: TimeStamp denoting the latest SA benefit applicability is validated.
+    types:
+    - uid: string
 - name: ClusterDesiredProperties
   description: Desired properties of the cluster.
   kind: object
@@ -239,6 +261,10 @@ definitions:
     description: Id of cluster identity service principal.
     types:
     - uid: string
+  - name: properties.softwareAssuranceProperties
+    description: Software Assurance properties of the cluster.
+    types:
+    - uid: SoftwareAssuranceProperties
   - name: properties.desiredProperties
     description: Desired properties of the cluster.
     types:
@@ -313,6 +339,26 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: SoftwareAssuranceStatus
+  description: Status of the Software Assurance for the cluster.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: SoftwareAssuranceIntent
+  description: Customer Intent for Software Assurance Benefit.
+  kind: enum
+  properties:
+  - name: Enable
+    types:
+    - uid: string
+  - name: Disable
+    types:
+    - uid: string
 - name: WindowsServerSubscription
   description: Desired state of Windows Server Subscription.
   kind: enum
@@ -355,6 +401,11 @@ definitions:
     description: State of Windows Server Subscription.
     types:
     - uid: WindowsServerSubscription
+  - name: nodeType
+    isReadyOnly: true
+    description: Type of the cluster node hardware.
+    types:
+    - uid: ClusterNodeType
   - name: manufacturer
     isReadyOnly: true
     description: Manufacturer of the cluster node hardware.
@@ -373,6 +424,11 @@ definitions:
   - name: osVersion
     isReadyOnly: true
     description: Version of the operating system running on the cluster node.
+    types:
+    - uid: string
+  - name: osDisplayVersion
+    isReadyOnly: true
+    description: Display version of the operating system running on the cluster node.
     types:
     - uid: string
   - name: serialNumber
@@ -485,6 +541,16 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ClusterNodeType
+  description: Type of the cluster node hardware.
+  kind: enum
+  properties:
+  - name: FirstParty
+    types:
+    - uid: string
+  - name: ThirdParty
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -502,7 +568,7 @@ definitions:
 examples:
 - name: Create cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
     body: >-
       {
         "location": "East US",
@@ -515,7 +581,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
 
       {
         "location": "East US",
@@ -528,109 +594,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      /** Samples for Clusters Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/CreateCluster.json
-           */
-          /**
-           * Sample code: Create cluster.
-           *
-           * @param manager Entry point to AzureStackHciManager.
-           */
-          public static void createCluster(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
-              manager
-                  .clusters()
-                  .define("myCluster")
-                  .withRegion("East US")
-                  .withExistingResourceGroup("test-rg")
-                  .withCloudManagementEndpoint("https://98294836-31be-4668-aeae-698667faf99b.waconazure.com")
-                  .withAadClientId("24a6e53d-04e5-44d2-b7cc-1b732a847dfc")
-                  .withAadTenantId("7e589cc1-a8b6-4dff-91bd-5ec0fa18db94")
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armazurestackhci_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/CreateCluster.json
-      func ExampleClustersClient_Create() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armazurestackhci.NewClustersClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Create(ctx,
-      		"test-rg",
-      		"myCluster",
-      		armazurestackhci.Cluster{
-      			Location: to.Ptr("East US"),
-      			Properties: &armazurestackhci.ClusterProperties{
-      				AADClientID:             to.Ptr("24a6e53d-04e5-44d2-b7cc-1b732a847dfc"),
-      				AADTenantID:             to.Ptr("7e589cc1-a8b6-4dff-91bd-5ec0fa18db94"),
-      				CloudManagementEndpoint: to.Ptr("https://98294836-31be-4668-aeae-698667faf99b.waconazure.com"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create an HCI cluster.
-       *
-       * @summary Create an HCI cluster.
-       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/CreateCluster.json
-       */
-      async function createCluster() {
-        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-        const resourceGroupName = "test-rg";
-        const clusterName = "myCluster";
-        const cluster = {
-          aadClientId: "24a6e53d-04e5-44d2-b7cc-1b732a847dfc",
-          aadTenantId: "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94",
-          cloudManagementEndpoint: "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
-          location: "East US",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureStackHCIClient(credential, subscriptionId);
-        const result = await client.clusters.create(resourceGroupName, clusterName, cluster);
-        console.log(result);
-      }
-
-      createCluster().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

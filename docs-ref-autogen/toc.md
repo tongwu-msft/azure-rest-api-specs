@@ -4355,6 +4355,7 @@
 ### [Create](stackhci/Clusters/Create.yml)
 ### [Create Identity](stackhci/Clusters/Create-Identity.yml)
 ### [Delete](stackhci/Clusters/Delete.yml)
+### [Extend Software Assurance Benefit](stackhci/Clusters/Extend-Software-Assurance-Benefit.yml)
 ### [Get](stackhci/Clusters/Get.yml)
 ### [List By Resource Group](stackhci/Clusters/List-By-Resource-Group.yml)
 ### [List By Subscription](stackhci/Clusters/List-By-Subscription.yml)

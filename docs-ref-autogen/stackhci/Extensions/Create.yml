@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.extensions.create
 name: Create
 service: Azure Stack HCI
 groupName: Extensions
-apiVersion: 2022-05-01
+apiVersion: 2022-09-01
 summary: Create Extension for HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}?api-version=2022-05-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/arcSettings/{arcSettingName}/extensions/{extensionName}?api-version=2022-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -417,7 +417,7 @@ definitions:
 examples:
 - name: Create Arc Extension
   request:
-    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-05-01
+    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-09-01
     body: >-
       {
         "properties": {
@@ -437,7 +437,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-05-01
+      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/arcSettings/default/extensions/MicrosoftMonitoringAgent?api-version=2022-09-01
 
       {
         "properties": {
@@ -457,143 +457,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.serializer.SerializerFactory;
-      import com.azure.core.util.serializer.SerializerEncoding;
-      import java.io.IOException;
-
-      /** Samples for Extensions Create. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PutExtension.json
-           */
-          /**
-           * Sample code: Create Arc Extension.
-           *
-           * @param manager Entry point to AzureStackHciManager.
-           */
-          public static void createArcExtension(com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager)
-              throws IOException {
-              manager
-                  .extensions()
-                  .define("MicrosoftMonitoringAgent")
-                  .withExistingArcSetting("test-rg", "myCluster", "default")
-                  .withPublisher("Microsoft.Compute")
-                  .withTypePropertiesType("MicrosoftMonitoringAgent")
-                  .withTypeHandlerVersion("1.10")
-                  .withSettings(
-                      SerializerFactory
-                          .createDefaultManagementSerializerAdapter()
-                          .deserialize("{\"workspaceId\":\"xx\"}", Object.class, SerializerEncoding.JSON))
-                  .withProtectedSettings(
-                      SerializerFactory
-                          .createDefaultManagementSerializerAdapter()
-                          .deserialize("{\"workspaceKey\":\"xx\"}", Object.class, SerializerEncoding.JSON))
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armazurestackhci_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PutExtension.json
-      func ExampleExtensionsClient_BeginCreate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armazurestackhci.NewExtensionsClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreate(ctx,
-      		"test-rg",
-      		"myCluster",
-      		"default",
-      		"MicrosoftMonitoringAgent",
-      		armazurestackhci.Extension{
-      			Properties: &armazurestackhci.ExtensionProperties{
-      				ExtensionParameters: &armazurestackhci.ExtensionParameters{
-      					Type: to.Ptr("MicrosoftMonitoringAgent"),
-      					ProtectedSettings: map[string]interface{}{
-      						"workspaceKey": "xx",
-      					},
-      					Publisher: to.Ptr("Microsoft.Compute"),
-      					Settings: map[string]interface{}{
-      						"workspaceId": "xx",
-      					},
-      					TypeHandlerVersion: to.Ptr("1.10"),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create Extension for HCI cluster.
-       *
-       * @summary Create Extension for HCI cluster.
-       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/PutExtension.json
-       */
-      async function createArcExtension() {
-        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-        const resourceGroupName = "test-rg";
-        const clusterName = "myCluster";
-        const arcSettingName = "default";
-        const extensionName = "MicrosoftMonitoringAgent";
-        const extension = {
-          typePropertiesExtensionParametersType: "MicrosoftMonitoringAgent",
-          protectedSettings: { workspaceKey: "xx" },
-          publisher: "Microsoft.Compute",
-          settings: { workspaceId: "xx" },
-          typeHandlerVersion: "1.10",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureStackHCIClient(credential, subscriptionId);
-        const result = await client.extensions.beginCreateAndWait(
-          resourceGroupName,
-          clusterName,
-          arcSettingName,
-          extensionName,
-          extension
-        );
-        console.log(result);
-      }
-
-      createArcExtension().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

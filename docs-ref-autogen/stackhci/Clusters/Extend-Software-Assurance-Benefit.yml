@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.stackhci.clusters.get
-name: Get
+uid: management.azure.com.stackhci.clusters.extendsoftwareassurancebenefit
+name: Extend Software Assurance Benefit
 service: Azure Stack HCI
 groupName: Clusters
 apiVersion: 2022-09-01
-summary: Get HCI cluster.
+summary: Extends Software Assurance Benefit to a cluster
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}/extendSoftwareAssuranceBenefit?api-version=2022-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -41,12 +41,29 @@ responses:
   description: OK
   types:
   - uid: Cluster
+- name: 202 Accepted
+  description: Accepted
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: ''
+    types:
+    - uid: SoftwareAssuranceChangeRequestProperties
 requestHeader: []
 definitions:
+- name: SoftwareAssuranceChangeRequestProperties
+  kind: object
+  properties:
+  - name: softwareAssuranceIntent
+    description: ''
+    types:
+    - uid: SoftwareAssuranceIntent
 - name: Cluster
   description: Cluster details.
   kind: object
@@ -188,6 +205,23 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: SoftwareAssuranceChangeRequest
+  kind: object
+  properties:
+  - name: properties
+    description: ''
+    types:
+    - uid: SoftwareAssuranceChangeRequestProperties
+- name: SoftwareAssuranceIntent
+  description: Customer Intent for Software Assurance Benefit.
+  kind: enum
+  properties:
+  - name: Enable
+    types:
+    - uid: string
+  - name: Disable
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -351,16 +385,6 @@ definitions:
   - name: Disabled
     types:
     - uid: string
-- name: SoftwareAssuranceIntent
-  description: Customer Intent for Software Assurance Benefit.
-  kind: enum
-  properties:
-  - name: Enable
-    types:
-    - uid: string
-  - name: Disable
-    types:
-    - uid: string
 - name: WindowsServerSubscription
   description: Desired state of Windows Server Subscription.
   kind: enum
@@ -483,16 +507,30 @@ definitions:
     types:
     - uid: string
 examples:
-- name: Get cluster
+- name: Create cluster Identity
   request:
-    uri: GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
+    uri: POST https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/extendSoftwareAssuranceBenefit?api-version=2022-09-01
+    body: >-
+      {
+        "properties": {
+          "softwareAssuranceIntent": "Enable"
+        }
+      }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
+      POST https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster/extendSoftwareAssuranceBenefit?api-version=2022-09-01
+
+      {
+        "properties": {
+          "softwareAssuranceIntent": "Enable"
+        }
+      }
+
       ```
 
   responses:
+  - statusCode: "202"
   - statusCode: "200"
     body: >-
       {
@@ -520,6 +558,11 @@ examples:
             "windowsServerSubscription": "Enabled",
             "diagnosticLevel": "Basic"
           },
+          "softwareAssuranceProperties": {
+            "softwareAssuranceStatus": "Enabled",
+            "lastUpdated": "2022-08-18T22:01:12.4191603Z",
+            "softwareAssuranceIntent": "Enable"
+          },
           "reportedProperties": {
             "clusterName": "cluster1",
             "clusterId": "a76ac23a-1819-4e82-9410-e3e4ec3d1425",
@@ -529,6 +572,7 @@ examples:
                 "name": "Node1",
                 "id": 1,
                 "windowsServerSubscription": "Enabled",
+                "nodeType": "ThirdParty",
                 "manufacturer": "Dell Inc.",
                 "model": "EMC AX740",
                 "osName": "Azure Stack HCI",
@@ -536,30 +580,6 @@ examples:
                 "serialNumber": "Q45CZC3",
                 "coreCount": 8,
                 "memoryInGiB": 128
-              },
-              {
-                "name": "Node2",
-                "id": 2,
-                "windowsServerSubscription": "Enabled",
-                "manufacturer": "Dell Inc.",
-                "model": "EMC AX740",
-                "osName": "Azure Stack HCI",
-                "osVersion": "10.0.17777.1061",
-                "serialNumber": "Q44BSC3",
-                "coreCount": 8,
-                "memoryInGiB": 128
-              },
-              {
-                "name": "Node3",
-                "id": 3,
-                "windowsServerSubscription": "Enabled",
-                "manufacturer": "Dell Inc.",
-                "model": "EMC AX740",
-                "osName": "Azure Stack HCI",
-                "osVersion": "10.0.17777.1061",
-                "serialNumber": "Q44RFC3",
-                "coreCount": 16,
-                "memoryInGiB": 256
               }
             ],
             "lastUpdated": "2020-03-11T19:24:42.1946017Z",
@@ -584,5 +604,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Azure Stack HCI service - Get HCI cluster.
+    Learn more about Azure Stack HCI service - Extends Software Assurance Benefit to a cluster
 errorCodes: []

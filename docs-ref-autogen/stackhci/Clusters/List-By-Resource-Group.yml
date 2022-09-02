@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.listbyresourcegroup
 name: List By Resource Group
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2022-05-01
+apiVersion: 2022-09-01
 summary: List all HCI clusters in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -126,6 +126,10 @@ definitions:
     description: Id of cluster identity service principal.
     types:
     - uid: string
+  - name: properties.softwareAssuranceProperties
+    description: Software Assurance properties of the cluster.
+    types:
+    - uid: SoftwareAssuranceProperties
   - name: properties.desiredProperties
     description: Desired properties of the cluster.
     types:
@@ -277,6 +281,23 @@ definitions:
   - name: Error
     types:
     - uid: string
+- name: SoftwareAssuranceProperties
+  description: Software Assurance properties of the cluster.
+  kind: object
+  properties:
+  - name: softwareAssuranceStatus
+    description: Status of the Software Assurance for the cluster.
+    types:
+    - uid: SoftwareAssuranceStatus
+  - name: softwareAssuranceIntent
+    description: Customer Intent for Software Assurance Benefit.
+    types:
+    - uid: SoftwareAssuranceIntent
+  - name: lastUpdated
+    isReadyOnly: true
+    description: TimeStamp denoting the latest SA benefit applicability is validated.
+    types:
+    - uid: string
 - name: ClusterDesiredProperties
   description: Desired properties of the cluster.
   kind: object
@@ -342,6 +363,26 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: SoftwareAssuranceStatus
+  description: Status of the Software Assurance for the cluster.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: SoftwareAssuranceIntent
+  description: Customer Intent for Software Assurance Benefit.
+  kind: enum
+  properties:
+  - name: Enable
+    types:
+    - uid: string
+  - name: Disable
+    types:
+    - uid: string
 - name: WindowsServerSubscription
   description: Desired state of Windows Server Subscription.
   kind: enum
@@ -384,6 +425,11 @@ definitions:
     description: State of Windows Server Subscription.
     types:
     - uid: WindowsServerSubscription
+  - name: nodeType
+    isReadyOnly: true
+    description: Type of the cluster node hardware.
+    types:
+    - uid: ClusterNodeType
   - name: manufacturer
     isReadyOnly: true
     description: Manufacturer of the cluster node hardware.
@@ -402,6 +448,11 @@ definitions:
   - name: osVersion
     isReadyOnly: true
     description: Version of the operating system running on the cluster node.
+    types:
+    - uid: string
+  - name: osDisplayVersion
+    isReadyOnly: true
+    description: Display version of the operating system running on the cluster node.
     types:
     - uid: string
   - name: serialNumber
@@ -429,104 +480,26 @@ definitions:
   - name: Enabled
     types:
     - uid: string
+- name: ClusterNodeType
+  description: Type of the cluster node hardware.
+  kind: enum
+  properties:
+  - name: FirstParty
+    types:
+    - uid: string
+  - name: ThirdParty
+    types:
+    - uid: string
 examples:
 - name: List clusters in a given resource group
   request:
-    uri: GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-05-01
+    uri: GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-09-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-05-01
+      GET https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters?api-version=2022-09-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Clusters ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListClustersByResourceGroup.json
-           */
-          /**
-           * Sample code: List clusters in a given resource group.
-           *
-           * @param manager Entry point to AzureStackHciManager.
-           */
-          public static void listClustersInAGivenResourceGroup(
-              com.azure.resourcemanager.azurestackhci.AzureStackHciManager manager) {
-              manager.clusters().listByResourceGroup("test-rg", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-azurestackhci_1.0.0-beta.3/sdk/azurestackhci/azure-resourcemanager-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armazurestackhci_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/azurestackhci/armazurestackhci"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListClustersByResourceGroup.json
-      func ExampleClustersClient_NewListByResourceGroupPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armazurestackhci.NewClustersClient("fd3c3665-1729-4b7b-9a38-238e83b0f98b", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListByResourceGroupPager("test-rg",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fazurestackhci%2Farmazurestackhci%2Fv1.0.0/sdk/resourcemanager/azurestackhci/armazurestackhci/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureStackHCIClient } = require("@azure/arm-azurestackhci");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to List all HCI clusters in a resource group.
-       *
-       * @summary List all HCI clusters in a resource group.
-       * x-ms-original-file: specification/azurestackhci/resource-manager/Microsoft.AzureStackHCI/stable/2022-05-01/examples/ListClustersByResourceGroup.json
-       */
-      async function listClustersInAGivenResourceGroup() {
-        const subscriptionId = "fd3c3665-1729-4b7b-9a38-238e83b0f98b";
-        const resourceGroupName = "test-rg";
-        const credential = new DefaultAzureCredential();
-        const client = new AzureStackHCIClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.clusters.listByResourceGroup(resourceGroupName)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      listClustersInAGivenResourceGroup().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azurestackhci_3.0.0/sdk/azurestackhci/arm-azurestackhci/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
