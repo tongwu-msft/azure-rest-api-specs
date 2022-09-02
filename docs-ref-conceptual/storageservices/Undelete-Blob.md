@@ -1,8 +1,7 @@
 ---
 title: Undelete Blob (REST API) - Azure Storage
-description: The Undelete Blob operation restores the contents and metadata of a soft deleted blob and any associated soft deleted snapshots.
+description: The Undelete Blob operation restores the contents and metadata of a soft-deleted blob, and any associated soft-deleted snapshots.
 author: pemari-msft
-
 ms.date: 01/07/2022
 ms.service: storage
 ms.topic: reference
@@ -11,77 +10,85 @@ ms.author: pemari
 
 # Undelete Blob
 
-The `Undelete Blob` operation restores the contents and metadata of a soft deleted blob and any associated soft deleted snapshots.
+The `Undelete Blob` operation restores the contents and metadata of a soft-deleted blob, and any associated soft-deleted snapshots.
 
-Undelete Blob is supported only on version 2017-07-29 or later.  
+`Undelete Blob` is supported only on version 2017-07-29 or later.  
   
 ## Request  
- The `Undelete Blob` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
+
+You can construct the `Undelete Blob` request as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account.  
   
-|PUT Method Request URI|HTTP Version|  
+|PUT method request URI|HTTP version|  
 |----------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net/mycontainer/myblob?comp=undelete`|HTTP/1.1|  
   
-### Emulated Storage Service URI  
- When making a request against the emulated storage service, specify the emulator hostname and Blob service port as `127.0.0.1:10000`, followed by the emulated storage account name:  
+### Emulated storage service URI  
+
+When you make a request against the emulated storage service, specify the emulator hostname and Azure Blob Storage port as `127.0.0.1:10000`, followed by the emulated storage account name.  
   
-|PUT Method Request URI|HTTP Version|  
+|PUT method request URI|HTTP version|  
 |----------------------------|------------------|  
 |`http://127.0.0.1:10000/ devstoreaccount1/mycontainer/myblob?comp=undelete`|HTTP/1.1|  
   
- For more information, see [Using the Azure Storage Emulator for Development and Testing](/azure/storage/storage-use-emulator).  
+For more information, see [Use Azurite emulator for local Azure Storage development](/azure/storage/common/storage-use-azurite).  
   
-### URI Parameters  
- The following additional parameters may be specified on the request URI.  
+### URI parameters  
+
+You can specify the following additional parameter on the request URI.  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting timeouts for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
-### Request Headers (All Blob Types)  
- The following table describes required and optional request headers for all blob types.  
+### Request headers (all blob types)  
+
+The following table describes required and optional request headers for all blob types.  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|   
-|`x-ms-undelete-source`|Optional. Version 2020-08-04 and newer. Only for accounts with Hierarchical Namespace enabled accounts. The path of the soft deleted blob to undelete. The format is `blobPath?deletionid=<id>`. The account and container name are not included in the path. `DeletionId` is the unique identifier of the soft deleted blob. It can be retrieved by listing soft deleted blobs with the List Blobs REST API for Hierarchical Namespace enabled accounts. The path should be percent encoded.| 
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|
+|`x-ms-version`|Required for all authorized requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|   
+|`x-ms-undelete-source`|Optional. Version 2020-08-04 and later. Only for accounts enabled with hierarchical namespace. The path of the soft-deleted blob to undelete. The format is `blobPath?deletionid=<id>`. The account and container name aren't included in the path. `DeletionId` is the unique identifier of the soft-deleted blob. You can retrieve it by listing soft-deleted blobs with the `List Blobs` REST API for accounts enable with hierarchical namespace. The path should be percent encoded.| 
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Blob Storage](/azure/storage/blobs/monitor-blob-storage).|
   
-### Request Body  
- None.  
+### Request body  
+
+None.  
   
 ## Response  
- The response includes an HTTP status code and a set of response headers.  
+
+The response includes an HTTP status code and a set of response headers.  
   
-### Status Code  
- A successful operation returns status code 200 (OK).  
+### Status code  
+
+A successful operation returns status code 200 (OK). For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
-  
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers  
+
+The response for this operation includes the following headers. The response can also include additional, standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Syntax|Description|  
 |------------|-----------------|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`x-ms-request-id`|This header uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see [Troubleshooting API operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-version`|Indicates the version of Blob Storage used to run the request.|  
+|`Date`|A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.|  
+|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
   
-### Response Body  
- None.  
+### Response body  
+
+None.  
   
 ## Authorization  
 
-The `Undelete Blob` operation can be called by the account owner, by anyone with a Shared Access Signature that has permission to write to this blob or its container, or by a security principal who is assigned a role with the `Microsoft.Storage/storageAccounts/blobServices/containers/write` action.  
+The account owner can call the `Undelete Blob` operation. Additionally, anyone with a shared access signature that has permission to write to this blob or its container can call the operation. Finally, a security principal who is assigned a role with the `Microsoft.Storage/storageAccounts/blobServices/containers/write` action can also call the operation.  
   
 ## Remarks  
-When a soft deleted blob is undeleted, the blob and any associated snapshots are available for operations using other APIs. Undelete request to blob, undeletes soft deleted blob and any associated soft deleted snapshots. Attempting to undelete a blob that is not soft deleted nor has any soft deleted snapshots will succeed without any changes.
- 
+
+When you undelete a soft-deleted blob, the blob and any associated snapshots are available for operations by using other APIs. When you undelete a blob that isn't soft-deleted, nor has any soft-deleted snapshots, the operation succeeds, without any changes.
   
-## See Also  
- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
- [Status and Error Codes](Status-and-Error-Codes2.md)
- [Delete Blob](Delete-Blob.md)
+## See also  
+
+[Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)   
+[Status and error codes](Status-and-Error-Codes2.md)
+[Delete Blob](Delete-Blob.md)

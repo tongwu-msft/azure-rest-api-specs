@@ -1,95 +1,108 @@
 ---
-title: Summary of Table service functionality (REST API) - Azure Storage
-description: The Table service REST API is compliant with the OData Protocol Specification, with some differences.
+title: Summary of Table Storage functionality (REST API) - Azure Storage
+description: The Table Storage REST API is compliant with the OData protocol specification, with some differences.
 author: pemari-msft
-
 ms.date: 08/15/2019
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
 ---
 
-# Summary of Table service functionality
+# Summary of Table Storage functionality
 
-The Table service REST API is compliant with the [OData Protocol Specification](https://www.odata.org/), with some differences, as described in the following sections.  
+The Azure Table Storage REST API is compliant with the [OData protocol specification](https://www.odata.org/), with some differences, as described in the following sections.  
   
- [Table Service Extensions](#TableServiceExtensions)  
+##  <a name="TableServiceExtensions"></a> Table Storage extensions  
+
+Table Storage extends the functionality of `OData` in the following ways.  
   
- [Table Service Restrictions](#TableServiceRestrictions)  
+### Shared Key, Shared Key Lite, and Azure Active Directory authorization  
+
+Table Storage requires that each request be authorized. Shared Key, Shared Key Lite, and Azure Active Directory (Azure AD) authorization are supported. Azure AD authorization is more secure, and is recommended for requests made against Table Storage by using the REST API.  
   
-##  <a name="TableServiceExtensions"></a> Table Service Extensions  
- The Table service extends the functionality of OData in the following ways.  
+For more information about authorizing requests, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
-### Shared Key, Shared Key Lite and Azure Active Directory Authorization  
- The Table service requires that each request be authorized. Shared Key, Shared Key Lite and Azure Active Directory (Azure AD) authorization are supported. Azure AD authorization is more secure and is recommended for requests made against the Table service using the REST API.  
+### Continuation tokens for query pagination  
+
+A query against Table Storage can return a maximum of 1,000 items at one time, and can run for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query didn't complete within five seconds, the response includes headers. These headers provide the developer with continuation tokens to use, in order to resume the query at the next item in the result set. Continuation token headers can be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
   
- For more information about authorizing requests, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
+Note that the total time allotted to the request for scheduling and processing the query is 30 seconds, including the five seconds for query execution.  
   
-### Continuation Tokens for Query Pagination  
- A query against the Table service may return a maximum of 1,000 items at one time and may execute for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query did not complete within five seconds, the response includes headers which provide the developer with continuation tokens to use in order to resume the query at the next item in the result set. Continuation token headers may be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
+For more information about continuation tokens, see [Query timeout and pagination](Query-Timeout-and-Pagination.md).  
   
- Note that the total time allotted to the request for scheduling and processing the query is 30 seconds, including the five seconds for query execution.  
+### Primary key system properties  
+
+Every entity in Table Storage has two key properties: the `PartitionKey` property and the `RowKey` property. These properties form the table's primary key, and uniquely identify each entity in the table.  
   
- For more information about continuation tokens, see [Query Timeout and Pagination](Query-Timeout-and-Pagination.md).  
+Both properties require string values. It's the developer's responsibility to provide values for these properties when a new entity is inserted, and to include them in any update or delete operation on an entity.  
   
-### Primary Key System Properties  
- Every entity in the Table service has two key properties: the `PartitionKey` property and the `RowKey` property. These properties together form the table's primary key and uniquely identify each entity in the table.  
+For more information about these required key properties, see [Understanding the Table Storage data model](Understanding-the-Table-Service-Data-Model.md).  
   
- Both properties require string values. It is the developer's responsibility to provide values for these properties when a new entity is inserted, and to include them in any update or delete operation on an entity.  
+### Timestamp system property  
+
+Every entity in Table Storage has a `Timestamp` system property. The `Timestamp` property is a `DateTime` value, maintained on the server side, to record the time an entity was last modified. Table Storage uses the `Timestamp` property internally to provide optimistic concurrency. The value of `Timestamp` is a monotonically increasing value, meaning that each time the entity is modified, the value of `Timestamp` increases for that entity. This property should not be set on insert or update operations (the value will be ignored).  
   
- For more information about these required key properties, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
+For more information about the `Timestamp` property, see [Understanding the Table Storage data model](Understanding-the-Table-Service-Data-Model.md).  
   
-### Timestamp System Property  
- Every entity in the Table service has a `Timestamp` system property. The `Timestamp` property is a `DateTime` value that is maintained on the server side to record the time an entity was last modified. The Table service uses the `Timestamp` property internally to provide optimistic concurrency. The value of `Timestamp` is a monotonically increasing value, meaning that each time the entity is modified, the value of `Timestamp` increases for that entity. This property should not be set on insert or update operations (the value will be ignored).  
+### Batch operations  
+
+Table Storage supports batch transactions on entities that are in the same table and belong to the same partition group, which means they have the same `PartitionKey` value. This allows multiple insert, update, merge, and delete operations to be supported within a single atomic transaction. Table Storage supports a subset of the functionality provided by the [OData protocol](https://www.odata.org/).  
   
- For more information about the `Timestamp` property, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
+For more information about batch operations, see [Performing entity group transactions](Performing-Entity-Group-Transactions.md).  
   
-### Batch Operations  
- The Table service supports batch transactions on entities that are in the same table and belong to the same partition group, which means they have the same `PartitionKey` value. This allows multiple insert, update, merge, and delete operations to be supported within a single atomic transaction. The Table service supports a subset of the functionality provided by the [OData protocol](https://www.odata.org/).  
+##  <a name="TableServiceRestrictions"></a> Table Storage restrictions  
+
+Table Storage has the following restrictions on functionality provided by `OData`.  
   
- For more information about batch operations, see [Performing Entity Group Transactions](Performing-Entity-Group-Transactions.md).  
+### Credentials property  
+
+Table Storage doesn't support using the [Credentials](https://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](https://go.microsoft.com/fwlink/?linkid=151839) class to authorize a request. Instead, you must authorize a request against Table Storage by adding an `Authorization` header to the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
-##  <a name="TableServiceRestrictions"></a> Table Service Restrictions  
- The Table service has the following restrictions on functionality provided by OData.  
+### Property types  
+
+Not all property types supported by `OData` are supported. For a list of supported property types, see [Understanding the Table Storage data model](Understanding-the-Table-Service-Data-Model.md).  
   
-### Credentials Property  
- The Table service does not support using the [Credentials](https://go.microsoft.com/fwlink/?LinkId=154550) property of the [DataServiceContext](https://go.microsoft.com/fwlink/?linkid=151839) class to authorize a request. Instead, you must authorize a request against the Table service by adding an `Authorization` header to the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
+### Operations on links  
+
+Table Storage doesn't currently support links between tables. Links are associative relationships between data.  
   
-### Property Types  
- Not all property types supported by the OData are supported by the Table service. For a list of supported property types, see [Understanding the Table Service Data Model](Understanding-the-Table-Service-Data-Model.md).  
+### Operations on select properties  
+
+*Projection* refers to querying a subset of the properties for an entity or entities. It's analogous to selecting a subset of the columns or properties of a table when you're querying in language-integrated queries (LINQ).
+
+Projection reduces the amount of data that must be returned by a query by specifying that only certain properties are returned in the response. Projection is supported as part of the 2011-08-18 version of Azure Storage. For more information, see [Query Entities](Query-Entities.md), [Writing LINQ queries against Table Storage](Writing-LINQ-Queries-Against-the-Table-Service.md), and [OData: Select System Query Option ($select)](https://www.odata.org/).  
   
-### Operations on Links  
- The Table service does not currently support links between tables. Links are associative relationships between data.  
+### LINQ query operators  
+ 
+Table Storage supports the following LINQ query operators:  
   
-### Operations on Select Properties  
- Projection refers to querying a subset of the properties for an entity or entities. It is analogous to selecting a subset of the columns or properties of a table when querying in LINQ. Projection reduces the amount of data that must be returned by a query by specifying that only certain properties are returned in the response. Projection is supported as part of the 2011-08-18 version of the Azure storage services. For more information, refer to [Query Entities](Query-Entities.md), [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md), and [OData: Select System Query Option ($select)](https://www.odata.org/).  
+- `From`  
   
-### LINQ Query Operators  
- The Table service supports using language-integrated queries (LINQ). Only these LINQ query operators are supported for use with the Table service:  
+- `Where`  
   
--   `From`  
+- `Take`  
   
--   `Where`  
+ For more information, see [Query operators supported for Table Storage](Query-Operators-Supported-for-the-Table-Service.md).  
   
--   `Take`  
+### LINQ comparison operators  
+
+You can use a subset of the comparison operators provided by LINQ. For more information, see [Querying tables and entities](Querying-Tables-and-Entities.md) and [Writing LINQ queries against Table Storage](Writing-LINQ-Queries-Against-the-Table-Service.md).  
   
- For more information, see [Query Operators Supported for the Table Service](Query-Operators-Supported-for-the-Table-Service.md).  
+### GetMetadataURI method  
+
+You can use the [GetMetadataURI](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.getmetadatauri.aspx) method of the [DataServiceContext](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.aspx) class, but it doesn't return any schema information beyond the three fixed schema properties. These properties are `PartitionKey`, `RowKey`, and `Timestamp`.  
   
-### LINQ Comparison Operators  
- The Table service supports using a subset of the comparison operators provided by LINQ. For more information, see [Querying Tables and Entities](Querying-Tables-and-Entities.md) and [Writing LINQ Queries Against the Table Service](Writing-LINQ-Queries-Against-the-Table-Service.md).  
+### Payload formats  
+
+`OData` supports sending payloads in JSON format. Table Storage supports the `OData` JSON format as of API version 2013-08-15, with the `OData` data service version set to 3.0. Prior versions don't support the JSON format.  
   
-### GetMetadataURI Method  
- The Table service supports the [GetMetadataURI](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.getmetadatauri.aspx) method of the [DataServiceContext](https://msdn.microsoft.com/library/system.data.services.client.dataservicecontext.aspx) class, but it does not return any schema information beyond the three fixed schema properties. These properties are `PartitionKey`, `RowKey`, and `Timestamp`.  
-  
-### Payload Formats  
- OData supports sending payloads in JSON format. The Azure Table service supports the OData JSON format as of API version 2013-08-15, with the OData data service version set to 3.0; prior versions do not support the JSON format.  
-  
- Atom payloads are supported in all versions prior to 2015-12-11. Version 2015-12-11 and newer support only JSON payloads.  
+Atom payloads are supported in all versions prior to 2015-12-11. Version 2015-12-11 and later support only JSON payloads.  
   
 > [!NOTE]
->  JSON is the recommended payload format, and is the only format supported for versions 2015-12-11 and later.  
+> JSON is the recommended payload format, and is the only format supported for version 2015-12-11 and later.  
   
- For more information, see [Payload Format for Table Service Operations](Payload-Format-for-Table-Service-Operations.md) and [Setting the OData Data Service Version Headers](Setting-the-OData-Data-Service-Version-Headers.md).  
+For more information, see [Payload format for Table Storage operations](Payload-Format-for-Table-Service-Operations.md) and [Setting the OData data service version headers](Setting-the-OData-Data-Service-Version-Headers.md).  
   
-## See Also  
- [Table Service REST API](Table-Service-REST-API.md)
+## See also  
+
+[Table Storage REST API](Table-Service-REST-API.md)
