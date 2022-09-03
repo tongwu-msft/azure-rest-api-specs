@@ -1,8 +1,8 @@
 ---
-title: "ContainerLabel"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand container labels and how to use them"
+description: Learn how to leverage container label properties in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ContainerLabel
+# Explore container labels, their properties and how to use them
 
 Describes a container label.
 

@@ -1,8 +1,8 @@
 ---
-title: "ContainerEvent"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how to use a Container Event"
+description: Learn how to leverage a Container Event in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ContainerEvent
+# Explore container event and their properties
 
 A container event.
 

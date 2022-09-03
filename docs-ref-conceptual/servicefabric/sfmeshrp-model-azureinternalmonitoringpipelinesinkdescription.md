@@ -1,8 +1,8 @@
 ---
-title: "AzureInternalMonitoringPipelineSinkDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand Azure Internal Monitoring Pipeline Sink"
+description: Learn how to use Azure Internal Monitoring Pipeline Sink API in Service Fabric Mesh Resource Manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# AzureInternalMonitoringPipelineSinkDescription
+# Explore Azure Internal Monitoring Pipeline Sink properties
 
 Diagnostics settings for Geneva.
 
