@@ -1,8 +1,8 @@
 ---
-title: "ApplicationResourceDescriptionList"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand Application Resource Description List"
+description: Learn about application resource description list, which is a pageable list of application resources in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ApplicationResourceDescriptionList
+# Explore Application Resource Description List and its properties
 
 A pageable list of application resources.
 

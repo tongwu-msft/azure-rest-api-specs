@@ -1,8 +1,8 @@
 ---
 title: "Volumes"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Learn about the various requests associated with the Volumes API in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

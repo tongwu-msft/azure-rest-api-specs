@@ -1,8 +1,8 @@
 ---
-title: "Operations"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand the Operations API and how it lists all available operations"
+description: Learn about the Operations API to list all of the available operations in Service Fabric Mesh API resource manager.    
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Operations APIs
+# Use Operations APIs to list all available operations
 
 | Name | Description |
 | --- | --- |
