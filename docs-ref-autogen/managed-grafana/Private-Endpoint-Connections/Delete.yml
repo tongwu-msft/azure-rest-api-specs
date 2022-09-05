@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managed-grafana.grafana.delete
+uid: management.azure.com.managed-grafana.privateendpointconnections.delete
 name: Delete
 service: Managed Grafana
-groupName: Grafana
+groupName: Private Endpoint Connections
 apiVersion: 2022-08-01
-summary: Delete a workspace for Grafana resource.
+summary: Delete private endpoint connection
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}?api-version=2022-08-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Dashboard/grafana/{workspaceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -30,6 +30,12 @@ uriParameters:
   description: The workspace name of Azure Managed Grafana.
   types:
   - uid: string
+- name: privateEndpointConnectionName
+  in: path
+  isRequired: true
+  description: The private endpoint connection name of Azure Managed Grafana.
+  types:
+  - uid: string
 - name: api-version
   in: query
   isRequired: true
@@ -37,12 +43,10 @@ uriParameters:
   types:
   - uid: string
 responses:
-- name: 200 OK
-  description: OK. The workspace for Grafana resource is deleted.
 - name: 202 Accepted
   description: Accepted. The operation is accepted and will be completed asynchronously.
 - name: 204 No Content
-  description: No Content
+  description: NoContent
 - name: Other Status Codes
   description: Common error response for all Azure Resource Manager APIs to return error details for failed operations.
   types:
@@ -103,31 +107,31 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Grafana_Delete
+- name: PrivateEndpointConnections_Delete
   request:
-    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Dashboard/grafana/myWorkspace?api-version=2022-08-01
+    uri: DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Dashboard/grafana/myWorkspace/privateEndpointConnections/myConnection?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Dashboard/grafana/myWorkspace?api-version=2022-08-01
+      DELETE https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Dashboard/grafana/myWorkspace/privateEndpointConnections/myConnection?api-version=2022-08-01
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
 
-      /** Samples for Grafana Delete. */
+      /** Samples for PrivateEndpointConnections Delete. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
+           * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
            */
           /**
-           * Sample code: Grafana_Delete.
+           * Sample code: PrivateEndpointConnections_Delete.
            *
            * @param manager Entry point to DashboardManager.
            */
-          public static void grafanaDelete(com.azure.resourcemanager.dashboard.DashboardManager manager) {
-              manager.grafanas().delete("myResourceGroup", "myWorkspace", Context.NONE);
+          public static void privateEndpointConnectionsDelete(com.azure.resourcemanager.dashboard.DashboardManager manager) {
+              manager.privateEndpointConnections().delete("myResourceGroup", "myWorkspace", "myConnection", Context.NONE);
           }
       }
 
@@ -145,18 +149,18 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dashboard/armdashboard"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
-      func ExampleGrafanaClient_BeginDelete() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
+      func ExamplePrivateEndpointConnectionsClient_BeginDelete() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client, err := armdashboard.NewGrafanaClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	client, err := armdashboard.NewPrivateEndpointConnectionsClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginDelete(ctx, "myResourceGroup", "myWorkspace", nil)
+      	poller, err := client.BeginDelete(ctx, "myResourceGroup", "myWorkspace", "myConnection", nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -174,31 +178,35 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Delete a workspace for Grafana resource.
+       * This sample demonstrates how to Delete private endpoint connection
        *
-       * @summary Delete a workspace for Grafana resource.
-       * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/Grafana_Delete.json
+       * @summary Delete private endpoint connection
+       * x-ms-original-file: specification/dashboard/resource-manager/Microsoft.Dashboard/stable/2022-08-01/examples/PrivateEndpointConnections_Delete.json
        */
-      async function grafanaDelete() {
+      async function privateEndpointConnectionsDelete() {
         const subscriptionId = "00000000-0000-0000-0000-000000000000";
         const resourceGroupName = "myResourceGroup";
         const workspaceName = "myWorkspace";
+        const privateEndpointConnectionName = "myConnection";
         const credential = new DefaultAzureCredential();
         const client = new DashboardManagementClient(credential, subscriptionId);
-        const result = await client.grafana.beginDeleteAndWait(resourceGroupName, workspaceName);
+        const result = await client.privateEndpointConnections.beginDeleteAndWait(
+          resourceGroupName,
+          workspaceName,
+          privateEndpointConnectionName
+        );
         console.log(result);
       }
 
-      grafanaDelete().catch(console.error);
+      privateEndpointConnectionsDelete().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dashboard_1.0.0/sdk/dashboard/arm-dashboard/README.md) on how to add the SDK to your project and authenticate.
   responses:
-  - statusCode: "200"
   - statusCode: "202"
   - statusCode: "204"
 security: []
 metadata:
   description: >
-    Learn more about Managed Grafana service - Delete a workspace for Grafana resource.
+    Learn more about Managed Grafana service - Delete private endpoint connection
 errorCodes: []

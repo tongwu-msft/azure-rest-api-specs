@@ -13590,6 +13590,16 @@
 ## Operations
 ### [Overview](managed-grafana/Operations.yml)
 ### [List](managed-grafana/Operations/List.yml)
+## Private Endpoint Connections
+### [Overview](managed-grafana/Private-Endpoint-Connections.yml)
+### [Approve](managed-grafana/Private-Endpoint-Connections/Approve.yml)
+### [Delete](managed-grafana/Private-Endpoint-Connections/Delete.yml)
+### [Get](managed-grafana/Private-Endpoint-Connections/Get.yml)
+### [List](managed-grafana/Private-Endpoint-Connections/List.yml)
+## Private Link Resources
+### [Overview](managed-grafana/Private-Link-Resources.yml)
+### [Get](managed-grafana/Private-Link-Resources/Get.yml)
+### [List](managed-grafana/Private-Link-Resources/List.yml)
 # Managed Identity
 ## [Overview](../docs-ref-conceptual/managedidentity/index.md)
 ## Operations
