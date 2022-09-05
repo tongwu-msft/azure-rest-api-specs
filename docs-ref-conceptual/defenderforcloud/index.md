@@ -2,8 +2,8 @@
 ms.assetid: 
 title: Microsoft Defender for Cloud REST APIs
 ms.service: defender-for-cloud
-author: elkrieger
-ms.author: elkrieger
+author: memildin
+ms.author: memildin
 ms.manager: raynew
 service_description: Unified security management and advanced threat protection across hybrid cloud workloads
 description: Unified security management and advanced threat protection across hybrid cloud workloads
@@ -27,17 +27,10 @@ Microsoft Defender for Cloud provides unified security management and advanced t
 | [Allowed Connections](../../docs-ref-autogen/defenderforcloud/Allowed-Connections.yml) |Lists the permissible traffic routes between resources.|
 | [Assessments](../../docs-ref-autogen/defenderforcloud/Assessments.yml) |Manage security assessments.|
 | [Assessments Metadata](../../docs-ref-autogen/defenderforcloud/Assessments-Metadata.yml) |Manage metadata for the security assessments.|
+| [Assignments](../../docs-ref-autogen/defenderforcloud/Assignments.yml) |Manage assignments of compliance initiatives.|
 | [Auto Provisioning Settings](../../docs-ref-autogen/defenderforcloud/Auto-Provisioning-Settings.yml) |Auto provisioning settings of the subscriptions.|
 | [Automations](../../docs-ref-autogen/defenderforcloud/Automations.yml) |Manage security automations.|
-| [Compliances](../../docs-ref-autogen/defenderforcloud/Compliances.yml) |Details of specific Compliances.|
-| [Device Security Groups](../../docs-ref-autogen/defenderforcloud/Device-Security-Groups.yml) |Manage the device security group for a specified IoT Hub resource.|
-| [Discovered Security Solutions](../../docs-ref-autogen/defenderforcloud/Discovered-Security-Solutions.yml) | Details of specific discovered Security Solution. |
-| [External Security Solutions](../../docs-ref-autogen/defenderforcloud/External-Security-Solutions.yml) | External Security Solutions for the subscription and location. |
-| [Information Protection Policies](../../docs-ref-autogen/defenderforcloud/Information-Protection-Policies.yml) |Details of the information protection policies.|
-| [lot Alert Types](../../docs-ref-autogen/defenderforcloud/Iot-Alert-Types.yml) | Details of an IoT alert type. |
-| [lot Alerts](../../docs-ref-autogen/defenderforcloud/Iot-Alerts.yml) | Get the IoT alerts. |
-| [lot Recommendation Types](../../docs-ref-autogen/defenderforcloud/Iot-Recommendation-Types.yml) | Get IoT recommendation types. |
-| [lot Recommendations](../../docs-ref-autogen/defenderforcloud/Iot-Recommendations.yml) | Get IoT recommendations. |
+| [Compliances](../../docs-ref-autogen/defenderforcloud/Compliances.yml) |Details of specific compliance initiatives.|
 | [Connectors](../../docs-ref-autogen/defenderforcloud/Connectors.yml) |Manage cloud connectors for multi-cloud scenarios.|
 | [Device Security Groups](../../docs-ref-autogen/defenderforcloud/Device-Security-Groups.yml) |Manage the device security group for a specified IoT Hub resource.|
 | [Discovered Security Solutions](../../docs-ref-autogen/defenderforcloud/Discovered-Security-Solutions.yml) | Details of specific discovered Security Solution. |
