@@ -14,7 +14,7 @@ The `Update Entity` operation updates an existing entity in a table. The `Update
   
 ## Request  
 
-You can construct the `Update Entity` request as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, and `mytable` with the name of your table. Replace *myPartitionKey* and *myRowKey* with the name of the partition key and row key identifying the entity to be updated.  
+You can construct the `Update Entity` request as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account, and `mytable` with the name of your table. Replace *myPartitionKey* and *myRowKey* with the name of the partition key and row key that identify the entity to be updated.  
   
 |Method|Request URI|HTTP version|  
 |------------|-----------------|------------------|  
@@ -51,7 +51,7 @@ The following table describes required and optional request headers.
 |`x-ms-version`|Optional. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
 |`Content-Type`|Required. Specifies the content type of the payload. Possible values are `application/atom+xml` and `application/json`.<br /><br /> For more information about valid content types, see [Payload format for Table Storage operations](Payload-Format-for-Table-Service-Operations.md).|  
 |`Content-Length`|Required. The length of the request body.|  
-|`If-Match`|Required. The client can specify the `ETag` for the entity on the request, in order to compare to the `ETag` maintained by the service for the purpose of optimistic concurrency. The update operation is performed only if the `ETag` sent by the client matches the value maintained by the server. This match indicates that the entity hasn't been modified since it was retrieved by the client.<br /><br /> To force an unconditional update, set `If-Match` to the wildcard character (*).|  
+|`If-Match`|Required. The client can specify the `ETag` for the entity on the request, to compare to the `ETag` maintained by the service for the purpose of optimistic concurrency. The update operation is performed only if the `ETag` sent by the client matches the value maintained by the server. This match indicates that the entity hasn't been modified since it was retrieved by the client.<br /><br /> To force an unconditional update, set `If-Match` to the wildcard character (*).|  
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Monitor Azure Table Storage](/azure/storage/tables/monitor-table-storage).|  
   
 ### Request body  
@@ -59,7 +59,7 @@ The following table describes required and optional request headers.
 The `Update Entity` operation sends the entity to be updated as an `OData` entity set, which can be either a JSON or an Atom feed. For more information, see [Inserting and updating entities](Inserting-and-Updating-Entities.md).  
   
 > [!NOTE]
-> JSON is the recommended payload format, and is the only format supported for version 2015-12-11 and later.  
+> JSON is the recommended payload format, and it's the only format supported for version 2015-12-11 and later.  
   
 ### Sample request  
   
@@ -95,7 +95,7 @@ MaxDataServiceVersion: 3.0;NetFx
 }  
 ```  
   
-#### Atom feed (versions prior to 2015-12-11)  
+#### Atom feed (versions earlier than 2015-12-11)  
 
 This example shows a sample request URI, the associated request headers, and the request body for an Atom feed.  
   
@@ -158,7 +158,7 @@ The response includes the following headers. The response can also include addit
 |`x-ms-request-id`|This header uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see [Troubleshooting API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Table Storage used to run the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.|  
-|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
+|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
   
 ### Response body  
 
@@ -184,7 +184,7 @@ Server: Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0
   
 ## Authorization  
 
-The account owner can perform this operation. Additionally, anyone with a shared access signature that has permission to perform this operation can do so.  
+The account owner can perform this operation. Additionally, anyone with a shared access signature who has permission to perform this operation can do so.  
   
 ## Remarks  
 
@@ -196,7 +196,7 @@ If the entity's `ETag` differs from that specified with the update request, the 
   
 To force an unconditional update operation, set the value of the `If-Match` header to the wildcard character (*) on the request. Passing this value to the operation overrides the default optimistic concurrency, and ignores any mismatch in `ETag` values.  
   
-If the `If-Match` header is missing from the request in version 2011-08-18 or later, then the service performs an [Insert Or Replace Entity](Insert-Or-Replace-Entity.md) (upsert) operation. In versions prior to 2011-08-18, the service returns status code 400 (Bad Request).  
+If the `If-Match` header is missing from the request in version 2011-08-18 or later, the service performs an [Insert Or Replace Entity](Insert-Or-Replace-Entity.md) (upsert) operation. In versions earlier than 2011-08-18, the service returns status code 400 (Bad Request).  
   
 Table Storage doesn't persist `null` values for properties. Specifying a property with a `null` value is equivalent to omitting that property in the request.  
   
