@@ -5,7 +5,7 @@ author: swtiwari
 ms.author: swtiwari
 ms.date: 09/01/2021
 ms.topic: reference
-ms.service: hybrid network
+ms.service: network-function-manager
 ms.devlang: rest-api
 ---
 
