@@ -33,6 +33,6 @@ Visit the [Cognitive Services REST API Sample Github repo](https://github.com/Az
 
 ## See also
 
-- For an overview of the service, see [What is Language Understanding?](https://docs.microsoft.com/azure/cognitive-services/luis/what-is-luis)
-- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account).
+- For an overview of the service, see [What is Language Understanding?](/azure/cognitive-services/luis/what-is-luis)
+- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](/azure/cognitive-services/cognitive-services-apis-create-account).
 - To access REST specifications for previous versions of Language Understanding API, see this [Github repo](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/LUIS).

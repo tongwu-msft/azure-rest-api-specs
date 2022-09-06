@@ -33,6 +33,6 @@ Visit the [Cognitive Services REST API Sample Github repo](https://github.com/Az
 
 ## See also
 
-- For an overview of the service, see [What is Face service?](m/azure/cognitive-services/face/overview)
+- For an overview of the service, see [What is Face service?](/azure/cognitive-services/face/overview)
 - To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](/azure/cognitive-services/cognitive-services-apis-create-account).
 - To access REST specifications for previous versions of Face API, see this [Github repo](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/Face).
