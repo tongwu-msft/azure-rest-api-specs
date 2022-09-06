@@ -84,7 +84,7 @@ The response for this operation includes the following headers. The response can
   
 ## Authorization  
 
-The account owner can perform this operation. Additionally, anyone using a shared access signature whot has permission to delete the blob can perform this operation.  
+The account owner can perform this operation. Additionally, anyone using a shared access signature who has permission to delete the blob can perform this operation.  
   
 ## Remarks  
 
