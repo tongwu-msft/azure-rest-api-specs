@@ -80,11 +80,11 @@ The response for this operation includes the following headers. The response can
 |`x-ms-version`|Indicates the version of Blob Storage used to run the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`x-ms-delete-type-permanent`|For version 2017-07-29 and later, Blob Storage returns `true` if the blob has been permanently deleted, and `false` if the blob has been soft-deleted.|  
 |`Date`|A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.|  
-|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
+|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
   
 ## Authorization  
 
-The account owner can perform this operation. Additionally, anyone using a shared access signature that has permission to delete the blob can perform this operation.  
+The account owner can perform this operation. Additionally, anyone using a shared access signature whot has permission to delete the blob can perform this operation.  
   
 ## Remarks  
 
@@ -100,9 +100,9 @@ When a blob is successfully deleted, it's immediately removed from the storage a
 
 ### Soft-delete feature enabled
 
-When a blob is successfully deleted, it's softly deleted, and it's no longer accessible to clients. Blob Storage retains the blob or snapshot for the number of days specified for the `DeleteRetentionPolicy` property of Blob Storage. For information about reading Blob Storage properties, see [Set Blob Storage properties](Set-Blob-Service-Properties.md).
+When a blob is successfully deleted, it's soft-deleted, and it's no longer accessible to clients. Blob Storage retains the blob or snapshot for the number of days specified for the `DeleteRetentionPolicy` property of Blob Storage. For information about reading Blob Storage properties, see [Set Blob Storage properties](Set-Blob-Service-Properties.md).
 
-After the specified number of days, the blob’s data is removed from the service during garbage collection. A softly deleted blob or snapshot is accessible by calling the [List Blobs](List-Blobs.md) operation, and specifying the `include=deleted` option.
+After the specified number of days, the blob’s data is removed from the service during garbage collection. You can access a soft-deleted blob or snapshot by calling the [List Blobs](List-Blobs.md) operation and specifying the `include=deleted` option.
 
 You can restore soft-deleted blobs or snapshots by using [Undelete Blob](Undelete-Blob.md). For any other operation on soft-deleted blobs or snapshots, Blob Storage returns error 404 (Resource Not Found). 
   
