@@ -17,8 +17,8 @@ This article demonstrates how to call a REST API endpoint for Anomaly Detector s
 
 ## Call the Anomaly Detector endpoint
 
-1. Start by creating an Azure Cognitive Services resource, and within that specifically an Anomaly Detector resource. For instructions, see [Create a Cognitive Services resource using the portal](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account).
-1. From the Azure Portal, copy the key and endpoint required to make the call. For instructions, see [Get the keys for your resource](https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account#get-the-keys-for-your-resource).
+1. Start by creating an Azure Cognitive Services resource, and within that specifically an Anomaly Detector resource. For instructions, see [Create a Cognitive Services resource using the portal](/azure/cognitive-services/cognitive-services-apis-create-account).
+1. From the Azure Portal, copy the key and endpoint required to make the call. For instructions, see [Get the keys for your resource](/azure/cognitive-services/cognitive-services-apis-create-account#get-the-keys-for-your-resource).
 1. From the left navigation on this article, select the operation that you want to perform (e.g., **Detect Change Point**). On the right pane, select **Try It**.
 1. In the **REST API Try It** pane, perform the following steps:
 
@@ -34,6 +34,6 @@ Visit the [Cognitive Services REST API Sample Github repo](https://github.com/Az
 
 ## See also
 
-- For more information, see [Anomaly Detector Documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/).
-- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account).
-- To access REST specifications for previous versions of Anomaly Detector API, see this [Github repo](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/cognitiveservices/data-plane/AnomalyDetector).
+- For more information, see [Anomaly Detector Documentation](/azure/cognitive-services/anomaly-detector/).
+- To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](/azure/cognitive-services/cognitive-services-apis-create-account).
+- To access REST specifications for previous versions of Anomaly Detector API, see this [Github repo](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/AnomalyDetector).
