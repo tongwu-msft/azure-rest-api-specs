@@ -2,7 +2,7 @@
 title: "Send event"
 description: Learn how the Send Event operation sends a new event to an Event Hub.
 ms.custom: ""
-ms.date: 07/14/2020
+ms.date: 09/06/2022
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
