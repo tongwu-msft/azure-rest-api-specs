@@ -67,7 +67,7 @@ The response for this operation includes the following headers. The response can
 |`x-ms-request-id`|This header uniquely identifies the request that was made, and can be used for troubleshooting the request. For more information, see [Troubleshooting API operations](Troubleshooting-API-Operations.md).|  
 |`x-ms-version`|Indicates the version of Table Storage used to run the request. This header is returned for requests made against version 2009-09-19 and later.|  
 |`Date`|A UTC date/time value that indicates the time at which the response was initiated. This service generates this value.|  
-|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
+|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
   
 ### Response body  
 
@@ -79,7 +79,7 @@ Only the account owner can call this operation.
   
 ## Remarks  
 
-When you successfully delete a table, it's immediately marked for deletion, and is no longer accessible to clients. The table is later removed from Table Storage during garbage collection.  
+When you successfully delete a table, it's immediately marked for deletion and is no longer accessible to clients. The table is later removed from Table Storage during garbage collection.  
   
 Note that deleting a table is likely to take at least 40 seconds to complete. If you attempt an operation against the table while it's being deleted, the service returns status code 409 (Conflict). The service returns additional error information indicating that the table is being deleted.  
   
