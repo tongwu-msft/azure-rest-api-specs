@@ -18,13 +18,13 @@ Table Storage extends the functionality of `OData` in the following ways.
   
 ### Shared Key, Shared Key Lite, and Azure Active Directory authorization  
 
-Table Storage requires that each request be authorized. Shared Key, Shared Key Lite, and Azure Active Directory (Azure AD) authorization are supported. Azure AD authorization is more secure, and is recommended for requests made against Table Storage by using the REST API.  
+Table Storage requires that each request be authorized. Shared Key, Shared Key Lite, and Azure Active Directory (Azure AD) authorization are supported. Azure AD authorization is more secure, and it's recommended for requests made against Table Storage by using the REST API.  
   
 For more information about authorizing requests, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).  
   
 ### Continuation tokens for query pagination  
 
-A query against Table Storage can return a maximum of 1,000 items at one time, and can run for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query didn't complete within five seconds, the response includes headers. These headers provide the developer with continuation tokens to use, in order to resume the query at the next item in the result set. Continuation token headers can be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
+A query against Table Storage can return a maximum of 1,000 items at one time, and can run for a maximum of five seconds. If the result set contains more than 1,000 items, or if the query didn't finish within five seconds, the response includes headers. These headers provide the developer with continuation tokens to use, in order to resume the query at the next item in the result set. Continuation token headers can be returned for a [Query Tables](Query-Tables.md) operation or a [Query Entities](Query-Entities.md) operation.  
   
 Note that the total time allotted to the request for scheduling and processing the query is 30 seconds, including the five seconds for query execution.  
   
@@ -99,7 +99,7 @@ You can use the [GetMetadataURI](https://msdn.microsoft.com/library/system.data.
 Atom payloads are supported in all versions prior to 2015-12-11. Version 2015-12-11 and later support only JSON payloads.  
   
 > [!NOTE]
-> JSON is the recommended payload format, and is the only format supported for version 2015-12-11 and later.  
+> JSON is the recommended payload format, and it's the only format supported for version 2015-12-11 and later.  
   
 For more information, see [Payload format for Table Storage operations](Payload-Format-for-Table-Service-Operations.md) and [Setting the OData data service version headers](Setting-the-OData-Data-Service-Version-Headers.md).  
   
