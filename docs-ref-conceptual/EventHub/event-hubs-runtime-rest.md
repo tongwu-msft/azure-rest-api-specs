@@ -2,7 +2,7 @@
 title: "Event Hubs service REST"
 description: Learn that these APIs enable you to access the Event Hubs service to perform operations on event hubs.
 ms.custom: ""
-ms.date: 07/14/2020
+ms.date: 09/06/2022
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -19,7 +19,7 @@ manager: "femila"
 These APIs enable you to access the Event Hubs service to perform operations on event hubs.  
   
 ##  Common parameters
- The following information is common to all tasks related to Event Hubs publisher policy:  
+ The following information is common to all tasks related to Event Hubs publishers:  
   
 -   Replace `{api-version}` with `2014-01` in the URL.  
   
@@ -27,7 +27,7 @@ These APIs enable you to access the Event Hubs service to perform operations on 
   
 -   Replace `{eventHubPath}` with the path to your event hub.  
   
--   Replace `{publisherName}` with the name of your publisher.  
+-   Replace `{publisherId}` with the name of your publisher.  
   
 -   Replace `{partitionId}` with the ID of a partition on an event hub.  
 
@@ -48,8 +48,7 @@ These APIs enable you to access the Event Hubs service to perform operations on 
     Authorization: SharedAccessSignature sr=your-namespace.servicebus.windows.net&sig=tYu8qdH563Pc96Lky0SFs5PhbGnljF7mLYQwCZmk9M0%3d&se=1403736877&skn=RootManageSharedAccessKey  
     Content-Type: application/atom+xml;type=entry;charset=utf-8  
     Host: your-namespace.servicebus.windows.net  
-    
-  
+      
     { "DeviceId":"dev-01", "Temperature":"37.0" }  
     ```  
   
