@@ -80,7 +80,7 @@ The response for this operation includes the following headers. The response can
 |`Date`|A UTC date/time value that indicates the time at which the response was initiated. The service generates this value.|  
 |`x-ms-popreceipt`|The pop receipt of the queue message.|  
 |`x-ms-time-next-visible`|A UTC date/time value that represents when the message will be visible on the queue.|  
-|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
+|`x-ms-client-request-id`|You can use this header to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request. The value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header isn't present in the request, this header won't be present in the response.|  
   
 ### Response body  
 
@@ -88,11 +88,11 @@ None.
   
 ## Authorization  
 
-The account owner can perform this operation. Additionally, anyone with a shared access signature that has permission to perform this operation can do so.  
+The account owner can perform this operation. Additionally, anyone with a shared access signature who has permission to perform this operation can do so.  
   
 ## Sample request and response  
 
-The following request extends the visibility of a queue message by 30 seconds, and updates its content.  
+The following request extends the visibility of a queue message by 30 seconds and updates its content.  
   
 ```  
 PUT https://myaccount.queue.core.windows.net/myqueue/messages/663d89aa-d1d9-42a2-9a6a-fcf822a97d2c?popreceipt=AgAAAAEAAAApAAAAGIw6Q29bzAE%3d&visibilitytimeout=30&timeout=30 HTTP/1.1  
