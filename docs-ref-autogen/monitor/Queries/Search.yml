@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.querypacks(preview).querypackqueries(preview).search
+uid: management.azure.com.monitor.queries.search
 name: Search
 service: Monitor
-groupName: Query Pack Queries (Preview)
-apiVersion: 2019-09-01-preview
+groupName: Queries
+apiVersion: 2019-09-01
 summary: Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01-preview
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01-preview&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -115,13 +115,13 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Describe the format of an Error response.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "The code and message for an error.  \nThe error details."
+    description: The error object.
     types:
-    - uid: ErrorInfo
+    - uid: ErrorDetail
 - name: LogAnalyticsQueryPackQuerySearchProperties
   description: Properties that define an Log Analytics QueryPack-Query search properties.
   kind: object
@@ -210,31 +210,37 @@ definitions:
     description: Read only system data
     types:
     - uid: SystemData
-- name: ErrorInfo
-  description: The code and message for an error.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: A machine readable error code.
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A human readable error message.
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: error details.
+    isReadyOnly: true
+    description: The error details.
     types:
     - uid: ErrorDetail
       isArray: true
-  - name: innererror
-    description: "The code and message for an error.  \nInner error details if they exist."
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
     types:
-    - uid: ErrorInfo
-  - name: additionalProperties
-    description: Additional properties that can be provided on the error info object
-    types:
-    - uid: object
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: SystemData
   description: Read only system data
   kind: object
@@ -263,33 +269,18 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ErrorDetail
-  description: Error details.
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: The error's code.
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: A human readable error message.
-    types:
-    - uid: string
-  - name: target
-    description: Indicates which property in the request is responsible for the error.
-    types:
-    - uid: string
-  - name: value
-    description: Indicates which value in 'target' is responsible for the error.
-    types:
-    - uid: string
-  - name: resources
-    description: Indicates resources which were responsible for the error.
-    types:
-    - uid: string
-      isArray: true
-  - name: additionalProperties
-    description: Additional properties that can be provided on the error details object
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
     - uid: object
 - name: IdentityType
@@ -311,7 +302,7 @@ definitions:
 examples:
 - name: QuerySearch
   request:
-    uri: POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01-preview&$top=3&includeBody=True
+    uri: POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01&$top=3&includeBody=True
     body: >-
       {
         "related": {
@@ -329,7 +320,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01-preview&$top=3&includeBody=True
+      POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01&$top=3&includeBody=True
 
       {
         "related": {
@@ -347,6 +338,151 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQuerySearchProperties;
+      import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQuerySearchPropertiesRelated;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Queries Search. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+           */
+          /**
+           * Sample code: QuerySearch.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void querySearch(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .queries()
+                  .search(
+                      "my-resource-group",
+                      "my-querypack",
+                      new LogAnalyticsQueryPackQuerySearchProperties()
+                          .withRelated(
+                              new LogAnalyticsQueryPackQuerySearchPropertiesRelated()
+                                  .withCategories(Arrays.asList("other", "analytics")))
+                          .withTags(mapOf("my-label", Arrays.asList("label1"))),
+                      3L,
+                      true,
+                      null,
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+      func ExampleQueriesClient_NewSearchPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewQueriesClient("86dc51d3-92ed-4d7e-947a-775ea79b4918", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewSearchPager("my-resource-group",
+      		"my-querypack",
+      		armoperationalinsights.LogAnalyticsQueryPackQuerySearchProperties{
+      			Related: &armoperationalinsights.LogAnalyticsQueryPackQuerySearchPropertiesRelated{
+      				Categories: []*string{
+      					to.Ptr("other"),
+      					to.Ptr("analytics")},
+      			},
+      			Tags: map[string][]*string{
+      				"my-label": {
+      					to.Ptr("label1")},
+      			},
+      		},
+      		&armoperationalinsights.QueriesClientSearchOptions{Top: to.Ptr[int64](3),
+      			IncludeBody: to.Ptr(true),
+      			SkipToken:   nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+       *
+       * @summary Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+       */
+      async function querySearch() {
+        const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+        const resourceGroupName = "my-resource-group";
+        const queryPackName = "my-querypack";
+        const top = 3;
+        const includeBody = true;
+        const querySearchProperties = {
+          related: { categories: ["other", "analytics"] },
+          tags: { myLabel: ["label1"] },
+        };
+        const options = { top, includeBody };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.queries.listSearch(
+          resourceGroupName,
+          queryPackName,
+          querySearchProperties,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      querySearch().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -464,7 +600,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:
