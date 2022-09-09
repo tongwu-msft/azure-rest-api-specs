@@ -3,8 +3,8 @@ title: API versions of Azure RBAC REST APIs | Microsoft Docs
 description: Learn about the API versions of the Azure role-based access control (Azure RBAC) REST APIs.
 author: rolyon
 ms.author: rolyon
-ms.manager: mtillman
-ms.date: 07/15/2022
+ms.manager: amycolannino
+ms.date: 09/15/2022
 ms.topic: reference
 ms.service: role-based-access-control
 ms.devlang: rest-api
@@ -19,7 +19,7 @@ This article lists the current and past versions of the Azure RBAC REST APIs.
 
 | API version | Specification | API updates |
 |-------------|---------------|-------------|
-| `2022-04-01` | Swagger specification | GA release of role assignment conditions<br/>[Release note](#2022-04-01) |
+| `2022-04-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2022-04-01) | GA release of role assignment conditions<br/>[Release note](#2022-04-01) |
 | `2020-10-01` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2020-10-01) | GA release of Privileged Identity Management resource types<br/>[Release note](#2020-10-01) |
 | `2015-07-01`| [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/authorization/resource-manager/Microsoft.Authorization/stable/2015-07-01) | First generally available release |
 
