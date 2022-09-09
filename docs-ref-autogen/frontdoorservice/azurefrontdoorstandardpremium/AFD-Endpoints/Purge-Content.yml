@@ -150,6 +150,138 @@ examples:
           "endpoint1-abcdefghijklmnop.z01.azurefd.net"
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/afdEndpoints/endpoint1/purge?api-version=2021-06-01
+
+      {
+        "contentPaths": [
+          "/folder1"
+        ],
+        "domains": [
+          "endpoint1-abcdefghijklmnop.z01.azurefd.net"
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.AfdPurgeParameters;
+      import java.util.Arrays;
+
+      /** Samples for AfdEndpoints PurgeContent. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_PurgeContent.json
+           */
+          /**
+           * Sample code: AFDEndpoints_PurgeContent.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void aFDEndpointsPurgeContent(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getAfdEndpoints()
+                  .purgeContent(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      new AfdPurgeParameters()
+                          .withContentPaths(Arrays.asList("/folder1"))
+                          .withDomains(Arrays.asList("endpoint1-abcdefghijklmnop.z01.azurefd.net")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_PurgeContent.json
+      func ExampleAFDEndpointsClient_BeginPurgeContent() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewAFDEndpointsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPurgeContent(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		armcdn.AfdPurgeParameters{
+      			ContentPaths: []*string{
+      				to.Ptr("/folder1")},
+      			Domains: []*string{
+      				to.Ptr("endpoint1-abcdefghijklmnop.z01.azurefd.net")},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Removes a content from AzureFrontDoor.
+       *
+       * @summary Removes a content from AzureFrontDoor.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDEndpoints_PurgeContent.json
+       */
+      async function afdEndpointsPurgeContent() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const contents = {
+          contentPaths: ["/folder1"],
+          domains: ["endpoint1.azureedge.net"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.afdEndpoints.beginPurgeContentAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          contents
+        );
+        console.log(result);
+      }
+
+      afdEndpointsPurgeContent().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -163,5 +295,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Front Door Service service - Removes a content from AzureFrontDoor.
+  description: >
+    Learn more about Front Door Service service - Removes a content from AzureFrontDoor.
 errorCodes: []

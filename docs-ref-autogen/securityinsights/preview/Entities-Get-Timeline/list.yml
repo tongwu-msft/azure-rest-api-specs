@@ -3,14 +3,14 @@ uid: management.azure.com.securityinsights.preview.entitiesgettimeline.list
 name: list
 service: Sentinel
 groupName: Entities Get Timeline
-apiVersion: 2021-10-01-preview
+apiVersion: 2022-07-01-preview
 summary: Timeline for an entity.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline?api-version=2021-10-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/providers/Microsoft.SecurityInsights/entities/{entityId}/getTimeline?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -93,6 +93,8 @@ definitions:
     - uid: ActivityTimelineItem
       isArray: true
     - uid: BookmarkTimelineItem
+      isArray: true
+    - uid: AnomalyTimelineItem
       isArray: true
     - uid: SecurityAlertTimelineItem
       isArray: true
@@ -265,6 +267,61 @@ definitions:
     types:
     - uid: Bookmark
     typesTitle: string
+- name: AnomalyTimelineItem
+  description: Represents anomaly timeline item.
+  kind: object
+  properties:
+  - name: azureResourceId
+    description: The anomaly azure resource id.
+    types:
+    - uid: string
+  - name: productName
+    description: The anomaly product name.
+    types:
+    - uid: string
+  - name: description
+    description: The anomaly description.
+    types:
+    - uid: string
+  - name: displayName
+    description: The anomaly name.
+    types:
+    - uid: string
+  - name: endTimeUtc
+    description: The anomaly end time.
+    types:
+    - uid: string
+  - name: startTimeUtc
+    description: The anomaly start time.
+    types:
+    - uid: string
+  - name: timeGenerated
+    description: The anomaly generated time.
+    types:
+    - uid: string
+  - name: vendor
+    description: The name of the anomaly vendor.
+    types:
+    - uid: string
+  - name: intent
+    description: The intent of the anomaly.
+    types:
+    - uid: string
+  - name: techniques
+    description: The techniques of the anomaly.
+    types:
+    - uid: string
+      isArray: true
+  - name: reasons
+    description: The reasons that cause the anomaly.
+    types:
+    - uid: string
+      isArray: true
+  - name: kind
+    description: The entity query kind type.
+    types:
+    - uid: Anomaly
+    typesTitle: string
 - name: SecurityAlertTimelineItem
   description: Represents security alert timeline item.
   kind: object
@@ -326,6 +383,10 @@ definitions:
     description: security alerts
     types:
     - uid: string
+  - name: Anomaly
+    description: anomaly
+    types:
+    - uid: string
 - name: UserInfo
   description: User information that made some action
   kind: object
@@ -367,13 +428,62 @@ definitions:
 examples:
 - name: Entity timeline
   request:
-    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getTimeline?api-version=2021-10-01-preview
+    uri: POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getTimeline?api-version=2022-07-01-preview
     body: >-
       {
         "numberOfBucket": 4,
         "startTime": "2021-09-01T00:00:00.000Z",
         "endTime": "2021-10-01T00:00:00.000Z"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/d0cfe6b2-9ac0-4464-9919-dccaee2e48c0/resourceGroups/myRg/providers/Microsoft.OperationalInsights/workspaces/myWorkspace/providers/Microsoft.SecurityInsights/entities/e1d3d618-e11f-478b-98e3-bb381539a8e1/getTimeline?api-version=2022-07-01-preview
+
+      {
+        "numberOfBucket": 4,
+        "startTime": "2021-09-01T00:00:00.000Z",
+        "endTime": "2021-10-01T00:00:00.000Z"
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityInsights } = require("@azure/arm-securityinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Timeline for an entity.
+       *
+       * @summary Timeline for an entity.
+       * x-ms-original-file: specification/securityinsights/resource-manager/Microsoft.SecurityInsights/preview/2022-07-01-preview/examples/entities/timeline/PostTimelineEntity.json
+       */
+      async function entityTimeline() {
+        const subscriptionId = "d0cfe6b2-9ac0-4464-9919-dccaee2e48c0";
+        const resourceGroupName = "myRg";
+        const workspaceName = "myWorkspace";
+        const entityId = "e1d3d618-e11f-478b-98e3-bb381539a8e1";
+        const parameters = {
+          endTime: new Date("2021-10-01T00:00:00.000Z"),
+          numberOfBucket: 4,
+          startTime: new Date("2021-09-01T00:00:00.000Z"),
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityInsights(credential, subscriptionId);
+        const result = await client.entitiesGetTimeline.list(
+          resourceGroupName,
+          workspaceName,
+          entityId,
+          parameters
+        );
+        console.log(result);
+      }
+
+      entityTimeline().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-securityinsight_1.0.0-beta.4/sdk/securityinsight/arm-securityinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -400,6 +510,25 @@ examples:
             "lastActivityTimeUTC": "2021-09-01T21:35:28.02Z",
             "content": "he user has deleted the account 3 time(s)",
             "title": "The user has deleted an account"
+          },
+          {
+            "kind": "Anomaly",
+            "azureResourceId": "4467341f-fb73-4f99-a9b3-29473532cf5a_d56430ef-f421-2c9c-0b7d-d082285843c6",
+            "description": "Anomalous private to public port scanning activity with high destination port count along with low port ratio. The ratios are normalized by multiplying them by 10,000 to get them to a more usable value between 0.0 and 1.0.",
+            "productName": "Azure Sentinel",
+            "displayName": "(Preview) Anomalous scanning activity",
+            "endTimeUtc": "2021-09-01T23:31:28.02Z",
+            "startTimeUtc": "2021-09-01T23:32:28.01Z",
+            "timeGenerated": "2021-09-01T23:37:25.8136594Z",
+            "vendor": "Microsoft",
+            "intent": "Discovery",
+            "techniques": [
+              "T1046"
+            ],
+            "reasons": [
+              "High destination port count",
+              "Low port ratio"
+            ]
           }
         ],
         "metaData": {
@@ -412,6 +541,10 @@ examples:
             {
               "count": 2,
               "kind": "SecurityAlert"
+            },
+            {
+              "count": 1,
+              "kind": "Anomaly"
             }
           ],
           "errors": [
@@ -437,5 +570,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Sentinel service - Timeline for an entity.
+  description: >
+    Learn more about Sentinel service - Timeline for an entity.
 errorCodes: []

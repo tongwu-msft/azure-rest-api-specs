@@ -165,6 +165,133 @@ examples:
           "requiresTransportSecurity": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/resourcegroup/providers/Microsoft.Relay/namespaces/example-RelayNamespace-9953/wcfRelays/example-Relay-Wcf-1194?api-version=2017-04-01
+
+      {
+        "properties": {
+          "relayType": "NetTcp",
+          "requiresClientAuthorization": true,
+          "requiresTransportSecurity": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.relay.models.Relaytype;
+
+      /** Samples for WcfRelays CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayCreate.json
+           */
+          /**
+           * Sample code: RelayCreate.
+           *
+           * @param manager Entry point to RelayManager.
+           */
+          public static void relayCreate(com.azure.resourcemanager.relay.RelayManager manager) {
+              manager
+                  .wcfRelays()
+                  .define("example-Relay-Wcf-1194")
+                  .withExistingNamespace("resourcegroup", "example-RelayNamespace-9953")
+                  .withRelayType(Relaytype.NET_TCP)
+                  .withRequiresClientAuthorization(true)
+                  .withRequiresTransportSecurity(true)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-relay_1.0.0-beta.2/sdk/relay/azure-resourcemanager-relay/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armrelay_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/relay/armrelay"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayCreate.json
+      func ExampleWCFRelaysClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armrelay.NewWCFRelaysClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<namespace-name>",
+      		"<relay-name>",
+      		armrelay.WcfRelay{
+      			Properties: &armrelay.WcfRelayProperties{
+      				RelayType:                   to.Ptr(armrelay.RelaytypeNetTCP),
+      				RequiresClientAuthorization: to.Ptr(true),
+      				RequiresTransportSecurity:   to.Ptr(true),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frelay%2Farmrelay%2Fv0.5.0/sdk/resourcemanager/relay/armrelay/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RelayAPI } = require("@azure/arm-relay");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a WCF relay. This operation is idempotent.
+       *
+       * @summary Creates or updates a WCF relay. This operation is idempotent.
+       * x-ms-original-file: specification/relay/resource-manager/Microsoft.Relay/stable/2017-04-01/examples/Relay/RelayCreate.json
+       */
+      async function relayCreate() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "resourcegroup";
+        const namespaceName = "example-RelayNamespace-9953";
+        const relayName = "example-Relay-Wcf-1194";
+        const parameters = {
+          relayType: "NetTcp",
+          requiresClientAuthorization: true,
+          requiresTransportSecurity: true,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RelayAPI(credential, subscriptionId);
+        const result = await client.wCFRelays.createOrUpdate(
+          resourceGroupName,
+          namespaceName,
+          relayName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      relayCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-relay_3.1.0/sdk/relay/arm-relay/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -191,5 +318,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Relay service - Creates or updates a WCF relay. This operation is idempotent.
+  description: >
+    Learn more about Relay service - Creates or updates a WCF relay. This operation is idempotent.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.networkmanagergroup.networkgroups.creat
 name: Create Or Update
 service: Network Manager
 groupName: Network Groups
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Creates or updates a network group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}?api-version=2021-02-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/networkGroups/{networkGroupName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +33,7 @@ uriParameters:
 - name: networkGroupName
   in: path
   isRequired: true
-  description: The name of the network group to get.
+  description: The name of the network group.
   types:
   - uid: string
 - name: api-version
@@ -64,30 +64,9 @@ responses:
 requestBody:
 - name: default
   parameters:
-  - name: properties.displayName
-    in: body
-    description: A friendly name for the network group.
-    types:
-    - uid: string
   - name: properties.description
     in: body
     description: A description of the network group.
-    types:
-    - uid: string
-  - name: properties.memberType
-    in: body
-    description: Group member type.
-    types:
-    - uid: string
-  - name: properties.groupMembers
-    in: body
-    description: Group members of network group.
-    types:
-    - uid: groupMembersItem
-      isArray: true
-  - name: properties.conditionalMembership
-    in: body
-    description: Network group conditional filter.
     types:
     - uid: string
 requestHeader:
@@ -125,14 +104,6 @@ definitions:
     description: The type of identity that last modified the resource.
     types:
     - uid: string
-- name: groupMembersItem
-  description: GroupMembers Item.
-  kind: object
-  properties:
-  - name: resourceId
-    description: Resource Id.
-    types:
-    - uid: string
 - name: NetworkGroup
   description: The network group resource
   kind: object
@@ -142,25 +113,8 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network group.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network group.
-    types:
-    - uid: string
-  - name: properties.memberType
-    description: Group member type.
-    types:
-    - uid: string
-  - name: properties.groupMembers
-    description: Group members of network group.
-    types:
-    - uid: groupMembersItem
-      isArray: true
-  - name: properties.conditionalMembership
-    description: Network group conditional filter.
     types:
     - uid: string
   - name: properties.provisioningState
@@ -252,21 +206,129 @@ definitions:
 examples:
 - name: NetworkGroupsPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup?api-version=2021-02-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup?api-version=2022-01-01
     body: >-
       {
         "properties": {
-          "displayName": "My Network Group",
-          "description": "A sample group",
-          "memberType": "VirtualNetwork",
-          "groupMembers": [
-            {
-              "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"
-            }
-          ],
-          "conditionalMembership": ""
+          "description": "A sample group"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup?api-version=2022-01-01
+
+      {
+        "properties": {
+          "description": "A sample group"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.NetworkGroupInner;
+
+      /** Samples for NetworkGroups CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerGroupPut.json
+           */
+          /**
+           * Sample code: NetworkGroupsPut.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void networkGroupsPut(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getNetworkGroups()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "testNetworkManager",
+                      "testNetworkGroup",
+                      new NetworkGroupInner().withDescription("A sample group"),
+                      null,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerGroupPut.json
+      func ExampleGroupsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewGroupsClient("subscriptionC", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "rg1", "testNetworkManager", "testNetworkGroup", armnetwork.Group{
+      		Properties: &armnetwork.GroupProperties{
+      			Description: to.Ptr("A sample group"),
+      		},
+      	}, &armnetwork.GroupsClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a network group.
+       *
+       * @summary Creates or updates a network group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerGroupPut.json
+       */
+      async function networkGroupsPut() {
+        const subscriptionId = "subscriptionC";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const networkGroupName = "testNetworkGroup";
+        const parameters = { description: "A sample group" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.networkGroups.createOrUpdate(
+          resourceGroupName,
+          networkManagerName,
+          networkGroupName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      networkGroupsPut().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -274,8 +336,8 @@ examples:
       value: be3cfaa2-3d02-4624-92d7-a26766306c8b
     body: >-
       {
-        "name": "TestNetworkGroup",
-        "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup",
+        "name": "testNetworkGroup",
+        "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup",
         "type": "Microsoft.Network/networkManagers/networkGroups",
         "systemData": {
           "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
@@ -286,15 +348,7 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "My Network Group",
           "description": "A sample group",
-          "memberType": "VirtualNetwork",
-          "groupMembers": [
-            {
-              "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetworks/vnet1"
-            }
-          ],
-          "conditionalMembership": "",
           "provisioningState": "Succeeded"
         }
       }
@@ -304,8 +358,8 @@ examples:
       value: be3cfaa2-3d02-4624-92d7-a26766306c8b
     body: >-
       {
-        "name": "TestNetworkGroup",
-        "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/TestNetworkGroup",
+        "name": "testNetworkGroup",
+        "id": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/networkGroups/testNetworkGroup",
         "type": "Microsoft.Network/networkManagers/networkGroups",
         "systemData": {
           "createdBy": "b69a9388-9488-4534-b470-7ec6d41beef5",
@@ -316,15 +370,7 @@ examples:
           "lastModifiedAt": "2021-01-11T18:52:27Z"
         },
         "properties": {
-          "displayName": "My Network Group",
           "description": "A sample group",
-          "memberType": "VirtualNetwork",
-          "groupMembers": [
-            {
-              "resourceId": "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/virtualnetwork/vnet1"
-            }
-          ],
-          "conditionalMembership": "",
           "provisioningState": "Succeeded"
         }
       }
@@ -338,5 +384,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Creates or updates a network group.
+  description: >
+    Learn more about Network Manager service - Creates or updates a network group.
 errorCodes: []

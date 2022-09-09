@@ -1,0 +1,284 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appconfiguration.preview.replicas.create
+name: Create
+service: App Configuration
+groupName: Replicas
+apiVersion: 2022-03-01-preview
+summary: Creates a replica with the specified parameters.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppConfiguration/configurationStores/{configStoreName}/replicas/{replicaName}?api-version=2022-03-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Microsoft Azure subscription ID.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group to which the container registry belongs.
+  types:
+  - uid: string
+- name: configStoreName
+  in: path
+  isRequired: true
+  description: The name of the configuration store.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9_-]*$
+- name: replicaName
+  in: path
+  isRequired: true
+  description: The name of the replica.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The request was successful; the request was well-formed and received properly.
+  types:
+  - uid: Replica
+- name: 201 Created
+  description: The request was successfully accepted; the operation will complete asynchronously. The provisioning state of the resource should indicate the current state of the resource.
+  types:
+  - uid: Replica
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: location
+    in: body
+    description: The location of the replica.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: Replica
+  description: The replica resource.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the replica.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the replica.
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
+  - name: properties.endpoint
+    isReadyOnly: true
+    description: The URI of the replica where the replica API will be available.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the replica.
+    types:
+    - uid: ReplicaProvisioningState
+- name: ErrorResponse
+  description: Error response indicates that the service is not able to process the incoming request. The reason is provided in the error message.
+  kind: object
+  properties:
+  - name: error
+    description: The details of the error.
+    types:
+    - uid: ErrorDetails
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ReplicaProvisioningState
+  description: The provisioning state of the replica.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The details of the error.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Replicas_Create
+  request:
+    uri: PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/replicas/myReplicaEus?api-version=2022-03-01-preview
+    body: >-
+      {
+        "location": "eastus"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/replicas/myReplicaEus?api-version=2022-03-01-preview
+
+      {
+        "location": "eastus"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/replicas/myReplicaEus",
+        "name": "myReplicaEus",
+        "type": "Microsoft.AppConfiguration/configurationStores/replicas",
+        "location": "eastus",
+        "properties": {
+          "endpoint": "https://contoso-myreplicaeus.azconfig.io",
+          "provisioningState": "Succeeded"
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/replicas/myReplicaEus",
+        "name": "myReplicaEus",
+        "type": "Microsoft.AppConfiguration/configurationStores/replicas",
+        "location": "eastus",
+        "properties": {
+          "endpoint": "https://contoso-myreplicaeus.azconfig.io",
+          "provisioningState": "Creating"
+        },
+        "systemData": {
+          "createdBy": "foo@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2018-04-24T16:30:55+00:00",
+          "lastModifiedBy": "foo@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2018-04-24T16:30:55+00:00"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about App Configuration service - Creates a replica with the specified parameters.
+errorCodes: []

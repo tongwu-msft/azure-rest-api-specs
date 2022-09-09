@@ -19,6 +19,7 @@ uriParameters:
   description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
   types:
   - uid: string
+  format: uri
 - name: api-version
   in: query
   isRequired: true
@@ -61,6 +62,10 @@ definitions:
     description: Big data pool reference.
     types:
     - uid: BigDataPoolReference
+  - name: targetSparkConfiguration
+    description: The spark configuration of the spark job.
+    types:
+    - uid: SparkConfigurationReference
   - name: requiredSparkVersion
     description: The required Spark version of the application.
     types:
@@ -221,6 +226,18 @@ definitions:
     - uid: BigDataPoolReferenceType
   - name: referenceName
     description: Reference big data pool name.
+    types:
+    - uid: string
+- name: SparkConfigurationReference
+  description: Spark configuration reference.
+  kind: object
+  properties:
+  - name: type
+    description: Spark configuration reference type.
+    types:
+    - uid: SparkConfigurationReferenceType
+  - name: referenceName
+    description: Reference spark configuration name.
     types:
     - uid: string
 - name: SparkJobProperties
@@ -465,6 +482,13 @@ definitions:
   - name: BigDataPoolReference
     types:
     - uid: string
+- name: SparkConfigurationReferenceType
+  description: Spark configuration reference type.
+  kind: enum
+  properties:
+  - name: SparkConfigurationReference
+    types:
+    - uid: string
 - name: SparkRequest
   kind: object
   properties:
@@ -610,6 +634,35 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST exampleWorkspace.dev.azuresynapse.net/debugSparkJobDefinition?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "A sample spark job definition",
+          "targetBigDataPool": {
+            "referenceName": "exampleBigDataPool",
+            "type": "BigDataPoolReference"
+          },
+          "requiredSparkVersion": "2.4",
+          "jobProperties": {
+            "name": "exampleSparkJobDefinition",
+            "file": "https://somestorage.blob.core.windows.net/main.jar",
+            "className": "SampleApp.SampleApp",
+            "conf": {},
+            "driverMemory": "2g",
+            "driverCores": 2,
+            "executorMemory": "2g",
+            "executorCores": 2,
+            "numExecutors": 2
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -759,5 +812,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Debug the spark job definition.
+  description: >
+    Learn more about Synapse service - Debug the spark job definition.
 errorCodes: []

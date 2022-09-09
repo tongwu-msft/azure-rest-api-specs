@@ -292,6 +292,20 @@ examples:
         ],
         "query": "Resources | project id, name, type, location, tags | limit 3"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | project id, name, type, location, tags | limit 3"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -357,6 +371,17 @@ examples:
       {
         "query": "Resources | project id, name, type, location, tags | limit 3"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "query": "Resources | project id, name, type, location, tags | limit 3"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -423,6 +448,18 @@ examples:
         "managementGroupId": "e927f598-c1d4-4f72-8541-95d83a6a4ac8",
         "query": "Resources | project id, name, type, location, tags | limit 3"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "managementGroupId": "e927f598-c1d4-4f72-8541-95d83a6a4ac8",
+        "query": "Resources | project id, name, type, location, tags | limit 3"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -491,6 +528,20 @@ examples:
         ],
         "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | limit 3"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -550,6 +601,20 @@ examples:
         ],
         "query": "Resources | project id, name, type, location | summarize by location"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | project id, name, type, location | summarize by location"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -588,6 +653,20 @@ examples:
         ],
         "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | project id, name, type, location | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by location | top 3 by count_"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -633,6 +712,20 @@ examples:
         ],
         "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | summarize count() by tostring(properties.storageProfile.osDisk.osType)"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -712,6 +805,58 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | where type =~ 'Microsoft.Compute/virtualMachines' | project id, name, location, resourceGroup, properties.storageProfile.osDisk.osType | limit 5",
+        "facets": [
+          {
+            "expression": "location",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "properties.storageProfile.osDisk.osType",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "nonExistingColumn",
+            "options": {
+              "sortOrder": "desc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "resourceGroup",
+            "options": {
+              "sortBy": "tolower(resourceGroup)",
+              "sortOrder": "asc",
+              "$top": 3
+            }
+          },
+          {
+            "expression": "resourceGroup",
+            "options": {
+              "filter": "resourceGroup contains 'test'",
+              "$top": 3
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -931,6 +1076,24 @@ examples:
           "$skip": 0
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$top": 3,
+          "$skip": 0
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -994,6 +1157,23 @@ examples:
           "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ=="
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$skipToken": "eyAibm8iOiAibHVjayIsICJidXQiOiAibmljZSIsICJ0cnkiOiAiISIgfQ=="
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1058,6 +1238,24 @@ examples:
           "$skip": 10
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/providers/Microsoft.ResourceGraph/resources?api-version=2020-04-01-preview
+
+      {
+        "subscriptions": [
+          "cfbbd179-59d2-4052-aa06-9270a38aa9d6"
+        ],
+        "query": "Resources | where name contains 'test' | project id, name, type, location",
+        "options": {
+          "$top": 2,
+          "$skip": 10
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1112,5 +1310,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Queries the resources managed by Azure Resource Manager for all subscriptions specified in the request.
+  description: >
+    Queries the resources managed by Azure Resource Manager for all subscriptions specified in the request.
 errorCodes: []

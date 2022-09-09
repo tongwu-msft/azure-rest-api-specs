@@ -380,6 +380,182 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/591e76c3-3e97-44db-879c-3e2b12961b62/resourceGroups/testrg/providers/Microsoft.Media/videoAnalyzers/testaccount2/accessPolicies/accessPolicyName1?api-version=2021-11-01-preview
+
+      {
+        "properties": {
+          "authentication": {
+            "@type": "#Microsoft.VideoAnalyzer.JwtAuthentication",
+            "issuers": [
+              "issuer1",
+              "issuer2"
+            ],
+            "audiences": [
+              "audience1"
+            ],
+            "claims": [
+              {
+                "name": "claimname1",
+                "value": "claimvalue1"
+              },
+              {
+                "name": "claimname2",
+                "value": "claimvalue2"
+              }
+            ],
+            "keys": [
+              {
+                "@type": "#Microsoft.VideoAnalyzer.RsaTokenKey",
+                "alg": "RS256",
+                "kid": "123",
+                "n": "YmFzZTY0IQ==",
+                "e": "ZLFzZTY0IQ=="
+              },
+              {
+                "@type": "#Microsoft.VideoAnalyzer.EccTokenKey",
+                "alg": "ES256",
+                "kid": "124",
+                "x": "XX==",
+                "y": "YY=="
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.videoanalyzer.models.AccessPolicyEccAlgo;
+      import com.azure.resourcemanager.videoanalyzer.models.AccessPolicyRsaAlgo;
+      import com.azure.resourcemanager.videoanalyzer.models.EccTokenKey;
+      import com.azure.resourcemanager.videoanalyzer.models.JwtAuthentication;
+      import com.azure.resourcemanager.videoanalyzer.models.RsaTokenKey;
+      import com.azure.resourcemanager.videoanalyzer.models.TokenClaim;
+      import java.util.Arrays;
+
+      /** Samples for AccessPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/videoanalyzer/resource-manager/Microsoft.Media/preview/2021-11-01-preview/examples/access-policy-create.json
+           */
+          /**
+           * Sample code: Register access policy entity.
+           *
+           * @param manager Entry point to VideoAnalyzerManager.
+           */
+          public static void registerAccessPolicyEntity(
+              com.azure.resourcemanager.videoanalyzer.VideoAnalyzerManager manager) {
+              manager
+                  .accessPolicies()
+                  .define("accessPolicyName1")
+                  .withExistingVideoAnalyzer("testrg", "testaccount2")
+                  .withAuthentication(
+                      new JwtAuthentication()
+                          .withIssuers(Arrays.asList("issuer1", "issuer2"))
+                          .withAudiences(Arrays.asList("audience1"))
+                          .withClaims(
+                              Arrays
+                                  .asList(
+                                      new TokenClaim().withName("claimname1").withValue("claimvalue1"),
+                                      new TokenClaim().withName("claimname2").withValue("claimvalue2")))
+                          .withKeys(
+                              Arrays
+                                  .asList(
+                                      new RsaTokenKey()
+                                          .withKid("123")
+                                          .withAlg(AccessPolicyRsaAlgo.RS256)
+                                          .withN("YmFzZTY0IQ==")
+                                          .withE("ZLFzZTY0IQ=="),
+                                      new EccTokenKey()
+                                          .withKid("124")
+                                          .withAlg(AccessPolicyEccAlgo.ES256)
+                                          .withX("XX==")
+                                          .withY("YY=="))))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-videoanalyzer_1.0.0-beta.5/sdk/videoanalyzer/azure-resourcemanager-videoanalyzer/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armvideoanalyzer_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/videoanalyzer/armvideoanalyzer"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/videoanalyzer/resource-manager/Microsoft.Media/preview/2021-11-01-preview/examples/access-policy-create.json
+      func ExampleAccessPoliciesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armvideoanalyzer.NewAccessPoliciesClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<account-name>",
+      		"<access-policy-name>",
+      		armvideoanalyzer.AccessPolicyEntity{
+      			Properties: &armvideoanalyzer.AccessPolicyProperties{
+      				Authentication: &armvideoanalyzer.JwtAuthentication{
+      					Type: to.Ptr("<type>"),
+      					Audiences: []*string{
+      						to.Ptr("audience1")},
+      					Claims: []*armvideoanalyzer.TokenClaim{
+      						{
+      							Name:  to.Ptr("<name>"),
+      							Value: to.Ptr("<value>"),
+      						},
+      						{
+      							Name:  to.Ptr("<name>"),
+      							Value: to.Ptr("<value>"),
+      						}},
+      					Issuers: []*string{
+      						to.Ptr("issuer1"),
+      						to.Ptr("issuer2")},
+      					Keys: []armvideoanalyzer.TokenKeyClassification{
+      						&armvideoanalyzer.RsaTokenKey{
+      							Type: to.Ptr("<type>"),
+      							Kid:  to.Ptr("<kid>"),
+      							Alg:  to.Ptr(armvideoanalyzer.AccessPolicyRsaAlgoRS256),
+      							E:    to.Ptr("<e>"),
+      							N:    to.Ptr("<n>"),
+      						},
+      						&armvideoanalyzer.EccTokenKey{
+      							Type: to.Ptr("<type>"),
+      							Kid:  to.Ptr("<kid>"),
+      							Alg:  to.Ptr(armvideoanalyzer.AccessPolicyEccAlgoES256),
+      							X:    to.Ptr("<x>"),
+      							Y:    to.Ptr("<y>"),
+      						}},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fvideoanalyzer%2Farmvideoanalyzer%2Fv0.4.2/sdk/resourcemanager/videoanalyzer/armvideoanalyzer/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -491,5 +667,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Azure Video Analyzer service - Creates a new access policy resource or updates an existing one with the given name.
+  description: >
+    Learn more about Azure Video Analyzer service - Creates a new access policy resource or updates an existing one with the given name.
 errorCodes: []

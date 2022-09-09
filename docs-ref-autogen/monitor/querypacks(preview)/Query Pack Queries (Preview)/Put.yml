@@ -314,6 +314,34 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01-preview
+
+      {
+        "properties": {
+          "displayName": "Exceptions - New in the last 24 hours",
+          "description": "my description",
+          "body": "let newExceptionsTimeRange = 1d;\nlet timeRangeToCheckBefore = 7d;\nexceptions\n| where timestamp < ago(timeRangeToCheckBefore)\n| summarize count() by problemId\n| join kind= rightanti (\nexceptions\n| where timestamp >= ago(newExceptionsTimeRange)\n| extend stack = tostring(details[0].rawStack)\n| summarize count(), dcount(user_AuthenticatedId), min(timestamp), max(timestamp), any(stack) by problemId  \n) on problemId \n| order by  count_ desc\n",
+          "related": {
+            "categories": [
+              "analytics"
+            ]
+          },
+          "tags": {
+            "my-label": [
+              "label1"
+            ],
+            "my-other-label": [
+              "label2"
+            ]
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -362,5 +390,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Adds or Updates a specific Query within a Log Analytics QueryPack.
+  description: >
+    Learn more about Monitor service - Adds or Updates a specific Query within a Log Analytics QueryPack.
 errorCodes: []

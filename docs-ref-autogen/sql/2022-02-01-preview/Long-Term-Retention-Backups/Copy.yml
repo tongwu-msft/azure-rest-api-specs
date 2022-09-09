@@ -1,0 +1,294 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.longtermretentionbackups.copy
+name: Copy
+service: SQL Database
+groupName: Long Term Retention Backups
+apiVersion: 2022-02-01-preview
+summary: Copy an existing long term retention backup.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}/copy?api-version=2022-02-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: locationName
+  in: path
+  isRequired: true
+  description: The location of the database.
+  types:
+  - uid: string
+- name: longTermRetentionServerName
+  in: path
+  isRequired: true
+  description: The name of the server
+  types:
+  - uid: string
+- name: longTermRetentionDatabaseName
+  in: path
+  isRequired: true
+  description: The name of the database
+  types:
+  - uid: string
+- name: backupName
+  in: path
+  isRequired: true
+  description: The backup name.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully copied the backup.
+  types:
+  - uid: LongTermRetentionBackupOperationResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 InvalidLongTermRetentionBackupId - Invalid long term retention backup identifier for SQL DBs.
+
+     * 400 InvalidParameterValue - An invalid value was given to a parameter.
+
+     * 400 LongTermRetentionMismatchingSubscriptionId - The provided subscription id did not match the id in the other input
+
+     * 400 LongTermRetentionMismatchingResourceGroupName - The provided resource group name did not match the name in the other input
+
+     * 400 LongTermRetentionMismatchingServerName - The provided server name did not match the name in the other input
+
+     * 400 LongTermRetentionMigrationRequestNotSupported - Subscription is not allowed LTR backup Migration feature.
+
+     * 400 LongTermRetentionMigrationCrossClusterRequestNotSupported - Source and target subscriptions are not allowed to communicate for LTR backup copy feature.
+
+     * 400 LongTermRetentionMigrationParameterMissing - Required parameter missing for the operation.
+
+     * 400 LongTermRetentionMigrationSameServerNotSupported - LTR Copy feature is not supported to copy LTR backups within same server.
+
+     * 400 LongTermRetentionMigrationTargetServerNotFound - Target server does not exists or is not ready for LTR backup copy operation.
+
+     * 400 LongTermRetentionMigrationTargetDatabaseNotFound - Target Database does not exists on the server.
+
+     * 400 LongTermRetentionMigrationStorageTypeNotSupported - Specified Backup Storage Redundancy is not supported in target region.
+
+     * 400 LongTermRetentionMigrationStorageMismatch - Active backup redundancy of database does not match backup redundancy requested by customer.
+
+     * 400 LongTermRetentionMigrationDatabaseTypeNotSupported - LTR migration is only supported for managed instance and Azure SQL DB LTR backups.
+
+     * 400 LongTermRetentionMigrationBackupStorageRedundancyNotAllowed - Changing backup storage redundancy is not allowed for LTR Copy operations.
+
+     * 400 LongTermRetentionMigrationSubscriptionNotFound - The subscription could not be found.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 ServerNotInSubscriptionResourceGroup - Specified server does not exist in the specified resource group and subscription.
+
+     * 404 ResourceNotFound - The requested resource was not found.
+
+     * 404 LongTermRetentionMigrationBackupNotFound - LTR backup specified does not exists.
+
+     * 409 LongTermRetentionMigrationRequestConflict - A conflict operation on this LTR backup is still in progress.
+
+     * 409 LongTermRetentionMigrationBackupConflict - Another LTR backup with same backup time for target database exists.
+
+     * 500 LongTermRetentionMigrationRequestFailedToStartOnTarget - Failed to start LTR backup copy request in target region.
+
+     * 500 LongTermRetentionMigrationRequestCopyFailed - Copy operation failed for LTR backup blobs.
+
+     * 500 LongTermRetentionMigrationRestoreVerExceeded - Restore verification failed after max attempts were reached.
+
+     * 500 LongTermRetentionMigrationRestoreVerFailed - Restore verification failed.
+- name: 202 Accepted
+  description: Copying the backup is in progress.
+requestBody:
+- name: default
+  parameters:
+  - name: properties.targetSubscriptionId
+    in: body
+    description: The subscription that owns the target server
+    types:
+    - uid: string
+  - name: properties.targetResourceGroup
+    in: body
+    description: The resource group that owns the target server
+    types:
+    - uid: string
+  - name: properties.targetServerResourceId
+    in: body
+    description: The resource Id of the target server that owns the database
+    types:
+    - uid: string
+  - name: properties.targetServerFullyQualifiedDomainName
+    in: body
+    description: The fully qualified domain name of the target server
+    types:
+    - uid: string
+  - name: properties.targetDatabaseName
+    in: body
+    description: The name of the database owns the copied backup.
+    types:
+    - uid: string
+  - name: properties.targetBackupStorageRedundancy
+    in: body
+    description: The storage redundancy type of the copied backup
+    types:
+    - uid: BackupStorageRedundancy
+requestHeader: []
+definitions:
+- name: LongTermRetentionBackupOperationResult
+  description: A LongTermRetentionBackup operation result resource.
+  kind: object
+  properties:
+  - name: properties.requestId
+    isReadyOnly: true
+    description: Request Id.
+    types:
+    - uid: string
+  - name: properties.operationType
+    isReadyOnly: true
+    description: Operation type.
+    types:
+    - uid: string
+  - name: properties.fromBackupResourceId
+    isReadyOnly: true
+    description: Source backup resource id
+    types:
+    - uid: string
+  - name: properties.toBackupResourceId
+    isReadyOnly: true
+    description: Target backup resource id
+    types:
+    - uid: string
+  - name: properties.targetBackupStorageRedundancy
+    isReadyOnly: true
+    description: The storage redundancy type of the copied backup
+    types:
+    - uid: BackupStorageRedundancy
+  - name: properties.status
+    isReadyOnly: true
+    description: Operation status
+    types:
+    - uid: string
+  - name: properties.message
+    isReadyOnly: true
+    description: Progress message
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: CopyLongTermRetentionBackupParameters
+  description: Contains the information necessary to perform long term retention backup copy operation.
+  kind: object
+  properties:
+  - name: properties.targetSubscriptionId
+    description: The subscription that owns the target server
+    types:
+    - uid: string
+  - name: properties.targetResourceGroup
+    description: The resource group that owns the target server
+    types:
+    - uid: string
+  - name: properties.targetServerResourceId
+    description: The resource Id of the target server that owns the database
+    types:
+    - uid: string
+  - name: properties.targetServerFullyQualifiedDomainName
+    description: The fully qualified domain name of the target server
+    types:
+    - uid: string
+  - name: properties.targetDatabaseName
+    description: The name of the database owns the copied backup.
+    types:
+    - uid: string
+  - name: properties.targetBackupStorageRedundancy
+    description: The storage redundancy type of the copied backup
+    types:
+    - uid: BackupStorageRedundancy
+- name: BackupStorageRedundancy
+  description: The storage redundancy type of the copied backup
+  kind: enum
+  properties:
+  - name: Geo
+    types:
+    - uid: string
+  - name: Local
+    types:
+    - uid: string
+  - name: Zone
+    types:
+    - uid: string
+  - name: GeoZone
+    types:
+    - uid: string
+examples:
+- name: Copy the long term retention backup.
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionServers/testserver/longTermRetentionDatabases/testDatabase/longTermRetentionBackups/55555555-6666-7777-8888-999999999999;131637960820000000/copy?api-version=2022-02-01-preview
+    body: >-
+      {
+        "properties": {
+          "targetServerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/resourceGroups/resourceGroup/servers/testserver2",
+          "targetDatabaseName": "testDatabase2",
+          "targetBackupStorageRedundancy": "Geo"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japaneast/longTermRetentionServers/testserver/longTermRetentionDatabases/testDatabase/longTermRetentionBackups/55555555-6666-7777-8888-999999999999;131637960820000000/copy?api-version=2022-02-01-preview
+
+      {
+        "properties": {
+          "targetServerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/resourceGroups/resourceGroup/servers/testserver2",
+          "targetDatabaseName": "testDatabase2",
+          "targetBackupStorageRedundancy": "Geo"
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japanEast/longTermRetentionBackupOperationResults/a1aa7c77-961b-4fbb-bcd6-aa9acfcd1706",
+        "name": "a1aa7c77-961b-4fbb-bcd6-aa9acfcd1706",
+        "type": "Microsoft.Sql/locations/longTermRetentionBackupOperationResults",
+        "properties": {
+          "requestId": "a1aa7c77-961b-4fbb-bcd6-aa9acfcd1706",
+          "fromBackupResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Sql/locations/japanEast/longTermRetentionServers/testserver/longterRetentionDatabases/testDatabase/longTermRetentionBackups/55555555-6666-7777-8888-999999999999;131637960820000000",
+          "operationType": "CopyBackup",
+          "status": "Succeeded",
+          "toBackupResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup/providers/Microsoft.Sql/locations/japanEast/longTermRetentionServers/testserver2/longterRetentionDatabases/testDatabase2/longTermRetentionBackups/55555555-6666-7777-8888-111111111111;131637960820000000",
+          "targetBackupStorageRedundancy": "Geo"
+        }
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - Copy an existing long term retention backup.
+errorCodes: []

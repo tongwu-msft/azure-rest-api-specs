@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.routetables.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Route Tables
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Create or updates a route table in a specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/routeTables/{routeTableName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -228,7 +228,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -355,6 +355,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1007,7 +1011,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2680,11 +2684,119 @@ definitions:
 examples:
 - name: Create route table
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2022-01-01
     body: >-
       {
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2022-01-01
+
+      {
+        "location": "westus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.RouteTableInner;
+
+      /** Samples for RouteTables CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreate.json
+           */
+          /**
+           * Sample code: Create route table.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createRouteTable(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getRouteTables()
+                  .createOrUpdate("rg1", "testrt", new RouteTableInner().withLocation("westus"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreate.json
+      func ExampleRouteTablesClient_BeginCreateOrUpdate_routeTableCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRouteTablesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testrt", armnetwork.RouteTable{
+      		Location: to.Ptr("westus"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or updates a route table in a specified resource group.
+       *
+       * @summary Create or updates a route table in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreate.json
+       */
+      async function createRouteTable() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const routeTableName = "testrt";
+        const parameters = { location: "westus" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routeTables.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          routeTableName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createRouteTable().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2714,7 +2826,7 @@ examples:
       }
 - name: Create route table with route
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -2731,6 +2843,163 @@ examples:
         },
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/routeTables/testrt?api-version=2022-01-01
+
+      {
+        "properties": {
+          "disableBgpRoutePropagation": true,
+          "routes": [
+            {
+              "name": "route1",
+              "properties": {
+                "addressPrefix": "10.0.3.0/24",
+                "nextHopType": "VirtualNetworkGateway"
+              }
+            }
+          ]
+        },
+        "location": "westus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.RouteInner;
+      import com.azure.resourcemanager.network.fluent.models.RouteTableInner;
+      import com.azure.resourcemanager.network.models.RouteNextHopType;
+      import java.util.Arrays;
+
+      /** Samples for RouteTables CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreateWithRoute.json
+           */
+          /**
+           * Sample code: Create route table with route.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createRouteTableWithRoute(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getRouteTables()
+                  .createOrUpdate(
+                      "rg1",
+                      "testrt",
+                      new RouteTableInner()
+                          .withLocation("westus")
+                          .withRoutes(
+                              Arrays
+                                  .asList(
+                                      new RouteInner()
+                                          .withName("route1")
+                                          .withAddressPrefix("10.0.3.0/24")
+                                          .withNextHopType(RouteNextHopType.VIRTUAL_NETWORK_GATEWAY)))
+                          .withDisableBgpRoutePropagation(true),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreateWithRoute.json
+      func ExampleRouteTablesClient_BeginCreateOrUpdate_routeTableCreateWithRoute() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRouteTablesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testrt", armnetwork.RouteTable{
+      		Location: to.Ptr("westus"),
+      		Properties: &armnetwork.RouteTablePropertiesFormat{
+      			DisableBgpRoutePropagation: to.Ptr(true),
+      			Routes: []*armnetwork.Route{
+      				{
+      					Name: to.Ptr("route1"),
+      					Properties: &armnetwork.RoutePropertiesFormat{
+      						AddressPrefix: to.Ptr("10.0.3.0/24"),
+      						NextHopType:   to.Ptr(armnetwork.RouteNextHopTypeVirtualNetworkGateway),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or updates a route table in a specified resource group.
+       *
+       * @summary Create or updates a route table in a specified resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RouteTableCreateWithRoute.json
+       */
+      async function createRouteTableWithRoute() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const routeTableName = "testrt";
+        const parameters = {
+          disableBgpRoutePropagation: true,
+          location: "westus",
+          routes: [
+            {
+              name: "route1",
+              addressPrefix: "10.0.3.0/24",
+              nextHopType: "VirtualNetworkGateway",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routeTables.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          routeTableName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createRouteTableWithRoute().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2787,5 +3056,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Create or updates a route table in a specified resource group.
+  description: >
+    Learn more about Virtual Networks service - Create or updates a route table in a specified resource group.
 errorCodes: []

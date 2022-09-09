@@ -480,6 +480,100 @@ examples:
 - name: SearchListServicesByResourceGroup
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices?api-version=2020-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Search/searchServices?api-version=2020-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Services ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesByResourceGroup.json
+           */
+          /**
+           * Sample code: SearchListServicesByResourceGroup.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void searchListServicesByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.searchServices().manager().serviceClient().getServices().listByResourceGroup("rg1", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsearch_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/search/armsearch"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesByResourceGroup.json
+      func ExampleServicesClient_NewListByResourceGroupPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsearch.NewServicesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("rg1",
+      		&armsearch.SearchManagementRequestOptions{ClientRequestID: nil},
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsearch%2Farmsearch%2Fv1.0.0/sdk/resourcemanager/search/armsearch/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SearchManagementClient } = require("@azure/arm-search");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of all search services in the given resource group.
+       *
+       * @summary Gets a list of all search services in the given resource group.
+       * x-ms-original-file: specification/search/resource-manager/Microsoft.Search/stable/2020-08-01/examples/SearchListServicesByResourceGroup.json
+       */
+      async function searchListServicesByResourceGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const credential = new DefaultAzureCredential();
+        const client = new SearchManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.services.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      searchListServicesByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-search_3.0.1/sdk/search/arm-search/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -547,5 +641,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Search Management service - Gets a list of all search services in the given resource group.
+  description: >
+    Learn more about Search Management service - Gets a list of all search services in the given resource group.
 errorCodes: []

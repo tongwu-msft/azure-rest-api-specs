@@ -1,0 +1,112 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.gettransactionstatus.gettransactionstatus
+name: Get Transaction Status
+service: Azure confidential ledger
+groupName: Get Transaction Status
+apiVersion: 2022-05-13
+summary: Gets the status of an entry identified by a transaction id.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {ledgerEndpoint}/app/transactions/{transactionId}/status?api-version=2022-05-13
+uriParameters:
+- name: ledgerEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: transactionId
+  in: path
+  isRequired: true
+  description: Identifies a write transaction.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The status of the entry recorded at the specified transaction id.
+  types:
+  - uid: TransactionStatus
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestHeader: []
+definitions:
+- name: TransactionStatus
+  description: Response returned to a query for the transaction status
+  kind: object
+  properties:
+  - name: state
+    description: Represents the state of the transaction.
+    types:
+    - uid: TransactionState
+  - name: transactionId
+    description: A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read.
+    types:
+    - uid: string
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: TransactionState
+  description: Represents the state of the transaction.
+  kind: enum
+  properties:
+  - name: Committed
+    types:
+    - uid: string
+  - name: Pending
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: GetTransactionStatus
+  request:
+    uri: GET {ledgerEndpoint}/app/transactions/4.2/status?api-version=2022-05-13
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {ledgerEndpoint}/app/transactions/4.2/status?api-version=2022-05-13
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "state": "Committed",
+        "transactionId": "4.2"
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Azure confidential ledger service - Gets the status of an entry identified by a transaction id.
+errorCodes: []

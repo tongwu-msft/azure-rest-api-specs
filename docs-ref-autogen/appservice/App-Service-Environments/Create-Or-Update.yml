@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.createorupdate
 name: Create Or Update
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
-summary: Create or update an App Service Environment.
+apiVersion: 2022-03-01
+summary: Description for Create or update an App Service Environment.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -100,6 +100,11 @@ requestBody:
     types:
     - uid: string
       isArray: true
+  - name: properties.upgradePreference
+    in: body
+    description: Upgrade Preference
+    types:
+    - uid: UpgradePreference
   - name: properties.dedicatedHostCount
     in: body
     description: Dedicated Host Count
@@ -110,6 +115,16 @@ requestBody:
     description: Whether or not this App Service Environment is zone-redundant.
     types:
     - uid: boolean
+  - name: properties.customDnsSuffixConfiguration
+    in: body
+    description: Full view of the custom domain suffix configuration for ASEv3.
+    types:
+    - uid: CustomDnsSuffixConfiguration
+  - name: properties.networkingConfiguration
+    in: body
+    description: Full view of networking configuration for an ASE.
+    types:
+    - uid: AseV3NetworkingConfiguration
   - name: kind
     in: body
     description: Kind of resource.
@@ -164,6 +179,114 @@ definitions:
     - uid: string
   - name: value
     description: Pair value.
+    types:
+    - uid: string
+- name: CustomDnsSuffixConfiguration
+  description: Full view of the custom domain suffix configuration for ASEv3.
+  kind: object
+  properties:
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: CustomDnsSuffixProvisioningState
+  - name: properties.provisioningDetails
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: properties.dnsSuffix
+    description: The default custom domain suffix to use for all sites deployed on the ASE.
+    types:
+    - uid: string
+  - name: properties.certificateUrl
+    description: The URL referencing the Azure Key Vault certificate secret that should be used as the default SSL/TLS certificate for sites with the custom domain suffix.
+    types:
+    - uid: string
+  - name: properties.keyVaultReferenceIdentity
+    description: The user-assigned identity to use for resolving the key vault certificate reference. If not specified, the system-assigned ASE identity will be used if available.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: AseV3NetworkingConfiguration
+  description: Full view of networking configuration for an ASE.
+  kind: object
+  properties:
+  - name: properties.windowsOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.linuxOutboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.externalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.internalInboundIpAddresses
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+      isArray: true
+  - name: properties.allowNewPrivateEndpointConnections
+    description: Property to enable and disable new private endpoint connection creation on ASE
+    types:
+    - uid: boolean
+  - name: properties.ftpEnabled
+    description: Property to enable and disable FTP on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.remoteDebugEnabled
+    description: Property to enable and disable Remote Debug on ASEV3
+    types:
+    - uid: boolean
+  - name: properties.inboundIpAddressOverride
+    description: Customer provided Inbound IP Address. Only able to be set on Ase create.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
     types:
     - uid: string
 - name: AppServiceEnvironmentResource
@@ -236,6 +359,11 @@ definitions:
     description: Flag that displays whether an ASE has linux workers or not
     types:
     - uid: boolean
+  - name: properties.upgradePreference
+    description: Upgrade Preference
+    types:
+    - uid: UpgradePreference
+    defaultValue: None
   - name: properties.dedicatedHostCount
     description: Dedicated Host Count
     types:
@@ -244,6 +372,19 @@ definitions:
     description: Whether or not this App Service Environment is zone-redundant.
     types:
     - uid: boolean
+  - name: properties.customDnsSuffixConfiguration
+    description: Full view of the custom domain suffix configuration for ASEv3.
+    types:
+    - uid: CustomDnsSuffixConfiguration
+  - name: properties.networkingConfiguration
+    description: Full view of networking configuration for an ASE.
+    types:
+    - uid: AseV3NetworkingConfiguration
+  - name: properties.upgradeAvailability
+    isReadyOnly: true
+    description: Whether an upgrade is available for this App Service Environment.
+    types:
+    - uid: UpgradeAvailability
   - name: id
     isReadyOnly: true
     description: Resource Id.
@@ -284,6 +425,21 @@ definitions:
     description: Error model.
     types:
     - uid: Error
+- name: CustomDnsSuffixProvisioningState
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Degraded
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Provisioning state of the App Service Environment.
   kind: enum
@@ -335,6 +491,38 @@ definitions:
   - name: Web, Publishing
     types:
     - uid: string
+- name: UpgradePreference
+  description: Upgrade Preference
+  kind: enum
+  properties:
+  - name: None
+    description: No preference on when this App Service Environment will be upgraded
+    types:
+    - uid: string
+  - name: Early
+    description: This App Service Environment will be upgraded before others in the same region that have Upgrade Preference 'Late'
+    types:
+    - uid: string
+  - name: Late
+    description: This App Service Environment will be upgraded after others in the same region that have Upgrade Preference 'Early'
+    types:
+    - uid: string
+  - name: Manual
+    description: ASEv3 only. Once an upgrade is available, this App Service Environment will wait 10 days for the upgrade to be manually initiated. After 10 days the upgrade will begin automatically
+    types:
+    - uid: string
+- name: UpgradeAvailability
+  description: Whether an upgrade is available for this App Service Environment.
+  kind: enum
+  properties:
+  - name: None
+    description: No upgrade is currently available for this App Service Environment
+    types:
+    - uid: string
+  - name: Ready
+    description: An upgrade is ready to be manually initiated on this App Service Environment
+    types:
+    - uid: string
 - name: Error
   description: Error model.
   kind: object
@@ -382,7 +570,321 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update an App Service Environment.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase?api-version=2022-03-01
+    body: >-
+      {
+        "kind": "Asev3",
+        "location": "South Central US",
+        "properties": {
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/delegated"
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase?api-version=2022-03-01
+
+      {
+        "kind": "Asev3",
+        "location": "South Central US",
+        "properties": {
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/delegated"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.AppServiceEnvironmentResourceInner;
+      import com.azure.resourcemanager.appservice.models.VirtualNetworkProfile;
+
+      /** Samples for AppServiceEnvironments CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or update an App Service Environment.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAnAppServiceEnvironment(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .createOrUpdate(
+                      "test-rg",
+                      "test-ase",
+                      new AppServiceEnvironmentResourceInner()
+                          .withLocation("South Central US")
+                          .withKind("Asev3")
+                          .withVirtualNetwork(
+                              new VirtualNetworkProfile()
+                                  .withId(
+                                      "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/delegated")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdate.json
+      func ExampleEnvironmentsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"test-rg",
+      		"test-ase",
+      		armappservice.EnvironmentResource{
+      			Kind:     to.Ptr("Asev3"),
+      			Location: to.Ptr("South Central US"),
+      			Properties: &armappservice.Environment{
+      				VirtualNetwork: &armappservice.VirtualNetworkProfile{
+      					ID: to.Ptr("/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/delegated"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Create or update an App Service Environment.
+       *
+       * @summary Description for Create or update an App Service Environment.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdate.json
+       */
+      async function createOrUpdateAnAppServiceEnvironment() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const hostingEnvironmentEnvelope = {
+          kind: "Asev3",
+          location: "South Central US",
+          virtualNetwork: {
+            id: "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/delegated",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceEnvironments.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          name,
+          hostingEnvironmentEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAnAppServiceEnvironment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase",
+        "name": "test-ase",
+        "type": "Microsoft.Web/hostingEnvironments",
+        "kind": "ASEV3",
+        "location": "South Central US",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "status": "Ready",
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-subnet/subnets/delegated",
+            "name": "delegated",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "subnet": ""
+          },
+          "internalLoadBalancingMode": "None",
+          "multiSize": "Standard_D2d_v4",
+          "multiRoleCount": null,
+          "ipsslAddressCount": 0,
+          "dnsSuffix": "test-ase.p.azurewebsites.net",
+          "maximumNumberOfMachines": 250,
+          "frontEndScaleFactor": 15,
+          "suspended": false,
+          "clusterSettings": null,
+          "userWhitelistedIpRanges": null,
+          "hasLinuxWorkers": true,
+          "dedicatedHostCount": 0,
+          "zoneRedundant": false,
+          "networkingConfiguration": {
+            "properties": {
+              "windowsOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "linuxOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "externalInboundIpAddresses": [
+                "52.153.248.36"
+              ],
+              "internalInboundIpAddresses": [],
+              "allowNewPrivateEndpointConnections": false,
+              "ftpEnabled": false,
+              "remoteDebugEnabled": false,
+              "inboundIpAddressOverride": null
+            }
+          }
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase",
+        "name": "test-ase",
+        "type": "Microsoft.Web/hostingEnvironments",
+        "kind": "ASEV3",
+        "location": "South Central US",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "status": "Ready",
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-subnet/subnets/delegated",
+            "name": "delegated",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "subnet": ""
+          },
+          "internalLoadBalancingMode": "None",
+          "multiSize": "Standard_D2d_v4",
+          "multiRoleCount": null,
+          "ipsslAddressCount": 0,
+          "dnsSuffix": "test-ase.p.azurewebsites.net",
+          "maximumNumberOfMachines": 250,
+          "frontEndScaleFactor": 15,
+          "suspended": false,
+          "clusterSettings": null,
+          "userWhitelistedIpRanges": null,
+          "hasLinuxWorkers": true,
+          "dedicatedHostCount": 0,
+          "zoneRedundant": false,
+          "networkingConfiguration": {
+            "properties": {
+              "windowsOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "linuxOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "externalInboundIpAddresses": [
+                "52.153.248.36"
+              ],
+              "internalInboundIpAddresses": [],
+              "allowNewPrivateEndpointConnections": false,
+              "ftpEnabled": false,
+              "remoteDebugEnabled": false,
+              "inboundIpAddressOverride": null
+            }
+          }
+        }
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase",
+        "name": "test-ase",
+        "type": "Microsoft.Web/hostingEnvironments",
+        "kind": "ASEV3",
+        "location": "South Central US",
+        "tags": {},
+        "properties": {
+          "provisioningState": "Succeeded",
+          "status": "Ready",
+          "virtualNetwork": {
+            "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Network/virtualNetworks/test-subnet/subnets/delegated",
+            "name": "delegated",
+            "type": "Microsoft.Network/virtualNetworks/subnets",
+            "subnet": ""
+          },
+          "internalLoadBalancingMode": "None",
+          "multiSize": "Standard_D2d_v4",
+          "multiRoleCount": null,
+          "ipsslAddressCount": 0,
+          "dnsSuffix": "test-ase.p.azurewebsites.net",
+          "maximumNumberOfMachines": 250,
+          "frontEndScaleFactor": 15,
+          "suspended": false,
+          "clusterSettings": null,
+          "userWhitelistedIpRanges": null,
+          "hasLinuxWorkers": true,
+          "dedicatedHostCount": 0,
+          "zoneRedundant": false,
+          "networkingConfiguration": {
+            "properties": {
+              "windowsOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "linuxOutboundIpAddresses": [
+                "20.88.241.56",
+                "20.88.241.9"
+              ],
+              "externalInboundIpAddresses": [
+                "52.153.248.36"
+              ],
+              "internalInboundIpAddresses": [],
+              "allowNewPrivateEndpointConnections": false,
+              "ftpEnabled": false,
+              "remoteDebugEnabled": false,
+              "inboundIpAddressOverride": null
+            }
+          }
+        }
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -393,5 +895,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Create or update an App Service Environment.
+  description: >
+    Learn more about App Service service - Description for Create or update an App Service Environment.
 errorCodes: []

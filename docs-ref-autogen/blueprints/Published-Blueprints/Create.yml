@@ -327,6 +327,12 @@ examples:
 - name: PublishedSubscriptionBlueprint_Publish
   request:
     uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -374,6 +380,47 @@ examples:
 - name: PublishedManagementGroupBlueprint_Publish
   request:
     uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/versions/v2?api-version=2018-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armblueprint_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/blueprint/resource-manager/Microsoft.Blueprint/preview/2018-11-01-preview/examples/managementGroupBPDef/SealedBlueprint_Publish.json
+      func ExamplePublishedBlueprintsClient_Create() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armblueprint.NewPublishedBlueprintsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Create(ctx,
+      		"providers/Microsoft.Management/managementGroups/ContosoOnlineGroup",
+      		"simpleBlueprint",
+      		"v2",
+      		&armblueprint.PublishedBlueprintsClientCreateOptions{PublishedBlueprint: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fblueprint%2Farmblueprint%2Fv0.5.0/sdk/resourcemanager/blueprint/armblueprint/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -428,5 +475,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Publish a new version of the blueprint definition with the latest artifacts. Published blueprint definitions are immutable.
+  description: >
+    Publish a new version of the blueprint definition with the latest artifacts. Published blueprint definitions are immutable.
 errorCodes: []

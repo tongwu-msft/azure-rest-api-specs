@@ -231,6 +231,109 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/privateEndpointConnections/sample-pec?api-version=2021-10-01
+
+      {
+        "etag": "",
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "My name is Joe and I'm approving this."
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.keyvault.fluent.models.PrivateEndpointConnectionInner;
+      import com.azure.resourcemanager.keyvault.models.PrivateEndpointServiceConnectionStatus;
+      import com.azure.resourcemanager.keyvault.models.PrivateLinkServiceConnectionState;
+
+      /** Samples for PrivateEndpointConnections Put. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2021-10-01/examples/putPrivateEndpointConnection.json
+           */
+          /**
+           * Sample code: KeyVaultPutPrivateEndpointConnection.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void keyVaultPutPrivateEndpointConnection(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .vaults()
+                  .manager()
+                  .serviceClient()
+                  .getPrivateEndpointConnections()
+                  .putWithResponse(
+                      "sample-group",
+                      "sample-vault",
+                      "sample-pec",
+                      new PrivateEndpointConnectionInner()
+                          .withEtag("")
+                          .withPrivateLinkServiceConnectionState(
+                              new PrivateLinkServiceConnectionState()
+                                  .withStatus(PrivateEndpointServiceConnectionStatus.APPROVED)
+                                  .withDescription("My name is Joe and I'm approving this.")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkeyvault_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2021-10-01/examples/putPrivateEndpointConnection.json
+      func ExamplePrivateEndpointConnectionsClient_Put() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkeyvault.NewPrivateEndpointConnectionsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Put(ctx,
+      		"sample-group",
+      		"sample-vault",
+      		"sample-pec",
+      		armkeyvault.PrivateEndpointConnection{
+      			Etag: to.Ptr(""),
+      			Properties: &armkeyvault.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armkeyvault.PrivateLinkServiceConnectionState{
+      					Description: to.Ptr("My name is Joe and I'm approving this."),
+      					Status:      to.Ptr(armkeyvault.PrivateEndpointServiceConnectionStatusApproved),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkeyvault%2Farmkeyvault%2Fv1.0.0/sdk/resourcemanager/keyvault/armkeyvault/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -253,5 +356,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Key Vault service - Updates the specified private endpoint connection associated with the key vault.
+  description: >
+    Learn more about Key Vault service - Updates the specified private endpoint connection associated with the key vault.
 errorCodes: []

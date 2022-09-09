@@ -175,6 +175,96 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/gateways/gw1?api-version=2021-08-01
+
+      {
+        "properties": {
+          "description": "my gateway 1",
+          "locationData": {
+            "name": "my location"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.apimanagement.models.ResourceLocationDataContract;
+
+      /** Samples for Gateway CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGateway.json
+           */
+          /**
+           * Sample code: ApiManagementCreateGateway.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreateGateway(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .gateways()
+                  .define("gw1")
+                  .withExistingService("rg1", "apimService1")
+                  .withLocationData(new ResourceLocationDataContract().withName("my location"))
+                  .withDescription("my gateway 1")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreateGateway.json
+      func ExampleGatewayClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewGatewayClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		"gw1",
+      		armapimanagement.GatewayContract{
+      			Properties: &armapimanagement.GatewayContractProperties{
+      				Description: to.Ptr("my gateway 1"),
+      				LocationData: &armapimanagement.ResourceLocationDataContract{
+      					Name: to.Ptr("my location"),
+      				},
+      			},
+      		},
+      		&armapimanagement.GatewayClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -212,5 +302,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Creates or updates a Gateway to be used in Api Management instance.
+  description: >
+    Learn more about API Management service - Creates or updates a Gateway to be used in Api Management instance.
 errorCodes: []

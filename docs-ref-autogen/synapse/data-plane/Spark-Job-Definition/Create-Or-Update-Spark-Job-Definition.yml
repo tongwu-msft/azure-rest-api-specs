@@ -19,6 +19,7 @@ uriParameters:
   description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
   types:
   - uid: string
+  format: uri
 - name: sparkJobDefinitionName
   in: path
   isRequired: true
@@ -70,6 +71,10 @@ definitions:
     description: Big data pool reference.
     types:
     - uid: BigDataPoolReference
+  - name: targetSparkConfiguration
+    description: The spark configuration of the spark job.
+    types:
+    - uid: SparkConfigurationReference
   - name: requiredSparkVersion
     description: The required Spark version of the application.
     types:
@@ -147,6 +152,18 @@ definitions:
     description: Reference big data pool name.
     types:
     - uid: string
+- name: SparkConfigurationReference
+  description: Spark configuration reference.
+  kind: object
+  properties:
+  - name: type
+    description: Spark configuration reference type.
+    types:
+    - uid: SparkConfigurationReferenceType
+  - name: referenceName
+    description: Reference spark configuration name.
+    types:
+    - uid: string
 - name: SparkJobProperties
   description: The properties of the Spark job.
   kind: object
@@ -222,6 +239,13 @@ definitions:
   - name: BigDataPoolReference
     types:
     - uid: string
+- name: SparkConfigurationReferenceType
+  description: Spark configuration reference type.
+  kind: enum
+  properties:
+  - name: SparkConfigurationReference
+    types:
+    - uid: string
 examples:
 - name: SparkJobDefinitions_Create
   request:
@@ -255,6 +279,42 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/sparkJobDefinitions/exampleSparkJobDefinition?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "A sample spark job definition",
+          "targetBigDataPool": {
+            "referenceName": "exampleBigDataPool",
+            "type": "BigDataPoolReference"
+          },
+          "requiredSparkVersion": "2.4",
+          "jobProperties": {
+            "name": "exampleSparkJobDefinition",
+            "file": "abfss://test@test.dfs.core.windows.net/artefacts/sample.jar",
+            "className": "dev.test.tools.sample.Main",
+            "conf": {},
+            "args": [
+              "exampleArg"
+            ],
+            "jars": [],
+            "pyFiles": [],
+            "files": [],
+            "archives": [],
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 2
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -345,6 +405,42 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/sparkJobDefinitions/exampleSparkJobDefinition?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "modified description",
+          "targetBigDataPool": {
+            "referenceName": "exampleBigDataPool",
+            "type": "BigDataPoolReference"
+          },
+          "requiredSparkVersion": "2.4",
+          "jobProperties": {
+            "name": "exampleSparkJobDefinition",
+            "file": "abfss://test@test.dfs.core.windows.net/artefacts/sample.jar",
+            "className": "dev.test.tools.sample.Main",
+            "conf": {},
+            "args": [
+              "exampleArg"
+            ],
+            "jars": [],
+            "pyFiles": [],
+            "files": [],
+            "archives": [],
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 2
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -405,5 +501,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Creates or updates a Spark Job Definition.
+  description: >
+    Learn more about Synapse service - Creates or updates a Spark Job Definition.
 errorCodes: []

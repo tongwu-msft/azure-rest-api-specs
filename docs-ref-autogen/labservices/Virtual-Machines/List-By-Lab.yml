@@ -3,15 +3,15 @@ uid: management.azure.com.labservices.virtualmachines.listbylab
 name: List By Lab
 service: Lab Services
 groupName: Virtual Machines
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: "Get all virtual machines for a lab.  \nReturns a list of all virtual machines for a lab."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines?api-version=2021-11-15-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines?api-version=2021-11-15-preview&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/virtualMachines?api-version=2022-08-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -29,7 +29,7 @@ uriParameters:
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: api-version
@@ -329,7 +329,100 @@ definitions:
 examples:
 - name: listVirtualMachine
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/virtualMachines?api-version=2021-11-15-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/virtualMachines?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/virtualMachines?api-version=2022-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for VirtualMachines ListByLab. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/listVirtualMachine.json
+           */
+          /**
+           * Sample code: listVirtualMachine.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void listVirtualMachine(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              manager.virtualMachines().listByLab("testrg123", "testlab", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.3/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/listVirtualMachine.json
+      func ExampleVirtualMachinesClient_NewListByLabPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewVirtualMachinesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByLabPager("testrg123", "testlab", &armlabservices.VirtualMachinesClientListByLabOptions{Filter: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv1.0.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { LabServicesClient } = require("@azure/arm-labservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns a list of all virtual machines for a lab.
+       *
+       * @summary Returns a list of all virtual machines for a lab.
+       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/VirtualMachines/listVirtualMachine.json
+       */
+      async function listVirtualMachine() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const labName = "testlab";
+        const credential = new DefaultAzureCredential();
+        const client = new LabServicesClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.virtualMachines.listByLab(resourceGroupName, labName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listVirtualMachine().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -367,5 +460,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Get all virtual machines for a lab.  \nReturns a list of all virtual machines for a lab."
+  description: >
+    Learn more about Lab Services service - Get all virtual machines for a lab.
+
+    Returns a list of all virtual machines for a lab.
 errorCodes: []

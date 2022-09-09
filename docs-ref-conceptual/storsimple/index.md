@@ -1,5 +1,6 @@
 ---
 title: StorSimple REST API | Microsoft Docs
+description: Description of the StorSimple REST API.
 ms.date: 10/11/2017
 ms.service: storsimple
 ms.topic: reference

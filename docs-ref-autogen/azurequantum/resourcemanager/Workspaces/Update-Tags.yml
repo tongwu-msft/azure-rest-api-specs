@@ -3,14 +3,14 @@ uid: management.azure.com.azurequantum.resourcemanager.workspaces.updatetags
 name: Update Tags
 service: Azure Quantum
 groupName: Workspaces
-apiVersion: 2019-11-04-preview
+apiVersion: 2022-01-10-preview
 summary: Updates an existing workspace's tags.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}?api-version=2019-11-04-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}?api-version=2022-01-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -348,7 +348,7 @@ definitions:
 examples:
 - name: QuantumWorkspacesPatchTags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2019-11-04-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2022-01-10-preview
     body: >-
       {
         "tags": {
@@ -356,6 +356,63 @@ examples:
           "tag2": "value2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2022-01-10-preview
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armquantum_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/quantum/armquantum"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesPatch.json
+      func ExampleWorkspacesClient_UpdateTags() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armquantum.NewWorkspacesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdateTags(ctx,
+      		"quantumResourcegroup",
+      		"quantumworkspace1",
+      		armquantum.TagsObject{
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fquantum%2Farmquantum%2Fv0.5.0/sdk/resourcemanager/quantum/armquantum/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -424,5 +481,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Quantum service - Updates an existing workspace's tags.
+  description: >
+    Learn more about Azure Quantum service - Updates an existing workspace's tags.
 errorCodes: []

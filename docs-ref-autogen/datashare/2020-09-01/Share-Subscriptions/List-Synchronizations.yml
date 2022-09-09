@@ -164,6 +164,56 @@ examples:
 - name: ShareSubscriptions_ListSynchronizations
   request:
     uri: POST https://management.azure.com/subscriptions/433a8dfd-e5d5-4e77-ad86-90acdc75eb1a/resourceGroups/SampleResourceGroup/providers/Microsoft.DataShare/accounts/Account1/shareSubscriptions/ShareSub1/listSynchronizations?api-version=2020-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/433a8dfd-e5d5-4e77-ad86-90acdc75eb1a/resourceGroups/SampleResourceGroup/providers/Microsoft.DataShare/accounts/Account1/shareSubscriptions/ShareSub1/listSynchronizations?api-version=2020-09-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdatashare_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datashare/armdatashare"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datashare/resource-manager/Microsoft.DataShare/stable/2020-09-01/examples/ShareSubscriptions_ListSynchronizations.json
+      func ExampleShareSubscriptionsClient_NewListSynchronizationsPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatashare.NewShareSubscriptionsClient("433a8dfd-e5d5-4e77-ad86-90acdc75eb1a", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListSynchronizationsPager("SampleResourceGroup",
+      		"Account1",
+      		"ShareSub1",
+      		&armdatashare.ShareSubscriptionsClientListSynchronizationsOptions{SkipToken: nil,
+      			Filter:  nil,
+      			Orderby: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatashare%2Farmdatashare%2Fv1.0.0/sdk/resourcemanager/datashare/armdatashare/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -201,5 +251,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Data Share service - List Synchronizations in a share subscription.  \nList synchronizations of a share subscription"
+  description: >
+    Learn more about Data Share service - List Synchronizations in a share subscription.
+
+    List synchronizations of a share subscription
 errorCodes: []

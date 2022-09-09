@@ -96,6 +96,100 @@ examples:
 - name: Purge a deleted configuration store
   request:
     uri: POST https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/locations/westus/deletedConfigurationStores/contoso/purge?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/providers/Microsoft.AppConfiguration/locations/westus/deletedConfigurationStores/contoso/purge?api-version=2022-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ConfigurationStores PurgeDeleted. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/DeletedConfigurationStoresPurge.json
+           */
+          /**
+           * Sample code: Purge a deleted configuration store.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void purgeADeletedConfigurationStore(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager.configurationStores().purgeDeleted("westus", "contoso", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/DeletedConfigurationStoresPurge.json
+      func ExampleConfigurationStoresClient_BeginPurgeDeleted() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewConfigurationStoresClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPurgeDeleted(ctx,
+      		"westus",
+      		"contoso",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Permanently deletes the specified configuration store.
+       *
+       * @summary Permanently deletes the specified configuration store.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/DeletedConfigurationStoresPurge.json
+       */
+      async function purgeADeletedConfigurationStore() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const location = "westus";
+        const configStoreName = "contoso";
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.configurationStores.beginPurgeDeletedAndWait(
+          location,
+          configStoreName
+        );
+        console.log(result);
+      }
+
+      purgeADeletedConfigurationStore().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -110,5 +204,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Configuration service - Permanently deletes the specified configuration store.
+  description: >
+    Learn more about App Configuration service - Permanently deletes the specified configuration store.
 errorCodes: []

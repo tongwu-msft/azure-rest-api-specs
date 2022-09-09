@@ -361,6 +361,12 @@ examples:
 - name: Assignment at subscription scope
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -407,6 +413,51 @@ examples:
 - name: Assignment at management group scope
   request:
     uri: GET https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprintAssignments?api-version=2018-11-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armblueprint_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/blueprint/resource-manager/Microsoft.Blueprint/preview/2018-11-01-preview/examples/managementGroupBPAssignment/BlueprintAssignment_List.json
+      func ExampleAssignmentsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armblueprint.NewAssignmentsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("managementGroups/ContosoOnlineGroup",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fblueprint%2Farmblueprint%2Fv0.5.0/sdk/resourcemanager/blueprint/armblueprint/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -461,5 +512,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Blueprints service - List blueprint assignments within a subscription or a management group.
+  description: >
+    Learn more about Blueprints service - List blueprint assignments within a subscription or a management group.
 errorCodes: []

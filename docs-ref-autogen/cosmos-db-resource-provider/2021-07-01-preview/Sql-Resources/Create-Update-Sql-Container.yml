@@ -600,6 +600,66 @@ examples:
           "options": {}
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/sqlDatabases/databaseName/containers/containerName?api-version=2021-07-01-preview
+
+      {
+        "location": "West US",
+        "tags": {},
+        "properties": {
+          "resource": {
+            "id": "containerName",
+            "indexingPolicy": {
+              "indexingMode": "consistent",
+              "automatic": true,
+              "includedPaths": [
+                {
+                  "path": "/*",
+                  "indexes": [
+                    {
+                      "kind": "Range",
+                      "dataType": "String",
+                      "precision": -1
+                    },
+                    {
+                      "kind": "Range",
+                      "dataType": "Number",
+                      "precision": -1
+                    }
+                  ]
+                }
+              ],
+              "excludedPaths": []
+            },
+            "partitionKey": {
+              "paths": [
+                "/AccountNumber"
+              ],
+              "kind": "Hash"
+            },
+            "defaultTtl": 100,
+            "uniqueKeyPolicy": {
+              "uniqueKeys": [
+                {
+                  "paths": [
+                    "/testPath"
+                  ]
+                }
+              ]
+            },
+            "conflictResolutionPolicy": {
+              "mode": "LastWriterWins",
+              "conflictResolutionPath": "/path"
+            }
+          },
+          "options": {}
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -671,5 +731,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB SQL container
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Create or update an Azure Cosmos DB SQL container
 errorCodes: []

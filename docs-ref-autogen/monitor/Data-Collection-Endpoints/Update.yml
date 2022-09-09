@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionendpoints.update
 name: Update
 service: Monitor
 groupName: Data Collection Endpoints
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Updates part of a data collection endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-04-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -113,7 +113,7 @@ definitions:
     types:
     - uid: string
   - name: properties.configurationAccess
-    description: The endpoint used by agents to access their configuration.
+    description: The endpoint used by clients to access their configuration.
     types:
     - uid: ConfigurationAccess
   - name: properties.logsIngestion
@@ -188,7 +188,7 @@ definitions:
     types:
     - uid: string
 - name: ConfigurationAccess
-  description: The endpoint used by agents to access their configuration.
+  description: The endpoint used by clients to access their configuration.
   kind: object
   properties:
   - name: endpoint
@@ -306,7 +306,7 @@ definitions:
 examples:
 - name: Update data collection endpoint
   request:
-    uri: PATCH https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-04-01
+    uri: PATCH https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
     body: >-
       {
         "tags": {
@@ -315,6 +315,96 @@ examples:
           "tag3": "C"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
+
+      {
+        "tags": {
+          "tag1": "A",
+          "tag2": "B",
+          "tag3": "C"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsUpdate.json
+      func ExampleDataCollectionEndpointsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewDataCollectionEndpointsClient("703362b3-f278-4e4b-9179-c76eaf41ffc2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"myResourceGroup",
+      		"myCollectionEndpoint",
+      		&armmonitor.DataCollectionEndpointsClientUpdateOptions{Body: &armmonitor.ResourceForUpdate{
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("A"),
+      				"tag2": to.Ptr("B"),
+      				"tag3": to.Ptr("C"),
+      			},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates part of a data collection endpoint.
+       *
+       * @summary Updates part of a data collection endpoint.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsUpdate.json
+       */
+      async function updateDataCollectionEndpoint() {
+        const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+        const resourceGroupName = "myResourceGroup";
+        const dataCollectionEndpointName = "myCollectionEndpoint";
+        const body = { tags: { tag1: "A", tag2: "B", tag3: "C" } };
+        const options = { body };
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.dataCollectionEndpoints.update(
+          resourceGroupName,
+          dataCollectionEndpointName,
+          options
+        );
+        console.log(result);
+      }
+
+      updateDataCollectionEndpoint().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -359,5 +449,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Updates part of a data collection endpoint.
+  description: >
+    Learn more about Monitor service - Updates part of a data collection endpoint.
 errorCodes: []

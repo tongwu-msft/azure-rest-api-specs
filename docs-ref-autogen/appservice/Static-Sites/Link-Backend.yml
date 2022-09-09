@@ -1,0 +1,342 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.appservice.staticsites.linkbackend
+name: Link Backend
+service: App Service
+groupName: Static Sites
+apiVersion: 2022-03-01
+summary: Link backend to a static site
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/linkedBackends/{linkedBackendName}?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Your Azure subscription ID. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group to which the resource belongs.
+  types:
+  - uid: string
+  pattern: ^[-\w\._\(\)]+[^\.]$
+- name: name
+  in: path
+  isRequired: true
+  description: Name of the static site
+  types:
+  - uid: string
+- name: linkedBackendName
+  in: path
+  isRequired: true
+  description: Name of the backend to link to the static site
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: API Version
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: StaticSiteLinkedBackendARMResource
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: properties.backendResourceId
+    in: body
+    description: The resource id of the backend linked to the static site
+    types:
+    - uid: string
+  - name: properties.region
+    in: body
+    description: The region of the backend linked to the static site
+    types:
+    - uid: string
+  - name: kind
+    in: body
+    description: Kind of resource.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: StaticSiteLinkedBackendARMResource
+  description: Static Site Linked Backend ARM resource.
+  kind: object
+  properties:
+  - name: properties.backendResourceId
+    description: The resource id of the backend linked to the static site
+    types:
+    - uid: string
+  - name: properties.region
+    description: The region of the backend linked to the static site
+    types:
+    - uid: string
+  - name: properties.createdOn
+    isReadyOnly: true
+    description: The date and time on which the backend was linked to the static site.
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the linking process.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Resource Id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource Name.
+    types:
+    - uid: string
+  - name: kind
+    description: Kind of resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Link a backend to a static site
+  request:
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/linkedBackends/testBackend?api-version=2022-03-01
+    body: >-
+      {
+        "properties": {
+          "backendResourceId": "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend",
+          "region": "West US 2"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/linkedBackends/testBackend?api-version=2022-03-01
+
+      {
+        "properties": {
+          "backendResourceId": "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend",
+          "region": "West US 2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.StaticSiteLinkedBackendArmResourceInner;
+
+      /** Samples for StaticSites LinkBackend. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/LinkBackendToStaticSite.json
+           */
+          /**
+           * Sample code: Link a backend to a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void linkABackendToAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .linkBackend(
+                      "rg",
+                      "testStaticSite0",
+                      "testBackend",
+                      new StaticSiteLinkedBackendArmResourceInner()
+                          .withBackendResourceId(
+                              "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend")
+                          .withRegion("West US 2"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/LinkBackendToStaticSite.json
+      func ExampleStaticSitesClient_BeginLinkBackend() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginLinkBackend(ctx,
+      		"rg",
+      		"testStaticSite0",
+      		"testBackend",
+      		armappservice.StaticSiteLinkedBackendARMResource{
+      			Properties: &armappservice.StaticSiteLinkedBackendARMResourceProperties{
+      				BackendResourceID: to.Ptr("/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend"),
+      				Region:            to.Ptr("West US 2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Link backend to a static site
+       *
+       * @summary Link backend to a static site
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/LinkBackendToStaticSite.json
+       */
+      async function linkABackendToAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const linkedBackendName = "testBackend";
+        const staticSiteLinkedBackendEnvelope = {
+          backendResourceId:
+            "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend",
+          region: "West US 2",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.beginLinkBackendAndWait(
+          resourceGroupName,
+          name,
+          linkedBackendName,
+          staticSiteLinkedBackendEnvelope
+        );
+        console.log(result);
+      }
+
+      linkABackendToAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds/default/linkedBackends/testBackend",
+        "name": "testBackend",
+        "type": "Microsoft.Web/staticSites/builds/linkedBackends",
+        "properties": {
+          "backendResourceId": "/subscription/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/backendRg/providers/Microsoft.Web/sites/testBackend",
+          "region": "West US 2",
+          "createdOn": "2021-12-24T17:33:11.641Z",
+          "provisioningState": "Succeeded"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about App Service service - Link backend to a static site
+errorCodes: []

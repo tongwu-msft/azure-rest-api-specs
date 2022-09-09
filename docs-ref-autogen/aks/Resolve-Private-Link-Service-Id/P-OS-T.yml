@@ -144,6 +144,116 @@ examples:
       {
         "name": "management"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid1/resourceGroups/rg1/providers/Microsoft.ContainerService/managedClusters/clustername1/resolvePrivateLinkServiceId?api-version=2022-04-01
+
+      {
+        "name": "management"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.containerservice.fluent.models.PrivateLinkResourceInner;
+
+      /** Samples for ResolvePrivateLinkServiceId Post. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ResolvePrivateLinkServiceId.json
+           */
+          /**
+           * Sample code: Resolve the Private Link Service ID for Managed Cluster.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void resolveThePrivateLinkServiceIDForManagedCluster(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .kubernetesClusters()
+                  .manager()
+                  .serviceClient()
+                  .getResolvePrivateLinkServiceIds()
+                  .postWithResponse(
+                      "rg1", "clustername1", new PrivateLinkResourceInner().withName("management"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.16.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcontainerservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/containerservice/armcontainerservice"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ResolvePrivateLinkServiceId.json
+      func ExampleResolvePrivateLinkServiceIDClient_POST() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcontainerservice.NewResolvePrivateLinkServiceIDClient("subid1", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.POST(ctx,
+      		"rg1",
+      		"clustername1",
+      		armcontainerservice.PrivateLinkResource{
+      			Name: to.Ptr("management"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcontainerservice%2Farmcontainerservice%2Fv1.0.0/sdk/resourcemanager/containerservice/armcontainerservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ContainerServiceClient } = require("@azure/arm-containerservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the private link service ID for the specified managed cluster.
+       *
+       * @summary Gets the private link service ID for the specified managed cluster.
+       * x-ms-original-file: specification/containerservice/resource-manager/Microsoft.ContainerService/stable/2022-04-01/examples/ResolvePrivateLinkServiceId.json
+       */
+      async function resolveThePrivateLinkServiceIdForManagedCluster() {
+        const subscriptionId = "subid1";
+        const resourceGroupName = "rg1";
+        const resourceName = "clustername1";
+        const parameters = { name: "management" };
+        const credential = new DefaultAzureCredential();
+        const client = new ContainerServiceClient(credential, subscriptionId);
+        const result = await client.resolvePrivateLinkServiceId.post(
+          resourceGroupName,
+          resourceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      resolveThePrivateLinkServiceIdForManagedCluster().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-containerservice_16.1.0/sdk/containerservice/arm-containerservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -160,5 +270,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about AKS service - Gets the private link service ID for the specified managed cluster.
+  description: >
+    Learn more about AKS service - Gets the private link service ID for the specified managed cluster.
 errorCodes: []

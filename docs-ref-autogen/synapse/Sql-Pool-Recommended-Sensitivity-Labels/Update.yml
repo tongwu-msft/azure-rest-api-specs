@@ -195,9 +195,198 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Synapse/workspaces/myWorkspace/sqlPools/mySqlPool/recommendedSensitivityLabels?api-version=2021-06-01
+
+      {
+        "operations": [
+          {
+            "properties": {
+              "op": "enable",
+              "schema": "dbo",
+              "table": "table1",
+              "column": "column1"
+            }
+          },
+          {
+            "properties": {
+              "op": "enable",
+              "schema": "dbo",
+              "table": "table2",
+              "column": "column2"
+            }
+          },
+          {
+            "properties": {
+              "op": "disable",
+              "schema": "dbo",
+              "table": "table1",
+              "column": "column3"
+            }
+          }
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.synapse.models.RecommendedSensitivityLabelUpdate;
+      import com.azure.resourcemanager.synapse.models.RecommendedSensitivityLabelUpdateKind;
+      import com.azure.resourcemanager.synapse.models.RecommendedSensitivityLabelUpdateList;
+      import java.util.Arrays;
+
+      /** Samples for SqlPoolRecommendedSensitivityLabels Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SensitivityLabelsRecommendedUpdate.json
+           */
+          /**
+           * Sample code: Update recommended sensitivity labels of a given SQL Pool using an operations batch.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void updateRecommendedSensitivityLabelsOfAGivenSQLPoolUsingAnOperationsBatch(
+              com.azure.resourcemanager.synapse.SynapseManager manager) {
+              manager
+                  .sqlPoolRecommendedSensitivityLabels()
+                  .updateWithResponse(
+                      "myRG",
+                      "myWorkspace",
+                      "mySqlPool",
+                      new RecommendedSensitivityLabelUpdateList()
+                          .withOperations(
+                              Arrays
+                                  .asList(
+                                      new RecommendedSensitivityLabelUpdate()
+                                          .withOp(RecommendedSensitivityLabelUpdateKind.ENABLE)
+                                          .withSchema("dbo")
+                                          .withTable("table1")
+                                          .withColumn("column1"),
+                                      new RecommendedSensitivityLabelUpdate()
+                                          .withOp(RecommendedSensitivityLabelUpdateKind.ENABLE)
+                                          .withSchema("dbo")
+                                          .withTable("table2")
+                                          .withColumn("column2"),
+                                      new RecommendedSensitivityLabelUpdate()
+                                          .withOp(RecommendedSensitivityLabelUpdateKind.DISABLE)
+                                          .withSchema("dbo")
+                                          .withTable("table1")
+                                          .withColumn("column3"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SensitivityLabelsRecommendedUpdate.json
+      func ExampleSQLPoolRecommendedSensitivityLabelsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsynapse.NewSQLPoolRecommendedSensitivityLabelsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.Update(ctx,
+      		"myRG",
+      		"myWorkspace",
+      		"mySqlPool",
+      		armsynapse.RecommendedSensitivityLabelUpdateList{
+      			Operations: []*armsynapse.RecommendedSensitivityLabelUpdate{
+      				{
+      					Properties: &armsynapse.RecommendedSensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("dbo"),
+      						Column: to.Ptr("column1"),
+      						Op:     to.Ptr(armsynapse.RecommendedSensitivityLabelUpdateKindEnable),
+      						Table:  to.Ptr("table1"),
+      					},
+      				},
+      				{
+      					Properties: &armsynapse.RecommendedSensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("dbo"),
+      						Column: to.Ptr("column2"),
+      						Op:     to.Ptr(armsynapse.RecommendedSensitivityLabelUpdateKindEnable),
+      						Table:  to.Ptr("table2"),
+      					},
+      				},
+      				{
+      					Properties: &armsynapse.RecommendedSensitivityLabelUpdateProperties{
+      						Schema: to.Ptr("dbo"),
+      						Column: to.Ptr("column3"),
+      						Op:     to.Ptr(armsynapse.RecommendedSensitivityLabelUpdateKindDisable),
+      						Table:  to.Ptr("table1"),
+      					},
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.5.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update recommended sensitivity labels states of a given SQL Pool using an operations batch.
+       *
+       * @summary Update recommended sensitivity labels states of a given SQL Pool using an operations batch.
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SensitivityLabelsRecommendedUpdate.json
+       */
+      async function updateRecommendedSensitivityLabelsOfAGivenSqlPoolUsingAnOperationsBatch() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "myRG";
+        const workspaceName = "myWorkspace";
+        const sqlPoolName = "mySqlPool";
+        const parameters = {
+          operations: [
+            { schema: "dbo", column: "column1", op: "enable", table: "table1" },
+            { schema: "dbo", column: "column2", op: "enable", table: "table2" },
+            { schema: "dbo", column: "column3", op: "disable", table: "table1" },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const result = await client.sqlPoolRecommendedSensitivityLabels.update(
+          resourceGroupName,
+          workspaceName,
+          sqlPoolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateRecommendedSensitivityLabelsOfAGivenSqlPoolUsingAnOperationsBatch().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
 security: []
 metadata:
-  description: Learn more about Synapse service - Update recommended sensitivity labels states of a given SQL Pool using an operations batch.
+  description: >
+    Learn more about Synapse service - Update recommended sensitivity labels states of a given SQL Pool using an operations batch.
 errorCodes: []

@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+uid: confidentialledger.listledgerentries.listledgerentries
+name: List Ledger Entries
+service: Azure confidential ledger
+groupName: List Ledger Entries
+apiVersion: 2022-05-13
+summary: "Gets ledger entries from a collection corresponding to a range.  \nA collection id may optionally be specified. Only entries in the specified (or default) collection will be returned."
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET {ledgerEndpoint}/app/transactions?api-version=2022-05-13
+- content: GET {ledgerEndpoint}/app/transactions?api-version=2022-05-13&collectionId={collectionId}&fromTransactionId={fromTransactionId}&toTransactionId={toTransactionId}
+  isOptional: true
+uriParameters:
+- name: ledgerEndpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Confidential Ledger URL, for example https://contoso.confidentialledger.azure.com
+  types:
+  - uid: string
+  format: url
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+- name: collectionId
+  in: query
+  description: The collection id.
+  types:
+  - uid: string
+- name: fromTransactionId
+  in: query
+  description: Specify the first transaction ID in a range.
+  types:
+  - uid: string
+- name: toTransactionId
+  in: query
+  description: Specify the last transaction ID in a range.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Ledger entries in the specified range.
+  types:
+  - uid: PagedLedgerEntries
+- name: Other Status Codes
+  description: Error response describing why the operation failed
+  types:
+  - uid: ConfidentialLedgerError
+requestHeader: []
+definitions:
+- name: PagedLedgerEntries
+  description: Paginated ledger entries returned in response to a query.
+  kind: object
+  properties:
+  - name: state
+    description: State of a ledger query.
+    types:
+    - uid: ConfidentialLedgerQueryState
+  - name: nextLink
+    description: Path from which to retrieve the next page of results.
+    types:
+    - uid: string
+  - name: entries
+    description: Array of ledger entries.
+    types:
+    - uid: LedgerEntry
+      isArray: true
+- name: ConfidentialLedgerError
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: An error response from Confidential Ledger.
+    types:
+    - uid: ConfidentialLedgerErrorBody
+- name: ConfidentialLedgerQueryState
+  description: State of a ledger query.
+  kind: enum
+  properties:
+  - name: Loading
+    types:
+    - uid: string
+  - name: Ready
+    types:
+    - uid: string
+- name: LedgerEntry
+  description: An entry in the ledger.
+  kind: object
+  properties:
+  - name: contents
+    description: Contents of the ledger entry.
+    types:
+    - uid: string
+  - name: collectionId
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: string
+  - name: transactionId
+    isReadyOnly: true
+    description: A unique identifier for the state of the ledger. If returned as part of a LedgerEntry, it indicates the state from which the entry was read.
+    types:
+    - uid: string
+- name: ConfidentialLedgerErrorBody
+  description: An error response from Confidential Ledger.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+examples:
+- name: ListLedgerEntries
+  request:
+    uri: GET {ledgerEndpoint}/app/transactions?api-version=2022-05-13&fromTransactionId=3.14&toTransactionId=3.42
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET {ledgerEndpoint}/app/transactions?api-version=2022-05-13&fromTransactionId=3.14&toTransactionId=3.42
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "state": "Ready",
+        "nextLink": "/app/transactions?fromTransactionId=3.15&toTransactionId=3.42&collectionId=0&api-version=0.1-preview",
+        "entries": [
+          {
+            "contents": "Ledger entry contents at transaction id 3.14.",
+            "collectionId": "DEFAULT_SUBLEDGER",
+            "transactionId": "3.14"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >-
+    Gets ledger entries from a collection corresponding to a range.
+
+    A collection id may optionally be specified.
+errorCodes: []

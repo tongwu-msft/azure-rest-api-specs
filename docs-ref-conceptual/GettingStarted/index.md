@@ -7,7 +7,7 @@ manager: douge
 ms.author: bryanla
 ms.date: 11/30/2016
 ms.topic: reference
-ms.technology: azure
+ms.service: azure
 ms.devlang: rest-api
 ms.assetid: D35E3780-B2BC-4450-8EF6-2710A11F99A7
 ---

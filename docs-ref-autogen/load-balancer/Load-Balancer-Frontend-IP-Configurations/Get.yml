@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerfrontendipconfigurations.get
 name: Get
 service: Load balancer
 groupName: Load Balancer Frontend IP Configurations
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Gets load balancer frontend IP configuration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}?api-version=2021-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/frontendIPConfigurations/{frontendIPConfigurationName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -275,7 +275,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -452,6 +452,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1306,7 +1310,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2649,7 +2653,102 @@ definitions:
 examples:
 - name: LoadBalancerFrontendIPConfigurationGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/frontend?api-version=2021-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/frontend?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/frontend?api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for LoadBalancerFrontendIpConfigurations Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerFrontendIPConfigurationGet.json
+           */
+          /**
+           * Sample code: LoadBalancerFrontendIPConfigurationGet.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void loadBalancerFrontendIPConfigurationGet(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getLoadBalancerFrontendIpConfigurations()
+                  .getWithResponse("testrg", "lb", "frontend", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerFrontendIPConfigurationGet.json
+      func ExampleLoadBalancerFrontendIPConfigurationsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancerFrontendIPConfigurationsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx, "testrg", "lb", "frontend", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets load balancer frontend IP configuration.
+       *
+       * @summary Gets load balancer frontend IP configuration.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LoadBalancerFrontendIPConfigurationGet.json
+       */
+      async function loadBalancerFrontendIPConfigurationGet() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testrg";
+        const loadBalancerName = "lb";
+        const frontendIPConfigurationName = "frontend";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancerFrontendIPConfigurations.get(
+          resourceGroupName,
+          loadBalancerName,
+          frontendIPConfigurationName
+        );
+        console.log(result);
+      }
+
+      loadBalancerFrontendIPConfigurationGet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2688,5 +2787,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Load balancer service - Gets load balancer frontend IP configuration.
+  description: >
+    Learn more about Load balancer service - Gets load balancer frontend IP configuration.
 errorCodes: []

@@ -1,0 +1,172 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.sql.2022-02-01-preview.databasetables.listbyschema
+name: List By Schema
+service: SQL Database
+groupName: Database Tables
+apiVersion: 2022-02-01-preview
+summary: List database tables
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables?api-version=2022-02-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/databases/{databaseName}/schemas/{schemaName}/tables?$filter={$filter}&api-version=2022-02-01-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription ID that identifies an Azure subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group that contains the resource. You can obtain this value from the Azure Resource Manager API or the portal.
+  types:
+  - uid: string
+- name: serverName
+  in: path
+  isRequired: true
+  description: The name of the server.
+  types:
+  - uid: string
+- name: databaseName
+  in: path
+  isRequired: true
+  description: The name of the database.
+  types:
+  - uid: string
+- name: schemaName
+  in: path
+  isRequired: true
+  description: The name of the schema.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: An OData filter expression that filters elements in the collection.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for the request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Successfully retrieved database tables.
+  types:
+  - uid: DatabaseTableListResult
+- name: Other Status Codes
+  description: >-
+    *** Error Responses: ***
+
+     * 400 UpdateNotAllowedOnPausedDatabase - User attempted to perform an update on a paused database.
+
+     * 404 SubscriptionDoesNotHaveServer - The requested server was not found
+
+     * 404 SourceDatabaseNotFound - The source database does not exist.
+
+     * 404 DatabaseDoesNotExist - User has specified a database name that does not exist on this server instance.
+
+     * 404 ResourceDoesNotExist - Resource with the name '{0}' does not exist. To continue, specify a valid resource name.
+
+     * 404 InvalidDatabaseSchema - Schema is missing in database.
+
+     * 404 InvalidDatabaseTable - Table is missing in database.
+
+     * 404 InvalidDatabaseColumn - Column is missing in table.
+
+     * 503 DatabaseUnavailable - The operation failed because the database is unavailable.
+requestHeader: []
+definitions:
+- name: DatabaseTableListResult
+  description: A list of database tables.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: Array of results.
+    types:
+    - uid: DatabaseTable
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Link to retrieve next page of results.
+    types:
+    - uid: string
+- name: DatabaseTable
+  description: A database table resource.
+  kind: object
+  properties:
+  - name: properties.temporalType
+    description: The table temporal type.
+    types:
+    - uid: TableTemporalType
+  - name: properties.memoryOptimized
+    description: Whether or not the table is memory optimized.
+    types:
+    - uid: boolean
+  - name: id
+    isReadyOnly: true
+    description: Resource ID.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type.
+    types:
+    - uid: string
+- name: TableTemporalType
+  description: The table temporal type.
+  kind: enum
+  properties:
+  - name: NonTemporalTable
+    types:
+    - uid: string
+  - name: HistoryTable
+    types:
+    - uid: string
+  - name: SystemVersionedTemporalTable
+    types:
+    - uid: string
+examples:
+- name: List  database tables
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/serverName/databases/myDatabase/schemas/dbo/tables?api-version=2022-02-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/serverName/databases/myDatabase/schemas/dbo/tables?api-version=2022-02-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/serverName/databases/myDatabase/schemas/dbo/tables/table1",
+            "name": "table1",
+            "type": "Microsoft.Sql/servers/databases/schemas/tables"
+          },
+          {
+            "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myRG/providers/Microsoft.Sql/servers/serverName/databases/myDatabase/schemas/dbo/tables/table2",
+            "name": "table2",
+            "type": "Microsoft.Sql/servers/databases/schemas/tables"
+          }
+        ]
+      }
+security: []
+metadata:
+  description: >
+    Learn more about SQL Database service - List database tables
+errorCodes: []

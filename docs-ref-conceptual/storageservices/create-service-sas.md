@@ -3,7 +3,7 @@ title: Create a service SAS - Azure Storage
 description: A service shared access signature (SAS) delegates access to a resource in Azure Blob Storage, Azure Queue Storage, Azure Table Storage, or Azure Files.
 author: tamram
 
-ms.date: 11/02/2021
+ms.date: 08/03/2022
 ms.author: tamram
 ms.reviewer: cbrooks
 ms.service: storage
@@ -16,7 +16,7 @@ A service shared access signature (SAS) delegates access to a resource in just o
 
 The SAS token is the query string that includes all the information that's required to authorize a request. The token specifies the resource that a client may access, the permissions granted, and the time period during which the signature is valid. 
 
-An SAS can also specify the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, or an optional access policy identifier that's associated with the request. 
+A SAS can also specify the supported IP address or address range from which requests can originate, the supported protocol with which a request can be made, or an optional access policy identifier that's associated with the request. 
 
 Finally, every SAS token includes a signature.  
 
@@ -45,7 +45,7 @@ The following sections describe how to specify the parameters that make up the s
   
 ### Specify the `signedVersion` field
 
-The `signedVersion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization that's used by this shared access signature (in the `signature` field). The value also specifies the service version for requests that are made with this shared access signature. 
+The `signedVersion` (`sv`) field contains the service version of the shared access signature. This value specifies the version of Shared Key authorization that's used by this shared access signature (in the `signature` field). The value also specifies the service version for requests that are made with this shared access signature.
 
 For information about which version is used when you execute requests via a shared access signature, see [Versioning for Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).
 
@@ -210,17 +210,17 @@ The permissions that are supported for each resource type are described in the f
 
 ### Specify an IP address or IP range  
 
-As of version 2015-04-05, the optional `signedIp` (`sip`) field specifies an IP address or a range of IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized.  
+As of version 2015-04-05, the optional `signedIp` (`sip`) field specifies a public IP address or a range of public IP addresses from which to accept requests. If the IP address from which the request originates doesn't match the IP address or address range that's specified on the SAS token, the request isn't authorized.  
   
 When you're specifying a range of IP addresses, note that the range is inclusive. For example, specifying `sip=168.1.5.65` or `sip=168.1.5.60-168.1.5.70` on the SAS restricts the request to those IP addresses.
 
-The following table describes whether to include the `signedIp` field on an SAS token for a specified scenario, based on the client environment and the location of the storage account.
+The following table describes whether to include the `signedIp` field on a SAS token for a specified scenario, based on the client environment and the location of the storage account.
 
 | Client environment | Storage account location | Recommendation |
 |--|--|--|
-| Client running in Azure | In the same region as the client | An SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that are made from within the same region that use an SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
-| Client running in Azure | In a different region from the client | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
-| Client running on-premises or in a different cloud environment | In any Azure region | An SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
+| Client running in Azure | In the same region as the client | A SAS that's provided to the client in this scenario shouldn't include an outbound IP address for the `signedIp` field. Requests that are made from within the same region that use a SAS with a specified outbound IP address will fail.<br /><br/> Instead, use an Azure virtual network to manage network security restrictions. Requests to Azure Storage from within the same region always take place over a private IP address. For more information, see [Configure Azure Storage firewalls and virtual networks](/azure/storage/common/storage-network-security). |
+| Client running in Azure | In a different region from the client | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses. |
+| Client running on-premises or in a different cloud environment | In any Azure region | A SAS that's provided to the client in this scenario may include a public IP address or range of addresses for the `signedIp` field. A request made with the SAS must originate from the specified IP address or range of addresses.<br /><br /> If the request passes through a proxy or gateway, provide the public outbound IP address of that proxy or gateway for the `signedIp` field. |
   
 ### Specify the HTTP protocol  
 
@@ -265,7 +265,7 @@ A stored access policy includes a signed identifier, a value of up to 64 charact
 
 ### Specify the encryption scope
 
-By using the `signedEncryptionScope` field on the URI, you can specify the encryption scope that the client application can use. It enforces the server-side encryption with the specified encryption scope when you upload blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before. 
+By using the `signedEncryptionScope` field on the URI, you can specify the encryption scope that the client application can use. It enforces the server-side encryption with the specified encryption scope when you upload blobs (PUT) with the SAS token. The GET and HEAD will not be restricted and performed as before.
 
 The following table describes how to refer to a signed encryption scope on the URI:
 
@@ -592,7 +592,7 @@ A service SAS can take one of two forms:
 
 ### Revoke a SAS
 
-Because a SAS URI is a URL, anyone who obtains the SAS can use it, regardless of who originally created it. If a SAS is published publicly, it can be used by anyone in the world. An SAS grants access to resources to anyone who possesses it until one of four things happens:
+Because a SAS URI is a URL, anyone who obtains the SAS can use it, regardless of who originally created it. If a SAS is published publicly, it can be used by anyone in the world. A SAS grants access to resources to anyone who possesses it until one of four things happens:
 
 * The expiration time that's specified on an ad hoc SAS is reached.
 

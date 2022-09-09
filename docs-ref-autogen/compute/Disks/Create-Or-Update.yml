@@ -821,6 +821,89 @@ examples:
           "diskSizeGB": 200
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAnEmptyManagedDisk.json
+           */
+          /**
+           * Sample code: Create an empty managed disk.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAnEmptyManagedDisk(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAnEmptyManagedDisk.json
+       */
+      async function createAnEmptyManagedDisk() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          diskSizeGB: 200,
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAnEmptyManagedDisk().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -864,6 +947,105 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "osType": "Windows",
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.ImageDiskReference;
+      import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromAPlatformImage.json
+           */
+          /**
+           * Sample code: Create a managed disk from a platform image.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskFromAPlatformImage(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withOsType(OperatingSystemTypes.WINDOWS)
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.FROM_IMAGE)
+                                  .withImageReference(
+                                      new ImageDiskReference()
+                                          .withId(
+                                              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromAPlatformImage.json
+       */
+      async function createAManagedDiskFromAPlatformImage() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "FromImage",
+            imageReference: {
+              id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+            },
+          },
+          location: "West US",
+          osType: "Windows",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskFromAPlatformImage().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -929,6 +1111,96 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk2?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromAnExistingManagedDisk.json
+           */
+          /**
+           * Sample code: Create a managed disk from an existing managed disk in the same or different subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk2",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.COPY)
+                                  .withSourceResourceId(
+                                      "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromAnExistingManagedDisk.json
+       */
+      async function createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk2";
+        const disk = {
+          creationData: {
+            createOption: "Copy",
+            sourceResourceId:
+              "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk1",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskFromAnExistingManagedDiskInTheSameOrDifferentSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -969,6 +1241,94 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription.json
+           */
+          /**
+           * Sample code: Create a managed disk by importing an unmanaged blob from the same subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.IMPORT)
+                                  .withSourceUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription.json
+       */
+      async function createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "Import",
+            sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskByImportingAnUnmanagedBlobFromTheSameSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1010,6 +1370,99 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription.json
+           */
+          /**
+           * Sample code: Create a managed disk by importing an unmanaged blob from a different subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.IMPORT)
+                                  .withStorageAccountId(
+                                      "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount")
+                                  .withSourceUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription.json
+       */
+      async function createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "Import",
+            sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            storageAccountId:
+              "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskByImportingAnUnmanagedBlobFromADifferentSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1052,6 +1505,95 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByCopyingASnapshot.json
+           */
+          /**
+           * Sample code: Create a managed disk by copying a snapshot.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskByCopyingASnapshot(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.COPY)
+                                  .withSourceResourceId(
+                                      "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskByCopyingASnapshot.json
+       */
+      async function createAManagedDiskByCopyingASnapshot() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "Copy",
+            sourceResourceId:
+              "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskByCopyingASnapshot().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1092,6 +1634,88 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Upload",
+            "uploadSizeBytes": 10737418752
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedUploadDisk.json
+           */
+          /**
+           * Sample code: Create a managed upload disk.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedUploadDisk(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData().withCreateOption(DiskCreateOption.UPLOAD).withUploadSizeBytes(10737418752L)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedUploadDisk.json
+       */
+      async function createAManagedUploadDisk() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Upload", uploadSizeBytes: 10737418752 },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedUploadDisk().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1134,6 +1758,99 @@ examples:
           "diskAccessId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200,
+          "networkAccessPolicy": "AllowPrivate",
+          "diskAccessId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.NetworkAccessPolicy;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDiskAccess.json
+           */
+          /**
+           * Sample code: Create a managed disk and associate with disk access resource.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskAndAssociateWithDiskAccessResource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200)
+                          .withNetworkAccessPolicy(NetworkAccessPolicy.ALLOW_PRIVATE)
+                          .withDiskAccessId(
+                              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDiskAccess.json
+       */
+      async function createAManagedDiskAndAssociateWithDiskAccessResource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          diskAccessId:
+            "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskAccesses/{existing-diskAccess-name}",
+          diskSizeGB: 200,
+          location: "West US",
+          networkAccessPolicy: "AllowPrivate",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskAndAssociateWithDiskAccessResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1178,6 +1895,93 @@ examples:
           "dataAccessAuthMode": "AzureActiveDirectory"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200,
+          "dataAccessAuthMode": "AzureActiveDirectory"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DataAccessAuthMode;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDataAccessAuthMode.json
+           */
+          /**
+           * Sample code: Create a managed disk with dataAccessAuthMode.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskWithDataAccessAuthMode(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200)
+                          .withDataAccessAuthMode(DataAccessAuthMode.AZURE_ACTIVE_DIRECTORY),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDataAccessAuthMode.json
+       */
+      async function createAManagedDiskWithDataAccessAuthMode() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          dataAccessAuthMode: "AzureActiveDirectory",
+          diskSizeGB: 200,
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskWithDataAccessAuthMode().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1222,6 +2026,102 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200,
+          "encryption": {
+            "diskEncryptionSetId": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.Encryption;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDiskEncryptionSet.json
+           */
+          /**
+           * Sample code: Create a managed disk and associate with disk encryption set.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskAndAssociateWithDiskEncryptionSet(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200)
+                          .withEncryption(
+                              new Encryption()
+                                  .withDiskEncryptionSetId(
+                                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithDiskEncryptionSet.json
+       */
+      async function createAManagedDiskAndAssociateWithDiskEncryptionSet() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          diskSizeGB: 200,
+          encryption: {
+            diskEncryptionSetId:
+              "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskAndAssociateWithDiskEncryptionSet().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1269,6 +2169,99 @@ examples:
           "diskSizeGB": 200
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "sku": {
+          "name": "UltraSSD_LRS"
+        },
+        "properties": {
+          "creationData": {
+            "createOption": "Empty",
+            "logicalSectorSize": 512
+          },
+          "diskSizeGB": 200
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSku;
+      import com.azure.resourcemanager.compute.models.DiskStorageAccountTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithLogicalSectorSize.json
+           */
+          /**
+           * Sample code: Create an ultra managed disk with logicalSectorSize 512E.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAnUltraManagedDiskWithLogicalSectorSize512E(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withSku(new DiskSku().withName(DiskStorageAccountTypes.ULTRA_SSD_LRS))
+                          .withCreationData(
+                              new CreationData().withCreateOption(DiskCreateOption.EMPTY).withLogicalSectorSize(512))
+                          .withDiskSizeGB(200),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithLogicalSectorSize.json
+       */
+      async function createAnUltraManagedDiskWithLogicalSectorSize512E() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty", logicalSectorSize: 512 },
+          diskSizeGB: 200,
+          location: "West US",
+          sku: { name: "UltraSSD_LRS" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAnUltraManagedDiskWithLogicalSectorSize512E().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1323,6 +2316,99 @@ examples:
           "diskSizeGB": 200
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "extendedLocation": {
+          "type": "EdgeZone",
+          "name": "{edge-zone-id}"
+        },
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.ExtendedLocation;
+      import com.azure.resourcemanager.compute.models.ExtendedLocationTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAnEmptyManagedDiskInExtendedLocation.json
+           */
+          /**
+           * Sample code: Create an empty managed disk in extended location.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAnEmptyManagedDiskInExtendedLocation(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withExtendedLocation(
+                              new ExtendedLocation().withName("{edge-zone-id}").withType(ExtendedLocationTypes.EDGE_ZONE))
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAnEmptyManagedDiskInExtendedLocation.json
+       */
+      async function createAnEmptyManagedDiskInExtendedLocation() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          diskSizeGB: 200,
+          extendedLocation: { name: "{edge-zone-id}", type: "EdgeZone" },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAnEmptyManagedDiskInExtendedLocation().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1374,6 +2460,96 @@ examples:
           "diskSizeGB": 200
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "sku": {
+          "name": "Premium_ZRS"
+        },
+        "properties": {
+          "creationData": {
+            "createOption": "Empty"
+          },
+          "diskSizeGB": 200
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSku;
+      import com.azure.resourcemanager.compute.models.DiskStorageAccountTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithSSDZRSAccountType.json
+           */
+          /**
+           * Sample code: Create a managed disk with ssd zrs account type.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskWithSsdZrsAccountType(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withSku(new DiskSku().withName(DiskStorageAccountTypes.PREMIUM_ZRS))
+                          .withCreationData(new CreationData().withCreateOption(DiskCreateOption.EMPTY))
+                          .withDiskSizeGB(200),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithSSDZRSAccountType.json
+       */
+      async function createAManagedDiskWithSsdZrsAccountType() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: { createOption: "Empty" },
+          diskSizeGB: 200,
+          location: "West US",
+          sku: { name: "Premium_ZRS" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskWithSsdZrsAccountType().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1428,6 +2604,112 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "North Central US",
+        "properties": {
+          "osType": "Windows",
+          "securityProfile": {
+            "securityType": "TrustedLaunch"
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSecurityProfile;
+      import com.azure.resourcemanager.compute.models.DiskSecurityTypes;
+      import com.azure.resourcemanager.compute.models.ImageDiskReference;
+      import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithSecurityProfile.json
+           */
+          /**
+           * Sample code: Create a managed disk with security profile.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskWithSecurityProfile(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("North Central US")
+                          .withOsType(OperatingSystemTypes.WINDOWS)
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.FROM_IMAGE)
+                                  .withImageReference(
+                                      new ImageDiskReference()
+                                          .withId(
+                                              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}")))
+                          .withSecurityProfile(new DiskSecurityProfile().withSecurityType(DiskSecurityTypes.TRUSTED_LAUNCH)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskWithSecurityProfile.json
+       */
+      async function createAManagedDiskWithSecurityProfile() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "FromImage",
+            imageReference: {
+              id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/uswest/Publishers/Microsoft/ArtifactTypes/VMImage/Offers/{offer}",
+            },
+          },
+          location: "North Central US",
+          osType: "Windows",
+          securityProfile: { securityType: "TrustedLaunch" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskWithSecurityProfile().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1486,6 +2768,118 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "osType": "Windows",
+          "securityProfile": {
+            "securityType": "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey"
+          },
+          "creationData": {
+            "createOption": "ImportSecure",
+            "storageAccountId": "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            "securityDataUri": "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSecurityProfile;
+      import com.azure.resourcemanager.compute.models.DiskSecurityTypes;
+      import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromImportSecure.json
+           */
+          /**
+           * Sample code: Create a managed disk from ImportSecure create option.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskFromImportSecureCreateOption(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withOsType(OperatingSystemTypes.WINDOWS)
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.IMPORT_SECURE)
+                                  .withStorageAccountId(
+                                      "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount")
+                                  .withSourceUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")
+                                  .withSecurityDataUri("https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd"))
+                          .withSecurityProfile(
+                              new DiskSecurityProfile()
+                                  .withSecurityType(
+                                      DiskSecurityTypes.CONFIDENTIAL_VM_VMGUEST_STATE_ONLY_ENCRYPTED_WITH_PLATFORM_KEY)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromImportSecure.json
+       */
+      async function createAManagedDiskFromImportSecureCreateOption() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "ImportSecure",
+            securityDataUri: "https://mystorageaccount.blob.core.windows.net/osimages/vmgs.vhd",
+            sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            storageAccountId:
+              "subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          },
+          location: "West US",
+          osType: "Windows",
+          securityProfile: {
+            securityType: "ConfidentialVM_VMGuestStateOnlyEncryptedWithPlatformKey",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskFromImportSecureCreateOption().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1542,6 +2936,105 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "osType": "Windows",
+          "securityProfile": {
+            "securityType": "TrustedLaunch"
+          },
+          "creationData": {
+            "createOption": "UploadPreparedSecure",
+            "uploadSizeBytes": 10737418752
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSecurityProfile;
+      import com.azure.resourcemanager.compute.models.DiskSecurityTypes;
+      import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromUploadPreparedSecure.json
+           */
+          /**
+           * Sample code: Create a managed disk from UploadPreparedSecure create option.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAManagedDiskFromUploadPreparedSecureCreateOption(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withOsType(OperatingSystemTypes.WINDOWS)
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.UPLOAD_PREPARED_SECURE)
+                                  .withUploadSizeBytes(10737418752L))
+                          .withSecurityProfile(new DiskSecurityProfile().withSecurityType(DiskSecurityTypes.TRUSTED_LAUNCH)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAManagedDiskFromUploadPreparedSecure.json
+       */
+      async function createAManagedDiskFromUploadPreparedSecureCreateOption() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "UploadPreparedSecure",
+            uploadSizeBytes: 10737418752,
+          },
+          location: "West US",
+          osType: "Windows",
+          securityProfile: { securityType: "TrustedLaunch" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAManagedDiskFromUploadPreparedSecureCreateOption().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1597,6 +3090,179 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/myDisk?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "osType": "Windows",
+          "securityProfile": {
+            "securityType": "ConfidentialVM_DiskEncryptedWithCustomerKey",
+            "secureVMDiskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}"
+          },
+          "creationData": {
+            "createOption": "FromImage",
+            "imageReference": {
+              "id": "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.DiskInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+      import com.azure.resourcemanager.compute.models.DiskSecurityProfile;
+      import com.azure.resourcemanager.compute.models.DiskSecurityTypes;
+      import com.azure.resourcemanager.compute.models.ImageDiskReference;
+      import com.azure.resourcemanager.compute.models.OperatingSystemTypes;
+
+      /** Samples for Disks CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAConfidentialVMDiskEncryptedWithCMK.json
+           */
+          /**
+           * Sample code: Create a confidential VM supported disk encrypted with customer managed key.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getDisks()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myDisk",
+                      new DiskInner()
+                          .withLocation("West US")
+                          .withOsType(OperatingSystemTypes.WINDOWS)
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.FROM_IMAGE)
+                                  .withImageReference(
+                                      new ImageDiskReference()
+                                          .withId(
+                                              "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0")))
+                          .withSecurityProfile(
+                              new DiskSecurityProfile()
+                                  .withSecurityType(DiskSecurityTypes.CONFIDENTIAL_VM_DISK_ENCRYPTED_WITH_CUSTOMER_KEY)
+                                  .withSecureVMDiskEncryptionSetId(
+                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAConfidentialVMDiskEncryptedWithCMK.json
+      func ExampleDisksClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewDisksClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myDisk",
+      		armcompute.Disk{
+      			Location: to.Ptr("West US"),
+      			Properties: &armcompute.DiskProperties{
+      				CreationData: &armcompute.CreationData{
+      					CreateOption: to.Ptr(armcompute.DiskCreateOptionFromImage),
+      					ImageReference: &armcompute.ImageDiskReference{
+      						ID: to.Ptr("/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0"),
+      					},
+      				},
+      				OSType: to.Ptr(armcompute.OperatingSystemTypesWindows),
+      				SecurityProfile: &armcompute.DiskSecurityProfile{
+      					SecureVMDiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}"),
+      					SecurityType:                to.Ptr(armcompute.DiskSecurityTypesConfidentialVMDiskEncryptedWithCustomerKey),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a disk.
+       *
+       * @summary Creates or updates a disk.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateAConfidentialVMDiskEncryptedWithCMK.json
+       */
+      async function createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "myResourceGroup";
+        const diskName = "myDisk";
+        const disk = {
+          creationData: {
+            createOption: "FromImage",
+            imageReference: {
+              id: "/Subscriptions/{subscriptionId}/Providers/Microsoft.Compute/Locations/westus/Publishers/{publisher}/ArtifactTypes/VMImage/Offers/{offer}/Skus/{sku}/Versions/1.0.0",
+            },
+          },
+          location: "West US",
+          osType: "Windows",
+          securityProfile: {
+            secureVMDiskEncryptionSetId:
+              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
+            securityType: "ConfidentialVM_DiskEncryptedWithCustomerKey",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.disks.beginCreateOrUpdateAndWait(resourceGroupName, diskName, disk);
+        console.log(result);
+      }
+
+      createAConfidentialVMSupportedDiskEncryptedWithCustomerManagedKey().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -1648,5 +3314,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Creates or updates a disk.
+  description: >
+    Learn more about Compute service - Creates or updates a disk.
 errorCodes: []

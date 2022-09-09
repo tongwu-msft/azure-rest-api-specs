@@ -3,15 +3,15 @@ uid: management.azure.com.media.contentkeypolicies.list
 name: List
 service: Media Services
 groupName: Content Key Policies
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: "List Content Key Policies  \nLists the Content Key Policies in the account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies?api-version=2021-11-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies?api-version=2021-11-01&$filter={$filter}&$top={$top}&$orderby={$orderby}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies?api-version=2022-08-01&$filter={$filter}&$top={$top}&$orderby={$orderby}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -407,6 +407,10 @@ definitions:
     description: A flag indicating whether test devices can use the license.
     types:
     - uid: boolean
+  - name: securityLevel
+    description: The security level.
+    types:
+    - uid: SecurityLevel
   - name: beginDate
     description: The begin date of license
     types:
@@ -506,6 +510,26 @@ definitions:
     - uid: string
   - name: Jwt
     description: JSON Web Token.
+    types:
+    - uid: string
+- name: SecurityLevel
+  description: The security level.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a SecurityLevel that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: SL150
+    description: For clients under development or test. No protection against unauthorized use.
+    types:
+    - uid: string
+  - name: SL2000
+    description: For hardened devices and applications consuming commercial content. Software or hardware protection.
+    types:
+    - uid: string
+  - name: SL3000
+    description: For hardened devices only. Hardware protection.
     types:
     - uid: string
 - name: ContentKeyPolicyPlayReadyPlayRight
@@ -700,7 +724,82 @@ definitions:
 examples:
 - name: Lists all Content Key Policies
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2021-11-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-all.json
+      func ExampleContentKeyPoliciesClient_NewListPager_listsAllContentKeyPolicies() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("contoso", "contosomedia", &armmediaservices.ContentKeyPoliciesClientListOptions{Filter: nil,
+      		Top:     nil,
+      		Orderby: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the Content Key Policies in the account
+       *
+       * @summary Lists the Content Key Policies in the account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-all.json
+       */
+      async function listsAllContentKeyPolicies() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.contentKeyPolicies.list(resourceGroupName, accountName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listsAllContentKeyPolicies().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -843,7 +942,8 @@ examples:
                         "contentKeyLocation": {
                           "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
                         },
-                        "contentType": "Unspecified"
+                        "contentType": "Unspecified",
+                        "securityLevel": "SL2000"
                       }
                     ],
                     "responseCustomData": "testCustomData"
@@ -859,7 +959,85 @@ examples:
       }
 - name: Lists Content Key Policies ordered by last modified.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2021-11-01&$orderby=properties/lastModified
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01&$orderby=properties/lastModified
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01&$orderby=properties/lastModified
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-by-lastModified.json
+      func ExampleContentKeyPoliciesClient_NewListPager_listsContentKeyPoliciesOrderedByLastModified() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("contoso", "contosomedia", &armmediaservices.ContentKeyPoliciesClientListOptions{Filter: nil,
+      		Top:     nil,
+      		Orderby: to.Ptr("properties/lastModified"),
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the Content Key Policies in the account
+       *
+       * @summary Lists the Content Key Policies in the account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-by-lastModified.json
+       */
+      async function listsContentKeyPoliciesOrderedByLastModified() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const orderby = "properties/lastModified";
+        const options = { orderby };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.contentKeyPolicies.list(resourceGroupName, accountName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listsContentKeyPoliciesOrderedByLastModified().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -892,7 +1070,8 @@ examples:
                         "contentKeyLocation": {
                           "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
                         },
-                        "contentType": "Unspecified"
+                        "contentType": "Unspecified",
+                        "securityLevel": "SL2000"
                       }
                     ],
                     "responseCustomData": "testCustomData"
@@ -996,7 +1175,85 @@ examples:
       }
 - name: Lists Content Key Policies with created and last modified filters.
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2021-11-01&$filter=properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01&$filter=properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies?api-version=2022-08-01&$filter=properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-in-date-range.json
+      func ExampleContentKeyPoliciesClient_NewListPager_listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("contoso", "contosomedia", &armmediaservices.ContentKeyPoliciesClientListOptions{Filter: to.Ptr("properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01"),
+      		Top:     nil,
+      		Orderby: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the Content Key Policies in the account
+       *
+       * @summary Lists the Content Key Policies in the account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-list-in-date-range.json
+       */
+      async function listsContentKeyPoliciesWithCreatedAndLastModifiedFilters() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const filter = "properties/lastModified gt 2016-06-01 and properties/created lt 2013-07-01";
+        const options = { filter };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.contentKeyPolicies.list(resourceGroupName, accountName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listsContentKeyPoliciesWithCreatedAndLastModifiedFilters().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1005,5 +1262,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - List Content Key Policies  \nLists the Content Key Policies in the account"
+  description: >
+    Learn more about Media Services service - List Content Key Policies
+
+    Lists the Content Key Policies in the account
 errorCodes: []

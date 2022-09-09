@@ -1,0 +1,284 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagecache.caches.spaceallocation
+name: Space Allocation
+service: Storagecache
+groupName: Caches
+apiVersion: 2022-05-01
+summary: Update cache space allocation.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}/spaceAllocation?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Subscription credentials which uniquely identify Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Target resource group.
+  types:
+  - uid: string
+- name: cacheName
+  in: path
+  isRequired: true
+  description: Name of Cache. Length of name must not be greater than 80 and chars must be from the [-0-9a-zA-Z_] char class.
+  types:
+  - uid: string
+  pattern: ^[-0-9a-zA-Z_]{1,80}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  - name: Azure-AsyncOperation
+    value: string
+  description: Error response describing why the operation failed.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: spaceAllocation
+    in: body
+    description: List containing storage target cache space percentage allocations.
+    types:
+    - uid: StorageTargetSpaceAllocation
+      isArray: true
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response.
+  kind: object
+  properties:
+  - name: error
+    description: The body of the error.
+    types:
+    - uid: CloudErrorBody
+- name: StorageTargetSpaceAllocation
+  description: Storage Target space allocation properties.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the storage target.
+    types:
+    - uid: string
+  - name: allocationPercentage
+    description: The percentage of cache space allocated for this storage target
+    types:
+    - uid: integer
+- name: CloudErrorBody
+  description: An error response.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+examples:
+- name: SpaceAllocation_Post
+  request:
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/spaceAllocation?api-version=2022-05-01
+    body: >-
+      [
+        {
+          "name": "st1",
+          "allocationPercentage": 25
+        },
+        {
+          "name": "st2",
+          "allocationPercentage": 50
+        },
+        {
+          "name": "st3",
+          "allocationPercentage": 25
+        }
+      ]
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1/spaceAllocation?api-version=2022-05-01
+
+      [
+        {
+          "name": "st1",
+          "allocationPercentage": 25
+        },
+        {
+          "name": "st2",
+          "allocationPercentage": 50
+        },
+        {
+          "name": "st3",
+          "allocationPercentage": 25
+        }
+      ]
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.storagecache.models.StorageTargetSpaceAllocation;
+      import java.util.Arrays;
+
+      /** Samples for Caches SpaceAllocation. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/SpaceAllocation_Post.json
+           */
+          /**
+           * Sample code: SpaceAllocation_Post.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void spaceAllocationPost(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .caches()
+                  .spaceAllocation(
+                      "scgroup",
+                      "sc1",
+                      Arrays
+                          .asList(
+                              new StorageTargetSpaceAllocation().withName("st1").withAllocationPercentage(25),
+                              new StorageTargetSpaceAllocation().withName("st2").withAllocationPercentage(50),
+                              new StorageTargetSpaceAllocation().withName("st3").withAllocationPercentage(25)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/SpaceAllocation_Post.json
+      func ExampleCachesClient_BeginSpaceAllocation() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewCachesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginSpaceAllocation(ctx,
+      		"scgroup",
+      		"sc1",
+      		&armstoragecache.CachesClientBeginSpaceAllocationOptions{SpaceAllocation: []*armstoragecache.StorageTargetSpaceAllocation{
+      			{
+      				Name:                 to.Ptr("st1"),
+      				AllocationPercentage: to.Ptr[int32](25),
+      			},
+      			{
+      				Name:                 to.Ptr("st2"),
+      				AllocationPercentage: to.Ptr[int32](50),
+      			},
+      			{
+      				Name:                 to.Ptr("st3"),
+      				AllocationPercentage: to.Ptr[int32](25),
+      			}},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update cache space allocation.
+       *
+       * @summary Update cache space allocation.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/SpaceAllocation_Post.json
+       */
+      async function spaceAllocationPost() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const spaceAllocation = [
+          { name: "st1", allocationPercentage: 25 },
+          { name: "st2", allocationPercentage: 50 },
+          { name: "st3", allocationPercentage: 25 },
+        ];
+        const options = { spaceAllocation };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.caches.beginSpaceAllocationAndWait(
+          resourceGroupName,
+          cacheName,
+          options
+        );
+        console.log(result);
+      }
+
+      spaceAllocationPost().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/11111111-1111-1111-1111-111111111111?monitor=true&api-version=2022-05-01
+    - name: Azure-AsyncOperation
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.StorageCache/locations/westus/ascOperations/11111111-1111-1111-1111-111111111111?api-version=2022-05-01
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Storagecache service - Update cache space allocation.
+errorCodes: []

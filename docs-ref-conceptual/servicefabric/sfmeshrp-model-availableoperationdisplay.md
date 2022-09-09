@@ -1,8 +1,8 @@
 ---
-title: "AvailableOperationDisplay"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand Available Operation Display and its properties"
+description: Learn about Available Operation Display, which is an operation available at the listed Azure resource provider in Service Fabric Mesh API resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# AvailableOperationDisplay
+# Explore Available Operation Display and its properties
 
 An operation available at the listed Azure resource provider.
 

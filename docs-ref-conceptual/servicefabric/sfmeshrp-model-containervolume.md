@@ -1,8 +1,8 @@
 ---
 title: "ContainerVolume"
-description: Service Fabric Mesh Resource Manager API Reference
+description: Learn how to leverage the container volume in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference

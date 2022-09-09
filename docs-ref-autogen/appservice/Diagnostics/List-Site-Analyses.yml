@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.diagnostics.listsiteanalyses
 name: List Site Analyses
 service: App Service
 groupName: Diagnostics
-apiVersion: 2021-02-01
-summary: Get Site Analyses
+apiVersion: 2022-03-01
+summary: Description for Get Site Analyses
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses?api-version=2021-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/sites/{siteName}/diagnostics/{diagnosticCategory}/analyses?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -155,7 +155,117 @@ definitions:
 examples:
 - name: List App Analyses
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/diagnostics/availability/analyses?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/diagnostics/availability/analyses?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/slots/Production/diagnostics/availability/analyses?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Diagnostics ListSiteAnalysesSlot. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalyses.json
+           */
+          /**
+           * Sample code: List App Analyses.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAppAnalyses(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getDiagnostics()
+                  .listSiteAnalysesSlot(
+                      "Sample-WestUSResourceGroup", "SampleApp", "availability", "Production", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalyses.json
+      func ExampleDiagnosticsClient_NewListSiteAnalysesSlotPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewDiagnosticsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListSiteAnalysesSlotPager("Sample-WestUSResourceGroup",
+      		"SampleApp",
+      		"availability",
+      		"Production",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get Site Analyses
+       *
+       * @summary Description for Get Site Analyses
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalyses.json
+       */
+      async function listAppAnalyses() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "Sample-WestUSResourceGroup";
+        const siteName = "SampleApp";
+        const diagnosticCategory = "availability";
+        const slot = "Production";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.diagnostics.listSiteAnalysesSlot(
+          resourceGroupName,
+          siteName,
+          diagnosticCategory,
+          slot
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAppAnalyses().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -200,7 +310,74 @@ examples:
       }
 - name: List App Slot Analyses
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/diagnostics/availability/analyses?api-version=2021-02-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/diagnostics/availability/analyses?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/Sample-WestUSResourceGroup/providers/Microsoft.Web/sites/SampleApp/slots/staging/diagnostics/availability/analyses?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Diagnostics ListSiteAnalysesSlot. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalysesSlot.json
+           */
+          /**
+           * Sample code: List App Slot Analyses.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listAppSlotAnalyses(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getDiagnostics()
+                  .listSiteAnalysesSlot("Sample-WestUSResourceGroup", "SampleApp", "availability", "staging", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get Site Analyses
+       *
+       * @summary Description for Get Site Analyses
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/Diagnostics_ListSiteAnalysesSlot.json
+       */
+      async function listAppSlotAnalyses() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "Sample-WestUSResourceGroup";
+        const siteName = "SampleApp";
+        const diagnosticCategory = "availability";
+        const slot = "staging";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.diagnostics.listSiteAnalysesSlot(
+          resourceGroupName,
+          siteName,
+          diagnosticCategory,
+          slot
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAppSlotAnalyses().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -253,5 +430,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get Site Analyses
+  description: >
+    Learn more about App Service service - Description for Get Site Analyses
 errorCodes: []

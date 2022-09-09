@@ -3,7 +3,7 @@ uid: storageservices.datalakestoragegen2.path.update
 name: Update
 service: Storage Services
 groupName: Path
-apiVersion: 2021-04-10
+apiVersion: 2021-10-04
 summary: "Append Data | Flush Data | Set Properties | Set Access Control  \nUploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets properties for a file or directory, or sets access control for a file or directory. Data can only be appended to a file. Concurrent writes to the same file using multiple clients are not supported. This operation supports conditional HTTP requests. For more information, see [Specifying Conditional Headers for Blob Service Operations](https://docs.microsoft.com/en-us/rest/api/storageservices/specifying-conditional-headers-for-blob-service-operations)."
 consumes:
 - application/octet-stream
@@ -12,7 +12,7 @@ produces:
 - application/json
 paths:
 - content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}
-- content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&close={close}&mode={mode}&maxRecords={maxRecords}&forceFlag={forceFlag}&continuation={continuation}&timeout={timeout}
+- content: PATCH https://{accountName}.{dnsSuffix}/{filesystem}/{path}?action={action}&position={position}&retainUncommittedData={retainUncommittedData}&close={close}&mode={mode}&maxRecords={maxRecords}&forceFlag={forceFlag}&continuation={continuation}&flush={flush}&timeout={timeout}
   isOptional: true
 uriParameters:
 - name: accountName
@@ -85,6 +85,11 @@ uriParameters:
   description: Optional and valid only for "setAccessControlRecursive" operation. The number of paths processed with each invocation is limited. If the number of paths to be processed exceeds this limit, a continuation token is returned in the response header x-ms-continuation. When a continuation token is returned in the response, it must be percent-encoded and specified in a subsequent invocation of setAccessControlRecursive operation.
   types:
   - uid: string
+- name: flush
+  in: query
+  description: Valid only for append calls. This parameter allows the caller to flush during an append call. Default value is "false" , if "true" the data will be flushed with the append call. Note that when using flush=true, the following headers are not supported - "x-ms-cache-control", "x-ms-content-encoding", "x-ms-content-type", "x-ms-content-language", "x-ms-content-md5", "x-ms-content-disposition". To set these headers during flush, please use action=flush
+  types:
+  - uid: boolean
 - name: timeout
   in: query
   description: An optional operation timeout value in seconds. The period begins when the request is received by the service. If the timeout value elapses before the operation completes, the operation fails.
@@ -129,6 +134,8 @@ responses:
   - name: 'x-ms-request-server-encrypted: true/false'
     value: boolean
   - name: x-ms-encryption-key-sha256
+    value: string
+  - name: x-ms-encryption-scope
     value: string
   description: The data was flushed (written) to the file or the properties were set successfully. Response body is optional and is valid only for "SetAccessControlRecursive"
   types:
@@ -351,7 +358,7 @@ requestHeader:
   - uid: string
 - name: x-ms-permissions
   in: header
-  description: Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read, write, or execute permission.  The sticky bit is also supported.  Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. Invalid in conjunction with x-ms-acl.
+  description: Optional and only valid if Hierarchical Namespace is enabled for the account. Sets POSIX access permissions for the file owner, the file owning group, and others. Each class may be granted read (4), write (2), or execute (1) permission. Both symbolic (rwxrw-rw-) and 4-digit octal notation (e.g. 0766) are supported. The sticky bit is also supported and in symbolic notation, its represented either by the letter t or T in the final character-place depending on whether the execution bit for the others category is set or unset respectively (e.g. rwxrw-rw- with sticky bit is represented as rwxrw-rwT. A rwxrw-rwx with sticky bit is represented as rwxrw-rwt), absence of t or T indicates sticky bit not set. In 4-digit octal notation, its represented by 1st digit (e.g. 1766 represents rwxrw-rw- with sticky bit and 0766 represents rwxrw-rw- without sticky bit). Invalid in conjunction with x-ms-acl.
   types:
   - uid: string
 - name: x-ms-acl
@@ -492,5 +499,5 @@ definitions:
 examples: []
 security: []
 metadata:
-  description: "Append Data | Flush Data | Set Properties | Set Access Control  \nUploads data to be appended to a file, flushes (writes) previously uploaded data to a file, set"
+  description: "Append Data | Flush Data | Set Properties | Set Access Control\nUploads data to be appended to a file, flushes (writes) previously uploaded data to a file, sets "
 errorCodes: []

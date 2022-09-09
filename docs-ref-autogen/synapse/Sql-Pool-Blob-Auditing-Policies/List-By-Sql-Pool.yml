@@ -247,6 +247,104 @@ examples:
 - name: List audit settings of a database
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Synapse/workspaces/blobauditingtest-2080/sqlPools/testdb/auditingSettings?api-version=2021-06-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/blobauditingtest-6852/providers/Microsoft.Synapse/workspaces/blobauditingtest-2080/sqlPools/testdb/auditingSettings?api-version=2021-06-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for SqlPoolBlobAuditingPolicies ListBySqlPool. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SqlPoolAuditingSettingsList.json
+           */
+          /**
+           * Sample code: List audit settings of a database.
+           *
+           * @param manager Entry point to SynapseManager.
+           */
+          public static void listAuditSettingsOfADatabase(com.azure.resourcemanager.synapse.SynapseManager manager) {
+              manager
+                  .sqlPoolBlobAuditingPolicies()
+                  .listBySqlPool("blobauditingtest-6852", "blobauditingtest-2080", "testdb", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-synapse_1.0.0-beta.6/sdk/synapse/azure-resourcemanager-synapse/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armsynapse_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/synapse/armsynapse"
+      )
+
+      // x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SqlPoolAuditingSettingsList.json
+      func ExampleSQLPoolBlobAuditingPoliciesClient_ListBySQLPool() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armsynapse.NewSQLPoolBlobAuditingPoliciesClient("<subscription-id>", cred, nil)
+      	pager := client.ListBySQLPool("<resource-group-name>",
+      		"<workspace-name>",
+      		"<sql-pool-name>",
+      		nil)
+      	for pager.NextPage(ctx) {
+      		if err := pager.Err(); err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range pager.PageResponse().Value {
+      			log.Printf("SQLPoolBlobAuditingPolicy.ID: %s\n", *v.ID)
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsynapse%2Farmsynapse%2Fv0.1.0/sdk/resourcemanager/synapse/armsynapse/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SynapseManagementClient } = require("@azure/arm-synapse");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists auditing settings of a Sql pool.
+       *
+       * @summary Lists auditing settings of a Sql pool.
+       * x-ms-original-file: specification/synapse/resource-manager/Microsoft.Synapse/stable/2021-06-01/examples/SqlPoolAuditingSettingsList.json
+       */
+      async function listAuditSettingsOfADatabase() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "blobauditingtest-6852";
+        const workspaceName = "blobauditingtest-2080";
+        const sqlPoolName = "testdb";
+        const credential = new DefaultAzureCredential();
+        const client = new SynapseManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.sqlPoolBlobAuditingPolicies.listBySqlPool(
+          resourceGroupName,
+          workspaceName,
+          sqlPoolName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listAuditSettingsOfADatabase().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -271,5 +369,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Lists auditing settings of a Sql pool.
+  description: >
+    Learn more about Synapse service - Lists auditing settings of a Sql pool.
 errorCodes: []

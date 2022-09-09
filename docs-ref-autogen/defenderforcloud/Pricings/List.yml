@@ -1,0 +1,382 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.defenderforcloud.pricings.list
+name: List
+service: Defender for Cloud
+groupName: Pricings
+apiVersion: 2022-03-01
+summary: Lists Microsoft Defender for Cloud pricing configurations in the subscription.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Security/pricings?api-version=2022-03-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Azure subscription ID
+  types:
+  - uid: string
+  pattern: ^[0-9A-Fa-f]{8}-([0-9A-Fa-f]{4}-){3}[0-9A-Fa-f]{12}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: API version for the operation
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PricingList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PricingList
+  description: List of pricing configurations response.
+  kind: object
+  properties:
+  - name: value
+    description: List of pricing configurations
+    types:
+    - uid: Pricing
+      isArray: true
+- name: CloudError
+  description: Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.).
+  kind: object
+  properties:
+  - name: error.code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: error.message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: error.target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: error.details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: error.additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Pricing
+  description: 'Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+  kind: object
+  properties:
+  - name: properties.pricingTier
+    description: 'The pricing tier value. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+    types:
+    - uid: pricingTier
+  - name: properties.subPlan
+    description: The sub-plan selected for a Standard pricing configuration, when more than one sub-plan is available. Each sub-plan enables a set of security features. When not specified, full plan is applied.
+    types:
+    - uid: string
+  - name: properties.freeTrialRemainingTime
+    isReadyOnly: true
+    description: The duration left for the subscriptions free trial period - in ISO 8601 format (e.g. P3Y6M4DT12H30M5S).
+    types:
+    - uid: string
+  - name: properties.deprecated
+    isReadyOnly: true
+    description: Optional. True if the plan is deprecated. If there are replacing plans they will appear in `replacedBy` property
+    types:
+    - uid: boolean
+  - name: properties.replacedBy
+    isReadyOnly: true
+    description: Optional. List of plans that replace this plan. This property exists only if this plan is deprecated.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Resource Id
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: Resource name
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Resource type
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: pricingTier
+  description: 'The pricing tier value. Microsoft Defender for Cloud is provided in two pricing tiers: free and standard, with the standard tier available with a trial period. The standard tier offers advanced security capabilities, while the free tier offers basic security features.'
+  kind: enum
+  properties:
+  - name: Free
+    description: Get free Microsoft Defender for Cloud experience with basic security features
+    types:
+    - uid: string
+  - name: Standard
+    description: Get the standard Microsoft Defender for Cloud experience with advanced security features
+    types:
+    - uid: string
+examples:
+- name: Get pricings on subscription
+  request:
+    uri: GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings?api-version=2022-03-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsecurity_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/security/armsecurity"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/security/resource-manager/Microsoft.Security/stable/2022-03-01/examples/Pricings/ListPricings_example.json
+      func ExamplePricingsClient_List() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsecurity.NewPricingsClient("20ff7fc3-e762-44dd-bd96-b71116dcdc23", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.List(ctx,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists Security Center pricing configurations in the subscription.
+       *
+       * @summary Lists Security Center pricing configurations in the subscription.
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2022-03-01/examples/Pricings/ListPricings_example.json
+       */
+      async function getPricingsOnSubscription() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const result = await client.pricings.list();
+        console.log(result);
+      }
+
+      getPricingsOnSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/VirtualMachines",
+            "name": "VirtualMachines",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S",
+              "subPlan": "P2"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/SqlServers",
+            "name": "SqlServers",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/AppServices",
+            "name": "AppServices",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/providers/Microsoft.Security/pricings/StorageAccounts",
+            "name": "StorageAccounts",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/SqlServerVirtualMachines",
+            "name": "SqlServerVirtualMachines",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/KubernetesService",
+            "name": "KubernetesService",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free",
+              "freeTrialRemainingTime": "PT0S",
+              "deprecated": true,
+              "replacedBy": [
+                "Containers"
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/ContainerRegistry",
+            "name": "ContainerRegistry",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free",
+              "freeTrialRemainingTime": "PT0S",
+              "deprecated": true,
+              "replacedBy": [
+                "Containers"
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/KeyVaults",
+            "name": "KeyVaults",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/Dns",
+            "name": "Dns",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/Arm",
+            "name": "Arm",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/OpenSourceRelationalDatabases",
+            "name": "OpenSourceRelationalDatabases",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Free",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          },
+          {
+            "id": "/subscriptions/d34fd44c-ebfa-4a9c-bceb-9eeafe72ac15/providers/Microsoft.Security/pricings/Containers",
+            "name": "Containers",
+            "type": "Microsoft.Security/pricings",
+            "properties": {
+              "pricingTier": "Standard",
+              "freeTrialRemainingTime": "PT0S"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Defender for Cloud service - Lists Microsoft Defender for Cloud pricing configurations in the subscription.
+errorCodes: []

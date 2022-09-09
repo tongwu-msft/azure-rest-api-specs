@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.serviceendpointpolicies.createorupdate
 name: Create Or Update
 service: ExpressRoute
 groupName: Service Endpoint Policies
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates or updates a service Endpoint Policies.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/serviceEndpointPolicies/{serviceEndpointPolicyName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -231,7 +231,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -349,6 +349,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -991,7 +995,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2686,11 +2690,119 @@ definitions:
 examples:
 - name: Create service endpoint policy
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2022-01-01
     body: >-
       {
         "location": "westus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2022-01-01
+
+      {
+        "location": "westus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyInner;
+
+      /** Samples for ServiceEndpointPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreate.json
+           */
+          /**
+           * Sample code: Create service endpoint policy.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createServiceEndpointPolicy(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getServiceEndpointPolicies()
+                  .createOrUpdate("rg1", "testPolicy", new ServiceEndpointPolicyInner().withLocation("westus"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreate.json
+      func ExampleServiceEndpointPoliciesClient_BeginCreateOrUpdate_serviceEndpointPolicyCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewServiceEndpointPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testPolicy", armnetwork.ServiceEndpointPolicy{
+      		Location: to.Ptr("westus"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a service Endpoint Policies.
+       *
+       * @summary Creates or updates a service Endpoint Policies.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreate.json
+       */
+      async function createServiceEndpointPolicy() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const serviceEndpointPolicyName = "testPolicy";
+        const parameters = { location: "westus" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serviceEndpointPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createServiceEndpointPolicy().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2722,7 +2834,7 @@ examples:
       }
 - name: Create service endpoint policy with definition
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2022-01-01
     body: >-
       {
         "location": "westus",
@@ -2743,6 +2855,178 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/serviceEndpointPolicies/testPolicy?api-version=2022-01-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "serviceEndpointPolicyDefinitions": [
+            {
+              "name": "StorageServiceEndpointPolicyDefinition",
+              "properties": {
+                "description": "Storage Service EndpointPolicy Definition",
+                "service": "Microsoft.Storage",
+                "serviceResources": [
+                  "/subscriptions/subid1",
+                  "/subscriptions/subid1/resourceGroups/storageRg",
+                  "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount"
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyDefinitionInner;
+      import com.azure.resourcemanager.network.fluent.models.ServiceEndpointPolicyInner;
+      import java.util.Arrays;
+
+      /** Samples for ServiceEndpointPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+           */
+          /**
+           * Sample code: Create service endpoint policy with definition.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createServiceEndpointPolicyWithDefinition(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getServiceEndpointPolicies()
+                  .createOrUpdate(
+                      "rg1",
+                      "testPolicy",
+                      new ServiceEndpointPolicyInner()
+                          .withLocation("westus")
+                          .withServiceEndpointPolicyDefinitions(
+                              Arrays
+                                  .asList(
+                                      new ServiceEndpointPolicyDefinitionInner()
+                                          .withName("StorageServiceEndpointPolicyDefinition")
+                                          .withDescription("Storage Service EndpointPolicy Definition")
+                                          .withService("Microsoft.Storage")
+                                          .withServiceResources(
+                                              Arrays
+                                                  .asList(
+                                                      "/subscriptions/subid1",
+                                                      "/subscriptions/subid1/resourceGroups/storageRg",
+                                                      "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount")))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+      func ExampleServiceEndpointPoliciesClient_BeginCreateOrUpdate_serviceEndpointPolicyCreateWithDefinition() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewServiceEndpointPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testPolicy", armnetwork.ServiceEndpointPolicy{
+      		Location: to.Ptr("westus"),
+      		Properties: &armnetwork.ServiceEndpointPolicyPropertiesFormat{
+      			ServiceEndpointPolicyDefinitions: []*armnetwork.ServiceEndpointPolicyDefinition{
+      				{
+      					Name: to.Ptr("StorageServiceEndpointPolicyDefinition"),
+      					Properties: &armnetwork.ServiceEndpointPolicyDefinitionPropertiesFormat{
+      						Description: to.Ptr("Storage Service EndpointPolicy Definition"),
+      						Service:     to.Ptr("Microsoft.Storage"),
+      						ServiceResources: []*string{
+      							to.Ptr("/subscriptions/subid1"),
+      							to.Ptr("/subscriptions/subid1/resourceGroups/storageRg"),
+      							to.Ptr("/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount")},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a service Endpoint Policies.
+       *
+       * @summary Creates or updates a service Endpoint Policies.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ServiceEndpointPolicyCreateWithDefinition.json
+       */
+      async function createServiceEndpointPolicyWithDefinition() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const serviceEndpointPolicyName = "testPolicy";
+        const parameters = {
+          location: "westus",
+          serviceEndpointPolicyDefinitions: [
+            {
+              name: "StorageServiceEndpointPolicyDefinition",
+              description: "Storage Service EndpointPolicy Definition",
+              service: "Microsoft.Storage",
+              serviceResources: [
+                "/subscriptions/subid1",
+                "/subscriptions/subid1/resourceGroups/storageRg",
+                "/subscriptions/subid1/resourceGroups/storageRg/providers/Microsoft.Storage/storageAccounts/stAccount",
+              ],
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.serviceEndpointPolicies.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serviceEndpointPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createServiceEndpointPolicyWithDefinition().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2808,5 +3092,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about ExpressRoute service - Creates or updates a service Endpoint Policies.
+  description: >
+    Learn more about ExpressRoute service - Creates or updates a service Endpoint Policies.
 errorCodes: []

@@ -171,6 +171,132 @@ examples:
           15001
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Cache/redis/cache1/forceReboot?api-version=2021-06-01
+
+      {
+        "shardId": 0,
+        "rebootType": "AllNodes",
+        "ports": [
+          13000,
+          15001
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.redis.models.RebootType;
+      import com.azure.resourcemanager.redis.models.RedisRebootParameters;
+      import java.util.Arrays;
+
+      /** Samples for Redis ForceReboot. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheForceReboot.json
+           */
+          /**
+           * Sample code: RedisCacheForceReboot.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void redisCacheForceReboot(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .redisCaches()
+                  .manager()
+                  .serviceClient()
+                  .getRedis()
+                  .forceRebootWithResponse(
+                      "rg1",
+                      "cache1",
+                      new RedisRebootParameters()
+                          .withRebootType(RebootType.ALL_NODES)
+                          .withShardId(0)
+                          .withPorts(Arrays.asList(13000, 15001)),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armredis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/redis/armredis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheForceReboot.json
+      func ExampleClient_ForceReboot() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armredis.NewClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ForceReboot(ctx,
+      		"rg1",
+      		"cache1",
+      		armredis.RebootParameters{
+      			Ports: []*int32{
+      				to.Ptr[int32](13000),
+      				to.Ptr[int32](15001)},
+      			RebootType: to.Ptr(armredis.RebootTypeAllNodes),
+      			ShardID:    to.Ptr[int32](0),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fredis%2Farmredis%2Fv1.0.0/sdk/resourcemanager/redis/armredis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RedisManagementClient } = require("@azure/arm-rediscache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
+       *
+       * @summary Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
+       * x-ms-original-file: specification/redis/resource-manager/Microsoft.Cache/stable/2021-06-01/examples/RedisCacheForceReboot.json
+       */
+      async function redisCacheForceReboot() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const name = "cache1";
+        const parameters = {
+          ports: [13000, 15001],
+          rebootType: "AllNodes",
+          shardId: 0,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new RedisManagementClient(credential, subscriptionId);
+        const result = await client.redis.forceReboot(resourceGroupName, name, parameters);
+        console.log(result);
+      }
+
+      redisCacheForceReboot().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-rediscache_6.1.0/sdk/redis/arm-rediscache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -187,5 +313,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
+  description: >
+    Reboot specified Redis node(s). This operation requires write permission to the cache resource. There can be potential data loss.
 errorCodes: []

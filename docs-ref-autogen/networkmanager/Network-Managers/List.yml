@@ -3,15 +3,15 @@ uid: management.azure.com.networkmanager.networkmanagers.list
 name: List
 service: Network Manager
 groupName: Network Managers
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: List network managers in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview&$top={$top}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers?api-version=2022-01-01&$top={$top}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -89,10 +89,6 @@ definitions:
     description: The system metadata related to this resource.
     types:
     - uid: SystemData
-  - name: properties.displayName
-    description: A friendly name for the network manager.
-    types:
-    - uid: string
   - name: properties.description
     description: A description of the network manager.
     types:
@@ -108,7 +104,7 @@ definitions:
       isArray: true
   - name: properties.provisioningState
     isReadyOnly: true
-    description: The provisioning state of the scope assignment resource.
+    description: The provisioning state of the network manager resource.
     types:
     - uid: ProvisioningState
   - name: id
@@ -200,6 +196,12 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: crossTenantScopes
+    isReadyOnly: true
+    description: List of cross tenant scopes.
+    types:
+    - uid: CrossTenantScopes
+      isArray: true
 - name: ProvisioningState
   description: The current provisioning state.
   kind: enum
@@ -232,10 +234,130 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: CrossTenantScopes
+  description: Cross tenant scopes.
+  kind: object
+  properties:
+  - name: tenantId
+    isReadyOnly: true
+    description: Tenant ID.
+    types:
+    - uid: string
+  - name: managementGroups
+    isReadyOnly: true
+    description: List of management groups.
+    types:
+    - uid: string
+      isArray: true
+  - name: subscriptions
+    isReadyOnly: true
+    description: List of subscriptions.
+    types:
+    - uid: string
+      isArray: true
 examples:
 - name: List Network Manager
   request:
-    uri: GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview
+    uri: GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subscriptionC/resourceGroups/rg1/providers/Microsoft.Network/networkManagers?api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for NetworkManagers ListByResourceGroup. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerList.json
+           */
+          /**
+           * Sample code: List Network Manager.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listNetworkManager(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getNetworkManagers()
+                  .listByResourceGroup("rg1", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerList.json
+      func ExampleManagersClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewManagersClient("subscriptionC", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("rg1", &armnetwork.ManagersClientListOptions{Top: nil,
+      		SkipToken: nil,
+      	})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List network managers in a resource group.
+       *
+       * @summary List network managers in a resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerList.json
+       */
+      async function listNetworkManager() {
+        const subscriptionId = "subscriptionC";
+        const resourceGroupName = "rg1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.networkManagers.list(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listNetworkManager().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -255,7 +377,6 @@ examples:
               "lastModifiedAt": "2021-01-11T18:52:27Z"
             },
             "properties": {
-              "displayName": "TestNetworkManager",
               "description": "My Test Network Manager",
               "networkManagerScopes": {
                 "managementGroups": [],
@@ -270,7 +391,7 @@ examples:
             }
           }
         ],
-        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers?api-version=2021-02-01-preview&$skipToken=10"
+        "nextLink": "{baseurl}/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers?api-version=2022-01-01&$skipToken=10"
       }
 security:
 - name: azure_auth
@@ -282,5 +403,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - List network managers in a resource group.
+  description: >
+    Learn more about Network Manager service - List network managers in a resource group.
 errorCodes: []

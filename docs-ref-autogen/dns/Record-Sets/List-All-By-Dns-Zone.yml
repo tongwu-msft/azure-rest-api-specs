@@ -341,6 +341,103 @@ examples:
 - name: List recordsets by zone
   request:
     uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/all?api-version=2018-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/dnsZones/zone1/all?api-version=2018-05-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for RecordSets ListAllByDnsZone. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListRecordSetsByZone.json
+           */
+          /**
+           * Sample code: List recordsets by zone.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listRecordsetsByZone(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .dnsZones()
+                  .manager()
+                  .serviceClient()
+                  .getRecordSets()
+                  .listAllByDnsZone("rg1", "zone1", null, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdns_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/dns/armdns"
+      )
+
+      // x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListRecordSetsByZone.json
+      func ExampleRecordSetsClient_ListAllByDNSZone() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client := armdns.NewRecordSetsClient("<subscription-id>", cred, nil)
+      	pager := client.ListAllByDNSZone("<resource-group-name>",
+      		"<zone-name>",
+      		&armdns.RecordSetsListAllByDNSZoneOptions{Top: nil,
+      			RecordSetNameSuffix: nil,
+      		})
+      	for pager.NextPage(ctx) {
+      		if err := pager.Err(); err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range pager.PageResponse().Value {
+      			log.Printf("RecordSet.ID: %s\n", *v.ID)
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdns%2Farmdns%2Fv0.1.0/sdk/resourcemanager/dns/armdns/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DnsManagementClient } = require("@azure/arm-dns");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all record sets in a DNS zone.
+       *
+       * @summary Lists all record sets in a DNS zone.
+       * x-ms-original-file: specification/dns/resource-manager/Microsoft.Network/stable/2018-05-01/examples/ListRecordSetsByZone.json
+       */
+      async function listRecordsetsByZone() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const zoneName = "zone1";
+        const credential = new DefaultAzureCredential();
+        const client = new DnsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.recordSets.listAllByDnsZone(resourceGroupName, zoneName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listRecordsetsByZone().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-dns_5.0.1/sdk/dns/arm-dns/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -405,5 +502,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about DNS service - Lists all record sets in a DNS zone.
+  description: >
+    Learn more about DNS service - Lists all record sets in a DNS zone.
 errorCodes: []

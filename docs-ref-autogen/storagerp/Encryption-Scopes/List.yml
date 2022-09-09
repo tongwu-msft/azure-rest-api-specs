@@ -146,6 +146,106 @@ examples:
 - name: StorageAccountEncryptionScopeList
   request:
     uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes?api-version=2021-09-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/resource-group-name/providers/Microsoft.Storage/storageAccounts/{storage-account-name}/encryptionScopes?api-version=2021-09-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for EncryptionScopes List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountEncryptionScopeList.json
+           */
+          /**
+           * Sample code: StorageAccountEncryptionScopeList.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void storageAccountEncryptionScopeList(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .storageAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getEncryptionScopes()
+                  .list("resource-group-name", "{storage-account-name}", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.17.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstorage_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storage/armstorage"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountEncryptionScopeList.json
+      func ExampleEncryptionScopesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstorage.NewEncryptionScopesClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("resource-group-name",
+      		"{storage-account-name}",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstorage%2Farmstorage%2Fv1.0.0/sdk/resourcemanager/storage/armstorage/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageManagementClient } = require("@azure/arm-storage");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the encryption scopes available under the specified storage account.
+       *
+       * @summary Lists all the encryption scopes available under the specified storage account.
+       * x-ms-original-file: specification/storage/resource-manager/Microsoft.Storage/stable/2021-09-01/examples/StorageAccountEncryptionScopeList.json
+       */
+      async function storageAccountEncryptionScopeList() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "resource-group-name";
+        const accountName = "{storage-account-name}";
+        const credential = new DefaultAzureCredential();
+        const client = new StorageManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.encryptionScopes.list(resourceGroupName, accountName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      storageAccountEncryptionScopeList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storage_17.2.1/sdk/storage/arm-storage/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -189,5 +289,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Storage Resource Provider service - Lists all the encryption scopes available under the specified storage account.
+  description: >
+    Learn more about Storage Resource Provider service - Lists all the encryption scopes available under the specified storage account.
 errorCodes: []

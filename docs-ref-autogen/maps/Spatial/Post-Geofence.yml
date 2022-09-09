@@ -3,13 +3,12 @@ uid: maps.spatial.postgeofence
 name: Post Geofence
 service: Maps
 groupName: Spatial
-apiVersion: "1.0"
+apiVersion: 2022-08-01
 summary: >-
-  **Search Geofence Post API**
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
-  **Applies to:** S1 Pricing tier.
 
-  The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence or set of fences. With POST call, you do not have to upload the fence data in advance, instead you supply the location of the object you are tracking in query parameters as well as the fence or set of fences data in post request body. See [Geofencing GeoJSON data](https://docs.microsoft.com/en-us/azure/azure-maps/geofence-geojson) for more details on the geofence data format. The response will contain information about the distance from the outer edge of the geofence. A negative value signifies that the  coordinate is inside of the fence while a positive value means that it is outside of the fence.<br><br>This API can be used for a variety of scenarios that include things like asset  tracking, fleet management, or setting up alerts for moving objects.
+  The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence or set of fences. With POST call, you do not have to upload the fence data in advance, instead you supply the location of the object you are tracking in query parameters as well as the fence or set of fences data in post request body. See [Geofencing GeoJSON data](https://docs.microsoft.com/azure/azure-maps/geofence-geojson) for more details on the geofence data format. The response will contain information about the distance from the outer edge of the geofence. A negative value signifies that the  coordinate is inside of the fence while a positive value means that it is outside of the fence.<br><br>This API can be used for a variety of scenarios that include things like asset  tracking, fleet management, or setting up alerts for moving objects.
 
 
   The API supports [integration with Event Grid](https://docs.microsoft.com/azure/azure-maps/azure-maps-event-grid-integration).  The isAsync parameter is used to enable integration with Event Grid (disabled by default).
@@ -17,14 +16,14 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}
-- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId={deviceId}&lat={lat}&lon={lon}&z={z}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
+- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=2022-08-01&deviceId={deviceId}&lat={lat}&lon={lon}
+- content: POST https://{geography}.atlas.microsoft.com/spatial/geofence/json?api-version=2022-08-01&deviceId={deviceId}&lat={lat}&lon={lon}&z={z}&userTime={userTime}&searchBuffer={searchBuffer}&isAsync={isAsync}&mode={mode}
   isOptional: true
 uriParameters:
 - name: geography
   in: path
   isRequired: true
-  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  description: Location of the Azure Maps Account. Valid values are us (East US, West Central US, West US 2) and eu (North Europe, West Europe). This parameter is required when a `udid` is supplied in the request. For example, if the Azure Maps Account is located in East US, only requests to us geography will be accepted.
   types:
   - uid: string
 - name: format
@@ -235,7 +234,7 @@ definitions:
     - uid: string
   - name: udId
     isReadyOnly: true
-    description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object. Please refer to  [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should  contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+    description: The unique id returned from [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object. Please refer to  [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should  contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
     types:
     - uid: string
   - name: geometryId
@@ -422,7 +421,7 @@ definitions:
 examples:
 - name: PostGeofence
   request:
-    uri: POST https://us.atlas.microsoft.com/spatial/geofence/json?api-version=1.0&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&userTime={userTime}&searchBuffer=50&isAsync=True&mode=EnterAndExit
+    uri: POST https://us.atlas.microsoft.com/spatial/geofence/json?api-version=2022-08-01&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&userTime={userTime}&searchBuffer=50&isAsync=True&mode=EnterAndExit
     body: >-
       {
         "type": "FeatureCollection",
@@ -517,6 +516,107 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://us.atlas.microsoft.com/spatial/geofence/json?api-version=2022-08-01&deviceId=unique_device_name_under_account&lat=48.36&lon=-124.63&userTime={userTime}&searchBuffer=50&isAsync=True&mode=EnterAndExit
+
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.13241226662022,
+                    47.61701140091722
+                  ],
+                  [
+                    -122.12810106940353,
+                    47.6169969269402
+                  ],
+                  [
+                    -122.12824948956276,
+                    47.61907683751349
+                  ],
+                  [
+                    -122.12833297981392,
+                    47.621929787055336
+                  ],
+                  [
+                    -122.12971398040168,
+                    47.62184100705295
+                  ],
+                  [
+                    -122.1318413862121,
+                    47.62195364373008
+                  ],
+                  [
+                    -122.13231034769727,
+                    47.61716332618121
+                  ],
+                  [
+                    -122.13241226662022,
+                    47.61701140091722
+                  ]
+                ]
+              ]
+            },
+            "properties": {
+              "geometryId": "2",
+              "name": "Crossroad Mall"
+            }
+          },
+          {
+            "type": "Feature",
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -122.1534220563239,
+                    47.60981818546625
+                  ],
+                  [
+                    -122.153451623509,
+                    47.60628733146004
+                  ],
+                  [
+                    -122.14971782206638,
+                    47.606250040787046
+                  ],
+                  [
+                    -122.14817354810637,
+                    47.606391046012305
+                  ],
+                  [
+                    -122.1482735128807,
+                    47.60983316796356
+                  ],
+                  [
+                    -122.15225500989803,
+                    47.60982613678752
+                  ],
+                  [
+                    -122.1534220563239,
+                    47.60981818546625
+                  ]
+                ]
+              ]
+            },
+            "properties": {
+              "geometryId": "1",
+              "name": "Sammamish High school"
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -558,7 +658,7 @@ security:
      With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
 
      For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
-  in: query
+  in: header
 - name: SAS Token
   type: apiKey
   description: >-
@@ -570,9 +670,7 @@ security:
   in: header
 metadata:
   description: >-
-    **Search Geofence Post API**
+    Applies to: see pricing tiers.
 
-    **Applies to:** S1 Pricing tier.
-
-    The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence
+    The Geofence Post API allows you to retrieve the proximity of a coordinate to a  provided geofence or set of fences.
 errorCodes: []

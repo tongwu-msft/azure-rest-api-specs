@@ -973,6 +973,132 @@ examples:
           "enabledState": "Enabled"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1?api-version=2019-05-01
+
+      {
+        "location": "westus",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "routingRules": [
+            {
+              "name": "routingRule1",
+              "properties": {
+                "frontendEndpoints": [
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/frontendEndpoint1"
+                  },
+                  {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/frontendEndpoints/default"
+                  }
+                ],
+                "acceptedProtocols": [
+                  "Http"
+                ],
+                "patternsToMatch": [
+                  "/*"
+                ],
+                "routeConfiguration": {
+                  "@odata.type": "#Microsoft.Azure.FrontDoor.Models.FrontdoorForwardingConfiguration",
+                  "backendPool": {
+                    "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/backendPools/backendPool1"
+                  }
+                },
+                "enabledState": "Enabled"
+              }
+            }
+          ],
+          "healthProbeSettings": [
+            {
+              "name": "healthProbeSettings1",
+              "properties": {
+                "path": "/",
+                "protocol": "Http",
+                "intervalInSeconds": 120,
+                "enabledState": "Enabled",
+                "healthProbeMethod": "HEAD"
+              }
+            }
+          ],
+          "loadBalancingSettings": [
+            {
+              "name": "loadBalancingSettings1",
+              "properties": {
+                "sampleSize": 4,
+                "successfulSamplesRequired": 2
+              }
+            }
+          ],
+          "backendPools": [
+            {
+              "name": "backendPool1",
+              "properties": {
+                "backends": [
+                  {
+                    "address": "w3.contoso.com",
+                    "httpPort": 80,
+                    "httpsPort": 443,
+                    "weight": 1,
+                    "priority": 2
+                  },
+                  {
+                    "address": "contoso.com.website-us-west-2.othercloud.net",
+                    "httpPort": 80,
+                    "httpsPort": 443,
+                    "weight": 2,
+                    "priority": 1
+                  },
+                  {
+                    "address": "contoso1.azurewebsites.net",
+                    "httpPort": 80,
+                    "httpsPort": 443,
+                    "weight": 1,
+                    "priority": 1
+                  }
+                ],
+                "loadBalancingSettings": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/loadBalancingSettings/loadBalancingSettings1"
+                },
+                "healthProbeSettings": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoors/frontDoor1/healthProbeSettings/healthProbeSettings1"
+                }
+              }
+            }
+          ],
+          "frontendEndpoints": [
+            {
+              "name": "frontendEndpoint1",
+              "properties": {
+                "hostName": "www.contoso.com",
+                "sessionAffinityEnabledState": "Enabled",
+                "sessionAffinityTtlSeconds": 60,
+                "webApplicationFirewallPolicyLink": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/frontDoorWebApplicationFirewallPolicies/policy1"
+                }
+              }
+            },
+            {
+              "name": "default",
+              "properties": {
+                "hostName": "frontDoor1.azurefd.net"
+              }
+            }
+          ],
+          "backendPoolsSettings": {
+            "enforceCertificateNameCheck": "Enabled",
+            "sendRecvTimeoutSeconds": 60
+          },
+          "enabledState": "Enabled"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -1389,5 +1515,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Front Door Service service - Creates a new Front Door with a Front Door name under the specified subscription and resource group.
+  description: >
+    Creates a new Front Door with a Front Door name under the specified subscription and resource group.
 errorCodes: []

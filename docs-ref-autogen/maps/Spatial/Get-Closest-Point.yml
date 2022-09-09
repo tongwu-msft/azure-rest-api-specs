@@ -3,27 +3,27 @@ uid: maps.spatial.getclosestpoint
 name: Get Closest Point
 service: Maps
 groupName: Spatial
-apiVersion: "1.0"
+apiVersion: 2022-08-01
 summary: >-
-  **Applies to**: S1 pricing tier.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
-  This API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udid. The set of target points is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may only contain a collection of Point geometry. MultiPoint or other geometries will be ignored if provided. The maximum number of points accepted is 100,000. The algorithm does not take into account routing or traffic. Information returned includes closest point latitude, longitude, and distance in meters from the closest point.
+  This API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udid. The set of target points is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may only contain a collection of Point geometry. MultiPoint or other geometries will be ignored if provided. The maximum number of points accepted is 100,000. The algorithm does not take into account routing or traffic. Information returned includes closest point latitude, longitude, and distance in meters from the closest point.
 
 
-  To test this API, you can upload the sample data from [Post Closest Point API](https://docs.microsoft.com/en-us/rest/api/maps/spatial/postclosestpoint#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/en-us/rest/api/maps/spatial/getclosestpoint#examples) with the udid returned by Data Upload API.
+  To test this API, you can upload the sample data from [Post Closest Point API](https://docs.microsoft.com/rest/api/maps/spatial/postclosestpoint#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/rest/api/maps/spatial/getclosestpoint#examples) with the udid returned by Data Upload API.
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}
-- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
+- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=2022-08-01&udid={udid}&lat={lat}&lon={lon}
+- content: GET https://{geography}.atlas.microsoft.com/spatial/closestPoint/json?api-version=2022-08-01&udid={udid}&lat={lat}&lon={lon}&numberOfClosestPoints={numberOfClosestPoints}
   isOptional: true
 uriParameters:
 - name: geography
   in: path
   isRequired: true
-  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  description: Location of the Azure Maps Account. Valid values are us (East US, West Central US, West US 2) and eu (North Europe, West Europe). This parameter is required when a `udid` is supplied in the request. For example, if the Azure Maps Account is located in East US, only requests to us geography will be accepted.
   types:
   - uid: string
 - name: format
@@ -41,7 +41,7 @@ uriParameters:
 - name: udid
   in: query
   isRequired: true
-  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/en-us/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
   types:
   - uid: string
 - name: lat
@@ -203,7 +203,13 @@ definitions:
 examples:
 - name: GetClosestPoint
   request:
-    uri: GET https://us.atlas.microsoft.com/spatial/closestPoint/json?api-version=1.0&udid=[udid]&lat=47.622942&lon=-122.316456
+    uri: GET https://us.atlas.microsoft.com/spatial/closestPoint/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://us.atlas.microsoft.com/spatial/closestPoint/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -213,7 +219,7 @@ examples:
             "lat": 47.622942,
             "lon": -122.316456
           },
-          "udid": "[udid from request]",
+          "udid": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
           "information": "10 points processed in user data"
         },
         "result": [
@@ -244,7 +250,7 @@ security:
      With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
 
      For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
-  in: query
+  in: header
 - name: SAS Token
   type: apiKey
   description: >-
@@ -255,5 +261,8 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: "**Applies to**: S1 pricing tier.\n\nThis API returns the closest point between a base point and a given set of points in the user uploaded data set identified by "
+  description: >-
+    Applies to: see pricing tiers.
+
+    This API returns the closest point between a base point and a given set of points in the user uploaded data set identified by udi
 errorCodes: []

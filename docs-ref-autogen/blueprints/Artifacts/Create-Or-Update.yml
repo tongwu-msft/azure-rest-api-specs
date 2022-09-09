@@ -488,6 +488,65 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
+
+      {
+        "kind": "template",
+        "properties": {
+          "template": {
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "storageAccountType": {
+                "type": "string",
+                "defaultValue": "Standard_LRS",
+                "allowedValues": [
+                  "Standard_LRS",
+                  "Standard_GRS",
+                  "Standard_ZRS",
+                  "Premium_LRS"
+                ],
+                "metadata": {
+                  "description": "Storage Account type"
+                }
+              }
+            },
+            "variables": {
+              "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[variables('storageAccountName')]",
+                "apiVersion": "2016-01-01",
+                "location": "[resourceGroup().location]",
+                "sku": {
+                  "name": "[parameters('storageAccountType')]"
+                },
+                "kind": "Storage",
+                "properties": {}
+              }
+            ],
+            "outputs": {
+              "storageAccountName": {
+                "type": "string",
+                "value": "[variables('storageAccountName')]"
+              }
+            }
+          },
+          "resourceGroup": "storageRG",
+          "parameters": {
+            "storageAccountType": {
+              "value": "[parameters('storageAccountType')]"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -564,6 +623,29 @@ examples:
         },
         "kind": "policyAssignment"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
+
+      {
+        "properties": {
+          "displayName": "force costCenter tag on all resources",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62",
+          "parameters": {
+            "tagName": {
+              "value": "costCenter"
+            },
+            "tagValue": {
+              "value": "[parameter('costCenter')]"
+            }
+          }
+        },
+        "kind": "policyAssignment"
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -597,6 +679,22 @@ examples:
         },
         "kind": "roleAssignment"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
+
+      {
+        "properties": {
+          "displayName": "enforce owners of given subscription",
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "principalIds": "[parameters('owners')]"
+        },
+        "kind": "roleAssignment"
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -666,6 +764,152 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/storageTemplate?api-version=2018-11-01-preview
+
+      {
+        "kind": "template",
+        "properties": {
+          "template": {
+            "contentVersion": "1.0.0.0",
+            "parameters": {
+              "storageAccountType": {
+                "type": "string",
+                "defaultValue": "Standard_LRS",
+                "allowedValues": [
+                  "Standard_LRS",
+                  "Standard_GRS",
+                  "Standard_ZRS",
+                  "Premium_LRS"
+                ],
+                "metadata": {
+                  "description": "Storage Account type"
+                }
+              }
+            },
+            "variables": {
+              "storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]"
+            },
+            "resources": [
+              {
+                "type": "Microsoft.Storage/storageAccounts",
+                "name": "[variables('storageAccountName')]",
+                "apiVersion": "2016-01-01",
+                "location": "[resourceGroup().location]",
+                "sku": {
+                  "name": "[parameters('storageAccountType')]"
+                },
+                "kind": "Storage",
+                "properties": {}
+              }
+            ],
+            "outputs": {
+              "storageAccountName": {
+                "type": "string",
+                "value": "[variables('storageAccountName')]"
+              }
+            }
+          },
+          "resourceGroup": "storageRG",
+          "parameters": {
+            "storageAccountType": {
+              "value": "[parameters('storageAccountType')]"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armblueprint_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/blueprint/armblueprint"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/blueprint/resource-manager/Microsoft.Blueprint/preview/2018-11-01-preview/examples/managementGroupBPDef/ARMTemplateArtifact_Create.json
+      func ExampleArtifactsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armblueprint.NewArtifactsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	_, err = client.CreateOrUpdate(ctx,
+      		"providers/Microsoft.Management/managementGroups/ContosoOnlineGroup",
+      		"simpleBlueprint",
+      		"storageTemplate",
+      		&armblueprint.TemplateArtifact{
+      			Kind: to.Ptr(armblueprint.ArtifactKindTemplate),
+      			Properties: &armblueprint.TemplateArtifactProperties{
+      				Parameters: map[string]*armblueprint.ParameterValue{
+      					"storageAccountType": {
+      						Value: "[parameters('storageAccountType')]",
+      					},
+      				},
+      				ResourceGroup: to.Ptr("storageRG"),
+      				Template: map[string]interface{}{
+      					"contentVersion": "1.0.0.0",
+      					"outputs": map[string]interface{}{
+      						"storageAccountName": map[string]interface{}{
+      							"type":  "string",
+      							"value": "[variables('storageAccountName')]",
+      						},
+      					},
+      					"parameters": map[string]interface{}{
+      						"storageAccountType": map[string]interface{}{
+      							"type": "string",
+      							"allowedValues": []interface{}{
+      								"Standard_LRS",
+      								"Standard_GRS",
+      								"Standard_ZRS",
+      								"Premium_LRS",
+      							},
+      							"defaultValue": "Standard_LRS",
+      							"metadata": map[string]interface{}{
+      								"description": "Storage Account type",
+      							},
+      						},
+      					},
+      					"resources": []interface{}{
+      						map[string]interface{}{
+      							"name":       "[variables('storageAccountName')]",
+      							"type":       "Microsoft.Storage/storageAccounts",
+      							"apiVersion": "2016-01-01",
+      							"kind":       "Storage",
+      							"location":   "[resourceGroup().location]",
+      							"properties": map[string]interface{}{},
+      							"sku": map[string]interface{}{
+      								"name": "[parameters('storageAccountType')]",
+      							},
+      						},
+      					},
+      					"variables": map[string]interface{}{
+      						"storageAccountName": "[concat(uniquestring(resourceGroup().id), 'standardsa')]",
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fblueprint%2Farmblueprint%2Fv0.5.0/sdk/resourcemanager/blueprint/armblueprint/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -742,6 +986,29 @@ examples:
         },
         "kind": "policyAssignment"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/costCenterPolicy?api-version=2018-11-01-preview
+
+      {
+        "properties": {
+          "displayName": "force costCenter tag on all resources",
+          "policyDefinitionId": "/providers/Microsoft.Authorization/policyDefinitions/1e30110a-5ceb-460c-a204-c1c3969c6d62",
+          "parameters": {
+            "tagName": {
+              "value": "costCenter"
+            },
+            "tagValue": {
+              "value": "[parameter('costCenter')]"
+            }
+          }
+        },
+        "kind": "policyAssignment"
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -775,6 +1042,22 @@ examples:
         },
         "kind": "roleAssignment"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/ContosoOnlineGroup/providers/Microsoft.Blueprint/blueprints/simpleBlueprint/artifacts/ownerAssignment?api-version=2018-11-01-preview
+
+      {
+        "properties": {
+          "displayName": "enforce owners of given subscription",
+          "roleDefinitionId": "/providers/Microsoft.Authorization/roleDefinitions/acdd72a7-3385-48ef-bd42-f606fba81ae7",
+          "principalIds": "[parameters('owners')]"
+        },
+        "kind": "roleAssignment"
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     body: >-
@@ -799,5 +1082,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Blueprints service - Create or update blueprint artifact.
+  description: >
+    Learn more about Blueprints service - Create or update blueprint artifact.
 errorCodes: []

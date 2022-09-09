@@ -1,8 +1,8 @@
 ---
-title: "DiagnosticsDescription"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how you can use diagnostics description"
+description: Learn how to leverage diagnostics description in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# DiagnosticsDescription
+# Explore diagnostics description options
 
 Describes the diagnostics options available
 

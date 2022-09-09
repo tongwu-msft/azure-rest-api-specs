@@ -160,6 +160,131 @@ examples:
           "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.DBforPostgreSQL/servers/vnet-test-svr/virtualNetworkRules/vnet-firewall-rule?api-version=2017-12-01
+
+      {
+        "properties": {
+          "ignoreMissingVnetServiceEndpoint": false,
+          "virtualNetworkSubnetId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for VirtualNetworkRules CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/VirtualNetworkRulesCreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or update a virtual network rule.
+           *
+           * @param manager Entry point to PostgreSqlManager.
+           */
+          public static void createOrUpdateAVirtualNetworkRule(
+              com.azure.resourcemanager.postgresql.PostgreSqlManager manager) {
+              manager
+                  .virtualNetworkRules()
+                  .define("vnet-firewall-rule")
+                  .withExistingServer("TestGroup", "vnet-test-svr")
+                  .withVirtualNetworkSubnetId(
+                      "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet")
+                  .withIgnoreMissingVnetServiceEndpoint(false)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-postgresql_1.0.2/sdk/postgresql/azure-resourcemanager-postgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpostgresql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/VirtualNetworkRulesCreateOrUpdate.json
+      func ExampleVirtualNetworkRulesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpostgresql.NewVirtualNetworkRulesClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"TestGroup",
+      		"vnet-test-svr",
+      		"vnet-firewall-rule",
+      		armpostgresql.VirtualNetworkRule{
+      			Properties: &armpostgresql.VirtualNetworkRuleProperties{
+      				IgnoreMissingVnetServiceEndpoint: to.Ptr(false),
+      				VirtualNetworkSubnetID:           to.Ptr("/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpostgresql%2Farmpostgresql%2Fv1.0.0/sdk/resourcemanager/postgresql/armpostgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PostgreSQLManagementClient } = require("@azure/arm-postgresql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an existing virtual network rule.
+       *
+       * @summary Creates or updates an existing virtual network rule.
+       * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2017-12-01/examples/VirtualNetworkRulesCreateOrUpdate.json
+       */
+      async function createOrUpdateAVirtualNetworkRule() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "TestGroup";
+        const serverName = "vnet-test-svr";
+        const virtualNetworkRuleName = "vnet-firewall-rule";
+        const parameters = {
+          ignoreMissingVnetServiceEndpoint: false,
+          virtualNetworkSubnetId:
+            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/TestGroup/providers/Microsoft.Network/virtualNetworks/testvnet/subnets/testsubnet",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PostgreSQLManagementClient(credential, subscriptionId);
+        const result = await client.virtualNetworkRules.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          virtualNetworkRuleName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAVirtualNetworkRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-postgresql_6.0.1/sdk/postgresql/arm-postgresql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -194,5 +319,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about PostgreSQL service - Creates or updates an existing virtual network rule.
+  description: >
+    Learn more about PostgreSQL service - Creates or updates an existing virtual network rule.
 errorCodes: []

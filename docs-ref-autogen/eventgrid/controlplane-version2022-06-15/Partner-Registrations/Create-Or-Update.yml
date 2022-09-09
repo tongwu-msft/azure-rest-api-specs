@@ -209,6 +209,144 @@ examples:
           "key3": "Value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerRegistrations/examplePartnerRegistrationName1?api-version=2022-06-15
+
+      {
+        "location": "global",
+        "tags": {
+          "key1": "value1",
+          "key2": "Value2",
+          "key3": "Value3"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PartnerRegistrations CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerRegistrations_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: PartnerRegistrations_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void partnerRegistrationsCreateOrUpdate(
+              com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .partnerRegistrations()
+                  .define("examplePartnerRegistrationName1")
+                  .withRegion("global")
+                  .withExistingResourceGroup("examplerg")
+                  .withTags(mapOf("key1", "value1", "key2", "Value2", "key3", "Value3"))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.3/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerRegistrations_CreateOrUpdate.json
+      func ExamplePartnerRegistrationsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewPartnerRegistrationsClient("5b4b650e-28b9-4790-b3ab-ddbd88d727c4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"examplerg",
+      		"examplePartnerRegistrationName1",
+      		armeventgrid.PartnerRegistration{
+      			Location: to.Ptr("global"),
+      			Tags: map[string]*string{
+      				"key1": to.Ptr("value1"),
+      				"key2": to.Ptr("Value2"),
+      				"key3": to.Ptr("Value3"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv2.0.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { EventGridManagementClient } = require("@azure/arm-eventgrid");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new partner registration with the specified parameters.
+       *
+       * @summary Creates a new partner registration with the specified parameters.
+       * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/stable/2022-06-15/examples/PartnerRegistrations_CreateOrUpdate.json
+       */
+      async function partnerRegistrationsCreateOrUpdate() {
+        const subscriptionId = "5b4b650e-28b9-4790-b3ab-ddbd88d727c4";
+        const resourceGroupName = "examplerg";
+        const partnerRegistrationName = "examplePartnerRegistrationName1";
+        const partnerRegistrationInfo = {
+          location: "global",
+          tags: { key1: "value1", key2: "Value2", key3: "Value3" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new EventGridManagementClient(credential, subscriptionId);
+        const result = await client.partnerRegistrations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          partnerRegistrationName,
+          partnerRegistrationInfo
+        );
+        console.log(result);
+      }
+
+      partnerRegistrationsCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-eventgrid_14.0.0/sdk/eventgrid/arm-eventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -246,5 +384,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Event Grid service - Create a partner registration.  \nCreates a new partner registration with the specified parameters."
+  description: >
+    Learn more about Event Grid service - Create a partner registration.
+
+    Creates a new partner registration with the specified parameters.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.azurespringapps.apps.update
 name: Update
 service: Azure Spring Apps
 groupName: Apps
-apiVersion: 2022-05-01-preview
+apiVersion: 2022-09-01-preview
 summary: Operation to update an exiting App.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-05-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AppPlatform/Spring/{serviceName}/apps/{appName}?api-version=2022-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -102,6 +102,7 @@ definitions:
     types:
     - uid: AppResourceProvisioningState
   - name: fqdn
+    isReadyOnly: true
     description: Fully qualified dns Name.
     types:
     - uid: string
@@ -137,6 +138,10 @@ definitions:
     description: Additional App settings in vnet injection instance
     types:
     - uid: AppVNetAddons
+  - name: ingressSettings
+    description: App ingress settings payload.
+    types:
+    - uid: IngressSettings
 - name: ManagedIdentityProperties
   description: Managed identity properties retrieved from ARM request headers.
   kind: object
@@ -322,6 +327,34 @@ definitions:
     description: URL of the App in vnet injection instance which could be accessed from internet
     types:
     - uid: string
+- name: IngressSettings
+  description: App ingress settings payload.
+  kind: object
+  properties:
+  - name: readTimeoutInSeconds
+    description: Ingress read time out in seconds.
+    types:
+    - uid: integer
+  - name: sendTimeoutInSeconds
+    description: Ingress send time out in seconds.
+    types:
+    - uid: integer
+  - name: sessionAffinity
+    description: Type of the affinity, set this to Cookie to enable session affinity.
+    types:
+    - uid: SessionAffinity
+  - name: sessionCookieMaxAge
+    description: Time in seconds until the cookie expires.
+    types:
+    - uid: integer
+  - name: backendProtocol
+    description: How ingress should communicate with this app backend service.
+    types:
+    - uid: BackendProtocol
+  - name: clientAuth
+    description: Client-Certification Authentication.
+    types:
+    - uid: ClientAuth
 - name: ManagedIdentityType
   description: Type of the managed identity
   kind: enum
@@ -405,6 +438,35 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: SessionAffinity
+  description: Type of the affinity, set this to Cookie to enable session affinity.
+  kind: enum
+  properties:
+  - name: Cookie
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
+- name: BackendProtocol
+  description: How ingress should communicate with this app backend service.
+  kind: enum
+  properties:
+  - name: GRPC
+    types:
+    - uid: string
+  - name: Default
+    types:
+    - uid: string
+- name: ClientAuth
+  description: Client-Certification Authentication.
+  kind: object
+  properties:
+  - name: certificates
+    description: Collection of certificate resource id.
+    types:
+    - uid: string
+      isArray: true
 - name: AzureFileVolume
   description: The properties of the Azure File volume. Azure File shares are mounted as volumes.
   kind: object
@@ -434,12 +496,11 @@ definitions:
 examples:
 - name: Apps_Update
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "temporaryDisk": {
@@ -479,6 +540,56 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
+
+      {
+        "properties": {
+          "public": true,
+          "httpsOnly": false,
+          "enableEndToEndTLS": false,
+          "temporaryDisk": {
+            "sizeInGB": 2,
+            "mountPath": "/mytemporarydisk"
+          },
+          "persistentDisk": {
+            "sizeInGB": 2,
+            "mountPath": "/mypersistentdisk"
+          },
+          "customPersistentDisks": [
+            {
+              "customPersistentDiskProperties": {
+                "type": "AzureFileVolume",
+                "mountPath": "/mypath1/mypath2",
+                "mountOptions": [],
+                "shareName": "myFileShare"
+              },
+              "storageId": "myASCStorageID"
+            }
+          ]
+        },
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "principalId": null,
+          "tenantId": null,
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": null,
+              "principalId": null
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": null,
+              "principalId": null
+            }
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -542,9 +653,9 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-05-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-09-01-preview
     - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-05-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
@@ -605,12 +716,11 @@ examples:
       }
 - name: Apps_Update_VNetInjection
   request:
-    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-05-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
           "public": true,
-          "fqdn": "myapp.private.mydomain.com",
           "httpsOnly": false,
           "enableEndToEndTLS": false,
           "vnetAddons": {
@@ -653,6 +763,59 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/Spring/myservice/apps/myapp?api-version=2022-09-01-preview
+
+      {
+        "properties": {
+          "public": true,
+          "httpsOnly": false,
+          "enableEndToEndTLS": false,
+          "vnetAddons": {
+            "publicEndpoint": true
+          },
+          "temporaryDisk": {
+            "sizeInGB": 2,
+            "mountPath": "/mytemporarydisk"
+          },
+          "persistentDisk": {
+            "sizeInGB": 2,
+            "mountPath": "/mypersistentdisk"
+          },
+          "customPersistentDisks": [
+            {
+              "customPersistentDiskProperties": {
+                "type": "AzureFileVolume",
+                "mountPath": "/mypath1/mypath2",
+                "mountOptions": [],
+                "shareName": "myFileShare"
+              },
+              "storageId": "myASCStorageID"
+            }
+          ]
+        },
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "principalId": null,
+          "tenantId": null,
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {
+              "clientId": null,
+              "principalId": null
+            },
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/samplegroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id2": {
+              "clientId": null,
+              "principalId": null
+            }
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -720,9 +883,9 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-05-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationStatus/default/operationId/00000000-0000-0000-0000-000000000000?api-version=2022-09-01-preview
     - name: Azure-AsyncOperation
-      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-05-01-preview
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.AppPlatform/locations/eastus/operationResults/00000000-0000-0000-0000-000000000000/Spring/default?api-version=2022-09-01-preview
     body: >-
       {
         "properties": {
@@ -795,5 +958,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Spring Apps service - Operation to update an exiting App.
+  description: >
+    Learn more about Azure Spring Apps service - Operation to update an exiting App.
 errorCodes: []

@@ -2237,6 +2237,162 @@ examples:
           "priority": "High"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contosoresources/providers/Microsoft.Media/mediaServices/contosomedia/transforms/exampleTransform/jobs/job1?api-version=2021-11-01
+
+      {
+        "properties": {
+          "description": "Example job to illustrate update.",
+          "input": {
+            "@odata.type": "#Microsoft.Media.JobInputAsset",
+            "assetName": "job1-InputAsset"
+          },
+          "outputs": [
+            {
+              "@odata.type": "#Microsoft.Media.JobOutputAsset",
+              "assetName": "job1-OutputAsset"
+            }
+          ],
+          "priority": "High"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mediaservices.models.Job;
+      import com.azure.resourcemanager.mediaservices.models.JobInputAsset;
+      import com.azure.resourcemanager.mediaservices.models.JobOutputAsset;
+      import com.azure.resourcemanager.mediaservices.models.Priority;
+      import java.util.Arrays;
+
+      /** Samples for Jobs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-update.json
+           */
+          /**
+           * Sample code: Update a Job.
+           *
+           * @param manager Entry point to MediaServicesManager.
+           */
+          public static void updateAJob(com.azure.resourcemanager.mediaservices.MediaServicesManager manager) {
+              Job resource =
+                  manager
+                      .jobs()
+                      .getWithResponse("contosoresources", "contosomedia", "exampleTransform", "job1", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withDescription("Example job to illustrate update.")
+                  .withInput(new JobInputAsset().withAssetName("job1-InputAsset"))
+                  .withOutputs(Arrays.asList(new JobOutputAsset().withAssetName("job1-OutputAsset")))
+                  .withPriority(Priority.HIGH)
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mediaservices_2.1.0/sdk/mediaservices/azure-resourcemanager-mediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-update.json
+      func ExampleJobsClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewJobsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx, "contosoresources", "contosomedia", "exampleTransform", "job1", armmediaservices.Job{
+      		Properties: &armmediaservices.JobProperties{
+      			Description: to.Ptr("Example job to illustrate update."),
+      			Input: &armmediaservices.JobInputAsset{
+      				ODataType: to.Ptr("#Microsoft.Media.JobInputAsset"),
+      				AssetName: to.Ptr("job1-InputAsset"),
+      			},
+      			Outputs: []armmediaservices.JobOutputClassification{
+      				&armmediaservices.JobOutputAsset{
+      					ODataType: to.Ptr("#Microsoft.Media.JobOutputAsset"),
+      					AssetName: to.Ptr("job1-OutputAsset"),
+      				}},
+      			Priority: to.Ptr(armmediaservices.PriorityHigh),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update is only supported for description and priority. Updating Priority will take effect when the Job state is Queued or Scheduled and depending on the timing the priority update may be ignored.
+       *
+       * @summary Update is only supported for description and priority. Updating Priority will take effect when the Job state is Queued or Scheduled and depending on the timing the priority update may be ignored.
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2021-11-01/examples/jobs-update.json
+       */
+      async function updateAJob() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contosoresources";
+        const accountName = "contosomedia";
+        const transformName = "exampleTransform";
+        const jobName = "job1";
+        const parameters = {
+          description: "Example job to illustrate update.",
+          input: {
+            odataType: "#Microsoft.Media.JobInputAsset",
+            assetName: "job1-InputAsset",
+          },
+          outputs: [
+            {
+              odataType: "#Microsoft.Media.JobOutputAsset",
+              assetName: "job1-OutputAsset",
+            },
+          ],
+          priority: "High",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.jobs.update(
+          resourceGroupName,
+          accountName,
+          transformName,
+          jobName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateAJob().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2283,5 +2439,5 @@ examples:
       }
 security: []
 metadata:
-  description: "Update Job  \nUpdate is only supported for description and priority. Updating Priority will take effect when the Job state is Queued or Scheduled and depending o"
+  description: "Update Job\nUpdate is only supported for description and priority. Updating Priority will take effect when the Job state is Queued or Scheduled and depending on "
 errorCodes: []

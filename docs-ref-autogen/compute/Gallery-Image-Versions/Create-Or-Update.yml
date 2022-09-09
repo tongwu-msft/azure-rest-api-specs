@@ -626,6 +626,253 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using managed image as source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingManagedImageAsSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -904,6 +1151,267 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryDataDiskImage;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.GalleryOSDiskImage;
+      import com.azure.resourcemanager.compute.models.HostCaching;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using snapshots as a source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withOsDiskImage(
+                                      new GalleryOSDiskImage()
+                                          .withHostCaching(HostCaching.READ_ONLY)
+                                          .withSource(
+                                              new GalleryArtifactVersionSource()
+                                                  .withId(
+                                                      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}")))
+                                  .withDataDiskImages(
+                                      Arrays
+                                          .asList(
+                                              new GalleryDataDiskImage()
+                                                  .withHostCaching(HostCaching.NONE)
+                                                  .withSource(
+                                                      new GalleryArtifactVersionSource()
+                                                          .withId(
+                                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"))
+                                                  .withLun(1)))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            dataDiskImages: [
+              {
+                hostCaching: "None",
+                lun: 1,
+                source: {
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+                },
+              },
+            ],
+            osDiskImage: {
+              hostCaching: "ReadOnly",
+              source: {
+                id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+              },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1163,6 +1671,346 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 2,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using VM as source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingVMAsSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+      func ExampleGalleryImageVersionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewGalleryImageVersionsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myGalleryName",
+      		"myGalleryImageName",
+      		"1.0.0",
+      		armcompute.GalleryImageVersion{
+      			Location: to.Ptr("West US"),
+      			Properties: &armcompute.GalleryImageVersionProperties{
+      				PublishingProfile: &armcompute.GalleryImageVersionPublishingProfile{
+      					TargetRegions: []*armcompute.TargetRegion{
+      						{
+      							Name: to.Ptr("West US"),
+      							Encryption: &armcompute.EncryptionImages{
+      								DataDiskImages: []*armcompute.DataDiskImageEncryption{
+      									{
+      										DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"),
+      										Lun:                 to.Ptr[int32](0),
+      									},
+      									{
+      										DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"),
+      										Lun:                 to.Ptr[int32](1),
+      									}},
+      								OSDiskImage: &armcompute.OSDiskImageEncryption{
+      									DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"),
+      								},
+      							},
+      							RegionalReplicaCount: to.Ptr[int32](2),
+      						},
+      						{
+      							Name: to.Ptr("East US"),
+      							Encryption: &armcompute.EncryptionImages{
+      								DataDiskImages: []*armcompute.DataDiskImageEncryption{
+      									{
+      										DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"),
+      										Lun:                 to.Ptr[int32](0),
+      									},
+      									{
+      										DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"),
+      										Lun:                 to.Ptr[int32](1),
+      									}},
+      								OSDiskImage: &armcompute.OSDiskImageEncryption{
+      									DiskEncryptionSetID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"),
+      								},
+      							},
+      							RegionalReplicaCount: to.Ptr[int32](2),
+      							StorageAccountType:   to.Ptr(armcompute.StorageAccountTypeStandardZRS),
+      						}},
+      				},
+      				StorageProfile: &armcompute.GalleryImageVersionStorageProfile{
+      					Source: &armcompute.GalleryArtifactVersionSource{
+      						ID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}"),
+      					},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithVmAsSource.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingVMAsSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/virtualMachines/{vmName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingVMAsSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1437,6 +2285,253 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using shared image as source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithImageVersionAsSource.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/galleries/{galleryName}/images/{imageDefinitionName}/versions/{versionName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingSharedImageAsSource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1715,6 +2810,267 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}"
+              },
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"
+                },
+                "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryDataDiskImage;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.GalleryOSDiskImage;
+      import com.azure.resourcemanager.compute.models.HostCaching;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using snapshots as a source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withOsDiskImage(
+                                      new GalleryOSDiskImage()
+                                          .withHostCaching(HostCaching.READ_ONLY)
+                                          .withSource(
+                                              new GalleryArtifactVersionSource()
+                                                  .withId(
+                                                      "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}")))
+                                  .withDataDiskImages(
+                                      Arrays
+                                          .asList(
+                                              new GalleryDataDiskImage()
+                                                  .withHostCaching(HostCaching.NONE)
+                                                  .withSource(
+                                                      new GalleryArtifactVersionSource()
+                                                          .withId(
+                                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}"))
+                                                  .withLun(1)))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithSnapshotsAsSource.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            dataDiskImages: [
+              {
+                hostCaching: "None",
+                lun: 1,
+                source: {
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/disks/{dataDiskName}",
+                },
+              },
+            ],
+            osDiskImage: {
+              hostCaching: "ReadOnly",
+              source: {
+                id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/snapshots/{osSnapshotName}",
+              },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingSnapshotsAsASource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1969,6 +3325,238 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet",
+                      "lun": 1
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS"
+              }
+            ]
+          },
+          "storageProfile": {
+            "osDiskImage": {
+              "source": {
+                "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
+              },
+              "hostCaching": "ReadOnly"
+            },
+            "dataDiskImages": [
+              {
+                "source": {
+                  "id": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  "uri": "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"
+                },
+                "lun": 1,
+                "hostCaching": "None"
+              }
+            ]
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryDataDiskImage;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.GalleryOSDiskImage;
+      import com.azure.resourcemanager.compute.models.HostCaching;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using vhd as a source.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withOsDiskImage(
+                                      new GalleryOSDiskImage()
+                                          .withHostCaching(HostCaching.READ_ONLY)
+                                          .withSource(
+                                              new GalleryArtifactVersionSource()
+                                                  .withId(
+                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}")
+                                                  .withUri(
+                                                      "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd")))
+                                  .withDataDiskImages(
+                                      Arrays
+                                          .asList(
+                                              new GalleryDataDiskImage()
+                                                  .withHostCaching(HostCaching.NONE)
+                                                  .withSource(
+                                                      new GalleryArtifactVersionSource()
+                                                          .withId(
+                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}")
+                                                          .withUri(
+                                                              "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd"))
+                                                  .withLun(1)))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithVHD.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            dataDiskImages: [
+              {
+                hostCaching: "None",
+                lun: 1,
+                source: {
+                  id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                  uri: "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+                },
+              },
+            ],
+            osDiskImage: {
+              hostCaching: "ReadOnly",
+              source: {
+                id: "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/{storageAccount}",
+                uri: "https://gallerysourcencus.blob.core.windows.net/myvhds/Windows-Server-2012-R2-20171216-en.us-128GB.vhd",
+              },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingVhdAsASource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2161,6 +3749,130 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1
+              }
+            ],
+            "replicationMode": "Shallow"
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.ReplicationMode;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
+           */
+          /**
+           * Sample code: Create or update a simple Gallery Image Version using shallow replication mode.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays.asList(new TargetRegion().withName("West US").withRegionalReplicaCount(1)))
+                                  .withReplicationMode(ReplicationMode.SHALLOW))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithShallowReplicationMode.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            replicationMode: "Shallow",
+            targetRegions: [{ name: "West US", regionalReplicaCount: 1 }],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionUsingShallowReplicationMode().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2333,6 +4045,253 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/myGalleryName/images/myGalleryImageName/versions/1.0.0?api-version=2022-01-03
+
+      {
+        "location": "West US",
+        "properties": {
+          "publishingProfile": {
+            "targetRegions": [
+              {
+                "name": "West US",
+                "regionalReplicaCount": 1,
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              },
+              {
+                "name": "East US",
+                "regionalReplicaCount": 2,
+                "storageAccountType": "Standard_ZRS",
+                "encryption": {
+                  "osDiskImage": {
+                    "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                  },
+                  "dataDiskImages": [
+                    {
+                      "lun": 0,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet"
+                    },
+                    {
+                      "lun": 1,
+                      "diskEncryptionSetId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "source": {
+              "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.GalleryImageVersionInner;
+      import com.azure.resourcemanager.compute.models.DataDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.EncryptionImages;
+      import com.azure.resourcemanager.compute.models.GalleryArtifactVersionSource;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionPublishingProfile;
+      import com.azure.resourcemanager.compute.models.GalleryImageVersionStorageProfile;
+      import com.azure.resourcemanager.compute.models.OSDiskImageEncryption;
+      import com.azure.resourcemanager.compute.models.StorageAccountType;
+      import com.azure.resourcemanager.compute.models.TargetRegion;
+      import java.util.Arrays;
+
+      /** Samples for GalleryImageVersions CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/GalleryRP/stable/2022-01-03/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+           */
+          /**
+           * Sample code: Create or update a simple gallery image version with target extended locations specified.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getGalleryImageVersions()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myGalleryName",
+                      "myGalleryImageName",
+                      "1.0.0",
+                      new GalleryImageVersionInner()
+                          .withLocation("West US")
+                          .withPublishingProfile(
+                              new GalleryImageVersionPublishingProfile()
+                                  .withTargetRegions(
+                                      Arrays
+                                          .asList(
+                                              new TargetRegion()
+                                                  .withName("West US")
+                                                  .withRegionalReplicaCount(1)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet")
+                                                                          .withLun(1)))),
+                                              new TargetRegion()
+                                                  .withName("East US")
+                                                  .withRegionalReplicaCount(2)
+                                                  .withStorageAccountType(StorageAccountType.STANDARD_ZRS)
+                                                  .withEncryption(
+                                                      new EncryptionImages()
+                                                          .withOsDiskImage(
+                                                              new OSDiskImageEncryption()
+                                                                  .withDiskEncryptionSetId(
+                                                                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet"))
+                                                          .withDataDiskImages(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet")
+                                                                          .withLun(0),
+                                                                      new DataDiskImageEncryption()
+                                                                          .withDiskEncryptionSetId(
+                                                                              "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet")
+                                                                          .withLun(1)))))))
+                          .withStorageProfile(
+                              new GalleryImageVersionStorageProfile()
+                                  .withSource(
+                                      new GalleryArtifactVersionSource()
+                                          .withId(
+                                              "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a gallery image version.
+       *
+       * @summary Create or update a gallery image version.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-01-03/GalleryRP/examples/galleryExamples/GalleryImageVersion_Create_WithTargetExtendedLocations.json
+       */
+      async function createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const galleryName = "myGalleryName";
+        const galleryImageName = "myGalleryImageName";
+        const galleryImageVersionName = "1.0.0";
+        const galleryImageVersion = {
+          location: "West US",
+          publishingProfile: {
+            targetRegions: [
+              {
+                name: "West US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherWestUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myWestUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 1,
+              },
+              {
+                name: "East US",
+                encryption: {
+                  dataDiskImages: [
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myOtherEastUSDiskEncryptionSet",
+                      lun: 0,
+                    },
+                    {
+                      diskEncryptionSetId:
+                        "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                      lun: 1,
+                    },
+                  ],
+                  osDiskImage: {
+                    diskEncryptionSetId:
+                      "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSet/myEastUSDiskEncryptionSet",
+                  },
+                },
+                regionalReplicaCount: 2,
+                storageAccountType: "Standard_ZRS",
+              },
+            ],
+          },
+          storageProfile: {
+            source: {
+              id: "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroup}/providers/Microsoft.Compute/images/{imageName}",
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.galleryImageVersions.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          galleryName,
+          galleryImageName,
+          galleryImageVersionName,
+          galleryImageVersion
+        );
+        console.log(result);
+      }
+
+      createOrUpdateASimpleGalleryImageVersionWithTargetExtendedLocationsSpecified().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2602,5 +4561,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Create or update a gallery image version.
+  description: >
+    Learn more about Compute service - Create or update a gallery image version.
 errorCodes: []

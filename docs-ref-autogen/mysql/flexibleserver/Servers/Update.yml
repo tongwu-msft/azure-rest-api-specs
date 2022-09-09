@@ -210,7 +210,7 @@ definitions:
     description: Primary user identity resource id
     types:
     - uid: string
-  - name: primaryKeyUri
+  - name: primaryKeyURI
     description: Primary key uri
     types:
     - uid: string
@@ -218,7 +218,7 @@ definitions:
     description: Geo backup user identity resource id as identity can't cross region, need identity in same region as geo backup
     types:
     - uid: string
-  - name: geoBackupKeyUri
+  - name: geoBackupKeyURI
     description: Geo backup key uri as key vault can't cross region, need cmk in same region as geo backup
     types:
     - uid: string
@@ -689,6 +689,143 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver?api-version=2021-05-01
+
+      {
+        "properties": {
+          "storage": {
+            "storageSizeGB": 30,
+            "iops": 200,
+            "autoGrow": "Disabled"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.EnableStatusEnum;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Server;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Storage;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdate.json
+           */
+          /**
+           * Sample code: Update a server.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void updateAServer(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              Server resource =
+                  manager.servers().getByResourceGroupWithResponse("testrg", "mysqltestserver", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withStorage(new Storage().withStorageSizeGB(30).withIops(200).withAutoGrow(EnableStatusEnum.DISABLED))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysqlflexibleservers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdate.json
+      func ExampleServersClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysqlflexibleservers.NewServersClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"testrg",
+      		"mysqltestserver",
+      		armmysqlflexibleservers.ServerForUpdate{
+      			Properties: &armmysqlflexibleservers.ServerPropertiesForUpdate{
+      				Storage: &armmysqlflexibleservers.Storage{
+      					AutoGrow:      to.Ptr(armmysqlflexibleservers.EnableStatusEnumDisabled),
+      					Iops:          to.Ptr[int32](200),
+      					StorageSizeGB: to.Ptr[int32](30),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysqlflexibleservers%2Fv1.0.0/sdk/resourcemanager/mysql/armmysqlflexibleservers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+       *
+       * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdate.json
+       */
+      async function updateAServer() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "mysqltestserver";
+        const parameters = {
+          storage: { autoGrow: "Disabled", iops: 200, storageSizeGB: 30 },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+        const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      updateAServer().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql-flexible_3.0.0/sdk/mysql/arm-mysql-flexible/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -753,6 +890,104 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver?api-version=2021-05-01
+
+      {
+        "properties": {
+          "maintenanceWindow": {
+            "customWindow": "Enabled",
+            "dayOfWeek": 1,
+            "startHour": 8,
+            "startMinute": 0
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.MaintenanceWindow;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Server;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdateWithCustomerMaintenanceWindow.json
+           */
+          /**
+           * Sample code: Update server customer maintenance window.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void updateServerCustomerMaintenanceWindow(
+              com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              Server resource =
+                  manager.servers().getByResourceGroupWithResponse("testrg", "mysqltestserver", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withMaintenanceWindow(
+                      new MaintenanceWindow()
+                          .withCustomWindow("Enabled")
+                          .withStartHour(8)
+                          .withStartMinute(0)
+                          .withDayOfWeek(1))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+       *
+       * @summary Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdateWithCustomerMaintenanceWindow.json
+       */
+      async function updateServerCustomerMaintenanceWindow() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "mysqltestserver";
+        const parameters = {
+          maintenanceWindow: {
+            customWindow: "Enabled",
+            dayOfWeek: 1,
+            startHour: 8,
+            startMinute: 0,
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+        const result = await client.servers.beginUpdateAndWait(resourceGroupName, serverName, parameters);
+        console.log(result);
+      }
+
+      updateServerCustomerMaintenanceWindow().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql-flexible_3.0.0/sdk/mysql/arm-mysql-flexible/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -818,12 +1053,102 @@ examples:
           "dataEncryption": {
             "type": "AzureKeyVault",
             "primaryUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
-            "primaryKeyUri": "https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a",
+            "primaryKeyURI": "https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a",
             "geoBackupUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-identity",
-            "geoBackupKeyUri": "https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a"
+            "geoBackupKeyURI": "https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a"
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver?api-version=2021-05-01
+
+      {
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity": {}
+          }
+        },
+        "properties": {
+          "dataEncryption": {
+            "type": "AzureKeyVault",
+            "primaryUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
+            "primaryKeyURI": "https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a",
+            "geoBackupUserAssignedIdentityId": "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-identity",
+            "geoBackupKeyURI": "https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.DataEncryption;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.DataEncryptionType;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Identity;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ManagedServiceIdentityType;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.Server;
+      import java.io.IOException;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Servers Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ServerUpdateWithBYOK.json
+           */
+          /**
+           * Sample code: Update server with byok.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void updateServerWithByok(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager)
+              throws IOException {
+              Server resource =
+                  manager.servers().getByResourceGroupWithResponse("testrg", "mysqltestserver", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withIdentity(
+                      new Identity()
+                          .withType(ManagedServiceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity",
+                                  SerializerFactory
+                                      .createDefaultManagementSerializerAdapter()
+                                      .deserialize("{}", Object.class, SerializerEncoding.JSON))))
+                  .withDataEncryption(
+                      new DataEncryption()
+                          .withPrimaryUserAssignedIdentityId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-identity")
+                          .withPrimaryKeyUri("https://test.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a")
+                          .withGeoBackupUserAssignedIdentityId(
+                              "/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/test-geo-identity")
+                          .withGeoBackupKeyUri("https://test-geo.vault.azure.net/keys/key/c8a92236622244c0a4fdb892666f671a")
+                          .withType(DataEncryptionType.AZURE_KEY_VAULT))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -885,5 +1210,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
+  description: >
+    Updates an existing server. The request body can contain one to many of the properties present in the normal server definition.
 errorCodes: []

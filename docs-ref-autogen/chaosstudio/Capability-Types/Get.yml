@@ -3,14 +3,14 @@ uid: management.azure.com.chaosstudio.capabilitytypes.get
 name: Get
 service: Chaos Studio
 groupName: Capability Types
-apiVersion: 2021-09-15-preview
+apiVersion: 2022-07-01-preview
 summary: Get a Capability Type resource for given Target Type and location.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}?api-version=2021-09-15-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Chaos/locations/{locationName}/targetTypes/{targetTypeName}/capabilityTypes/{capabilityTypeName}?api-version=2022-07-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,6 +101,15 @@ definitions:
     description: String of the URN for this Capability Type.
     types:
     - uid: string
+  - name: properties.kind
+    isReadyOnly: true
+    description: String of the kind of this Capability Type.
+    types:
+    - uid: string
+  - name: properties.runtimeProperties
+    description: Runtime properties of this Capability Type.
+    types:
+    - uid: RuntimeProperties
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -150,6 +159,15 @@ definitions:
     - uid: createdByType
   - name: lastModifiedAt
     description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: RuntimeProperties
+  description: Runtime properties of this Capability Type.
+  kind: object
+  properties:
+  - name: kind
+    isReadyOnly: true
+    description: String of the kind of the resource's action type (continuous or discrete).
     types:
     - uid: string
 - name: ErrorDetail
@@ -216,7 +234,13 @@ definitions:
 examples:
 - name: Get a Capability Type for a virtual machine Target resource on westus2 location.
   request:
-    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/providers/Microsoft.Chaos/locations/westus2/targetTypes/Microsoft-VirtualMachine/capabilityTypes/Shutdown-1.0?api-version=2021-09-15-preview
+    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/providers/Microsoft.Chaos/locations/westus2/targetTypes/Microsoft-VirtualMachine/capabilityTypes/Shutdown-1.0?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/providers/Microsoft.Chaos/locations/westus2/targetTypes/Microsoft-VirtualMachine/capabilityTypes/Shutdown-1.0?api-version=2022-07-01-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -225,11 +249,15 @@ examples:
         "type": "Microsoft.Chaos/locations/targetTypes/capabilityTypes",
         "name": "Shutdown-1.0",
         "properties": {
+          "kind": "fault",
           "publisher": "Microsoft",
           "targetType": "VirtualMachine",
           "displayName": "Shutdown VM",
           "description": "Shutdown an Azure Virtual Machine for a defined period of time.",
           "parametersSchema": "https://schema.centralus.chaos-prod.azure.com/targets/Microsoft-VirtualMachine/capabilities/Shutdown-1.0.json",
+          "runtimeProperties": {
+            "kind": "continuous"
+          },
           "urn": "urn:csci:microsoft:virtualMachine:shutdown/1.0"
         }
       }
@@ -243,5 +271,6 @@ security:
   - name: user_impersonation
     description: Impersonate your user account
 metadata:
-  description: Learn more about Chaos Studio service - Get a Capability Type resource for given Target Type and location.
+  description: >
+    Learn more about Chaos Studio service - Get a Capability Type resource for given Target Type and location.
 errorCodes: []

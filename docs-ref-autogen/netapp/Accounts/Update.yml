@@ -400,6 +400,128 @@ examples:
           "Tag1": "Value1"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1?api-version=2021-10-01
+
+      {
+        "tags": {
+          "Tag1": "Value1"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.netapp.models.NetAppAccount;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Accounts Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_Update.json
+           */
+          /**
+           * Sample code: Accounts_Update.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void accountsUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              NetAppAccount resource =
+                  manager.accounts().getByResourceGroupWithResponse("myRG", "account1", Context.NONE).getValue();
+              resource.update().withTags(mapOf("Tag1", "Value1")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_Update.json
+      func ExampleAccountsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewAccountsClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myRG",
+      		"account1",
+      		armnetapp.AccountPatch{
+      			Tags: map[string]*string{
+      				"Tag1": to.Ptr("Value1"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patch the specified NetApp account
+       *
+       * @summary Patch the specified NetApp account
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/Accounts_Update.json
+       */
+      async function accountsUpdate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const body = { tags: { tag1: "Value1" } };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.accounts.beginUpdateAndWait(resourceGroupName, accountName, body);
+        console.log(result);
+      }
+
+      accountsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -442,5 +564,8 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: "Learn more about Azure NetApp Files service - Update a NetApp account  \nPatch the specified NetApp account"
+  description: >
+    Learn more about Azure NetApp Files service - Update a NetApp account
+
+    Patch the specified NetApp account
 errorCodes: []

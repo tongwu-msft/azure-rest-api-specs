@@ -425,6 +425,119 @@ examples:
           "expirationTimeIfNotActivatedUtc": "2021-10-21T22:50:25.410433Z"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/partnerNamespaces/examplePartnerNamespaceName1/channels/exampleChannelName1?api-version=2021-10-15-preview
+
+      {
+        "properties": {
+          "channelType": "PartnerTopic",
+          "partnerTopicInfo": {
+            "azureSubscriptionId": "5b4b650e-28b9-4790-b3ab-ddbd88d727c4",
+            "resourceGroupName": "examplerg2",
+            "name": "examplePartnerTopic1",
+            "source": "ContosoCorp.Accounts.User1"
+          },
+          "messageForActivation": "Example message to approver",
+          "expirationTimeIfNotActivatedUtc": "2021-10-21T22:50:25.410433Z"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.eventgrid.models.ChannelType;
+      import com.azure.resourcemanager.eventgrid.models.PartnerTopicInfo;
+      import java.time.OffsetDateTime;
+
+      /** Samples for Channels CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Channels_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Channels_CreateOrUpdate.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void channelsCreateOrUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              manager
+                  .channels()
+                  .define("exampleChannelName1")
+                  .withExistingPartnerNamespace("examplerg", "examplePartnerNamespaceName1")
+                  .withChannelType(ChannelType.PARTNER_TOPIC)
+                  .withPartnerTopicInfo(
+                      new PartnerTopicInfo()
+                          .withAzureSubscriptionId("5b4b650e-28b9-4790-b3ab-ddbd88d727c4")
+                          .withResourceGroupName("examplerg2")
+                          .withName("examplePartnerTopic1")
+                          .withSource("ContosoCorp.Accounts.User1"))
+                  .withMessageForActivation("Example message to approver")
+                  .withExpirationTimeIfNotActivatedUtc(OffsetDateTime.parse("2021-10-21T22:50:25.410433Z"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/Channels_CreateOrUpdate.json
+      func ExampleChannelsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewChannelsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<partner-namespace-name>",
+      		"<channel-name>",
+      		armeventgrid.Channel{
+      			Properties: &armeventgrid.ChannelProperties{
+      				ChannelType:                     to.Ptr(armeventgrid.ChannelTypePartnerTopic),
+      				ExpirationTimeIfNotActivatedUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2021-10-21T22:50:25.410433Z"); return t }()),
+      				MessageForActivation:            to.Ptr("<message-for-activation>"),
+      				PartnerTopicInfo: &armeventgrid.PartnerTopicInfo{
+      					Name:                to.Ptr("<name>"),
+      					AzureSubscriptionID: to.Ptr("<azure-subscription-id>"),
+      					ResourceGroupName:   to.Ptr("<resource-group-name>"),
+      					Source:              to.Ptr("<source>"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -464,5 +577,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Create or update a channel.  \nSynchronously creates or updates a new channel with the specified parameters."
+  description: >
+    Create or update a channel.
+
+    Synchronously creates or updates a new channel with the specified parameters.
 errorCodes: []

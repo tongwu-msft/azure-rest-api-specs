@@ -207,6 +207,146 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/c80fb759-c965-4c6a-9110-9b2b2d038882/resourceGroups/myResourceGroup/providers/Microsoft.AppConfiguration/configurationStores/contoso/keyValues/myKey$myLabel?api-version=2022-05-01
+
+      {
+        "properties": {
+          "value": "myValue",
+          "tags": {
+            "tag1": "tagValue1",
+            "tag2": "tagValue2"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for KeyValues CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateKeyValue.json
+           */
+          /**
+           * Sample code: KeyValues_CreateOrUpdate.
+           *
+           * @param manager Entry point to AppConfigurationManager.
+           */
+          public static void keyValuesCreateOrUpdate(
+              com.azure.resourcemanager.appconfiguration.AppConfigurationManager manager) {
+              manager
+                  .keyValues()
+                  .define("myKey$myLabel")
+                  .withExistingConfigurationStore("myResourceGroup", "contoso")
+                  .withTags(mapOf("tag1", "tagValue1", "tag2", "tagValue2"))
+                  .withValue("myValue")
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-appconfiguration_1.0.0-beta.6/sdk/appconfiguration/azure-resourcemanager-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappconfiguration_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appconfiguration/armappconfiguration"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateKeyValue.json
+      func ExampleKeyValuesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappconfiguration.NewKeyValuesClient("c80fb759-c965-4c6a-9110-9b2b2d038882", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"contoso",
+      		"myKey$myLabel",
+      		&armappconfiguration.KeyValuesClientCreateOrUpdateOptions{KeyValueParameters: &armappconfiguration.KeyValue{
+      			Properties: &armappconfiguration.KeyValueProperties{
+      				Tags: map[string]*string{
+      					"tag1": to.Ptr("tagValue1"),
+      					"tag2": to.Ptr("tagValue2"),
+      				},
+      				Value: to.Ptr("myValue"),
+      			},
+      		},
+      		})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappconfiguration%2Farmappconfiguration%2Fv1.0.0/sdk/resourcemanager/appconfiguration/armappconfiguration/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AppConfigurationManagementClient } = require("@azure/arm-appconfiguration");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a key-value.
+       *
+       * @summary Creates a key-value.
+       * x-ms-original-file: specification/appconfiguration/resource-manager/Microsoft.AppConfiguration/stable/2022-05-01/examples/ConfigurationStoresCreateKeyValue.json
+       */
+      async function keyValuesCreateOrUpdate() {
+        const subscriptionId = "c80fb759-c965-4c6a-9110-9b2b2d038882";
+        const resourceGroupName = "myResourceGroup";
+        const configStoreName = "contoso";
+        const keyValueName = "myKey$myLabel";
+        const keyValueParameters = {
+          tags: { tag1: "tagValue1", tag2: "tagValue2" },
+          value: "myValue",
+        };
+        const options = { keyValueParameters };
+        const credential = new DefaultAzureCredential();
+        const client = new AppConfigurationManagementClient(credential, subscriptionId);
+        const result = await client.keyValues.createOrUpdate(
+          resourceGroupName,
+          configStoreName,
+          keyValueName,
+          options
+        );
+        console.log(result);
+      }
+
+      keyValuesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appconfiguration_3.0.0/sdk/appconfiguration/arm-appconfiguration/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -238,5 +378,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Configuration service - Creates a key-value.
+  description: >
+    Learn more about App Configuration service - Creates a key-value.
 errorCodes: []

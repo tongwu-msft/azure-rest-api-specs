@@ -75,8 +75,7 @@ The following JSON is a high-level representation of the main parts of the defin
 ```json
 {   
     "name" : (optional on PUT; required on POST) "The name of the alias",  
-    "indexes" : (required) ["The name of the index the alias is mapped to"],
-  } 
+    "indexes" : (required) ["The name of the index the alias is mapped to"]
 }  
 ```  
 

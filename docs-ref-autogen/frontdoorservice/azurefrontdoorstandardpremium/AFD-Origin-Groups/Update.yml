@@ -385,6 +385,181 @@ examples:
           "trafficRestorationTimeToHealedOrNewEndpointsInMinutes": 5
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/originGroups/origingroup1?api-version=2021-06-01
+
+      {
+        "properties": {
+          "loadBalancingSettings": {
+            "sampleSize": 3,
+            "successfulSamplesRequired": 3,
+            "additionalLatencyInMilliseconds": 1000
+          },
+          "healthProbeSettings": {
+            "probePath": "/path2",
+            "probeRequestType": "NotSet",
+            "probeProtocol": "NotSet",
+            "probeIntervalInSeconds": 10
+          },
+          "trafficRestorationTimeToHealedOrNewEndpointsInMinutes": 5
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.models.AfdOriginGroupUpdateParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeParameters;
+      import com.azure.resourcemanager.cdn.models.HealthProbeRequestType;
+      import com.azure.resourcemanager.cdn.models.LoadBalancingSettingsParameters;
+      import com.azure.resourcemanager.cdn.models.ProbeProtocol;
+
+      /** Samples for AfdOriginGroups Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDOriginGroups_Update.json
+           */
+          /**
+           * Sample code: AFDOriginGroups_Update.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void aFDOriginGroupsUpdate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getAfdOriginGroups()
+                  .update(
+                      "RG",
+                      "profile1",
+                      "origingroup1",
+                      new AfdOriginGroupUpdateParameters()
+                          .withLoadBalancingSettings(
+                              new LoadBalancingSettingsParameters()
+                                  .withSampleSize(3)
+                                  .withSuccessfulSamplesRequired(3)
+                                  .withAdditionalLatencyInMilliseconds(1000))
+                          .withHealthProbeSettings(
+                              new HealthProbeParameters()
+                                  .withProbePath("/path2")
+                                  .withProbeRequestType(HealthProbeRequestType.NOT_SET)
+                                  .withProbeProtocol(ProbeProtocol.NOT_SET)
+                                  .withProbeIntervalInSeconds(10))
+                          .withTrafficRestorationTimeToHealedOrNewEndpointsInMinutes(5),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDOriginGroups_Update.json
+      func ExampleAFDOriginGroupsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewAFDOriginGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"RG",
+      		"profile1",
+      		"origingroup1",
+      		armcdn.AFDOriginGroupUpdateParameters{
+      			Properties: &armcdn.AFDOriginGroupUpdatePropertiesParameters{
+      				HealthProbeSettings: &armcdn.HealthProbeParameters{
+      					ProbeIntervalInSeconds: to.Ptr[int32](10),
+      					ProbePath:              to.Ptr("/path2"),
+      					ProbeProtocol:          to.Ptr(armcdn.ProbeProtocolNotSet),
+      					ProbeRequestType:       to.Ptr(armcdn.HealthProbeRequestTypeNotSet),
+      				},
+      				LoadBalancingSettings: &armcdn.LoadBalancingSettingsParameters{
+      					AdditionalLatencyInMilliseconds: to.Ptr[int32](1000),
+      					SampleSize:                      to.Ptr[int32](3),
+      					SuccessfulSamplesRequired:       to.Ptr[int32](3),
+      				},
+      				TrafficRestorationTimeToHealedOrNewEndpointsInMinutes: to.Ptr[int32](5),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Updates an existing origin group within a profile.
+       *
+       * @summary Updates an existing origin group within a profile.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/AFDOriginGroups_Update.json
+       */
+      async function afdOriginGroupsUpdate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const originGroupName = "origingroup1";
+        const originGroupUpdateProperties = {
+          healthProbeSettings: {
+            probeIntervalInSeconds: 10,
+            probePath: "/path2",
+            probeProtocol: "NotSet",
+            probeRequestType: "NotSet",
+          },
+          loadBalancingSettings: {
+            additionalLatencyInMilliseconds: 1000,
+            sampleSize: 3,
+            successfulSamplesRequired: 3,
+          },
+          trafficRestorationTimeToHealedOrNewEndpointsInMinutes: 5,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.afdOriginGroups.beginUpdateAndWait(
+          resourceGroupName,
+          profileName,
+          originGroupName,
+          originGroupUpdateProperties
+        );
+        console.log(result);
+      }
+
+      afdOriginGroupsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -445,5 +620,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Front Door Service service - Updates an existing origin group within a profile.
+  description: >
+    Learn more about Front Door Service service - Updates an existing origin group within a profile.
 errorCodes: []

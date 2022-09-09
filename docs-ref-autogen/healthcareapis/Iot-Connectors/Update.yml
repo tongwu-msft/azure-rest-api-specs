@@ -357,6 +357,158 @@ examples:
           "type": "SystemAssigned"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1/iotconnectors/blue?api-version=2021-11-01
+
+      {
+        "tags": {
+          "additionalProp1": "string",
+          "additionalProp2": "string",
+          "additionalProp3": "string"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.healthcareapis.models.IotConnector;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityIdentity;
+      import com.azure.resourcemanager.healthcareapis.models.ServiceManagedIdentityType;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for IotConnectors Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_Patch.json
+           */
+          /**
+           * Sample code: Patch an IoT Connector.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void patchAnIoTConnector(com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              IotConnector resource =
+                  manager.iotConnectors().getWithResponse("testRG", "workspace1", "blue", Context.NONE).getValue();
+              resource
+                  .update()
+                  .withTags(mapOf("additionalProp1", "string", "additionalProp2", "string", "additionalProp3", "string"))
+                  .withIdentity(new ServiceManagedIdentityIdentity().withType(ServiceManagedIdentityType.SYSTEM_ASSIGNED))
+                  .apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_Patch.json
+      func ExampleIotConnectorsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewIotConnectorsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"testRG",
+      		"blue",
+      		"workspace1",
+      		armhealthcareapis.IotConnectorPatchResource{
+      			Tags: map[string]*string{
+      				"additionalProp1": to.Ptr("string"),
+      				"additionalProp2": to.Ptr("string"),
+      				"additionalProp3": to.Ptr("string"),
+      			},
+      			Identity: &armhealthcareapis.ServiceManagedIdentityIdentity{
+      				Type: to.Ptr(armhealthcareapis.ServiceManagedIdentityTypeSystemAssigned),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patch an IoT Connector.
+       *
+       * @summary Patch an IoT Connector.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/iotconnectors/iotconnector_Patch.json
+       */
+      async function patchAnIoTConnector() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const iotConnectorName = "blue";
+        const workspaceName = "workspace1";
+        const iotConnectorPatchResource = {
+          identity: { type: "SystemAssigned" },
+          tags: {
+            additionalProp1: "string",
+            additionalProp2: "string",
+            additionalProp3: "string",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.iotConnectors.beginUpdateAndWait(
+          resourceGroupName,
+          iotConnectorName,
+          workspaceName,
+          iotConnectorPatchResource
+        );
+        console.log(result);
+      }
+
+      patchAnIoTConnector().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -479,5 +631,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Healthcare Apis service - Patch an IoT Connector.
+  description: >
+    Learn more about Healthcare Apis service - Patch an IoT Connector.
 errorCodes: []

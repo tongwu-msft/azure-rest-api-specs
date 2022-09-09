@@ -3,14 +3,14 @@ uid: management.azure.com.labservices.labs.update
 name: Update
 service: Lab Services
 groupName: Labs
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: Operation to update a lab resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}?api-version=2021-11-15-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: api-version
@@ -676,7 +676,7 @@ definitions:
 examples:
 - name: patchLab
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2021-11-15-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -685,6 +685,116 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab?api-version=2022-08-01
+
+      {
+        "properties": {
+          "securityProfile": {
+            "openAccess": "Enabled"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.labservices.models.EnableState;
+      import com.azure.resourcemanager.labservices.models.Lab;
+      import com.azure.resourcemanager.labservices.models.SecurityProfile;
+
+      /** Samples for Labs Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/patchLab.json
+           */
+          /**
+           * Sample code: patchLab.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void patchLab(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              Lab resource = manager.labs().getByResourceGroupWithResponse("testrg123", "testlab", Context.NONE).getValue();
+              resource.update().withSecurityProfile(new SecurityProfile().withOpenAccess(EnableState.ENABLED)).apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.3/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/patchLab.json
+      func ExampleLabsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewLabsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx, "testrg123", "testlab", armlabservices.LabUpdate{
+      		Properties: &armlabservices.LabUpdateProperties{
+      			SecurityProfile: &armlabservices.SecurityProfile{
+      				OpenAccess: to.Ptr(armlabservices.EnableStateEnabled),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv1.0.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { LabServicesClient } = require("@azure/arm-labservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Operation to update a lab resource.
+       *
+       * @summary Operation to update a lab resource.
+       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Labs/patchLab.json
+       */
+      async function patchLab() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const labName = "testlab";
+        const body = { securityProfile: { openAccess: "Enabled" } };
+        const credential = new DefaultAzureCredential();
+        const client = new LabServicesClient(credential, subscriptionId);
+        const result = await client.labs.beginUpdateAndWait(resourceGroupName, labName, body);
+        console.log(result);
+      }
+
+      patchLab().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -713,9 +823,9 @@ examples:
             "shutdownOnDisconnect": "Enabled",
             "shutdownWhenNotConnected": "Enabled",
             "shutdownOnIdle": "UserAbsence",
-            "disconnectDelay": "00:05",
-            "noConnectDelay": "01:00",
-            "idleDelay": "01:00"
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
           },
           "securityProfile": {
             "registrationCode": "fAkEcodE",
@@ -739,7 +849,7 @@ examples:
             "additionalCapabilities": {
               "installGpuDrivers": "Disabled"
             },
-            "usageQuota": "10:00",
+            "usageQuota": "PT10H",
             "useSharedPassword": "Disabled",
             "adminUser": {
               "username": "test-user"
@@ -781,9 +891,9 @@ examples:
             "shutdownOnDisconnect": "Enabled",
             "shutdownWhenNotConnected": "Enabled",
             "shutdownOnIdle": "UserAbsence",
-            "disconnectDelay": "00:05",
-            "noConnectDelay": "01:00",
-            "idleDelay": "01:00"
+            "disconnectDelay": "PT5M",
+            "noConnectDelay": "PT5M",
+            "idleDelay": "PT5M"
           },
           "securityProfile": {
             "registrationCode": "fAkEcodE",
@@ -808,7 +918,7 @@ examples:
             "additionalCapabilities": {
               "installGpuDrivers": "Disabled"
             },
-            "usageQuota": "10:00",
+            "usageQuota": "PT10H",
             "useSharedPassword": "Disabled",
             "adminUser": {
               "username": "test-user"
@@ -822,5 +932,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Lab Services service - Operation to update a lab resource.
+  description: >
+    Learn more about Lab Services service - Operation to update a lab resource.
 errorCodes: []

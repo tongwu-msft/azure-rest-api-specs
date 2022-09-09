@@ -3,15 +3,15 @@ uid: management.azure.com.labservices.usages.listbylocation
 name: List By Location
 service: Lab Services
 groupName: Usages
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: "Gets the list of usages.  \nReturns list of usage per SKU family for the specified subscription in the specified region."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2021-11-15-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2021-11-15-preview&$filter={$filter}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.LabServices/locations/{location}/usages?api-version=2022-08-01&$filter={$filter}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -54,7 +54,6 @@ definitions:
   kind: object
   properties:
   - name: value
-    isReadyOnly: true
     description: The array page of Usages.
     types:
     - uid: Usage
@@ -142,6 +141,11 @@ definitions:
     description: The localized name of the resource.
     types:
     - uid: string
+  - name: skuInstances
+    description: The instances of the resource.
+    types:
+    - uid: string
+      isArray: true
   - name: value
     description: The name of the resource.
     types:
@@ -163,7 +167,99 @@ definitions:
 examples:
 - name: listUsages
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/locations/westus2/usages?api-version=2021-11-15-preview
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/locations/eastus2/usages?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.LabServices/locations/eastus2/usages?api-version=2022-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Usages ListByLocation. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Usages/getUsages.json
+           */
+          /**
+           * Sample code: listUsages.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void listUsages(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              manager.usages().listByLocation("eastus2", null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.3/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Usages/getUsages.json
+      func ExampleUsagesClient_NewListByLocationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewUsagesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByLocationPager("eastus2", &armlabservices.UsagesClientListByLocationOptions{Filter: nil})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv1.0.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { LabServicesClient } = require("@azure/arm-labservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns list of usage per SKU family for the specified subscription in the specified region.
+       *
+       * @summary Returns list of usage per SKU family for the specified subscription in the specified region.
+       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Usages/getUsages.json
+       */
+      async function listUsages() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const location = "eastus2";
+        const credential = new DefaultAzureCredential();
+        const client = new LabServicesClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.usages.listByLocation(location)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listUsages().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -192,5 +288,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Gets the list of usages.  \nReturns list of usage per SKU family for the specified subscription in the specified region."
+  description: >
+    Gets the list of usages.
+
+    Returns list of usage per SKU family for the specified subscription in the specified region.
 errorCodes: []

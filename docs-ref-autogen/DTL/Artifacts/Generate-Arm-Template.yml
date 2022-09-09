@@ -177,6 +177,101 @@ examples:
         "location": "{location}",
         "virtualMachineName": "{vmName}"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/resourceGroupName/providers/Microsoft.DevTestLab/labs/{labName}/artifactsources/{artifactSourceName}/artifacts/{artifactName}/generateArmTemplate?api-version=2018-09-15
+
+      {
+        "fileUploadOptions": "None",
+        "location": "{location}",
+        "virtualMachineName": "{vmName}"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdevtestlabs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devtestlabs/armdevtestlabs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Artifacts_GenerateArmTemplate.json
+      func ExampleArtifactsClient_GenerateArmTemplate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevtestlabs.NewArtifactsClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.GenerateArmTemplate(ctx,
+      		"resourceGroupName",
+      		"{labName}",
+      		"{artifactSourceName}",
+      		"{artifactName}",
+      		armdevtestlabs.GenerateArmTemplateRequest{
+      			FileUploadOptions:  to.Ptr(armdevtestlabs.FileUploadOptionsNone),
+      			Location:           to.Ptr("{location}"),
+      			VirtualMachineName: to.Ptr("{vmName}"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevtestlabs%2Farmdevtestlabs%2Fv1.0.0/sdk/resourcemanager/devtestlabs/armdevtestlabs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevTestLabsClient } = require("@azure/arm-devtestlabs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
+       *
+       * @summary Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
+       * x-ms-original-file: specification/devtestlabs/resource-manager/Microsoft.DevTestLab/stable/2018-09-15/examples/Artifacts_GenerateArmTemplate.json
+       */
+      async function artifactsGenerateArmTemplate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "resourceGroupName";
+        const labName = "{labName}";
+        const artifactSourceName = "{artifactSourceName}";
+        const name = "{artifactName}";
+        const generateArmTemplateRequest = {
+          fileUploadOptions: "None",
+          location: "{location}",
+          virtualMachineName: "{vmName}",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevTestLabsClient(credential, subscriptionId);
+        const result = await client.artifacts.generateArmTemplate(
+          resourceGroupName,
+          labName,
+          artifactSourceName,
+          name,
+          generateArmTemplateRequest
+        );
+        console.log(result);
+      }
+
+      artifactsGenerateArmTemplate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devtestlabs_4.0.1/sdk/devtestlabs/arm-devtestlabs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -239,5 +334,6 @@ security:
   - name: user_impersonation
     description: Access Microsoft Azure
 metadata:
-  description: Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
+  description: >
+    Generates an ARM template for the given artifact, uploads the required files to a storage account, and validates the generated artifact.
 errorCodes: []

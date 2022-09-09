@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.networkmanagercommits.post
 name: Post
 service: Network Manager
 groupName: Network Manager Commits
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Post a Network Manager Commit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit?api-version=2021-02-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/commit?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -37,7 +37,14 @@ uriParameters:
   types:
   - uid: string
 responses:
+- name: 200 OK
+  description: Succeed.
+  types:
+  - uid: NetworkManagerCommit
 - name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
   description: Accepted and the operation will complete asynchronously
   types:
   - uid: NetworkManagerCommit
@@ -50,6 +57,7 @@ requestBody:
   parameters:
   - name: targetLocations
     in: body
+    isRequired: true
     description: List of target locations.
     types:
     - uid: string
@@ -62,6 +70,7 @@ requestBody:
       isArray: true
   - name: commitType
     in: body
+    isRequired: true
     description: Commit Type.
     types:
     - uid: ConfigurationType
@@ -105,9 +114,6 @@ definitions:
   - name: SecurityAdmin
     types:
     - uid: string
-  - name: SecurityUser
-    types:
-    - uid: string
   - name: Connectivity
     types:
     - uid: string
@@ -135,7 +141,7 @@ definitions:
 examples:
 - name: NetworkManageCommitPost
   request:
-    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2021-02-01-preview
+    uri: POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2022-01-01
     body: >-
       {
         "targetLocations": [
@@ -146,8 +152,159 @@ examples:
         ],
         "commitType": "SecurityAdmin"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/commit?api-version=2022-01-01
+
+      {
+        "targetLocations": [
+          "useast"
+        ],
+        "configurationIds": [
+          "/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig"
+        ],
+        "commitType": "SecurityAdmin"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.NetworkManagerCommitInner;
+      import com.azure.resourcemanager.network.models.ConfigurationType;
+      import java.util.Arrays;
+
+      /** Samples for NetworkManagerCommits Post. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerCommitPost.json
+           */
+          /**
+           * Sample code: NetworkManageCommitPost.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void networkManageCommitPost(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getNetworkManagerCommits()
+                  .post(
+                      "resoureGroupSample",
+                      "testNetworkManager",
+                      new NetworkManagerCommitInner()
+                          .withTargetLocations(Arrays.asList("useast"))
+                          .withConfigurationIds(
+                              Arrays
+                                  .asList(
+                                      "/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig"))
+                          .withCommitType(ConfigurationType.SECURITY_ADMIN),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerCommitPost.json
+      func ExampleManagerCommitsClient_BeginPost() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewManagerCommitsClient("subscriptionC", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginPost(ctx, "resoureGroupSample", "testNetworkManager", armnetwork.ManagerCommit{
+      		CommitType: to.Ptr(armnetwork.ConfigurationTypeSecurityAdmin),
+      		ConfigurationIDs: []*string{
+      			to.Ptr("/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig")},
+      		TargetLocations: []*string{
+      			to.Ptr("useast")},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Post a Network Manager Commit.
+       *
+       * @summary Post a Network Manager Commit.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerCommitPost.json
+       */
+      async function networkManageCommitPost() {
+        const subscriptionId = "subscriptionC";
+        const resourceGroupName = "resoureGroupSample";
+        const networkManagerName = "testNetworkManager";
+        const parameters = {
+          commitType: "SecurityAdmin",
+          configurationIds: [
+            "/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig",
+          ],
+          targetLocations: ["useast"],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.networkManagerCommits.beginPostAndWait(
+          resourceGroupName,
+          networkManagerName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      networkManageCommitPost().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "commitId": "testCommitId",
+        "targetLocations": [
+          "useast"
+        ],
+        "configurationIds": [
+          "/subscriptions/subscriptionC/resourceGroups/resoureGroupSample/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/SampleSecurityAdminConfig"
+        ],
+        "commitType": "SecurityAdmin"
+      }
   - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleRG/providers/Microsoft.Network/networkManagers/TestNM/operationResults/00000000-0000-0000-0000-000000000000?api-version=2022-01-01
     body: >-
       {
         "commitId": "testCommitId",
@@ -169,5 +326,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Post a Network Manager Commit.
+  description: >
+    Learn more about Network Manager service - Post a Network Manager Commit.
 errorCodes: []

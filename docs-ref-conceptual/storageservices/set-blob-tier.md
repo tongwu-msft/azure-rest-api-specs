@@ -11,7 +11,7 @@ ms.author: pemari
 
 # Set Blob Tier
 
-The `Set Blob Tier` operation sets the access tier on a blob. The operation is allowed on a page blob in a premium storage account and on a block blob in a blob storage or general purpose v2 account. A premium page blob's tier determines the allowed size, IOPS, and bandwidth of the blob. A block blob's tier determines `Hot`/`Cool`/`Archive` storage type. This operation does not update the blob's ETag.
+The `Set Blob Tier` operation sets the access tier on a blob. The operation is allowed on a page blob in a premium storage account and on a block blob in a blob storage or general purpose v2 account. A premium page blob's tier (`P1`/`P2`/`P3`/`P4` etc.) determines the allowed size, IOPS, and bandwidth of the blob. A block blob's tier determines `Hot`/`Cool`/`Archive` storage type. This operation does not update the blob's ETag.
 
 For detailed information about block blob level tiering see [Hot, cool and archive storage tiers](/azure/storage/storage-blob-storage-tiers).  
 

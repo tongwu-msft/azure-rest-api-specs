@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipaddresses.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Public IP Addresses
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates or updates a static or dynamic public IP address.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -607,7 +607,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -725,6 +725,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1376,7 +1380,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2751,11 +2755,119 @@ definitions:
 examples:
 - name: Create public IP address defaults
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
     body: >-
       {
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
+
+      {
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
+
+      /** Samples for PublicIpAddresses CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDefaults.json
+           */
+          /**
+           * Sample code: Create public IP address defaults.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPublicIPAddressDefaults(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPublicIpAddresses()
+                  .createOrUpdate("rg1", "test-ip", new PublicIpAddressInner().withLocation("eastus"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDefaults.json
+      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_publicIpAddressCreateDefaults() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
+      		Location: to.Ptr("eastus"),
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
+       *
+       * @summary Creates or updates a static or dynamic public IP address.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDefaults.json
+       */
+      async function createPublicIPAddressDefaults() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const publicIpAddressName = "test-ip";
+        const parameters = { location: "eastus" };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          publicIpAddressName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPublicIPAddressDefaults().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2799,7 +2911,7 @@ examples:
       }
 - name: Create public IP address allocation method
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -2813,6 +2925,155 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
+
+      {
+        "properties": {
+          "publicIPAllocationMethod": "Static",
+          "idleTimeoutInMinutes": 10,
+          "publicIPAddressVersion": "IPv4"
+        },
+        "sku": {
+          "name": "Standard",
+          "tier": "Global"
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
+      import com.azure.resourcemanager.network.models.IpAllocationMethod;
+      import com.azure.resourcemanager.network.models.IpVersion;
+      import com.azure.resourcemanager.network.models.PublicIpAddressSku;
+      import com.azure.resourcemanager.network.models.PublicIpAddressSkuName;
+      import com.azure.resourcemanager.network.models.PublicIpAddressSkuTier;
+
+      /** Samples for PublicIpAddresses CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateCustomizedValues.json
+           */
+          /**
+           * Sample code: Create public IP address allocation method.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPublicIPAddressAllocationMethod(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPublicIpAddresses()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-ip",
+                      new PublicIpAddressInner()
+                          .withLocation("eastus")
+                          .withSku(
+                              new PublicIpAddressSku()
+                                  .withName(PublicIpAddressSkuName.STANDARD)
+                                  .withTier(PublicIpAddressSkuTier.GLOBAL))
+                          .withPublicIpAllocationMethod(IpAllocationMethod.STATIC)
+                          .withPublicIpAddressVersion(IpVersion.IPV4)
+                          .withIdleTimeoutInMinutes(10),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateCustomizedValues.json
+      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_publicIpAddressCreateCustomizedValues() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.PublicIPAddressPropertiesFormat{
+      			IdleTimeoutInMinutes:     to.Ptr[int32](10),
+      			PublicIPAddressVersion:   to.Ptr(armnetwork.IPVersionIPv4),
+      			PublicIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodStatic),
+      		},
+      		SKU: &armnetwork.PublicIPAddressSKU{
+      			Name: to.Ptr(armnetwork.PublicIPAddressSKUNameStandard),
+      			Tier: to.Ptr(armnetwork.PublicIPAddressSKUTierGlobal),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
+       *
+       * @summary Creates or updates a static or dynamic public IP address.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateCustomizedValues.json
+       */
+      async function createPublicIPAddressAllocationMethod() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const publicIpAddressName = "test-ip";
+        const parameters = {
+          idleTimeoutInMinutes: 10,
+          location: "eastus",
+          publicIPAddressVersion: "IPv4",
+          publicIPAllocationMethod: "Static",
+          sku: { name: "Standard", tier: "Global" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          publicIpAddressName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPublicIPAddressAllocationMethod().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2864,7 +3125,7 @@ examples:
       }
 - name: Create public IP address DNS
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -2874,6 +3135,134 @@ examples:
         },
         "location": "eastus"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-ip?api-version=2022-01-01
+
+      {
+        "properties": {
+          "dnsSettings": {
+            "domainNameLabel": "dnslbl"
+          }
+        },
+        "location": "eastus"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.PublicIpAddressInner;
+      import com.azure.resourcemanager.network.models.PublicIpAddressDnsSettings;
+
+      /** Samples for PublicIpAddresses CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDns.json
+           */
+          /**
+           * Sample code: Create public IP address DNS.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createPublicIPAddressDNS(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPublicIpAddresses()
+                  .createOrUpdate(
+                      "rg1",
+                      "test-ip",
+                      new PublicIpAddressInner()
+                          .withLocation("eastus")
+                          .withDnsSettings(new PublicIpAddressDnsSettings().withDomainNameLabel("dnslbl")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDns.json
+      func ExamplePublicIPAddressesClient_BeginCreateOrUpdate_publicIpAddressCreateDns() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "test-ip", armnetwork.PublicIPAddress{
+      		Location: to.Ptr("eastus"),
+      		Properties: &armnetwork.PublicIPAddressPropertiesFormat{
+      			DNSSettings: &armnetwork.PublicIPAddressDNSSettings{
+      				DomainNameLabel: to.Ptr("dnslbl"),
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a static or dynamic public IP address.
+       *
+       * @summary Creates or updates a static or dynamic public IP address.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PublicIpAddressCreateDns.json
+       */
+      async function createPublicIPAddressDns() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const publicIpAddressName = "test-ip";
+        const parameters = {
+          dnsSettings: { domainNameLabel: "dnslbl" },
+          location: "eastus",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.publicIPAddresses.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          publicIpAddressName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createPublicIPAddressDns().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2927,5 +3316,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Creates or updates a static or dynamic public IP address.
+  description: >
+    Learn more about Virtual Networks service - Creates or updates a static or dynamic public IP address.
 errorCodes: []

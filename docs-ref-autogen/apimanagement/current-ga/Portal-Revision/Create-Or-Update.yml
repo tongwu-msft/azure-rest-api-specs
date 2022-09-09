@@ -183,6 +183,92 @@ examples:
           "isCurrent": true
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/portalRevisions/20201112101010?api-version=2021-08-01
+
+      {
+        "properties": {
+          "description": "portal revision 1",
+          "isCurrent": true
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for PortalRevision CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreatePortalRevision.json
+           */
+          /**
+           * Sample code: ApiManagementCreatePortalRevision.
+           *
+           * @param manager Entry point to ApiManagementManager.
+           */
+          public static void apiManagementCreatePortalRevision(
+              com.azure.resourcemanager.apimanagement.ApiManagementManager manager) {
+              manager
+                  .portalRevisions()
+                  .define("20201112101010")
+                  .withExistingService("rg1", "apimService1")
+                  .withDescription("portal revision 1")
+                  .withIsCurrent(true)
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-apimanagement_1.0.0-beta.3/sdk/apimanagement/azure-resourcemanager-apimanagement/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armapimanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/apimanagement/armapimanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/apimanagement/resource-manager/Microsoft.ApiManagement/stable/2021-08-01/examples/ApiManagementCreatePortalRevision.json
+      func ExamplePortalRevisionClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armapimanagement.NewPortalRevisionClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"rg1",
+      		"apimService1",
+      		"20201112101010",
+      		armapimanagement.PortalRevisionContract{
+      			Properties: &armapimanagement.PortalRevisionContractProperties{
+      				Description: to.Ptr("portal revision 1"),
+      				IsCurrent:   to.Ptr(true),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fapimanagement%2Farmapimanagement%2Fv1.0.0/sdk/resourcemanager/apimanagement/armapimanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -213,5 +299,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Creates a new developer portal's revision by running the portal's publishing. The `isCurrent` property indicates if the revision is publicly accessible.
+  description: >
+    Creates a new developer portal's revision by running the portal's publishing. The isCurrent property indicates if the revision is publicly accessible.
 errorCodes: []

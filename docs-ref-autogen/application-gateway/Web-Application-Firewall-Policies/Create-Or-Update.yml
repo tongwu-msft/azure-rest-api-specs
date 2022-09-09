@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.cre
 name: Create Or Update
 service: Application Gateway
 groupName: Web Application Firewall Policies
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates or update policy with specified rule set name within a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/{policyName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -1856,6 +1856,9 @@ definitions:
   - name: GeoMatch
     types:
     - uid: string
+  - name: Any
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -1931,6 +1934,9 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: CustomV2
+    types:
+    - uid: string
 - name: ApplicationGatewaySslPolicyName
   description: Name of Ssl predefined policy.
   kind: enum
@@ -1944,6 +1950,12 @@ definitions:
   - name: AppGwSslPolicy20170401S
     types:
     - uid: string
+  - name: AppGwSslPolicy20220101
+    types:
+    - uid: string
+  - name: AppGwSslPolicy20220101S
+    types:
+    - uid: string
 - name: ApplicationGatewaySslProtocol
   description: Minimum version of Ssl protocol to be supported on application gateway.
   kind: enum
@@ -1955,6 +1967,9 @@ definitions:
     types:
     - uid: string
   - name: TLSv1_2
+    types:
+    - uid: string
+  - name: TLSv1_3
     types:
     - uid: string
 - name: IPAllocationMethod
@@ -2888,7 +2903,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -3192,7 +3207,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -3574,6 +3589,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -4942,7 +4961,7 @@ definitions:
 examples:
 - name: Creates or updates a WAF policy within a resource group
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2022-01-01
     body: >-
       {
         "location": "WestUs",
@@ -5060,6 +5079,522 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies/Policy1?api-version=2022-01-01
+
+      {
+        "location": "WestUs",
+        "properties": {
+          "managedRules": {
+            "managedRuleSets": [
+              {
+                "ruleSetType": "OWASP",
+                "ruleSetVersion": "3.2"
+              }
+            ],
+            "exclusions": [
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.2",
+                    "ruleGroups": [
+                      {
+                        "ruleGroupName": "REQUEST-930-APPLICATION-ATTACK-LFI",
+                        "rules": [
+                          {
+                            "ruleId": "930120"
+                          }
+                        ]
+                      },
+                      {
+                        "ruleGroupName": "REQUEST-932-APPLICATION-ATTACK-RCE"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "EndsWith",
+                "selector": "hello",
+                "exclusionManagedRuleSets": [
+                  {
+                    "ruleSetType": "OWASP",
+                    "ruleSetVersion": "3.1",
+                    "ruleGroups": []
+                  }
+                ]
+              },
+              {
+                "matchVariable": "RequestArgNames",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "test"
+              },
+              {
+                "matchVariable": "RequestArgValues",
+                "selectorMatchOperator": "StartsWith",
+                "selector": "test"
+              }
+            ]
+          },
+          "customRules": [
+            {
+              "name": "Rule1",
+              "priority": 1,
+              "ruleType": "MatchRule",
+              "action": "Block",
+              "matchConditions": [
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RemoteAddr",
+                      "selector": null
+                    }
+                  ],
+                  "operator": "IPMatch",
+                  "matchValues": [
+                    "192.168.1.0/24",
+                    "10.0.0.0/24"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Rule2",
+              "priority": 2,
+              "ruleType": "MatchRule",
+              "matchConditions": [
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RemoteAddr",
+                      "selector": null
+                    }
+                  ],
+                  "operator": "IPMatch",
+                  "matchValues": [
+                    "192.168.1.0/24"
+                  ]
+                },
+                {
+                  "matchVariables": [
+                    {
+                      "variableName": "RequestHeaders",
+                      "selector": "UserAgent"
+                    }
+                  ],
+                  "operator": "Contains",
+                  "matchValues": [
+                    "Windows"
+                  ]
+                }
+              ],
+              "action": "Block"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.WebApplicationFirewallPolicyInner;
+      import com.azure.resourcemanager.network.models.ExclusionManagedRule;
+      import com.azure.resourcemanager.network.models.ExclusionManagedRuleGroup;
+      import com.azure.resourcemanager.network.models.ExclusionManagedRuleSet;
+      import com.azure.resourcemanager.network.models.ManagedRuleSet;
+      import com.azure.resourcemanager.network.models.ManagedRulesDefinition;
+      import com.azure.resourcemanager.network.models.MatchCondition;
+      import com.azure.resourcemanager.network.models.MatchVariable;
+      import com.azure.resourcemanager.network.models.OwaspCrsExclusionEntry;
+      import com.azure.resourcemanager.network.models.OwaspCrsExclusionEntryMatchVariable;
+      import com.azure.resourcemanager.network.models.OwaspCrsExclusionEntrySelectorMatchOperator;
+      import com.azure.resourcemanager.network.models.WebApplicationFirewallAction;
+      import com.azure.resourcemanager.network.models.WebApplicationFirewallCustomRule;
+      import com.azure.resourcemanager.network.models.WebApplicationFirewallMatchVariable;
+      import com.azure.resourcemanager.network.models.WebApplicationFirewallOperator;
+      import com.azure.resourcemanager.network.models.WebApplicationFirewallRuleType;
+      import java.util.Arrays;
+
+      /** Samples for WebApplicationFirewallPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafPolicyCreateOrUpdate.json
+           */
+          /**
+           * Sample code: Creates or updates a WAF policy within a resource group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createsOrUpdatesAWAFPolicyWithinAResourceGroup(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getWebApplicationFirewallPolicies()
+                  .createOrUpdateWithResponse(
+                      "rg1",
+                      "Policy1",
+                      new WebApplicationFirewallPolicyInner()
+                          .withLocation("WestUs")
+                          .withCustomRules(
+                              Arrays
+                                  .asList(
+                                      new WebApplicationFirewallCustomRule()
+                                          .withName("Rule1")
+                                          .withPriority(1)
+                                          .withRuleType(WebApplicationFirewallRuleType.MATCH_RULE)
+                                          .withMatchConditions(
+                                              Arrays
+                                                  .asList(
+                                                      new MatchCondition()
+                                                          .withMatchVariables(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new MatchVariable()
+                                                                          .withVariableName(
+                                                                              WebApplicationFirewallMatchVariable
+                                                                                  .REMOTE_ADDR)))
+                                                          .withOperator(WebApplicationFirewallOperator.IPMATCH)
+                                                          .withMatchValues(Arrays.asList("192.168.1.0/24", "10.0.0.0/24"))))
+                                          .withAction(WebApplicationFirewallAction.BLOCK),
+                                      new WebApplicationFirewallCustomRule()
+                                          .withName("Rule2")
+                                          .withPriority(2)
+                                          .withRuleType(WebApplicationFirewallRuleType.MATCH_RULE)
+                                          .withMatchConditions(
+                                              Arrays
+                                                  .asList(
+                                                      new MatchCondition()
+                                                          .withMatchVariables(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new MatchVariable()
+                                                                          .withVariableName(
+                                                                              WebApplicationFirewallMatchVariable
+                                                                                  .REMOTE_ADDR)))
+                                                          .withOperator(WebApplicationFirewallOperator.IPMATCH)
+                                                          .withMatchValues(Arrays.asList("192.168.1.0/24")),
+                                                      new MatchCondition()
+                                                          .withMatchVariables(
+                                                              Arrays
+                                                                  .asList(
+                                                                      new MatchVariable()
+                                                                          .withVariableName(
+                                                                              WebApplicationFirewallMatchVariable
+                                                                                  .REQUEST_HEADERS)
+                                                                          .withSelector("UserAgent")))
+                                                          .withOperator(WebApplicationFirewallOperator.CONTAINS)
+                                                          .withMatchValues(Arrays.asList("Windows"))))
+                                          .withAction(WebApplicationFirewallAction.BLOCK)))
+                          .withManagedRules(
+                              new ManagedRulesDefinition()
+                                  .withExclusions(
+                                      Arrays
+                                          .asList(
+                                              new OwaspCrsExclusionEntry()
+                                                  .withMatchVariable(OwaspCrsExclusionEntryMatchVariable.REQUEST_ARG_NAMES)
+                                                  .withSelectorMatchOperator(
+                                                      OwaspCrsExclusionEntrySelectorMatchOperator.STARTS_WITH)
+                                                  .withSelector("hello")
+                                                  .withExclusionManagedRuleSets(
+                                                      Arrays
+                                                          .asList(
+                                                              new ExclusionManagedRuleSet()
+                                                                  .withRuleSetType("OWASP")
+                                                                  .withRuleSetVersion("3.2")
+                                                                  .withRuleGroups(
+                                                                      Arrays
+                                                                          .asList(
+                                                                              new ExclusionManagedRuleGroup()
+                                                                                  .withRuleGroupName(
+                                                                                      "REQUEST-930-APPLICATION-ATTACK-LFI")
+                                                                                  .withRules(
+                                                                                      Arrays
+                                                                                          .asList(
+                                                                                              new ExclusionManagedRule()
+                                                                                                  .withRuleId("930120"))),
+                                                                              new ExclusionManagedRuleGroup()
+                                                                                  .withRuleGroupName(
+                                                                                      "REQUEST-932-APPLICATION-ATTACK-RCE"))))),
+                                              new OwaspCrsExclusionEntry()
+                                                  .withMatchVariable(OwaspCrsExclusionEntryMatchVariable.REQUEST_ARG_NAMES)
+                                                  .withSelectorMatchOperator(
+                                                      OwaspCrsExclusionEntrySelectorMatchOperator.ENDS_WITH)
+                                                  .withSelector("hello")
+                                                  .withExclusionManagedRuleSets(
+                                                      Arrays
+                                                          .asList(
+                                                              new ExclusionManagedRuleSet()
+                                                                  .withRuleSetType("OWASP")
+                                                                  .withRuleSetVersion("3.1")
+                                                                  .withRuleGroups(Arrays.asList()))),
+                                              new OwaspCrsExclusionEntry()
+                                                  .withMatchVariable(OwaspCrsExclusionEntryMatchVariable.REQUEST_ARG_NAMES)
+                                                  .withSelectorMatchOperator(
+                                                      OwaspCrsExclusionEntrySelectorMatchOperator.STARTS_WITH)
+                                                  .withSelector("test"),
+                                              new OwaspCrsExclusionEntry()
+                                                  .withMatchVariable(OwaspCrsExclusionEntryMatchVariable.REQUEST_ARG_VALUES)
+                                                  .withSelectorMatchOperator(
+                                                      OwaspCrsExclusionEntrySelectorMatchOperator.STARTS_WITH)
+                                                  .withSelector("test")))
+                                  .withManagedRuleSets(
+                                      Arrays
+                                          .asList(new ManagedRuleSet().withRuleSetType("OWASP").withRuleSetVersion("3.2")))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafPolicyCreateOrUpdate.json
+      func ExampleWebApplicationFirewallPoliciesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewWebApplicationFirewallPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "rg1", "Policy1", armnetwork.WebApplicationFirewallPolicy{
+      		Location: to.Ptr("WestUs"),
+      		Properties: &armnetwork.WebApplicationFirewallPolicyPropertiesFormat{
+      			CustomRules: []*armnetwork.WebApplicationFirewallCustomRule{
+      				{
+      					Name:   to.Ptr("Rule1"),
+      					Action: to.Ptr(armnetwork.WebApplicationFirewallActionBlock),
+      					MatchConditions: []*armnetwork.MatchCondition{
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("192.168.1.0/24"),
+      								to.Ptr("10.0.0.0/24")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRemoteAddr),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorIPMatch),
+      						}},
+      					Priority: to.Ptr[int32](1),
+      					RuleType: to.Ptr(armnetwork.WebApplicationFirewallRuleTypeMatchRule),
+      				},
+      				{
+      					Name:   to.Ptr("Rule2"),
+      					Action: to.Ptr(armnetwork.WebApplicationFirewallActionBlock),
+      					MatchConditions: []*armnetwork.MatchCondition{
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("192.168.1.0/24")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRemoteAddr),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorIPMatch),
+      						},
+      						{
+      							MatchValues: []*string{
+      								to.Ptr("Windows")},
+      							MatchVariables: []*armnetwork.MatchVariable{
+      								{
+      									Selector:     to.Ptr("UserAgent"),
+      									VariableName: to.Ptr(armnetwork.WebApplicationFirewallMatchVariableRequestHeaders),
+      								}},
+      							Operator: to.Ptr(armnetwork.WebApplicationFirewallOperatorContains),
+      						}},
+      					Priority: to.Ptr[int32](2),
+      					RuleType: to.Ptr(armnetwork.WebApplicationFirewallRuleTypeMatchRule),
+      				}},
+      			ManagedRules: &armnetwork.ManagedRulesDefinition{
+      				Exclusions: []*armnetwork.OwaspCrsExclusionEntry{
+      					{
+      						ExclusionManagedRuleSets: []*armnetwork.ExclusionManagedRuleSet{
+      							{
+      								RuleGroups: []*armnetwork.ExclusionManagedRuleGroup{
+      									{
+      										RuleGroupName: to.Ptr("REQUEST-930-APPLICATION-ATTACK-LFI"),
+      										Rules: []*armnetwork.ExclusionManagedRule{
+      											{
+      												RuleID: to.Ptr("930120"),
+      											}},
+      									},
+      									{
+      										RuleGroupName: to.Ptr("REQUEST-932-APPLICATION-ATTACK-RCE"),
+      									}},
+      								RuleSetType:    to.Ptr("OWASP"),
+      								RuleSetVersion: to.Ptr("3.2"),
+      							}},
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("hello"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					},
+      					{
+      						ExclusionManagedRuleSets: []*armnetwork.ExclusionManagedRuleSet{
+      							{
+      								RuleGroups:     []*armnetwork.ExclusionManagedRuleGroup{},
+      								RuleSetType:    to.Ptr("OWASP"),
+      								RuleSetVersion: to.Ptr("3.1"),
+      							}},
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("hello"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorEndsWith),
+      					},
+      					{
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgNames),
+      						Selector:              to.Ptr("test"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					},
+      					{
+      						MatchVariable:         to.Ptr(armnetwork.OwaspCrsExclusionEntryMatchVariableRequestArgValues),
+      						Selector:              to.Ptr("test"),
+      						SelectorMatchOperator: to.Ptr(armnetwork.OwaspCrsExclusionEntrySelectorMatchOperatorStartsWith),
+      					}},
+      				ManagedRuleSets: []*armnetwork.ManagedRuleSet{
+      					{
+      						RuleSetType:    to.Ptr("OWASP"),
+      						RuleSetVersion: to.Ptr("3.2"),
+      					}},
+      			},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or update policy with specified rule set name within a resource group.
+       *
+       * @summary Creates or update policy with specified rule set name within a resource group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafPolicyCreateOrUpdate.json
+       */
+      async function createsOrUpdatesAWafPolicyWithinAResourceGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const policyName = "Policy1";
+        const parameters = {
+          customRules: [
+            {
+              name: "Rule1",
+              action: "Block",
+              matchConditions: [
+                {
+                  matchValues: ["192.168.1.0/24", "10.0.0.0/24"],
+                  matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                  operator: "IPMatch",
+                },
+              ],
+              priority: 1,
+              ruleType: "MatchRule",
+            },
+            {
+              name: "Rule2",
+              action: "Block",
+              matchConditions: [
+                {
+                  matchValues: ["192.168.1.0/24"],
+                  matchVariables: [{ selector: undefined, variableName: "RemoteAddr" }],
+                  operator: "IPMatch",
+                },
+                {
+                  matchValues: ["Windows"],
+                  matchVariables: [{ selector: "UserAgent", variableName: "RequestHeaders" }],
+                  operator: "Contains",
+                },
+              ],
+              priority: 2,
+              ruleType: "MatchRule",
+            },
+          ],
+          location: "WestUs",
+          managedRules: {
+            exclusions: [
+              {
+                exclusionManagedRuleSets: [
+                  {
+                    ruleGroups: [
+                      {
+                        ruleGroupName: "REQUEST-930-APPLICATION-ATTACK-LFI",
+                        rules: [{ ruleId: "930120" }],
+                      },
+                      { ruleGroupName: "REQUEST-932-APPLICATION-ATTACK-RCE" },
+                    ],
+                    ruleSetType: "OWASP",
+                    ruleSetVersion: "3.2",
+                  },
+                ],
+                matchVariable: "RequestArgNames",
+                selector: "hello",
+                selectorMatchOperator: "StartsWith",
+              },
+              {
+                exclusionManagedRuleSets: [
+                  { ruleGroups: [], ruleSetType: "OWASP", ruleSetVersion: "3.1" },
+                ],
+                matchVariable: "RequestArgNames",
+                selector: "hello",
+                selectorMatchOperator: "EndsWith",
+              },
+              {
+                matchVariable: "RequestArgNames",
+                selector: "test",
+                selectorMatchOperator: "StartsWith",
+              },
+              {
+                matchVariable: "RequestArgValues",
+                selector: "test",
+                selectorMatchOperator: "StartsWith",
+              },
+            ],
+            managedRuleSets: [{ ruleSetType: "OWASP", ruleSetVersion: "3.2" }],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.webApplicationFirewallPolicies.createOrUpdate(
+          resourceGroupName,
+          policyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesAWafPolicyWithinAResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5347,5 +5882,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Gateway service - Creates or update policy with specified rule set name within a resource group.
+  description: >
+    Learn more about Application Gateway service - Creates or update policy with specified rule set name within a resource group.
 errorCodes: []

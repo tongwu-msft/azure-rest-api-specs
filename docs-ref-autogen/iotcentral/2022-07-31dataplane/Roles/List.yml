@@ -1,0 +1,155 @@
+### YamlMime:RESTOperation
+uid: api.iotcentral.2022-07-31dataplane.roles.list
+name: List
+service: IoT Central
+groupName: Roles
+apiVersion: 2022-07-31
+summary: Get the list of roles in an application.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{subdomain}.{baseDomain}/api/roles?api-version=2022-07-31
+uriParameters:
+- name: subdomain
+  in: path
+  isRequired: true
+  description: The application subdomain.
+  types:
+  - uid: string
+- name: baseDomain
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The base domain for all Azure IoT Central service requests.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The version of the API being called.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Success
+  types:
+  - uid: RoleCollection
+- name: Other Status Codes
+  headers:
+  - name: x-ms-error-code
+    value: string
+  description: An error response received from the IoT Central Service.
+  types:
+  - uid: Error
+requestHeader: []
+definitions:
+- name: RoleCollection
+  description: The paged results of roles.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of roles.
+    types:
+    - uid: Role
+      isArray: true
+  - name: nextLink
+    description: URL to get the next page of roles.
+    types:
+    - uid: string
+- name: Error
+  description: The response error definition.
+  kind: object
+  properties:
+  - name: error
+    description: Error details for current request.
+    types:
+    - uid: ErrorDetails
+- name: Role
+  description: The role definition.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Unique ID of the role.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of the role.
+    types:
+    - uid: string
+- name: ErrorDetails
+  description: The detail information of the error.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message details.
+    types:
+    - uid: string
+  - name: requestId
+    description: Correlation Id for current request.
+    types:
+    - uid: string
+  - name: time
+    description: The time that error request failed.
+    types:
+    - uid: string
+examples:
+- name: List roles
+  request:
+    uri: GET https://appsubdomain.azureiotcentral.com/api/roles?api-version=2022-07-31
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://appsubdomain.azureiotcentral.com/api/roles?api-version=2022-07-31
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "ca310b8d-2f4a-44e0-a36e-957c202cd8d4",
+            "displayName": "Administrator"
+          },
+          {
+            "id": "344138e9-8de4-4497-8c54-5237e96d6aaf",
+            "displayName": "Builder"
+          },
+          {
+            "id": "ae2c9854-393b-4f97-8c42-479d70ce626e",
+            "displayName": "Operator"
+          },
+          {
+            "id": "c495eb57-eb18-489e-9802-62c474e5645c",
+            "displayName": "Org Admin"
+          },
+          {
+            "id": "b4935647-30e4-4ed3-9074-dcac66c2f8ef",
+            "displayName": "Org Operator"
+          },
+          {
+            "id": "84cc62c1-dabe-49d3-b16e-8b291232b285",
+            "displayName": "Org Viewer"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about IoT Central service - Get the list of roles in an application.
+errorCodes: []

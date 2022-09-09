@@ -3,14 +3,14 @@ uid: management.azure.com.azurequantum.resourcemanager.workspace.checknameavaila
 name: Check Name Availability
 service: Azure Quantum
 groupName: Workspace
-apiVersion: 2019-11-04-preview
+apiVersion: 2022-01-10-preview
 summary: Check the availability of the resource name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/checkNameAvailability?api-version=2019-11-04-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Quantum/locations/{locationName}/checkNameAvailability?api-version=2022-01-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -140,12 +140,64 @@ definitions:
 examples:
 - name: QuantumWorkspacesCheckNameAvailability
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/locations/westus2/checkNameAvailability?api-version=2019-11-04-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/locations/westus2/checkNameAvailability?api-version=2022-01-10-preview
     body: >-
       {
         "name": "sample-workspace-name",
         "type": "Microsoft.Quantum/Workspaces"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/providers/Microsoft.Quantum/locations/westus2/checkNameAvailability?api-version=2022-01-10-preview
+
+      {
+        "name": "sample-workspace-name",
+        "type": "Microsoft.Quantum/Workspaces"
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armquantum_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/quantum/armquantum"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesCheckNameAvailability.json
+      func ExampleWorkspaceClient_CheckNameAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armquantum.NewWorkspaceClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckNameAvailability(ctx,
+      		"westus2",
+      		armquantum.CheckNameAvailabilityParameters{
+      			Name: to.Ptr("sample-workspace-name"),
+      			Type: to.Ptr("Microsoft.Quantum/Workspaces"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fquantum%2Farmquantum%2Fv0.5.0/sdk/resourcemanager/quantum/armquantum/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -164,5 +216,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Quantum service - Check the availability of the resource name.
+  description: >
+    Learn more about Azure Quantum service - Check the availability of the resource name.
 errorCodes: []

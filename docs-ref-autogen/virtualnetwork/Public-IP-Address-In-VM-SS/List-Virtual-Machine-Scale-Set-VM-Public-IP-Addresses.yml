@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.publicipaddressinvmss.listvirtualmachin
 name: List Virtual Machine Scale Set VM Public IP Addresses
 service: Virtual Networks
 groupName: PublicIPAddress In VMSS
-apiVersion: 2021-08-01
+apiVersion: 2018-10-01
 summary: Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses?api-version=2021-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{virtualMachineScaleSetName}/virtualMachines/{virtualmachineIndex}/networkInterfaces/{networkInterfaceName}/ipconfigurations/{ipConfigurationName}/publicipaddresses?api-version=2018-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -613,7 +613,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -655,6 +655,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1306,7 +1310,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2681,7 +2685,114 @@ definitions:
 examples:
 - name: ListVMSSVMPublicIP
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipconfigurations/ip1/publicipaddresses?api-version=2021-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipconfigurations/ip1/publicipaddresses?api-version=2018-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/vmss-tester/providers/Microsoft.Compute/virtualMachineScaleSets/vmss1/virtualMachines/1/networkInterfaces/nic1/ipconfigurations/ip1/publicipaddresses?api-version=2018-10-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PublicIpAddresses ListVirtualMachineScaleSetVMPublicIpAddresses. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VmssVmPublicIpList.json
+           */
+          /**
+           * Sample code: ListVMSSVMPublicIP.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listVMSSVMPublicIP(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getPublicIpAddresses()
+                  .listVirtualMachineScaleSetVMPublicIpAddresses("vmss-tester", "vmss1", "1", "nic1", "ip1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VmssVmPublicIpList.json
+      func ExamplePublicIPAddressesClient_NewListVirtualMachineScaleSetVMPublicIPAddressesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewPublicIPAddressesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListVirtualMachineScaleSetVMPublicIPAddressesPager("vmss-tester", "vmss1", "1", "nic1", "ip1", nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
+       *
+       * @summary Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VmssVmPublicIpList.json
+       */
+      async function listVmssvmPublicIP() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "vmss-tester";
+        const virtualMachineScaleSetName = "vmss1";
+        const virtualmachineIndex = "1";
+        const networkInterfaceName = "nic1";
+        const ipConfigurationName = "ip1";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.publicIPAddresses.listVirtualMachineScaleSetVMPublicIPAddresses(
+          resourceGroupName,
+          virtualMachineScaleSetName,
+          virtualmachineIndex,
+          networkInterfaceName,
+          ipConfigurationName
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listVmssvmPublicIP().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2717,5 +2828,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
+  description: >
+    Gets information about all public IP addresses in a virtual machine IP configuration in a virtual machine scale set.
 errorCodes: []

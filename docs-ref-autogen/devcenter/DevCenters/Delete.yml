@@ -1,0 +1,191 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.devcenters.delete
+name: Delete
+service: Dev Center
+groupName: DevCenters
+apiVersion: 2022-08-01-preview
+summary: Deletes a devcenter
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/devcenters/{devCenterName}?api-version=2022-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: devCenterName
+  in: path
+  isRequired: true
+  description: The name of the devcenter.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. Resource has been deleted
+- name: 202 Accepted
+  description: Accepted. Operation will complete asynchronously.
+- name: 204 No Content
+  description: Resource does not exist.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: DevCenters_Delete
+  request:
+    uri: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso?api-version=2022-08-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/devcenters/Contoso?api-version=2022-08-01-preview
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DevCenters Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/DevCenters_Delete.json
+           */
+          /**
+           * Sample code: DevCenters_Delete.
+           *
+           * @param manager Entry point to DevCenterManager.
+           */
+          public static void devCentersDelete(com.azure.resourcemanager.devcenter.DevCenterManager manager) {
+              manager.devCenters().delete("rg1", "Contoso", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-devcenter_1.0.0-beta.1/sdk/devcenter/azure-resourcemanager-devcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/DevCenters_Delete.json
+      func ExampleDevCentersClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewDevCentersClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx,
+      		"rg1",
+      		"Contoso",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.1.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevCenterClient } = require("@azure/arm-devcenter");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes a devcenter
+       *
+       * @summary Deletes a devcenter
+       * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/DevCenters_Delete.json
+       */
+      async function devCentersDelete() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "rg1";
+        const devCenterName = "Contoso";
+        const credential = new DefaultAzureCredential();
+        const client = new DevCenterClient(credential, subscriptionId);
+        const result = await client.devCenters.beginDeleteAndWait(resourceGroupName, devCenterName);
+        console.log(result);
+      }
+
+      devCentersDelete().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devcenter_1.0.0-beta.1/sdk/devcenter/arm-devcenter/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+  - statusCode: "202"
+  - statusCode: "204"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Deletes a devcenter
+errorCodes: []

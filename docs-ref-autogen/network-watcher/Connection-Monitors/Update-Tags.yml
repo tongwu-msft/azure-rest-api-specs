@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.connectionmonitors.updatetags
 name: Update Tags
 service: Network Watcher
 groupName: Connection Monitors
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Update tags of the specified connection monitor.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2021-08-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/connectionMonitors/{connectionMonitorName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -382,6 +382,12 @@ definitions:
   - name: MMAWorkspaceNetwork
     types:
     - uid: string
+  - name: AzureArcVM
+    types:
+    - uid: string
+  - name: AzureVMSS
+    types:
+    - uid: string
 - name: ConnectionMonitorEndpointFilter
   description: Describes the connection monitor endpoint filter.
   kind: object
@@ -604,7 +610,7 @@ definitions:
 examples:
 - name: Update connection monitor tags
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2021-08-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2022-01-01
     body: >-
       {
         "tags": {
@@ -612,6 +618,136 @@ examples:
           "tag2": "value2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/connectionMonitors/cm1?api-version=2022-01-01
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.models.TagsObject;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ConnectionMonitors UpdateTags. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
+           */
+          /**
+           * Sample code: Update connection monitor tags.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateConnectionMonitorTags(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getConnectionMonitors()
+                  .updateTagsWithResponse(
+                      "rg1",
+                      "nw1",
+                      "cm1",
+                      new TagsObject().withTags(mapOf("tag1", "value1", "tag2", "value2")),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
+      func ExampleConnectionMonitorsClient_UpdateTags() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewConnectionMonitorsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdateTags(ctx, "rg1", "nw1", "cm1", armnetwork.TagsObject{
+      		Tags: map[string]*string{
+      			"tag1": to.Ptr("value1"),
+      			"tag2": to.Ptr("value2"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update tags of the specified connection monitor.
+       *
+       * @summary Update tags of the specified connection monitor.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherConnectionMonitorUpdateTags.json
+       */
+      async function updateConnectionMonitorTags() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const networkWatcherName = "nw1";
+        const connectionMonitorName = "cm1";
+        const parameters = { tags: { tag1: "value1", tag2: "value2" } };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.connectionMonitors.updateTags(
+          resourceGroupName,
+          networkWatcherName,
+          connectionMonitorName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateConnectionMonitorTags().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -651,5 +787,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Watcher service - Update tags of the specified connection monitor.
+  description: >
+    Learn more about Network Watcher service - Update tags of the specified connection monitor.
 errorCodes: []

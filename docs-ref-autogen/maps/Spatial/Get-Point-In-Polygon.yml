@@ -1,0 +1,247 @@
+### YamlMime:RESTOperation
+uid: maps.spatial.getpointinpolygon
+name: Get Point In Polygon
+service: Maps
+groupName: Spatial
+apiVersion: 2022-08-01
+summary: "**Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThis API returns a boolean value indicating whether a point is inside a set of polygons. The set of polygons is provided by a GeoJSON file which is uploaded via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and referenced by a unique udid. The GeoJSON file may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries(referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.\n\n \nTo test this API, you can upload the sample data from [Post Point In Polygon API](https://docs.microsoft.com/rest/api/maps/spatial/postpointinpolygon#examples) examples(Request Body) via [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) and replace the [udid] from the [sample request below](https://docs.microsoft.com/rest/api/maps/spatial/getpointinpolygon#examples) with the udid returned by Data Upload API."
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://{geography}.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid={udid}&lat={lat}&lon={lon}
+uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: Location of the Azure Maps Account. Valid values are us (East US, West Central US, West US 2) and eu (North Europe, West Europe). This parameter is required when a `udid` is supplied in the request. For example, if the Azure Maps Account is located in East US, only requests to us geography will be accepted.
+  types:
+  - uid: string
+- name: format
+  in: path
+  isRequired: true
+  description: Desired format of the response. Only `json` format is supported.
+  types:
+  - uid: JsonFormat
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.
+  types:
+  - uid: string
+- name: udid
+  in: query
+  isRequired: true
+  description: The unique id returned from [Data Upload API](https://docs.microsoft.com/rest/api/maps/data/uploadPreview) after uploading a valid GeoJSON FeatureCollection object.  Please refer to [RFC 7946](https://tools.ietf.org/html/rfc7946#section-3.3) for details. All the feature's properties should contain `geometryId`, which is used for identifying the geometry and is case-sensitive.
+  types:
+  - uid: string
+- name: lat
+  in: query
+  isRequired: true
+  description: 'The latitude of the location being passed.  Example: 48.36.'
+  types:
+  - uid: number
+- name: lon
+  in: query
+  isRequired: true
+  description: 'The longitude of the location being passed.  Example: -124.63.'
+  types:
+  - uid: number
+responses:
+- name: 200 OK
+  description: OK
+  types:
+  - uid: PointInPolygonResult
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  types:
+  - uid: string
+definitions:
+- name: JsonFormat
+  description: Desired format of the response. Only `json` format is supported.
+  kind: enum
+  properties:
+  - name: json
+    description: '[The JavaScript Object Notation Data Interchange Format](https://tools.ietf.org/html/rfc8259)'
+    types:
+    - uid: string
+- name: PointInPolygonResult
+  description: Returns true if point is within the polygon, false otherwise
+  kind: object
+  properties:
+  - name: summary
+    isReadyOnly: true
+    description: Point In Polygon Summary object
+    types:
+    - uid: PointInPolygonSummary
+  - name: result
+    description: Point In Polygon Result Object
+    types:
+    - uid: Result
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: PointInPolygonSummary
+  description: Point In Polygon Summary object
+  kind: object
+  properties:
+  - name: sourcePoint
+    description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
+    types:
+    - uid: LatLongPairAbbreviated
+  - name: udid
+    isReadyOnly: true
+    description: A unique data id (udid) for the uploaded content. Udid is not applicable for POST spatial operations(set to null)
+    types:
+    - uid: string
+  - name: information
+    isReadyOnly: true
+    description: Processing information
+    types:
+    - uid: string
+- name: Result
+  description: Point In Polygon Result Object
+  kind: object
+  properties:
+  - name: pointInPolygons
+    isReadyOnly: true
+    description: Point In Polygons Property
+    types:
+    - uid: boolean
+  - name: intersectingGeometries
+    isReadyOnly: true
+    description: Geometries array
+    types:
+    - uid: string
+      isArray: true
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: LatLongPairAbbreviated
+  description: A location represented as a latitude and longitude using short names 'lat' & 'lon'.
+  kind: object
+  properties:
+  - name: lat
+    description: Latitude property
+    types:
+    - uid: number
+  - name: lon
+    description: Longitude property
+    types:
+    - uid: number
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: GetPointInPolygon
+  request:
+    uri: GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&udid=f6495f62-94f8-0ec2-c252-45626f82fcb2&lat=47.622942&lon=-122.316456
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "summary": {
+          "sourcePoint": {
+            "lat": 33.5362475,
+            "lon": -111.9267386
+          },
+          "udid": "f6495f62-94f8-0ec2-c252-45626f82fcb2",
+          "information": "4 polygons processed in user data"
+        },
+        "result": {
+          "pointInPolygons": true,
+          "intersectingGeometries": [
+            "1001",
+            "1003"
+          ]
+        }
+      }
+security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://atlas.microsoft.com/.default
+    description: https://atlas.microsoft.com/.default
+- name: subscription-key
+  type: apiKey
+  description: >-
+    This is a shared key that is provisioned when creating an [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane  via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
+
+     For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
+  in: header
+- name: SAS Token
+  type: apiKey
+  description: >-
+    This is a shared access signature token is created from the List SAS operation on the [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this token, any application is authorized to access with Azure role-based access controls and fine-grain control to the expiration, rate, and region(s) of use for the particular token. In other words, the SAS Token can be used to allow applications to control access in a more secured way than the shared key.
+
+     For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
+  in: header
+metadata:
+  description: >-
+    Applies to: see pricing tiers.
+
+    This API returns a boolean value indicating whether a point is inside a set of polygons.
+errorCodes: []

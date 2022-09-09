@@ -3,14 +3,16 @@ uid: management.azure.com.networkmanager.adminrules.delete
 name: Delete
 service: Network Manager
 groupName: Admin Rules
-apiVersion: 2021-02-01-preview
+apiVersion: 2022-01-01
 summary: Deletes an admin rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2021-02-01-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?api-version=2022-01-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkManagers/{networkManagerName}/securityAdminConfigurations/{configurationName}/ruleCollections/{ruleCollectionName}/rules/{ruleName}?force={force}&api-version=2022-01-01
+  isOptional: true
 uriParameters:
 - name: subscriptionId
   in: path
@@ -33,7 +35,7 @@ uriParameters:
 - name: configurationName
   in: path
   isRequired: true
-  description: The name of the network manager security Configuration.
+  description: The name of the network manager Security Configuration.
   types:
   - uid: string
 - name: ruleCollectionName
@@ -48,6 +50,11 @@ uriParameters:
   description: The name of the rule.
   types:
   - uid: string
+- name: force
+  in: query
+  description: Deletes the resource even if it is part of a deployed configuration. If the configuration has been deployed, the service will do a cleanup deployment in the background, prior to the delete.
+  types:
+  - uid: boolean
 - name: api-version
   in: query
   isRequired: true
@@ -57,6 +64,11 @@ uriParameters:
 responses:
 - name: 200 OK
   description: OK
+- name: 202 Accepted
+  headers:
+  - name: Location
+    value: string
+  description: Accepted and will complete asynchronously.
 - name: 204 No Content
   description: Request successful. Resource does not exist.
 - name: Other Status Codes
@@ -97,8 +109,124 @@ definitions:
 examples:
 - name: Deletes an admin rule
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?api-version=2021-02-01-preview
+    uri: DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?force=False&api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule?force=False&api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AdminRules Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRuleDelete.json
+           */
+          /**
+           * Sample code: Deletes an admin rule.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void deletesAnAdminRule(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getAdminRules()
+                  .delete(
+                      "rg1",
+                      "testNetworkManager",
+                      "myTestSecurityConfig",
+                      "testRuleCollection",
+                      "SampleAdminRule",
+                      false,
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRuleDelete.json
+      func ExampleAdminRulesClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewAdminRulesClient("subId", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx, "rg1", "testNetworkManager", "myTestSecurityConfig", "testRuleCollection", "SampleAdminRule", &armnetwork.AdminRulesClientBeginDeleteOptions{Force: to.Ptr(false)})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes an admin rule.
+       *
+       * @summary Deletes an admin rule.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerAdminRuleDelete.json
+       */
+      async function deletesAnAdminRule() {
+        const subscriptionId = "subId";
+        const resourceGroupName = "rg1";
+        const networkManagerName = "testNetworkManager";
+        const configurationName = "myTestSecurityConfig";
+        const ruleCollectionName = "testRuleCollection";
+        const ruleName = "SampleAdminRule";
+        const force = false;
+        const options = { force };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.adminRules.beginDeleteAndWait(
+          resourceGroupName,
+          networkManagerName,
+          configurationName,
+          ruleCollectionName,
+          ruleName,
+          options
+        );
+        console.log(result);
+      }
+
+      deletesAnAdminRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
+  - statusCode: "202"
+    headers:
+    - name: Location
+      value: https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/SampleRG/providers/Microsoft.Network/networkManagers/testNetworkManager/securityAdminConfigurations/myTestSecurityConfig/ruleCollections/testRuleCollection/rules/SampleAdminRule/operationResults/00000000-0000-0000-0000-000000000000?api-version=2022-01-01
   - statusCode: "200"
   - statusCode: "204"
 security:
@@ -111,5 +239,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Deletes an admin rule.
+  description: >
+    Learn more about Network Manager service - Deletes an admin rule.
 errorCodes: []

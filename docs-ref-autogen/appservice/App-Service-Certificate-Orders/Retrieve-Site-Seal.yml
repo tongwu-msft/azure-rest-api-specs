@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.retrievesitesea
 name: Retrieve Site Seal
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
-summary: Verify domain ownership for this certificate order.
+apiVersion: 2022-03-01
+summary: This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal?api-version=2015-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{certificateOrderName}/retrieveSiteSeal?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -42,6 +42,10 @@ responses:
   description: OK
   types:
   - uid: SiteSeal
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -61,6 +65,15 @@ definitions:
   description: Site seal
   kind: object
   properties: []
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: SiteSealRequest
   description: Site seal request.
   kind: object
@@ -73,7 +86,185 @@ definitions:
     description: Locale of site seal.
     types:
     - uid: string
-examples: []
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Retrieve Site Seal
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveSiteSeal?api-version=2022-03-01
+    body: >-
+      {
+        "lightTheme": true,
+        "locale": "en-us"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveSiteSeal?api-version=2022-03-01
+
+      {
+        "lightTheme": true,
+        "locale": "en-us"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.SiteSealRequest;
+
+      /** Samples for AppServiceCertificateOrders RetrieveSiteSeal. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveSiteSeal.json
+           */
+          /**
+           * Sample code: Retrieve Site Seal.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void retrieveSiteSeal(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceCertificateOrders()
+                  .retrieveSiteSealWithResponse(
+                      "testrg123",
+                      "SampleCertOrder",
+                      new SiteSealRequest().withLightTheme(true).withLocale("en-us"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveSiteSeal.json
+      func ExampleCertificateOrdersClient_RetrieveSiteSeal() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewCertificateOrdersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.RetrieveSiteSeal(ctx,
+      		"testrg123",
+      		"SampleCertOrder",
+      		armappservice.SiteSealRequest{
+      			LightTheme: to.Ptr(true),
+      			Locale:     to.Ptr("en-us"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times.
+       *
+       * @summary This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their web site to show their visitors information about their SSL certificate. If a web site visitor clicks on the site seal image, a pop-up page is displayed that contains detailed information about the SSL certificate. The site seal token is used to link the site seal graphic image to the appropriate certificate details pop-up page display when a user clicks on the site seal. The site seal images are expected to be static images and hosted by the reseller, to minimize delays for customer page load times.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveSiteSeal.json
+       */
+      async function retrieveSiteSeal() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const certificateOrderName = "SampleCertOrder";
+        const siteSealRequest = {
+          lightTheme: true,
+          locale: "en-us",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceCertificateOrders.retrieveSiteSeal(
+          resourceGroupName,
+          certificateOrderName,
+          siteSealRequest
+        );
+        console.log(result);
+      }
+
+      retrieveSiteSeal().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "html": "<html>SiteSeal</html>"
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -84,5 +275,5 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Verify domain ownership for this certificate order.
+  description: This method is used to obtain the site seal information for an issued certificate. A site seal is a graphic that the certificate purchaser can embed on their we
 errorCodes: []

@@ -198,6 +198,56 @@ examples:
 - name: ExternalBillingAccountDimensionList
   request:
     uri: GET https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/dimensions?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.CostManagement/externalBillingAccounts/100/dimensions?api-version=2021-10-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armcostmanagement_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/costmanagement/armcostmanagement"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cost-management/resource-manager/Microsoft.CostManagement/stable/2021-10-01/examples/ExternalBillingAccountsDimensions.json
+      func ExampleDimensionsClient_NewByExternalCloudProviderTypePager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcostmanagement.NewDimensionsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewByExternalCloudProviderTypePager(armcostmanagement.ExternalCloudProviderTypeExternalBillingAccounts,
+      		"100",
+      		&armcostmanagement.DimensionsClientByExternalCloudProviderTypeOptions{Filter: nil,
+      			Expand:    nil,
+      			Skiptoken: nil,
+      			Top:       nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcostmanagement%2Farmcostmanagement%2Fv1.0.0/sdk/resourcemanager/costmanagement/armcostmanagement/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -238,6 +288,12 @@ examples:
 - name: ExternalSubscriptionDimensionList
   request:
     uri: GET https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/dimensions?api-version=2021-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.CostManagement/externalSubscriptions/100/dimensions?api-version=2021-10-01
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -285,5 +341,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Cost Management service - Lists the dimensions by the external cloud provider type.
+  description: >
+    Learn more about Cost Management service - Lists the dimensions by the external cloud provider type.
 errorCodes: []

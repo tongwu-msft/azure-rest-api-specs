@@ -1,0 +1,189 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.databaseaccounts.listkeys
+name: List Keys
+service: Cosmos DB Resource Provider
+groupName: Database Accounts
+apiVersion: 2022-05-15
+summary: Lists the access keys for the specified Azure Cosmos DB database account.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys?api-version=2022-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: DatabaseAccountListKeysResult
+requestHeader: []
+definitions:
+- name: DatabaseAccountListKeysResult
+  description: The access keys for the given database account.
+  kind: object
+  properties:
+  - name: primaryMasterKey
+    isReadyOnly: true
+    description: Base 64 encoded value of the primary read-write key.
+    types:
+    - uid: string
+  - name: secondaryMasterKey
+    isReadyOnly: true
+    description: Base 64 encoded value of the secondary read-write key.
+    types:
+    - uid: string
+  - name: primaryReadonlyMasterKey
+    isReadyOnly: true
+    description: Base 64 encoded value of the primary read-only key.
+    types:
+    - uid: string
+  - name: secondaryReadonlyMasterKey
+    isReadyOnly: true
+    description: Base 64 encoded value of the secondary read-only key.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBDatabaseAccountListKeys
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/listKeys?api-version=2022-05-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/listKeys?api-version=2022-05-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for DatabaseAccounts ListKeys. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDatabaseAccountListKeys.json
+           */
+          /**
+           * Sample code: CosmosDBDatabaseAccountListKeys.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBDatabaseAccountListKeys(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getDatabaseAccounts()
+                  .listKeysWithResponse("rg1", "ddb1", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDatabaseAccountListKeys.json
+      func ExampleDatabaseAccountsClient_ListKeys() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewDatabaseAccountsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListKeys(ctx,
+      		"rg1",
+      		"ddb1",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the access keys for the specified Azure Cosmos DB database account.
+       *
+       * @summary Lists the access keys for the specified Azure Cosmos DB database account.
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBDatabaseAccountListKeys.json
+       */
+      async function cosmosDbDatabaseAccountListKeys() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const accountName = "ddb1";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const result = await client.databaseAccounts.listKeys(resourceGroupName, accountName);
+        console.log(result);
+      }
+
+      cosmosDbDatabaseAccountListKeys().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "primaryMasterKey": "primaryMasterKey",
+        "secondaryMasterKey": "secondaryMasterKey",
+        "primaryReadonlyMasterKey": "primaryReadonlyMasterKey",
+        "secondaryReadonlyMasterKey": "secondaryReadonlyMasterKey"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Lists the access keys for the specified Azure Cosmos DB database account.
+errorCodes: []

@@ -1,8 +1,8 @@
 ---
-title: "ContainerCodePackageProperties"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand how to configure container code package properties"
+description: Learn how to leverage container code package properties in Service Fabric Mesh Resource Manager and explore its runtime properties.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# ContainerCodePackageProperties
+# Explore container code package properties
 
 Describes a container and its runtime properties.
 

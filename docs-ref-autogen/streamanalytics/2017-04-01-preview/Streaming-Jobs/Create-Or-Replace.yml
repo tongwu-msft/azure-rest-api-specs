@@ -1873,6 +1873,36 @@ examples:
           "key3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName?api-version=2017-04-01-preview
+
+      {
+        "properties": {
+          "sku": {
+            "name": "Standard"
+          },
+          "eventsOutOfOrderPolicy": "Drop",
+          "outputErrorPolicy": "Drop",
+          "eventsOutOfOrderMaxDelayInSeconds": 5,
+          "eventsLateArrivalMaxDelayInSeconds": 16,
+          "dataLocale": "en-US",
+          "compatibilityLevel": "1.0",
+          "inputs": [],
+          "outputs": [],
+          "functions": []
+        },
+        "location": "West US",
+        "tags": {
+          "key1": "value1",
+          "randomKey": "randomValue",
+          "key3": "value3"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     headers:
@@ -2017,6 +2047,85 @@ examples:
           "key3": "value3"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/56b5e0a9-b645-407d-99b0-c64f86013e3d/resourcegroups/sjrg/providers/Microsoft.StreamAnalytics/streamingjobs/sjName?api-version=2017-04-01-preview
+
+      {
+        "properties": {
+          "sku": {
+            "name": "Standard"
+          },
+          "eventsOutOfOrderPolicy": "Drop",
+          "outputErrorPolicy": "Drop",
+          "eventsOutOfOrderMaxDelayInSeconds": 0,
+          "eventsLateArrivalMaxDelayInSeconds": 5,
+          "dataLocale": "en-US",
+          "compatibilityLevel": "1.0",
+          "inputs": [
+            {
+              "properties": {
+                "type": "Stream",
+                "datasource": {
+                  "type": "Microsoft.Storage/Blob",
+                  "properties": {
+                    "storageAccounts": [
+                      {
+                        "accountName": "yourAccountName",
+                        "accountKey": "yourAccountKey=="
+                      }
+                    ],
+                    "container": "containerName",
+                    "pathPattern": ""
+                  }
+                },
+                "serialization": {
+                  "type": "Json",
+                  "properties": {
+                    "encoding": "UTF8"
+                  }
+                }
+              },
+              "name": "inputtest"
+            }
+          ],
+          "transformation": {
+            "properties": {
+              "streamingUnits": 1,
+              "query": "Select Id, Name from inputtest"
+            },
+            "name": "transformationtest"
+          },
+          "outputs": [
+            {
+              "properties": {
+                "datasource": {
+                  "type": "Microsoft.Sql/Server/Database",
+                  "properties": {
+                    "server": "serverName",
+                    "database": "databaseName",
+                    "user": "<user>",
+                    "password": "userPassword",
+                    "table": "tableName"
+                  }
+                }
+              },
+              "name": "outputtest"
+            }
+          ],
+          "functions": []
+        },
+        "location": "West US",
+        "tags": {
+          "key1": "value1",
+          "randomKey": "randomValue",
+          "key3": "value3"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "201"
     headers:
@@ -2208,5 +2317,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Stream Analytics service - Creates a streaming job or replaces an already existing streaming job.
+  description: >
+    Learn more about Stream Analytics service - Creates a streaming job or replaces an already existing streaming job.
 errorCodes: []

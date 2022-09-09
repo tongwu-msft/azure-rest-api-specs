@@ -1,0 +1,654 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.devcenter.projectenvironmenttypes.createorupdate
+name: Create Or Update
+service: Dev Center
+groupName: Project Environment Types
+apiVersion: 2022-08-01-preview
+summary: Creates or updates a project environment type.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/environmentTypes/{environmentTypeName}?api-version=2022-08-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: Unique identifier of the Azure subscription. This is a GUID-formatted string (e.g. 00000000-0000-0000-0000-000000000000).
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project.
+  types:
+  - uid: string
+- name: environmentTypeName
+  in: path
+  isRequired: true
+  description: The name of the environment type.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Succeeded
+  types:
+  - uid: ProjectEnvironmentType
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    in: body
+    description: Managed identity properties
+    types:
+    - uid: ManagedServiceIdentity
+  - name: location
+    in: body
+    description: The geo-location for the environment type
+    types:
+    - uid: string
+  - name: properties.deploymentTargetId
+    in: body
+    description: Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription.
+    types:
+    - uid: string
+  - name: properties.status
+    in: body
+    description: Defines whether this Environment Type can be used in this Project.
+    types:
+    - uid: EnableStatus
+  - name: properties.creatorRoleAssignment
+    in: body
+    description: The role definition assigned to the environment creator on backing resources.
+    types:
+    - uid: CreatorRoleAssignment
+  - name: properties.userRoleAssignments
+    in: body
+    description: Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserRoleAssignment
+requestHeader: []
+definitions:
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: CreatorRoleAssignment
+  description: The role definition assigned to the environment creator on backing resources.
+  kind: object
+  properties:
+  - name: roles
+    description: A map of roles to assign to the environment creator.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: EnvironmentRole
+- name: UserRoleAssignment
+  description: Mapping of user object ID to role assignments.
+  kind: object
+  properties:
+  - name: roles
+    description: A map of roles to assign to the parent user.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: EnvironmentRole
+- name: ProjectEnvironmentType
+  description: Represents an environment type.
+  kind: object
+  properties:
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: identity
+    description: Managed identity properties
+    types:
+    - uid: ManagedServiceIdentity
+  - name: location
+    description: The geo-location for the environment type
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the resource.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+  - name: properties.deploymentTargetId
+    description: Id of a subscription that the environment type will be mapped to. The environment's resources will be deployed into this subscription.
+    types:
+    - uid: string
+  - name: properties.status
+    description: Defines whether this Environment Type can be used in this Project.
+    types:
+    - uid: EnableStatus
+  - name: properties.creatorRoleAssignment
+    description: The role definition assigned to the environment creator on backing resources.
+    types:
+    - uid: CreatorRoleAssignment
+  - name: properties.userRoleAssignments
+    description: Role Assignments created on environment backing resources. This is a mapping from a user object ID to an object of role definition IDs.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserRoleAssignment
+- name: CloudError
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: error
+    description: Error body
+    types:
+    - uid: CloudErrorBody
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: EnvironmentRole
+  description: A role that can be assigned to a user.
+  kind: object
+  properties:
+  - name: roleName
+    isReadyOnly: true
+    description: The common name of the Role Assignment. This is a descriptive name such as 'AcrPush'.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: This is a description of the Role Assignment.
+    types:
+    - uid: string
+- name: EnableStatus
+  description: Enable or disable status. Indicates whether the property applied to is either enabled or disabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the DevCenter service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: ProjectEnvironmentTypes_CreateOrUpdate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/ContosoProj/environmentTypes/{environmentTypeName}?api-version=2022-08-01-preview
+    body: >-
+      {
+        "properties": {
+          "deploymentTargetId": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "status": "Enabled",
+          "creatorRoleAssignment": {
+            "roles": {
+              "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {}
+            }
+          },
+          "userRoleAssignments": {
+            "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+              "roles": {
+                "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {}
+              }
+            }
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1": {}
+          }
+        },
+        "tags": {
+          "CostCenter": "RnD"
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/ContosoProj/environmentTypes/{environmentTypeName}?api-version=2022-08-01-preview
+
+      {
+        "properties": {
+          "deploymentTargetId": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "status": "Enabled",
+          "creatorRoleAssignment": {
+            "roles": {
+              "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {}
+            }
+          },
+          "userRoleAssignments": {
+            "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+              "roles": {
+                "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {}
+              }
+            }
+          }
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1": {}
+          }
+        },
+        "tags": {
+          "CostCenter": "RnD"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.devcenter.models.EnableStatus;
+      import com.azure.resourcemanager.devcenter.models.EnvironmentRole;
+      import com.azure.resourcemanager.devcenter.models.ManagedServiceIdentity;
+      import com.azure.resourcemanager.devcenter.models.ManagedServiceIdentityType;
+      import com.azure.resourcemanager.devcenter.models.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment;
+      import com.azure.resourcemanager.devcenter.models.UserAssignedIdentity;
+      import com.azure.resourcemanager.devcenter.models.UserRoleAssignmentValue;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for ProjectEnvironmentTypes CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/ProjectEnvironmentTypes_Put.json
+           */
+          /**
+           * Sample code: ProjectEnvironmentTypes_CreateOrUpdate.
+           *
+           * @param manager Entry point to DevCenterManager.
+           */
+          public static void projectEnvironmentTypesCreateOrUpdate(
+              com.azure.resourcemanager.devcenter.DevCenterManager manager) {
+              manager
+                  .projectEnvironmentTypes()
+                  .define("{environmentTypeName}")
+                  .withExistingProject("rg1", "ContosoProj")
+                  .withTags(mapOf("CostCenter", "RnD"))
+                  .withIdentity(
+                      new ManagedServiceIdentity()
+                          .withType(ManagedServiceIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1",
+                                  new UserAssignedIdentity())))
+                  .withDeploymentTargetId("/subscriptions/00000000-0000-0000-0000-000000000000")
+                  .withStatus(EnableStatus.ENABLED)
+                  .withCreatorRoleAssignment(
+                      new ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment()
+                          .withRoles(mapOf("4cbf0b6c-e750-441c-98a7-10da8387e4d6", new EnvironmentRole())))
+                  .withUserRoleAssignments(
+                      mapOf(
+                          "e45e3m7c-176e-416a-b466-0c5ec8298f8a",
+                          new UserRoleAssignmentValue()
+                              .withRoles(mapOf("4cbf0b6c-e750-441c-98a7-10da8387e4d6", new EnvironmentRole()))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-devcenter_1.0.0-beta.1/sdk/devcenter/azure-resourcemanager-devcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdevcenter_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/devcenter/armdevcenter"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/ProjectEnvironmentTypes_Put.json
+      func ExampleProjectEnvironmentTypesClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdevcenter.NewProjectEnvironmentTypesClient("{subscriptionId}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rg1",
+      		"ContosoProj",
+      		"{environmentTypeName}",
+      		armdevcenter.ProjectEnvironmentType{
+      			Identity: &armdevcenter.ManagedServiceIdentity{
+      				Type: to.Ptr(armdevcenter.ManagedServiceIdentityTypeUserAssigned),
+      				UserAssignedIdentities: map[string]*armdevcenter.UserAssignedIdentity{
+      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1": {},
+      				},
+      			},
+      			Properties: &armdevcenter.ProjectEnvironmentTypeProperties{
+      				CreatorRoleAssignment: &armdevcenter.ProjectEnvironmentTypeUpdatePropertiesCreatorRoleAssignment{
+      					Roles: map[string]*armdevcenter.EnvironmentRole{
+      						"4cbf0b6c-e750-441c-98a7-10da8387e4d6": {},
+      					},
+      				},
+      				DeploymentTargetID: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000"),
+      				Status:             to.Ptr(armdevcenter.EnableStatusEnabled),
+      				UserRoleAssignments: map[string]*armdevcenter.UserRoleAssignmentValue{
+      					"e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+      						Roles: map[string]*armdevcenter.EnvironmentRole{
+      							"4cbf0b6c-e750-441c-98a7-10da8387e4d6": {},
+      						},
+      					},
+      				},
+      			},
+      			Tags: map[string]*string{
+      				"CostCenter": to.Ptr("RnD"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdevcenter%2Farmdevcenter%2Fv0.1.0/sdk/resourcemanager/devcenter/armdevcenter/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DevCenterClient } = require("@azure/arm-devcenter");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a project environment type.
+       *
+       * @summary Creates or updates a project environment type.
+       * x-ms-original-file: specification/devcenter/resource-manager/Microsoft.DevCenter/preview/2022-08-01-preview/examples/ProjectEnvironmentTypes_Put.json
+       */
+      async function projectEnvironmentTypesCreateOrUpdate() {
+        const subscriptionId = "{subscriptionId}";
+        const resourceGroupName = "rg1";
+        const projectName = "ContosoProj";
+        const environmentTypeName = "{environmentTypeName}";
+        const body = {
+          creatorRoleAssignment: {
+            roles: { "4cbf0b6cE750441c98a710da8387e4d6": {} },
+          },
+          deploymentTargetId: "/subscriptions/00000000-0000-0000-0000-000000000000",
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/00000000000000000000000000000000/resourcegroups/identityGroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/testidentity1":
+                {},
+            },
+          },
+          status: "Enabled",
+          tags: { costCenter: "RnD" },
+          userRoleAssignments: {
+            e45e3m7c176e416aB4660c5ec8298f8a: {
+              roles: { "4cbf0b6cE750441c98a710da8387e4d6": {} },
+            },
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DevCenterClient(credential, subscriptionId);
+        const result = await client.projectEnvironmentTypes.createOrUpdate(
+          resourceGroupName,
+          projectName,
+          environmentTypeName,
+          body
+        );
+        console.log(result);
+      }
+
+      projectEnvironmentTypesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-devcenter_1.0.0-beta.1/sdk/devcenter/arm-devcenter/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/ContosoProj/environmentTypes/{environmentTypeName}",
+        "name": "{environmentTypeName}",
+        "type": "Microsoft.DevCenter/projects/environmentTypes",
+        "properties": {
+          "deploymentTargetId": "/subscriptions/00000000-0000-0000-0000-000000000000",
+          "status": "Enabled",
+          "provisioningState": "Succeeded",
+          "creatorRoleAssignment": {
+            "roles": {
+              "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {
+                "roleName": "Developer",
+                "description": "Allow Developer access to project virtual machine resources."
+              }
+            }
+          },
+          "userRoleAssignments": {
+            "e45e3m7c-176e-416a-b466-0c5ec8298f8a": {
+              "roles": {
+                "4cbf0b6c-e750-441c-98a7-10da8387e4d6": {
+                  "roleName": "Developer",
+                  "description": "Allow Developer access to project virtual machine resources."
+                }
+              }
+            }
+          }
+        },
+        "systemData": {
+          "createdBy": "User1@contoso.com",
+          "createdByType": "User",
+          "createdAt": "2020-11-18T18:24:24.818Z",
+          "lastModifiedBy": "User1@contoso.com",
+          "lastModifiedByType": "User",
+          "lastModifiedAt": "2020-11-18T18:24:24.818Z"
+        },
+        "tags": {
+          "CostCenter": "RnD"
+        },
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/identityGroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testidentity1": {
+              "clientId": "e35621a5-f615-4a20-940e-de8a84b15abc",
+              "principalId": "2111b8fc-e123-485a-b408-bf1153189494"
+            }
+          }
+        },
+        "location": "centralus"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Dev Center service - Creates or updates a project environment type.
+errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.webapplicationfirewallpolicies.lis
 name: List All
 service: Application Gateway
 groupName: Web Application Firewall Policies
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Gets all the WAF policies in a subscription.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2021-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -1816,6 +1816,9 @@ definitions:
   - name: GeoMatch
     types:
     - uid: string
+  - name: Any
+    types:
+    - uid: string
 - name: ResourceIdentityType
   description: The type of identity used for the resource. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -1891,6 +1894,9 @@ definitions:
   - name: Custom
     types:
     - uid: string
+  - name: CustomV2
+    types:
+    - uid: string
 - name: ApplicationGatewaySslPolicyName
   description: Name of Ssl predefined policy.
   kind: enum
@@ -1904,6 +1910,12 @@ definitions:
   - name: AppGwSslPolicy20170401S
     types:
     - uid: string
+  - name: AppGwSslPolicy20220101
+    types:
+    - uid: string
+  - name: AppGwSslPolicy20220101S
+    types:
+    - uid: string
 - name: ApplicationGatewaySslProtocol
   description: Minimum version of Ssl protocol to be supported on application gateway.
   kind: enum
@@ -1915,6 +1927,9 @@ definitions:
     types:
     - uid: string
   - name: TLSv1_2
+    types:
+    - uid: string
+  - name: TLSv1_3
     types:
     - uid: string
 - name: IPAllocationMethod
@@ -2848,7 +2863,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -3152,7 +3167,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -3534,6 +3549,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -4902,7 +4921,98 @@ definitions:
 examples:
 - name: Lists all WAF policies in a subscription
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2021-08-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/ApplicationGatewayWebApplicationFirewallPolicies?api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for WebApplicationFirewallPolicies List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListAllPolicies.json
+           */
+          /**
+           * Sample code: Lists all WAF policies in a subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listsAllWAFPoliciesInASubscription(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.networks().manager().serviceClient().getWebApplicationFirewallPolicies().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListAllPolicies.json
+      func ExampleWebApplicationFirewallPoliciesClient_NewListAllPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewWebApplicationFirewallPoliciesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListAllPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets all the WAF policies in a subscription.
+       *
+       * @summary Gets all the WAF policies in a subscription.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/WafListAllPolicies.json
+       */
+      async function listsAllWafPoliciesInASubscription() {
+        const subscriptionId = "subid";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.webApplicationFirewallPolicies.listAll()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listsAllWafPoliciesInASubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5008,5 +5118,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Application Gateway service - Gets all the WAF policies in a subscription.
+  description: >
+    Learn more about Application Gateway service - Gets all the WAF policies in a subscription.
 errorCodes: []

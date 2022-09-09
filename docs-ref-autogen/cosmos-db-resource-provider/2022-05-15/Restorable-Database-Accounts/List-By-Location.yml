@@ -1,0 +1,335 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.restorabledatabaseaccounts.listbylocation
+name: List By Location
+service: Cosmos DB Resource Provider
+groupName: Restorable Database Accounts
+apiVersion: 2022-05-15
+summary: Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/locations/{location}/restorableDatabaseAccounts?api-version=2022-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: location
+  in: path
+  isRequired: true
+  description: Cosmos DB region, with spaces between words and each word capitalized.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: RestorableDatabaseAccountsListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: RestorableDatabaseAccountsListResult
+  description: The List operation response, that contains the restorable database accounts and their properties.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: List of restorable database accounts and their properties.
+    types:
+    - uid: RestorableDatabaseAccountGetResult
+      isArray: true
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Error Response.
+    types:
+    - uid: ErrorResponse
+- name: RestorableDatabaseAccountGetResult
+  description: A Azure Cosmos DB restorable database account.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The unique resource identifier of the ARM resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the ARM resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of Azure resource.
+    types:
+    - uid: string
+  - name: location
+    description: The location of the resource group to which the resource belongs.
+    types:
+    - uid: string
+  - name: properties.accountName
+    description: The name of the global database account
+    types:
+    - uid: string
+  - name: properties.creationTime
+    description: The creation time of the restorable database account (ISO-8601 format).
+    types:
+    - uid: string
+  - name: properties.deletionTime
+    description: The time at which the restorable database account has been deleted (ISO-8601 format).
+    types:
+    - uid: string
+  - name: properties.apiType
+    isReadyOnly: true
+    description: The API type of the restorable database account.
+    types:
+    - uid: ApiType
+  - name: properties.restorableLocations
+    isReadyOnly: true
+    description: List of regions where the of the database account can be restored from.
+    types:
+    - uid: RestorableLocationResource
+      isArray: true
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+- name: ApiType
+  description: Enum to indicate the API type of the restorable database account.
+  kind: enum
+  properties:
+  - name: MongoDB
+    types:
+    - uid: string
+  - name: Gremlin
+    types:
+    - uid: string
+  - name: Cassandra
+    types:
+    - uid: string
+  - name: Table
+    types:
+    - uid: string
+  - name: Sql
+    types:
+    - uid: string
+  - name: GremlinV2
+    types:
+    - uid: string
+- name: RestorableLocationResource
+  description: Properties of the regional restorable account.
+  kind: object
+  properties:
+  - name: locationName
+    isReadyOnly: true
+    description: The location of the regional restorable account.
+    types:
+    - uid: string
+  - name: regionalDatabaseAccountInstanceId
+    isReadyOnly: true
+    description: The instance id of the regional restorable account.
+    types:
+    - uid: string
+  - name: creationTime
+    isReadyOnly: true
+    description: The creation time of the regional restorable database account (ISO-8601 format).
+    types:
+    - uid: string
+  - name: deletionTime
+    isReadyOnly: true
+    description: The time at which the regional restorable database account has been deleted (ISO-8601 format).
+    types:
+    - uid: string
+examples:
+- name: CosmosDBRestorableDatabaseAccountList
+  request:
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts?api-version=2022-05-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts?api-version=2022-05-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for RestorableDatabaseAccounts ListByLocation. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableDatabaseAccountList.json
+           */
+          /**
+           * Sample code: CosmosDBRestorableDatabaseAccountList.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBRestorableDatabaseAccountList(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getRestorableDatabaseAccounts()
+                  .listByLocation("West US", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableDatabaseAccountList.json
+      func ExampleRestorableDatabaseAccountsClient_NewListByLocationPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewRestorableDatabaseAccountsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByLocationPager("West US",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
+       *
+       * @summary Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a region.  This call requires 'Microsoft.DocumentDB/locations/restorableDatabaseAccounts/read' permission.
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBRestorableDatabaseAccountList.json
+       */
+      async function cosmosDbRestorableDatabaseAccountList() {
+        const subscriptionId = "subid";
+        const location = "West US";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.restorableDatabaseAccounts.listByLocation(location)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      cosmosDbRestorableDatabaseAccountList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts/d9b26648-2f53-4541-b3d8-3044f4f9810d",
+            "name": "d9b26648-2f53-4541-b3d8-3044f4f9810d",
+            "location": "West US",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts",
+            "properties": {
+              "accountName": "ddb1",
+              "creationTime": "2020-04-11T21:56:15Z",
+              "deletionTime": "2021-03-12T22:05:09Z",
+              "apiType": "Sql",
+              "restorableLocations": [
+                {
+                  "locationName": "South Central US",
+                  "regionalDatabaseAccountInstanceId": "d7a01f78-606f-45c6-9dac-0df32f433bb5",
+                  "creationTime": "2020-10-30T21:13:10Z",
+                  "deletionTime": "2020-10-30T21:13:35Z"
+                },
+                {
+                  "locationName": "West US",
+                  "regionalDatabaseAccountInstanceId": "fdb43d84-1572-4697-b6e7-2bcda0c51b2c",
+                  "creationTime": "2020-10-30T21:13:10Z"
+                }
+              ]
+            }
+          },
+          {
+            "id": "/subscriptions/subid/providers/Microsoft.DocumentDB/locations/West US/restorableDatabaseAccounts/4f9e6ace-ac7a-446c-98bc-194c502a06b4",
+            "name": "4f9e6ace-ac7a-446c-98bc-194c502a06b4",
+            "location": "West US",
+            "type": "Microsoft.DocumentDB/locations/restorableDatabaseAccounts",
+            "properties": {
+              "accountName": "ddb2",
+              "creationTime": "2020-05-01T08:05:18Z",
+              "apiType": "Sql",
+              "restorableLocations": [
+                {
+                  "locationName": "South Central US",
+                  "regionalDatabaseAccountInstanceId": "d7a01f78-606f-45c6-9dac-0df32f433bb5",
+                  "creationTime": "2020-10-30T21:13:10Z",
+                  "deletionTime": "2020-10-30T21:13:35Z"
+                },
+                {
+                  "locationName": "West US",
+                  "regionalDatabaseAccountInstanceId": "fdb43d84-1572-4697-b6e7-2bcda0c51b2c",
+                  "creationTime": "2020-10-30T21:13:10Z"
+                }
+              ]
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: Lists all the restorable Azure Cosmos DB database accounts available under the subscription and in a region.
+errorCodes: []

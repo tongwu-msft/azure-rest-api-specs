@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.applicationsecuritygroups.delete
 name: Delete
 service: Virtual Networks
 groupName: Application Security Groups
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Deletes the specified application security group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}?api-version=2021-08-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationSecurityGroups/{applicationSecurityGroupName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -81,7 +81,102 @@ definitions:
 examples:
 - name: Delete application security group
   request:
-    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg?api-version=2021-08-01
+    uri: DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg?api-version=2022-01-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationSecurityGroups/test-asg?api-version=2022-01-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for ApplicationSecurityGroups Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationSecurityGroupDelete.json
+           */
+          /**
+           * Sample code: Delete application security group.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void deleteApplicationSecurityGroup(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getApplicationSecurityGroups()
+                  .delete("rg1", "test-asg", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationSecurityGroupDelete.json
+      func ExampleApplicationSecurityGroupsClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewApplicationSecurityGroupsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx, "rg1", "test-asg", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes the specified application security group.
+       *
+       * @summary Deletes the specified application security group.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationSecurityGroupDelete.json
+       */
+      async function deleteApplicationSecurityGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const applicationSecurityGroupName = "test-asg";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.applicationSecurityGroups.beginDeleteAndWait(
+          resourceGroupName,
+          applicationSecurityGroupName
+        );
+        console.log(result);
+      }
+
+      deleteApplicationSecurityGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -96,5 +191,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual Networks service - Deletes the specified application security group.
+  description: >
+    Learn more about Virtual Networks service - Deletes the specified application security group.
 errorCodes: []

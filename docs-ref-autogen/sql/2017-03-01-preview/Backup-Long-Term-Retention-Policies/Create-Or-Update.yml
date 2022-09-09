@@ -146,6 +146,61 @@ examples:
           "weekOfYear": 5
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup/providers/Microsoft.Sql/servers/testserver/databases/testDatabase/backupLongTermRetentionPolicies/default?api-version=2017-03-01-preview
+
+      {
+        "properties": {
+          "weeklyRetention": "P1M",
+          "monthlyRetention": "P1Y",
+          "yearlyRetention": "P5Y",
+          "weekOfYear": 5
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.sql.fluent.models.BackupLongTermRetentionPolicyInner;
+      import com.azure.resourcemanager.sql.models.LongTermRetentionPolicyName;
+
+      /** Samples for BackupLongTermRetentionPolicies CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2017-03-01-preview/examples/LongTermRetentionPolicyCreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create or update the long term retention policy for the database.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateTheLongTermRetentionPolicyForTheDatabase(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .sqlServers()
+                  .manager()
+                  .serviceClient()
+                  .getBackupLongTermRetentionPolicies()
+                  .createOrUpdate(
+                      "resourceGroup",
+                      "testserver",
+                      "testDatabase",
+                      LongTermRetentionPolicyName.DEFAULT,
+                      new BackupLongTermRetentionPolicyInner()
+                          .withWeeklyRetention("P1M")
+                          .withMonthlyRetention("P1Y")
+                          .withYearlyRetention("P5Y")
+                          .withWeekOfYear(5),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -163,5 +218,6 @@ examples:
   - statusCode: "202"
 security: []
 metadata:
-  description: Learn more about SQL Database service - Sets a database's long term retention policy.
+  description: >
+    Learn more about SQL Database service - Sets a database's long term retention policy.
 errorCodes: []

@@ -377,6 +377,175 @@ examples:
           "privateLinkApprovalMessage": "Please approve the connection request for this Private Link"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/RG/providers/Microsoft.Cdn/profiles/profile1/endpoints/endpoint1/origins/www-someDomain-net?api-version=2021-06-01
+
+      {
+        "properties": {
+          "hostName": "www.someDomain.net",
+          "httpPort": 80,
+          "httpsPort": 443,
+          "originHostHeader": "www.someDomain.net",
+          "priority": 1,
+          "weight": 50,
+          "enabled": true,
+          "privateLinkResourceId": "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/privateLinkServices/pls1",
+          "privateLinkLocation": "eastus",
+          "privateLinkApprovalMessage": "Please approve the connection request for this Private Link"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cdn.fluent.models.OriginInner;
+
+      /** Samples for Origins Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_Create.json
+           */
+          /**
+           * Sample code: Origins_Create.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void originsCreate(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cdnProfiles()
+                  .manager()
+                  .serviceClient()
+                  .getOrigins()
+                  .create(
+                      "RG",
+                      "profile1",
+                      "endpoint1",
+                      "www-someDomain-net",
+                      new OriginInner()
+                          .withHostname("www.someDomain.net")
+                          .withHttpPort(80)
+                          .withHttpsPort(443)
+                          .withOriginHostHeader("www.someDomain.net")
+                          .withPriority(1)
+                          .withWeight(50)
+                          .withEnabled(true)
+                          .withPrivateLinkResourceId(
+                              "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/privateLinkServices/pls1")
+                          .withPrivateLinkLocation("eastus")
+                          .withPrivateLinkApprovalMessage("Please approve the connection request for this Private Link"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcdn_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cdn/armcdn"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_Create.json
+      func ExampleOriginsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcdn.NewOriginsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx,
+      		"RG",
+      		"profile1",
+      		"endpoint1",
+      		"www-someDomain-net",
+      		armcdn.Origin{
+      			Properties: &armcdn.OriginProperties{
+      				Enabled:                    to.Ptr(true),
+      				HostName:                   to.Ptr("www.someDomain.net"),
+      				HTTPPort:                   to.Ptr[int32](80),
+      				HTTPSPort:                  to.Ptr[int32](443),
+      				OriginHostHeader:           to.Ptr("www.someDomain.net"),
+      				Priority:                   to.Ptr[int32](1),
+      				PrivateLinkApprovalMessage: to.Ptr("Please approve the connection request for this Private Link"),
+      				PrivateLinkLocation:        to.Ptr("eastus"),
+      				PrivateLinkResourceID:      to.Ptr("/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/privateLinkServices/pls1"),
+      				Weight:                     to.Ptr[int32](50),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcdn%2Farmcdn%2Fv1.0.0/sdk/resourcemanager/cdn/armcdn/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CdnManagementClient } = require("@azure/arm-cdn");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new origin within the specified endpoint.
+       *
+       * @summary Creates a new origin within the specified endpoint.
+       * x-ms-original-file: specification/cdn/resource-manager/Microsoft.Cdn/stable/2021-06-01/examples/Origins_Create.json
+       */
+      async function originsCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "RG";
+        const profileName = "profile1";
+        const endpointName = "endpoint1";
+        const originName = "www-someDomain-net";
+        const origin = {
+          enabled: true,
+          hostName: "www.someDomain.net",
+          httpPort: 80,
+          httpsPort: 443,
+          originHostHeader: "www.someDomain.net",
+          priority: 1,
+          privateLinkApprovalMessage: "Please approve the connection request for this Private Link",
+          privateLinkLocation: "eastus",
+          privateLinkResourceId:
+            "/subscriptions/subid/resourcegroups/rg1/providers/Microsoft.Network/privateLinkServices/pls1",
+          weight: 50,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new CdnManagementClient(credential, subscriptionId);
+        const result = await client.origins.beginCreateAndWait(
+          resourceGroupName,
+          profileName,
+          endpointName,
+          originName,
+          origin
+        );
+        console.log(result);
+      }
+
+      originsCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cdn_7.0.0/sdk/cdn/arm-cdn/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -454,5 +623,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about CDN service - Creates a new origin within the specified endpoint.
+  description: >
+    Learn more about CDN service - Creates a new origin within the specified endpoint.
 errorCodes: []

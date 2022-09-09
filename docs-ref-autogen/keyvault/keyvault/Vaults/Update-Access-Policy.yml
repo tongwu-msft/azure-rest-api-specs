@@ -207,6 +207,145 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/sample-group/providers/Microsoft.KeyVault/vaults/sample-vault/accessPolicies/add?api-version=2021-10-01
+
+      {
+        "properties": {
+          "accessPolicies": [
+            {
+              "tenantId": "00000000-0000-0000-0000-000000000000",
+              "objectId": "00000000-0000-0000-0000-000000000000",
+              "permissions": {
+                "keys": [
+                  "encrypt"
+                ],
+                "secrets": [
+                  "get"
+                ],
+                "certificates": [
+                  "get"
+                ]
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.keyvault.fluent.models.VaultAccessPolicyParametersInner;
+      import com.azure.resourcemanager.keyvault.models.AccessPolicyEntry;
+      import com.azure.resourcemanager.keyvault.models.AccessPolicyUpdateKind;
+      import com.azure.resourcemanager.keyvault.models.CertificatePermissions;
+      import com.azure.resourcemanager.keyvault.models.KeyPermissions;
+      import com.azure.resourcemanager.keyvault.models.Permissions;
+      import com.azure.resourcemanager.keyvault.models.SecretPermissions;
+      import com.azure.resourcemanager.keyvault.models.VaultAccessPolicyProperties;
+      import java.util.Arrays;
+      import java.util.UUID;
+
+      /** Samples for Vaults UpdateAccessPolicy. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2021-10-01/examples/updateAccessPoliciesAdd.json
+           */
+          /**
+           * Sample code: Add an access policy, or update an access policy with new permissions.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void addAnAccessPolicyOrUpdateAnAccessPolicyWithNewPermissions(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .vaults()
+                  .manager()
+                  .serviceClient()
+                  .getVaults()
+                  .updateAccessPolicyWithResponse(
+                      "sample-group",
+                      "sample-vault",
+                      AccessPolicyUpdateKind.ADD,
+                      new VaultAccessPolicyParametersInner()
+                          .withProperties(
+                              new VaultAccessPolicyProperties()
+                                  .withAccessPolicies(
+                                      Arrays
+                                          .asList(
+                                              new AccessPolicyEntry()
+                                                  .withTenantId(UUID.fromString("00000000-0000-0000-0000-000000000000"))
+                                                  .withObjectId("00000000-0000-0000-0000-000000000000")
+                                                  .withPermissions(
+                                                      new Permissions()
+                                                          .withKeys(Arrays.asList(KeyPermissions.ENCRYPT))
+                                                          .withSecrets(Arrays.asList(SecretPermissions.GET))
+                                                          .withCertificates(Arrays.asList(CertificatePermissions.GET)))))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkeyvault_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/keyvault/armkeyvault"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/keyvault/resource-manager/Microsoft.KeyVault/stable/2021-10-01/examples/updateAccessPoliciesAdd.json
+      func ExampleVaultsClient_UpdateAccessPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkeyvault.NewVaultsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdateAccessPolicy(ctx,
+      		"sample-group",
+      		"sample-vault",
+      		armkeyvault.AccessPolicyUpdateKindAdd,
+      		armkeyvault.VaultAccessPolicyParameters{
+      			Properties: &armkeyvault.VaultAccessPolicyProperties{
+      				AccessPolicies: []*armkeyvault.AccessPolicyEntry{
+      					{
+      						ObjectID: to.Ptr("00000000-0000-0000-0000-000000000000"),
+      						Permissions: &armkeyvault.Permissions{
+      							Certificates: []*armkeyvault.CertificatePermissions{
+      								to.Ptr(armkeyvault.CertificatePermissionsGet)},
+      							Keys: []*armkeyvault.KeyPermissions{
+      								to.Ptr(armkeyvault.KeyPermissionsEncrypt)},
+      							Secrets: []*armkeyvault.SecretPermissions{
+      								to.Ptr(armkeyvault.SecretPermissionsGet)},
+      						},
+      						TenantID: to.Ptr("00000000-0000-0000-0000-000000000000"),
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkeyvault%2Farmkeyvault%2Fv1.0.0/sdk/resourcemanager/keyvault/armkeyvault/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -260,5 +399,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Key Vault service - Update access policies in a key vault in the specified subscription.
+  description: >
+    Learn more about Key Vault service - Update access policies in a key vault in the specified subscription.
 errorCodes: []

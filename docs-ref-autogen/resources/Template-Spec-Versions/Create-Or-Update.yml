@@ -287,6 +287,120 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/templateSpecRG/providers/Microsoft.Resources/templateSpecs/simpleTemplateSpec/versions/v1.0?api-version=2021-05-01
+
+      {
+        "location": "eastus",
+        "properties": {
+          "description": "This is version v1.0 of our template content",
+          "mainTemplate": {
+            "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            "contentVersion": "1.0.0.0",
+            "parameters": {},
+            "resources": []
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armtemplatespecs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/resources/armtemplatespecs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecVersionsCreate.json
+      func ExampleTemplateSpecVersionsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armtemplatespecs.NewTemplateSpecVersionsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"<resource-group-name>",
+      		"<template-spec-name>",
+      		"<template-spec-version>",
+      		armtemplatespecs.TemplateSpecVersion{
+      			Location: to.Ptr("<location>"),
+      			Properties: &armtemplatespecs.TemplateSpecVersionProperties{
+      				Description: to.Ptr("<description>"),
+      				MainTemplate: map[string]interface{}{
+      					"$schema":        "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      					"contentVersion": "1.0.0.0",
+      					"parameters":     map[string]interface{}{},
+      					"resources":      []interface{}{},
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fresources%2Farmtemplatespecs%2Fv0.4.0/sdk/resourcemanager/resources/armtemplatespecs/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { TemplateSpecsClient } = require("@azure/arm-templatespecs");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a Template Spec version.
+       *
+       * @summary Creates or updates a Template Spec version.
+       * x-ms-original-file: specification/resources/resource-manager/Microsoft.Resources/stable/2021-05-01/examples/TemplateSpecVersionsCreate.json
+       */
+      async function templateSpecVersionsCreateUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "templateSpecRG";
+        const templateSpecName = "simpleTemplateSpec";
+        const templateSpecVersion = "v1.0";
+        const templateSpecVersionModel = {
+          description: "This is version v1.0 of our template content",
+          location: "eastus",
+          mainTemplate: {
+            $schema: "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+            contentVersion: "1.0.0.0",
+            parameters: {},
+            resources: [],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new TemplateSpecsClient(credential, subscriptionId);
+        const result = await client.templateSpecVersions.createOrUpdate(
+          resourceGroupName,
+          templateSpecName,
+          templateSpecVersion,
+          templateSpecVersionModel
+        );
+        console.log(result);
+      }
+
+      templateSpecVersionsCreateUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-templatespecs_2.0.1/sdk/templatespecs/arm-templatespecs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -348,5 +462,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Resource Management service - Creates or updates a Template Spec version.
+  description: >
+    Learn more about Resource Management service - Creates or updates a Template Spec version.
 errorCodes: []

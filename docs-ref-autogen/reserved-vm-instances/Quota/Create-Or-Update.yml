@@ -266,6 +266,130 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Capacity/resourceProviders/Microsoft.Compute/locations/eastus/serviceLimits/standardFSv2Family?api-version=2020-10-25
+
+      {
+        "properties": {
+          "limit": 200,
+          "unit": "Count",
+          "name": {
+            "value": "standardFSv2Family"
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armreservations_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/reservations/armreservations"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putComputeOneSkuQuotaRequest.json
+      func ExampleQuotaClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armreservations.NewQuotaClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"D7EC67B3-7657-4966-BFFC-41EFD36BAAB3",
+      		"Microsoft.Compute",
+      		"eastus",
+      		"standardFSv2Family",
+      		armreservations.CurrentQuotaLimitBase{
+      			Properties: &armreservations.QuotaProperties{
+      				Name: &armreservations.ResourceName{
+      					Value: to.Ptr("standardFSv2Family"),
+      				},
+      				Limit: to.Ptr[int32](200),
+      				Unit:  to.Ptr("Count"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Freservations%2Farmreservations%2Fv1.0.0/sdk/resourcemanager/reservations/armreservations/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       *
+       * @summary Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putComputeOneSkuQuotaRequest.json
+       */
+      async function quotasRequestPutForCompute() {
+        const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
+        const providerId = "Microsoft.Compute";
+        const location = "eastus";
+        const resourceName = "standardFSv2Family";
+        const createQuotaRequest = {
+          properties: {
+            name: { value: "standardFSv2Family" },
+            limit: 200,
+            unit: "Count",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.quota.beginCreateOrUpdateAndWait(
+          subscriptionId,
+          providerId,
+          location,
+          resourceName,
+          createQuotaRequest
+        );
+        console.log(result);
+      }
+
+      quotasRequestPutForCompute().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.1.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -310,6 +434,80 @@ examples:
           "resourceType": "dedicated"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Capacity/resourceProviders/Microsoft.MachineLearningServices/locations/eastus/serviceLimits/StandardDv2Family?api-version=2020-10-25
+
+      {
+        "properties": {
+          "limit": 200,
+          "unit": "Count",
+          "name": {
+            "value": "StandardDv2Family"
+          },
+          "resourceType": "dedicated"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       *
+       * @summary Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestDedicated.json
+       */
+      async function quotasRequestPutForMachineLearningServicesDedicatedResource() {
+        const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
+        const providerId = "Microsoft.MachineLearningServices";
+        const location = "eastus";
+        const resourceName = "StandardDv2Family";
+        const createQuotaRequest = {
+          properties: {
+            name: { value: "StandardDv2Family" },
+            limit: 200,
+            resourceType: "dedicated",
+            unit: "Count",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.quota.beginCreateOrUpdateAndWait(
+          subscriptionId,
+          providerId,
+          location,
+          resourceName,
+          createQuotaRequest
+        );
+        console.log(result);
+      }
+
+      quotasRequestPutForMachineLearningServicesDedicatedResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.1.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -355,6 +553,80 @@ examples:
           "resourceType": "lowPriority"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/D7EC67B3-7657-4966-BFFC-41EFD36BAAB3/providers/Microsoft.Capacity/resourceProviders/Microsoft.MachineLearningServices/locations/eastus/serviceLimits/TotalLowPriorityCores?api-version=2020-10-25
+
+      {
+        "properties": {
+          "limit": 200,
+          "unit": "Count",
+          "name": {
+            "value": "TotalLowPriorityCores"
+          },
+          "resourceType": "lowPriority"
+        }
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureReservationAPI } = require("@azure/arm-reservations");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       *
+       * @summary Create or update the quota (service limits) of a resource to the requested value.
+       Steps:
+
+        1. Make the Get request to get the quota information for specific resource.
+
+        2. To increase the quota, update the limit field in the response from Get request to new value.
+
+        3. Submit the JSON to the quota request API to update the quota.
+        The Create quota request may be constructed as follows. The PUT operation can be used to update the quota.
+       * x-ms-original-file: specification/reservations/resource-manager/Microsoft.Capacity/stable/2020-10-25/examples/putMachineLearningServicesQuotaRequestLowPriority.json
+       */
+      async function quotasRequestPutForMachineLearningServicesLowPriorityResource() {
+        const subscriptionId = "D7EC67B3-7657-4966-BFFC-41EFD36BAAB3";
+        const providerId = "Microsoft.MachineLearningServices";
+        const location = "eastus";
+        const resourceName = "TotalLowPriorityCores";
+        const createQuotaRequest = {
+          properties: {
+            name: { value: "TotalLowPriorityCores" },
+            limit: 200,
+            resourceType: "lowPriority",
+            unit: "Count",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureReservationAPI(credential);
+        const result = await client.quota.beginCreateOrUpdateAndWait(
+          subscriptionId,
+          providerId,
+          location,
+          resourceName,
+          createQuotaRequest
+        );
+        console.log(result);
+      }
+
+      quotasRequestPutForMachineLearningServicesLowPriorityResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-reservations_7.1.0/sdk/reservations/arm-reservations/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -398,7 +670,8 @@ security:
 metadata:
   description: >-
     Create or update the quota (service limits) of a resource to the requested value.
-     Steps:
 
-      1. Make the Get request to get the quota information for specific r
+    Steps:
+
+    Make the Get request to get the quota information for specific resource
 errorCodes: []

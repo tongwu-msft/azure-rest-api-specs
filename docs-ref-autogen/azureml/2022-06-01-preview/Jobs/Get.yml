@@ -1,0 +1,4995 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.2022-06-01-preview.jobs.get
+name: Get
+service: Machine Learning
+groupName: Jobs
+apiVersion: 2022-06-01-preview
+summary: Gets a Job by name/id.
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/jobs/{id}?api-version=2022-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: id
+  in: path
+  isRequired: true
+  description: The name and identifier for the Job. This is case-sensitive.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Success
+  types:
+  - uid: JobBaseResource
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: JobBaseResource
+  description: Azure Resource Manager resource envelope.
+  kind: object
+  properties:
+  - name: properties
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: AutoMLJob
+    - uid: CommandJob
+    - uid: LabelingJob
+    - uid: PipelineJob
+    - uid: SparkJob
+    - uid: SweepJob
+    typesTitle: JobBase
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: AutoMLJob
+  description: >-
+    AutoMLJob class.
+
+    Use this class for executing AutoML tasks like Classification/Regression etc.
+
+    See TaskType enum for all the tasks supported.
+  kind: object
+  properties:
+  - name: environmentId
+    description: >-
+      The ARM resource ID of the Environment specification for the job.
+
+      This is optional value to provide, if not provided, AutoML will default this to Production AutoML curated environment version when running the job.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables included in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: outputs
+    description: Mapping of output data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobOutput
+  - name: resources
+    description: Compute Resource configuration for the job.
+    types:
+    - uid: JobResourceConfiguration
+    defaultValue: '{}'
+  - name: taskDetails
+    description: '[Required] This represents scenario which can be one of Tables/NLP/Image'
+    types:
+    - uid: Classification
+    - uid: Forecasting
+    - uid: ImageClassification
+    - uid: ImageClassificationMultilabel
+    - uid: ImageInstanceSegmentation
+    - uid: ImageObjectDetection
+    - uid: Regression
+    - uid: TextClassification
+    - uid: TextClassificationMultilabel
+    - uid: TextNer
+    typesTitle: AutoMLVertical
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: AutoML
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: CommandJob
+  description: Command job definition.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: command
+    description: '[Required] The command to execute on startup of the job. eg. "python train.py"'
+    types:
+    - uid: string
+  - name: distribution
+    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
+    types:
+    - uid: Mpi
+    - uid: PyTorch
+    - uid: TensorFlow
+    typesTitle: DistributionConfiguration
+  - name: environmentId
+    description: '[Required] The ARM resource ID of the Environment specification for the job.'
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables included in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: inputs
+    description: Mapping of input data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobInput
+  - name: limits
+    description: Command Job limit.
+    types:
+    - uid: CommandJobLimits
+  - name: outputs
+    description: Mapping of output data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobOutput
+  - name: parameters
+    isReadyOnly: true
+    description: Input parameters.
+    types:
+    - uid: object
+  - name: resources
+    description: Compute Resource configuration for the job.
+    types:
+    - uid: JobResourceConfiguration
+    defaultValue: '{}'
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: Command
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: LabelingJob
+  description: Labeling job definition
+  kind: object
+  properties:
+  - name: createdDateTime
+    isReadyOnly: true
+    description: Created time of the job in UTC timezone.
+    types:
+    - uid: string
+  - name: dataConfiguration
+    description: Configuration of data used in the job.
+    types:
+    - uid: LabelingDataConfiguration
+  - name: jobInstructions
+    description: Labeling instructions of the job.
+    types:
+    - uid: LabelingJobInstructions
+  - name: labelCategories
+    description: Label categories of the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LabelCategory
+  - name: labelingJobMediaProperties
+    description: Media type specific properties in the job.
+    types:
+    - uid: LabelingJobImageProperties
+    - uid: LabelingJobTextProperties
+    typesTitle: LabelingJobMediaProperties
+  - name: mlAssistConfiguration
+    description: Configuration of MLAssist feature in the job.
+    types:
+    - uid: MLAssistConfigurationDisabled
+    - uid: MLAssistConfigurationEnabled
+    typesTitle: MLAssistConfiguration
+    defaultValue: '{"MLAssist":"Disabled"}'
+  - name: progressMetrics
+    isReadyOnly: true
+    description: Progress metrics of the job.
+    types:
+    - uid: ProgressMetrics
+  - name: projectId
+    isReadyOnly: true
+    description: Internal id of the job(Previously called project).
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: Specifies the labeling job provisioning state.
+    types:
+    - uid: JobProvisioningState
+  - name: statusMessages
+    isReadyOnly: true
+    description: Status messages of the job.
+    types:
+    - uid: StatusMessage
+      isArray: true
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: Labeling
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: PipelineJob
+  description: 'Pipeline Job definition: defines generic to MFE attributes.'
+  kind: object
+  properties:
+  - name: inputs
+    description: Inputs for the pipeline job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobInput
+  - name: jobs
+    description: Jobs construct the Pipeline Job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: outputs
+    description: Outputs for the pipeline job
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobOutput
+  - name: settings
+    description: Pipeline settings, for things like ContinueRunOnStepFailure etc.
+    types:
+    - uid: object
+  - name: sourceJobId
+    description: ARM resource ID of source job.
+    types:
+    - uid: string
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: Pipeline
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SparkJob
+  description: Spark job definition.
+  kind: object
+  properties:
+  - name: archives
+    description: Archive files used in the job.
+    types:
+    - uid: string
+      isArray: true
+  - name: args
+    description: Arguments for the job.
+    types:
+    - uid: string
+  - name: codeId
+    description: '[Required] ARM resource ID of the code asset.'
+    types:
+    - uid: string
+  - name: conf
+    description: Spark configured properties.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: entry
+    description: '[Required] The entry to execute on startup of the job.'
+    types:
+    - uid: SparkJobPythonEntry
+    - uid: SparkJobScalaEntry
+    typesTitle: SparkJobEntry
+  - name: environmentId
+    description: The ARM resource ID of the Environment specification for the job.
+    types:
+    - uid: string
+  - name: files
+    description: Files used in the job.
+    types:
+    - uid: string
+      isArray: true
+  - name: inputs
+    description: Mapping of input data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobInput
+  - name: jars
+    description: Jar files used in the job.
+    types:
+    - uid: string
+      isArray: true
+  - name: outputs
+    description: Mapping of output data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobOutput
+  - name: pyFiles
+    description: Python files used in the job.
+    types:
+    - uid: string
+      isArray: true
+  - name: resources
+    description: Compute Resource configuration for the job.
+    types:
+    - uid: SparkResourceConfiguration
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: Spark
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: SweepJob
+  description: Sweep job definition.
+  kind: object
+  properties:
+  - name: earlyTermination
+    description: Early termination policies enable canceling poor-performing runs before they complete
+    types:
+    - uid: BanditPolicy
+    - uid: MedianStoppingPolicy
+    - uid: TruncationSelectionPolicy
+    typesTitle: EarlyTerminationPolicy
+  - name: inputs
+    description: Mapping of input data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobInput
+  - name: limits
+    description: Sweep Job limit.
+    types:
+    - uid: SweepJobLimits
+    defaultValue: '{}'
+  - name: objective
+    description: '[Required] Optimization objective.'
+    types:
+    - uid: Objective
+  - name: outputs
+    description: Mapping of output data bindings used in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobOutput
+  - name: samplingAlgorithm
+    description: '[Required] The hyperparameter sampling algorithm'
+    types:
+    - uid: BayesianSamplingAlgorithm
+    - uid: GridSamplingAlgorithm
+    - uid: RandomSamplingAlgorithm
+    typesTitle: SamplingAlgorithm
+  - name: searchSpace
+    description: '[Required] A dictionary containing each parameter and its distribution. The dictionary key is the name of the parameter'
+    types:
+    - uid: object
+  - name: trial
+    description: '[Required] Trial component definition.'
+    types:
+    - uid: TrialComponent
+  - name: componentId
+    description: ARM resource ID of the component resource.
+    types:
+    - uid: string
+  - name: computeId
+    description: ARM resource ID of the compute resource.
+    types:
+    - uid: string
+  - name: displayName
+    description: Display name of job.
+    types:
+    - uid: string
+  - name: experimentName
+    description: The name of the experiment the job belongs to. If not set, the job is placed in the "Default" experiment.
+    types:
+    - uid: string
+    defaultValue: Default
+  - name: identity
+    description: >-
+      Identity configuration. If set, this should be one of AmlToken, ManagedIdentity, UserIdentity or null.
+
+      Defaults to AmlToken if null.
+    types:
+    - uid: AmlToken
+    - uid: ManagedIdentity
+    - uid: UserIdentity
+    typesTitle: IdentityConfiguration
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: jobType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: Sweep
+    typesTitle: string
+  - name: services
+    description: >-
+      List of JobEndpoints.
+
+      For local jobs, a job endpoint will have an endpoint value of FileStreamObject.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: JobService
+  - name: status
+    isReadyOnly: true
+    description: Status of the job.
+    types:
+    - uid: JobStatus
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: JobResourceConfiguration
+  kind: object
+  properties:
+  - name: dockerArgs
+    description: Extra arguments to pass to the Docker run command. This would override any parameters that have already been set by the system, or in this section. This parameter is only supported for Azure ML compute types.
+    types:
+    - uid: string
+  - name: shmSize
+    description: Size of the docker container's shared memory block. This should be in the format of (number)(unit) where number as to be greater than 0 and the unit can be one of b(bytes), k(kilobytes), m(megabytes), or g(gigabytes).
+    types:
+    - uid: string
+    defaultValue: 2g
+  - name: instanceCount
+    description: Optional number of instances or nodes used by the compute target.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: instanceType
+    description: Optional type of VM used as supported by the compute target.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: JobType
+  description: Enum to determine the type of job.
+  kind: enum
+  properties:
+  - name: AutoML
+    types:
+    - uid: string
+  - name: Command
+    types:
+    - uid: string
+  - name: Labeling
+    types:
+    - uid: string
+  - name: Sweep
+    types:
+    - uid: string
+  - name: Pipeline
+    types:
+    - uid: string
+  - name: Spark
+    types:
+    - uid: string
+- name: JobService
+  description: Job endpoint definition
+  kind: object
+  properties:
+  - name: endpoint
+    description: Url for endpoint.
+    types:
+    - uid: string
+  - name: errorMessage
+    isReadyOnly: true
+    description: Any error in the service.
+    types:
+    - uid: string
+  - name: jobServiceType
+    description: Endpoint type.
+    types:
+    - uid: string
+  - name: port
+    description: Port for endpoint.
+    types:
+    - uid: integer
+  - name: properties
+    description: Additional properties to set on the endpoint.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Status of endpoint.
+    types:
+    - uid: string
+- name: JobStatus
+  description: The status of a job.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: Run hasn't started yet.
+    types:
+    - uid: string
+  - name: Starting
+    description: Run has started. The user has a run ID.
+    types:
+    - uid: string
+  - name: Provisioning
+    description: (Not used currently) It will be used if ES is creating the compute target.
+    types:
+    - uid: string
+  - name: Preparing
+    description: The run environment is being prepared.
+    types:
+    - uid: string
+  - name: Queued
+    description: The job is queued in the compute target. For example, in BatchAI the job is in queued state, while waiting for all required nodes to be ready.
+    types:
+    - uid: string
+  - name: Running
+    description: The job started to run in the compute target.
+    types:
+    - uid: string
+  - name: Finalizing
+    description: Job is completed in the target. It is in output collection state now.
+    types:
+    - uid: string
+  - name: CancelRequested
+    description: Cancellation has been requested for the job.
+    types:
+    - uid: string
+  - name: Completed
+    description: Job completed successfully. This reflects that both the job itself and output collection states completed successfully
+    types:
+    - uid: string
+  - name: Failed
+    description: Job failed.
+    types:
+    - uid: string
+  - name: Canceled
+    description: Following cancellation request, the job is now successfully canceled.
+    types:
+    - uid: string
+  - name: NotResponding
+    description: >-
+      When heartbeat is enabled, if the run isn't updating any information to RunHistory then the run goes to NotResponding state.
+
+      NotResponding is the only state that is exempt from strict transition orders. A run can go from NotResponding to any of the previous states.
+    types:
+    - uid: string
+  - name: Paused
+    description: The job is paused by users. Some adjustment to labeling jobs can be made only in paused state.
+    types:
+    - uid: string
+  - name: Unknown
+    description: Default job status if not mapped to all other statuses
+    types:
+    - uid: string
+  - name: Scheduled
+    description: The job is in a scheduled state. Job is not in any active state.
+    types:
+    - uid: string
+- name: CommandJobLimits
+  description: Command Job limit class.
+  kind: object
+  properties:
+  - name: jobLimitsType
+    description: '[Required] JobLimit type.'
+    types:
+    - uid: Command
+    typesTitle: string
+  - name: timeout
+    description: The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds.
+    types:
+    - uid: string
+- name: LabelingDataConfiguration
+  description: Labeling data configuration definition
+  kind: object
+  properties:
+  - name: dataId
+    description: Resource Id of the data asset to perform labeling.
+    types:
+    - uid: string
+  - name: incrementalDataRefreshEnabled
+    description: Indicates whether to enable incremental data refresh.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: LabelingJobInstructions
+  description: Instructions for labeling job
+  kind: object
+  properties:
+  - name: uri
+    description: The link to a page with detailed labeling instructions for labelers.
+    types:
+    - uid: string
+- name: LabelCategory
+  description: Label category definition
+  kind: object
+  properties:
+  - name: classes
+    description: Dictionary of label classes in this category.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LabelClass
+  - name: displayName
+    description: Display name of the label category.
+    types:
+    - uid: string
+  - name: multiSelectEnabled
+    description: Indicates whether it is allowed to select multiple classes in this category.
+    types:
+    - uid: boolean
+    defaultValue: false
+- name: ProgressMetrics
+  description: Progress metrics definition
+  kind: object
+  properties:
+  - name: completedDatapointCount
+    isReadyOnly: true
+    description: The completed datapoint count.
+    types:
+    - uid: integer
+  - name: incrementalDataLastRefreshDateTime
+    isReadyOnly: true
+    description: The time of last successful incremental data refresh in UTC.
+    types:
+    - uid: string
+  - name: skippedDatapointCount
+    isReadyOnly: true
+    description: The skipped datapoint count.
+    types:
+    - uid: integer
+  - name: totalDatapointCount
+    isReadyOnly: true
+    description: The total datapoint count.
+    types:
+    - uid: integer
+- name: JobProvisioningState
+  description: Enum to determine the job provisioning state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+- name: StatusMessage
+  description: Active message associated with project
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Service-defined message code.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: Time in UTC at which the message was created.
+    types:
+    - uid: string
+  - name: level
+    isReadyOnly: true
+    description: Severity level of message.
+    types:
+    - uid: StatusMessageLevel
+  - name: message
+    isReadyOnly: true
+    description: A human-readable representation of the message code.
+    types:
+    - uid: string
+- name: SparkResourceConfiguration
+  kind: object
+  properties:
+  - name: instanceType
+    description: Optional type of VM used as supported by the compute target.
+    types:
+    - uid: string
+  - name: runtimeVersion
+    description: Version of spark runtime used for the job.
+    types:
+    - uid: string
+    defaultValue: "3.1"
+- name: SweepJobLimits
+  description: Sweep Job limit class.
+  kind: object
+  properties:
+  - name: maxConcurrentTrials
+    description: Sweep Job max concurrent trials.
+    types:
+    - uid: integer
+  - name: maxTotalTrials
+    description: Sweep Job max total trials.
+    types:
+    - uid: integer
+  - name: trialTimeout
+    description: Sweep Job Trial timeout value.
+    types:
+    - uid: string
+  - name: jobLimitsType
+    description: '[Required] JobLimit type.'
+    types:
+    - uid: Sweep
+    typesTitle: string
+  - name: timeout
+    description: The max run duration in ISO 8601 format, after which the job will be cancelled. Only supports duration with precision as low as Seconds.
+    types:
+    - uid: string
+- name: Objective
+  description: Optimization objective.
+  kind: object
+  properties:
+  - name: goal
+    description: '[Required] Defines supported metric goals for hyperparameter tuning'
+    types:
+    - uid: Goal
+  - name: primaryMetric
+    description: '[Required] Name of the metric to optimize.'
+    types:
+    - uid: string
+- name: TrialComponent
+  description: Trial component definition.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: command
+    description: '[Required] The command to execute on startup of the job. eg. "python train.py"'
+    types:
+    - uid: string
+  - name: distribution
+    description: Distribution configuration of the job. If set, this should be one of Mpi, Tensorflow, PyTorch, or null.
+    types:
+    - uid: Mpi
+    - uid: PyTorch
+    - uid: TensorFlow
+    typesTitle: DistributionConfiguration
+  - name: environmentId
+    description: '[Required] The ARM resource ID of the Environment specification for the job.'
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables included in the job.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: resources
+    description: Compute Resource configuration for the job.
+    types:
+    - uid: JobResourceConfiguration
+    defaultValue: '{}'
+- name: CustomModelJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: custom_model
+    typesTitle: string
+- name: MLFlowModelJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: mlflow_model
+    typesTitle: string
+- name: MLTableJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: mltable
+    typesTitle: string
+- name: TritonModelJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: triton_model
+    typesTitle: string
+- name: UriFileJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: uri_file
+    typesTitle: string
+- name: UriFolderJobOutput
+  kind: object
+  properties:
+  - name: mode
+    description: Output Asset Delivery Mode.
+    types:
+    - uid: OutputDeliveryMode
+    defaultValue: ReadWriteMount
+  - name: uri
+    description: Output Asset URI.
+    types:
+    - uid: string
+  - name: description
+    description: Description for the output.
+    types:
+    - uid: string
+  - name: jobOutputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: uri_folder
+    typesTitle: string
+- name: Classification
+  description: Classification task in AutoML Table vertical.
+  kind: object
+  properties:
+  - name: positiveLabel
+    description: Positive label for binary metrics calculation.
+    types:
+    - uid: string
+  - name: primaryMetric
+    description: Primary metric for the task.
+    types:
+    - uid: ClassificationPrimaryMetrics
+    defaultValue: AUCWeighted
+  - name: trainingSettings
+    description: Inputs for training phase for an AutoML Job.
+    types:
+    - uid: ClassificationTrainingSettings
+  - name: cvSplitColumnNames
+    description: Columns to use for CVSplit data.
+    types:
+    - uid: string
+      isArray: true
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: TableVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: TableVerticalLimitSettings
+  - name: nCrossValidations
+    description: >-
+      Number of cross validation folds to be applied on training dataset
+
+      when validation dataset is not provided.
+    types:
+    - uid: AutoNCrossValidations
+    - uid: CustomNCrossValidations
+    typesTitle: NCrossValidations
+  - name: testData
+    description: Test data input.
+    types:
+    - uid: MLTableJobInput
+  - name: testDataSize
+    description: >-
+      The fraction of test dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: weightColumnName
+    description: The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down.
+    types:
+    - uid: string
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: Classification
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: Forecasting
+  description: Forecasting task in AutoML Table vertical.
+  kind: object
+  properties:
+  - name: forecastingSettings
+    description: Forecasting task specific inputs.
+    types:
+    - uid: ForecastingSettings
+  - name: primaryMetric
+    description: Primary metric for forecasting task.
+    types:
+    - uid: ForecastingPrimaryMetrics
+    defaultValue: NormalizedRootMeanSquaredError
+  - name: trainingSettings
+    description: Inputs for training phase for an AutoML Job.
+    types:
+    - uid: ForecastingTrainingSettings
+  - name: cvSplitColumnNames
+    description: Columns to use for CVSplit data.
+    types:
+    - uid: string
+      isArray: true
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: TableVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: TableVerticalLimitSettings
+  - name: nCrossValidations
+    description: >-
+      Number of cross validation folds to be applied on training dataset
+
+      when validation dataset is not provided.
+    types:
+    - uid: AutoNCrossValidations
+    - uid: CustomNCrossValidations
+    typesTitle: NCrossValidations
+  - name: testData
+    description: Test data input.
+    types:
+    - uid: MLTableJobInput
+  - name: testDataSize
+    description: >-
+      The fraction of test dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: weightColumnName
+    description: The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down.
+    types:
+    - uid: string
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: Forecasting
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: ImageClassification
+  description: >-
+    Image Classification. Multi-class image classification is used when an image is classified with only a single label
+
+    from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric to optimize for this task.
+    types:
+    - uid: ClassificationPrimaryMetrics
+    defaultValue: Accuracy
+  - name: modelSettings
+    description: Settings used for training the model.
+    types:
+    - uid: ImageModelSettingsClassification
+  - name: searchSpace
+    description: Search space for sampling different combinations of models and their hyperparameters.
+    types:
+    - uid: ImageModelDistributionSettingsClassification
+      isArray: true
+  - name: limitSettings
+    description: '[Required] Limit settings for the AutoML job.'
+    types:
+    - uid: ImageLimitSettings
+  - name: sweepSettings
+    description: Model sweeping and hyperparameter sweeping related settings.
+    types:
+    - uid: ImageSweepSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: ImageClassification
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: ImageClassificationMultilabel
+  description: >-
+    Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels
+
+    from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric to optimize for this task.
+    types:
+    - uid: ClassificationMultilabelPrimaryMetrics
+    defaultValue: IOU
+  - name: modelSettings
+    description: Settings used for training the model.
+    types:
+    - uid: ImageModelSettingsClassification
+  - name: searchSpace
+    description: Search space for sampling different combinations of models and their hyperparameters.
+    types:
+    - uid: ImageModelDistributionSettingsClassification
+      isArray: true
+  - name: limitSettings
+    description: '[Required] Limit settings for the AutoML job.'
+    types:
+    - uid: ImageLimitSettings
+  - name: sweepSettings
+    description: Model sweeping and hyperparameter sweeping related settings.
+    types:
+    - uid: ImageSweepSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: ImageClassificationMultilabel
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: ImageInstanceSegmentation
+  description: >-
+    Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level,
+
+    drawing a polygon around each object in the image.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric to optimize for this task.
+    types:
+    - uid: InstanceSegmentationPrimaryMetrics
+    defaultValue: MeanAveragePrecision
+  - name: modelSettings
+    description: Settings used for training the model.
+    types:
+    - uid: ImageModelSettingsObjectDetection
+  - name: searchSpace
+    description: Search space for sampling different combinations of models and their hyperparameters.
+    types:
+    - uid: ImageModelDistributionSettingsObjectDetection
+      isArray: true
+  - name: limitSettings
+    description: '[Required] Limit settings for the AutoML job.'
+    types:
+    - uid: ImageLimitSettings
+  - name: sweepSettings
+    description: Model sweeping and hyperparameter sweeping related settings.
+    types:
+    - uid: ImageSweepSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: ImageInstanceSegmentation
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: ImageObjectDetection
+  description: >-
+    Image Object Detection. Object detection is used to identify objects in an image and locate each object with a
+
+    bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric to optimize for this task.
+    types:
+    - uid: ObjectDetectionPrimaryMetrics
+    defaultValue: MeanAveragePrecision
+  - name: modelSettings
+    description: Settings used for training the model.
+    types:
+    - uid: ImageModelSettingsObjectDetection
+  - name: searchSpace
+    description: Search space for sampling different combinations of models and their hyperparameters.
+    types:
+    - uid: ImageModelDistributionSettingsObjectDetection
+      isArray: true
+  - name: limitSettings
+    description: '[Required] Limit settings for the AutoML job.'
+    types:
+    - uid: ImageLimitSettings
+  - name: sweepSettings
+    description: Model sweeping and hyperparameter sweeping related settings.
+    types:
+    - uid: ImageSweepSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: ImageObjectDetection
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: Regression
+  description: Regression task in AutoML Table vertical.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric for regression task.
+    types:
+    - uid: RegressionPrimaryMetrics
+    defaultValue: NormalizedRootMeanSquaredError
+  - name: trainingSettings
+    description: Inputs for training phase for an AutoML Job.
+    types:
+    - uid: RegressionTrainingSettings
+  - name: cvSplitColumnNames
+    description: Columns to use for CVSplit data.
+    types:
+    - uid: string
+      isArray: true
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: TableVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: TableVerticalLimitSettings
+  - name: nCrossValidations
+    description: >-
+      Number of cross validation folds to be applied on training dataset
+
+      when validation dataset is not provided.
+    types:
+    - uid: AutoNCrossValidations
+    - uid: CustomNCrossValidations
+    typesTitle: NCrossValidations
+  - name: testData
+    description: Test data input.
+    types:
+    - uid: MLTableJobInput
+  - name: testDataSize
+    description: >-
+      The fraction of test dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: validationDataSize
+    description: >-
+      The fraction of training dataset that needs to be set aside for validation purpose.
+
+      Values between (0.0 , 1.0)
+
+      Applied when validation dataset is not provided.
+    types:
+    - uid: number
+  - name: weightColumnName
+    description: The name of the sample weight column. Automated ML supports a weighted column as an input, causing rows in the data to be weighted up or down.
+    types:
+    - uid: string
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: Regression
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: TextClassification
+  description: >-
+    Text Classification task in AutoML NLP vertical.
+
+    NLP - Natural Language Processing.
+  kind: object
+  properties:
+  - name: primaryMetric
+    description: Primary metric for Text-Classification task.
+    types:
+    - uid: ClassificationPrimaryMetrics
+    defaultValue: Accuracy
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: NlpVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: NlpVerticalLimitSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: TextClassification
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: TextClassificationMultilabel
+  description: >-
+    Text Classification Multilabel task in AutoML NLP vertical.
+
+    NLP - Natural Language Processing.
+  kind: object
+  properties:
+  - name: primaryMetric
+    isReadyOnly: true
+    description: >-
+      Primary metric for Text-Classification-Multilabel task.
+
+      Currently only Accuracy is supported as primary metric, hence user need not set it explicitly.
+    types:
+    - uid: ClassificationMultilabelPrimaryMetrics
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: NlpVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: NlpVerticalLimitSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: TextClassificationMultilabel
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: TextNer
+  description: >-
+    Text-NER task in AutoML NLP vertical.
+
+    NER - Named Entity Recognition.
+
+    NLP - Natural Language Processing.
+  kind: object
+  properties:
+  - name: primaryMetric
+    isReadyOnly: true
+    description: >-
+      Primary metric for Text-NER task.
+
+      Only 'Accuracy' is supported for Text-NER, so user need not set this explicitly.
+    types:
+    - uid: ClassificationPrimaryMetrics
+  - name: featurizationSettings
+    description: Featurization inputs needed for AutoML job.
+    types:
+    - uid: NlpVerticalFeaturizationSettings
+  - name: limitSettings
+    description: Execution constraints for AutoMLJob.
+    types:
+    - uid: NlpVerticalLimitSettings
+  - name: validationData
+    description: Validation data inputs.
+    types:
+    - uid: MLTableJobInput
+  - name: logVerbosity
+    description: Log verbosity for the job.
+    types:
+    - uid: LogVerbosity
+    defaultValue: Info
+  - name: targetColumnName
+    description: >-
+      Target column name: This is prediction values column.
+
+      Also known as label column name in context of classification tasks.
+    types:
+    - uid: string
+  - name: taskType
+    description: '[Required] Task type for AutoMLJob.'
+    types:
+    - uid: TextNER
+    typesTitle: string
+  - name: trainingData
+    description: '[Required] Training data input.'
+    types:
+    - uid: MLTableJobInput
+- name: AmlToken
+  description: AML Token identity configuration.
+  kind: object
+  properties:
+  - name: identityType
+    description: '[Required] Specifies the type of identity framework.'
+    types:
+    - uid: AMLToken
+    typesTitle: string
+- name: ManagedIdentity
+  description: Managed identity configuration.
+  kind: object
+  properties:
+  - name: clientId
+    description: Specifies a user-assigned identity by client ID. For system-assigned, do not set this field.
+    types:
+    - uid: string
+  - name: objectId
+    description: Specifies a user-assigned identity by object ID. For system-assigned, do not set this field.
+    types:
+    - uid: string
+  - name: resourceId
+    description: Specifies a user-assigned identity by ARM resource ID. For system-assigned, do not set this field.
+    types:
+    - uid: string
+  - name: identityType
+    description: '[Required] Specifies the type of identity framework.'
+    types:
+    - uid: Managed
+    typesTitle: string
+- name: UserIdentity
+  description: User identity configuration.
+  kind: object
+  properties:
+  - name: identityType
+    description: '[Required] Specifies the type of identity framework.'
+    types:
+    - uid: UserIdentity
+    typesTitle: string
+- name: Mpi
+  description: MPI distribution configuration.
+  kind: object
+  properties:
+  - name: processCountPerInstance
+    description: Number of processes per MPI node.
+    types:
+    - uid: integer
+  - name: distributionType
+    description: '[Required] Specifies the type of distribution framework.'
+    types:
+    - uid: Mpi
+    typesTitle: string
+- name: PyTorch
+  description: PyTorch distribution configuration.
+  kind: object
+  properties:
+  - name: processCountPerInstance
+    description: Number of processes per node.
+    types:
+    - uid: integer
+  - name: distributionType
+    description: '[Required] Specifies the type of distribution framework.'
+    types:
+    - uid: PyTorch
+    typesTitle: string
+- name: TensorFlow
+  description: TensorFlow distribution configuration.
+  kind: object
+  properties:
+  - name: parameterServerCount
+    description: Number of parameter server tasks.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: workerCount
+    description: Number of workers. If not specified, will default to the instance count.
+    types:
+    - uid: integer
+  - name: distributionType
+    description: '[Required] Specifies the type of distribution framework.'
+    types:
+    - uid: TensorFlow
+    typesTitle: string
+- name: MLTableJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: mltable
+    typesTitle: string
+- name: CustomModelJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: custom_model
+    typesTitle: string
+- name: MLFlowModelJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: mlflow_model
+    typesTitle: string
+- name: LiteralJobInput
+  description: Literal input type.
+  kind: object
+  properties:
+  - name: value
+    description: '[Required] Literal value for the input.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: literal
+    typesTitle: string
+- name: TritonModelJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: triton_model
+    typesTitle: string
+- name: UriFileJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: uri_file
+    typesTitle: string
+- name: UriFolderJobInput
+  kind: object
+  properties:
+  - name: mode
+    description: Input Asset Delivery Mode.
+    types:
+    - uid: InputDeliveryMode
+    defaultValue: ReadOnlyMount
+  - name: uri
+    description: '[Required] Input Asset URI.'
+    types:
+    - uid: string
+  - name: description
+    description: Description for the input.
+    types:
+    - uid: string
+  - name: jobInputType
+    description: '[Required] Specifies the type of job.'
+    types:
+    - uid: uri_folder
+    typesTitle: string
+- name: JobLimitsType
+  kind: enum
+  properties:
+  - name: Command
+    types:
+    - uid: string
+  - name: Sweep
+    types:
+    - uid: string
+- name: LabelClass
+  description: Label class definition
+  kind: object
+  properties:
+  - name: displayName
+    description: Display name of the label class.
+    types:
+    - uid: string
+  - name: subclasses
+    description: Dictionary of subclasses of the label class.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LabelClass
+- name: LabelingJobImageProperties
+  description: Properties of a labeling job for image data
+  kind: object
+  properties:
+  - name: annotationType
+    description: Annotation type of image labeling job.
+    types:
+    - uid: ImageAnnotationType
+    defaultValue: Classification
+  - name: mediaType
+    description: '[Required] Media type of the job.'
+    types:
+    - uid: Image
+    typesTitle: string
+- name: LabelingJobTextProperties
+  description: Properties of a labeling job for text data
+  kind: object
+  properties:
+  - name: annotationType
+    description: Annotation type of text labeling job.
+    types:
+    - uid: TextAnnotationType
+    defaultValue: Classification
+  - name: mediaType
+    description: '[Required] Media type of the job.'
+    types:
+    - uid: Text
+    typesTitle: string
+- name: MLAssistConfigurationDisabled
+  description: Labeling MLAssist configuration definition when MLAssist is disabled
+  kind: object
+  properties:
+  - name: mlAssist
+    description: '[Required] Indicates whether MLAssist feature is enabled.'
+    types:
+    - uid: Disabled
+    typesTitle: string
+- name: MLAssistConfigurationEnabled
+  description: Labeling MLAssist configuration definition when MLAssist is enabled
+  kind: object
+  properties:
+  - name: inferencingComputeBinding
+    description: '[Required] AML compute binding used in inferencing.'
+    types:
+    - uid: string
+  - name: trainingComputeBinding
+    description: '[Required] AML compute binding used in training.'
+    types:
+    - uid: string
+  - name: mlAssist
+    description: '[Required] Indicates whether MLAssist feature is enabled.'
+    types:
+    - uid: Enabled
+    typesTitle: string
+- name: StatusMessageLevel
+  kind: enum
+  properties:
+  - name: Error
+    types:
+    - uid: string
+  - name: Information
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+- name: SparkJobPythonEntry
+  kind: object
+  properties:
+  - name: file
+    description: '[Required] Relative python file path for job entry point.'
+    types:
+    - uid: string
+  - name: sparkJobEntryType
+    description: "[Required] Type of the job's entry point."
+    types:
+    - uid: SparkJobPythonEntry
+    typesTitle: string
+- name: SparkJobScalaEntry
+  kind: object
+  properties:
+  - name: className
+    description: '[Required] Scala class name used as entry point.'
+    types:
+    - uid: string
+  - name: sparkJobEntryType
+    description: "[Required] Type of the job's entry point."
+    types:
+    - uid: SparkJobScalaEntry
+    typesTitle: string
+- name: BanditPolicy
+  description: Defines an early termination policy based on slack criteria, and a frequency and delay interval for evaluation
+  kind: object
+  properties:
+  - name: slackAmount
+    description: Absolute distance allowed from the best performing run.
+    types:
+    - uid: number
+    defaultValue: 0
+  - name: slackFactor
+    description: Ratio of the allowed distance from the best performing run.
+    types:
+    - uid: number
+    defaultValue: 0
+  - name: delayEvaluation
+    description: Number of intervals by which to delay the first evaluation.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: evaluationInterval
+    description: Interval (number of runs) between policy evaluations.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: policyType
+    description: '[Required] Name of policy configuration'
+    types:
+    - uid: Bandit
+    typesTitle: string
+- name: MedianStoppingPolicy
+  description: Defines an early termination policy based on running averages of the primary metric of all runs
+  kind: object
+  properties:
+  - name: delayEvaluation
+    description: Number of intervals by which to delay the first evaluation.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: evaluationInterval
+    description: Interval (number of runs) between policy evaluations.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: policyType
+    description: '[Required] Name of policy configuration'
+    types:
+    - uid: MedianStopping
+    typesTitle: string
+- name: TruncationSelectionPolicy
+  description: Defines an early termination policy that cancels a given percentage of runs at each evaluation interval.
+  kind: object
+  properties:
+  - name: truncationPercentage
+    description: The percentage of runs to cancel at each evaluation interval.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: delayEvaluation
+    description: Number of intervals by which to delay the first evaluation.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: evaluationInterval
+    description: Interval (number of runs) between policy evaluations.
+    types:
+    - uid: integer
+    defaultValue: 0
+  - name: policyType
+    description: '[Required] Name of policy configuration'
+    types:
+    - uid: TruncationSelection
+    typesTitle: string
+- name: Goal
+  description: Defines supported metric goals for hyperparameter tuning
+  kind: enum
+  properties:
+  - name: Minimize
+    types:
+    - uid: string
+  - name: Maximize
+    types:
+    - uid: string
+- name: BayesianSamplingAlgorithm
+  description: Defines a Sampling Algorithm that generates values based on previous values
+  kind: object
+  properties:
+  - name: samplingAlgorithmType
+    description: '[Required] The algorithm used for generating hyperparameter values, along with configuration properties'
+    types:
+    - uid: Bayesian
+    typesTitle: string
+- name: GridSamplingAlgorithm
+  description: Defines a Sampling Algorithm that exhaustively generates every value combination in the space
+  kind: object
+  properties:
+  - name: samplingAlgorithmType
+    description: '[Required] The algorithm used for generating hyperparameter values, along with configuration properties'
+    types:
+    - uid: Grid
+    typesTitle: string
+- name: RandomSamplingAlgorithm
+  description: Defines a Sampling Algorithm that generates values randomly
+  kind: object
+  properties:
+  - name: rule
+    description: The specific type of random algorithm
+    types:
+    - uid: RandomSamplingAlgorithmRule
+    defaultValue: Random
+  - name: seed
+    description: An optional integer to use as the seed for random number generation
+    types:
+    - uid: integer
+  - name: samplingAlgorithmType
+    description: '[Required] The algorithm used for generating hyperparameter values, along with configuration properties'
+    types:
+    - uid: Random
+    typesTitle: string
+- name: OutputDeliveryMode
+  description: Output data delivery mode enums.
+  kind: enum
+  properties:
+  - name: ReadWriteMount
+    types:
+    - uid: string
+  - name: Upload
+    types:
+    - uid: string
+  - name: Direct
+    types:
+    - uid: string
+- name: JobOutputType
+  description: Enum to determine the Job Output Type.
+  kind: enum
+  properties:
+  - name: uri_file
+    types:
+    - uid: string
+  - name: uri_folder
+    types:
+    - uid: string
+  - name: mltable
+    types:
+    - uid: string
+  - name: custom_model
+    types:
+    - uid: string
+  - name: mlflow_model
+    types:
+    - uid: string
+  - name: triton_model
+    types:
+    - uid: string
+- name: ClassificationPrimaryMetrics
+  description: Primary metrics for classification tasks.
+  kind: enum
+  properties:
+  - name: AUCWeighted
+    description: >-
+      AUC is the Area under the curve.
+
+      This metric represents arithmetic mean of the score for each class,
+
+      weighted by the number of true instances in each class.
+    types:
+    - uid: string
+  - name: Accuracy
+    description: Accuracy is the ratio of predictions that exactly match the true class labels.
+    types:
+    - uid: string
+  - name: NormMacroRecall
+    description: >-
+      Normalized macro recall is recall macro-averaged and normalized, so that random
+
+      performance has a score of 0, and perfect performance has a score of 1.
+    types:
+    - uid: string
+  - name: AveragePrecisionScoreWeighted
+    description: >-
+      The arithmetic mean of the average precision score for each class, weighted by
+
+      the number of true instances in each class.
+    types:
+    - uid: string
+  - name: PrecisionScoreWeighted
+    description: The arithmetic mean of precision for each class, weighted by number of true instances in each class.
+    types:
+    - uid: string
+- name: ClassificationTrainingSettings
+  description: Classification Training related configuration.
+  kind: object
+  properties:
+  - name: allowedTrainingAlgorithms
+    description: Allowed models for classification task.
+    types:
+    - uid: string
+      isArray: true
+  - name: blockedTrainingAlgorithms
+    description: Blocked models for classification task.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableDnnTraining
+    description: Enable recommendation of DNN models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableModelExplainability
+    description: Flag to turn on explainability on best model.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableOnnxCompatibleModels
+    description: Flag for enabling onnx compatible models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableStackEnsemble
+    description: Enable stack ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableVoteEnsemble
+    description: Enable voting ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: ensembleModelDownloadTimeout
+    description: >-
+      During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded.
+
+      Configure this parameter with a higher value than 300 secs, if more time is needed.
+    types:
+    - uid: string
+    defaultValue: PT5M
+  - name: stackEnsembleSettings
+    description: Stack ensemble settings for stack ensemble run.
+    types:
+    - uid: StackEnsembleSettings
+- name: TableVerticalFeaturizationSettings
+  description: Featurization Configuration.
+  kind: object
+  properties:
+  - name: blockedTransformers
+    description: These transformers shall not be used in featurization.
+    types:
+    - uid: string
+      isArray: true
+  - name: columnNameAndTypes
+    description: Dictionary of column name and its type (int, float, string, datetime etc).
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: enableDnnFeaturization
+    description: Determines whether to use Dnn based featurizers for data featurization.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: mode
+    description: >-
+      Featurization mode - User can keep the default 'Auto' mode and AutoML will take care of necessary transformation of the data in featurization phase.
+
+      If 'Off' is selected then no featurization is done.
+
+      If 'Custom' is selected then user can specify additional inputs to customize how featurization is done.
+    types:
+    - uid: FeaturizationMode
+    defaultValue: Auto
+  - name: transformerParams
+    description: User can specify additional transformers to be used along with the columns to which it would be applied and parameters for the transformer constructor.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: array
+  - name: datasetLanguage
+    description: Dataset language, useful for the text data.
+    types:
+    - uid: string
+- name: TableVerticalLimitSettings
+  description: Job execution constraints.
+  kind: object
+  properties:
+  - name: enableEarlyTermination
+    description: Enable early termination, determines whether or not if AutoMLJob will terminate early if there is no score improvement in last 20 iterations.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: exitScore
+    description: Exit score for the AutoML job.
+    types:
+    - uid: number
+  - name: maxConcurrentTrials
+    description: Maximum Concurrent iterations.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: maxCoresPerTrial
+    description: Max cores per iteration.
+    types:
+    - uid: integer
+    defaultValue: -1
+  - name: maxTrials
+    description: Number of iterations.
+    types:
+    - uid: integer
+    defaultValue: 1000
+  - name: timeout
+    description: AutoML job timeout.
+    types:
+    - uid: string
+    defaultValue: PT6H
+  - name: trialTimeout
+    description: Iteration timeout.
+    types:
+    - uid: string
+    defaultValue: PT30M
+- name: LogVerbosity
+  description: Enum for setting log verbosity.
+  kind: enum
+  properties:
+  - name: NotSet
+    description: No logs emitted.
+    types:
+    - uid: string
+  - name: Debug
+    description: Debug and above log statements logged.
+    types:
+    - uid: string
+  - name: Info
+    description: Info and above log statements logged.
+    types:
+    - uid: string
+  - name: Warning
+    description: Warning and above log statements logged.
+    types:
+    - uid: string
+  - name: Error
+    description: Error and above log statements logged.
+    types:
+    - uid: string
+  - name: Critical
+    description: Only critical statements logged.
+    types:
+    - uid: string
+- name: TaskType
+  description: AutoMLJob Task type.
+  kind: enum
+  properties:
+  - name: Classification
+    description: >-
+      Classification in machine learning and statistics is a supervised learning approach in which
+
+      the computer program learns from the data given to it and make new observations or classifications.
+    types:
+    - uid: string
+  - name: Regression
+    description: Regression means to predict the value using the input data. Regression models are used to predict a continuous value.
+    types:
+    - uid: string
+  - name: Forecasting
+    description: >-
+      Forecasting is a special kind of regression task that deals with time-series data and creates forecasting model
+
+      that can be used to predict the near future values based on the inputs.
+    types:
+    - uid: string
+  - name: ImageClassification
+    description: >-
+      Image Classification. Multi-class image classification is used when an image is classified with only a single label
+
+      from a set of classes - e.g. each image is classified as either an image of a 'cat' or a 'dog' or a 'duck'.
+    types:
+    - uid: string
+  - name: ImageClassificationMultilabel
+    description: >-
+      Image Classification Multilabel. Multi-label image classification is used when an image could have one or more labels
+
+      from a set of labels - e.g. an image could be labeled with both 'cat' and 'dog'.
+    types:
+    - uid: string
+  - name: ImageObjectDetection
+    description: >-
+      Image Object Detection. Object detection is used to identify objects in an image and locate each object with a
+
+      bounding box e.g. locate all dogs and cats in an image and draw a bounding box around each.
+    types:
+    - uid: string
+  - name: ImageInstanceSegmentation
+    description: >-
+      Image Instance Segmentation. Instance segmentation is used to identify objects in an image at the pixel level,
+
+      drawing a polygon around each object in the image.
+    types:
+    - uid: string
+  - name: TextClassification
+    description: >-
+      Text classification (also known as text tagging or text categorization) is the process of sorting texts into categories.
+
+      Categories are mutually exclusive.
+    types:
+    - uid: string
+  - name: TextClassificationMultilabel
+    description: Multilabel classification task assigns each sample to a group (zero or more) of target labels.
+    types:
+    - uid: string
+  - name: TextNER
+    description: >-
+      Text Named Entity Recognition a.k.a. TextNER.
+
+      Named Entity Recognition (NER) is the ability to take free-form text and identify the occurrences of entities such as people, locations, organizations, and more.
+    types:
+    - uid: string
+- name: ForecastingSettings
+  description: Forecasting specific parameters.
+  kind: object
+  properties:
+  - name: countryOrRegionForHolidays
+    description: >-
+      Country or region for holidays for forecasting tasks.
+
+      These should be ISO 3166 two-letter country/region codes, for example 'US' or 'GB'.
+    types:
+    - uid: string
+  - name: cvStepSize
+    description: >-
+      Number of periods between the origin time of one CV fold and the next fold. For
+
+      example, if `CVStepSize` = 3 for daily data, the origin time for each fold will be
+
+      three days apart.
+    types:
+    - uid: integer
+  - name: featureLags
+    description: Flag for generating lags for the numeric features with 'auto' or null.
+    types:
+    - uid: FeatureLags
+    defaultValue: None
+  - name: forecastHorizon
+    description: The desired maximum forecast horizon in units of time-series frequency.
+    types:
+    - uid: AutoForecastHorizon
+    - uid: CustomForecastHorizon
+    typesTitle: ForecastHorizon
+  - name: frequency
+    description: When forecasting, this parameter represents the period with which the forecast is desired, for example daily, weekly, yearly, etc. The forecast frequency is dataset frequency by default.
+    types:
+    - uid: string
+  - name: seasonality
+    description: >-
+      Set time series seasonality as an integer multiple of the series frequency.
+
+      If seasonality is set to 'auto', it will be inferred.
+    types:
+    - uid: AutoSeasonality
+    - uid: CustomSeasonality
+    typesTitle: Seasonality
+  - name: shortSeriesHandlingConfig
+    description: The parameter defining how if AutoML should handle short time series.
+    types:
+    - uid: ShortSeriesHandlingConfiguration
+    defaultValue: Auto
+  - name: targetAggregateFunction
+    description: >-
+      The function to be used to aggregate the time series target column to conform to a user specified frequency.
+
+      If the TargetAggregateFunction is set i.e. not 'None', but the freq parameter is not set, the error is raised. The possible target aggregation functions are: "sum", "max", "min" and "mean".
+    types:
+    - uid: TargetAggregationFunction
+    defaultValue: None
+  - name: targetLags
+    description: The number of past periods to lag from the target column.
+    types:
+    - uid: AutoTargetLags
+    - uid: CustomTargetLags
+    typesTitle: TargetLags
+  - name: targetRollingWindowSize
+    description: The number of past periods used to create a rolling window average of the target column.
+    types:
+    - uid: AutoTargetRollingWindowSize
+    - uid: CustomTargetRollingWindowSize
+    typesTitle: TargetRollingWindowSize
+  - name: timeColumnName
+    description: The name of the time column. This parameter is required when forecasting to specify the datetime column in the input data used for building the time series and inferring its frequency.
+    types:
+    - uid: string
+  - name: timeSeriesIdColumnNames
+    description: >-
+      The names of columns used to group a timeseries. It can be used to create multiple series.
+
+      If grain is not defined, the data set is assumed to be one time-series. This parameter is used with task type forecasting.
+    types:
+    - uid: string
+      isArray: true
+  - name: useStl
+    description: Configure STL Decomposition of the time-series target column.
+    types:
+    - uid: UseStl
+    defaultValue: None
+- name: ForecastingPrimaryMetrics
+  description: Primary metrics for Forecasting task.
+  kind: enum
+  properties:
+  - name: SpearmanCorrelation
+    description: The Spearman's rank coefficient of correlation is a non-parametric measure of rank correlation.
+    types:
+    - uid: string
+  - name: NormalizedRootMeanSquaredError
+    description: The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales.
+    types:
+    - uid: string
+  - name: R2Score
+    description: The R2 score is one of the performance evaluation measures for forecasting-based machine learning models.
+    types:
+    - uid: string
+  - name: NormalizedMeanAbsoluteError
+    description: The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales.
+    types:
+    - uid: string
+- name: ForecastingTrainingSettings
+  description: Forecasting Training related configuration.
+  kind: object
+  properties:
+  - name: allowedTrainingAlgorithms
+    description: Allowed models for forecasting task.
+    types:
+    - uid: string
+      isArray: true
+  - name: blockedTrainingAlgorithms
+    description: Blocked models for forecasting task.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableDnnTraining
+    description: Enable recommendation of DNN models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableModelExplainability
+    description: Flag to turn on explainability on best model.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableOnnxCompatibleModels
+    description: Flag for enabling onnx compatible models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableStackEnsemble
+    description: Enable stack ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableVoteEnsemble
+    description: Enable voting ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: ensembleModelDownloadTimeout
+    description: >-
+      During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded.
+
+      Configure this parameter with a higher value than 300 secs, if more time is needed.
+    types:
+    - uid: string
+    defaultValue: PT5M
+  - name: stackEnsembleSettings
+    description: Stack ensemble settings for stack ensemble run.
+    types:
+    - uid: StackEnsembleSettings
+- name: ImageModelSettingsClassification
+  description: >-
+    Settings used for training the model.
+
+    For more information on the available settings please visit the official documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+  kind: object
+  properties:
+  - name: trainingCropSize
+    description: Image crop size that is input to the neural network for the training dataset. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: validationCropSize
+    description: Image crop size that is input to the neural network for the validation dataset. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: validationResizeSize
+    description: Image size to which to resize before cropping for validation dataset. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: weightedLoss
+    description: >-
+      Weighted loss. The accepted values are 0 for no weighted loss.
+
+      1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2.
+    types:
+    - uid: integer
+  - name: advancedSettings
+    description: Settings for advanced scenarios.
+    types:
+    - uid: string
+  - name: amsGradient
+    description: Enable AMSGrad when optimizer is 'adam' or 'adamw'.
+    types:
+    - uid: boolean
+  - name: augmentations
+    description: Settings for using Augmentations.
+    types:
+    - uid: string
+  - name: beta1
+    description: Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: beta2
+    description: Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: checkpointFrequency
+    description: Frequency to store model checkpoints. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: checkpointModel
+    description: The pretrained checkpoint model for incremental training.
+    types:
+    - uid: MLFlowModelJobInput
+  - name: checkpointRunId
+    description: The id of a previous run that has a pretrained checkpoint for incremental training.
+    types:
+    - uid: string
+  - name: distributed
+    description: Whether to use distributed training.
+    types:
+    - uid: boolean
+  - name: earlyStopping
+    description: Enable early stopping logic during training.
+    types:
+    - uid: boolean
+  - name: earlyStoppingDelay
+    description: >-
+      Minimum number of epochs or validation evaluations to wait before primary metric improvement
+
+      is tracked for early stopping. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: earlyStoppingPatience
+    description: >-
+      Minimum number of epochs or validation evaluations with no primary metric improvement before
+
+      the run is stopped. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: enableOnnxNormalization
+    description: Enable normalization when exporting ONNX model.
+    types:
+    - uid: boolean
+  - name: evaluationFrequency
+    description: Frequency to evaluate validation dataset to get metric scores. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: gradientAccumulationStep
+    description: >-
+      Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+
+      updating the model weights while accumulating the gradients of those steps, and then using
+
+      the accumulated gradients to compute the weight updates. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: layersToFreeze
+    description: >-
+      Number of layers to freeze for the model. Must be a positive integer.
+
+      For instance, passing 2 as value for 'seresnext' means
+
+      freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+
+      see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: integer
+  - name: learningRate
+    description: Initial learning rate. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: learningRateScheduler
+    description: Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'.
+    types:
+    - uid: LearningRateScheduler
+    defaultValue: None
+  - name: modelName
+    description: >-
+      Name of the model to use for training.
+
+      For more information on the available models please visit the official documentation:
+
+      https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: momentum
+    description: Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: nesterov
+    description: Enable nesterov when optimizer is 'sgd'.
+    types:
+    - uid: boolean
+  - name: numberOfEpochs
+    description: Number of training epochs. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: numberOfWorkers
+    description: Number of data loader workers. Must be a non-negative integer.
+    types:
+    - uid: integer
+  - name: optimizer
+    description: Type of optimizer.
+    types:
+    - uid: StochasticOptimizer
+    defaultValue: None
+  - name: randomSeed
+    description: Random seed to be used when using deterministic training.
+    types:
+    - uid: integer
+  - name: stepLRGamma
+    description: Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: stepLRStepSize
+    description: Value of step size when learning rate scheduler is 'step'. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: trainingBatchSize
+    description: Training batch size. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: validationBatchSize
+    description: Validation batch size. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: warmupCosineLRCycles
+    description: Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: warmupCosineLRWarmupEpochs
+    description: Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: weightDecay
+    description: Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1].
+    types:
+    - uid: number
+- name: ImageModelDistributionSettingsClassification
+  description: >-
+    Distribution expressions to sweep over values of model settings.
+
+    <example>
+
+    Some examples are:
+
+    <code>
+
+    ModelName = "choice('seresnext', 'resnest50')";
+
+    LearningRate = "uniform(0.001, 0.01)";
+
+    LayersToFreeze = "choice(0, 2)";
+
+    </code></example>
+
+    For more details on how to compose distribution expressions please check the documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+
+    For more information on the available settings please visit the official documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+  kind: object
+  properties:
+  - name: trainingCropSize
+    description: Image crop size that is input to the neural network for the training dataset. Must be a positive integer.
+    types:
+    - uid: string
+  - name: validationCropSize
+    description: Image crop size that is input to the neural network for the validation dataset. Must be a positive integer.
+    types:
+    - uid: string
+  - name: validationResizeSize
+    description: Image size to which to resize before cropping for validation dataset. Must be a positive integer.
+    types:
+    - uid: string
+  - name: weightedLoss
+    description: >-
+      Weighted loss. The accepted values are 0 for no weighted loss.
+
+      1 for weighted loss with sqrt.(class_weights). 2 for weighted loss with class_weights. Must be 0 or 1 or 2.
+    types:
+    - uid: string
+  - name: amsGradient
+    description: Enable AMSGrad when optimizer is 'adam' or 'adamw'.
+    types:
+    - uid: string
+  - name: augmentations
+    description: Settings for using Augmentations.
+    types:
+    - uid: string
+  - name: beta1
+    description: Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: beta2
+    description: Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: distributed
+    description: Whether to use distributer training.
+    types:
+    - uid: string
+  - name: earlyStopping
+    description: Enable early stopping logic during training.
+    types:
+    - uid: string
+  - name: earlyStoppingDelay
+    description: >-
+      Minimum number of epochs or validation evaluations to wait before primary metric improvement
+
+      is tracked for early stopping. Must be a positive integer.
+    types:
+    - uid: string
+  - name: earlyStoppingPatience
+    description: >-
+      Minimum number of epochs or validation evaluations with no primary metric improvement before
+
+      the run is stopped. Must be a positive integer.
+    types:
+    - uid: string
+  - name: enableOnnxNormalization
+    description: Enable normalization when exporting ONNX model.
+    types:
+    - uid: string
+  - name: evaluationFrequency
+    description: Frequency to evaluate validation dataset to get metric scores. Must be a positive integer.
+    types:
+    - uid: string
+  - name: gradientAccumulationStep
+    description: >-
+      Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+
+      updating the model weights while accumulating the gradients of those steps, and then using
+
+      the accumulated gradients to compute the weight updates. Must be a positive integer.
+    types:
+    - uid: string
+  - name: layersToFreeze
+    description: >-
+      Number of layers to freeze for the model. Must be a positive integer.
+
+      For instance, passing 2 as value for 'seresnext' means
+
+      freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+
+      see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: learningRate
+    description: Initial learning rate. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: learningRateScheduler
+    description: Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'.
+    types:
+    - uid: string
+  - name: modelName
+    description: >-
+      Name of the model to use for training.
+
+      For more information on the available models please visit the official documentation:
+
+      https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: momentum
+    description: Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: nesterov
+    description: Enable nesterov when optimizer is 'sgd'.
+    types:
+    - uid: string
+  - name: numberOfEpochs
+    description: Number of training epochs. Must be a positive integer.
+    types:
+    - uid: string
+  - name: numberOfWorkers
+    description: Number of data loader workers. Must be a non-negative integer.
+    types:
+    - uid: string
+  - name: optimizer
+    description: Type of optimizer. Must be either 'sgd', 'adam', or 'adamw'.
+    types:
+    - uid: string
+  - name: randomSeed
+    description: Random seed to be used when using deterministic training.
+    types:
+    - uid: string
+  - name: stepLRGamma
+    description: Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: stepLRStepSize
+    description: Value of step size when learning rate scheduler is 'step'. Must be a positive integer.
+    types:
+    - uid: string
+  - name: trainingBatchSize
+    description: Training batch size. Must be a positive integer.
+    types:
+    - uid: string
+  - name: validationBatchSize
+    description: Validation batch size. Must be a positive integer.
+    types:
+    - uid: string
+  - name: warmupCosineLRCycles
+    description: Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: warmupCosineLRWarmupEpochs
+    description: Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer.
+    types:
+    - uid: string
+  - name: weightDecay
+    description: Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1].
+    types:
+    - uid: string
+- name: ImageLimitSettings
+  description: Limit settings for the AutoML job.
+  kind: object
+  properties:
+  - name: maxConcurrentTrials
+    description: Maximum number of concurrent AutoML iterations.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: maxTrials
+    description: Maximum number of AutoML iterations.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: timeout
+    description: AutoML job timeout.
+    types:
+    - uid: string
+    defaultValue: P7D
+- name: ImageSweepSettings
+  description: Model sweeping and hyperparameter sweeping related settings.
+  kind: object
+  properties:
+  - name: earlyTermination
+    description: Type of early termination policy.
+    types:
+    - uid: BanditPolicy
+    - uid: MedianStoppingPolicy
+    - uid: TruncationSelectionPolicy
+    typesTitle: EarlyTerminationPolicy
+  - name: limits
+    description: '[Required] Limit settings for model sweeping and hyperparameter sweeping.'
+    types:
+    - uid: ImageSweepLimitSettings
+  - name: samplingAlgorithm
+    description: '[Required] Type of the hyperparameter sampling algorithms.'
+    types:
+    - uid: SamplingAlgorithmType
+- name: ClassificationMultilabelPrimaryMetrics
+  description: Primary metrics for classification multilabel tasks.
+  kind: enum
+  properties:
+  - name: AUCWeighted
+    description: >-
+      AUC is the Area under the curve.
+
+      This metric represents arithmetic mean of the score for each class,
+
+      weighted by the number of true instances in each class.
+    types:
+    - uid: string
+  - name: Accuracy
+    description: Accuracy is the ratio of predictions that exactly match the true class labels.
+    types:
+    - uid: string
+  - name: NormMacroRecall
+    description: >-
+      Normalized macro recall is recall macro-averaged and normalized, so that random
+
+      performance has a score of 0, and perfect performance has a score of 1.
+    types:
+    - uid: string
+  - name: AveragePrecisionScoreWeighted
+    description: >-
+      The arithmetic mean of the average precision score for each class, weighted by
+
+      the number of true instances in each class.
+    types:
+    - uid: string
+  - name: PrecisionScoreWeighted
+    description: The arithmetic mean of precision for each class, weighted by number of true instances in each class.
+    types:
+    - uid: string
+  - name: IOU
+    description: Intersection Over Union. Intersection of predictions divided by union of predictions.
+    types:
+    - uid: string
+- name: InstanceSegmentationPrimaryMetrics
+  description: Primary metrics for InstanceSegmentation tasks.
+  kind: enum
+  properties:
+  - name: MeanAveragePrecision
+    description: >-
+      Mean Average Precision (MAP) is the average of AP (Average Precision).
+
+      AP is calculated for each class and averaged to get the MAP.
+    types:
+    - uid: string
+- name: ImageModelSettingsObjectDetection
+  description: >-
+    Settings used for training the model.
+
+    For more information on the available settings please visit the official documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+  kind: object
+  properties:
+  - name: boxDetectionsPerImage
+    description: >-
+      Maximum number of detections per image, for all classes. Must be a positive integer.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: integer
+  - name: boxScoreThreshold
+    description: >-
+      During inference, only return proposals with a classification score greater than
+
+      BoxScoreThreshold. Must be a float in the range[0, 1].
+    types:
+    - uid: number
+  - name: imageSize
+    description: >-
+      Image size for train and validation. Must be a positive integer.
+
+      Note: The training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: integer
+  - name: maxSize
+    description: >-
+      Maximum size of the image to be rescaled before feeding it to the backbone.
+
+      Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: integer
+  - name: minSize
+    description: >-
+      Minimum size of the image to be rescaled before feeding it to the backbone.
+
+      Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: integer
+  - name: modelSize
+    description: >-
+      Model size. Must be 'small', 'medium', 'large', or 'xlarge'.
+
+      Note: training run may get into CUDA OOM if the model size is too big.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: ModelSize
+    defaultValue: None
+  - name: multiScale
+    description: >-
+      Enable multi-scale image by varying image size by +/- 50%.
+
+      Note: training run may get into CUDA OOM if no sufficient GPU memory.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: boolean
+  - name: nmsIouThreshold
+    description: IOU threshold used during inference in NMS post processing. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: tileGridSize
+    description: >-
+      The grid size to use for tiling each image. Note: TileGridSize must not be
+
+      None to enable small object detection logic. A string containing two integers in mxn format.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: tileOverlapRatio
+    description: >-
+      Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1).
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: number
+  - name: tilePredictionsNmsThreshold
+    description: >-
+      The IOU threshold to use to perform NMS while merging predictions from tiles and image.
+
+      Used in validation/ inference. Must be float in the range [0, 1].
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: number
+  - name: validationIouThreshold
+    description: IOU threshold to use when computing validation metric. Must be float in the range [0, 1].
+    types:
+    - uid: number
+  - name: validationMetricType
+    description: Metric computation method to use for validation metrics.
+    types:
+    - uid: ValidationMetricType
+    defaultValue: None
+  - name: advancedSettings
+    description: Settings for advanced scenarios.
+    types:
+    - uid: string
+  - name: amsGradient
+    description: Enable AMSGrad when optimizer is 'adam' or 'adamw'.
+    types:
+    - uid: boolean
+  - name: augmentations
+    description: Settings for using Augmentations.
+    types:
+    - uid: string
+  - name: beta1
+    description: Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: beta2
+    description: Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: checkpointFrequency
+    description: Frequency to store model checkpoints. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: checkpointModel
+    description: The pretrained checkpoint model for incremental training.
+    types:
+    - uid: MLFlowModelJobInput
+  - name: checkpointRunId
+    description: The id of a previous run that has a pretrained checkpoint for incremental training.
+    types:
+    - uid: string
+  - name: distributed
+    description: Whether to use distributed training.
+    types:
+    - uid: boolean
+  - name: earlyStopping
+    description: Enable early stopping logic during training.
+    types:
+    - uid: boolean
+  - name: earlyStoppingDelay
+    description: >-
+      Minimum number of epochs or validation evaluations to wait before primary metric improvement
+
+      is tracked for early stopping. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: earlyStoppingPatience
+    description: >-
+      Minimum number of epochs or validation evaluations with no primary metric improvement before
+
+      the run is stopped. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: enableOnnxNormalization
+    description: Enable normalization when exporting ONNX model.
+    types:
+    - uid: boolean
+  - name: evaluationFrequency
+    description: Frequency to evaluate validation dataset to get metric scores. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: gradientAccumulationStep
+    description: >-
+      Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+
+      updating the model weights while accumulating the gradients of those steps, and then using
+
+      the accumulated gradients to compute the weight updates. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: layersToFreeze
+    description: >-
+      Number of layers to freeze for the model. Must be a positive integer.
+
+      For instance, passing 2 as value for 'seresnext' means
+
+      freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+
+      see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: integer
+  - name: learningRate
+    description: Initial learning rate. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: learningRateScheduler
+    description: Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'.
+    types:
+    - uid: LearningRateScheduler
+    defaultValue: None
+  - name: modelName
+    description: >-
+      Name of the model to use for training.
+
+      For more information on the available models please visit the official documentation:
+
+      https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: momentum
+    description: Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: nesterov
+    description: Enable nesterov when optimizer is 'sgd'.
+    types:
+    - uid: boolean
+  - name: numberOfEpochs
+    description: Number of training epochs. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: numberOfWorkers
+    description: Number of data loader workers. Must be a non-negative integer.
+    types:
+    - uid: integer
+  - name: optimizer
+    description: Type of optimizer.
+    types:
+    - uid: StochasticOptimizer
+    defaultValue: None
+  - name: randomSeed
+    description: Random seed to be used when using deterministic training.
+    types:
+    - uid: integer
+  - name: stepLRGamma
+    description: Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: stepLRStepSize
+    description: Value of step size when learning rate scheduler is 'step'. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: trainingBatchSize
+    description: Training batch size. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: validationBatchSize
+    description: Validation batch size. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: warmupCosineLRCycles
+    description: Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1].
+    types:
+    - uid: number
+  - name: warmupCosineLRWarmupEpochs
+    description: Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer.
+    types:
+    - uid: integer
+  - name: weightDecay
+    description: Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1].
+    types:
+    - uid: number
+- name: ImageModelDistributionSettingsObjectDetection
+  description: >-
+    Distribution expressions to sweep over values of model settings.
+
+    <example>
+
+    Some examples are:
+
+    <code>
+
+    ModelName = "choice('seresnext', 'resnest50')";
+
+    LearningRate = "uniform(0.001, 0.01)";
+
+    LayersToFreeze = "choice(0, 2)";
+
+    </code></example>
+
+    For more details on how to compose distribution expressions please check the documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-tune-hyperparameters
+
+    For more information on the available settings please visit the official documentation:
+
+    https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+  kind: object
+  properties:
+  - name: boxDetectionsPerImage
+    description: >-
+      Maximum number of detections per image, for all classes. Must be a positive integer.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: boxScoreThreshold
+    description: >-
+      During inference, only return proposals with a classification score greater than
+
+      BoxScoreThreshold. Must be a float in the range[0, 1].
+    types:
+    - uid: string
+  - name: imageSize
+    description: >-
+      Image size for train and validation. Must be a positive integer.
+
+      Note: The training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: maxSize
+    description: >-
+      Maximum size of the image to be rescaled before feeding it to the backbone.
+
+      Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: minSize
+    description: >-
+      Minimum size of the image to be rescaled before feeding it to the backbone.
+
+      Must be a positive integer. Note: training run may get into CUDA OOM if the size is too big.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: modelSize
+    description: >-
+      Model size. Must be 'small', 'medium', 'large', or 'xlarge'.
+
+      Note: training run may get into CUDA OOM if the model size is too big.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: multiScale
+    description: >-
+      Enable multi-scale image by varying image size by +/- 50%.
+
+      Note: training run may get into CUDA OOM if no sufficient GPU memory.
+
+      Note: This settings is only supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: nmsIouThreshold
+    description: IOU threshold used during inference in NMS post processing. Must be float in the range [0, 1].
+    types:
+    - uid: string
+  - name: tileGridSize
+    description: >-
+      The grid size to use for tiling each image. Note: TileGridSize must not be
+
+      None to enable small object detection logic. A string containing two integers in mxn format.
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: tileOverlapRatio
+    description: >-
+      Overlap ratio between adjacent tiles in each dimension. Must be float in the range [0, 1).
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+    types:
+    - uid: string
+  - name: tilePredictionsNmsThreshold
+    description: >-
+      The IOU threshold to use to perform NMS while merging predictions from tiles and image.
+
+      Used in validation/ inference. Must be float in the range [0, 1].
+
+      Note: This settings is not supported for the 'yolov5' algorithm.
+
+      NMS: Non-maximum suppression
+    types:
+    - uid: string
+  - name: validationIouThreshold
+    description: IOU threshold to use when computing validation metric. Must be float in the range [0, 1].
+    types:
+    - uid: string
+  - name: validationMetricType
+    description: Metric computation method to use for validation metrics. Must be 'none', 'coco', 'voc', or 'coco_voc'.
+    types:
+    - uid: string
+  - name: amsGradient
+    description: Enable AMSGrad when optimizer is 'adam' or 'adamw'.
+    types:
+    - uid: string
+  - name: augmentations
+    description: Settings for using Augmentations.
+    types:
+    - uid: string
+  - name: beta1
+    description: Value of 'beta1' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: beta2
+    description: Value of 'beta2' when optimizer is 'adam' or 'adamw'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: distributed
+    description: Whether to use distributer training.
+    types:
+    - uid: string
+  - name: earlyStopping
+    description: Enable early stopping logic during training.
+    types:
+    - uid: string
+  - name: earlyStoppingDelay
+    description: >-
+      Minimum number of epochs or validation evaluations to wait before primary metric improvement
+
+      is tracked for early stopping. Must be a positive integer.
+    types:
+    - uid: string
+  - name: earlyStoppingPatience
+    description: >-
+      Minimum number of epochs or validation evaluations with no primary metric improvement before
+
+      the run is stopped. Must be a positive integer.
+    types:
+    - uid: string
+  - name: enableOnnxNormalization
+    description: Enable normalization when exporting ONNX model.
+    types:
+    - uid: string
+  - name: evaluationFrequency
+    description: Frequency to evaluate validation dataset to get metric scores. Must be a positive integer.
+    types:
+    - uid: string
+  - name: gradientAccumulationStep
+    description: >-
+      Gradient accumulation means running a configured number of "GradAccumulationStep" steps without
+
+      updating the model weights while accumulating the gradients of those steps, and then using
+
+      the accumulated gradients to compute the weight updates. Must be a positive integer.
+    types:
+    - uid: string
+  - name: layersToFreeze
+    description: >-
+      Number of layers to freeze for the model. Must be a positive integer.
+
+      For instance, passing 2 as value for 'seresnext' means
+
+      freezing layer0 and layer1. For a full list of models supported and details on layer freeze, please
+
+      see: https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: learningRate
+    description: Initial learning rate. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: learningRateScheduler
+    description: Type of learning rate scheduler. Must be 'warmup_cosine' or 'step'.
+    types:
+    - uid: string
+  - name: modelName
+    description: >-
+      Name of the model to use for training.
+
+      For more information on the available models please visit the official documentation:
+
+      https://docs.microsoft.com/en-us/azure/machine-learning/how-to-auto-train-image-models.
+    types:
+    - uid: string
+  - name: momentum
+    description: Value of momentum when optimizer is 'sgd'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: nesterov
+    description: Enable nesterov when optimizer is 'sgd'.
+    types:
+    - uid: string
+  - name: numberOfEpochs
+    description: Number of training epochs. Must be a positive integer.
+    types:
+    - uid: string
+  - name: numberOfWorkers
+    description: Number of data loader workers. Must be a non-negative integer.
+    types:
+    - uid: string
+  - name: optimizer
+    description: Type of optimizer. Must be either 'sgd', 'adam', or 'adamw'.
+    types:
+    - uid: string
+  - name: randomSeed
+    description: Random seed to be used when using deterministic training.
+    types:
+    - uid: string
+  - name: stepLRGamma
+    description: Value of gamma when learning rate scheduler is 'step'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: stepLRStepSize
+    description: Value of step size when learning rate scheduler is 'step'. Must be a positive integer.
+    types:
+    - uid: string
+  - name: trainingBatchSize
+    description: Training batch size. Must be a positive integer.
+    types:
+    - uid: string
+  - name: validationBatchSize
+    description: Validation batch size. Must be a positive integer.
+    types:
+    - uid: string
+  - name: warmupCosineLRCycles
+    description: Value of cosine cycle when learning rate scheduler is 'warmup_cosine'. Must be a float in the range [0, 1].
+    types:
+    - uid: string
+  - name: warmupCosineLRWarmupEpochs
+    description: Value of warmup epochs when learning rate scheduler is 'warmup_cosine'. Must be a positive integer.
+    types:
+    - uid: string
+  - name: weightDecay
+    description: Value of weight decay when optimizer is 'sgd', 'adam', or 'adamw'. Must be a float in the range[0, 1].
+    types:
+    - uid: string
+- name: ObjectDetectionPrimaryMetrics
+  description: Primary metrics for Image ObjectDetection task.
+  kind: enum
+  properties:
+  - name: MeanAveragePrecision
+    description: >-
+      Mean Average Precision (MAP) is the average of AP (Average Precision).
+
+      AP is calculated for each class and averaged to get the MAP.
+    types:
+    - uid: string
+- name: RegressionPrimaryMetrics
+  description: Primary metrics for Regression task.
+  kind: enum
+  properties:
+  - name: SpearmanCorrelation
+    description: The Spearman's rank coefficient of correlation is a nonparametric measure of rank correlation.
+    types:
+    - uid: string
+  - name: NormalizedRootMeanSquaredError
+    description: The Normalized Root Mean Squared Error (NRMSE) the RMSE facilitates the comparison between models with different scales.
+    types:
+    - uid: string
+  - name: R2Score
+    description: The R2 score is one of the performance evaluation measures for forecasting-based machine learning models.
+    types:
+    - uid: string
+  - name: NormalizedMeanAbsoluteError
+    description: The Normalized Mean Absolute Error (NMAE) is a validation metric to compare the Mean Absolute Error (MAE) of (time) series with different scales.
+    types:
+    - uid: string
+- name: RegressionTrainingSettings
+  description: Regression Training related configuration.
+  kind: object
+  properties:
+  - name: allowedTrainingAlgorithms
+    description: Allowed models for regression task.
+    types:
+    - uid: string
+      isArray: true
+  - name: blockedTrainingAlgorithms
+    description: Blocked models for regression task.
+    types:
+    - uid: string
+      isArray: true
+  - name: enableDnnTraining
+    description: Enable recommendation of DNN models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableModelExplainability
+    description: Flag to turn on explainability on best model.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableOnnxCompatibleModels
+    description: Flag for enabling onnx compatible models.
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: enableStackEnsemble
+    description: Enable stack ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: enableVoteEnsemble
+    description: Enable voting ensemble run.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: ensembleModelDownloadTimeout
+    description: >-
+      During VotingEnsemble and StackEnsemble model generation, multiple fitted models from the previous child runs are downloaded.
+
+      Configure this parameter with a higher value than 300 secs, if more time is needed.
+    types:
+    - uid: string
+    defaultValue: PT5M
+  - name: stackEnsembleSettings
+    description: Stack ensemble settings for stack ensemble run.
+    types:
+    - uid: StackEnsembleSettings
+- name: NlpVerticalFeaturizationSettings
+  kind: object
+  properties:
+  - name: datasetLanguage
+    description: Dataset language, useful for the text data.
+    types:
+    - uid: string
+- name: NlpVerticalLimitSettings
+  description: Job execution constraints.
+  kind: object
+  properties:
+  - name: maxConcurrentTrials
+    description: Maximum Concurrent AutoML iterations.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: maxTrials
+    description: Number of AutoML iterations.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: timeout
+    description: AutoML job timeout.
+    types:
+    - uid: string
+- name: IdentityConfigurationType
+  description: Enum to determine identity framework.
+  kind: enum
+  properties:
+  - name: Managed
+    types:
+    - uid: string
+  - name: AMLToken
+    types:
+    - uid: string
+  - name: UserIdentity
+    types:
+    - uid: string
+- name: DistributionType
+  description: Enum to determine the job distribution type.
+  kind: enum
+  properties:
+  - name: PyTorch
+    types:
+    - uid: string
+  - name: TensorFlow
+    types:
+    - uid: string
+  - name: Mpi
+    types:
+    - uid: string
+- name: InputDeliveryMode
+  description: Enum to determine the input data delivery mode.
+  kind: enum
+  properties:
+  - name: ReadOnlyMount
+    types:
+    - uid: string
+  - name: ReadWriteMount
+    types:
+    - uid: string
+  - name: Download
+    types:
+    - uid: string
+  - name: Direct
+    types:
+    - uid: string
+  - name: EvalMount
+    types:
+    - uid: string
+  - name: EvalDownload
+    types:
+    - uid: string
+- name: JobInputType
+  description: Enum to determine the Job Input Type.
+  kind: enum
+  properties:
+  - name: literal
+    types:
+    - uid: string
+  - name: uri_file
+    types:
+    - uid: string
+  - name: uri_folder
+    types:
+    - uid: string
+  - name: mltable
+    types:
+    - uid: string
+  - name: custom_model
+    types:
+    - uid: string
+  - name: mlflow_model
+    types:
+    - uid: string
+  - name: triton_model
+    types:
+    - uid: string
+- name: ImageAnnotationType
+  description: Annotation type of image data.
+  kind: enum
+  properties:
+  - name: Classification
+    types:
+    - uid: string
+  - name: BoundingBox
+    types:
+    - uid: string
+  - name: InstanceSegmentation
+    types:
+    - uid: string
+- name: MediaType
+  description: Media type of data asset.
+  kind: enum
+  properties:
+  - name: Image
+    types:
+    - uid: string
+  - name: Text
+    types:
+    - uid: string
+- name: TextAnnotationType
+  description: Annotation type of text data.
+  kind: enum
+  properties:
+  - name: Classification
+    types:
+    - uid: string
+  - name: NamedEntityRecognition
+    types:
+    - uid: string
+- name: MLAssistConfigurationType
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: SparkJobEntryType
+  kind: enum
+  properties:
+  - name: SparkJobPythonEntry
+    types:
+    - uid: string
+  - name: SparkJobScalaEntry
+    types:
+    - uid: string
+- name: EarlyTerminationPolicyType
+  kind: enum
+  properties:
+  - name: Bandit
+    types:
+    - uid: string
+  - name: MedianStopping
+    types:
+    - uid: string
+  - name: TruncationSelection
+    types:
+    - uid: string
+- name: SamplingAlgorithmType
+  kind: enum
+  properties:
+  - name: Grid
+    types:
+    - uid: string
+  - name: Random
+    types:
+    - uid: string
+  - name: Bayesian
+    types:
+    - uid: string
+- name: RandomSamplingAlgorithmRule
+  description: The specific type of random algorithm
+  kind: enum
+  properties:
+  - name: Random
+    types:
+    - uid: string
+  - name: Sobol
+    types:
+    - uid: string
+- name: StackEnsembleSettings
+  description: Advances setting to customize StackEnsemble run.
+  kind: object
+  properties:
+  - name: stackMetaLearnerKWargs
+    description: Optional parameters to pass to the initializer of the meta-learner.
+    types:
+    - uid: object
+  - name: stackMetaLearnerTrainPercentage
+    description: Specifies the proportion of the training set (when choosing train and validation type of training) to be reserved for training the meta-learner. Default value is 0.2.
+    types:
+    - uid: number
+    defaultValue: 0.20000000000000001
+  - name: stackMetaLearnerType
+    description: The meta-learner is a model trained on the output of the individual heterogeneous models.
+    types:
+    - uid: StackMetaLearnerType
+    defaultValue: None
+- name: FeaturizationMode
+  description: Featurization mode - determines data featurization mode.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Auto mode, system performs featurization without any custom featurization inputs.
+    types:
+    - uid: string
+  - name: Custom
+    description: Custom featurization.
+    types:
+    - uid: string
+  - name: Off
+    description: Featurization off. 'Forecasting' task cannot use this value.
+    types:
+    - uid: string
+- name: AutoNCrossValidations
+  description: N-Cross validations determined automatically.
+  kind: object
+  properties:
+  - name: mode
+    description: '[Required] Mode for determining N-Cross validations.'
+    types:
+    - uid: Auto
+    typesTitle: string
+- name: CustomNCrossValidations
+  description: N-Cross validations are specified by user.
+  kind: object
+  properties:
+  - name: value
+    description: '[Required] N-Cross validations value.'
+    types:
+    - uid: integer
+  - name: mode
+    description: '[Required] Mode for determining N-Cross validations.'
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: FeatureLags
+  description: Flag for generating lags for the numeric features.
+  kind: enum
+  properties:
+  - name: None
+    description: No feature lags generated.
+    types:
+    - uid: string
+  - name: Auto
+    description: System auto-generates feature lags.
+    types:
+    - uid: string
+- name: ShortSeriesHandlingConfiguration
+  description: The parameter defining how if AutoML should handle short time series.
+  kind: enum
+  properties:
+  - name: None
+    description: Represents no/null value.
+    types:
+    - uid: string
+  - name: Auto
+    description: Short series will be padded if there are no long series, otherwise short series will be dropped.
+    types:
+    - uid: string
+  - name: Pad
+    description: All the short series will be padded.
+    types:
+    - uid: string
+  - name: Drop
+    description: All the short series will be dropped.
+    types:
+    - uid: string
+- name: TargetAggregationFunction
+  description: Target aggregate function.
+  kind: enum
+  properties:
+  - name: None
+    description: Represent no value set.
+    types:
+    - uid: string
+  - name: Sum
+    types:
+    - uid: string
+  - name: Max
+    types:
+    - uid: string
+  - name: Min
+    types:
+    - uid: string
+  - name: Mean
+    types:
+    - uid: string
+- name: UseStl
+  description: Configure STL Decomposition of the time-series target column.
+  kind: enum
+  properties:
+  - name: None
+    description: No stl decomposition.
+    types:
+    - uid: string
+  - name: Season
+    types:
+    - uid: string
+  - name: SeasonTrend
+    types:
+    - uid: string
+- name: LearningRateScheduler
+  description: Learning rate scheduler enum.
+  kind: enum
+  properties:
+  - name: None
+    description: No learning rate scheduler selected.
+    types:
+    - uid: string
+  - name: WarmupCosine
+    description: Cosine Annealing With Warmup.
+    types:
+    - uid: string
+  - name: Step
+    description: Step learning rate scheduler.
+    types:
+    - uid: string
+- name: StochasticOptimizer
+  description: Stochastic optimizer for image models.
+  kind: enum
+  properties:
+  - name: None
+    description: No optimizer selected.
+    types:
+    - uid: string
+  - name: Sgd
+    description: Stochastic Gradient Descent optimizer.
+    types:
+    - uid: string
+  - name: Adam
+    description: Adam is algorithm the optimizes stochastic objective functions based on adaptive estimates of moments
+    types:
+    - uid: string
+  - name: Adamw
+    description: AdamW is a variant of the optimizer Adam that has an improved implementation of weight decay.
+    types:
+    - uid: string
+- name: ImageSweepLimitSettings
+  description: Limit settings for model sweeping and hyperparameter sweeping.
+  kind: object
+  properties:
+  - name: maxConcurrentTrials
+    description: Maximum number of concurrent iterations for the underlying Sweep job.
+    types:
+    - uid: integer
+  - name: maxTrials
+    description: Maximum number of iterations for the underlying Sweep job.
+    types:
+    - uid: integer
+- name: ModelSize
+  description: Image model size.
+  kind: enum
+  properties:
+  - name: None
+    description: No value selected.
+    types:
+    - uid: string
+  - name: Small
+    description: Small size.
+    types:
+    - uid: string
+  - name: Medium
+    description: Medium size.
+    types:
+    - uid: string
+  - name: Large
+    description: Large size.
+    types:
+    - uid: string
+  - name: ExtraLarge
+    description: Extra large size.
+    types:
+    - uid: string
+- name: ValidationMetricType
+  description: Metric computation method to use for validation metrics in image tasks.
+  kind: enum
+  properties:
+  - name: None
+    description: No metric.
+    types:
+    - uid: string
+  - name: Coco
+    description: Coco metric.
+    types:
+    - uid: string
+  - name: Voc
+    description: Voc metric.
+    types:
+    - uid: string
+  - name: CocoVoc
+    description: CocoVoc metric.
+    types:
+    - uid: string
+- name: StackMetaLearnerType
+  description: >-
+    The meta-learner is a model trained on the output of the individual heterogeneous models.
+
+    Default meta-learners are LogisticRegression for classification tasks (or LogisticRegressionCV if cross-validation is enabled) and ElasticNet for regression/forecasting tasks (or ElasticNetCV if cross-validation is enabled).
+
+    This parameter can be one of the following strings: LogisticRegression, LogisticRegressionCV, LightGBMClassifier, ElasticNet, ElasticNetCV, LightGBMRegressor, or LinearRegression
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: LogisticRegression
+    description: Default meta-learners are LogisticRegression for classification tasks.
+    types:
+    - uid: string
+  - name: LogisticRegressionCV
+    description: Default meta-learners are LogisticRegression for classification task when CV is on.
+    types:
+    - uid: string
+  - name: LightGBMClassifier
+    types:
+    - uid: string
+  - name: ElasticNet
+    description: Default meta-learners are LogisticRegression for regression task.
+    types:
+    - uid: string
+  - name: ElasticNetCV
+    description: Default meta-learners are LogisticRegression for regression task when CV is on.
+    types:
+    - uid: string
+  - name: LightGBMRegressor
+    types:
+    - uid: string
+  - name: LinearRegression
+    types:
+    - uid: string
+- name: NCrossValidationsMode
+  description: Determines how N-Cross validations value is determined.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Determine N-Cross validations value automatically. Supported only for 'Forecasting' AutoML task.
+    types:
+    - uid: string
+  - name: Custom
+    description: Use custom N-Cross validations value.
+    types:
+    - uid: string
+- name: AutoForecastHorizon
+  description: Forecast horizon determined automatically by system.
+  kind: object
+  properties:
+  - name: mode
+    description: '[Required] Set forecast horizon value selection mode.'
+    types:
+    - uid: Auto
+    typesTitle: string
+- name: CustomForecastHorizon
+  description: The desired maximum forecast horizon in units of time-series frequency.
+  kind: object
+  properties:
+  - name: value
+    description: '[Required] Forecast horizon value.'
+    types:
+    - uid: integer
+  - name: mode
+    description: '[Required] Set forecast horizon value selection mode.'
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: AutoSeasonality
+  kind: object
+  properties:
+  - name: mode
+    description: '[Required] Seasonality mode.'
+    types:
+    - uid: Auto
+    typesTitle: string
+- name: CustomSeasonality
+  kind: object
+  properties:
+  - name: value
+    description: '[Required] Seasonality value.'
+    types:
+    - uid: integer
+  - name: mode
+    description: '[Required] Seasonality mode.'
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: AutoTargetLags
+  kind: object
+  properties:
+  - name: mode
+    description: '[Required] Set target lags mode - Auto/Custom'
+    types:
+    - uid: Auto
+    typesTitle: string
+- name: CustomTargetLags
+  kind: object
+  properties:
+  - name: values
+    description: '[Required] Set target lags values.'
+    types:
+    - uid: integer
+      isArray: true
+  - name: mode
+    description: '[Required] Set target lags mode - Auto/Custom'
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: AutoTargetRollingWindowSize
+  description: Target lags rolling window determined automatically.
+  kind: object
+  properties:
+  - name: mode
+    description: '[Required] TargetRollingWindowSiz detection mode.'
+    types:
+    - uid: Auto
+    typesTitle: string
+- name: CustomTargetRollingWindowSize
+  kind: object
+  properties:
+  - name: value
+    description: '[Required] TargetRollingWindowSize value.'
+    types:
+    - uid: integer
+  - name: mode
+    description: '[Required] TargetRollingWindowSiz detection mode.'
+    types:
+    - uid: Custom
+    typesTitle: string
+- name: ForecastHorizonMode
+  description: Enum to determine forecast horizon selection mode.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Forecast horizon to be determined automatically.
+    types:
+    - uid: string
+  - name: Custom
+    description: Use the custom forecast horizon.
+    types:
+    - uid: string
+- name: SeasonalityMode
+  description: Forecasting seasonality mode.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Seasonality to be determined automatically.
+    types:
+    - uid: string
+  - name: Custom
+    description: Use the custom seasonality value.
+    types:
+    - uid: string
+- name: TargetLagsMode
+  description: Target lags selection modes.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Target lags to be determined automatically.
+    types:
+    - uid: string
+  - name: Custom
+    description: Use the custom target lags.
+    types:
+    - uid: string
+- name: TargetRollingWindowSizeMode
+  description: Target rolling windows size mode.
+  kind: enum
+  properties:
+  - name: Auto
+    description: Determine rolling windows size automatically.
+    types:
+    - uid: string
+  - name: Custom
+    description: Use the specified rolling window size.
+    types:
+    - uid: string
+examples:
+- name: Get Command Job.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "displayName": "string",
+          "status": "NotStarted",
+          "experimentName": "string",
+          "services": {
+            "string": {
+              "jobServiceType": "string",
+              "port": 1,
+              "endpoint": "string",
+              "status": "string",
+              "errorMessage": "string",
+              "properties": {
+                "string": "string"
+              }
+            }
+          },
+          "computeId": "string",
+          "jobType": "Command",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "8385cf05-78c0-41ef-b31d-36796a678e19": null
+              }
+            }
+          },
+          "codeId": "string",
+          "command": "string",
+          "environmentId": "string",
+          "inputs": {
+            "string": {
+              "description": "string",
+              "jobInputType": "literal",
+              "value": "string"
+            }
+          },
+          "outputs": {
+            "string": {
+              "description": "string",
+              "jobOutputType": "uri_file",
+              "mode": "ReadWriteMount",
+              "uri": "string"
+            }
+          },
+          "distribution": {
+            "distributionType": "TensorFlow",
+            "workerCount": 1,
+            "parameterServerCount": 1
+          },
+          "limits": {
+            "timeout": "PT5M",
+            "jobLimitsType": "Command"
+          },
+          "environmentVariables": {
+            "string": "string"
+          },
+          "identity": {
+            "identityType": "AMLToken"
+          },
+          "parameters": {
+            "string": "string"
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        }
+      }
+- name: Get AutoML Job.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "displayName": "string",
+          "status": "Scheduled",
+          "experimentName": "string",
+          "services": {
+            "string": {
+              "jobServiceType": "string",
+              "port": 1,
+              "endpoint": "string",
+              "status": "string",
+              "errorMessage": "string",
+              "properties": {
+                "string": "string"
+              }
+            }
+          },
+          "computeId": "string",
+          "isArchived": false,
+          "identity": {
+            "identityType": "AMLToken"
+          },
+          "jobType": "AutoML",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "9bec0ab0-c62f-4fa9-a97c-7b24bbcc90ad": null
+              }
+            }
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "taskDetails": {
+            "taskType": "ImageClassification",
+            "limitSettings": {
+              "maxTrials": 2
+            },
+            "targetColumnName": "string",
+            "trainingData": {
+              "jobInputType": "mltable",
+              "uri": "string"
+            },
+            "modelSettings": {
+              "validationCropSize": 2
+            },
+            "searchSpace": [
+              {
+                "validationCropSize": "choice(2, 360)"
+              }
+            ]
+          },
+          "outputs": {
+            "string": {
+              "description": "string",
+              "uri": "string",
+              "mode": "ReadWriteMount",
+              "jobOutputType": "uri_file"
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "ManagedIdentity"
+        }
+      }
+- name: Get Sweep Job.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "displayName": "string",
+          "status": "NotStarted",
+          "experimentName": "string",
+          "services": {
+            "string": {
+              "jobServiceType": "string",
+              "port": 1,
+              "endpoint": "string",
+              "status": "string",
+              "errorMessage": "string",
+              "properties": {
+                "string": "string"
+              }
+            }
+          },
+          "computeId": "string",
+          "jobType": "Sweep",
+          "samplingAlgorithm": {
+            "samplingAlgorithmType": "Grid"
+          },
+          "limits": {
+            "jobLimitsType": "Sweep",
+            "maxTotalTrials": 1,
+            "maxConcurrentTrials": 1,
+            "trialTimeout": "PT1S"
+          },
+          "earlyTermination": {
+            "evaluationInterval": 1,
+            "delayEvaluation": 1,
+            "policyType": "MedianStopping"
+          },
+          "objective": {
+            "primaryMetric": "string",
+            "goal": "Minimize"
+          },
+          "trial": {
+            "codeId": "string",
+            "command": "string",
+            "environmentId": "string",
+            "environmentVariables": {
+              "string": "string"
+            },
+            "distribution": {
+              "distributionType": "Mpi",
+              "processCountPerInstance": 1
+            },
+            "resources": {
+              "instanceCount": 1,
+              "instanceType": "string",
+              "properties": {
+                "string": {
+                  "e6b6493e-7d5e-4db3-be1e-306ec641327e": null
+                }
+              }
+            }
+          },
+          "searchSpace": {
+            "string": {}
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        }
+      }
+- name: Get Pipeline Job.
+  request:
+    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/jobs/string?api-version=2022-06-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "displayName": "string",
+          "status": "NotStarted",
+          "experimentName": "string",
+          "services": {
+            "string": {
+              "jobServiceType": "string",
+              "port": 1,
+              "endpoint": "string",
+              "status": "string",
+              "errorMessage": "string",
+              "properties": {
+                "string": "string"
+              }
+            }
+          },
+          "computeId": "string",
+          "jobType": "Pipeline",
+          "settings": {},
+          "inputs": {
+            "string": {
+              "description": "string",
+              "jobInputType": "literal",
+              "value": "string"
+            }
+          },
+          "outputs": {
+            "string": {
+              "description": "string",
+              "jobOutputType": "uri_file",
+              "mode": "Upload",
+              "uri": "string"
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Machine Learning service - Gets a Job by name/id.
+errorCodes: []

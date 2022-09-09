@@ -1,0 +1,244 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.authorization.accessreviewcalls.scopeaccessreviewinstances.list
+name: List
+service: Authorization
+groupName: Scope Access Review Instances
+apiVersion: 2021-12-01-preview
+summary: Get access review instances
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-12-01-preview
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/{scheduleDefinitionId}/instances?api-version=2021-12-01-preview&$filter={$filter}
+  isOptional: true
+uriParameters:
+- name: scope
+  in: path
+  isRequired: true
+  description: The scope of the resource.
+  types:
+  - uid: string
+- name: scheduleDefinitionId
+  in: path
+  isRequired: true
+  description: The id of the access review schedule definition.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to be used with the HTTP request.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: "The filter to apply on the operation. Other than standard filters, one custom filter option is supported : 'assignedToMeToReview()'. When one specified $filter=assignedToMeToReview(), only items that are assigned to the calling user to review are returned"
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Describe the result of a successful operation.
+  types:
+  - uid: AccessReviewInstanceListResult
+- name: Other Status Codes
+  description: Unexpected error
+  types:
+  - uid: ErrorDefinition
+requestHeader: []
+definitions:
+- name: AccessReviewInstanceListResult
+  description: List of Access Review Instances.
+  kind: object
+  properties:
+  - name: value
+    description: Access Review Instance list.
+    types:
+    - uid: AccessReviewInstance
+      isArray: true
+  - name: nextLink
+    description: The URL to use for getting the next set of results.
+    types:
+    - uid: string
+- name: ErrorDefinition
+  description: Error
+  kind: object
+  properties:
+  - name: error
+    description: "Error  \nError of the list gateway status."
+    types:
+    - uid: ErrorDefinitionProperties
+- name: AccessReviewInstance
+  description: Access Review Instance.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The access review instance id.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The access review instance name.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The resource type.
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: This read-only field specifies the status of an access review instance.
+    types:
+    - uid: AccessReviewInstanceStatus
+  - name: properties.startDateTime
+    description: The DateTime when the review instance is scheduled to be start.
+    types:
+    - uid: string
+  - name: properties.endDateTime
+    description: The DateTime when the review instance is scheduled to end.
+    types:
+    - uid: string
+  - name: properties.reviewers
+    description: This is the collection of reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.backupReviewers
+    description: This is the collection of backup reviewers.
+    types:
+    - uid: AccessReviewReviewer
+      isArray: true
+  - name: properties.reviewersType
+    isReadyOnly: true
+    description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+    types:
+    - uid: AccessReviewInstanceReviewersType
+- name: ErrorDefinitionProperties
+  description: Error
+  kind: object
+  properties:
+  - name: message
+    isReadyOnly: true
+    description: Description of the error.
+    types:
+    - uid: string
+  - name: code
+    description: Error code of list gateway.
+    types:
+    - uid: string
+- name: AccessReviewInstanceStatus
+  description: This read-only field specifies the status of an access review instance.
+  kind: enum
+  properties:
+  - name: NotStarted
+    types:
+    - uid: string
+  - name: InProgress
+    types:
+    - uid: string
+  - name: Completed
+    types:
+    - uid: string
+  - name: Applied
+    types:
+    - uid: string
+  - name: Initializing
+    types:
+    - uid: string
+  - name: Applying
+    types:
+    - uid: string
+  - name: Completing
+    types:
+    - uid: string
+  - name: Scheduled
+    types:
+    - uid: string
+  - name: AutoReviewing
+    types:
+    - uid: string
+  - name: AutoReviewed
+    types:
+    - uid: string
+  - name: Starting
+    types:
+    - uid: string
+- name: AccessReviewReviewer
+  description: Descriptor for what needs to be reviewed
+  kind: object
+  properties:
+  - name: principalId
+    description: The id of the reviewer(user/servicePrincipal)
+    types:
+    - uid: string
+  - name: principalType
+    isReadyOnly: true
+    description: 'The identity type : user/servicePrincipal'
+    types:
+    - uid: AccessReviewReviewerType
+- name: AccessReviewInstanceReviewersType
+  description: This field specifies the type of reviewers for a review. Usually for a review, reviewers are explicitly assigned. However, in some cases, the reviewers may not be assigned and instead be chosen dynamically. For example managers review or self review.
+  kind: enum
+  properties:
+  - name: Assigned
+    types:
+    - uid: string
+  - name: Self
+    types:
+    - uid: string
+  - name: Managers
+    types:
+    - uid: string
+- name: AccessReviewReviewerType
+  description: 'The identity type : user/servicePrincipal'
+  kind: enum
+  properties:
+  - name: user
+    types:
+    - uid: string
+  - name: servicePrincipal
+    types:
+    - uid: string
+examples:
+- name: GetAccessReviews
+  request:
+    uri: GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/265785a7-a81f-4201-8a18-bb0db95982b7/instances?api-version=2021-12-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/265785a7-a81f-4201-8a18-bb0db95982b7/instances?api-version=2021-12-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/providers/Microsoft.Authorization/accessReviewScheduleDefinitions/fa73e90b-5bf1-45fd-a182-35ce5fc0674d/instances/4135f961-be78-4005-8101-c72a5af307a2",
+            "type": "Microsoft.Authorization/accessReviewScheduleDefinitions/instances",
+            "name": "4135f961-be78-4005-8101-c72a5af307a2",
+            "properties": {
+              "status": "Applied",
+              "startDateTime": "2018-08-03T21:02:30.667Z",
+              "endDateTime": "2018-08-03T21:17:30.513Z"
+            }
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Authorization service - Get access review instances
+errorCodes: []

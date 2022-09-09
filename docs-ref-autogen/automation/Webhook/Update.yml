@@ -214,6 +214,90 @@ examples:
           "description": "updated webhook"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg/providers/Microsoft.Automation/automationAccounts/myAutomationAccount33/webhooks/TestWebhook?api-version=2015-10-31
+
+      {
+        "name": "TestWebhook",
+        "properties": {
+          "isEnabled": false,
+          "description": "updated webhook"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.automation.models.Webhook;
+
+      /** Samples for Webhook Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/updateWebhook.json
+           */
+          /**
+           * Sample code: Update webhook.
+           *
+           * @param manager Entry point to AutomationManager.
+           */
+          public static void updateWebhook(com.azure.resourcemanager.automation.AutomationManager manager) {
+              Webhook resource =
+                  manager.webhooks().getWithResponse("rg", "myAutomationAccount33", "TestWebhook", Context.NONE).getValue();
+              resource.update().withName("TestWebhook").withIsEnabled(false).withDescription("updated webhook").apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-automation_1.0.0-beta.2/sdk/automation/azure-resourcemanager-automation/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armautomation_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/automation/armautomation"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/automation/resource-manager/Microsoft.Automation/stable/2015-10-31/examples/updateWebhook.json
+      func ExampleWebhookClient_Update() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armautomation.NewWebhookClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Update(ctx,
+      		"rg",
+      		"myAutomationAccount33",
+      		"TestWebhook",
+      		armautomation.WebhookUpdateParameters{
+      			Name: to.Ptr("TestWebhook"),
+      			Properties: &armautomation.WebhookUpdateProperties{
+      				Description: to.Ptr("updated webhook"),
+      				IsEnabled:   to.Ptr(false),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fautomation%2Farmautomation%2Fv0.7.0/sdk/resourcemanager/automation/armautomation/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -245,5 +329,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Automation service - Update the webhook identified by webhook name.
+  description: >
+    Learn more about Automation service - Update the webhook identified by webhook name.
 errorCodes: []

@@ -88,9 +88,9 @@ requestBody:
       isArray: true
   - name: properties.subscriptions
     in: body
-    description: Subscription id in the ARM id format.
+    description: List of subscription ids
     types:
-    - uid: string
+    - uid: SubscriptionId
       isArray: true
   - name: properties.networkSecurityPerimeters
     in: body
@@ -114,6 +114,13 @@ requestBody:
       - uid: string
 requestHeader: []
 definitions:
+- name: SubscriptionId
+  kind: object
+  properties:
+  - name: id
+    description: Subscription id in the ARM id format.
+    types:
+    - uid: string
 - name: PerimeterBasedAccessRule
   kind: object
   properties:
@@ -169,9 +176,9 @@ definitions:
     - uid: string
       isArray: true
   - name: properties.subscriptions
-    description: Subscription id in the ARM id format.
+    description: List of subscription ids
     types:
-    - uid: string
+    - uid: SubscriptionId
       isArray: true
   - name: properties.networkSecurityPerimeters
     description: Inbound rule specified by the perimeter id.
@@ -265,6 +272,23 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityPerimeters/nsp1/profiles/profile1/accessRules/accessRule1?api-version=2021-02-01-preview
+
+      {
+        "properties": {
+          "direction": "Inbound",
+          "addressPrefixes": [
+            "10.11.0.0/16",
+            "10.10.1.0/24"
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -312,5 +336,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Network Manager service - Creates or updates a network access rule.
+  description: >
+    Learn more about Network Manager service - Creates or updates a network access rule.
 errorCodes: []

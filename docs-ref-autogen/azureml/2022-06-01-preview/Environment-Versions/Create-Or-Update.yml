@@ -1,0 +1,509 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.2022-06-01-preview.environmentversions.createorupdate
+name: Create Or Update
+service: Machine Learning
+groupName: Environment Versions
+apiVersion: 2022-06-01-preview
+summary: Creates or updates an EnvironmentVersion.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/environments/{name}/versions/{version}?api-version=2022-06-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: name
+  in: path
+  isRequired: true
+  description: Name of EnvironmentVersion. This is case-sensitive.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
+- name: version
+  in: path
+  isRequired: true
+  description: Version of EnvironmentVersion.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Success
+  types:
+  - uid: EnvironmentVersionResource
+- name: 201 Created
+  description: Created
+  types:
+  - uid: EnvironmentVersionResource
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    isRequired: true
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: EnvironmentVersion
+requestHeader: []
+definitions:
+- name: EnvironmentVersion
+  description: Environment version details.
+  kind: object
+  properties:
+  - name: build
+    description: Configuration settings for Docker build context.
+    types:
+    - uid: BuildContext
+  - name: condaFile
+    description: >-
+      Standard configuration file used by Conda that lets you install any kind of package, including Python, R, and C/C++ packages.
+
+      <see href="https://repo2docker.readthedocs.io/en/latest/config_files.html#environment-yml-install-a-conda-environment" />
+    types:
+    - uid: string
+  - name: environmentType
+    isReadyOnly: true
+    description: >-
+      Environment type is either user managed or curated by the Azure ML service
+
+      <see href="https://docs.microsoft.com/en-us/azure/machine-learning/resource-curated-environments" />
+    types:
+    - uid: EnvironmentType
+  - name: image
+    description: >-
+      Name of the image that will be used for the environment.
+
+      <seealso href="https://docs.microsoft.com/en-us/azure/machine-learning/how-to-deploy-custom-docker-image#use-a-custom-base-image" />
+    types:
+    - uid: string
+  - name: inferenceConfig
+    description: Defines configuration specific to inference.
+    types:
+    - uid: InferenceContainerProperties
+  - name: osType
+    description: The OS type of the environment.
+    types:
+    - uid: OperatingSystemType
+    defaultValue: Linux
+  - name: isAnonymous
+    description: If the name version are system generated (anonymous registration).
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: isArchived
+    description: Is the asset archived?
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: description
+    description: The asset description text.
+    types:
+    - uid: string
+  - name: properties
+    description: The asset property dictionary.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: tags
+    description: Tag dictionary. Tags can be added, removed, and updated.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: EnvironmentVersionResource
+  description: Azure Resource Manager resource envelope.
+  kind: object
+  properties:
+  - name: properties
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: EnvironmentVersion
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: BuildContext
+  description: Configuration settings for Docker build context
+  kind: object
+  properties:
+  - name: contextUri
+    description: >-
+      [Required] URI of the Docker build context used to build the image. Supports blob URIs on environment creation and may return blob or Git URIs.
+
+      <seealso href="https://docs.docker.com/engine/reference/commandline/build/#extended-description" />
+    types:
+    - uid: string
+  - name: dockerfilePath
+    description: >-
+      Path to the Dockerfile in the build context.
+
+      <seealso href="https://docs.docker.com/engine/reference/builder/" />
+    types:
+    - uid: string
+    defaultValue: Dockerfile
+- name: EnvironmentType
+  description: Environment type is either user created or curated by Azure ML service
+  kind: enum
+  properties:
+  - name: Curated
+    types:
+    - uid: string
+  - name: UserCreated
+    types:
+    - uid: string
+- name: InferenceContainerProperties
+  kind: object
+  properties:
+  - name: livenessRoute
+    description: The route to check the liveness of the inference server container.
+    types:
+    - uid: Route
+  - name: readinessRoute
+    description: The route to check the readiness of the inference server container.
+    types:
+    - uid: Route
+  - name: scoringRoute
+    description: The port to send the scoring requests to, within the inference server container.
+    types:
+    - uid: Route
+- name: OperatingSystemType
+  description: The type of operating system.
+  kind: enum
+  properties:
+  - name: Linux
+    types:
+    - uid: string
+  - name: Windows
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: Route
+  kind: object
+  properties:
+  - name: path
+    description: '[Required] The path for the route.'
+    types:
+    - uid: string
+  - name: port
+    description: '[Required] The port for the route.'
+    types:
+    - uid: integer
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: CreateOrUpdate Environment Version.
+  request:
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/environments/string/versions/string?api-version=2022-06-01-preview
+    body: >-
+      {
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
+          "image": "docker.io/tensorflow/serving:latest",
+          "condaFile": "string",
+          "build": {
+            "contextUri": "https://storage-account.blob.core.windows.net/azureml/DockerBuildContext/95ddede6b9b8c4e90472db3acd0a8d28/",
+            "dockerfilePath": "prod/Dockerfile"
+          },
+          "inferenceConfig": {
+            "livenessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "readinessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "scoringRoute": {
+              "path": "string",
+              "port": 1
+            }
+          }
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/environments/string/versions/string?api-version=2022-06-01-preview
+
+      {
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
+          "image": "docker.io/tensorflow/serving:latest",
+          "condaFile": "string",
+          "build": {
+            "contextUri": "https://storage-account.blob.core.windows.net/azureml/DockerBuildContext/95ddede6b9b8c4e90472db3acd0a8d28/",
+            "dockerfilePath": "prod/Dockerfile"
+          },
+          "inferenceConfig": {
+            "livenessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "readinessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "scoringRoute": {
+              "path": "string",
+              "port": 1
+            }
+          }
+        }
+      }
+
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
+          "environmentType": "Curated",
+          "image": "docker.io/tensorflow/serving:latest",
+          "condaFile": "string",
+          "build": {
+            "contextUri": "https://storage-account.blob.core.windows.net/azureml/DockerBuildContext/95ddede6b9b8c4e90472db3acd0a8d28/",
+            "dockerfilePath": "prod/Dockerfile"
+          },
+          "inferenceConfig": {
+            "livenessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "readinessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "scoringRoute": {
+              "path": "string",
+              "port": 1
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        }
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "tags": {
+            "string": "string"
+          },
+          "properties": {
+            "string": "string"
+          },
+          "isAnonymous": false,
+          "environmentType": "Curated",
+          "image": "docker.io/tensorflow/serving:latest",
+          "condaFile": "string",
+          "build": {
+            "contextUri": "https://storage-account.blob.core.windows.net/azureml/DockerBuildContext/95ddede6b9b8c4e90472db3acd0a8d28/",
+            "dockerfilePath": "prod/Dockerfile"
+          },
+          "inferenceConfig": {
+            "livenessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "readinessRoute": {
+              "path": "string",
+              "port": 1
+            },
+            "scoringRoute": {
+              "path": "string",
+              "port": 1
+            }
+          }
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        }
+      }
+security: []
+metadata:
+  description: >
+    Learn more about Machine Learning service - Creates or updates an EnvironmentVersion.
+errorCodes: []

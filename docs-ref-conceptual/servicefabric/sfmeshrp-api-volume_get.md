@@ -1,8 +1,8 @@
 ---
-title: "Get"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand the Service Fabric Mesh resource manager API's Get request"
+description: Learn how to use the Get request in Service Fabric Mesh API to retrieve a volume resource using the resource manager.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Get
+# Explore the Get request in the Service Fabric Mesh API
 Gets the volume resource.
 
 Gets the information about the volume resource with a given name. This information includes the volume description and other runtime information.

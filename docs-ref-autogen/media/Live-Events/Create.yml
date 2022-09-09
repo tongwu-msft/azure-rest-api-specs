@@ -3,15 +3,15 @@ uid: management.azure.com.media.liveevents.create
 name: Create
 service: Media Services
 groupName: Live Events
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: "Create Live Event  \nCreates a new live event."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}?api-version=2021-11-01
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}?api-version=2021-11-01&autoStart={autoStart}
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}?api-version=2022-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaservices/{accountName}/liveEvents/{liveEventName}?api-version=2022-08-01&autoStart={autoStart}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -585,7 +585,7 @@ definitions:
 examples:
 - name: Create a LiveEvent
   request:
-    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2022-08-01
     body: >-
       {
         "location": "West US",
@@ -625,13 +625,184 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveEvents/myLiveEvent1?api-version=2022-08-01
+
+      {
+        "location": "West US",
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "description": "test event 1",
+          "input": {
+            "streamingProtocol": "RTMP",
+            "keyFrameIntervalDuration": "PT6S",
+            "accessControl": {
+              "ip": {
+                "allow": [
+                  {
+                    "name": "AllowAll",
+                    "address": "0.0.0.0",
+                    "subnetPrefixLength": 0
+                  }
+                ]
+              }
+            }
+          },
+          "preview": {
+            "accessControl": {
+              "ip": {
+                "allow": [
+                  {
+                    "name": "AllowAll",
+                    "address": "0.0.0.0",
+                    "subnetPrefixLength": 0
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveevent-create.json
+      func ExampleLiveEventsClient_BeginCreate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewLiveEventsClient("0a6ec948-5a62-437d-b9df-934dc7c1b722", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreate(ctx, "mediaresources", "slitestmedia10", "myLiveEvent1", armmediaservices.LiveEvent{
+      		Location: to.Ptr("West US"),
+      		Tags: map[string]*string{
+      			"tag1": to.Ptr("value1"),
+      			"tag2": to.Ptr("value2"),
+      		},
+      		Properties: &armmediaservices.LiveEventProperties{
+      			Description: to.Ptr("test event 1"),
+      			Input: &armmediaservices.LiveEventInput{
+      				AccessControl: &armmediaservices.LiveEventInputAccessControl{
+      					IP: &armmediaservices.IPAccessControl{
+      						Allow: []*armmediaservices.IPRange{
+      							{
+      								Name:               to.Ptr("AllowAll"),
+      								Address:            to.Ptr("0.0.0.0"),
+      								SubnetPrefixLength: to.Ptr[int32](0),
+      							}},
+      					},
+      				},
+      				KeyFrameIntervalDuration: to.Ptr("PT6S"),
+      				StreamingProtocol:        to.Ptr(armmediaservices.LiveEventInputProtocolRTMP),
+      			},
+      			Preview: &armmediaservices.LiveEventPreview{
+      				AccessControl: &armmediaservices.LiveEventPreviewAccessControl{
+      					IP: &armmediaservices.IPAccessControl{
+      						Allow: []*armmediaservices.IPRange{
+      							{
+      								Name:               to.Ptr("AllowAll"),
+      								Address:            to.Ptr("0.0.0.0"),
+      								SubnetPrefixLength: to.Ptr[int32](0),
+      							}},
+      					},
+      				},
+      			},
+      		},
+      	}, &armmediaservices.LiveEventsClientBeginCreateOptions{AutoStart: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a new live event.
+       *
+       * @summary Creates a new live event.
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/liveevent-create.json
+       */
+      async function createALiveEvent() {
+        const subscriptionId = "0a6ec948-5a62-437d-b9df-934dc7c1b722";
+        const resourceGroupName = "mediaresources";
+        const accountName = "slitestmedia10";
+        const liveEventName = "myLiveEvent1";
+        const parameters = {
+          description: "test event 1",
+          input: {
+            accessControl: {
+              ip: {
+                allow: [{ name: "AllowAll", address: "0.0.0.0", subnetPrefixLength: 0 }],
+              },
+            },
+            keyFrameIntervalDuration: "PT6S",
+            streamingProtocol: "RTMP",
+          },
+          location: "West US",
+          preview: {
+            accessControl: {
+              ip: {
+                allow: [{ name: "AllowAll", address: "0.0.0.0", subnetPrefixLength: 0 }],
+              },
+            },
+          },
+          tags: { tag1: "value1", tag2: "value2" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.liveEvents.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          liveEventName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createALiveEvent().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     headers:
     - name: azure-asyncoperation
-      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveeventoperations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2021-11-01
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveeventoperations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
     - name: location
-      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveevents/myLiveEvent1/operationlocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2021-11-01
+      value: https://management.azure.com/subscriptions/0a6ec948-5a62-437d-b9df-934dc7c1b722/resourceGroups/mediaresources/providers/Microsoft.Media/mediaservices/slitestmedia10/liveevents/myLiveEvent1/operationlocations/62e4d893-d233-4005-988e-a428d9f77076?api-version=2022-08-01
     body: >-
       {
         "name": "myLiveEvent1",
@@ -757,5 +928,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Create Live Event  \nCreates a new live event."
+  description: >
+    Learn more about Media Services service - Create Live Event
+
+    Creates a new live event.
 errorCodes: []

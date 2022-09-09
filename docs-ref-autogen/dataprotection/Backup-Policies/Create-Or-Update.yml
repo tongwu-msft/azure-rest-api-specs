@@ -613,6 +613,105 @@ examples:
           "objectType": "BackupPolicy"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/04cf684a-d41f-4550-9f70-7708a3a2283b/resourceGroups/000pikumar/providers/Microsoft.DataProtection/backupVaults/PrivatePreviewVault/backupPolicies/OSSDBPolicy?api-version=2021-01-01
+
+      {
+        "properties": {
+          "policyRules": [
+            {
+              "backupParameters": {
+                "backupType": "Full",
+                "objectType": "AzureBackupParams"
+              },
+              "trigger": {
+                "schedule": {
+                  "repeatingTimeIntervals": [
+                    "R/2019-11-20T08:00:00-08:00/P1W"
+                  ]
+                },
+                "taggingCriteria": [
+                  {
+                    "tagInfo": {
+                      "tagName": "Default"
+                    },
+                    "taggingPriority": 99,
+                    "isDefault": true
+                  },
+                  {
+                    "tagInfo": {
+                      "tagName": "Weekly"
+                    },
+                    "taggingPriority": 20,
+                    "isDefault": false,
+                    "criteria": [
+                      {
+                        "scheduleTimes": [
+                          "2019-03-01T13:00:00Z"
+                        ],
+                        "daysOfTheWeek": [
+                          "Sunday"
+                        ],
+                        "objectType": "ScheduleBasedBackupCriteria"
+                      }
+                    ]
+                  }
+                ],
+                "objectType": "ScheduleBasedTriggerContext"
+              },
+              "dataStore": {
+                "dataStoreType": "VaultStore",
+                "objectType": "DataStoreInfoBase"
+              },
+              "name": "BackupWeekly",
+              "objectType": "AzureBackupRule"
+            },
+            {
+              "lifecycles": [
+                {
+                  "sourceDataStore": {
+                    "dataStoreType": "VaultStore",
+                    "objectType": "DataStoreInfoBase"
+                  },
+                  "deleteAfter": {
+                    "objectType": "AbsoluteDeleteOption",
+                    "duration": "P1W"
+                  }
+                }
+              ],
+              "isDefault": true,
+              "name": "Default",
+              "objectType": "AzureRetentionRule"
+            },
+            {
+              "lifecycles": [
+                {
+                  "sourceDataStore": {
+                    "dataStoreType": "VaultStore",
+                    "objectType": "DataStoreInfoBase"
+                  },
+                  "deleteAfter": {
+                    "objectType": "AbsoluteDeleteOption",
+                    "duration": "P12W"
+                  }
+                }
+              ],
+              "isDefault": false,
+              "name": "Weekly",
+              "objectType": "AzureRetentionRule"
+            }
+          ],
+          "datasourceTypes": [
+            "OssDB"
+          ],
+          "objectType": "BackupPolicy"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -722,5 +821,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account.
 metadata:
-  description: Learn more about Data Protection service - Creates or Updates a backup policy belonging to a backup vault
+  description: >
+    Learn more about Data Protection service - Creates or Updates a backup policy belonging to a backup vault
 errorCodes: []

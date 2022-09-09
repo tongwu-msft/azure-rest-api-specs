@@ -3,14 +3,14 @@ uid: management.azure.com.recoveryservices.privatelinkresources.get
 name: Get
 service: Recovery Services
 groupName: Private Link Resources
-apiVersion: 2016-06-01
+apiVersion: 2022-04-01
 summary: Returns a specified private link resource that need to be created for Backup and SiteRecovery
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}?api-version=2016-06-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateLinkResources/{privateLinkResourceName}?api-version=2022-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -46,6 +46,10 @@ responses:
   description: OK
   types:
   - uid: PrivateLinkResource
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
 requestHeader: []
 definitions:
 - name: PrivateLinkResource
@@ -84,10 +88,160 @@ definitions:
     types:
     - uid: string
       isArray: true
+- name: CloudError
+  description: CloudError
+  kind: object
+  properties:
+  - name: error
+    description: The resource management error response.
+    types:
+    - uid: Error
+- name: Error
+  description: The resource management error response.
+  kind: object
+  properties:
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: Error
+      isArray: true
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
 examples:
 - name: Get PrivateLinkResource
   request:
-    uri: GET https://management.azure.com/subscriptions/6c48fa17-39c7-45f1-90ac-47a587128ace/resourceGroups/petesting/providers/Microsoft.RecoveryServices/vaults/pemsi-ecy-rsv2/privateLinkResources/backupResource?api-version=2016-06-01
+    uri: GET https://management.azure.com/subscriptions/6c48fa17-39c7-45f1-90ac-47a587128ace/resourceGroups/petesting/providers/Microsoft.RecoveryServices/vaults/pemsi-ecy-rsv2/privateLinkResources/backupResource?api-version=2022-04-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/6c48fa17-39c7-45f1-90ac-47a587128ace/resourceGroups/petesting/providers/Microsoft.RecoveryServices/vaults/pemsi-ecy-rsv2/privateLinkResources/backupResource?api-version=2022-04-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for PrivateLinkResourcesOperation Get. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetPrivateLinkResources.json
+           */
+          /**
+           * Sample code: Get PrivateLinkResource.
+           *
+           * @param manager Entry point to RecoveryServicesManager.
+           */
+          public static void getPrivateLinkResource(
+              com.azure.resourcemanager.recoveryservices.RecoveryServicesManager manager) {
+              manager
+                  .privateLinkResourcesOperations()
+                  .getWithResponse("petesting", "pemsi-ecy-rsv2", "backupResource", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-recoveryservices_1.0.0-beta.3/sdk/recoveryservices/azure-resourcemanager-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armrecoveryservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/recoveryservices/armrecoveryservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetPrivateLinkResources.json
+      func ExamplePrivateLinkResourcesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armrecoveryservices.NewPrivateLinkResourcesClient("6c48fa17-39c7-45f1-90ac-47a587128ace", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"petesting",
+      		"pemsi-ecy-rsv2",
+      		"backupResource",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Frecoveryservices%2Farmrecoveryservices%2Fv1.1.0/sdk/resourcemanager/recoveryservices/armrecoveryservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { RecoveryServicesClient } = require("@azure/arm-recoveryservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns a specified private link resource that need to be created for Backup and SiteRecovery
+       *
+       * @summary Returns a specified private link resource that need to be created for Backup and SiteRecovery
+       * x-ms-original-file: specification/recoveryservices/resource-manager/Microsoft.RecoveryServices/stable/2022-04-01/examples/GetPrivateLinkResources.json
+       */
+      async function getPrivateLinkResource() {
+        const subscriptionId = "6c48fa17-39c7-45f1-90ac-47a587128ace";
+        const resourceGroupName = "petesting";
+        const vaultName = "pemsi-ecy-rsv2";
+        const privateLinkResourceName = "backupResource";
+        const credential = new DefaultAzureCredential();
+        const client = new RecoveryServicesClient(credential, subscriptionId);
+        const result = await client.privateLinkResourcesOperations.get(
+          resourceGroupName,
+          vaultName,
+          privateLinkResourceName
+        );
+        console.log(result);
+      }
+
+      getPrivateLinkResource().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-recoveryservices_5.1.0/sdk/recoveryservices/arm-recoveryservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -124,5 +278,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account.
 metadata:
-  description: Learn more about Recovery Services service - Returns a specified private link resource that need to be created for Backup and SiteRecovery
+  description: >
+    Learn more about Recovery Services service - Returns a specified private link resource that need to be created for Backup and SiteRecovery
 errorCodes: []

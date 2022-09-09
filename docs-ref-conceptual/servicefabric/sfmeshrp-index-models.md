@@ -1,8 +1,8 @@
 ---
-title: "Models"
-description: Service Fabric Mesh Resource Manager API Reference
+title: "Understand Azure Service Fabric Mesh and Type Models"
+description: Learn about type models in Azure Service Fabric Mesh Resource Manager API Reference.
 services: service-fabric-mesh
-author: VipulM-MSFT
+author: vipul-modi
 ms.date: 07/17/2018
 ms.service: "service-fabric-mesh"
 ms.topic: reference
@@ -10,7 +10,7 @@ ms.devlang: rest-api
 ms.author: vipulm
 ms.manager: rajak
 ---
-# Type Models
+# Explore type models in the Service Fabric Mesh API
 
 
 | Name | Description |

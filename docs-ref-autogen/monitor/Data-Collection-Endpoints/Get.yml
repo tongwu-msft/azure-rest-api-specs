@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionendpoints.get
 name: Get
 service: Monitor
 groupName: Data Collection Endpoints
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Returns the specified data collection endpoint.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionEndpoints/{dataCollectionEndpointName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,7 +101,7 @@ definitions:
     types:
     - uid: string
   - name: properties.configurationAccess
-    description: The endpoint used by agents to access their configuration.
+    description: The endpoint used by clients to access their configuration.
     types:
     - uid: ConfigurationAccess
   - name: properties.logsIngestion
@@ -164,7 +164,7 @@ definitions:
     types:
     - uid: string
 - name: ConfigurationAccess
-  description: The endpoint used by agents to access their configuration.
+  description: The endpoint used by clients to access their configuration.
   kind: object
   properties:
   - name: endpoint
@@ -282,7 +282,77 @@ definitions:
 examples:
 - name: Get data collection endpoint
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionEndpoints/myCollectionEndpoint?api-version=2021-09-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsGet.json
+      func ExampleDataCollectionEndpointsClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewDataCollectionEndpointsClient("703362b3-f278-4e4b-9179-c76eaf41ffc2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myCollectionEndpoint",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the specified data collection endpoint.
+       *
+       * @summary Returns the specified data collection endpoint.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionEndpointsGet.json
+       */
+      async function getDataCollectionEndpoint() {
+        const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+        const resourceGroupName = "myResourceGroup";
+        const dataCollectionEndpointName = "myCollectionEndpoint";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.dataCollectionEndpoints.get(
+          resourceGroupName,
+          dataCollectionEndpointName
+        );
+        console.log(result);
+      }
+
+      getDataCollectionEndpoint().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -326,5 +396,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Returns the specified data collection endpoint.
+  description: >
+    Learn more about Monitor service - Returns the specified data collection endpoint.
 errorCodes: []

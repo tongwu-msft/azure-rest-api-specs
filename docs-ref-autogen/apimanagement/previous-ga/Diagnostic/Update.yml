@@ -105,6 +105,11 @@ requestBody:
     description: The format of the Operation Name for Application Insights telemetries. Default is Name.
     types:
     - uid: OperationNameFormat
+  - name: properties.metrics
+    in: body
+    description: Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.
+    types:
+    - uid: boolean
 requestHeader:
 - name: If-Match
   in: header
@@ -177,6 +182,10 @@ definitions:
     description: The format of the Operation Name for Application Insights telemetries. Default is Name.
     types:
     - uid: OperationNameFormat
+  - name: properties.metrics
+    description: Emit custom metrics via emit-metric policy. Applicable only to Application Insights diagnostic settings.
+    types:
+    - uid: boolean
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -397,6 +406,61 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.ApiManagement/service/apimService1/diagnostics/applicationinsights?api-version=2020-12-01
+
+
+      {
+        "properties": {
+          "alwaysLog": "allErrors",
+          "loggerId": "/loggers/applicationinsights",
+          "sampling": {
+            "samplingType": "fixed",
+            "percentage": 50
+          },
+          "frontend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          },
+          "backend": {
+            "request": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            },
+            "response": {
+              "headers": [
+                "Content-type"
+              ],
+              "body": {
+                "bytes": 512
+              }
+            }
+          }
+        }
+      }
+
+      ```
+
     headers:
     - name: If-Match
       value: '*'
@@ -464,5 +528,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about API Management service - Updates the details of the Diagnostic specified by its identifier.
+  description: >
+    Learn more about API Management service - Updates the details of the Diagnostic specified by its identifier.
 errorCodes: []

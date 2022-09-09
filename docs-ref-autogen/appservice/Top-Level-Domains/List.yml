@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.topleveldomains.list
 name: List
 service: App Service
 groupName: Top Level Domains
-apiVersion: 2015-04-01
-summary: Get all top-level domains supported for registration.
+apiVersion: 2022-03-01
+summary: Description for Get all top-level domains supported for registration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains?api-version=2015-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/topLevelDomains?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -29,6 +29,10 @@ responses:
   description: OK
   types:
   - uid: TopLevelDomainCollection
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: TopLevelDomainCollection
@@ -45,15 +49,19 @@ definitions:
     description: Link to next page of resources.
     types:
     - uid: string
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: TopLevelDomain
   description: A top level domain object.
   kind: object
   properties:
-  - name: properties.name
-    isReadyOnly: true
-    description: Name of the top level domain.
-    types:
-    - uid: string
   - name: properties.privacy
     description: If <code>true</code>, then the top level domain supports domain privacy; otherwise, <code>false</code>.
     types:
@@ -77,10 +85,148 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
 examples:
 - name: List Top Level Domains
   request:
-    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains?api-version=2015-04-01
+    uri: GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for TopLevelDomains List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListTopLevelDomains.json
+           */
+          /**
+           * Sample code: List Top Level Domains.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void listTopLevelDomains(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure.webApps().manager().serviceClient().getTopLevelDomains().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListTopLevelDomains.json
+      func ExampleTopLevelDomainsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewTopLevelDomainsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Get all top-level domains supported for registration.
+       *
+       * @summary Description for Get all top-level domains supported for registration.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/ListTopLevelDomains.json
+       */
+      async function listTopLevelDomains() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.topLevelDomains.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      listTopLevelDomains().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -90,9 +236,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/com",
             "name": "com",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "com",
               "privacy": true
             }
           },
@@ -100,9 +244,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/net",
             "name": "net",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "net",
               "privacy": true
             }
           },
@@ -110,9 +252,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/co.uk",
             "name": "co.uk",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "co.uk",
               "privacy": false
             }
           },
@@ -120,9 +260,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/org",
             "name": "org",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "org",
               "privacy": true
             }
           },
@@ -130,9 +268,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/nl",
             "name": "nl",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "nl",
               "privacy": true
             }
           },
@@ -140,9 +276,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/in",
             "name": "in",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "in",
               "privacy": false
             }
           },
@@ -150,9 +284,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/biz",
             "name": "biz",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "biz",
               "privacy": true
             }
           },
@@ -160,9 +292,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/org.uk",
             "name": "org.uk",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "org.uk",
               "privacy": false
             }
           },
@@ -170,9 +300,7 @@ examples:
             "id": "/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/topLevelDomains/co.in",
             "name": "co.in",
             "type": "Microsoft.DomainRegistration/topLevelDomains",
-            "location": "global",
             "properties": {
-              "name": "co.in",
               "privacy": false
             }
           }
@@ -188,5 +316,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Get all top-level domains supported for registration.
+  description: >
+    Learn more about App Service service - Description for Get all top-level domains supported for registration.
 errorCodes: []

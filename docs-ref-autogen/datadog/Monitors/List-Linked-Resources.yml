@@ -125,6 +125,80 @@ examples:
 - name: Monitors_ListLinkedResources
   request:
     uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor/listLinkedResources?api-version=2021-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.Datadog/monitors/myMonitor/listLinkedResources?api-version=2021-03-01
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armdatadog_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datadog/armdatadog"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/LinkedResources_List.json
+      func ExampleMonitorsClient_NewListLinkedResourcesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatadog.NewMonitorsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListLinkedResourcesPager("myResourceGroup",
+      		"myMonitor",
+      		nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatadog%2Farmdatadog%2Fv1.0.0/sdk/resourcemanager/datadog/armdatadog/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MicrosoftDatadogClient } = require("@azure/arm-datadog");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to List all Azure resources associated to the same Datadog organization as the target resource.
+       *
+       * @summary List all Azure resources associated to the same Datadog organization as the target resource.
+       * x-ms-original-file: specification/datadog/resource-manager/Microsoft.Datadog/stable/2021-03-01/examples/LinkedResources_List.json
+       */
+      async function monitorsListLinkedResources() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "myResourceGroup";
+        const monitorName = "myMonitor";
+        const credential = new DefaultAzureCredential();
+        const client = new MicrosoftDatadogClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.monitors.listLinkedResources(resourceGroupName, monitorName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      monitorsListLinkedResources().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datadog_3.0.1/sdk/datadog/arm-datadog/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -137,5 +211,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Datadog service - List all Azure resources associated to the same Datadog organization as the target resource.
+  description: >
+    Learn more about Datadog service - List all Azure resources associated to the same Datadog organization as the target resource.
 errorCodes: []

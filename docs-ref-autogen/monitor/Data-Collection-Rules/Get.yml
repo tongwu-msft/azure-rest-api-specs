@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.datacollectionrules.get
 name: Get
 service: Monitor
 groupName: Data Collection Rules
-apiVersion: 2021-04-01
+apiVersion: 2021-09-01-preview
 summary: Returns the specified data collection rule.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}?api-version=2021-04-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Insights/dataCollectionRules/{dataCollectionRuleName}?api-version=2021-09-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -101,6 +101,23 @@ definitions:
     description: The immutable ID of this data collection rule. This property is READ-ONLY.
     types:
     - uid: string
+  - name: properties.dataCollectionEndpointId
+    description: The resource ID of the data collection endpoint that this rule can be used with.
+    types:
+    - uid: string
+  - name: properties.metadata
+    isReadyOnly: true
+    description: Metadata about the resource
+    types:
+    - uid: Metadata
+  - name: properties.streamDeclarations
+    description: Declaration of custom streams used in this rule.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: StreamDeclaration
   - name: properties.dataSources
     description: "The specification of data sources. \nThis property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint."
     types:
@@ -165,6 +182,24 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+- name: Metadata
+  description: Metadata about the resource
+  kind: object
+  properties:
+  - name: provisionedBy
+    isReadyOnly: true
+    description: Azure offering managing this resource on-behalf-of customer.
+    types:
+    - uid: string
+- name: StreamDeclaration
+  description: Declaration of a custom stream.
+  kind: object
+  properties:
+  - name: columns
+    description: List of columns used by data in this stream.
+    types:
+    - uid: ColumnDefinition
+      isArray: true
 - name: DataSources
   description: "The specification of data sources. \r\nThis property is optional and can be omitted if the rule is meant to be used via direct calls to the provisioned endpoint."
   kind: object
@@ -188,6 +223,16 @@ definitions:
     description: The list of Azure VM extension data source configurations.
     types:
     - uid: ExtensionDataSource
+      isArray: true
+  - name: logFiles
+    description: The list of Log files source configurations.
+    types:
+    - uid: LogFilesDataSource
+      isArray: true
+  - name: iisLogs
+    description: The list of IIS logs source configurations.
+    types:
+    - uid: IisLogsDataSource
       isArray: true
 - name: Destinations
   description: The specification of destinations.
@@ -216,6 +261,14 @@ definitions:
     types:
     - uid: string
       isArray: true
+  - name: transformKql
+    description: The KQL query to transform stream data.
+    types:
+    - uid: string
+  - name: outputStream
+    description: The output stream of the transform. Only required if the transform changes data to a different stream.
+    types:
+    - uid: string
 - name: KnownDataCollectionRuleProvisioningState
   description: The resource provisioning state.
   kind: enum
@@ -282,6 +335,18 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: ColumnDefinition
+  description: Definition of custom data column.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the column.
+    types:
+    - uid: string
+  - name: type
+    description: The type of the column data.
+    types:
+    - uid: KnownColumnDefinitionType
 - name: PerfCounterDataSource
   description: >-
     Definition of which performance counters will be collected and how they will be collected by this data collection rule.
@@ -400,6 +465,53 @@ definitions:
     description: "A friendly name for the data source. \nThis name should be unique across all data sources (regardless of type) within the data collection rule."
     types:
     - uid: string
+- name: LogFilesDataSource
+  description: Definition of which custom log files will be collected by this data collection rule
+  kind: object
+  properties:
+  - name: streams
+    description: >-
+      List of streams that this data source will be sent to.
+
+      A stream indicates what schema will be used for this data source
+    types:
+    - uid: string
+      isArray: true
+  - name: filePatterns
+    description: File Patterns where the log files are located
+    types:
+    - uid: string
+      isArray: true
+  - name: format
+    description: The data format of the log files
+    types:
+    - uid: KnownLogFilesDataSourceFormat
+  - name: settings
+    description: The log files specific settings.
+    types:
+    - uid: Settings
+  - name: name
+    description: "A friendly name for the data source. \nThis name should be unique across all data sources (regardless of type) within the data collection rule."
+    types:
+    - uid: string
+- name: IisLogsDataSource
+  description: Enables IIS logs to be collected by this data collection rule.
+  kind: object
+  properties:
+  - name: streams
+    description: IIS streams
+    types:
+    - uid: string
+      isArray: true
+  - name: logDirectories
+    description: Absolute paths file location
+    types:
+    - uid: string
+      isArray: true
+  - name: name
+    description: "A friendly name for the data source. \nThis name should be unique across all data sources (regardless of type) within the data collection rule."
+    types:
+    - uid: string
 - name: LogAnalyticsDestination
   description: Log Analytics destination.
   kind: object
@@ -439,10 +551,156 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: KnownColumnDefinitionType
+  description: The type of the column data.
+  kind: enum
+  properties:
+  - name: string
+    types:
+    - uid: string
+  - name: int
+    types:
+    - uid: string
+  - name: long
+    types:
+    - uid: string
+  - name: real
+    types:
+    - uid: string
+  - name: boolean
+    types:
+    - uid: string
+  - name: datetime
+    types:
+    - uid: string
+  - name: dynamic
+    types:
+    - uid: string
+- name: KnownLogFilesDataSourceFormat
+  description: The data format of the log files
+  kind: enum
+  properties:
+  - name: text
+    types:
+    - uid: string
+- name: Settings
+  description: The log files specific settings.
+  kind: object
+  properties:
+  - name: text
+    description: Text settings
+    types:
+    - uid: Text
+- name: Text
+  description: Text settings
+  kind: object
+  properties:
+  - name: recordStartTimestampFormat
+    description: One of the supported timestamp formats
+    types:
+    - uid: KnownLogFileTextSettingsRecordStartTimestampFormat
+- name: KnownLogFileTextSettingsRecordStartTimestampFormat
+  description: One of the supported timestamp formats
+  kind: enum
+  properties:
+  - name: ISO 8601
+    types:
+    - uid: string
+  - name: YYYY-MM-DD HH:MM:SS
+    types:
+    - uid: string
+  - name: M/D/YYYY HH:MM:SS AM/PM
+    types:
+    - uid: string
+  - name: Mon DD, YYYY HH:MM:SS
+    types:
+    - uid: string
+  - name: yyMMdd HH:mm:ss
+    types:
+    - uid: string
+  - name: ddMMyy HH:mm:ss
+    types:
+    - uid: string
+  - name: MMM d hh:mm:ss
+    types:
+    - uid: string
+  - name: dd/MMM/yyyy:HH:mm:ss zzz
+    types:
+    - uid: string
+  - name: yyyy-MM-ddTHH:mm:ssK
+    types:
+    - uid: string
 examples:
 - name: Get data collection rule
   request:
-    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2021-04-01
+    uri: GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2021-09-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/703362b3-f278-4e4b-9179-c76eaf41ffc2/resourceGroups/myResourceGroup/providers/Microsoft.Insights/dataCollectionRules/myCollectionRule?api-version=2021-09-01-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmonitor_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/monitor/armmonitor"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesGet.json
+      func ExampleDataCollectionRulesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmonitor.NewDataCollectionRulesClient("703362b3-f278-4e4b-9179-c76eaf41ffc2", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"myResourceGroup",
+      		"myCollectionRule",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmonitor%2Farmmonitor%2Fv0.7.0/sdk/resourcemanager/monitor/armmonitor/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns the specified data collection rule.
+       *
+       * @summary Returns the specified data collection rule.
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/preview/2021-09-01-preview/examples/DataCollectionRulesGet.json
+       */
+      async function getDataCollectionRule() {
+        const subscriptionId = "703362b3-f278-4e4b-9179-c76eaf41ffc2";
+        const resourceGroupName = "myResourceGroup";
+        const dataCollectionRuleName = "myCollectionRule";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.dataCollectionRules.get(resourceGroupName, dataCollectionRuleName);
+        console.log(result);
+      }
+
+      getDataCollectionRule().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -577,5 +835,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Returns the specified data collection rule.
+  description: >
+    Learn more about Monitor service - Returns the specified data collection rule.
 errorCodes: []

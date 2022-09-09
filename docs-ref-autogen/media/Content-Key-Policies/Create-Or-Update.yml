@@ -3,14 +3,14 @@ uid: management.azure.com.media.contentkeypolicies.createorupdate
 name: Create Or Update
 service: Media Services
 groupName: Content Key Policies
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: "Create or update an Content Key Policy  \nCreate or update a Content Key Policy in the Media Services account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/contentKeyPolicies/{contentKeyPolicyName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -401,6 +401,10 @@ definitions:
     description: A flag indicating whether test devices can use the license.
     types:
     - uid: boolean
+  - name: securityLevel
+    description: The security level.
+    types:
+    - uid: SecurityLevel
   - name: beginDate
     description: The begin date of license
     types:
@@ -500,6 +504,26 @@ definitions:
     - uid: string
   - name: Jwt
     description: JSON Web Token.
+    types:
+    - uid: string
+- name: SecurityLevel
+  description: The security level.
+  kind: enum
+  properties:
+  - name: Unknown
+    description: Represents a SecurityLevel that is unavailable in current API version.
+    types:
+    - uid: string
+  - name: SL150
+    description: For clients under development or test. No protection against unauthorized use.
+    types:
+    - uid: string
+  - name: SL2000
+    description: For hardened devices and applications consuming commercial content. Software or hardware protection.
+    types:
+    - uid: string
+  - name: SL3000
+    description: For hardened devices only. Hardware protection.
     types:
     - uid: string
 - name: ContentKeyPolicyPlayReadyPlayRight
@@ -694,7 +718,7 @@ definitions:
 examples:
 - name: Creates a Content Key Policy with PlayReady option and Open Restriction
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -707,6 +731,7 @@ examples:
                 "licenses": [
                   {
                     "allowTestDevices": true,
+                    "securityLevel": "SL150",
                     "beginDate": "2017-10-16T18:22:53.46Z",
                     "playRight": {
                       "scmsRestriction": 2,
@@ -730,6 +755,182 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithPlayReadyOptionAndOpenRestriction?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "ArmPolicyOptionName",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration",
+                "licenses": [
+                  {
+                    "allowTestDevices": true,
+                    "securityLevel": "SL150",
+                    "beginDate": "2017-10-16T18:22:53.46Z",
+                    "playRight": {
+                      "scmsRestriction": 2,
+                      "digitalVideoOnlyContentRestriction": false,
+                      "imageConstraintForAnalogComponentVideoRestriction": true,
+                      "imageConstraintForAnalogComputerMonitorRestriction": false,
+                      "allowPassingVideoContentToUnknownOutput": "NotAllowed"
+                    },
+                    "licenseType": "Persistent",
+                    "contentKeyLocation": {
+                      "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
+                    },
+                    "contentType": "UltraVioletDownload"
+                  }
+                ]
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-playready-open.json
+      func ExampleContentKeyPoliciesClient_CreateOrUpdate_createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "contoso", "contosomedia", "PolicyWithPlayReadyOptionAndOpenRestriction", armmediaservices.ContentKeyPolicy{
+      		Properties: &armmediaservices.ContentKeyPolicyProperties{
+      			Description: to.Ptr("ArmPolicyDescription"),
+      			Options: []*armmediaservices.ContentKeyPolicyOption{
+      				{
+      					Name: to.Ptr("ArmPolicyOptionName"),
+      					Configuration: &armmediaservices.ContentKeyPolicyPlayReadyConfiguration{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration"),
+      						Licenses: []*armmediaservices.ContentKeyPolicyPlayReadyLicense{
+      							{
+      								AllowTestDevices: to.Ptr(true),
+      								BeginDate:        to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2017-10-16T18:22:53.46Z"); return t }()),
+      								ContentKeyLocation: &armmediaservices.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader{
+      									ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"),
+      								},
+      								ContentType: to.Ptr(armmediaservices.ContentKeyPolicyPlayReadyContentTypeUltraVioletDownload),
+      								LicenseType: to.Ptr(armmediaservices.ContentKeyPolicyPlayReadyLicenseTypePersistent),
+      								PlayRight: &armmediaservices.ContentKeyPolicyPlayReadyPlayRight{
+      									AllowPassingVideoContentToUnknownOutput:            to.Ptr(armmediaservices.ContentKeyPolicyPlayReadyUnknownOutputPassingOptionNotAllowed),
+      									DigitalVideoOnlyContentRestriction:                 to.Ptr(false),
+      									ImageConstraintForAnalogComponentVideoRestriction:  to.Ptr(true),
+      									ImageConstraintForAnalogComputerMonitorRestriction: to.Ptr(false),
+      									ScmsRestriction: to.Ptr[int32](2),
+      								},
+      								SecurityLevel: to.Ptr(armmediaservices.SecurityLevelSL150),
+      							}},
+      					},
+      					Restriction: &armmediaservices.ContentKeyPolicyOpenRestriction{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyOpenRestriction"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
+       *
+       * @summary Create or update a Content Key Policy in the Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-playready-open.json
+       */
+      async function createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const contentKeyPolicyName = "PolicyWithPlayReadyOptionAndOpenRestriction";
+        const parameters = {
+          description: "ArmPolicyDescription",
+          options: [
+            {
+              name: "ArmPolicyOptionName",
+              configuration: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyPlayReadyConfiguration",
+                licenses: [
+                  {
+                    allowTestDevices: true,
+                    beginDate: new Date("2017-10-16T18:22:53.46Z"),
+                    contentKeyLocation: {
+                      odataType:
+                        "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader",
+                    },
+                    contentType: "UltraVioletDownload",
+                    licenseType: "Persistent",
+                    playRight: {
+                      allowPassingVideoContentToUnknownOutput: "NotAllowed",
+                      digitalVideoOnlyContentRestriction: false,
+                      imageConstraintForAnalogComponentVideoRestriction: true,
+                      imageConstraintForAnalogComputerMonitorRestriction: false,
+                      scmsRestriction: 2,
+                    },
+                    securityLevel: "SL150",
+                  },
+                ],
+              },
+              restriction: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyOpenRestriction",
+              },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.contentKeyPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          contentKeyPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsAContentKeyPolicyWithPlayReadyOptionAndOpenRestriction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -763,7 +964,8 @@ examples:
                     "contentKeyLocation": {
                       "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
                     },
-                    "contentType": "UltraVioletDownload"
+                    "contentType": "UltraVioletDownload",
+                    "securityLevel": "SL150"
                   }
                 ]
               },
@@ -806,7 +1008,8 @@ examples:
                     "contentKeyLocation": {
                       "@odata.type": "#Microsoft.Media.ContentKeyPolicyPlayReadyContentEncryptionKeyFromHeader"
                     },
-                    "contentType": "UltraVioletDownload"
+                    "contentType": "UltraVioletDownload",
+                    "securityLevel": "SL150"
                   }
                 ]
               },
@@ -819,7 +1022,7 @@ examples:
       }
 - name: Creates a Content Key Policy with Widevine option and Token Restriction
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -852,6 +1055,168 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithWidevineOptionAndJwtTokenRestriction?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicyRsaTokenKey",
+                  "exponent": "AQAB",
+                  "modulus": "AQAD"
+                },
+                "alternateVerificationKeys": [
+                  {
+                    "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                    "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                  }
+                ],
+                "restrictionTokenType": "Jwt"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-widevine-token.json
+      func ExampleContentKeyPoliciesClient_CreateOrUpdate_createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "contoso", "contosomedia", "PolicyWithWidevineOptionAndJwtTokenRestriction", armmediaservices.ContentKeyPolicy{
+      		Properties: &armmediaservices.ContentKeyPolicyProperties{
+      			Description: to.Ptr("ArmPolicyDescription"),
+      			Options: []*armmediaservices.ContentKeyPolicyOption{
+      				{
+      					Name: to.Ptr("widevineoption"),
+      					Configuration: &armmediaservices.ContentKeyPolicyWidevineConfiguration{
+      						ODataType:        to.Ptr("#Microsoft.Media.ContentKeyPolicyWidevineConfiguration"),
+      						WidevineTemplate: to.Ptr("{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"),
+      					},
+      					Restriction: &armmediaservices.ContentKeyPolicyTokenRestriction{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyTokenRestriction"),
+      						AlternateVerificationKeys: []armmediaservices.ContentKeyPolicyRestrictionTokenKeyClassification{
+      							&armmediaservices.ContentKeyPolicySymmetricTokenKey{
+      								ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicySymmetricTokenKey"),
+      								KeyValue:  []byte("AAAAAAAAAAAAAAAAAAAAAA=="),
+      							}},
+      						Audience: to.Ptr("urn:audience"),
+      						Issuer:   to.Ptr("urn:issuer"),
+      						PrimaryVerificationKey: &armmediaservices.ContentKeyPolicyRsaTokenKey{
+      							ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyRsaTokenKey"),
+      							Exponent:  []byte("AQAB"),
+      							Modulus:   []byte("AQAD"),
+      						},
+      						RestrictionTokenType: to.Ptr(armmediaservices.ContentKeyPolicyRestrictionTokenTypeJwt),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
+       *
+       * @summary Create or update a Content Key Policy in the Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-widevine-token.json
+       */
+      async function createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const contentKeyPolicyName = "PolicyWithWidevineOptionAndJwtTokenRestriction";
+        const parameters = {
+          description: "ArmPolicyDescription",
+          options: [
+            {
+              name: "widevineoption",
+              configuration: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                widevineTemplate:
+                  '{"allowed_track_types":"SD_HD","content_key_specs":[{"track_type":"SD","security_level":1,"required_output_protection":{"hdcp":"HDCP_V2"}}],"policy_overrides":{"can_play":true,"can_persist":true,"can_renew":false}}',
+              },
+              restriction: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                alternateVerificationKeys: [
+                  {
+                    odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                    keyValue: Buffer.from("AAAAAAAAAAAAAAAAAAAAAA=="),
+                  },
+                ],
+                audience: "urn:audience",
+                issuer: "urn:issuer",
+                primaryVerificationKey: {
+                  odataType: "#Microsoft.Media.ContentKeyPolicyRsaTokenKey",
+                  exponent: Buffer.from("AQAB"),
+                  modulus: Buffer.from("AQAD"),
+                },
+                restrictionTokenType: "Jwt",
+              },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.contentKeyPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          contentKeyPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsAContentKeyPolicyWithWidevineOptionAndTokenRestriction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -937,7 +1302,7 @@ examples:
       }
 - name: Creates a Content Key Policy with ClearKey option and Token Restriction
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -962,6 +1327,144 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyWithClearKeyOptionAndSwtTokenRestriction?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                },
+                "restrictionTokenType": "Swt"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-nodrm-token.json
+      func ExampleContentKeyPoliciesClient_CreateOrUpdate_createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "contoso", "contosomedia", "PolicyWithClearKeyOptionAndSwtTokenRestriction", armmediaservices.ContentKeyPolicy{
+      		Properties: &armmediaservices.ContentKeyPolicyProperties{
+      			Description: to.Ptr("ArmPolicyDescription"),
+      			Options: []*armmediaservices.ContentKeyPolicyOption{
+      				{
+      					Name: to.Ptr("ClearKeyOption"),
+      					Configuration: &armmediaservices.ContentKeyPolicyClearKeyConfiguration{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"),
+      					},
+      					Restriction: &armmediaservices.ContentKeyPolicyTokenRestriction{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyTokenRestriction"),
+      						Audience:  to.Ptr("urn:audience"),
+      						Issuer:    to.Ptr("urn:issuer"),
+      						PrimaryVerificationKey: &armmediaservices.ContentKeyPolicySymmetricTokenKey{
+      							ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicySymmetricTokenKey"),
+      							KeyValue:  []byte("AAAAAAAAAAAAAAAAAAAAAA=="),
+      						},
+      						RestrictionTokenType: to.Ptr(armmediaservices.ContentKeyPolicyRestrictionTokenTypeSwt),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
+       *
+       * @summary Create or update a Content Key Policy in the Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-nodrm-token.json
+       */
+      async function createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const contentKeyPolicyName = "PolicyWithClearKeyOptionAndSwtTokenRestriction";
+        const parameters = {
+          description: "ArmPolicyDescription",
+          options: [
+            {
+              name: "ClearKeyOption",
+              configuration: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration",
+              },
+              restriction: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                audience: "urn:audience",
+                issuer: "urn:issuer",
+                primaryVerificationKey: {
+                  odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  keyValue: Buffer.from("AAAAAAAAAAAAAAAAAAAAAA=="),
+                },
+                restrictionTokenType: "Swt",
+              },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.contentKeyPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          contentKeyPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsAContentKeyPolicyWithClearKeyOptionAndTokenRestriction().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1033,7 +1536,7 @@ examples:
       }
 - name: Creates a Content Key Policy with multiple options
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -1068,6 +1571,175 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/contentKeyPolicies/PolicyCreatedWithMultipleOptions?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "ArmPolicyDescription",
+          "options": [
+            {
+              "name": "ClearKeyOption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                "issuer": "urn:issuer",
+                "audience": "urn:audience",
+                "primaryVerificationKey": {
+                  "@odata.type": "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  "keyValue": "AAAAAAAAAAAAAAAAAAAAAA=="
+                },
+                "restrictionTokenType": "Swt"
+              }
+            },
+            {
+              "name": "widevineoption",
+              "configuration": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                "widevineTemplate": "{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"
+              },
+              "restriction": {
+                "@odata.type": "#Microsoft.Media.ContentKeyPolicyOpenRestriction"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-multiple-options.json
+      func ExampleContentKeyPoliciesClient_CreateOrUpdate_createsAContentKeyPolicyWithMultipleOptions() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewContentKeyPoliciesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "contoso", "contosomedia", "PolicyCreatedWithMultipleOptions", armmediaservices.ContentKeyPolicy{
+      		Properties: &armmediaservices.ContentKeyPolicyProperties{
+      			Description: to.Ptr("ArmPolicyDescription"),
+      			Options: []*armmediaservices.ContentKeyPolicyOption{
+      				{
+      					Name: to.Ptr("ClearKeyOption"),
+      					Configuration: &armmediaservices.ContentKeyPolicyClearKeyConfiguration{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration"),
+      					},
+      					Restriction: &armmediaservices.ContentKeyPolicyTokenRestriction{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyTokenRestriction"),
+      						Audience:  to.Ptr("urn:audience"),
+      						Issuer:    to.Ptr("urn:issuer"),
+      						PrimaryVerificationKey: &armmediaservices.ContentKeyPolicySymmetricTokenKey{
+      							ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicySymmetricTokenKey"),
+      							KeyValue:  []byte("AAAAAAAAAAAAAAAAAAAAAA=="),
+      						},
+      						RestrictionTokenType: to.Ptr(armmediaservices.ContentKeyPolicyRestrictionTokenTypeSwt),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("widevineoption"),
+      					Configuration: &armmediaservices.ContentKeyPolicyWidevineConfiguration{
+      						ODataType:        to.Ptr("#Microsoft.Media.ContentKeyPolicyWidevineConfiguration"),
+      						WidevineTemplate: to.Ptr("{\"allowed_track_types\":\"SD_HD\",\"content_key_specs\":[{\"track_type\":\"SD\",\"security_level\":1,\"required_output_protection\":{\"hdcp\":\"HDCP_V2\"}}],\"policy_overrides\":{\"can_play\":true,\"can_persist\":true,\"can_renew\":false}}"),
+      					},
+      					Restriction: &armmediaservices.ContentKeyPolicyOpenRestriction{
+      						ODataType: to.Ptr("#Microsoft.Media.ContentKeyPolicyOpenRestriction"),
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Content Key Policy in the Media Services account
+       *
+       * @summary Create or update a Content Key Policy in the Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/content-key-policies-create-multiple-options.json
+       */
+      async function createsAContentKeyPolicyWithMultipleOptions() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const contentKeyPolicyName = "PolicyCreatedWithMultipleOptions";
+        const parameters = {
+          description: "ArmPolicyDescription",
+          options: [
+            {
+              name: "ClearKeyOption",
+              configuration: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyClearKeyConfiguration",
+              },
+              restriction: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyTokenRestriction",
+                audience: "urn:audience",
+                issuer: "urn:issuer",
+                primaryVerificationKey: {
+                  odataType: "#Microsoft.Media.ContentKeyPolicySymmetricTokenKey",
+                  keyValue: Buffer.from("AAAAAAAAAAAAAAAAAAAAAA=="),
+                },
+                restrictionTokenType: "Swt",
+              },
+            },
+            {
+              name: "widevineoption",
+              configuration: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyWidevineConfiguration",
+                widevineTemplate:
+                  '{"allowed_track_types":"SD_HD","content_key_specs":[{"track_type":"SD","security_level":1,"required_output_protection":{"hdcp":"HDCP_V2"}}],"policy_overrides":{"can_play":true,"can_persist":true,"can_renew":false}}',
+              },
+              restriction: {
+                odataType: "#Microsoft.Media.ContentKeyPolicyOpenRestriction",
+              },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.contentKeyPolicies.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          contentKeyPolicyName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createsAContentKeyPolicyWithMultipleOptions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1161,5 +1833,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Create or update an Content Key Policy  \nCreate or update a Content Key Policy in the Media Services account"
+  description: >
+    Create or update an Content Key Policy
+
+    Create or update a Content Key Policy in the Media Services account
 errorCodes: []

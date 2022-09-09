@@ -633,6 +633,134 @@ examples:
         },
         "tags": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2021-12-01
+
+      {
+        "location": "eastus2",
+        "sku": {
+          "name": "AV36"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        },
+        "properties": {
+          "networkBlock": "192.168.48.0/22",
+          "managementCluster": {
+            "clusterSize": 4
+          }
+        },
+        "tags": {}
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.avs.models.ManagementCluster;
+      import com.azure.resourcemanager.avs.models.PrivateCloudIdentity;
+      import com.azure.resourcemanager.avs.models.ResourceIdentityType;
+      import com.azure.resourcemanager.avs.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PrivateClouds CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: PrivateClouds_CreateOrUpdate.
+           *
+           * @param manager Entry point to AvsManager.
+           */
+          public static void privateCloudsCreateOrUpdate(com.azure.resourcemanager.avs.AvsManager manager) {
+              manager
+                  .privateClouds()
+                  .define("cloud1")
+                  .withRegion("eastus2")
+                  .withExistingResourceGroup("group1")
+                  .withSku(new Sku().withName("AV36"))
+                  .withTags(mapOf())
+                  .withIdentity(new PrivateCloudIdentity().withType(ResourceIdentityType.SYSTEM_ASSIGNED))
+                  .withNetworkBlock("192.168.48.0/22")
+                  .withManagementCluster(new ManagementCluster().withClusterSize(4))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armavs_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_CreateOrUpdate.json
+      func ExamplePrivateCloudsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armavs.NewPrivateCloudsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"group1",
+      		"cloud1",
+      		armavs.PrivateCloud{
+      			Location: to.Ptr("eastus2"),
+      			Tags:     map[string]*string{},
+      			Identity: &armavs.PrivateCloudIdentity{
+      				Type: to.Ptr(armavs.ResourceIdentityTypeSystemAssigned),
+      			},
+      			Properties: &armavs.PrivateCloudProperties{
+      				ManagementCluster: &armavs.ManagementCluster{
+      					ClusterSize: to.Ptr[int32](4),
+      				},
+      				NetworkBlock: to.Ptr("192.168.48.0/22"),
+      			},
+      			SKU: &armavs.SKU{
+      				Name: to.Ptr("AV36"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -763,6 +891,83 @@ examples:
         },
         "tags": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1?api-version=2021-12-01
+
+      {
+        "location": "eastus2",
+        "sku": {
+          "name": "AV36"
+        },
+        "properties": {
+          "availability": {
+            "strategy": "DualZone",
+            "zone": 1,
+            "secondaryZone": 2
+          },
+          "networkBlock": "192.168.48.0/22",
+          "managementCluster": {
+            "clusterSize": 4
+          }
+        },
+        "tags": {}
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.avs.models.AvailabilityProperties;
+      import com.azure.resourcemanager.avs.models.AvailabilityStrategy;
+      import com.azure.resourcemanager.avs.models.ManagementCluster;
+      import com.azure.resourcemanager.avs.models.Sku;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for PrivateClouds CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PrivateClouds_CreateOrUpdate_Stretched.json
+           */
+          /**
+           * Sample code: PrivateClouds_CreateOrUpdate_Stretched.
+           *
+           * @param manager Entry point to AvsManager.
+           */
+          public static void privateCloudsCreateOrUpdateStretched(com.azure.resourcemanager.avs.AvsManager manager) {
+              manager
+                  .privateClouds()
+                  .define("cloud1")
+                  .withRegion("eastus2")
+                  .withExistingResourceGroup("group1")
+                  .withSku(new Sku().withName("AV36"))
+                  .withTags(mapOf())
+                  .withNetworkBlock("192.168.48.0/22")
+                  .withManagementCluster(new ManagementCluster().withClusterSize(4))
+                  .withAvailability(
+                      new AvailabilityProperties()
+                          .withStrategy(AvailabilityStrategy.DUAL_ZONE)
+                          .withZone(1)
+                          .withSecondaryZone(2))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -887,5 +1092,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about AVS service - Create or update a private cloud
+  description: >
+    Learn more about AVS service - Create or update a private cloud
 errorCodes: []

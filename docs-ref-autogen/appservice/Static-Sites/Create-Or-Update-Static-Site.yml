@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.createorupdatestaticsite
 name: Create Or Update Static Site
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
-summary: Creates a new static site in an existing resource group, or updates an existing static site.
+apiVersion: 2022-03-01
+summary: Description for Creates a new static site in an existing resource group, or updates an existing static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}?api-version=2021-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -98,6 +98,21 @@ requestBody:
     description: Template options for generating a new repository.
     types:
     - uid: StaticSiteTemplateOptions
+  - name: properties.provider
+    in: body
+    description: The provider that submitted the last deployment to the primary environment of the static site.
+    types:
+    - uid: string
+  - name: properties.enterpriseGradeCdnStatus
+    in: body
+    description: State indicating the status of the enterprise grade CDN serving traffic to the static web app.
+    types:
+    - uid: EnterpriseGradeCdnStatus
+  - name: properties.publicNetworkAccess
+    in: body
+    description: "State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string."
+    types:
+    - uid: string
   - name: kind
     in: body
     description: Kind of resource.
@@ -342,6 +357,28 @@ definitions:
     description: Resource type.
     types:
     - uid: string
+- name: StaticSiteLinkedBackend
+  description: Static Site Linked Backend ARM resource.
+  kind: object
+  properties:
+  - name: backendResourceId
+    description: The resource id of the backend linked to the static site
+    types:
+    - uid: string
+  - name: region
+    description: The region of the backend linked to the static site
+    types:
+    - uid: string
+  - name: createdOn
+    isReadyOnly: true
+    description: The date and time on which the backend was linked to the static site.
+    types:
+    - uid: string
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the linking process.
+    types:
+    - uid: string
 - name: StaticSiteARMResource
   description: Static Site ARM resource.
   kind: object
@@ -415,9 +452,22 @@ definitions:
     types:
     - uid: StaticSiteUserProvidedFunctionApp
       isArray: true
-  - name: properties.provider
+  - name: properties.linkedBackends
     isReadyOnly: true
+    description: Backends linked to the static side
+    types:
+    - uid: StaticSiteLinkedBackend
+      isArray: true
+  - name: properties.provider
     description: The provider that submitted the last deployment to the primary environment of the static site.
+    types:
+    - uid: string
+  - name: properties.enterpriseGradeCdnStatus
+    description: State indicating the status of the enterprise grade CDN serving traffic to the static web app.
+    types:
+    - uid: EnterpriseGradeCdnStatus
+  - name: properties.publicNetworkAccess
+    description: "State indicating whether public traffic are allowed or not for a static web app. Allowed Values: 'Enabled', 'Disabled' or an empty string."
     types:
     - uid: string
   - name: id
@@ -644,6 +694,22 @@ definitions:
   - name: Disabled
     types:
     - uid: string
+- name: EnterpriseGradeCdnStatus
+  description: State indicating the status of the enterprise grade CDN serving traffic to the static web app.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Enabling
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: Disabling
+    types:
+    - uid: string
 - name: Error
   description: Error model.
   kind: object
@@ -719,7 +785,7 @@ definitions:
 examples:
 - name: Create or update a static site
   request:
-    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0?api-version=2021-02-01
+    uri: PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0?api-version=2022-03-01
     body: >-
       {
         "location": "West US 2",
@@ -738,6 +804,173 @@ examples:
           "tier": "Basic"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0?api-version=2022-03-01
+
+      {
+        "location": "West US 2",
+        "properties": {
+          "repositoryUrl": "https://github.com/username/RepoName",
+          "branch": "master",
+          "repositoryToken": "repoToken123",
+          "buildProperties": {
+            "appLocation": "app",
+            "apiLocation": "api",
+            "appArtifactLocation": "build"
+          }
+        },
+        "sku": {
+          "name": "Basic",
+          "tier": "Basic"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.StaticSiteArmResourceInner;
+      import com.azure.resourcemanager.appservice.models.SkuDescription;
+      import com.azure.resourcemanager.appservice.models.StaticSiteBuildProperties;
+
+      /** Samples for StaticSites CreateOrUpdateStaticSite. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSite.json
+           */
+          /**
+           * Sample code: Create or update a static site.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAStaticSite(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .createOrUpdateStaticSite(
+                      "rg",
+                      "testStaticSite0",
+                      new StaticSiteArmResourceInner()
+                          .withLocation("West US 2")
+                          .withSku(new SkuDescription().withName("Basic").withTier("Basic"))
+                          .withRepositoryUrl("https://github.com/username/RepoName")
+                          .withBranch("master")
+                          .withRepositoryToken("repoToken123")
+                          .withBuildProperties(
+                              new StaticSiteBuildProperties()
+                                  .withAppLocation("app")
+                                  .withApiLocation("api")
+                                  .withAppArtifactLocation("build")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSite.json
+      func ExampleStaticSitesClient_BeginCreateOrUpdateStaticSite() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdateStaticSite(ctx,
+      		"rg",
+      		"testStaticSite0",
+      		armappservice.StaticSiteARMResource{
+      			Location: to.Ptr("West US 2"),
+      			Properties: &armappservice.StaticSite{
+      				Branch: to.Ptr("master"),
+      				BuildProperties: &armappservice.StaticSiteBuildProperties{
+      					APILocation:         to.Ptr("api"),
+      					AppArtifactLocation: to.Ptr("build"),
+      					AppLocation:         to.Ptr("app"),
+      				},
+      				RepositoryToken: to.Ptr("repoToken123"),
+      				RepositoryURL:   to.Ptr("https://github.com/username/RepoName"),
+      			},
+      			SKU: &armappservice.SKUDescription{
+      				Name: to.Ptr("Basic"),
+      				Tier: to.Ptr("Basic"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Creates a new static site in an existing resource group, or updates an existing static site.
+       *
+       * @summary Description for Creates a new static site in an existing resource group, or updates an existing static site.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/CreateOrUpdateStaticSite.json
+       */
+      async function createOrUpdateAStaticSite() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const staticSiteEnvelope = {
+          branch: "master",
+          buildProperties: {
+            apiLocation: "api",
+            appArtifactLocation: "build",
+            appLocation: "app",
+          },
+          location: "West US 2",
+          repositoryToken: "repoToken123",
+          repositoryUrl: "https://github.com/username/RepoName",
+          sku: { name: "Basic", tier: "Basic" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.beginCreateOrUpdateStaticSiteAndWait(
+          resourceGroupName,
+          name,
+          staticSiteEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAStaticSite().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -754,7 +987,8 @@ examples:
           "privateEndpointConnections": [],
           "contentDistributionEndpoint": "",
           "keyVaultReferenceIdentity": "SystemAssigned",
-          "userProvidedFunctionApps": [],
+          "userProvidedFunctionApps": null,
+          "linkedBackends": [],
           "stagingEnvironmentPolicy": "Enabled",
           "allowConfigFileUpdates": true
         },
@@ -781,7 +1015,8 @@ examples:
           "privateEndpointConnections": [],
           "contentDistributionEndpoint": "",
           "keyVaultReferenceIdentity": "SystemAssigned",
-          "userProvidedFunctionApps": [],
+          "userProvidedFunctionApps": null,
+          "linkedBackends": [],
           "stagingEnvironmentPolicy": "Enabled",
           "allowConfigFileUpdates": true
         },
@@ -800,5 +1035,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Creates a new static site in an existing resource group, or updates an existing static site.
+  description: >
+    Description for Creates a new static site in an existing resource group, or updates an existing static site.
 errorCodes: []

@@ -3,9 +3,9 @@ uid: maps.spatial.postpointinpolygon
 name: Post Point In Polygon
 service: Maps
 groupName: Spatial
-apiVersion: "1.0"
+apiVersion: 2022-08-01
 summary: >-
-  **Applies to**: S1 pricing tier.
+  **Applies to**: see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
 
 
   This API returns a boolean value indicating whether a point is inside a set of polygons. The user data may contain Polygon and MultiPolygon geometries, other geometries will be ignored if provided. If the point is inside or on the boundary of one of these polygons, the value returned is true. In all other cases, the value returned is false. When the point is inside multiple polygons, the result will give intersecting geometries section to show all valid geometries (referenced by geometryId) in user data. The maximum number of vertices accepted to form a Polygon is 10,000.
@@ -13,12 +13,12 @@ consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://{geography}.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=1.0&lat={lat}&lon={lon}
+- content: POST https://{geography}.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&lat={lat}&lon={lon}
 uriParameters:
 - name: geography
   in: path
   isRequired: true
-  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  description: Location of the Azure Maps Account. Valid values are us (East US, West Central US, West US 2) and eu (North Europe, West Europe). This parameter is required when a `udid` is supplied in the request. For example, if the Azure Maps Account is located in East US, only requests to us geography will be accepted.
   types:
   - uid: string
 - name: format
@@ -361,7 +361,7 @@ definitions:
 examples:
 - name: PostPointInPolygon
   request:
-    uri: POST https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=1.0&lat=33.5362475&lon=-111.9267386
+    uri: POST https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&lat=33.5362475&lon=-111.9267386
     body: >-
       {
         "type": "FeatureCollection",
@@ -397,6 +397,48 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://us.atlas.microsoft.com/spatial/pointInPolygon/json?api-version=2022-08-01&lat=33.5362475&lon=-111.9267386
+
+      {
+        "type": "FeatureCollection",
+        "features": [
+          {
+            "type": "Feature",
+            "properties": {
+              "geometryId": 1001
+            },
+            "geometry": {
+              "type": "Polygon",
+              "coordinates": [
+                [
+                  [
+                    -111.9267386,
+                    33.5362475
+                  ],
+                  [
+                    -111.9627875,
+                    33.5104882
+                  ],
+                  [
+                    -111.9027061,
+                    33.5004686
+                  ],
+                  [
+                    -111.9267386,
+                    33.5362475
+                  ]
+                ]
+              ]
+            }
+          }
+        ]
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -433,7 +475,7 @@ security:
      With this key, any application is authorized to access  all REST APIs. In other words, these can currently be treated as master keys to the account which they are issued for.
 
      For publicly exposed applications, our recommendation is to use server-to-server access of Azure Maps REST APIs where this key can be securely stored.
-  in: query
+  in: header
 - name: SAS Token
   type: apiKey
   description: >-
@@ -445,8 +487,7 @@ security:
   in: header
 metadata:
   description: >-
-    **Applies to**: S1 pricing tier.
-
+    Applies to: see pricing tiers.
 
     This API returns a boolean value indicating whether a point is inside a set of polygons.
 errorCodes: []

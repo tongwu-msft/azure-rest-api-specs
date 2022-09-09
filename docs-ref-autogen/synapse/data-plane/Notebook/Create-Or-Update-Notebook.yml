@@ -19,6 +19,7 @@ uriParameters:
   description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
   types:
   - uid: string
+  format: uri
 - name: notebookName
   in: path
   isRequired: true
@@ -76,6 +77,10 @@ definitions:
     description: Big data pool reference.
     types:
     - uid: BigDataPoolReference
+  - name: targetSparkConfiguration
+    description: The spark configuration of the spark job.
+    types:
+    - uid: SparkConfigurationReference
   - name: sessionProperties
     description: Session properties.
     types:
@@ -161,6 +166,18 @@ definitions:
     description: Reference big data pool name.
     types:
     - uid: string
+- name: SparkConfigurationReference
+  description: Spark configuration reference.
+  kind: object
+  properties:
+  - name: type
+    description: Spark configuration reference type.
+    types:
+    - uid: SparkConfigurationReferenceType
+  - name: referenceName
+    description: Reference spark configuration name.
+    types:
+    - uid: string
 - name: NotebookSessionProperties
   description: Session properties.
   kind: object
@@ -236,6 +253,13 @@ definitions:
   kind: enum
   properties:
   - name: BigDataPoolReference
+    types:
+    - uid: string
+- name: SparkConfigurationReferenceType
+  description: Spark configuration reference type.
+  kind: enum
+  properties:
+  - name: SparkConfigurationReference
     types:
     - uid: string
 - name: NotebookKernelSpec
@@ -362,6 +386,65 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/notebooks/exampleNotebook?api-version=2020-12-01
+
+      {
+        "name": "exampleNotebook",
+        "properties": {
+          "description": "A sample Notebook",
+          "nbformat": 4,
+          "nbformat_minor": 2,
+          "bigDataPool": {
+            "referenceName": "exampleBigDataPoolName",
+            "type": "BigDataPoolReference"
+          },
+          "sessionProperties": {
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 1
+          },
+          "metadata": {
+            "language_info": {
+              "name": "python"
+            },
+            "kernelspec": {
+              "name": "exampleName",
+              "display_name": "exampleDisplayName"
+            }
+          },
+          "cells": [
+            {
+              "cell_type": "code",
+              "metadata": {},
+              "source": [
+                "def my_function():\n",
+                " print(\"Hello from a function\")\n",
+                "\n",
+                "my_function()"
+              ],
+              "attachments": {},
+              "outputs": [
+                {
+                  "execution_count": 3,
+                  "output_type": "execute_result",
+                  "data": {
+                    "text/plain": "Hello from a function"
+                  },
+                  "metadata": {}
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -486,6 +569,65 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/notebooks/exampleNotebook?api-version=2020-12-01
+
+      {
+        "name": "exampleNotebook",
+        "properties": {
+          "description": "Modified description",
+          "nbformat": 4,
+          "nbformat_minor": 2,
+          "bigDataPool": {
+            "referenceName": "exampleBigDataPoolName",
+            "type": "BigDataPoolReference"
+          },
+          "sessionProperties": {
+            "driverMemory": "28g",
+            "driverCores": 4,
+            "executorMemory": "28g",
+            "executorCores": 4,
+            "numExecutors": 1
+          },
+          "metadata": {
+            "language_info": {
+              "name": "python"
+            },
+            "kernelspec": {
+              "name": "exampleName",
+              "display_name": "exampleDisplayName"
+            }
+          },
+          "cells": [
+            {
+              "cell_type": "code",
+              "metadata": {},
+              "source": [
+                "def my_function():\n",
+                " print(\"Hello from a function\")\n",
+                "\n",
+                "my_function()"
+              ],
+              "attachments": {},
+              "outputs": [
+                {
+                  "execution_count": 3,
+                  "output_type": "execute_result",
+                  "data": {
+                    "text/plain": "Hello from a function"
+                  },
+                  "metadata": {}
+                }
+              ]
+            }
+          ]
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -557,5 +699,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Creates or updates a Note Book.
+  description: >
+    Learn more about Synapse service - Creates or updates a Note Book.
 errorCodes: []

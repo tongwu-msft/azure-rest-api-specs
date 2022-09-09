@@ -279,6 +279,113 @@ examples:
           "tag2": "value2"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/5b4b650e-28b9-4790-b3ab-ddbd88d727c4/resourceGroups/examplerg/providers/Microsoft.EventGrid/systemTopics/exampleSystemTopic1?api-version=2021-10-15-preview
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.eventgrid.models.SystemTopic;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for SystemTopics Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/SystemTopics_Update.json
+           */
+          /**
+           * Sample code: SystemTopics_Update.
+           *
+           * @param manager Entry point to EventGridManager.
+           */
+          public static void systemTopicsUpdate(com.azure.resourcemanager.eventgrid.EventGridManager manager) {
+              SystemTopic resource =
+                  manager
+                      .systemTopics()
+                      .getByResourceGroupWithResponse("examplerg", "exampleSystemTopic1", Context.NONE)
+                      .getValue();
+              resource.update().withTags(mapOf("tag1", "value1", "tag2", "value2")).apply();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-eventgrid_1.2.0-beta.2/sdk/eventgrid/azure-resourcemanager-eventgrid/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armeventgrid_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/eventgrid/armeventgrid"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/eventgrid/resource-manager/Microsoft.EventGrid/preview/2021-10-15-preview/examples/SystemTopics_Update.json
+      func ExampleSystemTopicsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      		return
+      	}
+      	ctx := context.Background()
+      	client, err := armeventgrid.NewSystemTopicsClient("<subscription-id>", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      		return
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"<resource-group-name>",
+      		"<system-topic-name>",
+      		armeventgrid.SystemTopicUpdateParameters{
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      		},
+      		&armeventgrid.SystemTopicsClientBeginUpdateOptions{ResumeToken: ""})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      		return
+      	}
+      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      		return
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Feventgrid%2Farmeventgrid%2Fv0.5.0/sdk/resourcemanager/eventgrid/armeventgrid/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -312,5 +419,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Event Grid service - Update a system topic.  \nAsynchronously updates a system topic with the specified parameters."
+  description: >
+    Learn more about Event Grid service - Update a system topic.
+
+    Asynchronously updates a system topic with the specified parameters.
 errorCodes: []

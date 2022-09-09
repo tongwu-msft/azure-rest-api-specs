@@ -425,6 +425,192 @@ examples:
           "timeoutInSeconds": 3600
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/myvmScaleSet/virtualMachines/0/runCommands/myRunCommand?api-version=2022-03-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "source": {
+            "script": "Write-Host Hello World!"
+          },
+          "parameters": [
+            {
+              "name": "param1",
+              "value": "value1"
+            },
+            {
+              "name": "param2",
+              "value": "value2"
+            }
+          ],
+          "asyncExecution": false,
+          "runAsUser": "user1",
+          "runAsPassword": "<runAsPassword>",
+          "timeoutInSeconds": 3600
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.VirtualMachineRunCommandInner;
+      import com.azure.resourcemanager.compute.models.RunCommandInputParameter;
+      import com.azure.resourcemanager.compute.models.VirtualMachineRunCommandScriptSource;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachineScaleSetVMRunCommands CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Create VirtualMachineScaleSet VM run command.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createVirtualMachineScaleSetVMRunCommand(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachineScaleSetVMRunCommands()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myvmScaleSet",
+                      "0",
+                      "myRunCommand",
+                      new VirtualMachineRunCommandInner()
+                          .withLocation("West US")
+                          .withSource(new VirtualMachineRunCommandScriptSource().withScript("Write-Host Hello World!"))
+                          .withParameters(
+                              Arrays
+                                  .asList(
+                                      new RunCommandInputParameter().withName("param1").withValue("value1"),
+                                      new RunCommandInputParameter().withName("param2").withValue("value2")))
+                          .withAsyncExecution(false)
+                          .withRunAsUser("user1")
+                          .withRunAsPassword("<runAsPassword>")
+                          .withTimeoutInSeconds(3600),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
+      func ExampleVirtualMachineScaleSetVMRunCommandsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetVMRunCommandsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"myvmScaleSet",
+      		"0",
+      		"myRunCommand",
+      		armcompute.VirtualMachineRunCommand{
+      			Location: to.Ptr("West US"),
+      			Properties: &armcompute.VirtualMachineRunCommandProperties{
+      				AsyncExecution: to.Ptr(false),
+      				Parameters: []*armcompute.RunCommandInputParameter{
+      					{
+      						Name:  to.Ptr("param1"),
+      						Value: to.Ptr("value1"),
+      					},
+      					{
+      						Name:  to.Ptr("param2"),
+      						Value: to.Ptr("value2"),
+      					}},
+      				RunAsPassword: to.Ptr("<runAsPassword>"),
+      				RunAsUser:     to.Ptr("user1"),
+      				Source: &armcompute.VirtualMachineRunCommandScriptSource{
+      					Script: to.Ptr("Write-Host Hello World!"),
+      				},
+      				TimeoutInSeconds: to.Ptr[int32](3600),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to create or update the VMSS VM run command.
+       *
+       * @summary The operation to create or update the VMSS VM run command.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/runCommandExamples/VirtualMachineScaleSetVMRunCommand_CreateOrUpdate.json
+       */
+      async function createVirtualMachineScaleSetVMRunCommand() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmScaleSetName = "myvmScaleSet";
+        const instanceId = "0";
+        const runCommandName = "myRunCommand";
+        const runCommand = {
+          asyncExecution: false,
+          location: "West US",
+          parameters: [
+            { name: "param1", value: "value1" },
+            { name: "param2", value: "value2" },
+          ],
+          runAsPassword: "<runAsPassword>",
+          runAsUser: "user1",
+          source: { script: "Write-Host Hello World!" },
+          timeoutInSeconds: 3600,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachineScaleSetVMRunCommands.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          vmScaleSetName,
+          instanceId,
+          runCommandName,
+          runCommand
+        );
+        console.log(result);
+      }
+
+      createVirtualMachineScaleSetVMRunCommand().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -490,5 +676,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - The operation to create or update the VMSS VM run command.
+  description: >
+    Learn more about Compute service - The operation to create or update the VMSS VM run command.
 errorCodes: []

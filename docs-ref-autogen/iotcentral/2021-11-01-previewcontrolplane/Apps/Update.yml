@@ -133,14 +133,17 @@ definitions:
     description: Whether these rules apply for device connectivity to IoT Hub and Device Provisioning service associated with this application.
     types:
     - uid: boolean
+    defaultValue: "false"
   - name: applyToIoTCentral
     description: Whether these rules apply for connectivity via IoT Central web portal and APIs.
     types:
     - uid: boolean
+    defaultValue: "false"
   - name: defaultAction
     description: The default network action to apply.
     types:
     - uid: NetworkAction
+    defaultValue: Allow
   - name: ipRules
     description: List of IP rules.
     types:
@@ -248,6 +251,7 @@ definitions:
     description: Whether requests from the public network are allowed.
     types:
     - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.networkRuleSets
     description: Network Rule Set Properties of this IoT Central application.
     types:
@@ -513,6 +517,131 @@ examples:
           "type": "SystemAssigned"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/resRg/providers/Microsoft.IoTCentral/iotApps/myIoTCentralApp?api-version=2021-11-01-preview
+
+      {
+        "properties": {
+          "displayName": "My IoT Central App 2"
+        },
+        "identity": {
+          "type": "SystemAssigned"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.iotcentral.models.AppPatch;
+      import com.azure.resourcemanager.iotcentral.models.SystemAssignedServiceIdentity;
+      import com.azure.resourcemanager.iotcentral.models.SystemAssignedServiceIdentityType;
+
+      /** Samples for Apps Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_Update.json
+           */
+          /**
+           * Sample code: Apps_Update.
+           *
+           * @param manager Entry point to IotCentralManager.
+           */
+          public static void appsUpdate(com.azure.resourcemanager.iotcentral.IotCentralManager manager) {
+              manager
+                  .apps()
+                  .update(
+                      "resRg",
+                      "myIoTCentralApp",
+                      new AppPatch()
+                          .withIdentity(
+                              new SystemAssignedServiceIdentity().withType(SystemAssignedServiceIdentityType.SYSTEM_ASSIGNED))
+                          .withDisplayName("My IoT Central App 2"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-iotcentral_1.1.0-beta.1/sdk/iotcentral/azure-resourcemanager-iotcentral/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armiotcentral_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/iotcentral/armiotcentral/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_Update.json
+      func ExampleAppsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armiotcentral.NewAppsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"resRg",
+      		"myIoTCentralApp",
+      		armiotcentral.AppPatch{
+      			Identity: &armiotcentral.SystemAssignedServiceIdentity{
+      				Type: to.Ptr(armiotcentral.SystemAssignedServiceIdentityTypeSystemAssigned),
+      			},
+      			Properties: &armiotcentral.AppProperties{
+      				DisplayName: to.Ptr("My IoT Central App 2"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fiotcentral%2Farmiotcentral%2Fv2.0.0-beta.1/sdk/resourcemanager/iotcentral/armiotcentral/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { IotCentralClient } = require("@azure/arm-iotcentral");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update the metadata of an IoT Central application.
+       *
+       * @summary Update the metadata of an IoT Central application.
+       * x-ms-original-file: specification/iotcentral/resource-manager/Microsoft.IoTCentral/preview/2021-11-01-preview/examples/Apps_Update.json
+       */
+      async function appsUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "resRg";
+        const resourceName = "myIoTCentralApp";
+        const appPatch = {
+          displayName: "My IoT Central App 2",
+          identity: { type: "SystemAssigned" },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new IotCentralClient(credential, subscriptionId);
+        const result = await client.apps.beginUpdateAndWait(resourceGroupName, resourceName, appPatch);
+        console.log(result);
+      }
+
+      appsUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-iotcentral_7.0.0-beta.1/sdk/iotcentral/arm-iotcentral/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -536,5 +665,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about IoT Central service - Update the metadata of an IoT Central application.
+  description: >
+    Learn more about IoT Central service - Update the metadata of an IoT Central application.
 errorCodes: []

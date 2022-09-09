@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.domains.checkavailability
 name: Check Availability
 service: App Service
 groupName: Domains
-apiVersion: 2015-04-01
-summary: Check if a domain is available for registration.
+apiVersion: 2022-03-01
+summary: Description for Check if a domain is available for registration.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability?api-version=2015-04-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DomainRegistration/checkDomainAvailability?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -28,7 +28,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: DomainAvailablilityCheckResult
+  - uid: DomainAvailabilityCheckResult
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestBody:
 - name: default
   parameters:
@@ -39,7 +43,7 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
-- name: DomainAvailablilityCheckResult
+- name: DomainAvailabilityCheckResult
   description: Domain availability check result.
   kind: object
   properties:
@@ -55,6 +59,15 @@ definitions:
     description: 'Valid values are Regular domain: Azure will charge the full price of domain registration, SoftDeleted: Purchasing this domain will simply restore it and this operation will not cost anything.'
     types:
     - uid: DomainType
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
+    isReadyOnly: true
+    description: Error model.
+    types:
+    - uid: Error
 - name: NameIdentifier
   description: Identifies an object.
   kind: object
@@ -73,7 +86,169 @@ definitions:
   - name: SoftDeleted
     types:
     - uid: string
-examples: []
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Check domain availability
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/checkDomainAvailability?api-version=2022-03-01
+    body: >-
+      {
+        "name": "abcd.com"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/providers/Microsoft.DomainRegistration/checkDomainAvailability?api-version=2022-03-01
+
+      {
+        "name": "abcd.com"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.NameIdentifierInner;
+
+      /** Samples for Domains CheckAvailability. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/CheckDomainAvailability.json
+           */
+          /**
+           * Sample code: Check domain availability.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void checkDomainAvailability(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getDomains()
+                  .checkAvailabilityWithResponse(new NameIdentifierInner().withName("abcd.com"), Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/CheckDomainAvailability.json
+      func ExampleDomainsClient_CheckAvailability() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewDomainsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CheckAvailability(ctx,
+      		armappservice.NameIdentifier{
+      			Name: to.Ptr("abcd.com"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Check if a domain is available for registration.
+       *
+       * @summary Description for Check if a domain is available for registration.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.DomainRegistration/stable/2022-03-01/examples/CheckDomainAvailability.json
+       */
+      async function checkDomainAvailability() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const identifier = { name: "abcd.com" };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.domains.checkAvailability(identifier);
+        console.log(result);
+      }
+
+      checkDomainAvailability().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "name": "abcd.com",
+        "available": true,
+        "domainType": "Regular"
+      }
 security:
 - name: azure_auth
   type: oauth2
@@ -84,5 +259,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Check if a domain is available for registration.
+  description: >
+    Learn more about App Service service - Description for Check if a domain is available for registration.
 errorCodes: []

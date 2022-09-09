@@ -711,6 +711,100 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Copy",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.SnapshotInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Snapshots CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotFromAnExistingSnapshot.json
+           */
+          /**
+           * Sample code: Create a snapshot from an existing snapshot in the same or a different subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "mySnapshot2",
+                      new SnapshotInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.COPY)
+                                  .withSourceResourceId(
+                                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a snapshot.
+       *
+       * @summary Creates or updates a snapshot.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotFromAnExistingSnapshot.json
+       */
+      async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const snapshotName = "mySnapshot2";
+        const snapshot = {
+          creationData: {
+            createOption: "Copy",
+            sourceResourceId:
+              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.snapshots.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          snapshotName,
+          snapshot
+        );
+        console.log(result);
+      }
+
+      createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -751,6 +845,98 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.SnapshotInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Snapshots CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription.json
+           */
+          /**
+           * Sample code: Create a snapshot by importing an unmanaged blob from the same subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "mySnapshot1",
+                      new SnapshotInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.IMPORT)
+                                  .withSourceUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a snapshot.
+       *
+       * @summary Creates or updates a snapshot.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription.json
+       */
+      async function createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const snapshotName = "mySnapshot1";
+        const snapshot = {
+          creationData: {
+            createOption: "Import",
+            sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.snapshots.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          snapshotName,
+          snapshot
+        );
+        console.log(result);
+      }
+
+      createASnapshotByImportingAnUnmanagedBlobFromTheSameSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -792,6 +978,154 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "Import",
+            "storageAccountId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+            "sourceUri": "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.SnapshotInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Snapshots CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription.json
+           */
+          /**
+           * Sample code: Create a snapshot by importing an unmanaged blob from a different subscription.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "mySnapshot1",
+                      new SnapshotInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.IMPORT)
+                                  .withStorageAccountId(
+                                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount")
+                                  .withSourceUri("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription.json
+      func ExampleSnapshotsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewSnapshotsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"myResourceGroup",
+      		"mySnapshot1",
+      		armcompute.Snapshot{
+      			Location: to.Ptr("West US"),
+      			Properties: &armcompute.SnapshotProperties{
+      				CreationData: &armcompute.CreationData{
+      					CreateOption:     to.Ptr(armcompute.DiskCreateOptionImport),
+      					SourceURI:        to.Ptr("https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd"),
+      					StorageAccountID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv1.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a snapshot.
+       *
+       * @summary Creates or updates a snapshot.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription.json
+       */
+      async function createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const snapshotName = "mySnapshot1";
+        const snapshot = {
+          creationData: {
+            createOption: "Import",
+            sourceUri: "https://mystorageaccount.blob.core.windows.net/osimages/osimage.vhd",
+            storageAccountId:
+              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Storage/storageAccounts/myStorageAccount",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.snapshots.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          snapshotName,
+          snapshot
+        );
+        console.log(result);
+      }
+
+      createASnapshotByImportingAnUnmanagedBlobFromADifferentSubscription().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -834,6 +1168,103 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot2?api-version=2021-12-01
+
+      {
+        "location": "West US",
+        "properties": {
+          "creationData": {
+            "createOption": "CopyStart",
+            "sourceResourceId": "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.SnapshotInner;
+      import com.azure.resourcemanager.compute.models.CreationData;
+      import com.azure.resourcemanager.compute.models.DiskCreateOption;
+
+      /** Samples for Snapshots CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotFromAnExistingSnapshotInDifferentRegion.json
+           */
+          /**
+           * Sample code: Create a snapshot from an existing snapshot in the same or a different subscription in a different
+           * region.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getSnapshots()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "mySnapshot2",
+                      new SnapshotInner()
+                          .withLocation("West US")
+                          .withCreationData(
+                              new CreationData()
+                                  .withCreateOption(DiskCreateOption.COPY_START)
+                                  .withSourceResourceId(
+                                      "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.15.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a snapshot.
+       *
+       * @summary Creates or updates a snapshot.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2021-12-01/examples/CreateASnapshotFromAnExistingSnapshotInDifferentRegion.json
+       */
+      async function createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const snapshotName = "mySnapshot2";
+        const snapshot = {
+          creationData: {
+            createOption: "CopyStart",
+            sourceResourceId:
+              "subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot1",
+          },
+          location: "West US",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.snapshots.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          snapshotName,
+          snapshot
+        );
+        console.log(result);
+      }
+
+      createASnapshotFromAnExistingSnapshotInTheSameOrADifferentSubscriptionInADifferentRegion().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_18.0.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     body: >-
@@ -871,5 +1302,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Compute service - Creates or updates a snapshot.
+  description: >
+    Learn more about Compute service - Creates or updates a snapshot.
 errorCodes: []

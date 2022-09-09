@@ -282,6 +282,98 @@ examples:
           "requestMessage": "Please approve"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/myResourceGroup/providers/Microsoft.SignalRService/webPubSub/myWebPubSubService/sharedPrivateLinkResources/upstream?api-version=2021-10-01
+
+      {
+        "properties": {
+          "groupId": "sites",
+          "privateLinkResourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp",
+          "requestMessage": "Please approve"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for WebPubSubSharedPrivateLinkResources CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: WebPubSubSharedPrivateLinkResources_CreateOrUpdate.
+           *
+           * @param manager Entry point to WebPubSubManager.
+           */
+          public static void webPubSubSharedPrivateLinkResourcesCreateOrUpdate(
+              com.azure.resourcemanager.webpubsub.WebPubSubManager manager) {
+              manager
+                  .webPubSubSharedPrivateLinkResources()
+                  .define("upstream")
+                  .withExistingWebPubSub("myResourceGroup", "myWebPubSubService")
+                  .withGroupId("sites")
+                  .withPrivateLinkResourceId(
+                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp")
+                  .withRequestMessage("Please approve")
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-webpubsub_1.0.0-beta.2/sdk/webpubsub/azure-resourcemanager-webpubsub/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armwebpubsub_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/webpubsub/armwebpubsub"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/webpubsub/resource-manager/Microsoft.SignalRService/stable/2021-10-01/examples/WebPubSubSharedPrivateLinkResources_CreateOrUpdate.json
+      func ExampleSharedPrivateLinkResourcesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armwebpubsub.NewSharedPrivateLinkResourcesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"upstream",
+      		"myResourceGroup",
+      		"myWebPubSubService",
+      		armwebpubsub.SharedPrivateLinkResource{
+      			Properties: &armwebpubsub.SharedPrivateLinkResourceProperties{
+      				GroupID:               to.Ptr("sites"),
+      				PrivateLinkResourceID: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/myResourceGroup/providers/Microsoft.Web/sites/myWebApp"),
+      				RequestMessage:        to.Ptr("Please approve"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fwebpubsub%2Farmwebpubsub%2Fv1.0.0/sdk/resourcemanager/webpubsub/armwebpubsub/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -326,5 +418,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Web PubSub Service service - Create or update a shared private link resource
+  description: >
+    Learn more about Azure Web PubSub Service service - Create or update a shared private link resource
 errorCodes: []

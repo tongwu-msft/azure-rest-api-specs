@@ -285,6 +285,62 @@ examples:
         "administratorLoginPassword": "password",
         "authenticationType": "Sql"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/import?api-version=2021-05-01-preview
+
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql"
+      }
+
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Imports a bacpac into a new database.
+       *
+       * @summary Imports a bacpac into a new database.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ImportDatabase.json
+       */
+      async function importsToAnExistingEmptyDatabase() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const databaseName = "testdb";
+        const parameters = {
+          administratorLogin: "login",
+          administratorLoginPassword: "password",
+          authenticationType: "Sql",
+          storageKey:
+            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+          storageKeyType: "StorageAccessKey",
+          storageUri: "https://test.blob.core.windows.net/test.bacpac",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginImportAndWait(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      importsToAnExistingEmptyDatabase().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -320,6 +376,128 @@ examples:
           "storageAccountResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr/databases/testdb/import?api-version=2021-05-01-preview
+
+      {
+        "storageKeyType": "StorageAccessKey",
+        "storageKey": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+        "storageUri": "https://test.blob.core.windows.net/test.bacpac",
+        "administratorLogin": "login",
+        "administratorLoginPassword": "password",
+        "authenticationType": "Sql",
+        "networkIsolation": {
+          "sqlServerResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr",
+          "storageAccountResourceId": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armsql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/sql/armsql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ImportDatabaseWithNetworkIsolation.json
+      func ExampleDatabasesClient_BeginImport() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armsql.NewDatabasesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginImport(ctx,
+      		"Default-SQL-SouthEastAsia",
+      		"testsvr",
+      		"testdb",
+      		armsql.ImportExistingDatabaseDefinition{
+      			AdministratorLogin:         to.Ptr("login"),
+      			AdministratorLoginPassword: to.Ptr("password"),
+      			AuthenticationType:         to.Ptr("Sql"),
+      			NetworkIsolation: &armsql.NetworkIsolationSettings{
+      				SQLServerResourceID:      to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr"),
+      				StorageAccountResourceID: to.Ptr("/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink"),
+      			},
+      			StorageKey:     to.Ptr("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx=="),
+      			StorageKeyType: to.Ptr(armsql.StorageKeyTypeStorageAccessKey),
+      			StorageURI:     to.Ptr("https://test.blob.core.windows.net/test.bacpac"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsql%2Farmsql%2Fv1.0.0/sdk/resourcemanager/sql/armsql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SqlManagementClient } = require("@azure/arm-sql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Imports a bacpac into a new database.
+       *
+       * @summary Imports a bacpac into a new database.
+       * x-ms-original-file: specification/sql/resource-manager/Microsoft.Sql/preview/2021-05-01-preview/examples/ImportDatabaseWithNetworkIsolation.json
+       */
+      async function importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default-SQL-SouthEastAsia";
+        const serverName = "testsvr";
+        const databaseName = "testdb";
+        const parameters = {
+          administratorLogin: "login",
+          administratorLoginPassword: "password",
+          authenticationType: "Sql",
+          networkIsolation: {
+            sqlServerResourceId:
+              "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Sql/servers/testsvr",
+            storageAccountResourceId:
+              "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default-SQL-SouthEastAsia/providers/Microsoft.Storage/storageAccounts/test-privatelink",
+          },
+          storageKey:
+            "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx==",
+          storageKeyType: "StorageAccessKey",
+          storageUri: "https://test.blob.core.windows.net/test.bacpac",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SqlManagementClient(credential, subscriptionId);
+        const result = await client.databases.beginImportAndWait(
+          resourceGroupName,
+          serverName,
+          databaseName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      importsToAnExistingEmptyDatabaseUsingPrivateLinkToCommunicateWithSqlServerAndStorageAccount().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-sql_9.0.1/sdk/sql/arm-sql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -341,5 +519,6 @@ examples:
   - statusCode: "202"
 security: []
 metadata:
-  description: Learn more about SQL Database service - Imports a bacpac into a new database.
+  description: >
+    Learn more about SQL Database service - Imports a bacpac into a new database.
 errorCodes: []

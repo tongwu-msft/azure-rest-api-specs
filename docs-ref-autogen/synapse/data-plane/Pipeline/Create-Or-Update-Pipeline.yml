@@ -19,6 +19,7 @@ uriParameters:
   description: The workspace development endpoint, for example https://myworkspace.dev.azuresynapse.net.
   types:
   - uid: string
+  format: uri
 - name: pipelineName
   in: path
   isRequired: true
@@ -2022,6 +2023,22 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: NotebookParameter
+  - name: typeProperties.executorSize
+    description: "Number of core and memory to be used for executors allocated in the specified Spark pool for the session, which will be used for overriding 'executorCores' and 'executorMemory' of the notebook you provide. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.conf
+    description: Spark configuration properties, which will override the 'conf' of the notebook you provide.
+    types:
+    - uid: object
+  - name: typeProperties.driverSize
+    description: "Number of core and memory to be used for driver allocated in the specified Spark pool for the session, which will be used for overriding 'driverCores' and 'driverMemory' of the notebook you provide. Type: string (or Expression with resultType string)."
+    types:
+    - uid: object
+  - name: typeProperties.numExecutors
+    description: Number of executors to launch for this session, which will override the 'numExecutors' of the notebook you provide.
+    types:
+    - uid: integer
   - name: linkedServiceName
     description: Linked service reference.
     types:
@@ -4151,6 +4168,88 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/pipelines/examplePipeline?api-version=2020-12-01
+
+      {
+        "properties": {
+          "activities": [
+            {
+              "type": "ForEach",
+              "typeProperties": {
+                "isSequential": true,
+                "items": {
+                  "value": "@pipeline().parameters.OutputBlobNameList",
+                  "type": "Expression"
+                },
+                "activities": [
+                  {
+                    "type": "Copy",
+                    "typeProperties": {
+                      "source": {
+                        "type": "BlobSource"
+                      },
+                      "sink": {
+                        "type": "BlobSink"
+                      },
+                      "dataIntegrationUnits": 32
+                    },
+                    "inputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": "examplecontainer.csv"
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": {
+                            "value": "@item()",
+                            "type": "Expression"
+                          }
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "name": "ExampleCopyActivity"
+                  }
+                ]
+              },
+              "name": "ExampleForeachActivity"
+            }
+          ],
+          "parameters": {
+            "OutputBlobNameList": {
+              "type": "Array"
+            },
+            "JobId": {
+              "type": "String"
+            }
+          },
+          "variables": {
+            "TestVariableArray": {
+              "type": "Array"
+            }
+          },
+          "runDimensions": {
+            "JobId": {
+              "value": "@pipeline().parameters.JobId",
+              "type": "Expression"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -4309,6 +4408,75 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT exampleWorkspace.dev.azuresynapse.net/pipelines/examplePipeline?api-version=2020-12-01
+
+      {
+        "properties": {
+          "description": "Example description",
+          "activities": [
+            {
+              "type": "ForEach",
+              "typeProperties": {
+                "isSequential": true,
+                "items": {
+                  "value": "@pipeline().parameters.OutputBlobNameList",
+                  "type": "Expression"
+                },
+                "activities": [
+                  {
+                    "type": "Copy",
+                    "typeProperties": {
+                      "source": {
+                        "type": "BlobSource"
+                      },
+                      "sink": {
+                        "type": "BlobSink"
+                      },
+                      "dataIntegrationUnits": 32
+                    },
+                    "inputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": "examplecontainer.csv"
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "outputs": [
+                      {
+                        "referenceName": "exampleDataset",
+                        "parameters": {
+                          "MyFolderPath": "examplecontainer",
+                          "MyFileName": {
+                            "value": "@item()",
+                            "type": "Expression"
+                          }
+                        },
+                        "type": "DatasetReference"
+                      }
+                    ],
+                    "name": "ExampleCopyActivity"
+                  }
+                ]
+              },
+              "name": "ExampleForeachActivity"
+            }
+          ],
+          "parameters": {
+            "OutputBlobNameList": {
+              "type": "Array"
+            }
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     headers:
@@ -4391,5 +4559,6 @@ examples:
       }
 security: []
 metadata:
-  description: Learn more about Synapse service - Creates or updates a pipeline.
+  description: >
+    Learn more about Synapse service - Creates or updates a pipeline.
 errorCodes: []

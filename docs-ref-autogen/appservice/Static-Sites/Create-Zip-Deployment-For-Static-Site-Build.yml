@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.staticsites.createzipdeploymentforstaticsit
 name: Create Zip Deployment For Static Site Build
 service: App Service
 groupName: Static Sites
-apiVersion: 2021-02-01
-summary: Deploys zipped content to a specific environment of a static site.
+apiVersion: 2022-03-01
+summary: Description for Deploys zipped content to a specific environment of a static site.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy?api-version=2021-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/staticSites/{name}/builds/{environmentName}/zipdeploy?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -189,7 +189,7 @@ definitions:
 examples:
 - name: Deploy a site from a zipped package to a particular static site build
   request:
-    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds/12/zipdeploy?api-version=2021-02-01
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds/12/zipdeploy?api-version=2022-03-01
     body: >-
       {
         "properties": {
@@ -200,6 +200,152 @@ examples:
           "functionLanguage": "testFunctionLanguage"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/rg/providers/Microsoft.Web/staticSites/testStaticSite0/builds/12/zipdeploy?api-version=2022-03-01
+
+      {
+        "properties": {
+          "appZipUrl": "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/app-zipdeploy.zip",
+          "apiZipUrl": "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/api-zipdeploy.zip",
+          "deploymentTitle": "Update index.html",
+          "provider": "testProvider",
+          "functionLanguage": "testFunctionLanguage"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.models.StaticSiteZipDeploymentArmResource;
+
+      /** Samples for StaticSites CreateZipDeploymentForStaticSiteBuild. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StaticSiteBuildZipDeploy.json
+           */
+          /**
+           * Sample code: Deploy a site from a zipped package to a particular static site build.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void deployASiteFromAZippedPackageToAParticularStaticSiteBuild(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getStaticSites()
+                  .createZipDeploymentForStaticSiteBuild(
+                      "rg",
+                      "testStaticSite0",
+                      "12",
+                      new StaticSiteZipDeploymentArmResource()
+                          .withAppZipUrl(
+                              "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/app-zipdeploy.zip")
+                          .withApiZipUrl(
+                              "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/api-zipdeploy.zip")
+                          .withDeploymentTitle("Update index.html")
+                          .withProvider("testProvider")
+                          .withFunctionLanguage("testFunctionLanguage"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StaticSiteBuildZipDeploy.json
+      func ExampleStaticSitesClient_BeginCreateZipDeploymentForStaticSiteBuild() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewStaticSitesClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateZipDeploymentForStaticSiteBuild(ctx,
+      		"rg",
+      		"testStaticSite0",
+      		"12",
+      		armappservice.StaticSiteZipDeploymentARMResource{
+      			Properties: &armappservice.StaticSiteZipDeployment{
+      				APIZipURL:        to.Ptr("https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/api-zipdeploy.zip"),
+      				AppZipURL:        to.Ptr("https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/app-zipdeploy.zip"),
+      				DeploymentTitle:  to.Ptr("Update index.html"),
+      				FunctionLanguage: to.Ptr("testFunctionLanguage"),
+      				Provider:         to.Ptr("testProvider"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Deploys zipped content to a specific environment of a static site.
+       *
+       * @summary Description for Deploys zipped content to a specific environment of a static site.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/StaticSiteBuildZipDeploy.json
+       */
+      async function deployASiteFromAZippedPackageToAParticularStaticSiteBuild() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "rg";
+        const name = "testStaticSite0";
+        const environmentName = "12";
+        const staticSiteZipDeploymentEnvelope = {
+          apiZipUrl:
+            "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/api-zipdeploy.zip",
+          appZipUrl:
+            "https://teststorageaccount.net/happy-sea-15afae3e-master-81828877/app-zipdeploy.zip",
+          deploymentTitle: "Update index.html",
+          functionLanguage: "testFunctionLanguage",
+          provider: "testProvider",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.staticSites.beginCreateZipDeploymentForStaticSiteBuildAndWait(
+          resourceGroupName,
+          name,
+          environmentName,
+          staticSiteZipDeploymentEnvelope
+        );
+        console.log(result);
+      }
+
+      deployASiteFromAZippedPackageToAParticularStaticSiteBuild().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -216,5 +362,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Deploys zipped content to a specific environment of a static site.
+  description: >
+    Learn more about App Service service - Description for Deploys zipped content to a specific environment of a static site.
 errorCodes: []

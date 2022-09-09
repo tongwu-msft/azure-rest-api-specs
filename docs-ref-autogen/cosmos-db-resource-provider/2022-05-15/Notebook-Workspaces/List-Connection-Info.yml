@@ -1,0 +1,214 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.cosmos-db-resource-provider.2022-05-15.notebookworkspaces.listconnectioninfo
+name: List Connection Info
+service: Cosmos DB Resource Provider
+groupName: Notebook Workspaces
+apiVersion: 2022-05-15
+summary: Retrieves the connection info for the notebook workspace
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/notebookWorkspaces/default/listConnectionInfo?api-version=2022-05-15
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: accountName
+  in: path
+  isRequired: true
+  description: Cosmos DB database account name.
+  types:
+  - uid: string
+  pattern: ^[a-z0-9]+(-[a-z0-9]+)*
+- name: notebookWorkspaceName
+  in: path
+  isRequired: true
+  description: The name of the notebook workspace resource.
+  types:
+  - uid: NotebookWorkspaceName
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation completed successfully.
+  types:
+  - uid: NotebookWorkspaceConnectionInfoResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: NotebookWorkspaceName
+  description: The name of the notebook workspace resource.
+  kind: enum
+  properties:
+  - name: default
+    types:
+    - uid: string
+- name: NotebookWorkspaceConnectionInfoResult
+  description: The connection info for the given notebook workspace
+  kind: object
+  properties:
+  - name: authToken
+    isReadyOnly: true
+    description: Specifies auth token used for connecting to Notebook server (uses token-based auth).
+    types:
+    - uid: string
+  - name: notebookServerEndpoint
+    isReadyOnly: true
+    description: Specifies the endpoint of Notebook server.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error Response.
+  kind: object
+  properties:
+  - name: code
+    description: Error code.
+    types:
+    - uid: string
+  - name: message
+    description: Error message indicating why the operation failed.
+    types:
+    - uid: string
+examples:
+- name: CosmosDBNotebookWorkspaceListConnectionInfo
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/notebookWorkspaces/default/listConnectionInfo?api-version=2022-05-15
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.DocumentDB/databaseAccounts/ddb1/notebookWorkspaces/default/listConnectionInfo?api-version=2022-05-15
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.cosmos.models.NotebookWorkspaceName;
+
+      /** Samples for NotebookWorkspaces ListConnectionInfo. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
+           */
+          /**
+           * Sample code: CosmosDBNotebookWorkspaceListConnectionInfo.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void cosmosDBNotebookWorkspaceListConnectionInfo(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .cosmosDBAccounts()
+                  .manager()
+                  .serviceClient()
+                  .getNotebookWorkspaces()
+                  .listConnectionInfoWithResponse("rg1", "ddb1", NotebookWorkspaceName.DEFAULT, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcosmos_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/cosmos/armcosmos/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
+      func ExampleNotebookWorkspacesClient_ListConnectionInfo() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcosmos.NewNotebookWorkspacesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.ListConnectionInfo(ctx,
+      		"rg1",
+      		"ddb1",
+      		armcosmos.NotebookWorkspaceNameDefault,
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcosmos%2Farmcosmos%2Fv2.0.0/sdk/resourcemanager/cosmos/armcosmos/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { CosmosDBManagementClient } = require("@azure/arm-cosmosdb");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Retrieves the connection info for the notebook workspace
+       *
+       * @summary Retrieves the connection info for the notebook workspace
+       * x-ms-original-file: specification/cosmos-db/resource-manager/Microsoft.DocumentDB/stable/2022-05-15/examples/CosmosDBNotebookWorkspaceListConnectionInfo.json
+       */
+      async function cosmosDbNotebookWorkspaceListConnectionInfo() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const accountName = "ddb1";
+        const notebookWorkspaceName = "default";
+        const credential = new DefaultAzureCredential();
+        const client = new CosmosDBManagementClient(credential, subscriptionId);
+        const result = await client.notebookWorkspaces.listConnectionInfo(
+          resourceGroupName,
+          accountName,
+          notebookWorkspaceName
+        );
+        console.log(result);
+      }
+
+      cosmosDbNotebookWorkspaceListConnectionInfo().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-cosmosdb_15.1.0/sdk/cosmosdb/arm-cosmosdb/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "authToken": "auth-token",
+        "notebookServerEndpoint": "notebook endpoint"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: Impersonate your user account
+metadata:
+  description: >
+    Learn more about Cosmos DB Resource Provider service - Retrieves the connection info for the notebook workspace
+errorCodes: []

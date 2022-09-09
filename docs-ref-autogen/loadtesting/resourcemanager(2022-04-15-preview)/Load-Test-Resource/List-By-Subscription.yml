@@ -270,23 +270,17 @@ definitions:
     types:
     - uid: string
 - name: Identity
-  description: Identity for the resource.
+  description: All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
   kind: object
   properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID of resource identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of resource.
-    types:
-    - uid: string
   - name: type
-    description: The identity type.
+    description: Managed identity type to use for accessing encryption key Url
     types:
-    - uid: ResourceIdentityType
+    - uid: type
+  - name: resourceId
+    description: 'user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId'
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -303,17 +297,26 @@ definitions:
   - name: Key
     types:
     - uid: string
-- name: ResourceIdentityType
-  description: The identity type.
+- name: type
+  description: Managed identity type to use for accessing encryption key Url
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
     types:
     - uid: string
 examples:
 - name: LoadTests_ListBySubscription
   request:
     uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/loadTests?api-version=2022-04-15-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.LoadTestService/loadTests?api-version=2022-04-15-preview
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -353,5 +356,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Load Testing service - Lists loadtests resources in a subscription.
+  description: >
+    Learn more about Azure Load Testing service - Lists loadtests resources in a subscription.
 errorCodes: []

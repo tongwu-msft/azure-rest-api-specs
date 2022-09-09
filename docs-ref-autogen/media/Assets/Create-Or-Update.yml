@@ -3,14 +3,14 @@ uid: management.azure.com.media.assets.createorupdate
 name: Create Or Update
 service: Media Services
 groupName: Assets
-apiVersion: 2021-11-01
+apiVersion: 2022-08-01
 summary: "Create or update an Asset  \nCreates or updates an Asset in the Media Services account"
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}?api-version=2021-11-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Media/mediaServices/{accountName}/assets/{assetName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -252,7 +252,7 @@ definitions:
 examples:
 - name: Create an Asset
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountLogan?api-version=2021-11-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountLogan?api-version=2022-08-01
     body: >-
       {
         "properties": {
@@ -260,6 +260,94 @@ examples:
           "storageAccountName": "storage0"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/contoso/providers/Microsoft.Media/mediaServices/contosomedia/assets/ClimbingMountLogan?api-version=2022-08-01
+
+      {
+        "properties": {
+          "description": "A documentary showing the ascent of Mount Logan",
+          "storageAccountName": "storage0"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmediaservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mediaservices/armmediaservices/v3"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/assets-create.json
+      func ExampleAssetsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmediaservices.NewAssetsClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "contoso", "contosomedia", "ClimbingMountLogan", armmediaservices.Asset{
+      		Properties: &armmediaservices.AssetProperties{
+      			Description:        to.Ptr("A documentary showing the ascent of Mount Logan"),
+      			StorageAccountName: to.Ptr("storage0"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmediaservices%2Farmmediaservices%2Fv3.1.0/sdk/resourcemanager/mediaservices/armmediaservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMediaServices } = require("@azure/arm-mediaservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates an Asset in the Media Services account
+       *
+       * @summary Creates or updates an Asset in the Media Services account
+       * x-ms-original-file: specification/mediaservices/resource-manager/Microsoft.Media/stable/2022-08-01/examples/assets-create.json
+       */
+      async function createAnAsset() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "contoso";
+        const accountName = "contosomedia";
+        const assetName = "ClimbingMountLogan";
+        const parameters = {
+          description: "A documentary showing the ascent of Mount Logan",
+          storageAccountName: "storage0",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMediaServices(credential, subscriptionId);
+        const result = await client.assets.createOrUpdate(
+          resourceGroupName,
+          accountName,
+          assetName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAnAsset().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mediaservices_13.0.0/sdk/mediaservices/arm-mediaservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -295,5 +383,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Learn more about Media Services service - Create or update an Asset  \nCreates or updates an Asset in the Media Services account"
+  description: >
+    Learn more about Media Services service - Create or update an Asset
+
+    Creates or updates an Asset in the Media Services account
 errorCodes: []

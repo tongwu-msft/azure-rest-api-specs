@@ -3,7 +3,7 @@ title: Incremental Copy Blob (REST API) - Azure Storage
 description: The Incremental Copy Blob operation copies a snapshot of the source page blob to a destination page blob. The snapshot is copied such that only the differential changes between the previously copied snapshot are transferred to the destination.
 author: pemari-msft
 
-ms.date: 09/20/2019
+ms.date: 07/22/2022
 ms.service: storage
 ms.topic: reference
 ms.author: pemari
@@ -48,7 +48,7 @@ The `Incremental Copy Blob` operation copies a snapshot of the source page blob 
 |`If-Unmodified-Since`|Optional. A DateTime value. Specify this conditional header to copy the blob only if the destination blob has not been modified since the specified date/time. If the destination blob has been modified, the Blob service returns status code 412 (Precondition Failed).|
 |`If-Match`|Optional. An ETag value. Specify an ETag value for this conditional header to copy the blob only if the specified ETag value matches the ETag value for an existing destination blob. If the ETag for the destination blob does not match the ETag specified for If-Match, the Blob service returns status code 412 (Precondition Failed).|
 |`If-None-Match`|Optional. An ETag value, or the wildcard character (`*`).<br/><br/>Specify an ETag value for this conditional header to copy the blob only if the specified ETag value does not match the ETag value for the destination blob.<br/><br/>Specify the wildcard character (`*`) to perform the operation only if the destination blob does not exist.<br/><br/>If the specified condition isn't met, the Blob service returns status code 412 (Precondition Failed).|
-|`x-ms-copy-source:name`|Required. Specifies the name of the source page blob snapshot.<br/><br/>This value is a URL of up to 2 KiB in length that specifies a page blob snapshot. The value should be URL-encoded as it would appear in a request URI. The source blob must either be public or must be authorized via a shared access signature. Here is an example of a source blob URL:<br/><br/>`https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`|
+|`x-ms-copy-source:name`|Required. Specifies the name of the source page blob snapshot.<br/><br/>This value is a URL of up to 2 KiB in length that specifies a page blob snapshot. The value should be URL-encoded as it would appear in a request URI. The source blob URI may be authorized in one of two ways:<br/><br/>The source blob URI may reference a page blob snapshot, but must include a shared access signature (SAS) token that was created on the snapshot's base blob. The signed resource (`sr`) field of the SAS should be set to `b`. For example: `https://<account-name>.blob.core.windows.net/<container-name>/<page-blob-name>?snapshot=2022-07-23T00:14:45.3964054Z&sp=r&st=2022-07-23T00:15:38Z&se=2022-07-23T08:15:38Z&spr=https&sv=2021-06-08&sr=b&sig=<signature>`<br/><br/>The source blob URI may reference a public page blob snapshot, for example, `https://myaccount.blob.core.windows.net/mycontainer/myblob?snapshot=<DateTime>`. |
 |`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging and Azure Logging: Using Logs to Track Storage Requests](About-Storage-Analytics-Logging.md).|
 
 ### Request Body  

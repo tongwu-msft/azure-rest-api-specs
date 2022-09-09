@@ -134,6 +134,159 @@ examples:
         ],
         "persistOnSuccess": false
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/executeScriptActions?api-version=2021-06-01
+
+      {
+        "scriptActions": [
+          {
+            "name": "Test",
+            "uri": "http://testurl.com/install.ssh",
+            "roles": [
+              "headnode",
+              "workernode"
+            ],
+            "parameters": ""
+          }
+        ],
+        "persistOnSuccess": false
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.hdinsight.models.ExecuteScriptActionParameters;
+      import com.azure.resourcemanager.hdinsight.models.RuntimeScriptAction;
+      import java.util.Arrays;
+
+      /** Samples for Clusters ExecuteScriptActions. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PostExecuteScriptAction.json
+           */
+          /**
+           * Sample code: Execute script action on HDInsight cluster.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void executeScriptActionOnHDInsightCluster(
+              com.azure.resourcemanager.hdinsight.HDInsightManager manager) {
+              manager
+                  .clusters()
+                  .executeScriptActions(
+                      "rg1",
+                      "cluster1",
+                      new ExecuteScriptActionParameters()
+                          .withScriptActions(
+                              Arrays
+                                  .asList(
+                                      new RuntimeScriptAction()
+                                          .withName("Test")
+                                          .withUri("http://testurl.com/install.ssh")
+                                          .withParameters("")
+                                          .withRoles(Arrays.asList("headnode", "workernode"))))
+                          .withPersistOnSuccess(false),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PostExecuteScriptAction.json
+      func ExampleClustersClient_BeginExecuteScriptActions() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewClustersClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginExecuteScriptActions(ctx,
+      		"rg1",
+      		"cluster1",
+      		armhdinsight.ExecuteScriptActionParameters{
+      			PersistOnSuccess: to.Ptr(false),
+      			ScriptActions: []*armhdinsight.RuntimeScriptAction{
+      				{
+      					Name:       to.Ptr("Test"),
+      					Parameters: to.Ptr(""),
+      					Roles: []*string{
+      						to.Ptr("headnode"),
+      						to.Ptr("workernode")},
+      					URI: to.Ptr("http://testurl.com/install.ssh"),
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Executes script actions on the specified HDInsight cluster.
+       *
+       * @summary Executes script actions on the specified HDInsight cluster.
+       * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/PostExecuteScriptAction.json
+       */
+      async function executeScriptActionOnHdInsightCluster() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cluster1";
+        const parameters = {
+          persistOnSuccess: false,
+          scriptActions: [
+            {
+              name: "Test",
+              parameters: "",
+              roles: ["headnode", "workernode"],
+              uri: "http://testurl.com/install.ssh",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HDInsightManagementClient(credential, subscriptionId);
+        const result = await client.clusters.beginExecuteScriptActionsAndWait(
+          resourceGroupName,
+          clusterName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      executeScriptActionOnHdInsightCluster().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hdinsight_1.2.0/sdk/hdinsight/arm-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
     headers:
@@ -151,5 +304,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about HDInsight service - Executes script actions on the specified HDInsight cluster.
+  description: >
+    Learn more about HDInsight service - Executes script actions on the specified HDInsight cluster.
 errorCodes: []

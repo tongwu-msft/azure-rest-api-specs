@@ -227,23 +227,17 @@ definitions:
     types:
     - uid: string
 - name: Identity
-  description: Identity for the resource.
+  description: All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault.
   kind: object
   properties:
-  - name: principalId
-    isReadyOnly: true
-    description: The principal ID of resource identity.
-    types:
-    - uid: string
-  - name: tenantId
-    isReadyOnly: true
-    description: The tenant ID of resource.
-    types:
-    - uid: string
   - name: type
-    description: The identity type.
+    description: Managed identity type to use for accessing encryption key Url
     types:
-    - uid: ResourceIdentityType
+    - uid: type
+  - name: resourceId
+    description: 'user assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/fa5fc227-a624-475e-b696-cdd604c735bc/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId'
+    types:
+    - uid: string
 - name: ResourceState
   description: Load Test resources provisioning states.
   kind: enum
@@ -319,11 +313,14 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: ResourceIdentityType
-  description: The identity type.
+- name: type
+  description: Managed identity type to use for accessing encryption key Url
   kind: enum
   properties:
   - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
     types:
     - uid: string
 - name: createdByType
@@ -383,6 +380,36 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.LoadTestService/loadTests/myLoadTest?api-version=2022-04-15-preview
+
+      {
+        "tags": {
+          "Team": "Dev Exp",
+          "Division": "LT"
+        },
+        "identity": {
+          "type": "SystemAssigned,UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/dummyrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/id1": {}
+          }
+        },
+        "properties": {
+          "description": "This is new load test resource",
+          "encryption": {
+            "identity": {
+              "type": "SystemAssigned",
+              "resourceId": null
+            },
+            "keyUrl": "https://dummy.vault.azure.net/keys/dummykey1"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -438,5 +465,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Load Testing service - Update a loadtest resource.
+  description: >
+    Learn more about Azure Load Testing service - Update a loadtest resource.
 errorCodes: []

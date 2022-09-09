@@ -3,14 +3,14 @@ uid: management.azure.com.azurequantum.resourcemanager.workspaces.createorupdate
 name: Create Or Update
 service: Azure Quantum
 groupName: Workspaces
-apiVersion: 2019-11-04-preview
+apiVersion: 2022-01-10-preview
 summary: Creates or updates a workspace resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}?api-version=2019-11-04-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Quantum/workspaces/{workspaceName}?api-version=2022-01-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -362,7 +362,7 @@ definitions:
 examples:
 - name: QuantumWorkspacesPut
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2019-11-04-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2022-01-10-preview
     body: >-
       {
         "location": "West US",
@@ -384,6 +384,94 @@ examples:
           "storageAccount": "/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/resourceGroups/quantumResourcegroup/providers/Microsoft.Storage/storageAccounts/testStorageAccount"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/quantumResourcegroup/providers/Microsoft.Quantum/workspaces/quantumworkspace1?api-version=2022-01-10-preview
+
+      {
+        "location": "West US",
+        "properties": {
+          "providers": [
+            {
+              "providerId": "Honeywell",
+              "providerSku": "Basic"
+            },
+            {
+              "providerId": "IonQ",
+              "providerSku": "Basic"
+            },
+            {
+              "providerId": "OneQBit",
+              "providerSku": "Basic"
+            }
+          ],
+          "storageAccount": "/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/resourceGroups/quantumResourcegroup/providers/Microsoft.Storage/storageAccounts/testStorageAccount"
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armquantum_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/quantum/armquantum"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/quantum/resource-manager/Microsoft.Quantum/preview/2022-01-10-preview/examples/quantumWorkspacesPut.json
+      func ExampleWorkspacesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armquantum.NewWorkspacesClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"quantumResourcegroup",
+      		"quantumworkspace1",
+      		armquantum.Workspace{
+      			Location: to.Ptr("West US"),
+      			Properties: &armquantum.WorkspaceResourceProperties{
+      				Providers: []*armquantum.Provider{
+      					{
+      						ProviderID:  to.Ptr("Honeywell"),
+      						ProviderSKU: to.Ptr("Basic"),
+      					},
+      					{
+      						ProviderID:  to.Ptr("IonQ"),
+      						ProviderSKU: to.Ptr("Basic"),
+      					},
+      					{
+      						ProviderID:  to.Ptr("OneQBit"),
+      						ProviderSKU: to.Ptr("Basic"),
+      					}},
+      				StorageAccount: to.Ptr("/subscriptions/1C4B2828-7D49-494F-933D-061373BE28C2/resourceGroups/quantumResourcegroup/providers/Microsoft.Storage/storageAccounts/testStorageAccount"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fquantum%2Farmquantum%2Fv0.5.0/sdk/resourcemanager/quantum/armquantum/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -499,5 +587,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Quantum service - Creates or updates a workspace resource.
+  description: >
+    Learn more about Azure Quantum service - Creates or updates a workspace resource.
 errorCodes: []

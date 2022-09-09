@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.update
 name: Update
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2022-05-01
+apiVersion: 2022-09-01
 summary: Update an HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-05-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -154,6 +154,10 @@ definitions:
     description: Id of cluster identity service principal.
     types:
     - uid: string
+  - name: properties.softwareAssuranceProperties
+    description: Software Assurance properties of the cluster.
+    types:
+    - uid: SoftwareAssuranceProperties
   - name: properties.desiredProperties
     description: Desired properties of the cluster.
     types:
@@ -333,6 +337,23 @@ definitions:
   - name: Error
     types:
     - uid: string
+- name: SoftwareAssuranceProperties
+  description: Software Assurance properties of the cluster.
+  kind: object
+  properties:
+  - name: softwareAssuranceStatus
+    description: Status of the Software Assurance for the cluster.
+    types:
+    - uid: SoftwareAssuranceStatus
+  - name: softwareAssuranceIntent
+    description: Customer Intent for Software Assurance Benefit.
+    types:
+    - uid: SoftwareAssuranceIntent
+  - name: lastUpdated
+    isReadyOnly: true
+    description: TimeStamp denoting the latest SA benefit applicability is validated.
+    types:
+    - uid: string
 - name: ClusterReportedProperties
   description: Properties reported by cluster agent.
   kind: object
@@ -403,6 +424,26 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: SoftwareAssuranceStatus
+  description: Status of the Software Assurance for the cluster.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: SoftwareAssuranceIntent
+  description: Customer Intent for Software Assurance Benefit.
+  kind: enum
+  properties:
+  - name: Enable
+    types:
+    - uid: string
+  - name: Disable
+    types:
+    - uid: string
 - name: ClusterNode
   description: Cluster node details.
   kind: object
@@ -422,6 +463,11 @@ definitions:
     description: State of Windows Server Subscription.
     types:
     - uid: WindowsServerSubscription
+  - name: nodeType
+    isReadyOnly: true
+    description: Type of the cluster node hardware.
+    types:
+    - uid: ClusterNodeType
   - name: manufacturer
     isReadyOnly: true
     description: Manufacturer of the cluster node hardware.
@@ -440,6 +486,11 @@ definitions:
   - name: osVersion
     isReadyOnly: true
     description: Version of the operating system running on the cluster node.
+    types:
+    - uid: string
+  - name: osDisplayVersion
+    isReadyOnly: true
+    description: Display version of the operating system running on the cluster node.
     types:
     - uid: string
   - name: serialNumber
@@ -481,10 +532,20 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: ClusterNodeType
+  description: Type of the cluster node hardware.
+  kind: enum
+  properties:
+  - name: FirstParty
+    types:
+    - uid: string
+  - name: ThirdParty
+    types:
+    - uid: string
 examples:
 - name: Update cluster
   request:
-    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-05-01
+    uri: PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
     body: >-
       {
         "tags": {
@@ -499,6 +560,27 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
+
+      {
+        "tags": {
+          "tag1": "value1",
+          "tag2": "value2"
+        },
+        "properties": {
+          "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
+          "desiredProperties": {
+            "windowsServerSubscription": "Enabled",
+            "diagnosticLevel": "Basic"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -593,5 +675,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure Stack HCI service - Update an HCI cluster.
+  description: >
+    Learn more about Azure Stack HCI service - Update an HCI cluster.
 errorCodes: []

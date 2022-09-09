@@ -366,6 +366,121 @@ examples:
         "location": "westus",
         "properties": {}
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/testRG/providers/Microsoft.HealthcareApis/workspaces/workspace1?api-version=2021-11-01
+
+      {
+        "location": "westus",
+        "properties": {}
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.healthcareapis.models.WorkspaceProperties;
+
+      /** Samples for Workspaces CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/workspaces/Workspaces_Create.json
+           */
+          /**
+           * Sample code: Create or update a workspace.
+           *
+           * @param manager Entry point to HealthcareApisManager.
+           */
+          public static void createOrUpdateAWorkspace(
+              com.azure.resourcemanager.healthcareapis.HealthcareApisManager manager) {
+              manager
+                  .workspaces()
+                  .define("workspace1")
+                  .withExistingResourceGroup("testRG")
+                  .withRegion("westus")
+                  .withProperties(new WorkspaceProperties())
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-healthcareapis_1.0.0-beta.2/sdk/healthcareapis/azure-resourcemanager-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhealthcareapis_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/healthcareapis/armhealthcareapis"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/workspaces/Workspaces_Create.json
+      func ExampleWorkspacesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhealthcareapis.NewWorkspacesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"testRG",
+      		"workspace1",
+      		armhealthcareapis.Workspace{
+      			Location:   to.Ptr("westus"),
+      			Properties: &armhealthcareapis.WorkspaceProperties{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhealthcareapis%2Farmhealthcareapis%2Fv1.0.0/sdk/resourcemanager/healthcareapis/armhealthcareapis/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HealthcareApisManagementClient } = require("@azure/arm-healthcareapis");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a workspace resource with the specified parameters.
+       *
+       * @summary Creates or updates a workspace resource with the specified parameters.
+       * x-ms-original-file: specification/healthcareapis/resource-manager/Microsoft.HealthcareApis/stable/2021-11-01/examples/workspaces/Workspaces_Create.json
+       */
+      async function createOrUpdateAWorkspace() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testRG";
+        const workspaceName = "workspace1";
+        const workspace = { location: "westus", properties: {} };
+        const credential = new DefaultAzureCredential();
+        const client = new HealthcareApisManagementClient(credential, subscriptionId);
+        const result = await client.workspaces.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          workspace
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAWorkspace().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-healthcareapis_2.1.0/sdk/healthcareapis/arm-healthcareapis/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -410,5 +525,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Healthcare Apis service - Creates or updates a workspace resource with the specified parameters.
+  description: >
+    Learn more about Healthcare Apis service - Creates or updates a workspace resource with the specified parameters.
 errorCodes: []

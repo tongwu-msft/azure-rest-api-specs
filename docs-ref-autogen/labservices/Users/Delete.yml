@@ -3,14 +3,14 @@ uid: management.azure.com.labservices.users.delete
 name: Delete
 service: Lab Services
 groupName: Users
-apiVersion: 2021-11-15-preview
+apiVersion: 2022-08-01
 summary: "Deletes a user resource.  \nOperation to delete a user resource."
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2021-11-15-preview
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.LabServices/labs/{labName}/users/{userName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: labName
   in: path
   isRequired: true
-  description: The name of the lab that uniquely identifies it within containing lab account. Used in resource URIs.
+  description: The name of the lab that uniquely identifies it within containing lab plan. Used in resource URIs.
   types:
   - uid: string
 - name: userName
@@ -112,7 +112,95 @@ definitions:
 examples:
 - name: deleteUser
   request:
-    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2021-11-15-preview
+    uri: DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.LabServices/labs/testlab/users/testuser?api-version=2022-08-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Users Delete. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Users/deleteUser.json
+           */
+          /**
+           * Sample code: deleteUser.
+           *
+           * @param manager Entry point to LabServicesManager.
+           */
+          public static void deleteUser(com.azure.resourcemanager.labservices.LabServicesManager manager) {
+              manager.users().delete("testrg123", "testlab", "testuser", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-labservices_1.0.0-beta.3/sdk/labservices/azure-resourcemanager-labservices/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armlabservices_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/labservices/armlabservices"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Users/deleteUser.json
+      func ExampleUsersClient_BeginDelete() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armlabservices.NewUsersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginDelete(ctx, "testrg123", "testlab", "testuser", nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Flabservices%2Farmlabservices%2Fv1.0.0/sdk/resourcemanager/labservices/armlabservices/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { LabServicesClient } = require("@azure/arm-labservices");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Operation to delete a user resource.
+       *
+       * @summary Operation to delete a user resource.
+       * x-ms-original-file: specification/labservices/resource-manager/Microsoft.LabServices/stable/2022-08-01/examples/Users/deleteUser.json
+       */
+      async function deleteUser() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const labName = "testlab";
+        const userName = "testuser";
+        const credential = new DefaultAzureCredential();
+        const client = new LabServicesClient(credential, subscriptionId);
+        const result = await client.users.beginDeleteAndWait(resourceGroupName, labName, userName);
+        console.log(result);
+      }
+
+      deleteUser().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-labservices_3.0.0/sdk/labservices/arm-labservices/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -122,5 +210,8 @@ examples:
   - statusCode: "204"
 security: []
 metadata:
-  description: "Learn more about Lab Services service - Deletes a user resource.  \nOperation to delete a user resource."
+  description: >
+    Learn more about Lab Services service - Deletes a user resource.
+
+    Operation to delete a user resource.
 errorCodes: []

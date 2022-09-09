@@ -3,14 +3,14 @@ uid: management.azure.com.load-balancer.loadbalancerbackendaddresspools.createor
 name: Create Or Update
 service: Load balancer
 groupName: Load Balancer Backend Address Pools
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates or updates a load balancer backend address pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/loadBalancers/{loadBalancerName}/backendAddressPools/{backendAddressPoolName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -678,7 +678,7 @@ definitions:
     description: Enable or Disable apply network policies on private end point in the subnet.
     types:
     - uid: VirtualNetworkPrivateEndpointNetworkPolicies
-    defaultValue: Enabled
+    defaultValue: Disabled
   - name: properties.privateLinkServiceNetworkPolicies
     description: Enable or Disable apply network policies on private link service in the subnet.
     types:
@@ -1060,6 +1060,10 @@ definitions:
     description: A unique read-only string that changes whenever the resource is updated.
     types:
     - uid: string
+  - name: properties.flushConnection
+    description: When enabled, flows created from Network Security Group connections will be re-evaluated when rules are updates. Initial enablement will trigger re-evaluation.
+    types:
+    - uid: boolean
   - name: properties.securityRules
     description: A collection of security rules of the network security group.
     types:
@@ -1914,7 +1918,7 @@ definitions:
     types:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
-    description: If the network interface is accelerated networking enabled.
+    description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2688,7 +2692,7 @@ definitions:
 examples:
 - name: Update load balancer backend pool with backend addresses containing virtual network and  IP address.
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -2714,6 +2718,202 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/testrg/providers/Microsoft.Network/loadBalancers/lb/backendAddressPools/backend?api-version=2022-01-01
+
+      {
+        "properties": {
+          "loadBalancerBackendAddresses": [
+            {
+              "name": "address1",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+                },
+                "ipAddress": "10.0.0.4"
+              }
+            },
+            {
+              "name": "address2",
+              "properties": {
+                "virtualNetwork": {
+                  "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"
+                },
+                "ipAddress": "10.0.0.5"
+              }
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.SubResource;
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.BackendAddressPoolInner;
+      import com.azure.resourcemanager.network.models.LoadBalancerBackendAddress;
+      import java.util.Arrays;
+
+      /** Samples for LoadBalancerBackendAddressPools CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
+           */
+          /**
+           * Sample code: Update load balancer backend pool with backend addresses containing virtual network and IP address.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress(
+              com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getLoadBalancerBackendAddressPools()
+                  .createOrUpdate(
+                      "testrg",
+                      "lb",
+                      "backend",
+                      new BackendAddressPoolInner()
+                          .withLoadBalancerBackendAddresses(
+                              Arrays
+                                  .asList(
+                                      new LoadBalancerBackendAddress()
+                                          .withName("address1")
+                                          .withVirtualNetwork(
+                                              new SubResource()
+                                                  .withId(
+                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"))
+                                          .withIpAddress("10.0.0.4"),
+                                      new LoadBalancerBackendAddress()
+                                          .withName("address2")
+                                          .withVirtualNetwork(
+                                              new SubResource()
+                                                  .withId(
+                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"))
+                                          .withIpAddress("10.0.0.5"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
+      func ExampleLoadBalancerBackendAddressPoolsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewLoadBalancerBackendAddressPoolsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "testrg", "lb", "backend", armnetwork.BackendAddressPool{
+      		Properties: &armnetwork.BackendAddressPoolPropertiesFormat{
+      			LoadBalancerBackendAddresses: []*armnetwork.LoadBalancerBackendAddress{
+      				{
+      					Name: to.Ptr("address1"),
+      					Properties: &armnetwork.LoadBalancerBackendAddressPropertiesFormat{
+      						IPAddress: to.Ptr("10.0.0.4"),
+      						VirtualNetwork: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"),
+      						},
+      					},
+      				},
+      				{
+      					Name: to.Ptr("address2"),
+      					Properties: &armnetwork.LoadBalancerBackendAddressPropertiesFormat{
+      						IPAddress: to.Ptr("10.0.0.5"),
+      						VirtualNetwork: &armnetwork.SubResource{
+      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb"),
+      						},
+      					},
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates a load balancer backend address pool.
+       *
+       * @summary Creates or updates a load balancer backend address pool.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/LBBackendAddressPoolWithBackendAddressesPut.json
+       */
+      async function updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "testrg";
+        const loadBalancerName = "lb";
+        const backendAddressPoolName = "backend";
+        const parameters = {
+          loadBalancerBackendAddresses: [
+            {
+              name: "address1",
+              ipAddress: "10.0.0.4",
+              virtualNetwork: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+              },
+            },
+            {
+              name: "address2",
+              ipAddress: "10.0.0.5",
+              virtualNetwork: {
+                id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb",
+              },
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.loadBalancerBackendAddressPools.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          loadBalancerName,
+          backendAddressPoolName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      updateLoadBalancerBackendPoolWithBackendAddressesContainingVirtualNetworkAndIPAddress().catch(
+        console.error
+      );
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2797,5 +2997,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Load balancer service - Creates or updates a load balancer backend address pool.
+  description: >
+    Learn more about Load balancer service - Creates or updates a load balancer backend address pool.
 errorCodes: []

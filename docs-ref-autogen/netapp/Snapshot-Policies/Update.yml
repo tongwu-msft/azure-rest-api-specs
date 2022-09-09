@@ -331,6 +331,199 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/D633CC2E-722B-4AE1-B636-BBD9E4C60ED9/resourceGroups/myRG/providers/Microsoft.NetApp/netAppAccounts/account1/snapshotPolicies/snapshotPolicyName?api-version=2021-10-01
+
+      {
+        "location": "eastus",
+        "properties": {
+          "enabled": true,
+          "hourlySchedule": {
+            "snapshotsToKeep": 2,
+            "minute": 50
+          },
+          "dailySchedule": {
+            "snapshotsToKeep": 4,
+            "hour": 14,
+            "minute": 30
+          },
+          "weeklySchedule": {
+            "snapshotsToKeep": 3,
+            "day": "Wednesday",
+            "hour": 14,
+            "minute": 45
+          },
+          "monthlySchedule": {
+            "snapshotsToKeep": 5,
+            "daysOfMonth": "10,11,12",
+            "hour": 14,
+            "minute": 15
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.netapp.models.DailySchedule;
+      import com.azure.resourcemanager.netapp.models.HourlySchedule;
+      import com.azure.resourcemanager.netapp.models.MonthlySchedule;
+      import com.azure.resourcemanager.netapp.models.SnapshotPolicy;
+      import com.azure.resourcemanager.netapp.models.WeeklySchedule;
+
+      /** Samples for SnapshotPolicies Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/SnapshotPolicies_Update.json
+           */
+          /**
+           * Sample code: SnapshotPolicies_Update.
+           *
+           * @param manager Entry point to NetAppFilesManager.
+           */
+          public static void snapshotPoliciesUpdate(com.azure.resourcemanager.netapp.NetAppFilesManager manager) {
+              SnapshotPolicy resource =
+                  manager
+                      .snapshotPolicies()
+                      .getWithResponse("myRG", "account1", "snapshotPolicyName", Context.NONE)
+                      .getValue();
+              resource
+                  .update()
+                  .withHourlySchedule(new HourlySchedule().withSnapshotsToKeep(2).withMinute(50))
+                  .withDailySchedule(new DailySchedule().withSnapshotsToKeep(4).withHour(14).withMinute(30))
+                  .withWeeklySchedule(
+                      new WeeklySchedule().withSnapshotsToKeep(3).withDay("Wednesday").withHour(14).withMinute(45))
+                  .withMonthlySchedule(
+                      new MonthlySchedule().withSnapshotsToKeep(5).withDaysOfMonth("10,11,12").withHour(14).withMinute(15))
+                  .withEnabled(true)
+                  .apply();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-netapp_1.0.0-beta.8/sdk/netapp/azure-resourcemanager-netapp/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetapp_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/netapp/armnetapp"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/SnapshotPolicies_Update.json
+      func ExampleSnapshotPoliciesClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetapp.NewSnapshotPoliciesClient("D633CC2E-722B-4AE1-B636-BBD9E4C60ED9", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"myRG",
+      		"account1",
+      		"snapshotPolicyName",
+      		armnetapp.SnapshotPolicyPatch{
+      			Location: to.Ptr("eastus"),
+      			Properties: &armnetapp.SnapshotPolicyProperties{
+      				DailySchedule: &armnetapp.DailySchedule{
+      					Hour:            to.Ptr[int32](14),
+      					Minute:          to.Ptr[int32](30),
+      					SnapshotsToKeep: to.Ptr[int32](4),
+      				},
+      				Enabled: to.Ptr(true),
+      				HourlySchedule: &armnetapp.HourlySchedule{
+      					Minute:          to.Ptr[int32](50),
+      					SnapshotsToKeep: to.Ptr[int32](2),
+      				},
+      				MonthlySchedule: &armnetapp.MonthlySchedule{
+      					DaysOfMonth:     to.Ptr("10,11,12"),
+      					Hour:            to.Ptr[int32](14),
+      					Minute:          to.Ptr[int32](15),
+      					SnapshotsToKeep: to.Ptr[int32](5),
+      				},
+      				WeeklySchedule: &armnetapp.WeeklySchedule{
+      					Day:             to.Ptr("Wednesday"),
+      					Hour:            to.Ptr[int32](14),
+      					Minute:          to.Ptr[int32](45),
+      					SnapshotsToKeep: to.Ptr[int32](3),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetapp%2Farmnetapp%2Fv1.0.0/sdk/resourcemanager/netapp/armnetapp/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetAppManagementClient } = require("@azure/arm-netapp");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Patch a snapshot policy
+       *
+       * @summary Patch a snapshot policy
+       * x-ms-original-file: specification/netapp/resource-manager/Microsoft.NetApp/stable/2021-10-01/examples/SnapshotPolicies_Update.json
+       */
+      async function snapshotPoliciesUpdate() {
+        const subscriptionId = "D633CC2E-722B-4AE1-B636-BBD9E4C60ED9";
+        const resourceGroupName = "myRG";
+        const accountName = "account1";
+        const snapshotPolicyName = "snapshotPolicyName";
+        const body = {
+          dailySchedule: { hour: 14, minute: 30, snapshotsToKeep: 4 },
+          enabled: true,
+          hourlySchedule: { minute: 50, snapshotsToKeep: 2 },
+          location: "eastus",
+          monthlySchedule: {
+            daysOfMonth: "10,11,12",
+            hour: 14,
+            minute: 15,
+            snapshotsToKeep: 5,
+          },
+          weeklySchedule: {
+            day: "Wednesday",
+            hour: 14,
+            minute: 45,
+            snapshotsToKeep: 3,
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetAppManagementClient(credential, subscriptionId);
+        const result = await client.snapshotPolicies.beginUpdateAndWait(
+          resourceGroupName,
+          accountName,
+          snapshotPolicyName,
+          body
+        );
+        console.log(result);
+      }
+
+      snapshotPoliciesUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-netapp_15.1.1/sdk/netapp/arm-netapp/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -411,5 +604,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Azure NetApp Files service - Patch a snapshot policy
+  description: >
+    Learn more about Azure NetApp Files service - Patch a snapshot policy
 errorCodes: []

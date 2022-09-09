@@ -131,6 +131,124 @@ examples:
         "workspaceId": "a2090ead-8c9f-4fba-b70e-533e3e003163",
         "primaryKey": "**********"
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.HDInsight/clusters/cluster1/extensions/azureMonitor?api-version=2021-06-01
+
+      {
+        "workspaceId": "a2090ead-8c9f-4fba-b70e-533e3e003163",
+        "primaryKey": "**********"
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.hdinsight.models.AzureMonitorRequest;
+
+      /** Samples for Extensions EnableAzureMonitor. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/EnableLinuxClusterAzureMonitor.json
+           */
+          /**
+           * Sample code: Enable cluster monitoring.
+           *
+           * @param manager Entry point to HDInsightManager.
+           */
+          public static void enableClusterMonitoring(com.azure.resourcemanager.hdinsight.HDInsightManager manager) {
+              manager
+                  .extensions()
+                  .enableAzureMonitor(
+                      "rg1",
+                      "cluster1",
+                      new AzureMonitorRequest()
+                          .withWorkspaceId("a2090ead-8c9f-4fba-b70e-533e3e003163")
+                          .withPrimaryKey("**********"),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-hdinsight_1.0.0-beta.5/sdk/hdinsight/azure-resourcemanager-hdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armhdinsight_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/hdinsight/armhdinsight"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/EnableLinuxClusterAzureMonitor.json
+      func ExampleExtensionsClient_BeginEnableAzureMonitor() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armhdinsight.NewExtensionsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginEnableAzureMonitor(ctx,
+      		"rg1",
+      		"cluster1",
+      		armhdinsight.AzureMonitorRequest{
+      			PrimaryKey:  to.Ptr("**********"),
+      			WorkspaceID: to.Ptr("a2090ead-8c9f-4fba-b70e-533e3e003163"),
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	_, err = poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fhdinsight%2Farmhdinsight%2Fv1.0.0/sdk/resourcemanager/hdinsight/armhdinsight/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { HDInsightManagementClient } = require("@azure/arm-hdinsight");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Enables the Azure Monitor on the HDInsight cluster.
+       *
+       * @summary Enables the Azure Monitor on the HDInsight cluster.
+       * x-ms-original-file: specification/hdinsight/resource-manager/Microsoft.HDInsight/stable/2021-06-01/examples/EnableLinuxClusterAzureMonitor.json
+       */
+      async function enableClusterMonitoring() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const clusterName = "cluster1";
+        const parameters = {
+          primaryKey: "**********",
+          workspaceId: "a2090ead-8c9f-4fba-b70e-533e3e003163",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new HDInsightManagementClient(credential, subscriptionId);
+        const result = await client.extensions.beginEnableAzureMonitorAndWait(
+          resourceGroupName,
+          clusterName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      enableClusterMonitoring().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hdinsight_1.2.0/sdk/hdinsight/arm-hdinsight/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
@@ -144,5 +262,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about HDInsight service - Enables the Azure Monitor on the HDInsight cluster.
+  description: >
+    Learn more about HDInsight service - Enables the Azure Monitor on the HDInsight cluster.
 errorCodes: []

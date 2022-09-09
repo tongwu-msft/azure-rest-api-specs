@@ -22,7 +22,7 @@ uriParameters:
 - name: certificate-name
   in: path
   isRequired: true
-  description: The name of the certificate.
+  description: The name of the certificate. The value you provide may be copied globally for the purpose of running the service. The value provided should not include personally identifiable or sensitive information.
   types:
   - uid: string
   pattern: ^[0-9a-zA-Z-]+$
@@ -210,7 +210,7 @@ definitions:
   kind: object
   properties:
   - name: exportable
-    description: Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: kty
@@ -459,6 +459,39 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//certificates/selfSignedCert01/create?api-version=7.3
+
+      {
+        "policy": {
+          "key_props": {
+            "exportable": true,
+            "kty": "RSA",
+            "key_size": 2048,
+            "reuse_key": false
+          },
+          "secret_props": {
+            "contentType": "application/x-pkcs12"
+          },
+          "x509_props": {
+            "subject": "CN=*.microsoft.com",
+            "sans": {
+              "dns_names": [
+                "onedrive.microsoft.com",
+                "xbox.microsoft.com"
+              ]
+            }
+          },
+          "issuer": {
+            "name": "Self"
+          }
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "202"
     body: >-
@@ -475,5 +508,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Creates a new certificate.  \nIf this is the first version, the certificate resource is created. This operation requires the certificates/create permission."
+  description: >
+    Creates a new certificate.
+
+    If this is the first version, the certificate resource is created. This operation requires the certificates/create permission.
 errorCodes: []

@@ -3,14 +3,14 @@ uid: management.azure.com.storagecache.caches.createorupdate
 name: Create Or Update
 service: Storagecache
 groupName: Caches
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Create or update a Cache.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.StorageCache/caches/{cacheName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -89,6 +89,11 @@ requestBody:
     description: Subnet used for the Cache.
     types:
     - uid: string
+  - name: properties.upgradeSettings
+    in: body
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     in: body
     description: Specifies network settings of the cache.
@@ -222,6 +227,18 @@ definitions:
     description: When firmwareUpdateAvailable is true, this field holds the version string for the update.
     types:
     - uid: string
+- name: CacheUpgradeSettings
+  description: Cache Upgrade Settings.
+  kind: object
+  properties:
+  - name: upgradeScheduleEnabled
+    description: True if the user chooses to select an installation time between now and firmwareUpdateDeadline. Else the firmware will automatically be installed after firmwareUpdateDeadline if not triggered earlier via the upgrade operation.
+    types:
+    - uid: boolean
+  - name: scheduledTime
+    description: When upgradeScheduleEnabled is true, this field holds the user-chosen upgrade time. At the user-chosen time, the firmware update will automatically be installed on the cache.
+    types:
+    - uid: string
 - name: CacheNetworkSettings
   description: Cache network settings.
   kind: object
@@ -284,6 +301,55 @@ definitions:
     description: Specifies settings for Extended Groups. Extended Groups allows users to be members of more than 16 groups.
     types:
     - uid: CacheUsernameDownloadSettings
+- name: PrimingJob
+  description: A priming job instance.
+  kind: object
+  properties:
+  - name: primingJobName
+    description: The priming job name.
+    types:
+    - uid: string
+  - name: primingManifestUrl
+    description: The URL for the priming manifest file to download. This file must be readable from the HPC Cache. When the file is in Azure blob storage the URL should include a Shared Access Signature (SAS) granting read permissions on the blob.
+    types:
+    - uid: string
+  - name: primingJobId
+    isReadyOnly: true
+    description: The unique identifier of the priming job.
+    types:
+    - uid: string
+  - name: primingJobState
+    isReadyOnly: true
+    description: The state of the priming operation.
+    types:
+    - uid: PrimingJobState
+  - name: primingJobStatus
+    isReadyOnly: true
+    description: The status code of the priming job.
+    types:
+    - uid: string
+  - name: primingJobDetails
+    isReadyOnly: true
+    description: The job details or error information if any.
+    types:
+    - uid: string
+  - name: primingJobPercentComplete
+    isReadyOnly: true
+    description: The current progress of the priming job, as a percentage.
+    types:
+    - uid: number
+- name: StorageTargetSpaceAllocation
+  description: Storage Target space allocation properties.
+  kind: object
+  properties:
+  - name: name
+    description: Name of the storage target.
+    types:
+    - uid: string
+  - name: allocationPercentage
+    description: The percentage of cache space allocated for this storage target
+    types:
+    - uid: integer
 - name: Cache
   description: 'A Cache instance. Follows Azure Resource Manager standards: https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/resource-api-reference.md'
   kind: object
@@ -357,6 +423,10 @@ definitions:
     description: Upgrade status of the Cache.
     types:
     - uid: CacheUpgradeStatus
+  - name: properties.upgradeSettings
+    description: Upgrade settings of the Cache.
+    types:
+    - uid: CacheUpgradeSettings
   - name: properties.networkSettings
     description: Specifies network settings of the cache.
     types:
@@ -377,6 +447,18 @@ definitions:
     description: Availability zones for resources. This field should only contain a single element in the array.
     types:
     - uid: string
+      isArray: true
+  - name: properties.primingJobs
+    isReadyOnly: true
+    description: Specifies the priming jobs defined in the cache.
+    types:
+    - uid: PrimingJob
+      isArray: true
+  - name: properties.spaceAllocation
+    isReadyOnly: true
+    description: Specifies the space allocation percentage for each storage target in the cache.
+    types:
+    - uid: StorageTargetSpaceAllocation
       isArray: true
 - name: CloudError
   description: An error response.
@@ -455,6 +537,15 @@ definitions:
     types:
     - uid: string
   - name: Flushing
+    types:
+    - uid: string
+  - name: WaitingForKey
+    types:
+    - uid: string
+  - name: StartFailed
+    types:
+    - uid: string
+  - name: UpgradeFailed
     types:
     - uid: string
 - name: Condition
@@ -593,6 +684,22 @@ definitions:
     description: When present, these are the credentials for the secure LDAP connection.
     types:
     - uid: Credentials
+- name: PrimingJobState
+  description: The state of the priming operation.
+  kind: enum
+  properties:
+  - name: Queued
+    types:
+    - uid: string
+  - name: Running
+    types:
+    - uid: string
+  - name: Paused
+    types:
+    - uid: string
+  - name: Complete
+    types:
+    - uid: string
 - name: ProvisioningStateType
   description: ARM provisioning state, see https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property
   kind: enum
@@ -763,7 +870,7 @@ definitions:
 examples:
 - name: Caches_CreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -825,12 +932,421 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
           "name": "Standard_2G"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
+
+      {
+        "tags": {
+          "Dept": "Contoso"
+        },
+        "location": "westus",
+        "identity": {
+          "type": "UserAssigned",
+          "userAssignedIdentities": {
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {}
+          }
+        },
+        "properties": {
+          "cacheSizeGB": 3072,
+          "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "encryptionSettings": {
+            "keyEncryptionKey": {
+              "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2047/test",
+              "sourceVault": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"
+              }
+            }
+          },
+          "directoryServicesSettings": {
+            "activeDirectory": {
+              "primaryDnsIpAddress": "192.0.2.10",
+              "secondaryDnsIpAddress": "192.0.2.11",
+              "cacheNetBiosName": "contosoSmb",
+              "domainName": "contosoAd.contoso.local",
+              "domainNetBiosName": "contosoAd",
+              "credentials": {
+                "username": "consotoAdmin",
+                "password": "<password>"
+              }
+            },
+            "usernameDownload": {
+              "extendedGroups": true,
+              "usernameSource": "LDAP",
+              "ldapServer": "192.0.2.12",
+              "ldapBaseDN": "dc=contosoad,dc=contoso,dc=local",
+              "credentials": {
+                "bindDn": "cn=ldapadmin,dc=contosoad,dc=contoso,dc=local",
+                "bindPassword": "<bindPassword>"
+              }
+            }
+          },
+          "securitySettings": {
+            "accessPolicies": [
+              {
+                "name": "default",
+                "accessRules": [
+                  {
+                    "scope": "default",
+                    "access": "rw",
+                    "suid": false,
+                    "submountAccess": true,
+                    "rootSquash": false
+                  }
+                ]
+              }
+            ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          }
+        },
+        "sku": {
+          "name": "Standard_2G"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.storagecache.models.CacheActiveDirectorySettings;
+      import com.azure.resourcemanager.storagecache.models.CacheActiveDirectorySettingsCredentials;
+      import com.azure.resourcemanager.storagecache.models.CacheDirectorySettings;
+      import com.azure.resourcemanager.storagecache.models.CacheEncryptionSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheIdentity;
+      import com.azure.resourcemanager.storagecache.models.CacheIdentityType;
+      import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
+      import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
+      import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
+      import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReferenceSourceVault;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessPolicy;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRule;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRuleAccess;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
+      import com.azure.resourcemanager.storagecache.models.UserAssignedIdentitiesValue;
+      import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Caches CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
+           */
+          /**
+           * Sample code: Caches_CreateOrUpdate.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void cachesCreateOrUpdate(com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .caches()
+                  .define("sc1")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("scgroup")
+                  .withTags(mapOf("Dept", "Contoso"))
+                  .withIdentity(
+                      new CacheIdentity()
+                          .withType(CacheIdentityType.USER_ASSIGNED)
+                          .withUserAssignedIdentities(
+                              mapOf(
+                                  "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1",
+                                  new UserAssignedIdentitiesValue())))
+                  .withSku(new CacheSku().withName("Standard_2G"))
+                  .withCacheSizeGB(3072)
+                  .withSubnet(
+                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
+                  .withEncryptionSettings(
+                      new CacheEncryptionSettings()
+                          .withKeyEncryptionKey(
+                              new KeyVaultKeyReference()
+                                  .withKeyUrl("https://keyvault-cmk.vault.azure.net/keys/key2047/test")
+                                  .withSourceVault(
+                                      new KeyVaultKeyReferenceSourceVault()
+                                          .withId(
+                                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"))))
+                  .withSecuritySettings(
+                      new CacheSecuritySettings()
+                          .withAccessPolicies(
+                              Arrays
+                                  .asList(
+                                      new NfsAccessPolicy()
+                                          .withName("default")
+                                          .withAccessRules(
+                                              Arrays
+                                                  .asList(
+                                                      new NfsAccessRule()
+                                                          .withScope(NfsAccessRuleScope.DEFAULT)
+                                                          .withAccess(NfsAccessRuleAccess.RW)
+                                                          .withSuid(false)
+                                                          .withSubmountAccess(true)
+                                                          .withRootSquash(false))))))
+                  .withDirectoryServicesSettings(
+                      new CacheDirectorySettings()
+                          .withActiveDirectory(
+                              new CacheActiveDirectorySettings()
+                                  .withPrimaryDnsIpAddress("192.0.2.10")
+                                  .withSecondaryDnsIpAddress("192.0.2.11")
+                                  .withDomainName("contosoAd.contoso.local")
+                                  .withDomainNetBiosName("contosoAd")
+                                  .withCacheNetBiosName("contosoSmb")
+                                  .withCredentials(
+                                      new CacheActiveDirectorySettingsCredentials()
+                                          .withUsername("consotoAdmin")
+                                          .withPassword("<password>")))
+                          .withUsernameDownload(
+                              new CacheUsernameDownloadSettings()
+                                  .withExtendedGroups(true)
+                                  .withUsernameSource(UsernameSource.LDAP)
+                                  .withLdapServer("192.0.2.12")
+                                  .withLdapBaseDN("dc=contosoad,dc=contoso,dc=local")
+                                  .withCredentials(
+                                      new CacheUsernameDownloadSettingsCredentials()
+                                          .withBindDn("cn=ldapadmin,dc=contosoad,dc=contoso,dc=local")
+                                          .withBindPassword("<bindPassword>"))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armstoragecache_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"time"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/storagecache/armstoragecache/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
+      func ExampleCachesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armstoragecache.NewCachesClient("00000000-0000-0000-0000-000000000000", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"scgroup",
+      		"sc1",
+      		armstoragecache.Cache{
+      			Identity: &armstoragecache.CacheIdentity{
+      				Type: to.Ptr(armstoragecache.CacheIdentityTypeUserAssigned),
+      				UserAssignedIdentities: map[string]*armstoragecache.UserAssignedIdentitiesValue{
+      					"/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identity1": {},
+      				},
+      			},
+      			Location: to.Ptr("westus"),
+      			Properties: &armstoragecache.CacheProperties{
+      				CacheSizeGB: to.Ptr[int32](3072),
+      				DirectoryServicesSettings: &armstoragecache.CacheDirectorySettings{
+      					ActiveDirectory: &armstoragecache.CacheActiveDirectorySettings{
+      						CacheNetBiosName: to.Ptr("contosoSmb"),
+      						Credentials: &armstoragecache.CacheActiveDirectorySettingsCredentials{
+      							Password: to.Ptr("<password>"),
+      							Username: to.Ptr("consotoAdmin"),
+      						},
+      						DomainName:            to.Ptr("contosoAd.contoso.local"),
+      						DomainNetBiosName:     to.Ptr("contosoAd"),
+      						PrimaryDNSIPAddress:   to.Ptr("192.0.2.10"),
+      						SecondaryDNSIPAddress: to.Ptr("192.0.2.11"),
+      					},
+      					UsernameDownload: &armstoragecache.CacheUsernameDownloadSettings{
+      						Credentials: &armstoragecache.CacheUsernameDownloadSettingsCredentials{
+      							BindDn:       to.Ptr("cn=ldapadmin,dc=contosoad,dc=contoso,dc=local"),
+      							BindPassword: to.Ptr("<bindPassword>"),
+      						},
+      						ExtendedGroups: to.Ptr(true),
+      						LdapBaseDN:     to.Ptr("dc=contosoad,dc=contoso,dc=local"),
+      						LdapServer:     to.Ptr("192.0.2.12"),
+      						UsernameSource: to.Ptr(armstoragecache.UsernameSourceLDAP),
+      					},
+      				},
+      				EncryptionSettings: &armstoragecache.CacheEncryptionSettings{
+      					KeyEncryptionKey: &armstoragecache.KeyVaultKeyReference{
+      						KeyURL: to.Ptr("https://keyvault-cmk.vault.azure.net/keys/key2047/test"),
+      						SourceVault: &armstoragecache.KeyVaultKeyReferenceSourceVault{
+      							ID: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"),
+      						},
+      					},
+      				},
+      				SecuritySettings: &armstoragecache.CacheSecuritySettings{
+      					AccessPolicies: []*armstoragecache.NfsAccessPolicy{
+      						{
+      							Name: to.Ptr("default"),
+      							AccessRules: []*armstoragecache.NfsAccessRule{
+      								{
+      									Access:         to.Ptr(armstoragecache.NfsAccessRuleAccessRw),
+      									RootSquash:     to.Ptr(false),
+      									Scope:          to.Ptr(armstoragecache.NfsAccessRuleScopeDefault),
+      									SubmountAccess: to.Ptr(true),
+      									Suid:           to.Ptr(false),
+      								}},
+      						}},
+      				},
+      				Subnet: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1"),
+      				UpgradeSettings: &armstoragecache.CacheUpgradeSettings{
+      					ScheduledTime:          to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2022-04-26T18:25:43.511Z"); return t }()),
+      					UpgradeScheduleEnabled: to.Ptr(true),
+      				},
+      			},
+      			SKU: &armstoragecache.CacheSKU{
+      				Name: to.Ptr("Standard_2G"),
+      			},
+      			Tags: map[string]*string{
+      				"Dept": to.Ptr("Contoso"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fstoragecache%2Farmstoragecache%2Fv2.0.0/sdk/resourcemanager/storagecache/armstoragecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Cache.
+       *
+       * @summary Create or update a Cache.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate.json
+       */
+      async function cachesCreateOrUpdate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const cache = {
+          cacheSizeGB: 3072,
+          directoryServicesSettings: {
+            activeDirectory: {
+              cacheNetBiosName: "contosoSmb",
+              credentials: { password: "<password>", username: "consotoAdmin" },
+              domainName: "contosoAd.contoso.local",
+              domainNetBiosName: "contosoAd",
+              primaryDnsIpAddress: "192.0.2.10",
+              secondaryDnsIpAddress: "192.0.2.11",
+            },
+            usernameDownload: {
+              credentials: {
+                bindDn: "cn=ldapadmin,dc=contosoad,dc=contoso,dc=local",
+                bindPassword: "<bindPassword>",
+              },
+              extendedGroups: true,
+              ldapBaseDN: "dc=contosoad,dc=contoso,dc=local",
+              ldapServer: "192.0.2.12",
+              usernameSource: "LDAP",
+            },
+          },
+          encryptionSettings: {
+            keyEncryptionKey: {
+              keyUrl: "https://keyvault-cmk.vault.azure.net/keys/key2047/test",
+              sourceVault: {
+                id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk",
+              },
+            },
+          },
+          identity: {
+            type: "UserAssigned",
+            userAssignedIdentities: {
+              "/subscriptions/00000000000000000000000000000000/resourceGroups/scgroup/providers/MicrosoftManagedIdentity/userAssignedIdentities/identity1":
+                {},
+            },
+          },
+          location: "westus",
+          securitySettings: {
+            accessPolicies: [
+              {
+                name: "default",
+                accessRules: [
+                  {
+                    access: "rw",
+                    rootSquash: false,
+                    scope: "default",
+                    submountAccess: true,
+                    suid: false,
+                  },
+                ],
+              },
+            ],
+          },
+          sku: { name: "Standard_2G" },
+          subnet:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
+        };
+        const options = { cache };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.caches.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cacheName,
+          options
+        );
+        console.log(result);
+      }
+
+      cachesCreateOrUpdate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
@@ -901,6 +1417,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -932,6 +1452,8 @@ examples:
               "usernameDownloaded": "No"
             }
           },
+          "primingJobs": [],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1008,6 +1530,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1039,6 +1565,25 @@ examples:
               "usernameDownloaded": "Yes"
             }
           },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
           "zones": [
             "1"
           ]
@@ -1049,7 +1594,7 @@ examples:
       }
 - name: Caches_CreateOrUpdate_ldap_only
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -1094,12 +1639,256 @@ examples:
                 ]
               }
             ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
           }
         },
         "sku": {
           "name": "Standard_2G"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourcegroups/scgroup/providers/Microsoft.StorageCache/caches/sc1?api-version=2022-05-01
+
+      {
+        "tags": {
+          "Dept": "Contoso"
+        },
+        "location": "westus",
+        "properties": {
+          "cacheSizeGB": 3072,
+          "subnet": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          "encryptionSettings": {
+            "keyEncryptionKey": {
+              "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
+              "sourceVault": {
+                "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"
+              }
+            }
+          },
+          "directoryServicesSettings": {
+            "usernameDownload": {
+              "extendedGroups": true,
+              "usernameSource": "LDAP",
+              "ldapServer": "192.0.2.12",
+              "ldapBaseDN": "dc=contosoad,dc=contoso,dc=local",
+              "credentials": {
+                "bindDn": "cn=ldapadmin,dc=contosoad,dc=contoso,dc=local",
+                "bindPassword": "<bindPassword>"
+              }
+            }
+          },
+          "securitySettings": {
+            "accessPolicies": [
+              {
+                "name": "default",
+                "accessRules": [
+                  {
+                    "scope": "default",
+                    "access": "rw",
+                    "suid": false,
+                    "submountAccess": true,
+                    "rootSquash": false
+                  }
+                ]
+              }
+            ]
+          },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          }
+        },
+        "sku": {
+          "name": "Standard_2G"
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.storagecache.models.CacheDirectorySettings;
+      import com.azure.resourcemanager.storagecache.models.CacheEncryptionSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheSecuritySettings;
+      import com.azure.resourcemanager.storagecache.models.CacheSku;
+      import com.azure.resourcemanager.storagecache.models.CacheUpgradeSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettings;
+      import com.azure.resourcemanager.storagecache.models.CacheUsernameDownloadSettingsCredentials;
+      import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReference;
+      import com.azure.resourcemanager.storagecache.models.KeyVaultKeyReferenceSourceVault;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessPolicy;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRule;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRuleAccess;
+      import com.azure.resourcemanager.storagecache.models.NfsAccessRuleScope;
+      import com.azure.resourcemanager.storagecache.models.UsernameSource;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for Caches CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
+           */
+          /**
+           * Sample code: Caches_CreateOrUpdate_ldap_only.
+           *
+           * @param manager Entry point to StorageCacheManager.
+           */
+          public static void cachesCreateOrUpdateLdapOnly(
+              com.azure.resourcemanager.storagecache.StorageCacheManager manager) {
+              manager
+                  .caches()
+                  .define("sc1")
+                  .withRegion("westus")
+                  .withExistingResourceGroup("scgroup")
+                  .withTags(mapOf("Dept", "Contoso"))
+                  .withSku(new CacheSku().withName("Standard_2G"))
+                  .withCacheSizeGB(3072)
+                  .withSubnet(
+                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1")
+                  .withUpgradeSettings(
+                      new CacheUpgradeSettings()
+                          .withUpgradeScheduleEnabled(true)
+                          .withScheduledTime(OffsetDateTime.parse("2022-04-26T18:25:43.511Z")))
+                  .withEncryptionSettings(
+                      new CacheEncryptionSettings()
+                          .withKeyEncryptionKey(
+                              new KeyVaultKeyReference()
+                                  .withKeyUrl("https://keyvault-cmk.vault.azure.net/keys/key2048/test")
+                                  .withSourceVault(
+                                      new KeyVaultKeyReferenceSourceVault()
+                                          .withId(
+                                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk"))))
+                  .withSecuritySettings(
+                      new CacheSecuritySettings()
+                          .withAccessPolicies(
+                              Arrays
+                                  .asList(
+                                      new NfsAccessPolicy()
+                                          .withName("default")
+                                          .withAccessRules(
+                                              Arrays
+                                                  .asList(
+                                                      new NfsAccessRule()
+                                                          .withScope(NfsAccessRuleScope.DEFAULT)
+                                                          .withAccess(NfsAccessRuleAccess.RW)
+                                                          .withSuid(false)
+                                                          .withSubmountAccess(true)
+                                                          .withRootSquash(false))))))
+                  .withDirectoryServicesSettings(
+                      new CacheDirectorySettings()
+                          .withUsernameDownload(
+                              new CacheUsernameDownloadSettings()
+                                  .withExtendedGroups(true)
+                                  .withUsernameSource(UsernameSource.LDAP)
+                                  .withLdapServer("192.0.2.12")
+                                  .withLdapBaseDN("dc=contosoad,dc=contoso,dc=local")
+                                  .withCredentials(
+                                      new CacheUsernameDownloadSettingsCredentials()
+                                          .withBindDn("cn=ldapadmin,dc=contosoad,dc=contoso,dc=local")
+                                          .withBindPassword("<bindPassword>"))))
+                  .create();
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-storagecache_1.0.0-beta.6/sdk/storagecache/azure-resourcemanager-storagecache/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { StorageCacheManagementClient } = require("@azure/arm-storagecache");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a Cache.
+       *
+       * @summary Create or update a Cache.
+       * x-ms-original-file: specification/storagecache/resource-manager/Microsoft.StorageCache/stable/2022-05-01/examples/Caches_CreateOrUpdate_ldap_only.json
+       */
+      async function cachesCreateOrUpdateLdapOnly() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "scgroup";
+        const cacheName = "sc1";
+        const cache = {
+          cacheSizeGB: 3072,
+          directoryServicesSettings: {
+            usernameDownload: {
+              credentials: {
+                bindDn: "cn=ldapadmin,dc=contosoad,dc=contoso,dc=local",
+                bindPassword: "<bindPassword>",
+              },
+              extendedGroups: true,
+              ldapBaseDN: "dc=contosoad,dc=contoso,dc=local",
+              ldapServer: "192.0.2.12",
+              usernameSource: "LDAP",
+            },
+          },
+          encryptionSettings: {
+            keyEncryptionKey: {
+              keyUrl: "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
+              sourceVault: {
+                id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.KeyVault/vaults/keyvault-cmk",
+              },
+            },
+          },
+          location: "westus",
+          securitySettings: {
+            accessPolicies: [
+              {
+                name: "default",
+                accessRules: [
+                  {
+                    access: "rw",
+                    rootSquash: false,
+                    scope: "default",
+                    submountAccess: true,
+                    suid: false,
+                  },
+                ],
+              },
+            ],
+          },
+          sku: { name: "Standard_2G" },
+          subnet:
+            "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/scgroup/providers/Microsoft.Network/virtualNetworks/scvnet/subnets/sub1",
+          tags: { dept: "Contoso" },
+          upgradeSettings: {
+            scheduledTime: new Date("2022-04-26T18:25:43.511Z"),
+            upgradeScheduleEnabled: true,
+          },
+        };
+        const options = { cache };
+        const credential = new DefaultAzureCredential();
+        const client = new StorageCacheManagementClient(credential, subscriptionId);
+        const result = await client.caches.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          cacheName,
+          options
+        );
+        console.log(result);
+      }
+
+      cachesCreateOrUpdateLdapOnly().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-storagecache_5.2.0/sdk/storagecache/arm-storagecache/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "201"
@@ -1170,6 +1959,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1192,7 +1985,12 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "No"
             }
-          }
+          },
+          "primingJobs": [],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"
@@ -1266,6 +2064,10 @@ examples:
               }
             ]
           },
+          "upgradeSettings": {
+            "upgradeScheduleEnabled": true,
+            "scheduledTime": "2022-04-26T18:25:43.511Z"
+          },
           "encryptionSettings": {
             "keyEncryptionKey": {
               "keyUrl": "https://keyvault-cmk.vault.azure.net/keys/key2048/test",
@@ -1288,7 +2090,29 @@ examples:
               "caCertificateURI": "",
               "usernameDownloaded": "Yes"
             }
-          }
+          },
+          "primingJobs": [
+            {
+              "primingJobName": "contosoJob1",
+              "primingJobId": "00000000000_0000000000",
+              "primingJobState": "Complete",
+              "primingJobStatus": "success",
+              "primingJobDetails": "Files: Cached=635, Failed=0, Excluded=80, Data=346030 bytes, Directories: Cached=1003, Failed=0, Excluded=0",
+              "primingJobPercentComplete": 100
+            },
+            {
+              "primingJobName": "contosoJob2",
+              "primingJobId": "11111111111_1111111111",
+              "primingJobState": "Queued",
+              "primingJobStatus": "",
+              "primingJobDetails": "",
+              "primingJobPercentComplete": 0
+            }
+          ],
+          "spaceAllocation": [],
+          "zones": [
+            "1"
+          ]
         },
         "sku": {
           "name": "Standard_2G"
@@ -1304,5 +2128,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Storagecache service - Create or update a Cache.
+  description: >
+    Learn more about Storagecache service - Create or update a Cache.
 errorCodes: []

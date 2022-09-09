@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appservicecertificateorders.retrievecertifi
 name: Retrieve Certificate Actions
 service: App Service
 groupName: App Service Certificate Orders
-apiVersion: 2015-08-01
-summary: Retrieve the list of certificate actions.
+apiVersion: 2022-03-01
+summary: Description for Retrieve the list of certificate actions.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions?api-version=2015-08-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CertificateRegistration/certificateOrders/{name}/retrieveCertificateActions?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -43,39 +43,35 @@ responses:
   types:
   - uid: CertificateOrderAction
     isArray: true
+- name: Other Status Codes
+  description: App Service error response.
+  types:
+  - uid: DefaultErrorResponse
 requestHeader: []
 definitions:
 - name: CertificateOrderAction
   description: Certificate order action.
   kind: object
   properties:
-  - name: properties.type
+  - name: actionType
+    isReadyOnly: true
     description: Action type.
     types:
     - uid: CertificateOrderActionType
-  - name: properties.createdAt
+  - name: createdAt
+    isReadyOnly: true
     description: Time at which the certificate action was performed.
     types:
     - uid: string
-  - name: id
+- name: DefaultErrorResponse
+  description: App Service error response.
+  kind: object
+  properties:
+  - name: error
     isReadyOnly: true
-    description: Resource Id.
+    description: Error model.
     types:
-    - uid: string
-  - name: name
-    isReadyOnly: true
-    description: Resource Name.
-    types:
-    - uid: string
-  - name: kind
-    description: Kind of resource.
-    types:
-    - uid: string
-  - name: type
-    isReadyOnly: true
-    description: Resource type.
-    types:
-    - uid: string
+    - uid: Error
 - name: CertificateOrderActionType
   description: Action type.
   kind: enum
@@ -122,7 +118,170 @@ definitions:
   - name: Unknown
     types:
     - uid: string
-examples: []
+- name: Error
+  description: Error model.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: details
+    description: Detailed errors.
+    types:
+    - uid: Details
+      isArray: true
+  - name: innererror
+    isReadyOnly: true
+    description: More information to debug error.
+    types:
+    - uid: string
+- name: Details
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: Standardized string to programmatically identify the error.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: Detailed error description and debugging information.
+    types:
+    - uid: string
+examples:
+- name: Retrieve Certificate Order Actions
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveCertificateActions?api-version=2022-03-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.CertificateRegistration/certificateOrders/SampleCertOrder/retrieveCertificateActions?api-version=2022-03-01
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for AppServiceCertificateOrders RetrieveCertificateActions. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateOrderActions.json
+           */
+          /**
+           * Sample code: Retrieve Certificate Order Actions.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void retrieveCertificateOrderActions(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceCertificateOrders()
+                  .retrieveCertificateActionsWithResponse("testrg123", "SampleCertOrder", Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateOrderActions.json
+      func ExampleCertificateOrdersClient_RetrieveCertificateActions() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewCertificateOrdersClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.RetrieveCertificateActions(ctx,
+      		"testrg123",
+      		"SampleCertOrder",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Retrieve the list of certificate actions.
+       *
+       * @summary Description for Retrieve the list of certificate actions.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.CertificateRegistration/stable/2022-03-01/examples/RetrieveCertificateOrderActions.json
+       */
+      async function retrieveCertificateOrderActions() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "testrg123";
+        const name = "SampleCertOrder";
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceCertificateOrders.retrieveCertificateActions(
+          resourceGroupName,
+          name
+        );
+        console.log(result);
+      }
+
+      retrieveCertificateOrderActions().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      [
+        {
+          "actionType": "FraudDetected",
+          "createdAt": "2022-11-12T23:40:25+00:00"
+        },
+        {
+          "actionType": "CertificateRevoked",
+          "createdAt": "2022-11-12T23:40:25+00:00"
+        },
+        {
+          "actionType": "CertificateIssued",
+          "createdAt": "2022-11-12T23:40:25+00:00"
+        }
+      ]
 security:
 - name: azure_auth
   type: oauth2
@@ -133,5 +292,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Retrieve the list of certificate actions.
+  description: >
+    Learn more about App Service service - Description for Retrieve the list of certificate actions.
 errorCodes: []

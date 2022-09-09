@@ -321,6 +321,156 @@ examples:
           }
         ]
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/ffffffff-ffff-ffff-ffff-ffffffffffff/resourceGroups/testrg/providers/Microsoft.DBforMySQL/flexibleServers/mysqltestserver/updateConfigurations?api-version=2021-05-01
+
+      {
+        "value": [
+          {
+            "name": "event_scheduler",
+            "properties": {
+              "value": "OFF"
+            }
+          },
+          {
+            "name": "div_precision_increment",
+            "properties": {
+              "value": "8"
+            }
+          }
+        ]
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ConfigurationForBatchUpdate;
+      import com.azure.resourcemanager.mysqlflexibleserver.models.ConfigurationListForBatchUpdate;
+      import java.util.Arrays;
+
+      /** Samples for Configurations BatchUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationsBatchUpdate.json
+           */
+          /**
+           * Sample code: ConfigurationList.
+           *
+           * @param manager Entry point to MySqlManager.
+           */
+          public static void configurationList(com.azure.resourcemanager.mysqlflexibleserver.MySqlManager manager) {
+              manager
+                  .configurations()
+                  .batchUpdate(
+                      "testrg",
+                      "mysqltestserver",
+                      new ConfigurationListForBatchUpdate()
+                          .withValue(
+                              Arrays
+                                  .asList(
+                                      new ConfigurationForBatchUpdate().withName("event_scheduler").withValue("OFF"),
+                                      new ConfigurationForBatchUpdate().withName("div_precision_increment").withValue("8"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-mysqlflexibleserver_1.0.0-beta.2/sdk/mysqlflexibleserver/azure-resourcemanager-mysqlflexibleserver/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armmysqlflexibleservers_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/mysql/armmysqlflexibleservers"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationsBatchUpdate.json
+      func ExampleConfigurationsClient_BeginBatchUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmysqlflexibleservers.NewConfigurationsClient("ffffffff-ffff-ffff-ffff-ffffffffffff", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginBatchUpdate(ctx,
+      		"testrg",
+      		"mysqltestserver",
+      		armmysqlflexibleservers.ConfigurationListForBatchUpdate{
+      			Value: []*armmysqlflexibleservers.ConfigurationForBatchUpdate{
+      				{
+      					Name: to.Ptr("event_scheduler"),
+      					Properties: &armmysqlflexibleservers.ConfigurationForBatchUpdateProperties{
+      						Value: to.Ptr("OFF"),
+      					},
+      				},
+      				{
+      					Name: to.Ptr("div_precision_increment"),
+      					Properties: &armmysqlflexibleservers.ConfigurationForBatchUpdateProperties{
+      						Value: to.Ptr("8"),
+      					},
+      				}},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmysql%2Farmmysqlflexibleservers%2Fv1.0.0/sdk/resourcemanager/mysql/armmysqlflexibleservers/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MySQLManagementFlexibleServerClient } = require("@azure/arm-mysql-flexible");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a list of configurations in a given server.
+       *
+       * @summary Update a list of configurations in a given server.
+       * x-ms-original-file: specification/mysql/resource-manager/Microsoft.DBforMySQL/stable/2021-05-01/examples/ConfigurationsBatchUpdate.json
+       */
+      async function configurationList() {
+        const subscriptionId = "ffffffff-ffff-ffff-ffff-ffffffffffff";
+        const resourceGroupName = "testrg";
+        const serverName = "mysqltestserver";
+        const parameters = {
+          value: [
+            { name: "event_scheduler", value: "OFF" },
+            { name: "div_precision_increment", value: "8" },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new MySQLManagementFlexibleServerClient(credential, subscriptionId);
+        const result = await client.configurations.beginBatchUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      configurationList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-mysql-flexible_3.0.0/sdk/mysql/arm-mysql-flexible/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -371,5 +521,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about MySQL service - Update a list of configurations in a given server.
+  description: >
+    Learn more about MySQL service - Update a list of configurations in a given server.
 errorCodes: []

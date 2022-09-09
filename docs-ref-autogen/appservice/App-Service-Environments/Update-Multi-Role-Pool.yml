@@ -3,14 +3,14 @@ uid: management.azure.com.appservice.appserviceenvironments.updatemultirolepool
 name: Update Multi Role Pool
 service: App Service
 groupName: App Service Environments
-apiVersion: 2021-02-01
-summary: Create or update a multi-role pool.
+apiVersion: 2022-03-01
+summary: Description for Create or update a multi-role pool.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default?api-version=2021-02-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Web/hostingEnvironments/{name}/multiRolePools/default?api-version=2022-03-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -281,7 +281,143 @@ definitions:
     description: Detailed error description and debugging information.
     types:
     - uid: string
-examples: []
+examples:
+- name: Create or update a multi-role pool.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/multiRolePools/default?api-version=2022-03-01
+    body: >-
+      {
+        "properties": {
+          "workerSize": "Medium",
+          "workerCount": 3
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/test-rg/providers/Microsoft.Web/hostingEnvironments/test-ase/multiRolePools/default?api-version=2022-03-01
+
+      {
+        "properties": {
+          "workerSize": "Medium",
+          "workerCount": 3
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.appservice.fluent.models.WorkerPoolResourceInner;
+
+      /** Samples for AppServiceEnvironments CreateOrUpdateMultiRolePool. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdateMultiRolePool.json
+           */
+          /**
+           * Sample code: Create or update a multi-role pool.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createOrUpdateAMultiRolePool(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .webApps()
+                  .manager()
+                  .serviceClient()
+                  .getAppServiceEnvironments()
+                  .createOrUpdateMultiRolePool(
+                      "test-rg",
+                      "test-ase",
+                      new WorkerPoolResourceInner().withWorkerSize("Medium").withWorkerCount(3),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armappservice_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/appservice/armappservice/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdateMultiRolePool.json
+      func ExampleEnvironmentsClient_UpdateMultiRolePool() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armappservice.NewEnvironmentsClient("34adfa4f-cedf-4dc0-ba29-b6d1a69ab345", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.UpdateMultiRolePool(ctx,
+      		"test-rg",
+      		"test-ase",
+      		armappservice.WorkerPoolResource{
+      			Properties: &armappservice.WorkerPool{
+      				WorkerCount: to.Ptr[int32](3),
+      				WorkerSize:  to.Ptr("Medium"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fappservice%2Farmappservice%2Fv2.0.0/sdk/resourcemanager/appservice/armappservice/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { WebSiteManagementClient } = require("@azure/arm-appservice");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Description for Create or update a multi-role pool.
+       *
+       * @summary Description for Create or update a multi-role pool.
+       * x-ms-original-file: specification/web/resource-manager/Microsoft.Web/stable/2022-03-01/examples/AppServiceEnvironments_CreateOrUpdateMultiRolePool.json
+       */
+      async function createOrUpdateAMultiRolePool() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "test-rg";
+        const name = "test-ase";
+        const multiRolePoolEnvelope = {
+          workerCount: 3,
+          workerSize: "Medium",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new WebSiteManagementClient(credential, subscriptionId);
+        const result = await client.appServiceEnvironments.updateMultiRolePool(
+          resourceGroupName,
+          name,
+          multiRolePoolEnvelope
+        );
+        console.log(result);
+      }
+
+      createOrUpdateAMultiRolePool().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-appservice_13.0.0/sdk/appservice/arm-appservice/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "202"
+    body: '{}'
+  - statusCode: "200"
+    body: '{}'
 security:
 - name: azure_auth
   type: oauth2
@@ -292,5 +428,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about App Service service - Create or update a multi-role pool.
+  description: >
+    Learn more about App Service service - Description for Create or update a multi-role pool.
 errorCodes: []

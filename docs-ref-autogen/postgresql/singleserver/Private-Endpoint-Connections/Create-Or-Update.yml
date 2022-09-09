@@ -188,6 +188,139 @@ examples:
           }
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/Default/providers/Microsoft.DBforPostgreSQL/servers/test-svr/privateEndpointConnections/private-endpoint-connection-name?api-version=2018-06-01
+
+      {
+        "properties": {
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Approved by johndoe@contoso.com"
+          }
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.postgresql.models.PrivateLinkServiceConnectionStateProperty;
+
+      /** Samples for PrivateEndpointConnections CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2018-06-01/examples/PrivateEndpointConnectionUpdate.json
+           */
+          /**
+           * Sample code: Approve or reject a private endpoint connection with a given name.
+           *
+           * @param manager Entry point to PostgreSqlManager.
+           */
+          public static void approveOrRejectAPrivateEndpointConnectionWithAGivenName(
+              com.azure.resourcemanager.postgresql.PostgreSqlManager manager) {
+              manager
+                  .privateEndpointConnections()
+                  .define("private-endpoint-connection-name")
+                  .withExistingServer("Default", "test-svr")
+                  .withPrivateLinkServiceConnectionState(
+                      new PrivateLinkServiceConnectionStateProperty()
+                          .withStatus("Approved")
+                          .withDescription("Approved by johndoe@contoso.com"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-postgresql_1.0.2/sdk/postgresql/azure-resourcemanager-postgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armpostgresql_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/postgresql/armpostgresql"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2018-06-01/examples/PrivateEndpointConnectionUpdate.json
+      func ExamplePrivateEndpointConnectionsClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armpostgresql.NewPrivateEndpointConnectionsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"Default",
+      		"test-svr",
+      		"private-endpoint-connection-name",
+      		armpostgresql.PrivateEndpointConnection{
+      			Properties: &armpostgresql.PrivateEndpointConnectionProperties{
+      				PrivateLinkServiceConnectionState: &armpostgresql.PrivateLinkServiceConnectionStateProperty{
+      					Description: to.Ptr("Approved by johndoe@contoso.com"),
+      					Status:      to.Ptr("Approved"),
+      				},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fpostgresql%2Farmpostgresql%2Fv1.0.0/sdk/resourcemanager/postgresql/armpostgresql/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { PostgreSQLManagementClient } = require("@azure/arm-postgresql");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Approve or reject a private endpoint connection with a given name.
+       *
+       * @summary Approve or reject a private endpoint connection with a given name.
+       * x-ms-original-file: specification/postgresql/resource-manager/Microsoft.DBforPostgreSQL/stable/2018-06-01/examples/PrivateEndpointConnectionUpdate.json
+       */
+      async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "Default";
+        const serverName = "test-svr";
+        const privateEndpointConnectionName = "private-endpoint-connection-name";
+        const parameters = {
+          privateLinkServiceConnectionState: {
+            description: "Approved by johndoe@contoso.com",
+            status: "Approved",
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new PostgreSQLManagementClient(credential, subscriptionId);
+        const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          serverName,
+          privateEndpointConnectionName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      approveOrRejectAPrivateEndpointConnectionWithAGivenName().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-postgresql_6.0.1/sdk/postgresql/arm-postgresql/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -218,5 +351,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about PostgreSQL service - Approve or reject a private endpoint connection with a given name.
+  description: >
+    Learn more about PostgreSQL service - Approve or reject a private endpoint connection with a given name.
 errorCodes: []

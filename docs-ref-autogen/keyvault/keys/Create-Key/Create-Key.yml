@@ -22,7 +22,7 @@ uriParameters:
 - name: key-name
   in: path
   isRequired: true
-  description: The name for the new key. The system will generate the version name for the new key.
+  description: The name for the new key. The system will generate the version name for the new key. The value you provide may be copied globally for the purpose of running the service. The value provided should not include personally identifiable or sensitive information.
   types:
   - uid: string
   pattern: ^[0-9a-zA-Z-]+$
@@ -107,7 +107,7 @@ definitions:
     types:
     - uid: DeletionRecoveryLevel
   - name: exportable
-    description: Indicates if the private key can be exported.
+    description: Indicates if the private key can be exported. Release policy must be provided when creating the 1st version of an exportable key.
     types:
     - uid: boolean
   - name: enabled
@@ -146,7 +146,7 @@ definitions:
     types:
     - uid: boolean
   - name: data
-    description: Blob encoding the policy rules under which the key can be released.
+    description: Blob encoding the policy rules under which the key can be released. Blob must be base64 URL encoded.
     types:
     - uid: string
 - name: KeyBundle
@@ -418,6 +418,31 @@ examples:
           "test name ": "CreateGetDeleteKeyTest"
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://myvault.vault.azure.net//keys/CreateSoftKeyTest/create?api-version=7.3
+
+      {
+        "kty": "RSA",
+        "key_size": 2048,
+        "key_ops": [
+          "encrypt",
+          "decrypt",
+          "sign",
+          "verify",
+          "wrapKey",
+          "unwrapKey"
+        ],
+        "attributes": {},
+        "tags": {
+          "purpose": "unit test",
+          "test name ": "CreateGetDeleteKeyTest"
+        }
+      }
+
+      ```
+
   responses:
   - statusCode: "200"
     body: >-
@@ -449,5 +474,8 @@ examples:
       }
 security: []
 metadata:
-  description: "Creates a new key, stores it, then returns key parameters and attributes to the client.  \nThe create key operation can be used to create any key type in Azure K"
+  description: >-
+    Creates a new key, stores it, then returns key parameters and attributes to the client.
+
+    The create key operation can be used to create any key type in Azure Key
 errorCodes: []

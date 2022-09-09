@@ -1,0 +1,815 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.2022-05-01.batchdeployments.update
+name: Update
+service: Machine Learning
+groupName: Batch Deployments
+apiVersion: 2022-05-01
+summary: Update a batch inference deployment (asynchronous).
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/batchEndpoints/{endpointName}/deployments/{deploymentName}?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: endpointName
+  in: path
+  isRequired: true
+  description: Inference endpoint name
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
+- name: deploymentName
+  in: path
+  isRequired: true
+  description: The identifier for the Batch inference deployment.
+  types:
+  - uid: string
+  pattern: ^[a-zA-Z0-9][a-zA-Z0-9\-_]{0,254}$
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: Other Status Codes
+  description: Error
+  types:
+  - uid: ErrorResponse
+- name: 200 OK
+  description: Success
+  types:
+  - uid: BatchDeploymentTrackedResource
+- name: 202 Accepted
+  headers:
+  - name: x-ms-async-operation-timeout
+    value: string
+  - name: Location
+    value: string
+  - name: Retry-After
+    value: integer
+  description: Accepted
+requestBody:
+- name: default
+  parameters:
+  - name: properties
+    in: body
+    description: Additional attributes of the entity.
+    types:
+    - uid: PartialBatchDeployment
+  - name: tags
+    in: body
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+requestHeader: []
+definitions:
+- name: PartialBatchDeployment
+  description: Mutable batch inference settings per deployment.
+  kind: object
+  properties:
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: BatchDeploymentTrackedResource
+  kind: object
+  properties:
+  - name: identity
+    description: Managed service identity (system assigned and/or user assigned identities)
+    types:
+    - uid: ManagedServiceIdentity
+  - name: kind
+    description: Metadata used by portal/tooling/etc to render different UX experiences for resources of the same type.
+    types:
+    - uid: string
+  - name: properties
+    description: '[Required] Additional attributes of the entity.'
+    types:
+    - uid: BatchDeployment
+  - name: sku
+    description: Sku details required for ARM contract for Autoscaling.
+    types:
+    - uid: Sku
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
+- name: PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties
+  description: Strictly used in update requests.
+  kind: object
+  properties:
+  - name: properties
+    description: Additional attributes of the entity.
+    types:
+    - uid: PartialBatchDeployment
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ManagedServiceIdentity
+  description: Managed service identity (system assigned and/or user assigned identities)
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
+- name: BatchDeployment
+  description: Batch inference settings per deployment.
+  kind: object
+  properties:
+  - name: compute
+    description: Compute target for batch inference operation.
+    types:
+    - uid: string
+  - name: errorThreshold
+    description: >-
+      Error threshold, if the error count for the entire input goes above this value,
+
+      the batch inference will be aborted. Range is [-1, int.MaxValue].
+
+      For FileDataset, this value is the count of file failures.
+
+      For TabularDataset, this value is the count of record failures.
+
+      If set to -1 (the lower bound), all failures during batch inference will be ignored.
+    types:
+    - uid: integer
+    defaultValue: -1
+  - name: loggingLevel
+    description: Logging level for batch inference operation.
+    types:
+    - uid: BatchLoggingLevel
+    defaultValue: Info
+  - name: maxConcurrencyPerInstance
+    description: Indicates maximum number of parallelism per instance.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: miniBatchSize
+    description: >-
+      Size of the mini-batch passed to each batch invocation.
+
+      For FileDataset, this is the number of files per mini-batch.
+
+      For TabularDataset, this is the size of the records in bytes, per mini-batch.
+    types:
+    - uid: integer
+    defaultValue: 10
+  - name: model
+    description: Reference to the model asset for the endpoint deployment.
+    types:
+    - uid: DataPathAssetReference
+    - uid: IdAssetReference
+    - uid: OutputPathAssetReference
+    typesTitle: AssetReferenceBase
+  - name: outputAction
+    description: Indicates how the output will be organized.
+    types:
+    - uid: BatchOutputAction
+    defaultValue: AppendRow
+  - name: outputFileName
+    description: Customized output file name for append_row output action.
+    types:
+    - uid: string
+    defaultValue: predictions.csv
+  - name: provisioningState
+    isReadyOnly: true
+    description: Provisioning state for the endpoint deployment.
+    types:
+    - uid: DeploymentProvisioningState
+  - name: resources
+    description: >-
+      Indicates compute configuration for the job.
+
+      If not provided, will default to the defaults defined in ResourceConfiguration.
+    types:
+    - uid: ResourceConfiguration
+  - name: retrySettings
+    description: >-
+      Retry Settings for the batch inference operation.
+
+      If not provided, will default to the defaults defined in BatchRetrySettings.
+    types:
+    - uid: BatchRetrySettings
+  - name: codeConfiguration
+    description: Code configuration for the endpoint deployment.
+    types:
+    - uid: CodeConfiguration
+  - name: description
+    description: Description of the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentId
+    description: ARM resource ID or AssetId of the environment specification for the endpoint deployment.
+    types:
+    - uid: string
+  - name: environmentVariables
+    description: Environment variables configuration for the deployment.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties
+    description: Property dictionary. Properties can be added, but not removed or altered.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: Sku
+  description: The resource model definition representing SKU
+  kind: object
+  properties:
+  - name: name
+    description: The name of the SKU. Ex - P3. It is typically a letter+number code
+    types:
+    - uid: string
+  - name: tier
+    description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+    types:
+    - uid: SkuTier
+  - name: size
+    description: 'The SKU size. When the name field is the combination of tier and some other value, this would be the standalone code. '
+    types:
+    - uid: string
+  - name: family
+    description: If the service has different generations of hardware, for the same SKU, then that can be captured here.
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
+- name: BatchLoggingLevel
+  description: >-
+    Log verbosity for batch inferencing.
+
+    Increasing verbosity order for logging is : Warning, Info and Debug.
+
+    The default value is Info.
+  kind: enum
+  properties:
+  - name: Info
+    types:
+    - uid: string
+  - name: Warning
+    types:
+    - uid: string
+  - name: Debug
+    types:
+    - uid: string
+- name: BatchOutputAction
+  description: Enum to determine how batch inferencing will handle output
+  kind: enum
+  properties:
+  - name: SummaryOnly
+    types:
+    - uid: string
+  - name: AppendRow
+    types:
+    - uid: string
+- name: DeploymentProvisioningState
+  description: Possible values for DeploymentProvisioningState.
+  kind: enum
+  properties:
+  - name: Creating
+    types:
+    - uid: string
+  - name: Deleting
+    types:
+    - uid: string
+  - name: Scaling
+    types:
+    - uid: string
+  - name: Updating
+    types:
+    - uid: string
+  - name: Succeeded
+    types:
+    - uid: string
+  - name: Failed
+    types:
+    - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: ResourceConfiguration
+  kind: object
+  properties:
+  - name: instanceCount
+    description: Optional number of instances or nodes used by the compute target.
+    types:
+    - uid: integer
+    defaultValue: 1
+  - name: instanceType
+    description: Optional type of VM used as supported by the compute target.
+    types:
+    - uid: string
+  - name: properties
+    description: Additional properties bag.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+- name: BatchRetrySettings
+  description: Retry settings for a batch inference operation.
+  kind: object
+  properties:
+  - name: maxRetries
+    description: Maximum retry count for a mini-batch
+    types:
+    - uid: integer
+    defaultValue: 3
+  - name: timeout
+    description: Invocation timeout for a mini-batch, in ISO 8601 format.
+    types:
+    - uid: string
+    defaultValue: PT30S
+- name: CodeConfiguration
+  description: Configuration for a scoring code asset.
+  kind: object
+  properties:
+  - name: codeId
+    description: ARM resource ID of the code asset.
+    types:
+    - uid: string
+  - name: scoringScript
+    description: '[Required] The script to execute on startup. eg. "score.py"'
+    types:
+    - uid: string
+- name: SkuTier
+  description: This field is required to be implemented by the Resource Provider if the service has more than one tier, but is not required on a PUT.
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Basic
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+  - name: Premium
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+- name: DataPathAssetReference
+  description: Reference to an asset via its path in a datastore.
+  kind: object
+  properties:
+  - name: datastoreId
+    description: ARM resource ID of the datastore where the asset is located.
+    types:
+    - uid: string
+  - name: path
+    description: The path of the file/directory in the datastore.
+    types:
+    - uid: string
+  - name: referenceType
+    description: '[Required] Specifies the type of asset reference.'
+    types:
+    - uid: DataPath
+    typesTitle: string
+- name: IdAssetReference
+  description: Reference to an asset via its ARM resource ID.
+  kind: object
+  properties:
+  - name: assetId
+    description: '[Required] ARM resource ID of the asset.'
+    types:
+    - uid: string
+  - name: referenceType
+    description: '[Required] Specifies the type of asset reference.'
+    types:
+    - uid: Id
+    typesTitle: string
+- name: OutputPathAssetReference
+  description: Reference to an asset via its path in a job output.
+  kind: object
+  properties:
+  - name: jobId
+    description: ARM resource ID of the job.
+    types:
+    - uid: string
+  - name: path
+    description: The path of the file/directory in the job output.
+    types:
+    - uid: string
+  - name: referenceType
+    description: '[Required] Specifies the type of asset reference.'
+    types:
+    - uid: OutputPath
+    typesTitle: string
+- name: ReferenceType
+  description: Enum to determine which reference method to use for an asset.
+  kind: enum
+  properties:
+  - name: Id
+    types:
+    - uid: string
+  - name: DataPath
+    types:
+    - uid: string
+  - name: OutputPath
+    types:
+    - uid: string
+examples:
+- name: Update Batch Deployment.
+  request:
+    uri: PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/batchEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-05-01
+    body: >-
+      {
+        "properties": {
+          "description": "string"
+        },
+        "tags": {}
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PATCH https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/test-rg/providers/Microsoft.MachineLearningServices/workspaces/my-aml-workspace/batchEndpoints/testEndpointName/deployments/testDeploymentName?api-version=2022-05-01
+
+      {
+        "properties": {
+          "description": "string"
+        },
+        "tags": {}
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmachinelearning_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/machinelearning/armmachinelearning/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/BatchDeployment/update.json
+      func ExampleBatchDeploymentsClient_BeginUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmachinelearning.NewBatchDeploymentsClient("00000000-1111-2222-3333-444444444444", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginUpdate(ctx,
+      		"test-rg",
+      		"my-aml-workspace",
+      		"testEndpointName",
+      		"testDeploymentName",
+      		armmachinelearning.PartialBatchDeploymentPartialMinimalTrackedResourceWithProperties{
+      			Properties: &armmachinelearning.PartialBatchDeployment{
+      				Description: to.Ptr("string"),
+      			},
+      			Tags: map[string]*string{},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmachinelearning%2Farmmachinelearning%2Fv2.0.0/sdk/resourcemanager/machinelearning/armmachinelearning/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { AzureMachineLearningWorkspaces } = require("@azure/arm-machinelearning");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update a batch inference deployment (asynchronous).
+       *
+       * @summary Update a batch inference deployment (asynchronous).
+       * x-ms-original-file: specification/machinelearningservices/resource-manager/Microsoft.MachineLearningServices/stable/2022-05-01/examples/BatchDeployment/update.json
+       */
+      async function updateBatchDeployment() {
+        const subscriptionId = "00000000-1111-2222-3333-444444444444";
+        const resourceGroupName = "test-rg";
+        const workspaceName = "my-aml-workspace";
+        const endpointName = "testEndpointName";
+        const deploymentName = "testDeploymentName";
+        const body = {
+          properties: { description: "string" },
+          tags: {},
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new AzureMachineLearningWorkspaces(credential, subscriptionId);
+        const result = await client.batchDeployments.beginUpdateAndWait(
+          resourceGroupName,
+          workspaceName,
+          endpointName,
+          deploymentName,
+          body
+        );
+        console.log(result);
+      }
+
+      updateBatchDeployment().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-machinelearning_2.0.0/sdk/machinelearning/arm-machinelearning/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "string",
+        "name": "string",
+        "type": "string",
+        "properties": {
+          "description": "string",
+          "properties": {
+            "string": "string"
+          },
+          "codeConfiguration": {
+            "codeId": "string",
+            "scoringScript": "string"
+          },
+          "environmentId": "string",
+          "environmentVariables": {
+            "string": "string"
+          },
+          "compute": "string",
+          "errorThreshold": 1,
+          "retrySettings": {
+            "maxRetries": 1,
+            "timeout": "PT5M"
+          },
+          "miniBatchSize": 1,
+          "loggingLevel": "Info",
+          "model": {
+            "referenceType": "Id",
+            "assetId": "string"
+          },
+          "maxConcurrencyPerInstance": 1,
+          "outputAction": "SummaryOnly",
+          "outputFileName": "string",
+          "resources": {
+            "instanceCount": 1,
+            "instanceType": "string",
+            "properties": {
+              "string": {
+                "1e5e1cf9-b0ea-4cf6-9764-e750bf85c10a": null
+              }
+            }
+          },
+          "provisioningState": "Creating"
+        },
+        "systemData": {
+          "createdAt": "2020-01-01T12:34:56.999Z",
+          "createdBy": "string",
+          "createdByType": "User",
+          "lastModifiedAt": "2020-01-01T12:34:56.999Z",
+          "lastModifiedBy": "string",
+          "lastModifiedByType": "User"
+        },
+        "tags": {},
+        "location": "string",
+        "kind": "string",
+        "identity": {
+          "type": "SystemAssigned",
+          "principalId": "00000000-1111-2222-3333-444444444444",
+          "tenantId": "00000000-1111-2222-3333-444444444444",
+          "userAssignedIdentities": {
+            "string": {
+              "principalId": "00000000-1111-2222-3333-444444444444",
+              "clientId": "00000000-1111-2222-3333-444444444444"
+            }
+          }
+        },
+        "sku": {
+          "name": "string",
+          "tier": "Free",
+          "size": "string",
+          "family": "string",
+          "capacity": 1
+        }
+      }
+  - statusCode: "202"
+security: []
+metadata:
+  description: >
+    Learn more about Machine Learning service - Update a batch inference deployment (asynchronous).
+errorCodes: []

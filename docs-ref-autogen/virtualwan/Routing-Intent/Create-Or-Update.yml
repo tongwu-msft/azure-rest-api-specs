@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.routingintent.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Routing Intent
-apiVersion: 2021-08-01
+apiVersion: 2022-01-01
 summary: Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}?api-version=2021-08-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualHubs/{virtualHubName}/routingIntent/{routingIntentName}?api-version=2022-01-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -173,7 +173,7 @@ definitions:
 examples:
 - name: RouteTablePut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routingIntent/Intent1?api-version=2021-08-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routingIntent/Intent1?api-version=2022-01-01
     body: >-
       {
         "properties": {
@@ -195,6 +195,182 @@ examples:
           ]
         }
       }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routingIntent/Intent1?api-version=2022-01-01
+
+      {
+        "properties": {
+          "routingPolicies": [
+            {
+              "name": "InternetTraffic",
+              "destinations": [
+                "Internet"
+              ],
+              "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+            },
+            {
+              "name": "PrivateTrafficPolicy",
+              "destinations": [
+                "PrivateTraffic"
+              ],
+              "nextHop": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"
+            }
+          ]
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.network.fluent.models.RoutingIntentInner;
+      import com.azure.resourcemanager.network.models.RoutingPolicy;
+      import java.util.Arrays;
+
+      /** Samples for RoutingIntent CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RoutingIntentPut.json
+           */
+          /**
+           * Sample code: RouteTablePut.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void routeTablePut(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .networks()
+                  .manager()
+                  .serviceClient()
+                  .getRoutingIntents()
+                  .createOrUpdate(
+                      "rg1",
+                      "virtualHub1",
+                      "Intent1",
+                      new RoutingIntentInner()
+                          .withRoutingPolicies(
+                              Arrays
+                                  .asList(
+                                      new RoutingPolicy()
+                                          .withName("InternetTraffic")
+                                          .withDestinations(Arrays.asList("Internet"))
+                                          .withNextHop(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"),
+                                      new RoutingPolicy()
+                                          .withName("PrivateTrafficPolicy")
+                                          .withDestinations(Arrays.asList("PrivateTraffic"))
+                                          .withNextHop(
+                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armnetwork_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RoutingIntentPut.json
+      func ExampleRoutingIntentClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armnetwork.NewRoutingIntentClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "virtualHub1", "Intent1", armnetwork.RoutingIntent{
+      		Properties: &armnetwork.RoutingIntentProperties{
+      			RoutingPolicies: []*armnetwork.RoutingPolicy{
+      				{
+      					Name: to.Ptr("InternetTraffic"),
+      					Destinations: []*string{
+      						to.Ptr("Internet")},
+      					NextHop: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"),
+      				},
+      				{
+      					Name: to.Ptr("PrivateTrafficPolicy"),
+      					Destinations: []*string{
+      						to.Ptr("PrivateTraffic")},
+      					NextHop: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1"),
+      				}},
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
+       *
+       * @summary Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/RoutingIntentPut.json
+       */
+      async function routeTablePut() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const virtualHubName = "virtualHub1";
+        const routingIntentName = "Intent1";
+        const routingIntentParameters = {
+          routingPolicies: [
+            {
+              name: "InternetTraffic",
+              destinations: ["Internet"],
+              nextHop:
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
+            },
+            {
+              name: "PrivateTrafficPolicy",
+              destinations: ["PrivateTraffic"],
+              nextHop:
+                "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/azureFirewalls/azfw1",
+            },
+          ],
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.routingIntentOperations.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          virtualHubName,
+          routingIntentName,
+          routingIntentParameters
+        );
+        console.log(result);
+      }
+
+      routeTablePut().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -260,5 +436,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Virtual WAN service - Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
+  description: >
+    Learn more about Virtual WAN service - Creates a RoutingIntent resource if it doesn't exist else updates the existing RoutingIntent.
 errorCodes: []

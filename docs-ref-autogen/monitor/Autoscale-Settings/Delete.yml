@@ -3,14 +3,14 @@ uid: management.azure.com.monitor.autoscalesettings.delete
 name: Delete
 service: Monitor
 groupName: Autoscale Settings
-apiVersion: 2015-04-01
+apiVersion: 2022-10-01
 summary: Deletes and autoscale setting
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}?api-version=2015-04-01
+- content: DELETE https://management.azure.com/subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.Insights/autoscalesettings/{autoscaleSettingName}?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -40,29 +40,125 @@ responses:
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
-  - uid: ErrorResponse
+  - uid: AutoscaleErrorResponse
 - name: 200 OK
   description: Successful request to delete an autoscale setting
 - name: 204 No Content
   description: 'No content: Successful request to delete an autoscale setting, but the response is intentionally empty'
 requestHeader: []
 definitions:
-- name: ErrorResponse
+- name: AutoscaleErrorResponse
   description: Describes the format of Error response.
   kind: object
   properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: Error
+  - name: systemData
+    isReadyOnly: true
+    description: The system metadata related to the response.
+    types:
+    - uid: systemData
+- name: Error
+  description: The error object.
+  kind: object
+  properties:
   - name: code
-    description: Error code
+    description: One of a server-defined set of error codes.
     types:
     - uid: string
   - name: message
-    description: Error message indicating why the operation failed.
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error.
+    types:
+    - uid: string
+  - name: details
+    description: A human-readable representation of the error's details.
+    types:
+    - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
     types:
     - uid: string
 examples:
 - name: Delete an autoscale setting
   request:
-    uri: DELETE https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2015-04-01
+    uri: DELETE https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      DELETE https://management.azure.com/subscriptions/b67f7fec-69fc-4974-9099-a26bd6ffeda3/resourcegroups/TestingMetricsScaleSet/providers/Microsoft.Insights/autoscalesettings/MySetting?api-version=2022-10-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { MonitorClient } = require("@azure/arm-monitor");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Deletes and autoscale setting
+       *
+       * @summary Deletes and autoscale setting
+       * x-ms-original-file: specification/monitor/resource-manager/Microsoft.Insights/stable/2022-10-01/examples/deleteAutoscaleSetting.json
+       */
+      async function deleteAnAutoscaleSetting() {
+        const subscriptionId = "b67f7fec-69fc-4974-9099-a26bd6ffeda3";
+        const resourceGroupName = "TestingMetricsScaleSet";
+        const autoscaleSettingName = "MySetting";
+        const credential = new DefaultAzureCredential();
+        const client = new MonitorClient(credential, subscriptionId);
+        const result = await client.autoscaleSettings.delete(resourceGroupName, autoscaleSettingName);
+        console.log(result);
+      }
+
+      deleteAnAutoscaleSetting().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-monitor_8.0.0-beta.2/sdk/monitor/arm-monitor/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "204"
@@ -76,5 +172,6 @@ security:
   - name: user_impersonation
     description: impersonate your user account
 metadata:
-  description: Learn more about Monitor service - Deletes and autoscale setting
+  description: >
+    Learn more about Monitor service - Deletes and autoscale setting
 errorCodes: []
