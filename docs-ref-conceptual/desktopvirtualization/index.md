@@ -12,7 +12,7 @@ ms.devlang: rest-api
 
 # Azure Virtual Desktop
 
-Azure Virtual Desktop is a comprehensive desktop and app virtualization service running in the cloud. It is the only virtual desktop infrastructure (VDI) that delivers simplified management, multi-session Windows 10, optimizations for Microsoft 365 Apps for enterprise. Deploy and scale your Windows desktops and apps on Azure in minutes, and get built-in security and compliance features. The Desktop Virtualization APIs allow you to create and manage your Azure Virtual Desktop environment programmatically. For more information about Azure Virtual Desktop, see [documentation](https://docs.microsoft.com/en-us/azure/virtual-desktop/overview).
+Azure Virtual Desktop is a comprehensive desktop and app virtualization service running in the cloud. It is the only virtual desktop infrastructure (VDI) that delivers simplified management, multi-session Windows 10, optimizations for Microsoft 365 Apps for enterprise. Deploy and scale your Windows desktops and apps on Azure in minutes, and get built-in security and compliance features. The Desktop Virtualization APIs allow you to create and manage your Azure Virtual Desktop environment programmatically. For more information about Azure Virtual Desktop, see [documentation](/azure/virtual-desktop/overview).
 
 ## REST Operation Groups
 
