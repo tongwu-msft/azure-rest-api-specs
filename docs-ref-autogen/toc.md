@@ -2518,12 +2518,7 @@
 ### [List All](application-gateway/Web-Application-Firewall-Policies/List-All.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
-## Data Access
-### [Overview](https://dev.applicationinsights.io/)
-### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
-### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
-### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
-### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Components
 #### [Overview](application-insights/Components.yml)
@@ -12839,7 +12834,7 @@
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
 ## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
-## [Data Access](https://dev.loganalytics.io/)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/Available-Service-Tiers.yml)
@@ -14558,17 +14553,10 @@
 ### Predictive Metric
 #### [Overview](monitor/Predictive-Metric.yml)
 #### [Get](monitor/Predictive-Metric/Get.yml)
-### Queries
-#### [Overview](monitor/Queries.yml)
-#### [Delete](monitor/Queries/Delete.yml)
-#### [Get](monitor/Queries/Get.yml)
-#### [List](monitor/Queries/List.yml)
-#### [Put](monitor/Queries/Put.yml)
-#### [Search](monitor/Queries/Search.yml)
-#### [Update](monitor/Queries/Update.yml)
 ### Query Packs
 #### [Overview](monitor/Query-Packs.yml)
 #### [Create Or Update](monitor/Query-Packs/Create-Or-Update.yml)
+#### [Create Or Update Without Name](monitor/Query-Packs/Create-Or-Update-Without-Name.yml)
 #### [Delete](monitor/Query-Packs/Delete.yml)
 #### [Get](monitor/Query-Packs/Get.yml)
 #### [List](monitor/Query-Packs/List.yml)
@@ -14645,6 +14633,15 @@
 ##### [List](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/Update-Tags.yml)
+### Query Pack Queries
+#### Queries
+##### [Overview](monitor/querypackqueries/Queries.yml)
+##### [Delete](monitor/querypackqueries/Queries/Delete.yml)
+##### [Get](monitor/querypackqueries/Queries/Get.yml)
+##### [List](monitor/querypackqueries/Queries/List.yml)
+##### [Put](monitor/querypackqueries/Queries/Put.yml)
+##### [Search](monitor/querypackqueries/Queries/Search.yml)
+##### [Update](monitor/querypackqueries/Queries/Update.yml)
 ### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
 ##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
