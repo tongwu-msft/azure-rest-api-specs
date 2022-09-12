@@ -41,14 +41,10 @@ Query Log Analytics data using the log analytics Data Access API
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Data Access](https://dev.loganalytics.io/) | Query Log Analytics data. |
+| [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview) | Query Log Analytics data. |
 
 
 ## See Also
 
 - [Azure Monitor documentation](/azure/azure-monitor)
-- [Azure Monitor overview](/azure/azure-monitor/overview)
-- [Azure Log Analytics Workspaces](/azure/azure-monitor/platform/design-logs-deployment)
-- [Azure Management Solutions](/azure/azure-monitor/insights/solutions-creating)
-- [Azure Monitor Data Sources](/azure/azure-monitor/platform/data-sources)
-
+- [Azure Monitor Logs / Log Analytics documentation](/azure/azure-monitor/logs/data-platform-logs)
