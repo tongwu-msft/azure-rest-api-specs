@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.querypacks(preview).querypackqueries(preview).list
+uid: management.azure.com.monitor.querypackqueries.list
 name: List
 service: Monitor
-groupName: Query Pack Queries (Preview)
-apiVersion: 2019-09-01-preview
+groupName: Query Pack Queries
+apiVersion: 2019-09-01
 summary: Gets a list of Queries defined within a Log Analytics QueryPack.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01-preview&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -79,13 +79,13 @@ definitions:
     types:
     - uid: string
 - name: ErrorResponse
-  description: Describe the format of an Error response.
+  description: Error response
   kind: object
   properties:
   - name: error
-    description: "The code and message for an error.  \nThe error details."
+    description: The error object.
     types:
-    - uid: ErrorInfo
+    - uid: ErrorDetail
 - name: LogAnalyticsQueryPackQuery
   description: A Log Analytics QueryPack-Query definition.
   kind: object
@@ -158,31 +158,37 @@ definitions:
     description: Read only system data
     types:
     - uid: SystemData
-- name: ErrorInfo
-  description: The code and message for an error.
+- name: ErrorDetail
+  description: The error detail.
   kind: object
   properties:
   - name: code
-    description: A machine readable error code.
+    isReadyOnly: true
+    description: The error code.
     types:
     - uid: string
   - name: message
-    description: A human readable error message.
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
     types:
     - uid: string
   - name: details
-    description: error details.
+    isReadyOnly: true
+    description: The error details.
     types:
     - uid: ErrorDetail
       isArray: true
-  - name: innererror
-    description: "The code and message for an error.  \nInner error details if they exist."
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
     types:
-    - uid: ErrorInfo
-  - name: additionalProperties
-    description: Additional properties that can be provided on the error info object
-    types:
-    - uid: object
+    - uid: ErrorAdditionalInfo
+      isArray: true
 - name: Related
   description: The related metadata items for the function.
   kind: object
@@ -230,33 +236,18 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
-- name: ErrorDetail
-  description: Error details.
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
   kind: object
   properties:
-  - name: code
-    description: The error's code.
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
     types:
     - uid: string
-  - name: message
-    description: A human readable error message.
-    types:
-    - uid: string
-  - name: target
-    description: Indicates which property in the request is responsible for the error.
-    types:
-    - uid: string
-  - name: value
-    description: Indicates which value in 'target' is responsible for the error.
-    types:
-    - uid: string
-  - name: resources
-    description: Indicates resources which were responsible for the error.
-    types:
-    - uid: string
-      isArray: true
-  - name: additionalProperties
-    description: Additional properties that can be provided on the error details object
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
     types:
     - uid: object
 - name: IdentityType
@@ -278,13 +269,108 @@ definitions:
 examples:
 - name: QueryList
   request:
-    uri: GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01-preview&includeBody=True
+    uri: GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01&includeBody=True
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01-preview&includeBody=True
+      GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01&includeBody=True
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Queries List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
+           */
+          /**
+           * Sample code: QueryList.
+           *
+           * @param manager Entry point to LogAnalyticsManager.
+           */
+          public static void queryList(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager.queries().list("my-resource-group", "my-querypack", null, true, null, Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-loganalytics_1.0.0-beta.3/sdk/loganalytics/azure-resourcemanager-loganalytics/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armoperationalinsights_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
+      func ExampleQueriesClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armoperationalinsights.NewQueriesClient("86dc51d3-92ed-4d7e-947a-775ea79b4918", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager("my-resource-group",
+      		"my-querypack",
+      		&armoperationalinsights.QueriesClientListOptions{Top: nil,
+      			IncludeBody: to.Ptr(true),
+      			SkipToken:   nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Foperationalinsights%2Farmoperationalinsights%2Fv2.0.0-beta.2/sdk/resourcemanager/operationalinsights/armoperationalinsights/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { OperationalInsightsManagementClient } = require("@azure/arm-operationalinsights");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets a list of Queries defined within a Log Analytics QueryPack.
+       *
+       * @summary Gets a list of Queries defined within a Log Analytics QueryPack.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
+       */
+      async function queryList() {
+        const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
+        const resourceGroupName = "my-resource-group";
+        const queryPackName = "my-querypack";
+        const includeBody = true;
+        const options = { includeBody };
+        const credential = new DefaultAzureCredential();
+        const client = new OperationalInsightsManagementClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.queries.list(resourceGroupName, queryPackName, options)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      queryList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -384,7 +470,7 @@ examples:
 security:
 - name: azure_auth
   type: oauth2
-  description: Azure Active Directory OAuth2 Flow.
+  description: Azure Active Directory OAuth2 Flow
   flow: implicit
   authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
   scopes:

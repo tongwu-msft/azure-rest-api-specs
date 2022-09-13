@@ -22,7 +22,16 @@ REST API functions available for Azure Application Insights.
 | [Components](xref:management.azure.com.application-insights.components)  | Enables you to manage components that contain Application Insights data.|
 | [Operations](xref:management.azure.com.application-insights.operations) | Lists all of the available Application Insights REST API operations. | 
 | [Webtests](xref:management.azure.com.application-insights.webtests)     | Set up web tests to monitor a web endpoint’s availability and responsiveness. |
- 
+
+ ## Access Application Insights Data
+
+Query Application Insights data using the Application Insights Data Access API
+
+| Operation Group | Description |
+|-----------------|-------------|
+| [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview) | Query Application Insights data. |
+
 ## See also
 
-- [Application Insights documentation](/azure/application-insights/)
+- [Azure Monitor documentation](https://docs.microsoft.com/azure/azure-monitor/)
+- [Application Insights documentation](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/)

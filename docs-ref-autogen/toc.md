@@ -2518,12 +2518,7 @@
 ### [List All](application-gateway/Web-Application-Firewall-Policies/List-All.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
-## Data Access
-### [Overview](https://dev.applicationinsights.io/)
-### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
-### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
-### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
-### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Components
 #### [Overview](application-insights/Components.yml)
@@ -12839,7 +12834,7 @@
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
 ## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
-## [Data Access](https://dev.loganalytics.io/)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/Available-Service-Tiers.yml)
@@ -14558,6 +14553,23 @@
 ### Predictive Metric
 #### [Overview](monitor/Predictive-Metric.yml)
 #### [Get](monitor/Predictive-Metric/Get.yml)
+### Query Pack Queries
+#### [Overview](monitor/Query-Pack-Queries.yml)
+#### [Delete](monitor/Query-Pack-Queries/Delete.yml)
+#### [Get](monitor/Query-Pack-Queries/Get.yml)
+#### [List](monitor/Query-Pack-Queries/List.yml)
+#### [Put](monitor/Query-Pack-Queries/Put.yml)
+#### [Search](monitor/Query-Pack-Queries/Search.yml)
+#### [Update](monitor/Query-Pack-Queries/Update.yml)
+### Query Packs
+#### [Overview](monitor/Query-Packs.yml)
+#### [Create Or Update](monitor/Query-Packs/Create-Or-Update.yml)
+#### [Create Or Update Without Name](monitor/Query-Packs/Create-Or-Update-Without-Name.yml)
+#### [Delete](monitor/Query-Packs/Delete.yml)
+#### [Get](monitor/Query-Packs/Get.yml)
+#### [List](monitor/Query-Packs/List.yml)
+#### [List By Resource Group](monitor/Query-Packs/List-By-Resource-Group.yml)
+#### [Update Tags](monitor/Query-Packs/Update-Tags.yml)
 ### Smart Detector Alert Rules
 #### [Overview](monitor/Smart-Detector-Alert-Rules.yml)
 #### [Create Or Update](monitor/Smart-Detector-Alert-Rules/Create-Or-Update.yml)
@@ -14629,26 +14641,6 @@
 ##### [List](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/Update-Tags.yml)
-### Query Packs (Preview)
-#### Operations
-##### [Overview](monitor/querypacks(preview)/Operations.yml)
-##### [List](monitor/querypacks(preview)/Operations/List.yml)
-#### Query Pack Queries (Preview)
-##### [Overview](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview).yml)
-##### [Delete](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Delete.yml)
-##### [Get](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Get.yml)
-##### [List](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/List.yml)
-##### [Put](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Put.yml)
-##### [Search](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Search.yml)
-##### [Update](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Update.yml)
-#### Query Packs (Preview)
-##### [Overview](monitor/querypacks(preview)/Query%20Packs%20(Preview).yml)
-##### [Create Or Update](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Create-Or-Update.yml)
-##### [Delete](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Delete.yml)
-##### [Get](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Get.yml)
-##### [List](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List.yml)
-##### [List By Resource Group](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List-By-Resource-Group.yml)
-##### [Update Tags](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Update-Tags.yml)
 ### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
 ##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
