@@ -33,5 +33,5 @@ Query Application Insights data using the Application Insights Data Access API
 
 ## See also
 
-- [Azure Monitor documentation](/azure/azure-monitor/)
-- [Application Insights documentation](/azure/azure-monitor/app/app-insights-overview/)
+- [Azure Monitor documentation](https://docs.microsoft.com/azure/azure-monitor/)
+- [Application Insights documentation](https://docs.microsoft.com/azure/azure-monitor/app/app-insights-overview/)

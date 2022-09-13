@@ -46,5 +46,5 @@ Query Log Analytics data using the log analytics Data Access API
 
 ## See Also
 
-- [Azure Monitor documentation](/azure/azure-monitor)
-- [Azure Monitor Logs / Log Analytics documentation](/azure/azure-monitor/logs/data-platform-logs)
+- [Azure Monitor documentation](https://docs.microsoft.com/azure/azure-monitor)
+- [Azure Monitor Logs / Log Analytics documentation](https://docs.microsoft.com/azure/azure-monitor/logs/data-platform-logs)
