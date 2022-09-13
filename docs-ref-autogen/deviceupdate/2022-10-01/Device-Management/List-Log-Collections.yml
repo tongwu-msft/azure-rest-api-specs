@@ -1,0 +1,227 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.listlogcollections
+name: List Log Collections
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Get all device diagnostics log collections
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List of all log collections
+  types:
+  - uid: LogCollectionList
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: LogCollectionList
+  description: The list of log collections with server paging support.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: LogCollection
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: LogCollection
+  description: Diagnostics request body
+  kind: object
+  properties:
+  - name: operationId
+    description: The log collection id.
+    types:
+    - uid: string
+  - name: deviceList
+    description: Array of Device Update agent ids
+    types:
+    - uid: DeviceUpdateAgentId
+      isArray: true
+  - name: description
+    description: Description of the diagnostics operation.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: The timestamp when the operation was created.
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: A timestamp for when the current state was entered.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Operation status.
+    types:
+    - uid: OperationStatus
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: DeviceUpdateAgentId
+  description: Device Update agent id
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device Id
+    types:
+    - uid: string
+  - name: moduleId
+    description: Module Id
+    types:
+    - uid: string
+- name: OperationStatus
+  description: Operation status.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: Background operation created but not started yet.
+    types:
+    - uid: string
+  - name: Running
+    description: Background operation is currently running.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Background operation finished with success.
+    types:
+    - uid: string
+  - name: Failed
+    description: Background operation finished with failure.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_ListLogCollections
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/logCollections?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/logCollections?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "operationId": "LogCollectionId",
+            "deviceList": [
+              {
+                "deviceId": "DeviceA"
+              },
+              {
+                "deviceId": "DeviceB",
+                "moduleId": "ModuleB"
+              }
+            ],
+            "description": "Log collection description",
+            "createdDateTime": "2021-09-30T02:23:41.59Z",
+            "lastActionDateTime": "2021-09-30T02:23:41.59Z",
+            "status": "NotStarted"
+          }
+        ],
+        "nextLink": "string"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Get all device diagnostics log collections
+errorCodes: []

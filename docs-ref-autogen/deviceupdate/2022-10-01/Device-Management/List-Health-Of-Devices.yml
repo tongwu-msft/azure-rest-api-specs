@@ -1,0 +1,230 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.listhealthofdevices
+name: List Health Of Devices
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Get list of device health
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/deviceDiagnostics/deviceHealth?api-version=2022-10-01&filter={filter}
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+- name: filter
+  in: query
+  isRequired: true
+  description: Restricts the set of devices for which device health is returned. You can filter on status, device id and module id.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Agent check response list
+  types:
+  - uid: DeviceHealthList
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceHealthList
+  description: Array of Device Health, with server paging support.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: DeviceHealth
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: DeviceHealth
+  description: Device Health
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device id
+    types:
+    - uid: string
+  - name: moduleId
+    description: Module id
+    types:
+    - uid: string
+  - name: state
+    description: Aggregate device health state
+    types:
+    - uid: DeviceHealthState
+  - name: digitalTwinModelId
+    description: Digital twin model Id
+    types:
+    - uid: string
+  - name: healthChecks
+    description: Array of health checks and their results
+    types:
+    - uid: HealthCheck
+      isArray: true
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: DeviceHealthState
+  description: Device health states
+  kind: enum
+  properties:
+  - name: healthy
+    description: Agent is healthy
+    types:
+    - uid: string
+  - name: unhealthy
+    description: Agent is in an unhealthy state
+    types:
+    - uid: string
+- name: HealthCheck
+  description: Health check
+  kind: object
+  properties:
+  - name: name
+    description: Health check name
+    types:
+    - uid: string
+  - name: result
+    description: Health check result
+    types:
+    - uid: HealthCheckResult
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+- name: HealthCheckResult
+  description: Health check result
+  kind: enum
+  properties:
+  - name: success
+    description: Health check succeeded
+    types:
+    - uid: string
+  - name: userError
+    description: Health check failed due to user error
+    types:
+    - uid: string
+examples:
+- name: DeviceManagement_ListHealthOfDevices
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/deviceHealth?api-version=2022-10-01&filter=state eq 'unhealthy'
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/deviceHealth?api-version=2022-10-01&filter=state eq 'unhealthy'
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deviceId": "device1",
+            "moduleId": "module1",
+            "digitalTwinModelId": "dtmi:foo;1",
+            "state": "unhealthy",
+            "healthChecks": [
+              {
+                "name": "check1",
+                "result": "success"
+              },
+              {
+                "name": "check2",
+                "result": "userError"
+              }
+            ]
+          }
+        ],
+        "nextLink": "http://foo"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Get list of device health
+errorCodes: []

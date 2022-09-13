@@ -1,0 +1,274 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getdeploymentfordeviceclasssubgroup
+name: Get Deployment For Device Class Subgroup
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets the deployment properties.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: deviceClassId
+  in: path
+  isRequired: true
+  description: Device class identifier.
+  types:
+  - uid: string
+- name: deploymentId
+  in: path
+  isRequired: true
+  description: Deployment identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The deployment properties.
+  types:
+  - uid: Deployment
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: Deployment
+  description: Deployment metadata.
+  kind: object
+  properties:
+  - name: deploymentId
+    description: The caller-provided deployment identifier. This cannot be longer than 73 characters, must be all lower-case, and cannot contain '&', '^', '[', ']', '{', '}', '|', '<', '>', forward slash, backslash, or double quote. The Updates view in the Azure Portal IoT Hub resource generates a GUID for deploymentId when you create a deployment.
+    types:
+    - uid: string
+  - name: startDateTime
+    description: The deployment start datetime.
+    types:
+    - uid: string
+  - name: update
+    description: Update information for the update in the deployment.
+    types:
+    - uid: UpdateInfo
+  - name: groupId
+    description: The group identity for the devices the deployment is intended to update.
+    types:
+    - uid: string
+  - name: deviceClassSubgroups
+    description: The device class subgroups the deployment is compatible with and subgroup deployments have been created for. This is not provided by the caller during CreateOrUpdateDeployment but is automatically determined by Device Update
+    types:
+    - uid: string
+      isArray: true
+  - name: isCanceled
+    description: Boolean flag indicating whether the deployment was canceled.
+    types:
+    - uid: boolean
+  - name: isRetried
+    description: Boolean flag indicating whether the deployment has been retried.
+    types:
+    - uid: boolean
+  - name: rollbackPolicy
+    description: The rollback policy for the deployment.
+    types:
+    - uid: CloudInitiatedRollbackPolicy
+  - name: isCloudInitiatedRollback
+    description: Boolean flag indicating whether the deployment is a rollback deployment.
+    types:
+    - uid: boolean
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: UpdateInfo
+  description: Update information.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identifier.
+    types:
+    - uid: UpdateId
+  - name: description
+    isReadyOnly: true
+    description: Update description.
+    types:
+    - uid: string
+  - name: friendlyName
+    isReadyOnly: true
+    description: Friendly update name.
+    types:
+    - uid: string
+- name: CloudInitiatedRollbackPolicy
+  description: Rollback policy for deployment
+  kind: object
+  properties:
+  - name: update
+    description: Update to rollback to.
+    types:
+    - uid: UpdateInfo
+  - name: failure
+    description: Failure conditions to initiate rollback policy.
+    types:
+    - uid: CloudInitiatedRollbackPolicyFailure
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: CloudInitiatedRollbackPolicyFailure
+  description: Failure conditions to initiate rollback policy
+  kind: object
+  properties:
+  - name: devicesFailedPercentage
+    description: Percentage of devices that failed.
+    types:
+    - uid: integer
+  - name: devicesFailedCount
+    description: Number of devices that failed.
+    types:
+    - uid: integer
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetDeploymentForDeviceClassSubgroup
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/TestGroup/deviceClassSubgroups/deviceClassId/deployments/deploymentId?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/TestGroup/deviceClassSubgroups/deviceClassId/deployments/deploymentId?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "deploymentId": "deploymentId",
+        "startDateTime": "2020-04-22T12:12:12.0000000+00:00",
+        "groupId": "TestGroup",
+        "update": {
+          "updateId": {
+            "provider": "provider",
+            "name": "name",
+            "version": "1.2.3.4"
+          }
+        },
+        "rollbackPolicy": {
+          "update": {
+            "updateId": {
+              "provider": "provider",
+              "name": "name",
+              "version": "1.2.3.3"
+            }
+          },
+          "failure": {
+            "devicesFailedPercentage": 50,
+            "devicesFailedCount": 100
+          }
+        },
+        "isCanceled": false,
+        "isRetried": false,
+        "isCloudInitiatedRollback": false
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Gets the deployment properties.
+errorCodes: []

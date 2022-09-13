@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getdeviceclasssubgroup
+name: Get Device Class Subgroup
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class. All devices within the same device class are compatible with the same updates.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: deviceClassId
+  in: path
+  isRequired: true
+  description: Device class identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The device class subgroup details.
+  types:
+  - uid: DeviceClassSubgroup
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceClassSubgroup
+  description: Device class subgroup details. A device class subgroup is a subset of devices in a group that share the same device class id.
+  kind: object
+  properties:
+  - name: deviceClassId
+    description: Device class subgroup identity. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash.
+    types:
+    - uid: string
+  - name: groupId
+    description: Group identity.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: Date and time when the device class subgroup was created.
+    types:
+    - uid: string
+  - name: deviceCount
+    description: The number of devices in the device class subgroup.
+    types:
+    - uid: integer
+  - name: deploymentId
+    description: The active deployment Id for the device class subgroup.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetGroupUpdateCompliance
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/deviceClassSubgroups/deviceClassId?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/deviceClassSubgroups/deviceClassId?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "deviceClassId": "DeviceClassId",
+        "groupId": "group1",
+        "createdDateTime": "2020-07-01T12:13:14.0000000Z",
+        "deviceCount": 149,
+        "deploymentId": "MyDeployment"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: Gets device class subgroup details. A device class subgroup is the set of devices within the group that share the same device class.
+errorCodes: []
