@@ -41,7 +41,7 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: QueryResult
+  - uid: ForecastResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
@@ -60,12 +60,12 @@ requestBody:
     isRequired: true
     description: The time frame for pulling data for the forecast. If custom, then a specific time period must be provided.
     types:
-    - uid: ForecastTimeframeType
+    - uid: ForecastTimeframe
   - name: timePeriod
     in: body
     description: Has time period for pulling data for the forecast.
     types:
-    - uid: QueryTimePeriod
+    - uid: ForecastTimePeriod
   - name: dataset
     in: body
     isRequired: true
@@ -74,12 +74,12 @@ requestBody:
     - uid: ForecastDataset
   - name: includeActualCost
     in: body
-    description: a boolean determining if actualCost will be included
+    description: A boolean determining if actualCost will be included.
     types:
     - uid: boolean
   - name: includeFreshPartialCost
     in: body
-    description: a boolean determining if FreshPartialCost will be included
+    description: A boolean determining if FreshPartialCost will be included.
     types:
     - uid: boolean
 requestHeader: []
@@ -94,8 +94,8 @@ definitions:
   - name: externalBillingAccounts
     types:
     - uid: string
-- name: QueryTimePeriod
-  description: The start and end date for pulling data for the query.
+- name: ForecastTimePeriod
+  description: Has time period for pulling data for the forecast.
   kind: object
   properties:
   - name: from
@@ -117,7 +117,7 @@ definitions:
   - name: configuration
     description: Has configuration information for the data in the export. The configuration will be ignored if aggregation and grouping are provided.
     types:
-    - uid: QueryDatasetConfiguration
+    - uid: ForecastDatasetConfiguration
   - name: aggregation
     description: Dictionary of aggregation expression to use in the forecast. The key of each item in the dictionary is the alias for the aggregated column. forecast can have up to 2 aggregation clauses.
     types:
@@ -125,13 +125,13 @@ definitions:
       isDictionary: true
       additionalTypes:
       - uid: string
-      - uid: QueryAggregation
+      - uid: ForecastAggregation
   - name: filter
     description: Has filter expression to use in the forecast.
     types:
-    - uid: QueryFilter
-- name: QueryResult
-  description: Result of query. It contains all columns listed under groupings and aggregation.
+    - uid: ForecastFilter
+- name: ForecastResult
+  description: Result of forecast. It contains all columns listed under groupings and aggregation.
   kind: object
   properties:
   - name: properties.nextLink
@@ -141,7 +141,7 @@ definitions:
   - name: properties.columns
     description: Array of columns
     types:
-    - uid: QueryColumn
+    - uid: ForecastColumn
       isArray: true
   - name: properties.rows
     description: Array of rows
@@ -206,21 +206,21 @@ definitions:
   - name: timeframe
     description: The time frame for pulling data for the forecast. If custom, then a specific time period must be provided.
     types:
-    - uid: ForecastTimeframeType
+    - uid: ForecastTimeframe
   - name: timePeriod
     description: Has time period for pulling data for the forecast.
     types:
-    - uid: QueryTimePeriod
+    - uid: ForecastTimePeriod
   - name: dataset
     description: Has definition for data in this forecast.
     types:
     - uid: ForecastDataset
   - name: includeActualCost
-    description: a boolean determining if actualCost will be included
+    description: A boolean determining if actualCost will be included.
     types:
     - uid: boolean
   - name: includeFreshPartialCost
-    description: a boolean determining if FreshPartialCost will be included
+    description: A boolean determining if FreshPartialCost will be included.
     types:
     - uid: boolean
 - name: GranularityType
@@ -230,51 +230,51 @@ definitions:
   - name: Daily
     types:
     - uid: string
-- name: QueryDatasetConfiguration
-  description: The configuration of dataset in the query.
+- name: ForecastDatasetConfiguration
+  description: The configuration of dataset in the forecast.
   kind: object
   properties:
   - name: columns
-    description: Array of column names to be included in the query. Any valid query column name is allowed. If not provided, then query includes all columns.
+    description: Array of column names to be included in the forecast. Any valid forecast column name is allowed. If not provided, then forecast includes all columns.
     types:
     - uid: string
       isArray: true
-- name: QueryAggregation
-  description: The aggregation expression to be used in the query.
+- name: ForecastAggregation
+  description: The aggregation expression to be used in the forecast.
   kind: object
   properties:
   - name: name
     description: The name of the column to aggregate.
     types:
-    - uid: string
+    - uid: FunctionName
   - name: function
     description: The name of the aggregation function to use.
     types:
     - uid: FunctionType
-- name: QueryFilter
+- name: ForecastFilter
   description: The filter expression to be used in the export.
   kind: object
   properties:
   - name: and
     description: The logical "AND" expression. Must have at least 2 items.
     types:
-    - uid: QueryFilter
+    - uid: ForecastFilter
       isArray: true
   - name: or
     description: The logical "OR" expression. Must have at least 2 items.
     types:
-    - uid: QueryFilter
+    - uid: ForecastFilter
       isArray: true
   - name: dimensions
     description: Has comparison expression for a dimension
     types:
-    - uid: QueryComparisonExpression
+    - uid: ForecastComparisonExpression
   - name: tags
     description: Has comparison expression for a tag
     types:
-    - uid: QueryComparisonExpression
-- name: QueryColumn
-  description: QueryColumn properties
+    - uid: ForecastComparisonExpression
+- name: ForecastColumn
+  description: Forecast column properties
   kind: object
   properties:
   - name: name
@@ -312,26 +312,27 @@ definitions:
   - name: AmortizedCost
     types:
     - uid: string
-- name: ForecastTimeframeType
-  description: The time frame for pulling data for the forecast. If custom, then a specific time period must be provided.
+- name: ForecastTimeframe
+  description: The time frame for pulling data for the forecast.
   kind: enum
   properties:
-  - name: MonthToDate
-    types:
-    - uid: string
-  - name: BillingMonthToDate
-    types:
-    - uid: string
-  - name: TheLastMonth
-    types:
-    - uid: string
-  - name: TheLastBillingMonth
-    types:
-    - uid: string
-  - name: WeekToDate
-    types:
-    - uid: string
   - name: Custom
+    types:
+    - uid: string
+- name: FunctionName
+  description: The name of the column to aggregate.
+  kind: enum
+  properties:
+  - name: PreTaxCostUSD
+    types:
+    - uid: string
+  - name: Cost
+    types:
+    - uid: string
+  - name: CostUSD
+    types:
+    - uid: string
+  - name: PreTaxCost
     types:
     - uid: string
 - name: FunctionType
@@ -341,8 +342,8 @@ definitions:
   - name: Sum
     types:
     - uid: string
-- name: QueryComparisonExpression
-  description: The comparison expression to be used in the query.
+- name: ForecastComparisonExpression
+  description: The comparison expression to be used in the forecast.
   kind: object
   properties:
   - name: name
@@ -352,13 +353,13 @@ definitions:
   - name: operator
     description: The operator to use for comparison.
     types:
-    - uid: QueryOperatorType
+    - uid: ForecastOperatorType
   - name: values
     description: Array of values to use for comparison
     types:
     - uid: string
       isArray: true
-- name: QueryOperatorType
+- name: ForecastOperatorType
   description: The operator to use for comparison.
   kind: enum
   properties:
@@ -372,9 +373,19 @@ examples:
     body: >-
       {
         "type": "Usage",
-        "timeframe": "MonthToDate",
+        "timeframe": "Custom",
+        "timePeriod": {
+          "from": "2022-08-01T00:00:00+00:00",
+          "to": "2022-08-31T23:59:59+00:00"
+        },
         "dataset": {
           "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "Cost",
+              "function": "Sum"
+            }
+          },
           "filter": {
             "and": [
               {
@@ -421,9 +432,19 @@ examples:
 
       {
         "type": "Usage",
-        "timeframe": "MonthToDate",
+        "timeframe": "Custom",
+        "timePeriod": {
+          "from": "2022-08-01T00:00:00+00:00",
+          "to": "2022-08-31T23:59:59+00:00"
+        },
         "dataset": {
           "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "Cost",
+              "function": "Sum"
+            }
+          },
           "filter": {
             "and": [
               {
@@ -595,9 +616,19 @@ examples:
     body: >-
       {
         "type": "Usage",
-        "timeframe": "MonthToDate",
+        "timeframe": "Custom",
+        "timePeriod": {
+          "from": "2022-08-01T00:00:00+00:00",
+          "to": "2022-08-31T23:59:59+00:00"
+        },
         "dataset": {
           "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "Cost",
+              "function": "Sum"
+            }
+          },
           "filter": {
             "and": [
               {
@@ -644,9 +675,19 @@ examples:
 
       {
         "type": "Usage",
-        "timeframe": "MonthToDate",
+        "timeframe": "Custom",
+        "timePeriod": {
+          "from": "2022-08-01T00:00:00+00:00",
+          "to": "2022-08-31T23:59:59+00:00"
+        },
         "dataset": {
           "granularity": "Daily",
+          "aggregation": {
+            "totalCost": {
+              "name": "Cost",
+              "function": "Sum"
+            }
+          },
           "filter": {
             "and": [
               {
