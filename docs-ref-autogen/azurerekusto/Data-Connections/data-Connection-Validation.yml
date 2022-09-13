@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.dataconnections.dataconnectionvalidation
 name: data Connection Validation
 service: Azure Kusto
 groupName: Data Connections
-apiVersion: 2022-02-01
+apiVersion: 2022-07-07
 summary: Checks that the data connection parameters are valid.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation?api-version=2022-02-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnectionValidation?api-version=2022-07-07
 uriParameters:
 - name: subscriptionId
   in: path
@@ -143,7 +143,7 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.managedIdentityResourceId
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub.
     types:
     - uid: string
   - name: properties.managedIdentityObjectId
@@ -156,6 +156,10 @@ definitions:
     types:
     - uid: DatabaseRouting
     defaultValue: Single
+  - name: properties.retrievalStartDate
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -218,6 +222,10 @@ definitions:
     types:
     - uid: DatabaseRouting
     defaultValue: Single
+  - name: properties.retrievalStartDate
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioned state of the resource.
@@ -288,7 +296,7 @@ definitions:
     types:
     - uid: blobStorageEventType
   - name: properties.managedIdentityResourceId
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account.
     types:
     - uid: string
   - name: properties.managedIdentityObjectId
@@ -570,7 +578,7 @@ definitions:
 examples:
 - name: KustoDataConnectionValidation
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-02-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-07-07
     body: >-
       {
         "dataConnectionName": "dataConnectionTest",
@@ -590,7 +598,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-02-01
+      POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-07-07
 
       {
         "dataConnectionName": "dataConnectionTest",
@@ -610,96 +618,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.kusto.fluent.models.DataConnectionValidationInner;
-      import com.azure.resourcemanager.kusto.models.Compression;
-      import com.azure.resourcemanager.kusto.models.EventHubDataConnection;
-      import com.azure.resourcemanager.kusto.models.EventHubDataFormat;
-
-      /** Samples for DataConnections DataConnectionValidation. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionValidationAsync.json
-           */
-          /**
-           * Sample code: KustoDataConnectionValidation.
-           *
-           * @param manager Entry point to KustoManager.
-           */
-          public static void kustoDataConnectionValidation(com.azure.resourcemanager.kusto.KustoManager manager) {
-              manager
-                  .dataConnections()
-                  .dataConnectionValidation(
-                      "kustorptest",
-                      "kustoCluster",
-                      "KustoDatabase8",
-                      new DataConnectionValidationInner()
-                          .withDataConnectionName("dataConnectionTest")
-                          .withProperties(
-                              new EventHubDataConnection()
-                                  .withEventHubResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1")
-                                  .withConsumerGroup("testConsumerGroup1")
-                                  .withTableName("TestTable")
-                                  .withMappingRuleName("TestMapping")
-                                  .withDataFormat(EventHubDataFormat.JSON)
-                                  .withCompression(Compression.NONE)
-                                  .withManagedIdentityResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1")),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { KustoManagementClient } = require("@azure/arm-kusto");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Checks that the data connection parameters are valid.
-       *
-       * @summary Checks that the data connection parameters are valid.
-       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionValidationAsync.json
-       */
-      async function kustoDataConnectionValidation() {
-        const subscriptionId = "12345678-1234-1234-1234-123456789098";
-        const resourceGroupName = "kustorptest";
-        const clusterName = "kustoCluster";
-        const databaseName = "KustoDatabase8";
-        const parameters = {
-          dataConnectionName: "dataConnectionTest",
-          properties: {
-            compression: "None",
-            consumerGroup: "testConsumerGroup1",
-            dataFormat: "JSON",
-            eventHubResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
-            kind: "EventHub",
-            managedIdentityResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
-            mappingRuleName: "TestMapping",
-            tableName: "TestTable",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new KustoManagementClient(credential, subscriptionId);
-        const result = await client.dataConnections.beginDataConnectionValidationAndWait(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      kustoDataConnectionValidation().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -714,7 +632,7 @@ examples:
   - statusCode: "202"
 - name: KustoDataConnectionEventGridValidation
   request:
-    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-02-01
+    uri: POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-07-07
     body: >-
       {
         "dataConnectionName": "dataConnectionTest",
@@ -738,7 +656,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-02-01
+      POST https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnectionValidation?api-version=2022-07-07
 
       {
         "dataConnectionName": "dataConnectionTest",
@@ -762,170 +680,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.kusto.fluent.models.DataConnectionValidationInner;
-      import com.azure.resourcemanager.kusto.models.BlobStorageEventType;
-      import com.azure.resourcemanager.kusto.models.DatabaseRouting;
-      import com.azure.resourcemanager.kusto.models.EventGridDataConnection;
-      import com.azure.resourcemanager.kusto.models.EventGridDataFormat;
-
-      /** Samples for DataConnections DataConnectionValidation. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionEventGridValidationAsync.json
-           */
-          /**
-           * Sample code: KustoDataConnectionEventGridValidation.
-           *
-           * @param manager Entry point to KustoManager.
-           */
-          public static void kustoDataConnectionEventGridValidation(com.azure.resourcemanager.kusto.KustoManager manager) {
-              manager
-                  .dataConnections()
-                  .dataConnectionValidation(
-                      "kustorptest",
-                      "kustoCluster",
-                      "KustoDatabase8",
-                      new DataConnectionValidationInner()
-                          .withDataConnectionName("dataConnectionTest")
-                          .withProperties(
-                              new EventGridDataConnection()
-                                  .withStorageAccountResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount")
-                                  .withEventGridResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest")
-                                  .withEventHubResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1")
-                                  .withConsumerGroup("$Default")
-                                  .withTableName("TestTable")
-                                  .withMappingRuleName("TestMapping")
-                                  .withDataFormat(EventGridDataFormat.JSON)
-                                  .withIgnoreFirstRecord(false)
-                                  .withBlobStorageEventType(BlobStorageEventType.MICROSOFT_STORAGE_BLOB_CREATED)
-                                  .withManagedIdentityResourceId(
-                                      "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1")
-                                  .withDatabaseRouting(DatabaseRouting.SINGLE)),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armkusto_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionEventGridValidationAsync.json
-      func ExampleDataConnectionsClient_BeginDataConnectionValidation() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armkusto.NewDataConnectionsClient("12345678-1234-1234-1234-123456789098", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginDataConnectionValidation(ctx,
-      		"kustorptest",
-      		"kustoCluster",
-      		"KustoDatabase8",
-      		armkusto.DataConnectionValidation{
-      			DataConnectionName: to.Ptr("dataConnectionTest"),
-      			Properties: &armkusto.EventGridDataConnection{
-      				Kind: to.Ptr(armkusto.DataConnectionKindEventGrid),
-      				Properties: &armkusto.EventGridConnectionProperties{
-      					BlobStorageEventType:      to.Ptr(armkusto.BlobStorageEventTypeMicrosoftStorageBlobCreated),
-      					ConsumerGroup:             to.Ptr("$Default"),
-      					DataFormat:                to.Ptr(armkusto.EventGridDataFormatJSON),
-      					DatabaseRouting:           to.Ptr(armkusto.DatabaseRoutingSingle),
-      					EventGridResourceID:       to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest"),
-      					EventHubResourceID:        to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1"),
-      					IgnoreFirstRecord:         to.Ptr(false),
-      					ManagedIdentityResourceID: to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1"),
-      					MappingRuleName:           to.Ptr("TestMapping"),
-      					StorageAccountResourceID:  to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount"),
-      					TableName:                 to.Ptr("TestTable"),
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.0.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { KustoManagementClient } = require("@azure/arm-kusto");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Checks that the data connection parameters are valid.
-       *
-       * @summary Checks that the data connection parameters are valid.
-       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionEventGridValidationAsync.json
-       */
-      async function kustoDataConnectionEventGridValidation() {
-        const subscriptionId = "12345678-1234-1234-1234-123456789098";
-        const resourceGroupName = "kustorptest";
-        const clusterName = "kustoCluster";
-        const databaseName = "KustoDatabase8";
-        const parameters = {
-          dataConnectionName: "dataConnectionTest",
-          properties: {
-            blobStorageEventType: "Microsoft.Storage.BlobCreated",
-            consumerGroup: "$Default",
-            dataFormat: "JSON",
-            databaseRouting: "Single",
-            eventGridResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest",
-            eventHubResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1",
-            ignoreFirstRecord: false,
-            kind: "EventGrid",
-            managedIdentityResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1",
-            mappingRuleName: "TestMapping",
-            storageAccountResourceId:
-              "/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount",
-            tableName: "TestTable",
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new KustoManagementClient(credential, subscriptionId);
-        const result = await client.dataConnections.beginDataConnectionValidationAndWait(
-          resourceGroupName,
-          clusterName,
-          databaseName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      kustoDataConnectionEventGridValidation().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

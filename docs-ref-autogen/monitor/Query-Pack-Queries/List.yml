@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.querypackqueries.queries.search
-name: Search
+uid: management.azure.com.monitor.querypackqueries.list
+name: List
 service: Monitor
-groupName: Queries
+groupName: Query Pack Queries
 apiVersion: 2019-09-01
-summary: Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+summary: Gets a list of Queries defined within a Log Analytics QueryPack.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/search?api-version=2019-09-01&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries?api-version=2019-09-01&$top={$top}&includeBody={includeBody}&$skipToken={$skipToken}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -63,44 +63,8 @@ responses:
   description: Error response describing why the operation failed.
   types:
   - uid: ErrorResponse
-requestBody:
-- name: default
-  parameters:
-  - name: related
-    in: body
-    description: The related metadata items for the function.
-    types:
-    - uid: Related
-  - name: tags
-    in: body
-    description: Tags associated with the query.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: array
 requestHeader: []
 definitions:
-- name: Related
-  description: The related metadata items for the function.
-  kind: object
-  properties:
-  - name: categories
-    description: The related categories for the function.
-    types:
-    - uid: string
-      isArray: true
-  - name: resourceTypes
-    description: The related resource types for the function.
-    types:
-    - uid: string
-      isArray: true
-  - name: solutions
-    description: The related Log Analytics solutions for the function.
-    types:
-    - uid: string
-      isArray: true
 - name: LogAnalyticsQueryPackQueryListResult
   description: Describes the list of Log Analytics QueryPack-Query resources.
   kind: object
@@ -122,22 +86,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: LogAnalyticsQueryPackQuerySearchProperties
-  description: Properties that define an Log Analytics QueryPack-Query search properties.
-  kind: object
-  properties:
-  - name: related
-    description: The related metadata items for the function.
-    types:
-    - uid: Related
-  - name: tags
-    description: Tags associated with the query.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: array
 - name: LogAnalyticsQueryPackQuery
   description: A Log Analytics QueryPack-Query definition.
   kind: object
@@ -241,6 +189,25 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: Related
+  description: The related metadata items for the function.
+  kind: object
+  properties:
+  - name: categories
+    description: The related categories for the function.
+    types:
+    - uid: string
+      isArray: true
+  - name: resourceTypes
+    description: The related resource types for the function.
+    types:
+    - uid: string
+      isArray: true
+  - name: solutions
+    description: The related Log Analytics solutions for the function.
+    types:
+    - uid: string
+      isArray: true
 - name: SystemData
   description: Read only system data
   kind: object
@@ -300,89 +267,31 @@ definitions:
     types:
     - uid: string
 examples:
-- name: QuerySearch
+- name: QueryList
   request:
-    uri: POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01&$top=3&includeBody=True
-    body: >-
-      {
-        "related": {
-          "categories": [
-            "other",
-            "analytics"
-          ]
-        },
-        "tags": {
-          "my-label": [
-            "label1"
-          ]
-        }
-      }
+    uri: GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01&includeBody=True
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/search?api-version=2019-09-01&$top=3&includeBody=True
-
-      {
-        "related": {
-          "categories": [
-            "other",
-            "analytics"
-          ]
-        },
-        "tags": {
-          "my-label": [
-            "label1"
-          ]
-        }
-      }
-
+      GET https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries?api-version=2019-09-01&includeBody=True
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
-      import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQuerySearchProperties;
-      import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQuerySearchPropertiesRelated;
-      import java.util.Arrays;
-      import java.util.HashMap;
-      import java.util.Map;
 
-      /** Samples for Queries Search. */
+      /** Samples for Queries List. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
            */
           /**
-           * Sample code: QuerySearch.
+           * Sample code: QueryList.
            *
            * @param manager Entry point to LogAnalyticsManager.
            */
-          public static void querySearch(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
-              manager
-                  .queries()
-                  .search(
-                      "my-resource-group",
-                      "my-querypack",
-                      new LogAnalyticsQueryPackQuerySearchProperties()
-                          .withRelated(
-                              new LogAnalyticsQueryPackQuerySearchPropertiesRelated()
-                                  .withCategories(Arrays.asList("other", "analytics")))
-                          .withTags(mapOf("my-label", Arrays.asList("label1"))),
-                      3L,
-                      true,
-                      null,
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
+          public static void queryList(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager.queries().list("my-resource-group", "my-querypack", null, true, null, Context.NONE);
           }
       }
 
@@ -401,8 +310,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
-      func ExampleQueriesClient_NewSearchPager() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
+      func ExampleQueriesClient_NewListPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -412,20 +321,9 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	pager := client.NewSearchPager("my-resource-group",
+      	pager := client.NewListPager("my-resource-group",
       		"my-querypack",
-      		armoperationalinsights.LogAnalyticsQueryPackQuerySearchProperties{
-      			Related: &armoperationalinsights.LogAnalyticsQueryPackQuerySearchPropertiesRelated{
-      				Categories: []*string{
-      					to.Ptr("other"),
-      					to.Ptr("analytics")},
-      			},
-      			Tags: map[string][]*string{
-      				"my-label": {
-      					to.Ptr("label1")},
-      			},
-      		},
-      		&armoperationalinsights.QueriesClientSearchOptions{Top: to.Ptr[int64](3),
+      		&armoperationalinsights.QueriesClientListOptions{Top: nil,
       			IncludeBody: to.Ptr(true),
       			SkipToken:   nil,
       		})
@@ -449,37 +347,27 @@ examples:
       const { DefaultAzureCredential } = require("@azure/identity");
 
       /**
-       * This sample demonstrates how to Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+       * This sample demonstrates how to Gets a list of Queries defined within a Log Analytics QueryPack.
        *
-       * @summary Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
-       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesSearch.json
+       * @summary Gets a list of Queries defined within a Log Analytics QueryPack.
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesList.json
        */
-      async function querySearch() {
+      async function queryList() {
         const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
         const resourceGroupName = "my-resource-group";
         const queryPackName = "my-querypack";
-        const top = 3;
         const includeBody = true;
-        const querySearchProperties = {
-          related: { categories: ["other", "analytics"] },
-          tags: { myLabel: ["label1"] },
-        };
-        const options = { top, includeBody };
+        const options = { includeBody };
         const credential = new DefaultAzureCredential();
         const client = new OperationalInsightsManagementClient(credential, subscriptionId);
         const resArray = new Array();
-        for await (let item of client.queries.listSearch(
-          resourceGroupName,
-          queryPackName,
-          querySearchProperties,
-          options
-        )) {
+        for await (let item of client.queries.list(resourceGroupName, queryPackName, options)) {
           resArray.push(item);
         }
         console.log(resArray);
       }
 
-      querySearch().catch(console.error);
+      queryList().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.
@@ -506,21 +394,8 @@ examples:
               "author": "1809f206-263a-46f7-942d-4572c156b7e7",
               "timeModified": "2019-08-15T10:29:56.1030254Z",
               "displayName": "Heartbeat_1",
-              "description": "Thie query takes 10 entries of heartbeat 0",
-              "body": "Heartbeat | take 1",
-              "related": {
-                "categories": [
-                  "other"
-                ]
-              },
-              "tags": {
-                "my-label": [
-                  "label1"
-                ],
-                "my-other-label": [
-                  "label2"
-                ]
-              }
+              "description": "Thie query takes 10 entries of heartbeat",
+              "body": "heartbeat | take 10"
             }
           },
           {
@@ -541,21 +416,8 @@ examples:
               "author": "1809f206-263a-46f7-942d-4572c156b7e7",
               "timeModified": "2019-08-15T10:30:26.7943629Z",
               "displayName": "Heartbeat_2",
-              "description": "Thie query takes 10 entries of heartbeat 1",
-              "body": "Heartbeat | take 1",
-              "related": {
-                "categories": [
-                  "analytics"
-                ]
-              },
-              "tags": {
-                "my-label": [
-                  "label1"
-                ],
-                "my-other-label": [
-                  "label2"
-                ]
-              }
+              "description": "Thie query takes 10 entries of heartbeat",
+              "body": "heartbeat | take 10"
             }
           },
           {
@@ -576,22 +438,30 @@ examples:
               "author": "1809f206-263a-46f7-942d-4572c156b7e7",
               "timeModified": "2019-08-15T10:30:29.4505584Z",
               "displayName": "Heartbeat_3",
-              "description": "Thie query takes 10 entries of heartbeat 2",
-              "body": "Heartbeat | take 1",
-              "related": {
-                "categories": [
-                  "other",
-                  "analytics"
-                ]
-              },
-              "tags": {
-                "my-label": [
-                  "label1"
-                ],
-                "my-other-label": [
-                  "label2"
-                ]
-              }
+              "description": "Thie query takes 10 entries of heartbeat",
+              "body": "heartbeat | take 10"
+            }
+          },
+          {
+            "id": "/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/microsoft.operationalinsights/queryPacks/my-querypack/queries/a5a9010e-e4b7-45ad-8b14-09d7e6082819",
+            "name": "a5a9010e-e4b7-45ad-8b14-09d7e6082819",
+            "type": "microsoft.operationalinsights/queryPacks/queries",
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "application",
+              "createdAt": "2020-02-03T01:01:01.1075056Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "application",
+              "lastModifiedAt": "2020-02-04T02:03:01.1974346Z"
+            },
+            "properties": {
+              "id": "a5a9010e-e4b7-45ad-8b14-09d7e6082819",
+              "timeCreated": "2019-08-15T10:30:32.5742324Z",
+              "author": "1809f206-263a-46f7-942d-4572c156b7e7",
+              "timeModified": "2019-08-15T10:30:32.5742324Z",
+              "displayName": "Heartbeat_4",
+              "description": "Thie query takes 10 entries of heartbeat",
+              "body": "heartbeat | take 10"
             }
           }
         ],
@@ -608,5 +478,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Search a list of Queries defined within a Log Analytics QueryPack according to given search properties.
+    Learn more about Monitor service - Gets a list of Queries defined within a Log Analytics QueryPack.
 errorCodes: []

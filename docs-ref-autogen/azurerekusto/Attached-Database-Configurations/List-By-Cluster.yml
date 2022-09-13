@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.attacheddatabaseconfigurations.listbyclus
 name: List By Cluster
 service: Azure Kusto
 groupName: Attached Database Configurations
-apiVersion: 2022-02-01
+apiVersion: 2022-07-07
 summary: Returns the list of attached database configurations of the given Kusto cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations?api-version=2022-02-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/attachedDatabaseConfigurations?api-version=2022-07-07
 uriParameters:
 - name: subscriptionId
   in: path
@@ -99,6 +99,14 @@ definitions:
     description: Table level sharing specifications
     types:
     - uid: TableLevelSharingProperties
+  - name: properties.databaseNameOverride
+    description: Overrides the original database name. Relevant only when attaching to a specific database.
+    types:
+    - uid: string
+  - name: properties.databaseNamePrefix
+    description: Adds a prefix to the attached databases name. When following an entire cluster, that prefix would be added to all of the databases original names from leader cluster.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -207,106 +215,13 @@ definitions:
 examples:
 - name: KustoAttachedDatabaseConfigurationsListByCluster
   request:
-    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2/attachedDatabaseConfigurations?api-version=2022-02-01
+    uri: GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2/attachedDatabaseConfigurations?api-version=2022-07-07
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2/attachedDatabaseConfigurations?api-version=2022-02-01
+      GET https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster2/attachedDatabaseConfigurations?api-version=2022-07-07
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for AttachedDatabaseConfigurations ListByCluster. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
-           */
-          /**
-           * Sample code: KustoAttachedDatabaseConfigurationsListByCluster.
-           *
-           * @param manager Entry point to KustoManager.
-           */
-          public static void kustoAttachedDatabaseConfigurationsListByCluster(
-              com.azure.resourcemanager.kusto.KustoManager manager) {
-              manager.attachedDatabaseConfigurations().listByCluster("kustorptest", "kustoCluster2", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armkusto_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
-      func ExampleAttachedDatabaseConfigurationsClient_NewListByClusterPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armkusto.NewAttachedDatabaseConfigurationsClient("12345678-1234-1234-1234-123456789098", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListByClusterPager("kustorptest",
-      		"kustoCluster2",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.0.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { KustoManagementClient } = require("@azure/arm-kusto");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Returns the list of attached database configurations of the given Kusto cluster.
-       *
-       * @summary Returns the list of attached database configurations of the given Kusto cluster.
-       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoAttachedDatabaseConfigurationsListByCluster.json
-       */
-      async function kustoAttachedDatabaseConfigurationsListByCluster() {
-        const subscriptionId = "12345678-1234-1234-1234-123456789098";
-        const resourceGroupName = "kustorptest";
-        const clusterName = "kustoCluster2";
-        const credential = new DefaultAzureCredential();
-        const client = new KustoManagementClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.attachedDatabaseConfigurations.listByCluster(
-          resourceGroupName,
-          clusterName
-        )) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      kustoAttachedDatabaseConfigurationsListByCluster().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

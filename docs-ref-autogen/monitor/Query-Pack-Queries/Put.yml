@@ -1,8 +1,8 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.monitor.querypackqueries.queries.update
-name: Update
+uid: management.azure.com.monitor.querypackqueries.put
+name: Put
 service: Monitor
-groupName: Queries
+groupName: Query Pack Queries
 apiVersion: 2019-09-01
 summary: Adds or Updates a specific Query within a Log Analytics QueryPack.
 consumes:
@@ -10,7 +10,7 @@ consumes:
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/{id}?api-version=2019-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/queryPacks/{queryPackName}/queries/{id}?api-version=2019-09-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -281,9 +281,9 @@ definitions:
     types:
     - uid: object
 examples:
-- name: QueryPatch
+- name: QueryPut
   request:
-    uri: PATCH https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01
+    uri: PUT https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01
     body: >-
       {
         "properties": {
@@ -308,7 +308,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01
+      PUT https://management.azure.com/subscriptions/86dc51d3-92ed-4d7e-947a-775ea79b4918/resourceGroups/my-resource-group/providers/Microsoft.OperationalInsights/queryPacks/my-querypack/queries/a449f8af-8e64-4b3a-9b16-5a7165ff98c4?api-version=2019-09-01
 
       {
         "properties": {
@@ -335,32 +335,26 @@ examples:
 
       # [Java](#tab/Java)
       ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQuery;
       import com.azure.resourcemanager.loganalytics.models.LogAnalyticsQueryPackQueryPropertiesRelated;
       import java.util.Arrays;
       import java.util.HashMap;
       import java.util.Map;
 
-      /** Samples for Queries Update. */
+      /** Samples for Queries Put. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesUpdate.json
+           * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesPut.json
            */
           /**
-           * Sample code: QueryPatch.
+           * Sample code: QueryPut.
            *
            * @param manager Entry point to LogAnalyticsManager.
            */
-          public static void queryPatch(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
-              LogAnalyticsQueryPackQuery resource =
-                  manager
-                      .queries()
-                      .getWithResponse(
-                          "my-resource-group", "my-querypack", "a449f8af-8e64-4b3a-9b16-5a7165ff98c4", Context.NONE)
-                      .getValue();
-              resource
-                  .update()
+          public static void queryPut(com.azure.resourcemanager.loganalytics.LogAnalyticsManager manager) {
+              manager
+                  .queries()
+                  .define("a449f8af-8e64-4b3a-9b16-5a7165ff98c4")
+                  .withExistingQueryPack("my-resource-group", "my-querypack")
                   .withTags(mapOf("my-label", Arrays.asList("label1"), "my-other-label", Arrays.asList("label2")))
                   .withDisplayName("Exceptions - New in the last 24 hours")
                   .withDescription("my description")
@@ -379,7 +373,7 @@ examples:
                           + ") on problemId \n"
                           + "| order by  count_ desc\n")
                   .withRelated(new LogAnalyticsQueryPackQueryPropertiesRelated().withCategories(Arrays.asList("analytics")))
-                  .apply();
+                  .create();
           }
 
           @SuppressWarnings("unchecked")
@@ -409,8 +403,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/operationalinsights/armoperationalinsights/v2"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesUpdate.json
-      func ExampleQueriesClient_Update() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesPut.json
+      func ExampleQueriesClient_Put() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -420,7 +414,7 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.Update(ctx,
+      	res, err := client.Put(ctx,
       		"my-resource-group",
       		"my-querypack",
       		"a449f8af-8e64-4b3a-9b16-5a7165ff98c4",
@@ -460,9 +454,9 @@ examples:
        * This sample demonstrates how to Adds or Updates a specific Query within a Log Analytics QueryPack.
        *
        * @summary Adds or Updates a specific Query within a Log Analytics QueryPack.
-       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesUpdate.json
+       * x-ms-original-file: specification/operationalinsights/resource-manager/Microsoft.OperationalInsights/stable/2019-09-01/examples/QueryPackQueriesPut.json
        */
-      async function queryPatch() {
+      async function queryPut() {
         const subscriptionId = "86dc51d3-92ed-4d7e-947a-775ea79b4918";
         const resourceGroupName = "my-resource-group";
         const queryPackName = "my-querypack";
@@ -476,11 +470,11 @@ examples:
         };
         const credential = new DefaultAzureCredential();
         const client = new OperationalInsightsManagementClient(credential, subscriptionId);
-        const result = await client.queries.update(resourceGroupName, queryPackName, id, queryPayload);
+        const result = await client.queries.put(resourceGroupName, queryPackName, id, queryPayload);
         console.log(result);
       }
 
-      queryPatch().catch(console.error);
+      queryPut().catch(console.error);
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-operationalinsights_9.0.0-beta.1/sdk/operationalinsights/arm-operationalinsights/README.md) on how to add the SDK to your project and authenticate.

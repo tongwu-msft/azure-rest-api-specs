@@ -14553,6 +14553,14 @@
 ### Predictive Metric
 #### [Overview](monitor/Predictive-Metric.yml)
 #### [Get](monitor/Predictive-Metric/Get.yml)
+### Query Pack Queries
+#### [Overview](monitor/Query-Pack-Queries.yml)
+#### [Delete](monitor/Query-Pack-Queries/Delete.yml)
+#### [Get](monitor/Query-Pack-Queries/Get.yml)
+#### [List](monitor/Query-Pack-Queries/List.yml)
+#### [Put](monitor/Query-Pack-Queries/Put.yml)
+#### [Search](monitor/Query-Pack-Queries/Search.yml)
+#### [Update](monitor/Query-Pack-Queries/Update.yml)
 ### Query Packs
 #### [Overview](monitor/Query-Packs.yml)
 #### [Create Or Update](monitor/Query-Packs/Create-Or-Update.yml)
@@ -14633,15 +14641,6 @@
 ##### [List](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/Update-Tags.yml)
-### Query Pack Queries
-#### Queries
-##### [Overview](monitor/querypackqueries/Queries.yml)
-##### [Delete](monitor/querypackqueries/Queries/Delete.yml)
-##### [Get](monitor/querypackqueries/Queries/Get.yml)
-##### [List](monitor/querypackqueries/Queries/List.yml)
-##### [Put](monitor/querypackqueries/Queries/Put.yml)
-##### [Search](monitor/querypackqueries/Queries/Search.yml)
-##### [Update](monitor/querypackqueries/Queries/Update.yml)
 ### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
 ##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
