@@ -33,4 +33,4 @@ Azure Virtual Network Manager is a central management service for your virtual n
 
 ## See also
 
-- [Azure Virtual Network Manager documentation](https://docs.microsoft.com/azure/virtual-network-manager/)
+- [Azure Virtual Network Manager documentation](/azure/virtual-network-manager/)

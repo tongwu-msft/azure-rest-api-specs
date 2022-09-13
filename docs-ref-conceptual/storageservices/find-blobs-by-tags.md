@@ -1,6 +1,6 @@
 ---
 title: Find Blobs by Tags (REST API) - Azure Storage
-description: The Find Blobs by Tags operation returns all blobs whose tags match a given search expression.
+description: The Find Blobs by Tags operation returns all blobs whose tags match a search expression.
 author: rerdmann
 
 ms.date: 07/06/2020
@@ -9,63 +9,70 @@ ms.topic: reference
 ms.author: rerdmann
 ---
 
-# Find Blobs by Tags operation
+# Find Blobs by Tags
 
-The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a given search expression.  
+The `Find Blobs by Tags` operation finds all blobs in the storage account whose tags match a search expression.  
   
 ## Request  
- The `Find Blobs by Tags` request may be constructed as follows. HTTPS is recommended. Replace *myaccount* with the name of your storage account:  
+
+You can construct the `Find Blobs by Tags` request as follows. We recommend HTTPS. Replace *myaccount* with the name of your storage account.  
   
-|GET Method Request URI|HTTP Version|  
+|GET method request URI|HTTP version|  
 |------------------------------------|------------------|  
 |`https://myaccount.blob.core.windows.net?comp=blobs&where=<expression>`|HTTP/1.1|  
   
 ### URI parameters
   
- The following additional parameters may be specified on the request URI.  
+You can specify the following additional parameters on the request URI:  
   
 |Parameter|Description|  
 |---------------|-----------------|  
-|`expression`|Required. Filters the result set to only include blobs whose tags match the specified expression. <br /><br /> See the Remarks for more information on how to construct this expression.|  
-|`marker`|Optional. A string value that identifies the portion of the result set to be returned with the next operation. The operation returns a marker value within the response body if the result set returned was not complete. The marker value may then be used in a subsequent call to request the next set of items.<br /><br /> The marker value is opaque to the client.|  
-|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request does not specify `maxresults` or specifies a value greater than 5,000, the server will return up to 5,000 items. If there are additional results to return, the service returns a continuation token in the `NextMarker` response element. In certain cases, the service may return fewer results than specified by `maxresults` and also return a continuation token.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
-|`timeout`|Optional. The `timeout` parameter is expressed in seconds. For more information, see [Setting Timeouts for Blob Service Operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
+|`expression`|Required. Filters the result set to include only blobs whose tags match the specified expression. <br /><br /> For more information on how to construct this expression, see [Remarks](#remarks).|  
+|`marker`|Optional. A string value that identifies the portion of the result set to be returned with the next operation. The operation returns a marker value within the response body if the returned result set was not complete. The marker value can then be used in a subsequent call to request the next set of items.<br /><br /> The marker value is opaque to the client.|  
+|`maxresults`|Optional. Specifies the maximum number of blobs to return. If the request doesn't specify `maxresults` or specifies a value greater than 5,000, the server returns up to 5,000 items. If there are additional results to return, the service returns a continuation token in the `NextMarker` response element. In certain cases, the service might return fewer results than `maxresults` specifies. The service might also return a continuation token.<br /><br /> Setting `maxresults` to a value less than or equal to zero results in error response code 400 (Bad Request).|  
+|`timeout`|Optional. Expressed in seconds. For more information, see [Set timeouts for Blob Storage operations](Setting-Timeouts-for-Blob-Service-Operations.md).|  
   
-### Request Headers  
- The following table describes required and optional request headers.  
+### Request headers  
+
+The following table describes required and optional request headers:  
   
-|Request Header|Description|  
+|Request header|Description|  
 |--------------------|-----------------|  
 |`Authorization`|Required. Specifies the authorization scheme, account name, and signature. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
 |`Date` or `x-ms-date`|Required. Specifies the Coordinated Universal Time (UTC) for the request. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).|  
-|`x-ms-version`|Required for all authorized requests, optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage Services](Versioning-for-the-Azure-Storage-Services.md).|  
-|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1 KiB character limit that is recorded in the analytics logs when storage analytics logging is enabled. Using this header is highly recommended for correlating client-side activities with requests received by the server. For more information, see [About Storage Analytics Logging](About-Storage-Analytics-Logging.md) and [Azure Logging: Using Logs to Track Storage Requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
+|`x-ms-version`|Required for all authorized requests, but optional for anonymous requests. Specifies the version of the operation to use for this request. For more information, see [Versioning for the Azure Storage services](Versioning-for-the-Azure-Storage-Services.md).|  
+|`x-ms-client-request-id`|Optional. Provides a client-generated, opaque value with a 1-kibibyte (KiB) character limit that's recorded in the Azure Monitor logs when logging is configured. We highly recommend that you use this header to correlate client-side activities with requests that the server receives. For more information, see [Azure logging: Use logs to track storage requests](https://blogs.msdn.com/b/windowsazurestorage/archive/2011/08/03/windows-azure-storage-logging-using-logs-to-track-storage-requests.aspx).|  
   
-### Request Body  
- None.  
+### Request body  
+
+None.  
   
 ## Response  
- The response includes an HTTP status code, response headers, and response body.  
+
+The response includes an HTTP status code, response headers, and a response body.  
   
-### Status Code  
- A successful operation returns status code 200 (OK).  
+### Status code  
+
+A successful operation returns status code 200 (OK).  
   
- For information about status codes, see [Status and Error Codes](Status-and-Error-Codes2.md).  
+For information about status codes, see [Status and error codes](Status-and-Error-Codes2.md).  
   
-### Response Headers  
- The response for this operation includes the following headers. The response may also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
+### Response headers  
+
+The response for this operation includes the following headers. The response might also include additional standard HTTP headers. All standard headers conform to the [HTTP/1.1 protocol specification](https://go.microsoft.com/fwlink/?linkid=150478).  
   
 |Response header|Description|  
 |---------------------|-----------------|  
-|`Content-Type`|`application/xml`|  
-|`Content-Length`|The size of the returned XML document, in bytes|  
-|`x-ms-request-id`|This header uniquely identifies the request that was made and can be used for troubleshooting the request. For more information, see [Troubleshooting API Operations](Troubleshooting-API-Operations.md).|  
-|`x-ms-version`|Indicates the version of the Blob service used to execute the request.|  
-|`Date`|A UTC date/time value generated by the service that indicates the time at which the response was initiated.|  
-|`x-ms-client-request-id`|This header can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header if it is present in the request and the value is at most 1024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header will not be present in the response.|  
+|`Content-Type`|Specifies `application/xml` as the content type.|  
+|`Content-Length`|Specifies the size of the returned XML document, in bytes.|  
+|`x-ms-request-id`|Uniquely identifies the request that was made. You can use it to troubleshoot the request. For more information, see [Troubleshoot API operations](Troubleshooting-API-Operations.md).|  
+|`x-ms-version`|Indicates the version of Azure Blob Storage that was used to execute the request.|  
+|`Date`|A UTC date/time value that indicates the time at which the service sent the response.|  
+|`x-ms-client-request-id`|Can be used to troubleshoot requests and corresponding responses. The value of this header is equal to the value of the `x-ms-client-request-id` header, if it's present in the request and the value is at most 1,024 visible ASCII characters. If the `x-ms-client-request-id` header is not present in the request, this header won't be present in the response.|  
   
-### Response Body  
- In version 2020-04-08 and newer, the blob's matching tags are encapsulated within a Tags element. The format of the response body is as follows:  
+### Response body  
+
+In version 2020-04-08 and later, the blob's matching tags are encapsulated within a `Tags` element. The format of the response body is as follows:  
   
 ```  
 <?xml version="1.0" encoding="utf-8"?>  
@@ -93,23 +100,27 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 </EnumerationResults>  
 ```
   
- The response body is a well-formed UTF-8 XML document.
+The response body is a well-formed UTF-8 XML document.
   
 ## Authorization  
- This operation can be called by the account owner and by anyone with a Shared Access Signature that has permission to find blobs by tags (the `f` SAS permission). Note that an [account SAS](create-account-sas.md) is required for authorization.
-  
- In addition, RBAC users with the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission can perform this operation.  
+
+The following users can perform this operation:
+
+- The account owner.
+- Anyone with a shared access signature (SAS) who has permission to find blobs by tags (the `f` SAS permission). An [account SAS](create-account-sas.md) is required for authorization.  
+- Role-based access control (RBAC) users who have the `Microsoft.Storage/storageAccounts/blobServices/containers/blobs/filter/action` permission.  
   
 ## Remarks  
- The `Find Blobs by Tags` operation is supported in REST API version 2019-12-12 and later.  
+
+The `Find Blobs by Tags` operation is supported in REST API version 2019-12-12 and later.  
   
-  The secondary index used by `Find Blobs by Tags` is eventually consistent. Updates to blob tags via `Set Blob Tags` many not be immediately visible to `Find Blobs by Tags` operations.  
+The secondary index that `Find Blobs by Tags` uses is eventually consistent. Updates to blob tags via `Set Blob Tags` might not be immediately visible to `Find Blobs by Tags` operations.  
   
-### Constructing a Search Expression
+### Constructing a search expression
   
- The `where` URI parameter finds blobs in the storage account whose tags match a given expression. The expression must evaluate to `true` for a blob to be returned in the result set.
+The `where` URI parameter finds blobs in the storage account whose tags match an expression. The expression must evaluate to `true` for a blob to be returned in the result set.
   
- The storage service supports a subset of the ANSI SQL WHERE clause grammar for the value of the `where=<expression>` query parameter. The following operators are supported:
+The storage service supports a subset of the ANSI SQL `WHERE` clause grammar for the value of the `where=<expression>` query parameter. The storage service supports the following operators:
   
 |Operator|Description|Example|  
 |---------------|-----------------|-----------------|  
@@ -121,16 +132,18 @@ The `Find Blobs by Tags` operation finds all blobs in the storage account whose 
 |`AND`|Logical and|`&where=Name > 'C' AND Name < 'D'`<br />`&where=Age > '032' AND Age < '100'`|  
 |`@container`|Specify a container|`&where=@container='mycontainer' AND Name = 'C'`|  
   
- **Note:** the value of the `where` URI parameter must be properly URI encoded (including spaces and operators). The examples above omit this for readability.  
+> [!NOTE]
+> The value of the `where` URI parameter must be properly URI encoded (including spaces and operators). The preceding examples omit this for readability.  
   
- All tag values are strings, and the supported binary relational operators use a lexicographic sorting of the tag values. To support non-string data types, including numbers and dates, appropriate padding and sortable formatting must be employed.  Tag values must be enclosed in single quotes.  
+All tag values are strings. The supported binary relational operators use a lexicographic sorting of the tag values. To support non-string data types, including numbers and dates, you must use appropriate padding and sortable formatting. Tag values must be enclosed in single quotation marks.  
   
- If tag names are regular SQL identifiers, they may be present without escaping; if they contain any special characters, they must be delimited with double quotes (e.g. "TagName" = 'TagValue'). It is recommended to always enclose tag names in double quotes.  
+If tag names are regular SQL identifiers, they can be present without escaping. If they contain any special characters, they must be delimited with double quotation marks (for example, `"TagName"` = `TagValue`). We recommend that you always enclose tag names in double quotation marks.  
   
- The storage service will reject any request that contains an invalid expression with error code 400 (Bad Request).  
+The storage service will reject any request that contains an invalid expression with error code 400 (Bad Request). 
   
 ## See also  
- [Manage and find data on Azure Blob Storage with Blob Index](/azure/storage/blobs/storage-manage-find-blobs)  
- [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
- [Status and Error Codes](Status-and-Error-Codes2.md)  
- [Blob Service Error Codes](Blob-Service-Error-Codes.md)  
+
+[Manage and find data on Azure Blob Storage with blob index tags](/azure/storage/blobs/storage-manage-find-blobs)  
+[Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md)  
+[Status and error codes](Status-and-Error-Codes2.md)  
+[Blob Storage error codes](Blob-Service-Error-Codes.md)  

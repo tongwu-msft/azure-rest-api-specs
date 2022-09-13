@@ -1,6 +1,6 @@
 ---
 title: Azure Data Lake Storage Gen2 REST API reference - Azure Storage
-description: Use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob storage through a file system interface. This interface allows you to create and manage file systems, as well as to create and manage directories and files.
+description: Learn how to use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob Storage through a file system interface.
 author: pemari-msft
 
 ms.date: 09/20/2019
@@ -10,13 +10,13 @@ ms.topic: reference
 service_description: Azure Data Lake Storage Gen2 is a set of capabilities dedicated to big data analytics, built on top of Azure Blob storage.
 ---
 
-# Azure Data Lake Store REST API
+# Azure Data Lake Storage Gen2 REST APIs
 
-Use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob storage through a file system interface. This interface allows you to create and manage file systems, as well as to create and manage directories and files.
+Use the Azure Data Lake Storage Gen2 REST APIs to interact with Azure Blob Storage through a file system interface. On that interface, you can create and manage file systems, directories, and files.
 
 ## Authorization
 
-Azure Data Lake Storage Gen2 APIs support Azure Active Directory (Azure AD), Shared Key, and shared access signature (SAS) authorization. See [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).
+Azure Data Lake Storage Gen2 REST APIs support Azure Active Directory (Azure AD), Shared Key, and shared access signature (SAS) authorization. For more information, see [Authorize requests to Azure Storage](authorize-requests-to-azure-storage.md).
 
 ## Operations
 
@@ -37,5 +37,5 @@ Azure Data Lake Storage Gen2 APIs support Azure Active Directory (Azure AD), Sha
 
 ## See also
 
-- [Azure Data Lake Storage Gen2 Documentation](/azure/storage/data-lake-storage/introduction)
+- [Azure Data Lake Storage Gen2 documentation](/azure/storage/data-lake-storage/introduction)
 - [Azure Blob Storage REST API](/rest/api/storageservices/blob-service-rest-api)

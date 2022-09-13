@@ -2,7 +2,7 @@
 title: "Send batch events"
 description: Learn how the Send Batch Events sends a new batched message event to an Event Hub.
 ms.custom: ""
-ms.date: 07/14/2020
+ms.date: 09/06/2022
 ms.reviewer: ""
 ms.service: "event-hubs"
 ms.suite: ""
@@ -47,13 +47,7 @@ Sends a new batched message event to an Event Hub. Batching reduces the number o
 [{"Body":"Message1"},{"Body":"Message2"},{"Body":"Message3"}]  
 ```  
   
- The `BrokerProperties` and `UserProperties`properties can't be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting `BrokerProperties` in batched events:  
-  
-```json  
-[{"Body":"Message1", "BrokerProperties":{"CorrelationId","32119834-65f3-48c1-b366-619df2e4c400"}},{"Body":"Message2"},{"Body":"Message3"}]  
-```  
-  
- Setting `UserProperties` in batched events:  
+ `UserProperties` can't be set in headers when sending batch events (they will be ignored). Instead, send them as part of the request body. For example, setting `UserProperties` in batched events:  
   
 ```json  
 [{"Body":"Message1", "UserProperties":{"Alert":"Strong Wind"}}, {"Body":"Message2"}, {"Body":"Message3"}]  

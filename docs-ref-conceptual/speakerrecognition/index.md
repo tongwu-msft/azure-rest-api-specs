@@ -2,7 +2,7 @@
 title: Speaker Recognition APIs
 description: Introduction for Speaker Recognition APIs
 author: kiliu
-ms.author: kiliu
+ms.author: jasonh
 ms.date: 05/28/2020
 ms.topic: reference
 ms.service: cognitive-services
@@ -11,7 +11,7 @@ ms.devlang: rest-api
 
 # Speaker Recognition
 
-The Azure Cognitive Service Speaker Recognition service provides algorithms that verify and identify speakers by their unique voice characteristics. Speaker Recognition is used to answer the question "who is speaking?". [Learn more](https://azure.microsoft.com/en-us/services/cognitive-services/speaker-recognition/).
+The Azure Cognitive Service Speaker Recognition service provides algorithms that verify and identify speakers by their unique voice characteristics. Speaker Recognition is used to answer the question "who is speaking?". [Learn more](https://azure.microsoft.com/services/cognitive-services/speaker-recognition/).
 
 Voice has unique characteristics that can be associated with an individual. We provide Speaker Verification APIs and Speaker Identification APIs for two major applications of Speaker Recognition technologies.
 
@@ -70,4 +70,4 @@ The APIs are not intended to determine whether the audio is from a live person o
 
 ## See Also
 
-- [Tutorial for text-independent speaker verification API](https://azure.microsoft.com/en-us/resources/videos/speaker-recognition-text-independent-verification-developer-tutorial/)
+- [Tutorial for text-independent speaker verification API](https://azure.microsoft.com/resources/videos/speaker-recognition-text-independent-verification-developer-tutorial/)
