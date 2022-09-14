@@ -13954,17 +13954,17 @@
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
 # Marketplace Catalog
 ## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
-## Data Plane
-### Search
-#### [Overview](marketplacecatalog/dataplane/Search.yml)
-#### [Get](marketplacecatalog/dataplane/Search/Get.yml)
-## Resource Manager
+## 2022-02-02
 ### Operations
-#### [Overview](marketplacecatalog/resourcemanager/Operations.yml)
-#### [List](marketplacecatalog/resourcemanager/Operations/List.yml)
+#### [Overview](marketplacecatalog/2022-02-02/Operations.yml)
+#### [List](marketplacecatalog/2022-02-02/Operations/List.yml)
 ### Search
-#### [Overview](marketplacecatalog/resourcemanager/Search.yml)
-#### [Post Arm](marketplacecatalog/resourcemanager/Search/Post-Arm.yml)
+#### [Overview](marketplacecatalog/2022-02-02/Search.yml)
+#### [Post Arm](marketplacecatalog/2022-02-02/Search/Post-Arm.yml)
+## 2022-08-17-preview
+### Search
+#### [Overview](marketplacecatalog/2022-08-17-preview/Search.yml)
+#### [Get](marketplacecatalog/2022-08-17-preview/Search/Get.yml)
 # Marketplace Ordering
 ## [Overview](../docs-ref-conceptual/marketplaceordering/index.md)
 ## Marketplace Agreements
