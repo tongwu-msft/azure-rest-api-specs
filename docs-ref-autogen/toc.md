@@ -13704,6 +13704,13 @@
 ## Geolocation
 ### [Overview](maps/Geolocation.yml)
 ### [Get IP To Location](maps/Geolocation/Get-IP-To-Location.yml)
+## Map Configuration
+### [Overview](maps/Map-Configuration.yml)
+### [Create](maps/Map-Configuration/Create.yml)
+### [Delete](maps/Map-Configuration/Delete.yml)
+### [Get](maps/Map-Configuration/Get.yml)
+### [Get Operation](maps/Map-Configuration/Get-Operation.yml)
+### [List](maps/Map-Configuration/List.yml)
 ## Render
 ### [Overview](maps/Render.yml)
 ### [Get Copyright Caption](maps/Render/Get-Copyright-Caption.yml)
@@ -13774,6 +13781,22 @@
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
 ### [Post Point In Polygon](maps/Spatial/Post-Point-In-Polygon.yml)
+## Style
+### [Overview](maps/Style.yml)
+### [Delete](maps/Style/Delete.yml)
+### [Export](maps/Style/Export.yml)
+### [Get Operation](maps/Style/Get-Operation.yml)
+### [Import](maps/Style/Import.yml)
+### [List](maps/Style/List.yml)
+## Tileset
+### [Overview](maps/Tileset.yml)
+### [Create](maps/Tileset/Create.yml)
+### [Delete](maps/Tileset/Delete.yml)
+### [Get](maps/Tileset/Get.yml)
+### [Get Configuration](maps/Tileset/Get-Configuration.yml)
+### [Get Operation](maps/Tileset/Get-Operation.yml)
+### [List](maps/Tileset/List.yml)
+### [Validate Configuration](maps/Tileset/Validate-Configuration.yml)
 ## Timezone
 ### [Overview](maps/Timezone.yml)
 ### [Get Timezone By Coordinates](maps/Timezone/Get-Timezone-By-Coordinates.yml)
