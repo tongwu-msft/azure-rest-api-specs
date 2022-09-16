@@ -18,24 +18,19 @@ This section shows how to programmatically generate a SAS token for using Azure 
 
 ## NodeJS
 ```js
-var generateSasToken = generateSasToken(resourceUri, signingKey, policyName, expiresInMins) {
-    resourceUri = encodeURIComponent(resourceUri);
-
-    // Set expiration in seconds
-    var expires = (Date.now() / 1000) + expiresInMins * 60;
-    expires = Math.ceil(expires);
-    var toSign = resourceUri + '\n' + expires;
-
-    // Use crypto
-    var hmac = crypto.createHmac('sha256', Buffer.from(signingKey, 'utf-8'));
-    hmac.update(toSign);
-    var base64UriEncoded = encodeURIComponent(hmac.digest('base64'));
-
-    // Construct authorization string
-    var token = "SharedAccessSignature sr=" + resourceUri + "&sig=" + base64UriEncoded + "&se=" + expires;
-    if (policyName) token += "&skn="+policyName;
-    return token;
-};
+function createSharedAccessToken(uri, saName, saKey) { 
+    if (!uri || !saName || !saKey) { 
+            throw "Missing required parameter"; 
+        } 
+    var encoded = encodeURIComponent(uri); 
+    var now = new Date(); 
+    var week = 60*60*24*7;
+    var ttl = Math.round(now.getTime() / 1000) + week;
+    var signature = encoded + '\n' + ttl; 
+    var signatureUTF8 = utf8.encode(signature); 
+    var hash = crypto.createHmac('sha256', saKey).update(signatureUTF8).digest('base64'); 
+    return 'SharedAccessSignature sr=' + encoded + '&sig=' + encodeURIComponent(hash) + '&se=' + ttl + '&skn=' + saName; 
+}
 ``` 
 
 ## Java
