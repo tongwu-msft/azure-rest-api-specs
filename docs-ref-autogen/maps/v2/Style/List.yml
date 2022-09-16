@@ -1,33 +1,20 @@
 ### YamlMime:RESTOperation
-uid: maps.tileset.get
-name: Get
-service: Maps
-groupName: Tileset
+uid: maps.v2.style.list
+name: List
+service: Maps Creator
+groupName: Style
 apiVersion: 2022-09-01-preview
-summary: >-
-  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
-
-
-  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
-
-
-  This API allows the caller to fetch a tileset.
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThis API allows the caller to fetch a list of all styles imported.   \n<br>"
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/tilesets/{tilesetId}?api-version=2022-09-01-preview
+- content: GET https://{geography}.atlas.microsoft.com/styles?api-version=2022-09-01-preview
 uriParameters:
 - name: geography
   in: path
   isRequired: true
   description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
-  types:
-  - uid: string
-- name: tilesetId
-  in: path
-  isRequired: true
-  description: The Tileset Id
   types:
   - uid: string
 - name: api-version
@@ -38,9 +25,9 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: List tileset request completed successfully. The response body contains a list of all tilesets.
+  description: List style request completed successfully. The response body contains a list of all styles.
   types:
-  - uid: Tileset
+  - uid: StyleListResult
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -52,53 +39,19 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: Tileset
-  description: Detail information for the data.
+- name: StyleListResult
+  description: The response model for the Style List API. Returns a list of all styles.
   kind: object
   properties:
-  - name: tilesetId
+  - name: styles
     isReadyOnly: true
-    description: The unique tileset id for the tileset.
+    description: A list of all styles.
     types:
-    - uid: string
-  - name: ontology
-    isReadyOnly: true
-    description: The ontology version of this dataset.
-    types:
-    - uid: string
-  - name: datasetId
-    isReadyOnly: true
-    description: The unique dataset Id used to create the tileset.
-    types:
-    - uid: string
-  - name: description
-    isReadyOnly: true
-    description: The description the caller provided when creating the tileset. Maximum length 1024 characters.
-    types:
-    - uid: string
-  - name: minZoom
-    isReadyOnly: true
-    description: The lowest tile zoom level tile generated for the tileset.
-    types:
-    - uid: integer
-  - name: maxZoom
-    isReadyOnly: true
-    description: The highest tile zoom level tile generated for the tileset.
-    types:
-    - uid: integer
-  - name: bbox
-    isReadyOnly: true
-    description: "Bounding box which all features of the tileset lay within. Projection used - EPSG:3857. Format : 'minLon, minLat, maxLon, maxLat'."
-    types:
-    - uid: number
+    - uid: StyleListItem
       isArray: true
-  - name: tilesetConfiguration
-    description: Tileset configuration which is used to build the tileset.
-    types:
-    - uid: TilesetConfiguration
-  - name: defaultMapConfigurationId
+  - name: nextLink
     isReadyOnly: true
-    description: The default generated map configuration id for the tileset
+    description: If present, the location of the next page of data.
     types:
     - uid: string
 - name: ErrorResponse
@@ -109,22 +62,30 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: TilesetConfiguration
-  description: 'Tileset configuration top-level fields. A tileset configuration is a JSON object that must contain the following top-level fields:'
+- name: StyleListItem
+  description: Detail information for the data.
   kind: object
   properties:
-  - name: version
-    description: The version of Azure Maps Tiling service configuration reference that the tileset configuration uses. Currently only version 1 is allowed. Using any version other the current version or a previous version will result in an error.
+  - name: styleId
+    isReadyOnly: true
+    description: The unique style id for the style.
     types:
-    - uid: integer
-  - name: layers
-    description: The names of the layers and their configuration options. The configuration layers object contains key-value pairs associating the names of tile layers with their configuration. For each key-value pair, the key is the name of the layer, and the value is a LayerObject containing the configuration and options for the layer. Each layer must have a name. This is the unique identifier for the layer of data in your final tileset. In any tileset, each layer name must be unique. The layer name must be a string with only underscores (_) and alphanumeric characters. The corresponding LayerObject for each layer name describes how that vector tile layer should be created. It specifies which feature classes to retrieve feature data, the precision of the data through zoom levels, and how to transform features and render them into tiles.
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The description the caller provided when creating the style. Maximum length 1024 characters.
     types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: LayerObject
+    - uid: string
+  - name: alias
+    isReadyOnly: true
+    description: The alias of the style. Maximum length 1024 characters. Alias cannot start with `microsoft-maps` which is a preserved prefix.
+    types:
+    - uid: string
+  - name: created
+    isReadyOnly: true
+    description: The creation date and time of this style. As defined by `date-time` - [RFC3339](https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -156,22 +117,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: LayerObject
-  description: Layer object for tileset configuration.
-  kind: object
-  properties:
-  - name: features
-    description: Specifies the feature classes and filters.
-    types:
-    - uid: Feature
-  - name: minZoom
-    description: The lowest zoom level for the layer to build.
-    types:
-    - uid: integer
-  - name: maxZoom
-    description: The highest zoom level for the layer to build.
-    types:
-    - uid: integer
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -186,43 +131,27 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: Feature
-  description: Feature configuration for tileset configuration.
-  kind: object
-  properties:
-  - name: featureClasses
-    description: The list of feature classes that will be used to build the layer. The valid feature classes can be found in its ontology definition. For example, [Facility Ontology](https://docs.microsoft.com/en-us/azure/azure-maps/creator-facility-ontology)
-    types:
-    - uid: string
-      isArray: true
-  - name: filter
-    description: Removes features that do not match a pattern. Refer to [MapLibre filter expression](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#filter)
-    types:
-    - uid: object
 examples:
-- name: Gets the details for a single tileset
+- name: Get a list of all styles
   request:
-    uri: GET https://us.atlas.microsoft.com/tilesets/d8fa86de-bb0f-4a02-a6ff-62ae7545dd84?api-version=2022-09-01-preview
+    uri: GET https://us.atlas.microsoft.com/styles?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/tilesets/d8fa86de-bb0f-4a02-a6ff-62ae7545dd84?api-version=2022-09-01-preview
+      GET https://us.atlas.microsoft.com/styles?api-version=2022-09-01-preview
       ```
 
   responses:
   - statusCode: "200"
     body: >-
       {
-        "tilesetId": "d8fa86de-bb0f-4a02-a6ff-62ae7545dd84",
-        "datasetId": "63b18a6b-ac35-4b23-a1d9-ffa1003ad50b",
-        "description": "My first tileset",
-        "minZoom": 16,
-        "maxZoom": 18,
-        "bbox": [
-          -122.13595,
-          47.636524,
-          -122.1329,
-          47.637525
+        "styles": [
+          {
+            "styleId": "9c451b0a-6527-49a7-9154-1b3d9486487f",
+            "description": "Some optional description",
+            "alias": "indoor_style",
+            "created": "2022-01-21T03:04:05.678Z"
+          }
         ]
       }
 security:
