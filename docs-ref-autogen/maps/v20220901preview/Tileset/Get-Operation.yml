@@ -1,22 +1,15 @@
 ### YamlMime:RESTOperation
-uid: maps.v2.mapconfiguration.get
-name: Get
+uid: maps.v20220901preview.tileset.getoperation
+name: Get Operation
 service: Maps Creator
-groupName: Map Configuration
+groupName: Tileset
 apiVersion: 2022-09-01-preview
-summary: >-
-  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
-
-
-  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
-
-
-  This API allows the caller to fetch a map configuration, the response contains a zip file which was originally used to create that map configuration. You can always get the default map configuration using predefined alias `defaultIndoor_{tilesetId}` for a given tileset if you deleted the auto-generated map configuration. The two predefined styles used in default map configuration are `microsoft-maps:indoor_2022-01-01` and `microsoft-maps:indoor_dark_2022-01-01`.
+summary: This path will be obtained from a call to /tilesets/create.  While in progress, an http200 will be returned with no extra headers -  followed by an http200 with Resource-Location header once successfully completed.
 consumes: []
 produces:
-- application/zip
+- application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/styles/mapconfigurations/{mapConfigurationId}?api-version=2022-09-01-preview
+- content: GET https://{geography}.atlas.microsoft.com/tilesets/operations/{operationId}?api-version=2022-09-01-preview
 uriParameters:
 - name: geography
   in: path
@@ -24,10 +17,10 @@ uriParameters:
   description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
   types:
   - uid: string
-- name: mapConfigurationId
+- name: operationId
   in: path
   isRequired: true
-  description: The map configuration Id.
+  description: The ID to query the status for the tileset create/import request.
   types:
   - uid: string
 - name: api-version
@@ -39,22 +32,43 @@ uriParameters:
 responses:
 - name: 200 OK
   headers:
-  - name: Content-Type
+  - name: Resource-Location
     value: string
-  description: Get map configuration request completed successfully. The response body contains a single map configuration zip file.
+  description: The operation is running or complete. If the operation was successful, use the Resource-Location header to obtain the path to the result.
   types:
-  - uid: object
+  - uid: LongRunningOperationResult
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
-requestHeader:
-- name: x-ms-client-id
-  in: header
-  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
-  types:
-  - uid: string
+requestHeader: []
 definitions:
+- name: LongRunningOperationResult
+  description: The response model for a Long-Running Operations API.
+  kind: object
+  properties:
+  - name: operationId
+    description: The Id for this long-running operation.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: The status state of the request.
+    types:
+    - uid: LroStatus
+  - name: created
+    isReadyOnly: true
+    description: The created timestamp.
+    types:
+    - uid: string
+  - name: error
+    description: The error detail.
+    types:
+    - uid: ErrorDetail
+  - name: warning
+    description: The error detail.
+    types:
+    - uid: ErrorDetail
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -63,6 +77,26 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: LroStatus
+  description: The status state of the request.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: The request has not started processing yet.
+    types:
+    - uid: string
+  - name: Running
+    description: The request has started processing.
+    types:
+    - uid: string
+  - name: Failed
+    description: The request has one or more failures.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: The request has successfully completed.
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -109,21 +143,43 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Gets the details for a single map configuration
+- name: Get the status of an operation which is still running
   request:
-    uri: GET https://us.atlas.microsoft.com/styles/mapconfigurations/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
+    uri: GET https://us.atlas.microsoft.com/tilesets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/styles/mapconfigurations/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
+      GET https://us.atlas.microsoft.com/tilesets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=2022-09-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "operationId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+        "created": "2021-04-23T19:14:03.2452596+00:00",
+        "status": "Running"
+      }
+- name: Get the status of an operation which has finished successfully
+  request:
+    uri: GET https://us.atlas.microsoft.com/tilesets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=2022-09-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://us.atlas.microsoft.com/tilesets/operations/8b1288fa-1958-4a2b-b68e-13a7i5af7d7c?api-version=2022-09-01-preview
       ```
 
   responses:
   - statusCode: "200"
     headers:
-    - name: Content-Type
-      value: application/zip
-    body: "\"binary zip string, can be saved as zip file. The zip file will contain a `configuration.json` file and optional thumbnail files defined in the configuration file.\""
+    - name: Resource-Location
+      value: https://us.atlas.microsoft.com/tilesets/3e36b996-f6d1-b068-0fcb-dd6b014c3447?api-version=2022-09-01-preview
+    body: >-
+      {
+        "operationId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
+        "created": "2021-04-20T22:43:14.9401559+00:00",
+        "status": "Succeeded"
+      }
 security:
 - name: AADToken
   type: oauth2
@@ -152,8 +208,5 @@ security:
      For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
   in: header
 metadata:
-  description: >-
-    Applies to: see pricing tiers.
-
-    Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK.
+  description: This path will be obtained from a call to /tilesets/create.  While in progress, an http200 will be returned with no extra headers -  followed by an http200 with
 errorCodes: []

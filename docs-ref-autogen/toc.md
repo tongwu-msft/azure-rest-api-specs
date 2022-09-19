@@ -13843,29 +13843,13 @@
 #### [List Statesets](maps/v2/Feature-State/List-Statesets.yml)
 #### [Update States](maps/v2/Feature-State/Update-States.yml)
 #### [Update Stateset](maps/v2/Feature-State/Update-Stateset.yml)
-### Map Configuration
-#### [Overview](maps/v2/Map-Configuration.yml)
-#### [Create](maps/v2/Map-Configuration/Create.yml)
-#### [Delete](maps/v2/Map-Configuration/Delete.yml)
-#### [Get](maps/v2/Map-Configuration/Get.yml)
-#### [Get Operation](maps/v2/Map-Configuration/Get-Operation.yml)
-#### [List](maps/v2/Map-Configuration/List.yml)
-### Style
-#### [Overview](maps/v2/Style.yml)
-#### [Delete](maps/v2/Style/Delete.yml)
-#### [Export](maps/v2/Style/Export.yml)
-#### [Get Operation](maps/v2/Style/Get-Operation.yml)
-#### [Import](maps/v2/Style/Import.yml)
-#### [List](maps/v2/Style/List.yml)
 ### Tileset
 #### [Overview](maps/v2/Tileset.yml)
 #### [Create](maps/v2/Tileset/Create.yml)
 #### [Delete](maps/v2/Tileset/Delete.yml)
 #### [Get](maps/v2/Tileset/Get.yml)
-#### [Get Configuration](maps/v2/Tileset/Get-Configuration.yml)
 #### [Get Operation](maps/v2/Tileset/Get-Operation.yml)
 #### [List](maps/v2/Tileset/List.yml)
-#### [Validate Configuration](maps/v2/Tileset/Validate-Configuration.yml)
 ### WFS
 #### [Overview](maps/v2/WFS.yml)
 #### [Delete Feature](maps/v2/WFS/Delete-Feature.yml)
@@ -13876,6 +13860,30 @@
 #### [Get Features](maps/v2/WFS/Get-Features.yml)
 #### [Get Landing Page](maps/v2/WFS/Get-Landing-Page.yml)
 #### [List Conformance](maps/v2/WFS/List-Conformance.yml)
+## V20220901Preview
+### Map Configuration
+#### [Overview](maps/v20220901preview/Map-Configuration.yml)
+#### [Create](maps/v20220901preview/Map-Configuration/Create.yml)
+#### [Delete](maps/v20220901preview/Map-Configuration/Delete.yml)
+#### [Get](maps/v20220901preview/Map-Configuration/Get.yml)
+#### [Get Operation](maps/v20220901preview/Map-Configuration/Get-Operation.yml)
+#### [List](maps/v20220901preview/Map-Configuration/List.yml)
+### Style
+#### [Overview](maps/v20220901preview/Style.yml)
+#### [Delete](maps/v20220901preview/Style/Delete.yml)
+#### [Export](maps/v20220901preview/Style/Export.yml)
+#### [Get Operation](maps/v20220901preview/Style/Get-Operation.yml)
+#### [Import](maps/v20220901preview/Style/Import.yml)
+#### [List](maps/v20220901preview/Style/List.yml)
+### Tileset
+#### [Overview](maps/v20220901preview/Tileset.yml)
+#### [Create](maps/v20220901preview/Tileset/Create.yml)
+#### [Delete](maps/v20220901preview/Tileset/Delete.yml)
+#### [Get](maps/v20220901preview/Tileset/Get.yml)
+#### [Get Configuration](maps/v20220901preview/Tileset/Get-Configuration.yml)
+#### [Get Operation](maps/v20220901preview/Tileset/Get-Operation.yml)
+#### [List](maps/v20220901preview/Tileset/List.yml)
+#### [Validate Configuration](maps/v20220901preview/Tileset/Validate-Configuration.yml)
 # Maps Management
 ## [Overview](../docs-ref-conceptual/maps-management/index.md)
 ## Accounts

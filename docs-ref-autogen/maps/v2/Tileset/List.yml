@@ -3,13 +3,13 @@ uid: maps.v2.tileset.list
 name: List
 service: Maps Creator
 groupName: Tileset
-apiVersion: 2022-09-01-preview
+apiVersion: "2.0"
 summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThis API allows the caller to fetch a list of all tilesets created.   \n<br>"
 consumes: []
 produces:
 - application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview
+- content: GET https://{geography}.atlas.microsoft.com/tilesets?api-version=2.0
 uriParameters:
 - name: geography
   in: path
@@ -102,15 +102,6 @@ definitions:
     types:
     - uid: number
       isArray: true
-  - name: tilesetConfiguration
-    description: Tileset configuration which is used to build the tileset.
-    types:
-    - uid: TilesetConfiguration
-  - name: defaultMapConfigurationId
-    isReadyOnly: true
-    description: The default generated map configuration id for the tileset
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -142,22 +133,6 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: TilesetConfiguration
-  description: 'Tileset configuration top-level fields. A tileset configuration is a JSON object that must contain the following top-level fields:'
-  kind: object
-  properties:
-  - name: version
-    description: The version of Azure Maps Tiling service configuration reference that the tileset configuration uses. Currently only version 1 is allowed. Using any version other the current version or a previous version will result in an error.
-    types:
-    - uid: integer
-  - name: layers
-    description: The names of the layers and their configuration options. The configuration layers object contains key-value pairs associating the names of tile layers with their configuration. For each key-value pair, the key is the name of the layer, and the value is a LayerObject containing the configuration and options for the layer. Each layer must have a name. This is the unique identifier for the layer of data in your final tileset. In any tileset, each layer name must be unique. The layer name must be a string with only underscores (_) and alphanumeric characters. The corresponding LayerObject for each layer name describes how that vector tile layer should be created. It specifies which feature classes to retrieve feature data, the precision of the data through zoom levels, and how to transform features and render them into tiles.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: LayerObject
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -172,43 +147,14 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-- name: LayerObject
-  description: Layer object for tileset configuration.
-  kind: object
-  properties:
-  - name: features
-    description: Specifies the feature classes and filters.
-    types:
-    - uid: Feature
-  - name: minZoom
-    description: The lowest zoom level for the layer to build.
-    types:
-    - uid: integer
-  - name: maxZoom
-    description: The highest zoom level for the layer to build.
-    types:
-    - uid: integer
-- name: Feature
-  description: Feature configuration for tileset configuration.
-  kind: object
-  properties:
-  - name: featureClasses
-    description: The list of feature classes that will be used to build the layer. The valid feature classes can be found in its ontology definition. For example, [Facility Ontology](https://docs.microsoft.com/en-us/azure/azure-maps/creator-facility-ontology)
-    types:
-    - uid: string
-      isArray: true
-  - name: filter
-    description: Removes features that do not match a pattern. Refer to [MapLibre filter expression](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#filter)
-    types:
-    - uid: object
 examples:
 - name: Get a list of all tilesets
   request:
-    uri: GET https://us.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview
+    uri: GET https://us.atlas.microsoft.com/tilesets?api-version=2.0
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview
+      GET https://us.atlas.microsoft.com/tilesets?api-version=2.0
       ```
 
   responses:
@@ -227,32 +173,7 @@ examples:
               47.636524,
               -122.1329,
               47.637525
-            ],
-            "ontology": "facility-2.0",
-            "tilesetConfiguration": {
-              "version": 1,
-              "layers": {
-                "Indoor facility": {
-                  "minZoom": 13,
-                  "maxZoom": 20,
-                  "features": {
-                    "featureClasses": [
-                      "facility"
-                    ]
-                  }
-                },
-                "Indoor unit": {
-                  "minZoom": 16,
-                  "maxZoom": 19,
-                  "features": {
-                    "featureClasses": [
-                      "unit"
-                    ]
-                  }
-                }
-              }
-            },
-            "defaultMapConfigurationId": "5d70a5a8-a11b-abbc-517f-ddd32a23fab1"
+            ]
           },
           {
             "tilesetId": "b8dca8b3-8aad-4afe-abd6-0efe37b5a2e3",
@@ -265,41 +186,7 @@ examples:
               47.636524,
               -122.1329,
               47.637525
-            ],
-            "ontology": "facility-2.0",
-            "tilesetConfiguration": {
-              "version": 1,
-              "layers": {
-                "Indoor facility": {
-                  "minZoom": 13,
-                  "maxZoom": 20,
-                  "features": {
-                    "featureClasses": [
-                      "facility"
-                    ]
-                  }
-                },
-                "Indoor unit": {
-                  "minZoom": 16,
-                  "maxZoom": 19,
-                  "features": {
-                    "featureClasses": [
-                      "unit"
-                    ]
-                  }
-                },
-                "Indoor opening": {
-                  "minZoom": 16,
-                  "maxZoom": 19,
-                  "features": {
-                    "featureClasses": [
-                      "opening"
-                    ]
-                  }
-                }
-              }
-            },
-            "defaultMapConfigurationId": "5d70a5a8-a11b-abbc-517f-ddd32a23fab2"
+            ]
           }
         ]
       }

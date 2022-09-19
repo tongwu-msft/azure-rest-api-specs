@@ -1,20 +1,33 @@
 ### YamlMime:RESTOperation
-uid: maps.v2.mapconfiguration.list
-name: List
+uid: maps.v20220901preview.mapconfiguration.get
+name: Get
 service: Maps Creator
 groupName: Map Configuration
 apiVersion: 2022-09-01-preview
-summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThis API allows the caller to fetch a list of all map configurations created. You will see all the default map configurations which are created during tileset creation.  \n<br>"
+summary: >-
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+
+
+  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
+
+
+  This API allows the caller to fetch a map configuration, the response contains a zip file which was originally used to create that map configuration. You can always get the default map configuration using predefined alias `defaultIndoor_{tilesetId}` for a given tileset if you deleted the auto-generated map configuration. The two predefined styles used in default map configuration are `microsoft-maps:indoor_2022-01-01` and `microsoft-maps:indoor_dark_2022-01-01`.
 consumes: []
 produces:
-- application/json
+- application/zip
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview
+- content: GET https://{geography}.atlas.microsoft.com/styles/mapconfigurations/{mapConfigurationId}?api-version=2022-09-01-preview
 uriParameters:
 - name: geography
   in: path
   isRequired: true
   description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
+- name: mapConfigurationId
+  in: path
+  isRequired: true
+  description: The map configuration Id.
   types:
   - uid: string
 - name: api-version
@@ -25,9 +38,12 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: List map configuration request completed successfully. The response body contains a list of all map configurations.
+  headers:
+  - name: Content-Type
+    value: string
+  description: Get map configuration request completed successfully. The response body contains a single map configuration zip file.
   types:
-  - uid: MapConfigurationListResult
+  - uid: object
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
@@ -39,21 +55,6 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: MapConfigurationListResult
-  description: The response model for the Map Configuration List API. Returns a list of all map configurations.
-  kind: object
-  properties:
-  - name: mapConfigurations
-    isReadyOnly: true
-    description: A list of all map configurations.
-    types:
-    - uid: MapConfigurationListItem
-      isArray: true
-  - name: nextLink
-    isReadyOnly: true
-    description: If present, the location of the next page of data.
-    types:
-    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -62,30 +63,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: MapConfigurationListItem
-  description: One item in map configuration list.
-  kind: object
-  properties:
-  - name: mapConfigurationId
-    isReadyOnly: true
-    description: The unique id for the map configuration.
-    types:
-    - uid: string
-  - name: description
-    isReadyOnly: true
-    description: The description the caller provided when creating the map configuration. Maximum length 1024 characters.
-    types:
-    - uid: string
-  - name: alias
-    isReadyOnly: true
-    description: The alias used for the map configuration. Maximum length 1024 characters. Alias cannot start with `microsoft-maps` which is a preserved prefix.
-    types:
-    - uid: string
-  - name: created
-    isReadyOnly: true
-    description: The creation date and time of this map configuration. As defined by `date-time` - [RFC3339](https://xml2rfc.tools.ietf.org/public/rfc/html/rfc3339.html#anchor14)
-    types:
-    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -132,34 +109,21 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Get a list of all map configurations
+- name: Gets the details for a single map configuration
   request:
-    uri: GET https://us.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview
+    uri: GET https://us.atlas.microsoft.com/styles/mapconfigurations/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview
+      GET https://us.atlas.microsoft.com/styles/mapconfigurations/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
       ```
 
   responses:
   - statusCode: "200"
-    body: >-
-      {
-        "mapConfigurations": [
-          {
-            "mapConfigurationId": "83f95b58-bd21-0c90-f904-341a0eb8f86e",
-            "description": "map configuration with indoor dark style",
-            "alias": "indoor_dark",
-            "created": "2022-04-13T06:30:42+00:00"
-          },
-          {
-            "mapConfigurationId": "36f67fb9-893d-019e-32ca-d26db5ee764a",
-            "description": "Auto-generated map configuration for indoor tileset 28b8160a-68d8-4247-be0b-786c51963142.",
-            "alias": "defaultIndoor_28b8160a-68d8-4247-be0b-786c51963142",
-            "created": "2022-04-13T22:39:50+00:00"
-          }
-        ]
-      }
+    headers:
+    - name: Content-Type
+      value: application/zip
+    body: "\"binary zip string, can be saved as zip file. The zip file will contain a `configuration.json` file and optional thumbnail files defined in the configuration file.\""
 security:
 - name: AADToken
   type: oauth2
