@@ -39,11 +39,11 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: object
+  - uid: Workspace
 - name: 202 Accepted
   description: ''
   types:
-  - uid: object
+  - uid: Workspace
 - name: 204 No Content
   description: ''
 - name: Other Status Codes
@@ -52,6 +52,145 @@ responses:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: Workspace
+  description: A workspace
+  kind: object
+  properties:
+  - name: identity
+    description: Identity of the workspace
+    types:
+    - uid: ManagedIdentity
+  - name: properties.defaultDataLakeStorage
+    description: Workspace default data lake storage account details
+    types:
+    - uid: DataLakeStorageAccountDetails
+  - name: properties.sqlAdministratorLoginPassword
+    description: SQL administrator login password
+    types:
+    - uid: string
+  - name: properties.managedResourceGroupName
+    description: Workspace managed resource group. The resource group name uniquely identifies the resource group within the user subscriptionId. The resource group name must be no longer than 90 characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_', '(', ')' and'.'. Note that the name cannot end with '.'
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Resource provisioning state
+    types:
+    - uid: string
+  - name: properties.sqlAdministratorLogin
+    description: Login for workspace SQL active directory administrator
+    types:
+    - uid: string
+  - name: properties.virtualNetworkProfile
+    description: Virtual Network profile
+    types:
+    - uid: VirtualNetworkProfile
+  - name: properties.connectivityEndpoints
+    description: Connectivity endpoints
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: properties.managedVirtualNetwork
+    description: Setting this to 'default' will ensure that all compute for this workspace is in a virtual network managed on behalf of the user.
+    types:
+    - uid: string
+  - name: properties.privateEndpointConnections
+    description: Private endpoint connections to the workspace
+    types:
+    - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.encryption
+    description: The encryption details of the workspace
+    types:
+    - uid: EncryptionDetails
+  - name: properties.workspaceUID
+    isReadyOnly: true
+    description: The workspace unique identifier
+    types:
+    - uid: string
+  - name: properties.extraProperties
+    isReadyOnly: true
+    description: Workspace level configs and feature flags
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.managedVirtualNetworkSettings
+    description: Managed Virtual Network Settings
+    types:
+    - uid: ManagedVirtualNetworkSettings
+  - name: properties.workspaceRepositoryConfiguration
+    description: Git integration settings
+    types:
+    - uid: WorkspaceRepositoryConfiguration
+  - name: properties.purviewConfiguration
+    description: Purview Configuration
+    types:
+    - uid: PurviewConfiguration
+  - name: properties.adlaResourceId
+    isReadyOnly: true
+    description: The ADLA resource ID.
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: Enable or Disable public network access to workspace
+    types:
+    - uid: WorkspacePublicNetworkAccess
+    defaultValue: Enabled
+  - name: properties.cspWorkspaceAdminProperties
+    description: Initial workspace AAD admin properties for a CSP subscription
+    types:
+    - uid: CspWorkspaceAdminProperties
+  - name: properties.settings
+    isReadyOnly: true
+    description: Workspace settings
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: object
+  - name: properties.azureADOnlyAuthentication
+    description: Enable or Disable AzureADOnlyAuthentication on All Workspace subresource
+    types:
+    - uid: boolean
+  - name: properties.trustedServiceBypassEnabled
+    description: Is trustedServiceBypassEnabled for the workspace
+    types:
+    - uid: boolean
+    defaultValue: false
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -60,6 +199,188 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: ManagedIdentity
+  description: The workspace managed identity
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the workspace managed identity
+    types:
+    - uid: string
+  - name: tenantId
+    isReadyOnly: true
+    description: The tenant ID of the workspace managed identity
+    types:
+    - uid: string
+  - name: type
+    description: The type of managed identity for the workspace
+    types:
+    - uid: ResourceIdentityType
+  - name: userAssignedIdentities
+    description: The user assigned managed identities.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedManagedIdentity
+- name: DataLakeStorageAccountDetails
+  description: Details of the data lake storage account associated with the workspace
+  kind: object
+  properties:
+  - name: accountUrl
+    description: Account URL
+    types:
+    - uid: string
+  - name: filesystem
+    description: Filesystem name
+    types:
+    - uid: string
+  - name: resourceId
+    description: ARM resource Id of this storage account
+    types:
+    - uid: string
+  - name: createManagedPrivateEndpoint
+    description: Create managed private endpoint to this storage account or not
+    types:
+    - uid: boolean
+- name: VirtualNetworkProfile
+  description: Virtual Network Profile
+  kind: object
+  properties:
+  - name: computeSubnetId
+    description: Subnet ID used for computes in workspace
+    types:
+    - uid: string
+- name: PrivateEndpointConnection
+  description: A private endpoint connection
+  kind: object
+  properties:
+  - name: properties.privateEndpoint
+    description: The private endpoint which the connection belongs to.
+    types:
+    - uid: PrivateEndpoint
+  - name: properties.privateLinkServiceConnectionState
+    description: Connection state of the private endpoint connection.
+    types:
+    - uid: PrivateLinkServiceConnectionState
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: Provisioning state of the private endpoint connection.
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: EncryptionDetails
+  description: Details of the encryption associated with the workspace
+  kind: object
+  properties:
+  - name: doubleEncryptionEnabled
+    isReadyOnly: true
+    description: Double Encryption enabled
+    types:
+    - uid: boolean
+  - name: cmk
+    description: Customer Managed Key Details
+    types:
+    - uid: CustomerManagedKeyDetails
+- name: ManagedVirtualNetworkSettings
+  description: Managed Virtual Network Settings
+  kind: object
+  properties:
+  - name: preventDataExfiltration
+    description: Prevent Data Exfiltration
+    types:
+    - uid: boolean
+  - name: linkedAccessCheckOnTargetResource
+    description: Linked Access Check On Target Resource
+    types:
+    - uid: boolean
+  - name: allowedAadTenantIdsForLinking
+    description: Allowed Aad Tenant Ids For Linking
+    types:
+    - uid: string
+      isArray: true
+- name: WorkspaceRepositoryConfiguration
+  description: Git integration settings
+  kind: object
+  properties:
+  - name: type
+    description: Type of workspace repositoryID configuration. Example WorkspaceVSTSConfiguration, WorkspaceGitHubConfiguration
+    types:
+    - uid: string
+  - name: hostName
+    description: 'GitHub Enterprise host name. For example: https://github.mydomain.com'
+    types:
+    - uid: string
+  - name: accountName
+    description: Account name
+    types:
+    - uid: string
+  - name: projectName
+    description: VSTS project name
+    types:
+    - uid: string
+  - name: repositoryName
+    description: Repository name
+    types:
+    - uid: string
+  - name: collaborationBranch
+    description: Collaboration branch
+    types:
+    - uid: string
+  - name: rootFolder
+    description: Root folder to use in the repository
+    types:
+    - uid: string
+  - name: lastCommitId
+    description: The last commit ID
+    types:
+    - uid: string
+  - name: tenantId
+    description: The VSTS tenant ID
+    types:
+    - uid: string
+- name: PurviewConfiguration
+  description: Purview Configuration
+  kind: object
+  properties:
+  - name: purviewResourceId
+    description: Purview Resource ID
+    types:
+    - uid: string
+- name: WorkspacePublicNetworkAccess
+  description: Enable or Disable public network access to workspace
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: CspWorkspaceAdminProperties
+  description: Initial workspace AAD admin properties for a CSP subscription
+  kind: object
+  properties:
+  - name: initialWorkspaceAdminObjectId
+    description: AAD object ID of initial workspace admin
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -91,6 +412,76 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: ResourceIdentityType
+  description: The type of managed identity for the workspace
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned,UserAssigned
+    types:
+    - uid: string
+- name: UserAssignedManagedIdentity
+  description: User Assigned Managed Identity
+  kind: object
+  properties:
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID.
+    types:
+    - uid: string
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID.
+    types:
+    - uid: string
+- name: PrivateEndpoint
+  description: Private endpoint details
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: Resource id of the private endpoint.
+    types:
+    - uid: string
+- name: PrivateLinkServiceConnectionState
+  description: Connection state details of the private endpoint
+  kind: object
+  properties:
+  - name: status
+    description: The private link service connection status.
+    types:
+    - uid: string
+  - name: description
+    description: The private link service connection description.
+    types:
+    - uid: string
+  - name: actionsRequired
+    isReadyOnly: true
+    description: The actions required for private link service connection.
+    types:
+    - uid: string
+- name: CustomerManagedKeyDetails
+  description: Details of the customer managed key associated with the workspace
+  kind: object
+  properties:
+  - name: status
+    isReadyOnly: true
+    description: The customer managed key status on the workspace
+    types:
+    - uid: string
+  - name: key
+    description: The key object of the workspace
+    types:
+    - uid: WorkspaceKeyDetails
+  - name: kekIdentity
+    description: Key encryption key
+    types:
+    - uid: KekIdentityProperties
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -105,6 +496,30 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: WorkspaceKeyDetails
+  description: Details of the customer managed key associated with the workspace
+  kind: object
+  properties:
+  - name: name
+    description: Workspace Key sub-resource name
+    types:
+    - uid: string
+  - name: keyVaultUrl
+    description: Workspace Key sub-resource key vault url
+    types:
+    - uid: string
+- name: KekIdentityProperties
+  description: Key encryption key properties
+  kind: object
+  properties:
+  - name: userAssignedIdentity
+    description: User assigned identity resource Id
+    types:
+    - uid: string
+  - name: useSystemAssignedIdentity
+    description: Boolean specifying whether to use system assigned identity or not
+    types:
+    - {}
 examples:
 - name: Delete a workspace
   request:
@@ -203,6 +618,9 @@ examples:
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-synapse_8.1.0-beta.1/sdk/synapse/arm-synapse/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
+    headers:
+    - name: azure-asyncoperation
+      value: https://ms.web.azuresynapse.net
     body: >-
       {
         "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/resourceGroup1/providers/Microsoft.Synapse/workspaces/workspace1",

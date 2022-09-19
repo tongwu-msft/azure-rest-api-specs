@@ -3,14 +3,14 @@ uid: management.azure.com.hybridcompute.operations.list
 name: List
 service: Hybrid Compute
 groupName: Operations
-apiVersion: 2021-05-20
+apiVersion: 2022-05-10-preview
 summary: Gets a list of hybrid compute operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.HybridCompute/operations?api-version=2021-05-20
+- content: GET https://management.azure.com/providers/Microsoft.HybridCompute/operations?api-version=2022-05-10-preview
 uriParameters:
 - name: api-version
   in: query
@@ -65,6 +65,11 @@ definitions:
     description: Display properties
     types:
     - uid: OperationValueDisplay
+  - name: isDataAction
+    isReadyOnly: true
+    description: This property indicates if the operation is an action or a data action
+    types:
+    - uid: boolean
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -134,7 +139,45 @@ definitions:
     description: The additional info.
     types:
     - uid: object
-examples: []
+examples:
+- name: List Hybrid Compute Provider Operations
+  request:
+    uri: GET https://management.azure.com/providers/Microsoft.HybridCompute/operations?api-version=2022-05-10-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/providers/Microsoft.HybridCompute/operations?api-version=2022-05-10-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "origin": "user,system",
+            "name": "Microsoft.HybridCompute/operations/read",
+            "display": {
+              "operation": "Read all Operations",
+              "resource": "Microsoft.HybridCompute Resource Provider",
+              "description": "Read all Operations for Azure Arc for Servers",
+              "provider": "Microsoft HybridCompute"
+            },
+            "isDataAction": true
+          },
+          {
+            "origin": "user,system",
+            "name": "Microsoft.HybridCompute/register/action",
+            "display": {
+              "operation": "Register Subscription for Azure Arc for Servers",
+              "resource": "Microsoft.HybridCompute Resource Provider",
+              "description": "Registers the subscription for the Microsoft.HybridCompute Resource Provider",
+              "provider": "Microsoft HybridCompute"
+            },
+            "isDataAction": true
+          }
+        ]
+      }
 security:
 - name: azure_auth
   type: oauth2

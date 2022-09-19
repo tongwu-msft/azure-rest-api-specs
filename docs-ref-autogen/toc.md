@@ -14009,12 +14009,17 @@
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
 # Marketplace Catalog
 ## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
-## Operations
-### [Overview](marketplacecatalog/Operations.yml)
-### [List](marketplacecatalog/Operations/List.yml)
-## Search
-### [Overview](marketplacecatalog/Search.yml)
-### [Post Arm](marketplacecatalog/Search/Post-Arm.yml)
+## 2022-02-02
+### Operations
+#### [Overview](marketplacecatalog/2022-02-02/Operations.yml)
+#### [List](marketplacecatalog/2022-02-02/Operations/List.yml)
+### Search
+#### [Overview](marketplacecatalog/2022-02-02/Search.yml)
+#### [Post Arm](marketplacecatalog/2022-02-02/Search/Post-Arm.yml)
+## 2022-08-17-preview
+### Search
+#### [Overview](marketplacecatalog/2022-08-17-preview/Search.yml)
+#### [Get](marketplacecatalog/2022-08-17-preview/Search/Get.yml)
 # Marketplace Ordering
 ## [Overview](../docs-ref-conceptual/marketplaceordering/index.md)
 ## Marketplace Agreements
