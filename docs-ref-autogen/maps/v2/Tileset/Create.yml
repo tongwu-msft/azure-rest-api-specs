@@ -3,14 +3,14 @@ uid: maps.v2.tileset.create
 name: Create
 service: Maps Creator
 groupName: Tileset
-apiVersion: "2.0"
-summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\n [This](https://docs.microsoft.com/en-us/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThe Tileset Create API allows the caller to create a tileset from a dataset. A tileset contains a set of tiles that can be consumed \nfrom the [Get Map Tile](/rest/api/maps/render/getmaptile) to retrieve custom tiles. To make a dataset, use the \n[DataSet Create API](/rest/api/maps/dataset/createpreview).\n\n## Submit Create Request\n\nTo create your tileset you will make a `POST` request with an empty body. The `datasetId` query parameter will be \nused as the source of the tileset data.\n\nThe Create Tileset API is a \n[long-running request](https://aka.ms/am-creator-lrt-v2)."
+apiVersion: 2022-09-01-preview
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\n [This](https://docs.microsoft.com/en-us/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\nThe Tileset Create API allows the caller to create a tileset from a dataset. A tileset contains a set of tiles that can be consumed \nfrom the [Get Map Tile](/rest/api/maps/render/getmaptile) to retrieve custom tiles. To make a dataset, use the \n[DataSet Create API](/rest/api/maps/v2/dataset/create).\n\n## Submit Create Request\n\nTo create your tileset you will make a `POST` request with an **optional request body** as [tileset configuration](/rest/api/documentation-preview/tileset/create?#tilesetconfiguration). The `datasetId` query parameter will be used as the source of the tileset data.\n\nThe Create Tileset API is a [long-running request](https://aka.ms/am-creator-lrt-v2)."
 consumes: []
 produces:
 - application/json
 paths:
-- content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2.0&datasetId={datasetId}
-- content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2.0&datasetId={datasetId}&description={description}
+- content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview&datasetId={datasetId}
+- content: POST https://{geography}.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview&datasetId={datasetId}&description={description}
   isOptional: true
 uriParameters:
 - name: geography
@@ -33,17 +33,10 @@ uriParameters:
   - uid: string
 - name: description
   in: query
-  description: User provided description of the tileset.
+  description: User provided description of the tileset. Maximum length 1024 characters.
   types:
   - uid: string
 responses:
-- name: 200 OK
-  headers:
-  - name: Resource-Location
-    value: string
-  description: The operation is running or complete. If the operation was successful, use the Resource-Location header to obtain the path to the result.
-  types:
-  - uid: LongRunningOperationResult
 - name: 202 Accepted
   headers:
   - name: Operation-Location
@@ -53,6 +46,25 @@ responses:
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: version
+    in: body
+    isRequired: true
+    description: The version of Azure Maps Tiling service configuration reference that the tileset configuration uses. Currently only version 1 is allowed. Using any version other the current version or a previous version will result in an error.
+    types:
+    - uid: integer
+  - name: layers
+    in: body
+    isRequired: true
+    description: The names of the layers and their configuration options. The configuration layers object contains key-value pairs associating the names of tile layers with their configuration. For each key-value pair, the key is the name of the layer, and the value is a LayerObject containing the configuration and options for the layer. Each layer must have a name. This is the unique identifier for the layer of data in your final tileset. In any tileset, each layer name must be unique. The layer name must be a string with only underscores (_) and alphanumeric characters. The corresponding LayerObject for each layer name describes how that vector tile layer should be created. It specifies which feature classes to retrieve feature data, the precision of the data through zoom levels, and how to transform features and render them into tiles.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LayerObject
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -60,32 +72,22 @@ requestHeader:
   types:
   - uid: string
 definitions:
-- name: LongRunningOperationResult
-  description: The response model for a Long-Running Operations API.
+- name: LayerObject
+  description: Layer object for tileset configuration.
   kind: object
   properties:
-  - name: operationId
-    description: The Id for this long-running operation.
+  - name: features
+    description: Specifies the feature classes and filters.
     types:
-    - uid: string
-  - name: status
-    isReadyOnly: true
-    description: The status state of the request.
+    - uid: Feature
+  - name: minZoom
+    description: The lowest zoom level for the layer to build.
     types:
-    - uid: LroStatus
-  - name: created
-    isReadyOnly: true
-    description: The created timestamp.
+    - uid: integer
+  - name: maxZoom
+    description: The highest zoom level for the layer to build.
     types:
-    - uid: string
-  - name: error
-    description: The error detail.
-    types:
-    - uid: ErrorDetail
-  - name: warning
-    description: The error detail.
-    types:
-    - uid: ErrorDetail
+    - uid: integer
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -94,26 +96,35 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: LroStatus
-  description: The status state of the request.
-  kind: enum
+- name: TilesetConfiguration
+  description: 'Tileset configuration top-level fields. A tileset configuration is a JSON object that must contain the following top-level fields:'
+  kind: object
   properties:
-  - name: NotStarted
-    description: The request has not started processing yet.
+  - name: version
+    description: The version of Azure Maps Tiling service configuration reference that the tileset configuration uses. Currently only version 1 is allowed. Using any version other the current version or a previous version will result in an error.
+    types:
+    - uid: integer
+  - name: layers
+    description: The names of the layers and their configuration options. The configuration layers object contains key-value pairs associating the names of tile layers with their configuration. For each key-value pair, the key is the name of the layer, and the value is a LayerObject containing the configuration and options for the layer. Each layer must have a name. This is the unique identifier for the layer of data in your final tileset. In any tileset, each layer name must be unique. The layer name must be a string with only underscores (_) and alphanumeric characters. The corresponding LayerObject for each layer name describes how that vector tile layer should be created. It specifies which feature classes to retrieve feature data, the precision of the data through zoom levels, and how to transform features and render them into tiles.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LayerObject
+- name: Feature
+  description: Feature configuration for tileset configuration.
+  kind: object
+  properties:
+  - name: featureClasses
+    description: The list of feature classes that will be used to build the layer. The valid feature classes can be found in its ontology definition. For example, [Facility Ontology](https://docs.microsoft.com/en-us/azure/azure-maps/creator-facility-ontology)
     types:
     - uid: string
-  - name: Running
-    description: The request has started processing.
+      isArray: true
+  - name: filter
+    description: Removes features that do not match a pattern. Refer to [MapLibre filter expression](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#filter)
     types:
-    - uid: string
-  - name: Failed
-    description: The request has one or more failures.
-    types:
-    - uid: string
-  - name: Succeeded
-    description: The request has successfully completed.
-    types:
-    - uid: string
+    - uid: object
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -162,28 +173,89 @@ definitions:
 examples:
 - name: Create Tileset by providing a Dataset Id
   request:
-    uri: POST https://us.atlas.microsoft.com/tilesets?api-version=2.0&datasetId=[dataset-Id]
+    uri: POST https://us.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview&datasetId=[dataset-Id]&description=Example description.
+    body: >-
+      {
+        "version": 1,
+        "layers": {
+          "Indoor unit": {
+            "minZoom": 10,
+            "maxZoom": 18,
+            "features": {
+              "featureClasses": [
+                "unit",
+                "wall"
+              ],
+              "filter": [
+                "any",
+                [
+                  "!=",
+                  [
+                    "get",
+                    "roomType"
+                  ],
+                  "conference"
+                ],
+                [
+                  "!=",
+                  [
+                    "get",
+                    "roomType"
+                  ],
+                  "restroom"
+                ]
+              ]
+            }
+          }
+        }
+      }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://us.atlas.microsoft.com/tilesets?api-version=2.0&datasetId=[dataset-Id]
+      POST https://us.atlas.microsoft.com/tilesets?api-version=2022-09-01-preview&datasetId=[dataset-Id]&description=Example description.
+
+      {
+        "version": 1,
+        "layers": {
+          "Indoor unit": {
+            "minZoom": 10,
+            "maxZoom": 18,
+            "features": {
+              "featureClasses": [
+                "unit",
+                "wall"
+              ],
+              "filter": [
+                "any",
+                [
+                  "!=",
+                  [
+                    "get",
+                    "roomType"
+                  ],
+                  "conference"
+                ],
+                [
+                  "!=",
+                  [
+                    "get",
+                    "roomType"
+                  ],
+                  "restroom"
+                ]
+              ]
+            }
+          }
+        }
+      }
+
       ```
 
   responses:
-  - statusCode: "200"
-    headers:
-    - name: Resource-Location
-      value: https://us.atlas.microsoft.com/mapData/3e36b996-f6d1-b068-0fcb-dd6b014c3447?api-version=2.0
-    body: >-
-      {
-        "operationId": "8b1288fa-1958-4a2b-b68e-13a7i5af7d7c",
-        "created": "2021-04-20T22:43:14.9401559+00:00",
-        "status": "Succeeded"
-      }
   - statusCode: "202"
     headers:
     - name: Operation-Location
-      value: https://us.atlas.microsoft.com/tilesets/operations/{operationId}?api-version=2.0
+      value: https://us.atlas.microsoft.com/tilesets/operations/{operationId}?api-version=2022-09-01-preview
     - name: Access-Control-Expose-Headers
       value: Operation-Location
 security:

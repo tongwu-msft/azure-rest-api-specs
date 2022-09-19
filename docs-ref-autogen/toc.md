@@ -13704,13 +13704,6 @@
 ## Geolocation
 ### [Overview](maps/Geolocation.yml)
 ### [Get IP To Location](maps/Geolocation/Get-IP-To-Location.yml)
-## Map Configuration
-### [Overview](maps/Map-Configuration.yml)
-### [Create](maps/Map-Configuration/Create.yml)
-### [Delete](maps/Map-Configuration/Delete.yml)
-### [Get](maps/Map-Configuration/Get.yml)
-### [Get Operation](maps/Map-Configuration/Get-Operation.yml)
-### [List](maps/Map-Configuration/List.yml)
 ## Render
 ### [Overview](maps/Render.yml)
 ### [Get Copyright Caption](maps/Render/Get-Copyright-Caption.yml)
@@ -13781,22 +13774,6 @@
 ### [Post Closest Point](maps/Spatial/Post-Closest-Point.yml)
 ### [Post Geofence](maps/Spatial/Post-Geofence.yml)
 ### [Post Point In Polygon](maps/Spatial/Post-Point-In-Polygon.yml)
-## Style
-### [Overview](maps/Style.yml)
-### [Delete](maps/Style/Delete.yml)
-### [Export](maps/Style/Export.yml)
-### [Get Operation](maps/Style/Get-Operation.yml)
-### [Import](maps/Style/Import.yml)
-### [List](maps/Style/List.yml)
-## Tileset
-### [Overview](maps/Tileset.yml)
-### [Create](maps/Tileset/Create.yml)
-### [Delete](maps/Tileset/Delete.yml)
-### [Get](maps/Tileset/Get.yml)
-### [Get Configuration](maps/Tileset/Get-Configuration.yml)
-### [Get Operation](maps/Tileset/Get-Operation.yml)
-### [List](maps/Tileset/List.yml)
-### [Validate Configuration](maps/Tileset/Validate-Configuration.yml)
 ## Timezone
 ### [Overview](maps/Timezone.yml)
 ### [Get Timezone By Coordinates](maps/Timezone/Get-Timezone-By-Coordinates.yml)
@@ -13866,13 +13843,29 @@
 #### [List Statesets](maps/v2/Feature-State/List-Statesets.yml)
 #### [Update States](maps/v2/Feature-State/Update-States.yml)
 #### [Update Stateset](maps/v2/Feature-State/Update-Stateset.yml)
+### Map Configuration
+#### [Overview](maps/v2/Map-Configuration.yml)
+#### [Create](maps/v2/Map-Configuration/Create.yml)
+#### [Delete](maps/v2/Map-Configuration/Delete.yml)
+#### [Get](maps/v2/Map-Configuration/Get.yml)
+#### [Get Operation](maps/v2/Map-Configuration/Get-Operation.yml)
+#### [List](maps/v2/Map-Configuration/List.yml)
+### Style
+#### [Overview](maps/v2/Style.yml)
+#### [Delete](maps/v2/Style/Delete.yml)
+#### [Export](maps/v2/Style/Export.yml)
+#### [Get Operation](maps/v2/Style/Get-Operation.yml)
+#### [Import](maps/v2/Style/Import.yml)
+#### [List](maps/v2/Style/List.yml)
 ### Tileset
 #### [Overview](maps/v2/Tileset.yml)
 #### [Create](maps/v2/Tileset/Create.yml)
 #### [Delete](maps/v2/Tileset/Delete.yml)
 #### [Get](maps/v2/Tileset/Get.yml)
+#### [Get Configuration](maps/v2/Tileset/Get-Configuration.yml)
 #### [Get Operation](maps/v2/Tileset/Get-Operation.yml)
 #### [List](maps/v2/Tileset/List.yml)
+#### [Validate Configuration](maps/v2/Tileset/Validate-Configuration.yml)
 ### WFS
 #### [Overview](maps/v2/WFS.yml)
 #### [Delete Feature](maps/v2/WFS/Delete-Feature.yml)
