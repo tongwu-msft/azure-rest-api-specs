@@ -1,0 +1,208 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getbestupdatesfordeviceclasssubgroup
+name: Get Best Updates For Device Class Subgroup
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Get the best available update for a device class subgroup and a count of how many devices need this update.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/bestUpdates?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: deviceClassId
+  in: path
+  isRequired: true
+  description: Device class identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The best available update for a device class subgroup and a count of how many devices need this update.
+  types:
+  - uid: DeviceClassSubgroupUpdatableDevices
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceClassSubgroupUpdatableDevices
+  description: Device class subgroup, update information, and the number of devices for which the update is applicable.
+  kind: object
+  properties:
+  - name: groupId
+    description: The group Id
+    types:
+    - uid: string
+  - name: deviceClassId
+    description: The device class subgroup's device class Id
+    types:
+    - uid: string
+  - name: update
+    description: Update information.
+    types:
+    - uid: UpdateInfo
+  - name: deviceCount
+    description: Total number of devices for which the update is applicable.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: UpdateInfo
+  description: Update information.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identifier.
+    types:
+    - uid: UpdateId
+  - name: description
+    isReadyOnly: true
+    description: Update description.
+    types:
+    - uid: string
+  - name: friendlyName
+    isReadyOnly: true
+    description: Friendly update name.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_ListBestUpdatesForDeviceClassSubgroup
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/deviceClassSubgroups/deviceClassId/bestUpdates?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/deviceClassSubgroups/deviceClassId/bestUpdates?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "groupId": "group1",
+        "deviceClassId": "deviceClassId",
+        "update": {
+          "updateId": {
+            "provider": "provider",
+            "name": "name",
+            "version": "1.0.0.0"
+          },
+          "friendlyName": "July 2022 Update"
+        },
+        "deviceCount": 100
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Get the best available update for a device class subgroup and a count of how many devices need this update.
+errorCodes: []

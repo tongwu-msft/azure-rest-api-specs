@@ -1,0 +1,217 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getdeviceclasssubgroupdeploymentstatus
+name: Get Device Class Subgroup Deployment Status
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups/{groupId}/deviceClassSubgroups/{deviceClassId}/deployments/{deploymentId}/status?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: deviceClassId
+  in: path
+  isRequired: true
+  description: Device class identifier.
+  types:
+  - uid: string
+- name: deploymentId
+  in: path
+  isRequired: true
+  description: Deployment identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The status of the device class subgroup deployment.
+  types:
+  - uid: DeviceClassSubgroupDeploymentStatus
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceClassSubgroupDeploymentStatus
+  description: Device class subgroup deployment status metadata.
+  kind: object
+  properties:
+  - name: groupId
+    description: The group identity
+    types:
+    - uid: string
+  - name: deviceClassId
+    description: The device class subgroup identity
+    types:
+    - uid: string
+  - name: deploymentState
+    description: The state of the subgroup deployment.
+    types:
+    - uid: DeviceClassSubgroupDeploymentState
+  - name: error
+    description: The error details of the Failed state.  This is not present if the deployment state is not Failed.
+    types:
+    - uid: Error
+  - name: totalDevices
+    description: The total number of devices in the deployment.
+    types:
+    - uid: integer
+  - name: devicesInProgressCount
+    description: The number of devices that are currently in deployment.
+    types:
+    - uid: integer
+  - name: devicesCompletedFailedCount
+    description: The number of devices that have completed deployment with a failure.
+    types:
+    - uid: integer
+  - name: devicesCompletedSucceededCount
+    description: The number of devices which have successfully completed deployment.
+    types:
+    - uid: integer
+  - name: devicesCanceledCount
+    description: The number of devices which have had their deployment canceled.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: DeviceClassSubgroupDeploymentState
+  description: Device class subgroup deployment state.
+  kind: enum
+  properties:
+  - name: Active
+    description: The subgroup deployment can be sent to devices targeted in the deployment.
+    types:
+    - uid: string
+  - name: Failed
+    description: The subgroup deployment failed and will not be sent to any devices.
+    types:
+    - uid: string
+  - name: Inactive
+    description: A newer deployment for this subgroup has been created and no devices in the subgroup will receive this deployment.
+    types:
+    - uid: string
+  - name: Canceled
+    description: The subgroup deployment has been canceled and no devices will receive it.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetDeviceClassSubgroupDeploymentStatus
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/TestGroup/deviceClassSubgroups/deviceClassId/deployments/deploymentId/status?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/TestGroup/deviceClassSubgroups/deviceClassId/deployments/deploymentId/status?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "groupId": "TestGroup",
+        "deviceClassId": "deviceClassId",
+        "deploymentState": "Active",
+        "totalDevices": 1,
+        "devicesInProgressCount": 0,
+        "devicesCompletedFailedCount": 0,
+        "devicesCompletedSucceededCount": 1,
+        "devicesCanceledCount": 0
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Gets the status of a deployment including a breakdown of how many devices in the deployment are in progress, completed, or failed.
+errorCodes: []
