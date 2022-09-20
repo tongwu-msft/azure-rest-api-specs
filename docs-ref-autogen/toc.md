@@ -9834,6 +9834,10 @@
 ### [Get](devcenter/Pools/Get.yml)
 ### [List By Project](devcenter/Pools/List-By-Project.yml)
 ### [Update](devcenter/Pools/Update.yml)
+## Project Allowed Environment Types
+### [Overview](devcenter/Project-Allowed-Environment-Types.yml)
+### [Get](devcenter/Project-Allowed-Environment-Types/Get.yml)
+### [List](devcenter/Project-Allowed-Environment-Types/List.yml)
 ## Project Environment Types
 ### [Overview](devcenter/Project-Environment-Types.yml)
 ### [Create Or Update](devcenter/Project-Environment-Types/Create-Or-Update.yml)
