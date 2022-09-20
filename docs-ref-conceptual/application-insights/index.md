@@ -28,7 +28,7 @@ Query Application Insights data using the Application Insights Data Access API
 
 | Operation Group | Description |
 |-----------------|-------------|
-| [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview) | Query Application Insights data. |
+| [Data Access](/azure/azure-monitor/logs/api/overview) | Query Application Insights data. |
 
 ## See also
 
