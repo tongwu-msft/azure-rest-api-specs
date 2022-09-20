@@ -13915,6 +13915,30 @@
 #### [Get Features](maps/v2/WFS/Get-Features.yml)
 #### [Get Landing Page](maps/v2/WFS/Get-Landing-Page.yml)
 #### [List Conformance](maps/v2/WFS/List-Conformance.yml)
+## V20220901Preview
+### Map Configuration
+#### [Overview](maps/v20220901preview/Map-Configuration.yml)
+#### [Create](maps/v20220901preview/Map-Configuration/Create.yml)
+#### [Delete](maps/v20220901preview/Map-Configuration/Delete.yml)
+#### [Get](maps/v20220901preview/Map-Configuration/Get.yml)
+#### [Get Operation](maps/v20220901preview/Map-Configuration/Get-Operation.yml)
+#### [List](maps/v20220901preview/Map-Configuration/List.yml)
+### Style
+#### [Overview](maps/v20220901preview/Style.yml)
+#### [Delete](maps/v20220901preview/Style/Delete.yml)
+#### [Export](maps/v20220901preview/Style/Export.yml)
+#### [Get Operation](maps/v20220901preview/Style/Get-Operation.yml)
+#### [Import](maps/v20220901preview/Style/Import.yml)
+#### [List](maps/v20220901preview/Style/List.yml)
+### Tileset
+#### [Overview](maps/v20220901preview/Tileset.yml)
+#### [Create](maps/v20220901preview/Tileset/Create.yml)
+#### [Delete](maps/v20220901preview/Tileset/Delete.yml)
+#### [Get](maps/v20220901preview/Tileset/Get.yml)
+#### [Get Configuration](maps/v20220901preview/Tileset/Get-Configuration.yml)
+#### [Get Operation](maps/v20220901preview/Tileset/Get-Operation.yml)
+#### [List](maps/v20220901preview/Tileset/List.yml)
+#### [Validate Configuration](maps/v20220901preview/Tileset/Validate-Configuration.yml)
 # Maps Management
 ## [Overview](../docs-ref-conceptual/maps-management/index.md)
 ## Accounts
