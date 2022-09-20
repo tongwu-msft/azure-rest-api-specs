@@ -3,14 +3,14 @@ uid: management.azure.com.compute.dedicatedhosts.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Dedicated Hosts
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Create or update a dedicated host .
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}?api-version=2022-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/hostGroups/{hostGroupName}/hosts/{hostName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -186,7 +186,7 @@ definitions:
     - uid: DedicatedHostInstanceView
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Dedicated Host resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -351,7 +351,7 @@ definitions:
 examples:
 - name: Create or update a dedicated host .
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup/hosts/myDedicatedHost?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup/hosts/myDedicatedHost?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -368,7 +368,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup/hosts/myDedicatedHost?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/hostGroups/myDedicatedHostGroup/hosts/myDedicatedHost?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -385,147 +385,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.compute.fluent.models.DedicatedHostInner;
-      import com.azure.resourcemanager.compute.models.Sku;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for DedicatedHosts CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
-           */
-          /**
-           * Sample code: Create or update a dedicated host .
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdateADedicatedHost(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getDedicatedHosts()
-                  .createOrUpdate(
-                      "myResourceGroup",
-                      "myDedicatedHostGroup",
-                      "myDedicatedHost",
-                      new DedicatedHostInner()
-                          .withLocation("westus")
-                          .withTags(mapOf("department", "HR"))
-                          .withSku(new Sku().withName("DSv3-Type1"))
-                          .withPlatformFaultDomain(1),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
-      func ExampleDedicatedHostsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewDedicatedHostsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"myResourceGroup",
-      		"myDedicatedHostGroup",
-      		"myDedicatedHost",
-      		armcompute.DedicatedHost{
-      			Location: to.Ptr("westus"),
-      			Tags: map[string]*string{
-      				"department": to.Ptr("HR"),
-      			},
-      			Properties: &armcompute.DedicatedHostProperties{
-      				PlatformFaultDomain: to.Ptr[int32](1),
-      			},
-      			SKU: &armcompute.SKU{
-      				Name: to.Ptr("DSv3-Type1"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a dedicated host .
-       *
-       * @summary Create or update a dedicated host .
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/dedicatedHostExamples/DedicatedHost_CreateOrUpdate.json
-       */
-      async function createOrUpdateADedicatedHost() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "myResourceGroup";
-        const hostGroupName = "myDedicatedHostGroup";
-        const hostName = "myDedicatedHost";
-        const parameters = {
-          location: "westus",
-          platformFaultDomain: 1,
-          sku: { name: "DSv3-Type1" },
-          tags: { department: "HR" },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const result = await client.dedicatedHosts.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          hostGroupName,
-          hostName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createOrUpdateADedicatedHost().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

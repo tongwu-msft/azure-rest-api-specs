@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachinescalesetvms.get
 name: Get
 service: Compute
 groupName: Virtual Machine Scale Set VMs
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Gets a virtual machine from a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}?api-version=2022-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}?$expand={$expand}&api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}/virtualMachines/{instanceId}?$expand={$expand}&api-version=2022-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -300,7 +300,7 @@ definitions:
   - name: properties.protectedSettingsFromKeyVault
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
-    - uid: object
+    - uid: KeyVaultSecretReference
   - name: location
     description: Resource location
     types:
@@ -436,6 +436,10 @@ definitions:
     types:
     - uid: DataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: DiskControllerTypes
 - name: AdditionalCapabilities
   description: Enables or disables a capability on the virtual machine or virtual machine scale set.
   kind: object
@@ -610,6 +614,18 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret
+  kind: object
+  properties:
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: The relative URL of the Key Vault containing the secret.
+    types:
+    - uid: SubResource
 - name: ResourceIdentityType
   description: The type of identity used for the virtual machine scale set. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine scale set.
   kind: enum
@@ -1346,7 +1362,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1390,7 +1406,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1419,6 +1435,16 @@ definitions:
     description: 'Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach**'
     types:
     - uid: DiskDeleteOptionTypes
+- name: DiskControllerTypes
+  description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+  kind: enum
+  properties:
+  - name: SCSI
+    types:
+    - uid: string
+  - name: NVMe
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1448,6 +1474,10 @@ definitions:
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
     - uid: WinRMConfiguration
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: LinuxConfiguration
   description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
@@ -1468,6 +1498,10 @@ definitions:
     description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
     types:
     - uid: LinuxPatchSettings
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -1546,6 +1580,10 @@ definitions:
     description: Specifies whether the network interface is accelerated networking-enabled.
     types:
     - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
+    types:
+    - uid: boolean
   - name: properties.enableFpga
     description: Specifies whether the network interface is FPGA networking-enabled.
     types:
@@ -1585,6 +1623,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -2011,18 +2053,6 @@ definitions:
     description: Resource Id
     types:
     - uid: string
-- name: KeyVaultSecretReference
-  description: Describes a reference to Key Vault Secret
-  kind: object
-  properties:
-  - name: secretUrl
-    description: The URL referencing a secret in a Key Vault.
-    types:
-    - uid: string
-  - name: sourceVault
-    description: The relative URL of the Key Vault containing the secret.
-    types:
-    - uid: SubResource
 - name: KeyVaultKeyReference
   description: Describes a reference to Key Vault Key
   kind: object
@@ -2447,106 +2477,13 @@ definitions:
 examples:
 - name: Get VM scale set VM with UserData
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-08-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VirtualMachineScaleSetVMs Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
-           */
-          /**
-           * Sample code: Get VM scale set VM with UserData.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getVMScaleSetVMWithUserData(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getVirtualMachineScaleSetVMs()
-                  .getWithResponse("myResourceGroup", "{vmss-name}", "0", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
-      func ExampleVirtualMachineScaleSetVMsClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewVirtualMachineScaleSetVMsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx,
-      		"myResourceGroup",
-      		"{vmss-name}",
-      		"0",
-      		&armcompute.VirtualMachineScaleSetVMsClientGetOptions{Expand: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets a virtual machine from a VM scale set.
-       *
-       * @summary Gets a virtual machine from a VM scale set.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithUserData.json
-       */
-      async function getVMScaleSetVMWithUserData() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "myResourceGroup";
-        const vmScaleSetName = "{vmss-name}";
-        const instanceId = "0";
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const result = await client.virtualMachineScaleSetVMs.get(
-          resourceGroupName,
-          vmScaleSetName,
-          instanceId
-        );
-        console.log(result);
-      }
-
-      getVMScaleSetVMWithUserData().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2671,69 +2608,13 @@ examples:
       }
 - name: Get VM scale set VM with VMSizeProperties
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachineScaleSets/{vmss-name}/virtualMachines/0?api-version=2022-08-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VirtualMachineScaleSetVMs Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
-           */
-          /**
-           * Sample code: Get VM scale set VM with VMSizeProperties.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getVMScaleSetVMWithVMSizeProperties(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getVirtualMachineScaleSetVMs()
-                  .getWithResponse("myResourceGroup", "{vmss-name}", "0", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets a virtual machine from a VM scale set.
-       *
-       * @summary Gets a virtual machine from a VM scale set.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSetVM_Get_WithVMSizeProperties.json
-       */
-      async function getVMScaleSetVMWithVMSizeProperties() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "myResourceGroup";
-        const vmScaleSetName = "{vmss-name}";
-        const instanceId = "0";
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const result = await client.virtualMachineScaleSetVMs.get(
-          resourceGroupName,
-          vmScaleSetName,
-          instanceId
-        );
-        console.log(result);
-      }
-
-      getVMScaleSetVMWithVMSizeProperties().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

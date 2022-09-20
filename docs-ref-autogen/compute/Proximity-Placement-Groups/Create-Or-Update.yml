@@ -3,14 +3,14 @@ uid: management.azure.com.compute.proximityplacementgroups.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Proximity Placement Groups
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Create or update a proximity placement group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2022-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/proximityPlacementGroups/{proximityPlacementGroupName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -287,7 +287,7 @@ definitions:
 examples:
 - name: Create or Update a proximity placement group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -307,7 +307,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/proximityPlacementGroups/myProximityPlacementGroup?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -327,131 +327,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.compute.fluent.models.ProximityPlacementGroupInner;
-      import com.azure.resourcemanager.compute.models.ProximityPlacementGroupPropertiesIntent;
-      import com.azure.resourcemanager.compute.models.ProximityPlacementGroupType;
-      import java.util.Arrays;
-
-      /** Samples for ProximityPlacementGroups CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
-           */
-          /**
-           * Sample code: Create or Update a proximity placement group.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdateAProximityPlacementGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getProximityPlacementGroups()
-                  .createOrUpdateWithResponse(
-                      "myResourceGroup",
-                      "myProximityPlacementGroup",
-                      new ProximityPlacementGroupInner()
-                          .withLocation("westus")
-                          .withZones(Arrays.asList("1"))
-                          .withProximityPlacementGroupType(ProximityPlacementGroupType.STANDARD)
-                          .withIntent(
-                              new ProximityPlacementGroupPropertiesIntent()
-                                  .withVmSizes(Arrays.asList("Basic_A0", "Basic_A2"))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
-      func ExampleProximityPlacementGroupsClient_CreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewProximityPlacementGroupsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.CreateOrUpdate(ctx,
-      		"myResourceGroup",
-      		"myProximityPlacementGroup",
-      		armcompute.ProximityPlacementGroup{
-      			Location: to.Ptr("westus"),
-      			Properties: &armcompute.ProximityPlacementGroupProperties{
-      				Intent: &armcompute.ProximityPlacementGroupPropertiesIntent{
-      					VMSizes: []*string{
-      						to.Ptr("Basic_A0"),
-      						to.Ptr("Basic_A2")},
-      				},
-      				ProximityPlacementGroupType: to.Ptr(armcompute.ProximityPlacementGroupTypeStandard),
-      			},
-      			Zones: []*string{
-      				to.Ptr("1")},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a proximity placement group.
-       *
-       * @summary Create or update a proximity placement group.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/proximityPlacementGroupExamples/ProximityPlacementGroup_CreateOrUpdate.json
-       */
-      async function createOrUpdateAProximityPlacementGroup() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "myResourceGroup";
-        const proximityPlacementGroupName = "myProximityPlacementGroup";
-        const parameters = {
-          intent: { vmSizes: ["Basic_A0", "Basic_A2"] },
-          location: "westus",
-          proximityPlacementGroupType: "Standard",
-          zones: ["1"],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const result = await client.proximityPlacementGroups.createOrUpdate(
-          resourceGroupName,
-          proximityPlacementGroupName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createOrUpdateAProximityPlacementGroup().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
