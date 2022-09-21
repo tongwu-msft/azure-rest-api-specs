@@ -13929,10 +13929,10 @@
 #### [List](maps/v20220901preview/Map-Configuration/List.yml)
 ### Style
 #### [Overview](maps/v20220901preview/Style.yml)
+#### [Create](maps/v20220901preview/Style/Create.yml)
 #### [Delete](maps/v20220901preview/Style/Delete.yml)
-#### [Export](maps/v20220901preview/Style/Export.yml)
+#### [Get](maps/v20220901preview/Style/Get.yml)
 #### [Get Operation](maps/v20220901preview/Style/Get-Operation.yml)
-#### [Import](maps/v20220901preview/Style/Import.yml)
 #### [List](maps/v20220901preview/Style/List.yml)
 ### Tileset
 #### [Overview](maps/v20220901preview/Tileset.yml)

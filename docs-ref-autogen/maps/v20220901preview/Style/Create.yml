@@ -1,33 +1,24 @@
 ### YamlMime:RESTOperation
-uid: maps.v20220901preview.style.export
-name: Export
+uid: maps.v20220901preview.style.create
+name: Create
 service: Maps Creator
 groupName: Style
 apiVersion: 2022-09-01-preview
-summary: >-
-  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
-
-
-  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
-
-
-  This API allows the caller to export a style. Customer can export two predefined default styles using alias `microsoft-maps:indoor_2022-01-01` for indoor light and `microsoft-maps:indoor_dark_2022-01-01` for indoor dark.
-consumes: []
-produces:
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Style Create request allows the caller to create an Azure Maps style.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\n## Submit Create Request\n\nTo create your style you will make a `POST` request with an azure maps style. \n\nThe Create Style API is a [long-running request](https://aka.ms/am-creator-lrt-v2)."
+consumes:
+- application/json
 - application/zip
+produces:
+- application/json
 paths:
-- content: GET https://{geography}.atlas.microsoft.com/styles/{styleId}?api-version=2022-09-01-preview
+- content: POST https://{geography}.atlas.microsoft.com/styles?api-version=2022-09-01-preview
+- content: POST https://{geography}.atlas.microsoft.com/styles?api-version=2022-09-01-preview&description={description}&alias={alias}
+  isOptional: true
 uriParameters:
 - name: geography
   in: path
   isRequired: true
   description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
-  types:
-  - uid: string
-- name: styleId
-  in: path
-  isRequired: true
-  description: The Style Id.
   types:
   - uid: string
 - name: api-version
@@ -36,18 +27,34 @@ uriParameters:
   description: Version number of Azure Maps API.
   types:
   - uid: string
-responses:
-- name: 200 OK
-  headers:
-  - name: Content-Type
-    value: string
-  description: Export style request completed successfully. The response body contains a zip file with style content.
+- name: description
+  in: query
+  description: User provided description of the style. Maximum length 1024 characters.
   types:
-  - uid: object
+  - uid: string
+- name: alias
+  in: query
+  description: 'The alias of the style. Maximum length 1024 characters. Alias cannot start with `microsoft-maps` which is a reserved prefix. Alias can be provided optionally during creating a style, and can be used as same as styleId after style creation. '
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Operation-Location Header to obtain status.'
 - name: Other Status Codes
   description: An unexpected error occurred.
   types:
   - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: CreateContent
+    in: body
+    description: The style content to be uploaded. If JSON data format is provided, then the request body should follow [Layers specification](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers) in MapLibre Style specification. If ZIP data format is provided, you should also provide the sprite sheet and associated index files which contains icons used in the style configuration json file.
+    types:
+    - uid: object
 requestHeader:
 - name: x-ms-client-id
   in: header
@@ -109,21 +116,123 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Exports the details for a single style
+- name: Create Style by providing an azure maps style json file
   request:
-    uri: GET https://us.atlas.microsoft.com/styles/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
+    uri: POST https://us.atlas.microsoft.com/styles?api-version=2022-09-01-preview&alias=test-alias
+    body: >-
+      {
+        "layers": [
+          {
+            "id": "background",
+            "type": "background",
+            "source-layer": "bg-source",
+            "minzoom": 18,
+            "maxzoom": 20,
+            "layout": {
+              "visibility": "none",
+              "symbol-placement": "point",
+              "symbol-avoid-edges": true,
+              "text-field": "{name}",
+              "text-keep-upright": true,
+              "text-font": [
+                "SegoeUi-SemiBold"
+              ],
+              "text-letter-spacing": 0.1,
+              "text-size": {
+                "stops": [
+                  [
+                    18.5,
+                    6.5
+                  ],
+                  [
+                    19,
+                    8
+                  ],
+                  [
+                    19.5,
+                    9.5
+                  ],
+                  [
+                    20,
+                    11
+                  ]
+                ]
+              },
+              "text-anchor": "center"
+            },
+            "paint": {
+              "text-color": "rgb(0, 0, 0)",
+              "text-halo-color": "rgb(255, 255, 255)",
+              "text-halo-width": 1,
+              "text-halo-blur": 0.5
+            }
+          }
+        ]
+      }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://us.atlas.microsoft.com/styles/25084fb7-307a-4720-8f91-7952a0b91012?api-version=2022-09-01-preview
+      POST https://us.atlas.microsoft.com/styles?api-version=2022-09-01-preview&alias=test-alias
+
+      {
+        "layers": [
+          {
+            "id": "background",
+            "type": "background",
+            "source-layer": "bg-source",
+            "minzoom": 18,
+            "maxzoom": 20,
+            "layout": {
+              "visibility": "none",
+              "symbol-placement": "point",
+              "symbol-avoid-edges": true,
+              "text-field": "{name}",
+              "text-keep-upright": true,
+              "text-font": [
+                "SegoeUi-SemiBold"
+              ],
+              "text-letter-spacing": 0.1,
+              "text-size": {
+                "stops": [
+                  [
+                    18.5,
+                    6.5
+                  ],
+                  [
+                    19,
+                    8
+                  ],
+                  [
+                    19.5,
+                    9.5
+                  ],
+                  [
+                    20,
+                    11
+                  ]
+                ]
+              },
+              "text-anchor": "center"
+            },
+            "paint": {
+              "text-color": "rgb(0, 0, 0)",
+              "text-halo-color": "rgb(255, 255, 255)",
+              "text-halo-width": 1,
+              "text-halo-blur": 0.5
+            }
+          }
+        ]
+      }
+
       ```
 
   responses:
-  - statusCode: "200"
+  - statusCode: "202"
     headers:
-    - name: Content-Type
-      value: application/zip
-    body: "\"binary zip string, can be saved as zip file. The zip file will contain a style json file and optional sprites image and json index files.\""
+    - name: Operation-Location
+      value: https://us.atlas.microsoft.com/styles/operations/{operationId}?api-version=2022-09-01-preview
+    - name: Access-Control-Expose-Headers
+      value: Operation-Location
 security:
 - name: AADToken
   type: oauth2
@@ -155,5 +264,5 @@ metadata:
   description: >-
     Applies to: see pricing tiers.
 
-    Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK.
+    The Style Create request allows the caller to create an Azure Maps style.
 errorCodes: []
