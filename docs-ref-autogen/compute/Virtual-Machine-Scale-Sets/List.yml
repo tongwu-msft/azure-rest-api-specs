@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.list
 name: List
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Gets a list of all VM scale sets under a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -153,9 +153,13 @@ definitions:
     description: Specifies the Spot Restore properties for the virtual machine scale set.
     types:
     - uid: SpotRestorePolicy
+  - name: properties.priorityMixPolicy
+    description: Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance.
+    types:
+    - uid: PriorityMixPolicy
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -373,7 +377,7 @@ definitions:
     types:
     - uid: ApplicationProfile
   - name: hardwareProfile
-    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: VirtualMachineScaleSetHardwareProfile
 - name: SubResource
@@ -430,6 +434,18 @@ definitions:
     description: Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
     types:
     - uid: string
+- name: PriorityMixPolicy
+  description: Specifies the target splits for Spot and Regular priority VMs within a scale set with flexible orchestration mode. <br><br>With this property the customer is able to specify the base number of regular priority VMs created as the VMSS flex instance scales out and the split between Spot and Regular priority VMs after this base target has been reached.
+  kind: object
+  properties:
+  - name: baseRegularPriorityCount
+    description: The base number of regular priority VMs that will be created in this scale set as it scales out.
+    types:
+    - uid: integer
+  - name: regularPriorityPercentageAboveBase
+    description: The percentage of VM instances, after the base regular priority count has been reached, that are expected to use regular priority.
+    types:
+    - uid: integer
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -613,6 +629,11 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the virtual machines in the scale set. <br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: string
+      isArray: true
 - name: VirtualMachineScaleSetNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -727,7 +748,7 @@ definitions:
   kind: object
   properties:
   - name: vmSizeProperties
-    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
+    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
     types:
     - uid: VMSizeProperties
 - name: WindowsConfiguration
@@ -759,6 +780,10 @@ definitions:
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
     - uid: WinRMConfiguration
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: LinuxConfiguration
   description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
@@ -779,6 +804,10 @@ definitions:
     description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
     types:
     - uid: LinuxPatchSettings
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -854,7 +883,7 @@ definitions:
     types:
     - uid: DiffDiskSettings
   - name: diskSizeGB
-    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: osType
@@ -903,7 +932,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -944,6 +973,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -1078,7 +1111,7 @@ definitions:
   - name: properties.protectedSettingsFromKeyVault
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
-    - uid: object
+    - uid: KeyVaultSecretReference
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1370,6 +1403,18 @@ definitions:
   - name: Detach
     types:
     - uid: string
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret
+  kind: object
+  properties:
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: The relative URL of the Key Vault containing the secret.
+    types:
+    - uid: SubResource
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -1693,105 +1738,13 @@ definitions:
 examples:
 - name: VirtualMachineScaleSets_List_MaximumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-08-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VirtualMachineScaleSets ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_List_MaximumSet_Gen.json
-           */
-          /**
-           * Sample code: VirtualMachineScaleSets_List_MaximumSet_Gen.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void virtualMachineScaleSetsListMaximumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getVirtualMachineScaleSets()
-                  .listByResourceGroup("rgcompute", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_List_MaximumSet_Gen.json
-      func ExampleVirtualMachineScaleSetsClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("rgcompute",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
-       *
-       * @summary Gets a list of all VM scale sets under a resource group.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_List_MaximumSet_Gen.json
-       */
-      async function virtualMachineScaleSetsListMaximumSetGen() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "rgcompute";
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.virtualMachineScaleSets.list(resourceGroupName)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      virtualMachineScaleSetsListMaximumSetGen().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2472,66 +2425,13 @@ examples:
       }
 - name: VirtualMachineScaleSets_List_MinimumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets?api-version=2022-08-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VirtualMachineScaleSets ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_List_MinimumSet_Gen.json
-           */
-          /**
-           * Sample code: VirtualMachineScaleSets_List_MinimumSet_Gen.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void virtualMachineScaleSetsListMinimumSetGen(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .virtualMachines()
-                  .manager()
-                  .serviceClient()
-                  .getVirtualMachineScaleSets()
-                  .listByResourceGroup("rgcompute", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ComputeManagementClient } = require("@azure/arm-compute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets a list of all VM scale sets under a resource group.
-       *
-       * @summary Gets a list of all VM scale sets under a resource group.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_List_MinimumSet_Gen.json
-       */
-      async function virtualMachineScaleSetsListMinimumSetGen() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "rgcompute";
-        const credential = new DefaultAzureCredential();
-        const client = new ComputeManagementClient(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.virtualMachineScaleSets.list(resourceGroupName)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      virtualMachineScaleSetsListMinimumSetGen().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
