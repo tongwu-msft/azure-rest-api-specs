@@ -1,17 +1,17 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.devcenter.networkconnections.listbyresourcegroup
-name: List By Resource Group
+uid: management.azure.com.devcenter.projectallowedenvironmenttypes.list
+name: List
 service: Dev Center
-groupName: Network Connections
+groupName: Project Allowed Environment Types
 apiVersion: 2022-09-01-preview
-summary: Lists network connections in a resource group
+summary: Lists allowed environment types for a project.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections?api-version=2022-09-01-preview
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/networkConnections?api-version=2022-09-01-preview&$top={$top}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes?api-version=2022-09-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DevCenter/projects/{projectName}/allowedEnvironmentTypes?api-version=2022-09-01-preview&$top={$top}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -24,6 +24,12 @@ uriParameters:
   in: path
   isRequired: true
   description: Name of the resource group within the Azure subscription.
+  types:
+  - uid: string
+- name: projectName
+  in: path
+  isRequired: true
+  description: The name of the project.
   types:
   - uid: string
 - name: api-version
@@ -42,22 +48,22 @@ responses:
 - name: 200 OK
   description: OK. The request has succeeded.
   types:
-  - uid: NetworkConnectionListResult
+  - uid: AllowedEnvironmentTypeListResult
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: NetworkConnectionListResult
-  description: Result of the network connection list operation.
+- name: AllowedEnvironmentTypeListResult
+  description: Result of the allowed environment type list operation.
   kind: object
   properties:
   - name: value
     isReadyOnly: true
     description: Current page of results.
     types:
-    - uid: NetworkConnection
+    - uid: AllowedEnvironmentType
       isArray: true
   - name: nextLink
     isReadyOnly: true
@@ -72,38 +78,13 @@ definitions:
     description: Error body
     types:
     - uid: CloudErrorBody
-- name: NetworkConnection
-  description: Network related settings
+- name: AllowedEnvironmentType
+  description: Represents an allowed environment type.
   kind: object
   properties:
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioning state of the resource.
-    types:
-    - uid: string
-  - name: properties.healthCheckStatus
-    isReadyOnly: true
-    description: Overall health status of the network connection. Health checks are run on creation, update, and periodically to validate the network connection.
-    types:
-    - uid: HealthCheckStatus
-  - name: properties.networkingResourceGroupName
-    description: The name for resource group where NICs will be placed.
-    types:
-    - uid: string
-  - name: properties.domainJoinType
-    description: AAD Join type.
-    types:
-    - uid: DomainJoinType
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
     types:
     - uid: string
   - name: id
@@ -126,26 +107,6 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
-  - name: properties.subnetId
-    description: The subnet to attach Virtual Machines to
-    types:
-    - uid: string
-  - name: properties.domainName
-    description: Active Directory domain name
-    types:
-    - uid: string
-  - name: properties.organizationUnit
-    description: Active Directory domain Organization Unit (OU)
-    types:
-    - uid: string
-  - name: properties.domainUsername
-    description: 'The username of an Active Directory account (user or service account) that has permissions to create computer objects in Active Directory. Required format: admin@contoso.com.'
-    types:
-    - uid: string
-  - name: properties.domainPassword
-    description: The password for the account used to join domain
-    types:
-    - uid: string
 - name: CloudErrorBody
   description: An error response from the DevCenter service.
   kind: object
@@ -167,38 +128,6 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
-- name: HealthCheckStatus
-  description: Health check status values
-  kind: enum
-  properties:
-  - name: Pending
-    types:
-    - uid: string
-  - name: Running
-    types:
-    - uid: string
-  - name: Passed
-    types:
-    - uid: string
-  - name: Failed
-    types:
-    - uid: string
-  - name: Warning
-    types:
-    - uid: string
-  - name: Unknown
-    types:
-    - uid: string
-- name: DomainJoinType
-  description: Active Directory join type
-  kind: enum
-  properties:
-  - name: HybridAzureADJoin
-    types:
-    - uid: string
-  - name: AzureADJoin
-    types:
-    - uid: string
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -244,13 +173,13 @@ definitions:
     types:
     - uid: string
 examples:
-- name: NetworkConnections_ListByResourceGroup
+- name: ProjectAllowedEnvironmentTypes_List
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/networkConnections?api-version=2022-09-01-preview
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/Contoso/allowedEnvironmentTypes?api-version=2022-09-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/networkConnections?api-version=2022-09-01-preview
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/Contoso/allowedEnvironmentTypes?api-version=2022-09-01-preview
       ```
 
   responses:
@@ -259,26 +188,17 @@ examples:
       {
         "value": [
           {
-            "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/networkconnections/uswest3network",
-            "name": "uswest3network",
-            "type": "Microsoft.DevCenter/networkconnections",
-            "properties": {
-              "domainJoinType": "HybridAzureADJoin",
-              "domainName": "mydomaincontroller.local",
-              "domainUsername": "testuser@mydomaincontroller.local",
-              "networkingResourceGroupName": "NetworkInterfaces",
-              "subnetId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/ExampleRG/providers/Microsoft.Network/virtualNetworks/ExampleVNet/subnets/default",
-              "provisioningState": "Succeeded"
-            },
+            "id": "/subscriptions/{subscriptionId}/resourceGroups/rg1/providers/Microsoft.DevCenter/projects/Contoso/allowedEnvironmentTypes/{environmentTypeName}",
+            "name": "{environmentTypeName}",
+            "type": "Microsoft.DevCenter/projects/allowedenvironmenttypes",
             "systemData": {
-              "createdBy": "user1",
+              "createdBy": "User1@contoso.com",
               "createdByType": "User",
-              "createdAt": "2020-11-18T18:00:36.993Z",
-              "lastModifiedBy": "user1",
+              "createdAt": "2020-11-18T18:24:24.818Z",
+              "lastModifiedBy": "User1@contoso.com",
               "lastModifiedByType": "User",
-              "lastModifiedAt": "2020-11-18T18:30:36.993Z"
-            },
-            "location": "centralus"
+              "lastModifiedAt": "2020-11-18T18:24:24.818Z"
+            }
           }
         ]
       }
@@ -293,5 +213,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Dev Center service - Lists network connections in a resource group
+    Learn more about Dev Center service - Lists allowed environment types for a project.
 errorCodes: []

@@ -15,15 +15,19 @@ The Dev Center Management REST API provides operations for working with the Micr
 
 | Operation group               | Description                                                                             |
 |-------------------------------|-----------------------------------------------------------------------------------------|
-| [Attached Networks](/rest/api/devcenter/attached-networks)          | Provides operations for attaching Network Connections to your Dev Center |
+| [Attached Networks](/rest/api/devcenter/attached-networks)          | Provides operations for attaching Network Connections to your Dev Center. |
+| [Catalogs](/rest/api/devcenter/catalogs)  | Provides operations for attaching catalogs to your Dev Center. |
 | [DevCenters](/rest/api/devcenter/devcenters)  | Provides operations for IT Admins to manage with Dev Centers. |
 | [Dev Box Definitions](/rest/api/devcenter/dev-box-definitions)  | Provides operations for working with Dev Box Definitions accounts. |
+| [Environment Types](/rest/api/devcenter/environment-types)  | Provides operations for IT admins to manage Environment Types on Dev Centers. |
 | [Galleries](/rest/api/devcenter/galleries)  | Provides operations for attaching Compute Galleries to your Dev Center. |
 | [Image Versions](/rest/api/devcenter/image-versions) | Gets information about image versions available for use. |
-| [Images](/rest/api/devcenter/images) | Gets information about images available for use |
-| [Network Connections](/rest/api/devcenter/network-connections) | Provides operations for working with Network Connections to attach a VNet to a Dev Center |
+| [Images](/rest/api/devcenter/images) | Gets information about images available for use. |
+| [Network Connections](/rest/api/devcenter/network-connections) | Provides operations for working with Network Connections to attach a VNet to a Dev Center. |
 | [Operations](/rest/api/devcenter/operations) | Lists available operations for the Microsoft.DevCenter provider. |
 | [Pools](/rest/api/devcenter/pools) | Provides operations for working with pools in your Project. |
+| [Project Allowed Environment Types](/rest/api/devcenter/project-allowed-environment-types) | Gets information about project environment types available to use. |
+| [Project Environment Types](/rest/api/devcenter/project-environment-types) | Provides operations for working with environment types in your Project. |
 | [Projects](/rest/api/devcenter/projects) | Provides operations for working with Projects. |
 | [Skus](/rest/api/devcenter/skus) | Gets information about Skus available to use. |
 
