@@ -1,0 +1,394 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.storagemover.agents.list
+name: List
+service: Storage Mover
+groupName: Agents
+apiVersion: 2022-07-01-preview
+summary: Lists all Agents in a Storage Mover.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.StorageMover/storageMovers/{storageMoverName}/agents?api-version=2022-07-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: storageMoverName
+  in: path
+  isRequired: true
+  description: The name of the Storage Mover resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The list of Agents.
+  types:
+  - uid: AgentList
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AgentList
+  description: List of Agents.
+  kind: object
+  properties:
+  - name: value
+    isReadyOnly: true
+    description: The Agent resource.
+    types:
+    - uid: Agent
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: Request URL that can be used to query next page of containers. Returned when total number of requested containers exceed maximum page size.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: Agent
+  description: The Agent resource.
+  kind: object
+  properties:
+  - name: systemData
+    isReadyOnly: true
+    description: Resource system metadata.
+    types:
+    - uid: systemData
+  - name: properties.description
+    description: A description for the Agent.
+    types:
+    - uid: string
+  - name: properties.agentVersion
+    isReadyOnly: true
+    description: The Agent version.
+    types:
+    - uid: string
+  - name: properties.arcResourceId
+    description: The fully qualified resource ID of the Hybrid Compute resource for the Agent.
+    types:
+    - uid: string
+  - name: properties.arcVmUuid
+    description: The VM UUID of the Hybrid Compute resource for the Agent.
+    types:
+    - uid: string
+  - name: properties.agentStatus
+    isReadyOnly: true
+    description: The Agent status.
+    types:
+    - uid: AgentStatus
+  - name: properties.lastStatusUpdate
+    isReadyOnly: true
+    description: The last updated time of the Agent status.
+    types:
+    - uid: string
+  - name: properties.localIPAddress
+    isReadyOnly: true
+    description: Local IP address reported by the Agent.
+    types:
+    - uid: string
+  - name: properties.memoryInMB
+    isReadyOnly: true
+    description: Available memory reported by the Agent, in MB.
+    types:
+    - uid: integer
+  - name: properties.numberOfCores
+    isReadyOnly: true
+    description: Available compute cores reported by the Agent.
+    types:
+    - uid: integer
+  - name: properties.uptimeInSeconds
+    isReadyOnly: true
+    description: Uptime of the Agent in seconds.
+    types:
+    - uid: integer
+  - name: properties.errorDetails
+    isReadyOnly: true
+    description: ''
+    types:
+    - uid: ErrorDetails
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of this resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
+- name: AgentStatus
+  description: The Agent status.
+  kind: enum
+  properties:
+  - name: Registering
+    types:
+    - uid: string
+  - name: Offline
+    types:
+    - uid: string
+  - name: Online
+    types:
+    - uid: string
+  - name: Executing
+    types:
+    - uid: string
+  - name: RequiresAttention
+    types:
+    - uid: string
+  - name: Unregistering
+    types:
+    - uid: string
+- name: ErrorDetails
+  kind: object
+  properties:
+  - name: code
+    description: Error code reported by Agent
+    types:
+    - uid: string
+  - name: message
+    description: Expanded description of reported error code
+    types:
+    - uid: string
+- name: ProvisioningState
+  description: The provisioning state of this resource.
+  kind: enum
+  properties:
+  - name: Succeeded
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
+examples:
+- name: Agents_List
+  request:
+    uri: GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/agents?api-version=2022-07-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://management.azure.com/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/agents?api-version=2022-07-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/agents/examples-agentName1",
+            "name": "examples-agentName1",
+            "type": "Microsoft.StorageMover/storageMovers/agents",
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "User",
+              "createdAt": "2020-02-01T01:01:01.1075056Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
+            },
+            "properties": {
+              "arcResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.HybridCompute/machines/examples-hybridComputeName1",
+              "description": "Example Agent 1 Description",
+              "agentVersion": "1.0.0",
+              "agentStatus": "Online",
+              "arcVmUuid": "3bb2c024-eba9-4d18-9e7a-1d772fcc5fe9",
+              "lastStatusUpdate": "2020-02-01T01:01:01.1075056Z",
+              "localIPAddress": "192.168.0.0",
+              "memoryInMB": 100024,
+              "numberOfCores": 32,
+              "uptimeInSeconds": 522,
+              "errorDetails": null
+            }
+          },
+          {
+            "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/agents/examples-agentName2",
+            "name": "examples-agentName2",
+            "type": "Microsoft.StorageMover/storageMovers/agents",
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "User",
+              "createdAt": "2020-02-01T01:01:01.1075056Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
+            },
+            "properties": {
+              "arcResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.HybridCompute/machines/examples-hybridComputeName2",
+              "description": "Example Agent 2 Description",
+              "agentVersion": "1.0.0",
+              "agentStatus": "Online",
+              "arcVmUuid": "147a1f84-7bbf-4e99-9a6a-a1735a91dfd5",
+              "lastStatusUpdate": "2020-02-01T01:01:01.1075056Z",
+              "localIPAddress": "192.168.0.0",
+              "memoryInMB": 100024,
+              "numberOfCores": 32,
+              "uptimeInSeconds": 522,
+              "errorDetails": null
+            }
+          },
+          {
+            "id": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.StorageMover/storageMovers/examples-storageMoverName/agents/examples-agentName3",
+            "name": "examples-agentName3",
+            "type": "Microsoft.StorageMover/storageMovers/agents",
+            "systemData": {
+              "createdBy": "string",
+              "createdByType": "User",
+              "createdAt": "2020-02-01T01:01:01.1075056Z",
+              "lastModifiedBy": "string",
+              "lastModifiedByType": "User",
+              "lastModifiedAt": "2020-02-01T01:01:01.1075056Z"
+            },
+            "properties": {
+              "arcResourceId": "/subscriptions/11111111-2222-3333-4444-555555555555/resourceGroups/examples-rg/providers/Microsoft.HybridCompute/machines/examples-hybridComputeName3",
+              "description": "Example Agent 3 Description",
+              "agentVersion": "1.0.0",
+              "agentStatus": "Online",
+              "arcVmUuid": "648a7958-f99e-4268-b20e-94c96558dc0d",
+              "lastStatusUpdate": "2020-02-01T01:01:01.1075056Z",
+              "localIPAddress": "192.168.0.0",
+              "memoryInMB": 100024,
+              "numberOfCores": 32,
+              "uptimeInSeconds": 522,
+              "errorDetails": {
+                "code": "SampleErrorCode",
+                "message": "Detailed sample error message."
+              }
+            }
+          }
+        ],
+        "nextLink": "https://management.azure.com/providers/Microsoft.StorageMover/storageMovers?$skiptoken={token}"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Storage Mover service - Lists all Agents in a Storage Mover.
+errorCodes: []
