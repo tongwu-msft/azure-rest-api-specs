@@ -17349,16 +17349,16 @@
 ### Preview
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/preview/Disaster-Recovery-Configs.yml)
-##### [Break Pairing](servicebus/preview/Disaster-Recovery-Configs/Break-Pairing.yml)
+##### [Get Authorization Rule](servicebus/preview/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
+##### [List Authorization Rules](servicebus/preview/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
+##### [List Keys](servicebus/preview/Disaster-Recovery-Configs/List-Keys.yml)
 ##### [Check Name Availability](servicebus/preview/Disaster-Recovery-Configs/Check-Name-Availability.yml)
+##### [Break Pairing](servicebus/preview/Disaster-Recovery-Configs/Break-Pairing.yml)
 ##### [Create Or Update](servicebus/preview/Disaster-Recovery-Configs/Create-Or-Update.yml)
 ##### [Delete](servicebus/preview/Disaster-Recovery-Configs/Delete.yml)
 ##### [Fail Over](servicebus/preview/Disaster-Recovery-Configs/Fail-Over.yml)
 ##### [Get](servicebus/preview/Disaster-Recovery-Configs/Get.yml)
-##### [Get Authorization Rule](servicebus/preview/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
 ##### [List](servicebus/preview/Disaster-Recovery-Configs/List.yml)
-##### [List Authorization Rules](servicebus/preview/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
-##### [List Keys](servicebus/preview/Disaster-Recovery-Configs/List-Keys.yml)
 #### Migration Configs
 ##### [Overview](servicebus/preview/Migration-Configs.yml)
 ##### [Complete Migration](servicebus/preview/Migration-Configs/Complete-Migration.yml)

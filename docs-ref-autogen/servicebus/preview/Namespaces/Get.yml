@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.namespaces.get
 name: Get
 service: Service Bus
 groupName: Namespaces
-apiVersion: 2021-06-01-preview
+apiVersion: 2022-01-01-preview
 summary: Gets a description for the specified namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2021-06-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -82,6 +82,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
+  - name: properties.minimumTlsVersion
+    description: The minimum TLS version for the cluster to support, e.g. '1.2'
+    types:
+    - uid: TlsVersion
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the namespace.
@@ -125,6 +129,15 @@ definitions:
     description: This property disables SAS authentication for the Service Bus namespace.
     types:
     - uid: boolean
+  - name: properties.alternateName
+    description: Alternate name for namespace
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.encryption.keyVaultProperties
     description: Properties of KeyVault
     types:
@@ -248,6 +261,19 @@ definitions:
     description: Client Id of user assigned identity
     types:
     - uid: string
+- name: TlsVersion
+  description: The minimum TLS version for the cluster to support, e.g. '1.2'
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.1"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
 - name: PrivateEndpointConnection
   description: Properties of the PrivateEndpointConnection.
   kind: object
@@ -271,17 +297,35 @@ definitions:
     - uid: EndPointProvisioningState
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: This determines if traffic is allowed over public network. By default it is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: SecuredByPerimeter
     types:
     - uid: string
 - name: KeyVaultProperties
@@ -459,13 +503,49 @@ definitions:
 examples:
 - name: NameSpaceGet
   request:
-    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924?api-version=2021-06-01-preview
+    uri: GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924?api-version=2022-01-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924?api-version=2021-06-01-preview
+      GET https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924?api-version=2022-01-01-preview
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-01-01-preview/examples/NameSpaces/SBNameSpaceGet.json
+      func ExampleNamespacesClient_Get() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewNamespacesClient("5f750a97-50d9-4e36-8081-c9ee4c0210d4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.Get(ctx,
+      		"ArunMonocle",
+      		"sdk-Namespace-2924",
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv2.0.0-beta.1/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -488,6 +568,7 @@ examples:
           "createdAt": "2017-05-25T22:26:36.76Z",
           "updatedAt": "2017-05-25T22:26:59.35Z",
           "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/",
+          "minimumTlsVersion": "1.2",
           "disableLocalAuth": false,
           "privateEndpointConnections": [
             {
