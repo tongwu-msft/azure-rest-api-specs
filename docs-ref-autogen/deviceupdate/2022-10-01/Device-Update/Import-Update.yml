@@ -1,0 +1,417 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.deviceupdate.importupdate
+name: Import Update
+service: Device Update
+groupName: Device Update
+apiVersion: 2022-10-01
+summary: Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{endpoint}/deviceUpdate/{instanceId}/updates:import?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Accepted update import request; background operation location to track status is specified in Operation-Location response header.
+- name: 200 OK
+  description: The requested update version.
+  types:
+  - uid: Update
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: updateToImport
+    in: body
+    description: The update to be imported (see schema https://json.schemastore.org/azure-deviceupdate-import-manifest-5.0.json for details).
+    types:
+    - uid: ImportUpdateInputItem
+      isArray: true
+requestHeader: []
+definitions:
+- name: ImportManifestMetadata
+  description: Metadata describing the import manifest, a document which describes the files and other metadata about an update version.
+  kind: object
+  properties:
+  - name: url
+    description: Azure Blob location from which the import manifest can be downloaded by Device Update for IoT Hub. This is typically a read-only SAS-protected blob URL with an expiration set to at least 4 hours.
+    types:
+    - uid: string
+  - name: sizeInBytes
+    description: File size in number of bytes.
+    types:
+    - uid: integer
+  - name: hashes
+    description: A JSON object containing the hash(es) of the file. At least SHA256 hash is required. This object can be thought of as a set of key-value pairs where the key is the hash algorithm, and the value is the hash of the file calculated using that algorithm.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: FileImportMetadata
+  description: Metadata describing an update file.
+  kind: object
+  properties:
+  - name: filename
+    description: Update file name as specified inside import manifest.
+    types:
+    - uid: string
+  - name: url
+    description: Azure Blob location from which the update file can be downloaded by Device Update for IoT Hub. This is typically a read-only SAS-protected blob URL with an expiration set to at least 4 hours.
+    types:
+    - uid: string
+- name: Update
+  description: Update metadata.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identity.
+    types:
+    - uid: UpdateId
+  - name: description
+    description: Update description specified by creator.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: Friendly update name specified by importer.
+    types:
+    - uid: string
+  - name: isDeployable
+    description: Whether the update can be deployed to a device on its own.
+    types:
+    - uid: boolean
+    defaultValue: true
+  - name: updateType
+    description: Update type. Deprecated in latest import manifest schema.
+    types:
+    - uid: string
+  - name: installedCriteria
+    description: String interpreted by Device Update client to determine if the update is installed on the device. Deprecated in latest import manifest schema.
+    types:
+    - uid: string
+  - name: compatibility
+    description: List of update compatibility information.
+    types:
+    - uid: object
+      isArray: true
+  - name: instructions
+    description: Update install instructions.
+    types:
+    - uid: Instructions
+  - name: referencedBy
+    description: List of update identities that reference this update.
+    types:
+    - uid: UpdateId
+      isArray: true
+  - name: scanResult
+    description: Update aggregate scan result (calculated from payload file scan results).
+    types:
+    - uid: string
+  - name: manifestVersion
+    description: Schema version of manifest used to import the update.
+    types:
+    - uid: string
+  - name: importedDateTime
+    description: Date and time in UTC when the update was imported.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: Date and time in UTC when the update was created.
+    types:
+    - uid: string
+  - name: etag
+    description: Update ETag.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: ImportUpdateInputItem
+  description: Import update input item metadata.
+  kind: object
+  properties:
+  - name: importManifest
+    description: Import manifest metadata like source URL, file size/hashes, etc.
+    types:
+    - uid: ImportManifestMetadata
+  - name: friendlyName
+    description: Friendly update name.
+    types:
+    - uid: string
+  - name: files
+    description: One or more update file properties like filename and source URL.
+    types:
+    - uid: FileImportMetadata
+      isArray: true
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: Instructions
+  kind: object
+  properties:
+  - name: steps
+    description: Collection of installation steps.
+    types:
+    - uid: Step
+      isArray: true
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: Step
+  description: Update install instruction step.
+  kind: object
+  properties:
+  - name: type
+    description: Step type.
+    types:
+    - uid: StepType
+    defaultValue: inline
+  - name: description
+    description: Step description.
+    types:
+    - uid: string
+  - name: handler
+    description: Identity of handler that will execute this step. Required if step type is inline.
+    types:
+    - uid: string
+  - name: handlerProperties
+    description: Parameters to be passed to handler during execution.
+    types:
+    - uid: object
+  - name: files
+    description: Collection of file names to be passed to handler during execution. Required if step type is inline.
+    types:
+    - uid: string
+      isArray: true
+  - name: updateId
+    description: Referenced child update identity.  Required if step type is reference.
+    types:
+    - uid: UpdateId
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+- name: StepType
+  description: Step type.
+  kind: enum
+  properties:
+  - name: inline
+    types:
+    - uid: string
+  - name: reference
+    types:
+    - uid: string
+examples:
+- name: DeviceUpdate_ImportUpdate
+  request:
+    uri: POST https://contoso.api.adu.microsoft.com/deviceUpdate/blue/updates:import?api-version=2022-10-01
+    body: >-
+      [
+        {
+          "importManifest": {
+            "url": "http://test.blob.core.windows.net/test/uploadimportMan.json",
+            "sizeInBytes": 816,
+            "hashes": {
+              "sha256": "O19LyyncPe1AGstOdkcmozLV8pSbBdqrE18HdYVohRc="
+            }
+          },
+          "files": [
+            {
+              "filename": "file1.bin",
+              "url": "http://test.blob.core.windows.net/test/upload1v5uww1q"
+            },
+            {
+              "filename": "file2.bin",
+              "url": "http://test.blob.core.windows.net/test/uploadkrmn5yw0"
+            },
+            {
+              "filename": "file3.bin",
+              "url": "http://test.blob.core.windows.net/test/uploaddq52ky5m"
+            }
+          ]
+        }
+      ]
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://contoso.api.adu.microsoft.com/deviceUpdate/blue/updates:import?api-version=2022-10-01
+
+      [
+        {
+          "importManifest": {
+            "url": "http://test.blob.core.windows.net/test/uploadimportMan.json",
+            "sizeInBytes": 816,
+            "hashes": {
+              "sha256": "O19LyyncPe1AGstOdkcmozLV8pSbBdqrE18HdYVohRc="
+            }
+          },
+          "files": [
+            {
+              "filename": "file1.bin",
+              "url": "http://test.blob.core.windows.net/test/upload1v5uww1q"
+            },
+            {
+              "filename": "file2.bin",
+              "url": "http://test.blob.core.windows.net/test/uploadkrmn5yw0"
+            },
+            {
+              "filename": "file3.bin",
+              "url": "http://test.blob.core.windows.net/test/uploaddq52ky5m"
+            }
+          ]
+        }
+      ]
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: /deviceUpdate/blue/updates/operations/e4491c54-916f-443d-9094-bcca546ace2f?api-version=2022-10-01
+  - statusCode: "200"
+    body: >-
+      {
+        "updateId": {
+          "provider": "microsoft",
+          "name": "adu",
+          "version": "1.0.0.0"
+        },
+        "friendlyName": "Lab Sensor Update v1",
+        "description": "Fix for critical vulnerability",
+        "compatibility": [
+          {
+            "deviceManufacturer": "Microsoft",
+            "deviceModel": "Toaster"
+          }
+        ],
+        "instructions": {
+          "steps": [
+            {
+              "description": "pre-install script",
+              "handler": "microsoft/script:1",
+              "handlerProperties": {
+                "arguments": "--pre-install"
+              },
+              "files": [
+                "configure.sh"
+              ]
+            },
+            {
+              "type": "reference",
+              "updateId": {
+                "provider": "microsoft",
+                "name": "sensor",
+                "version": "1.0"
+              }
+            }
+          ]
+        },
+        "manifestVersion": "5.0",
+        "importedDateTime": "2020-04-22T21:01:43.8408797+00:00",
+        "createdDateTime": "2019-09-12T00:00:00.0000000+00:00",
+        "etag": "\"3fed3378-0c67-47d2-b796-296962c66cbb\""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Import new update version. This is a long-running-operation; use Operation-Location response header value to check for operation status.
+errorCodes: []

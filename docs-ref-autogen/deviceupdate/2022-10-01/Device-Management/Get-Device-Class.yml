@@ -1,0 +1,239 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getdeviceclass
+name: Get Device Class
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets the properties of a device class.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/deviceClasses/{deviceClassId}?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: deviceClassId
+  in: path
+  isRequired: true
+  description: Device class identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The device class properties.
+  types:
+  - uid: DeviceClass
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DeviceClass
+  description: Device class metadata.
+  kind: object
+  properties:
+  - name: deviceClassId
+    description: The device class identifier. This is generated from the model Id and the compat properties reported by the device update agent in the Device Update PnP interface in IoT Hub. It is a hex-encoded SHA1 hash.
+    types:
+    - uid: string
+  - name: friendlyName
+    description: The device class friendly name. This can be updated by callers after the device class has been automatically created.
+    types:
+    - uid: string
+  - name: deviceClassProperties
+    description: The device class properties that are used to calculate the device class Id
+    types:
+    - uid: DeviceClassProperties
+  - name: bestCompatibleUpdate
+    description: Update that is the highest version compatible with this device class.
+    types:
+    - uid: UpdateInfo
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: DeviceClassProperties
+  description: The device class properties that are used to calculate the device class Id
+  kind: object
+  properties:
+  - name: contractModel
+    description: The Device Update agent contract model.
+    types:
+    - uid: ContractModel
+  - name: compatProperties
+    description: The compat properties of the device class. This object can be thought of as a set of key-value pairs where the key is the name of the compatibility property and the value is the value of the compatibility property. There will always be at least 1 compat property
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+- name: UpdateInfo
+  description: Update information.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identifier.
+    types:
+    - uid: UpdateId
+  - name: description
+    isReadyOnly: true
+    description: Update description.
+    types:
+    - uid: string
+  - name: friendlyName
+    isReadyOnly: true
+    description: Friendly update name.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: ContractModel
+  description: The Device Update agent contract model.
+  kind: object
+  properties:
+  - name: id
+    description: The Device Update agent contract model Id of the device class. This is also used to calculate the device class Id.
+    types:
+    - uid: string
+  - name: name
+    description: The Device Update agent contract model name of the device class. Intended to be a more readable form of the contract model Id.
+    types:
+    - uid: string
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetDeviceClass
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceClasses/deviceClassId?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceClasses/deviceClassId?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "deviceClassId": "deviceClassId",
+        "friendlyName": "DeviceClass2020-04-22T12:12:12.0000000+00:00",
+        "deviceClassProperties": {
+          "contractModel": {
+            "id": "dtmi:azure:iot:deviceUpdateContractModel;2",
+            "name": "Device Update Model V2"
+          },
+          "compatProperties": {
+            "manufacturer": "manufacturer1",
+            "model": "model1"
+          }
+        },
+        "bestCompatibleUpdate": {
+          "updateId": {
+            "provider": "provider",
+            "name": "name",
+            "version": "1.0.0.0"
+          },
+          "friendlyName": "July 2022 Update"
+        }
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Gets the properties of a device class.
+errorCodes: []

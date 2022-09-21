@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.startlogcollection
+name: Start Log Collection
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Start the device diagnostics log collection on specified devices.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://{endpoint}/deviceUpdate/{instanceId}/management/deviceDiagnostics/logCollections/{operationId}?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Log collection identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 201 Created
+  description: Log collection created.
+  types:
+  - uid: LogCollection
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: operationId
+    in: body
+    description: The log collection id.
+    types:
+    - uid: string
+  - name: deviceList
+    in: body
+    isRequired: true
+    description: Array of Device Update agent ids
+    types:
+    - uid: DeviceUpdateAgentId
+      isArray: true
+  - name: description
+    in: body
+    description: Description of the diagnostics operation.
+    types:
+    - uid: string
+requestHeader: []
+definitions:
+- name: DeviceUpdateAgentId
+  description: Device Update agent id
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device Id
+    types:
+    - uid: string
+  - name: moduleId
+    description: Module Id
+    types:
+    - uid: string
+- name: LogCollection
+  description: Diagnostics request body
+  kind: object
+  properties:
+  - name: operationId
+    description: The log collection id.
+    types:
+    - uid: string
+  - name: deviceList
+    description: Array of Device Update agent ids
+    types:
+    - uid: DeviceUpdateAgentId
+      isArray: true
+  - name: description
+    description: Description of the diagnostics operation.
+    types:
+    - uid: string
+  - name: createdDateTime
+    isReadyOnly: true
+    description: The timestamp when the operation was created.
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    isReadyOnly: true
+    description: A timestamp for when the current state was entered.
+    types:
+    - uid: string
+  - name: status
+    isReadyOnly: true
+    description: Operation status.
+    types:
+    - uid: OperationStatus
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: OperationStatus
+  description: Operation status.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: Background operation created but not started yet.
+    types:
+    - uid: string
+  - name: Running
+    description: Background operation is currently running.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Background operation finished with success.
+    types:
+    - uid: string
+  - name: Failed
+    description: Background operation finished with failure.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_StartLogCollection
+  request:
+    uri: PUT https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/logCollections/LogCollectionId?api-version=2022-10-01
+    body: >-
+      {
+        "deviceList": [
+          {
+            "deviceId": "DeviceA"
+          },
+          {
+            "deviceId": "DeviceB",
+            "moduleId": "ModuleB"
+          }
+        ],
+        "description": "Log collection description"
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/deviceDiagnostics/logCollections/LogCollectionId?api-version=2022-10-01
+
+      {
+        "deviceList": [
+          {
+            "deviceId": "DeviceA"
+          },
+          {
+            "deviceId": "DeviceB",
+            "moduleId": "ModuleB"
+          }
+        ],
+        "description": "Log collection description"
+      }
+
+      ```
+
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "operationId": "LogCollectionId",
+        "deviceList": [
+          {
+            "deviceId": "DeviceA"
+          },
+          {
+            "deviceId": "DeviceB",
+            "moduleId": "ModuleB"
+          }
+        ],
+        "description": "og collection description",
+        "createdDateTime": "2021-09-30T02:23:41.59Z",
+        "lastActionDateTime": "2021-09-30T02:23:41.59Z",
+        "status": "NotStarted"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Start the device diagnostics log collection on specified devices.
+errorCodes: []

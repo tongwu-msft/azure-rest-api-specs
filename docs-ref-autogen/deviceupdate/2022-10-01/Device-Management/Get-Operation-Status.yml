@@ -1,0 +1,203 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getoperationstatus
+name: Get Operation Status
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Retrieve operation status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/operations/{operationId}?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: operationId
+  in: path
+  isRequired: true
+  description: Operation identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  headers:
+  - name: Retry-After
+    value: string
+  description: Operation status.
+  types:
+  - uid: DeviceOperation
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: If-None-Match
+  in: header
+  description: Defines the If-None-Match condition. The operation will be performed only if the ETag on the server does not match this value.
+  types:
+  - uid: string
+definitions:
+- name: DeviceOperation
+  description: Operation metadata.
+  kind: object
+  properties:
+  - name: operationId
+    description: Operation Id.
+    types:
+    - uid: string
+  - name: status
+    description: Operation status.
+    types:
+    - uid: OperationStatus
+  - name: error
+    description: Operation error encountered, if any.
+    types:
+    - uid: Error
+  - name: traceId
+    description: Operation correlation identity that can used by Microsoft Support for troubleshooting.
+    types:
+    - uid: string
+  - name: lastActionDateTime
+    description: Date and time in UTC when the operation status was last updated.
+    types:
+    - uid: string
+  - name: createdDateTime
+    description: Date and time in UTC when the operation was created.
+    types:
+    - uid: string
+  - name: etag
+    description: Operation ETag.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: OperationStatus
+  description: Operation status.
+  kind: enum
+  properties:
+  - name: NotStarted
+    description: Background operation created but not started yet.
+    types:
+    - uid: string
+  - name: Running
+    description: Background operation is currently running.
+    types:
+    - uid: string
+  - name: Succeeded
+    description: Background operation finished with success.
+    types:
+    - uid: string
+  - name: Failed
+    description: Background operation finished with failure.
+    types:
+    - uid: string
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetOperationStatus
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/operations/e4491c54-916f-443d-9094-bcca546ace2f?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/operations/e4491c54-916f-443d-9094-bcca546ace2f?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "operationId": "e4491c54-916f-443d-9094-bcca546ace2f",
+        "status": "Succeeded",
+        "traceId": "2b881ef9deaf5d45b0a716ca5b4145ec",
+        "createdDateTime": "2020-04-22T21:00:53.2548897+00:00",
+        "lastActionDateTime": "2020-04-22T21:01:43.9401420+00:00",
+        "etag": "\"a0f7b6f2-3f6c-4eb6-8a59-2f5411c23888\""
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Retrieve operation status.
+errorCodes: []

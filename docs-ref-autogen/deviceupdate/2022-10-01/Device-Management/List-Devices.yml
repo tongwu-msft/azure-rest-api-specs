@@ -1,0 +1,338 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.listdevices
+name: List Devices
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets a list of devices connected to Device Update for IoT Hub.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/devices?api-version=2022-10-01
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/devices?filter={filter}&api-version=2022-10-01
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: filter
+  in: query
+  description: Restricts the set of devices returned. You can filter on GroupId, DeviceClassId, or GroupId and DeploymentStatus. Use DeploymentStatus eq null to query for devices with no deployment status (that have never been deployed to).
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: All devices connected to Device Update for IoT Hub.
+  types:
+  - uid: DevicesList
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: DevicesList
+  description: The list of devices.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: Device
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Device
+  description: Device metadata.
+  kind: object
+  properties:
+  - name: deviceId
+    description: Device identity.
+    types:
+    - uid: string
+  - name: moduleId
+    description: Device module identity.
+    types:
+    - uid: string
+  - name: deviceClassId
+    description: Device class identity.
+    types:
+    - uid: string
+  - name: groupId
+    description: Device group identity.
+    types:
+    - uid: string
+  - name: lastAttemptedUpdate
+    description: The update that device last attempted to install.
+    types:
+    - uid: UpdateInfo
+  - name: deploymentStatus
+    description: State of the device in its last deployment.
+    types:
+    - uid: DeviceDeploymentState
+  - name: installedUpdate
+    description: Currently installed update on device.
+    types:
+    - uid: UpdateInfo
+  - name: onLatestUpdate
+    description: Boolean flag indicating whether the latest update (the best compatible update for the device's device class and group) is installed on the device
+    types:
+    - uid: boolean
+  - name: lastDeploymentId
+    description: The deployment identifier for the last deployment to the device
+    types:
+    - uid: string
+  - name: lastInstallResult
+    description: Last install result.
+    types:
+    - uid: InstallResult
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: UpdateInfo
+  description: Update information.
+  kind: object
+  properties:
+  - name: updateId
+    description: Update identifier.
+    types:
+    - uid: UpdateId
+  - name: description
+    isReadyOnly: true
+    description: Update description.
+    types:
+    - uid: string
+  - name: friendlyName
+    isReadyOnly: true
+    description: Friendly update name.
+    types:
+    - uid: string
+- name: DeviceDeploymentState
+  description: Deployment state.
+  kind: enum
+  properties:
+  - name: Succeeded
+    description: Deployment has completed with success.
+    types:
+    - uid: string
+  - name: InProgress
+    description: Deployment is in progress.
+    types:
+    - uid: string
+  - name: Canceled
+    description: Deployment was canceled.
+    types:
+    - uid: string
+  - name: Failed
+    description: Deployment has completed with failure.
+    types:
+    - uid: string
+- name: InstallResult
+  description: The install result of an update and any step results under it.
+  kind: object
+  properties:
+  - name: resultCode
+    description: Install result code.
+    types:
+    - uid: integer
+  - name: extendedResultCode
+    description: Install extended result code
+    types:
+    - uid: integer
+  - name: resultDetails
+    description: A string containing further details about the install result
+    types:
+    - uid: string
+  - name: stepResults
+    description: Array of step results
+    types:
+    - uid: StepResult
+      isArray: true
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+- name: UpdateId
+  description: Update identifier.
+  kind: object
+  properties:
+  - name: provider
+    description: Update provider.
+    types:
+    - uid: string
+  - name: name
+    description: Update name.
+    types:
+    - uid: string
+  - name: version
+    description: Update version.
+    types:
+    - uid: string
+- name: StepResult
+  description: The step result under an update.
+  kind: object
+  properties:
+  - name: update
+    description: The update that this step installs if it is of reference type.
+    types:
+    - uid: UpdateInfo
+  - name: description
+    description: Step description.
+    types:
+    - uid: string
+  - name: resultCode
+    description: Install result code.
+    types:
+    - uid: integer
+  - name: extendedResultCode
+    description: Install extended result code
+    types:
+    - uid: integer
+  - name: resultDetails
+    description: A string containing further details about the install result
+    types:
+    - uid: string
+examples:
+- name: DeviceManagement_ListDevices
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/devices?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/devices?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "deviceId": "device1",
+            "deviceClassId": "deviceClassId1",
+            "lastAttemptedUpdate": {
+              "updateId": {
+                "provider": "provider1",
+                "name": "name1",
+                "version": "2.0.0.0"
+              }
+            },
+            "deploymentStatus": "Failed",
+            "installedUpdate": {
+              "updateId": {
+                "provider": "provider1",
+                "name": "name1",
+                "version": "1.0.0.0"
+              }
+            },
+            "onLatestUpdate": false,
+            "lastDeploymentId": "myDeployment123"
+          },
+          {
+            "deviceId": "device2",
+            "deviceClassId": "deviceClassId2",
+            "lastAttemptedUpdate": {
+              "updateId": {
+                "provider": "provider2",
+                "name": "name2",
+                "version": "1.0.0.0"
+              }
+            },
+            "deploymentStatus": "Succeeded",
+            "installedUpdate": {
+              "updateId": {
+                "provider": "provider2",
+                "name": "name2",
+                "version": "1.0.0.0"
+              }
+            },
+            "onLatestUpdate": true,
+            "lastDeploymentId": "myDeployment234"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Gets a list of devices connected to Device Update for IoT Hub.
+errorCodes: []

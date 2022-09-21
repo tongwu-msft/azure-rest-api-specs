@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.namespaces.createorupdate
 name: Create Or Update
 service: Service Bus
 groupName: Namespaces
-apiVersion: 2021-06-01-preview
+apiVersion: 2022-01-01-preview
 summary: Creates or updates a service namespace. Once created, this namespace's resource manifest is immutable. This operation is idempotent.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2021-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,11 @@ requestBody:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
+  - name: properties.minimumTlsVersion
+    in: body
+    description: The minimum TLS version for the cluster to support, e.g. '1.2'
+    types:
+    - uid: TlsVersion
   - name: properties.zoneRedundant
     in: body
     description: Enabling this property creates a Premium Service Bus Namespace in regions supported availability zones.
@@ -89,6 +94,16 @@ requestBody:
     description: This property disables SAS authentication for the Service Bus namespace.
     types:
     - uid: boolean
+  - name: properties.alternateName
+    in: body
+    description: Alternate name for namespace
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    in: body
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccess
   - name: properties.encryption.keyVaultProperties
     in: body
     description: Properties of KeyVault
@@ -203,17 +218,22 @@ definitions:
     - uid: EndPointProvisioningState
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 - name: KeyVaultProperties
@@ -271,6 +291,10 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: UserAssignedIdentity
+  - name: properties.minimumTlsVersion
+    description: The minimum TLS version for the cluster to support, e.g. '1.2'
+    types:
+    - uid: TlsVersion
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state of the namespace.
@@ -314,6 +338,15 @@ definitions:
     description: This property disables SAS authentication for the Service Bus namespace.
     types:
     - uid: boolean
+  - name: properties.alternateName
+    description: Alternate name for namespace
+    types:
+    - uid: string
+  - name: properties.publicNetworkAccess
+    description: This determines if traffic is allowed over public network. By default it is enabled.
+    types:
+    - uid: PublicNetworkAccess
+    defaultValue: Enabled
   - name: properties.encryption.keyVaultProperties
     description: Properties of KeyVault
     types:
@@ -463,6 +496,32 @@ definitions:
   - name: None
     types:
     - uid: string
+- name: TlsVersion
+  description: The minimum TLS version for the cluster to support, e.g. '1.2'
+  kind: enum
+  properties:
+  - name: "1.0"
+    types:
+    - uid: string
+  - name: "1.1"
+    types:
+    - uid: string
+  - name: "1.2"
+    types:
+    - uid: string
+- name: PublicNetworkAccess
+  description: This determines if traffic is allowed over public network. By default it is enabled.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+  - name: SecuredByPerimeter
+    types:
+    - uid: string
 - name: keySource
   description: Enumerates the possible value of keySource for Encryption
   kind: enum
@@ -534,7 +593,7 @@ definitions:
 examples:
 - name: NameSpaceCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2021-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2022-01-01-preview
     body: >-
       {
         "sku": {
@@ -550,7 +609,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2021-06-01-preview
+      PUT https://management.azure.com/subscriptions/5f750a97-50d9-4e36-8081-c9ee4c0210d4/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace2924?api-version=2022-01-01-preview
 
       {
         "sku": {
@@ -566,6 +625,58 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-01-01-preview/examples/NameSpaces/SBNameSpaceCreate.json
+      func ExampleNamespacesClient_BeginCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewNamespacesClient("5f750a97-50d9-4e36-8081-c9ee4c0210d4", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx,
+      		"ArunMonocle",
+      		"sdk-Namespace2924",
+      		armservicebus.SBNamespace{
+      			Location: to.Ptr("South Central US"),
+      			Tags: map[string]*string{
+      				"tag1": to.Ptr("value1"),
+      				"tag2": to.Ptr("value2"),
+      			},
+      			SKU: &armservicebus.SBSKU{
+      				Name: to.Ptr(armservicebus.SKUNameStandard),
+      				Tier: to.Ptr(armservicebus.SKUTierStandard),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv2.0.0-beta.1/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -587,7 +698,8 @@ examples:
           "metricId": "5f750a97-50d9-4e36-8081-c9ee4c0210d4:sdk-namespace-2924",
           "createdAt": "2017-05-25T22:26:36.76Z",
           "updatedAt": "2017-05-25T22:26:36.76Z",
-          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/"
+          "serviceBusEndpoint": "https://sdk-Namespace-2924.servicebus.windows-int.net:443/",
+          "minimumTlsVersion": "1.2"
         }
       }
   - statusCode: "201"
