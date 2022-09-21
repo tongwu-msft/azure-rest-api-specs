@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.namespaces-networkruleset.createoru
 name: Create Or Update Network Rule Set
 service: Service Bus
 groupName: Namespaces - Network Rule Set
-apiVersion: 2021-06-01-preview
+apiVersion: 2022-01-01-preview
 summary: Create or update NetworkRuleSet for a Namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkRuleSets/default?api-version=2021-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/networkRuleSets/default?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -164,17 +164,22 @@ definitions:
     defaultValue: Enabled
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 - name: ErrorResponse
@@ -284,7 +289,7 @@ definitions:
 examples:
 - name: NameSpaceNetworkRuleSetCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2021-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2022-01-01-preview
     body: >-
       {
         "properties": {
@@ -336,7 +341,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2021-06-01-preview
+      PUT https://management.azure.com/subscriptions/Subscription/resourceGroups/ResourceGroup/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-6019/networkRuleSets/default?api-version=2022-01-01-preview
 
       {
         "properties": {
@@ -388,6 +393,88 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-01-01-preview/examples/NameSpaces/VirtualNetworkRule/SBNetworkRuleSetCreate.json
+      func ExampleNamespacesClient_CreateOrUpdateNetworkRuleSet() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewNamespacesClient("Subscription", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdateNetworkRuleSet(ctx,
+      		"ResourceGroup",
+      		"sdk-Namespace-6019",
+      		armservicebus.NetworkRuleSet{
+      			Properties: &armservicebus.NetworkRuleSetProperties{
+      				DefaultAction: to.Ptr(armservicebus.DefaultActionDeny),
+      				IPRules: []*armservicebus.NWRuleSetIPRules{
+      					{
+      						Action: to.Ptr(armservicebus.NetworkRuleIPActionAllow),
+      						IPMask: to.Ptr("1.1.1.1"),
+      					},
+      					{
+      						Action: to.Ptr(armservicebus.NetworkRuleIPActionAllow),
+      						IPMask: to.Ptr("1.1.1.2"),
+      					},
+      					{
+      						Action: to.Ptr(armservicebus.NetworkRuleIPActionAllow),
+      						IPMask: to.Ptr("1.1.1.3"),
+      					},
+      					{
+      						Action: to.Ptr(armservicebus.NetworkRuleIPActionAllow),
+      						IPMask: to.Ptr("1.1.1.4"),
+      					},
+      					{
+      						Action: to.Ptr(armservicebus.NetworkRuleIPActionAllow),
+      						IPMask: to.Ptr("1.1.1.5"),
+      					}},
+      				VirtualNetworkRules: []*armservicebus.NWRuleSetVirtualNetworkRules{
+      					{
+      						IgnoreMissingVnetServiceEndpoint: to.Ptr(true),
+      						Subnet: &armservicebus.Subnet{
+      							ID: to.Ptr("/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet2"),
+      						},
+      					},
+      					{
+      						IgnoreMissingVnetServiceEndpoint: to.Ptr(false),
+      						Subnet: &armservicebus.Subnet{
+      							ID: to.Ptr("/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet3"),
+      						},
+      					},
+      					{
+      						IgnoreMissingVnetServiceEndpoint: to.Ptr(false),
+      						Subnet: &armservicebus.Subnet{
+      							ID: to.Ptr("/subscriptions/854d368f-1828-428f-8f3c-f2affa9b2f7d/resourcegroups/alitest/providers/Microsoft.Network/virtualNetworks/myvn/subnets/subnet6"),
+      						},
+      					}},
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv2.0.0-beta.1/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
