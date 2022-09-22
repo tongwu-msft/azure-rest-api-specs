@@ -25742,6 +25742,53 @@
 ## Operations
 ### [Overview](storageimportexport/Operations.yml)
 ### [List](storageimportexport/Operations/List.yml)
+# Storage Mover
+## [Overview](../docs-ref-conceptual/storagemover/index.md)
+## Agents
+### [Overview](storagemover/Agents.yml)
+### [Create Or Update](storagemover/Agents/Create-Or-Update.yml)
+### [Delete](storagemover/Agents/Delete.yml)
+### [Get](storagemover/Agents/Get.yml)
+### [List](storagemover/Agents/List.yml)
+### [Update](storagemover/Agents/Update.yml)
+## Endpoints
+### [Overview](storagemover/Endpoints.yml)
+### [Create Or Update](storagemover/Endpoints/Create-Or-Update.yml)
+### [Delete](storagemover/Endpoints/Delete.yml)
+### [Get](storagemover/Endpoints/Get.yml)
+### [List](storagemover/Endpoints/List.yml)
+### [Update](storagemover/Endpoints/Update.yml)
+## Job Definitions
+### [Overview](storagemover/Job-Definitions.yml)
+### [Create Or Update](storagemover/Job-Definitions/Create-Or-Update.yml)
+### [Delete](storagemover/Job-Definitions/Delete.yml)
+### [Get](storagemover/Job-Definitions/Get.yml)
+### [List](storagemover/Job-Definitions/List.yml)
+### [Start Job](storagemover/Job-Definitions/Start-Job.yml)
+### [Stop Job](storagemover/Job-Definitions/Stop-Job.yml)
+### [Update](storagemover/Job-Definitions/Update.yml)
+## Job Runs
+### [Overview](storagemover/Job-Runs.yml)
+### [Get](storagemover/Job-Runs/Get.yml)
+### [List](storagemover/Job-Runs/List.yml)
+## Operations
+### [Overview](storagemover/Operations.yml)
+### [List](storagemover/Operations/List.yml)
+## Projects
+### [Overview](storagemover/Projects.yml)
+### [Create Or Update](storagemover/Projects/Create-Or-Update.yml)
+### [Delete](storagemover/Projects/Delete.yml)
+### [Get](storagemover/Projects/Get.yml)
+### [List](storagemover/Projects/List.yml)
+### [Update](storagemover/Projects/Update.yml)
+## Storage Movers
+### [Overview](storagemover/Storage-Movers.yml)
+### [Create Or Update](storagemover/Storage-Movers/Create-Or-Update.yml)
+### [Delete](storagemover/Storage-Movers/Delete.yml)
+### [Get](storagemover/Storage-Movers/Get.yml)
+### [List](storagemover/Storage-Movers/List.yml)
+### [List By Subscription](storagemover/Storage-Movers/List-By-Subscription.yml)
+### [Update](storagemover/Storage-Movers/Update.yml)
 # Storage Resource Provider
 ## [Overview](../docs-ref-conceptual/storagerp/index.md)
 ## [SKU Types](../docs-ref-conceptual/storagerp/SRP_SKU_Types.md)
