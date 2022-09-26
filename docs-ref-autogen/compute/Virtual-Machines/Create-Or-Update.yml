@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachines.createorupdate
 name: Create Or Update
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2022-03-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines/{vmName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -272,7 +272,7 @@ definitions:
   - name: properties.protectedSettingsFromKeyVault
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
-    - uid: object
+    - uid: KeyVaultSecretReference
   - name: location
     description: Resource location
     types:
@@ -363,6 +363,10 @@ definitions:
     types:
     - uid: DataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: DiskControllerTypes
 - name: AdditionalCapabilities
   description: Enables or disables a capability on the virtual machine or virtual machine scale set.
   kind: object
@@ -702,7 +706,7 @@ definitions:
     - uid: ApplicationProfile
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -766,6 +770,18 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret
+  kind: object
+  properties:
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: The relative URL of the Key Vault containing the secret.
+    types:
+    - uid: SubResource
 - name: ResourceIdentityType
   description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -1389,7 +1405,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1433,7 +1449,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1462,6 +1478,16 @@ definitions:
     description: 'Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach**'
     types:
     - uid: DiskDeleteOptionTypes
+- name: DiskControllerTypes
+  description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+  kind: enum
+  properties:
+  - name: SCSI
+    types:
+    - uid: string
+  - name: NVMe
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1491,6 +1517,10 @@ definitions:
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
     - uid: WinRMConfiguration
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: LinuxConfiguration
   description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
@@ -1511,6 +1541,10 @@ definitions:
     description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
     types:
     - uid: LinuxPatchSettings
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -1565,6 +1599,10 @@ definitions:
     - uid: DeleteOptions
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -2290,18 +2328,6 @@ definitions:
     description: The internal error message or exception dump.
     types:
     - uid: string
-- name: KeyVaultSecretReference
-  description: Describes a reference to Key Vault Secret
-  kind: object
-  properties:
-  - name: secretUrl
-    description: The URL referencing a secret in a Key Vault.
-    types:
-    - uid: string
-  - name: sourceVault
-    description: The relative URL of the Key Vault containing the secret.
-    types:
-    - uid: SubResource
 - name: KeyVaultKeyReference
   description: Describes a reference to Key Vault Key
   kind: object
@@ -2670,7 +2696,7 @@ definitions:
 examples:
 - name: Create a vm with password authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -2714,7 +2740,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -2779,7 +2805,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
            */
           /**
            * Sample code: Create a vm with password authentication.
@@ -2833,7 +2859,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -2843,7 +2869,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPasswordAuthentication.json
        */
       async function createAVMWithPasswordAuthentication() {
         const subscriptionId = "{subscription-id}";
@@ -2893,7 +2919,7 @@ examples:
       createAVMWithPasswordAuthentication().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3001,7 +3027,7 @@ examples:
       }
 - name: Create a vm with ssh authentication.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -3055,7 +3081,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -3133,7 +3159,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
            */
           /**
            * Sample code: Create a vm with ssh authentication.
@@ -3199,7 +3225,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3209,7 +3235,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSshAuthentication.json
        */
       async function createAVMWithSshAuthentication() {
         const subscriptionId = "{subscription-id}";
@@ -3270,7 +3296,7 @@ examples:
       createAVMWithSshAuthentication().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3392,7 +3418,7 @@ examples:
       }
 - name: Create a vm with premium storage.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -3436,7 +3462,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -3501,7 +3527,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
            */
           /**
            * Sample code: Create a vm with premium storage.
@@ -3555,7 +3581,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3565,7 +3591,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithPremiumStorage.json
        */
       async function createAVMWithPremiumStorage() {
         const subscriptionId = "{subscription-id}";
@@ -3615,7 +3641,7 @@ examples:
       createAVMWithPremiumStorage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3723,7 +3749,7 @@ examples:
       }
 - name: Create a vm in a Virtual Machine Scale Set with customer assigned platformFaultDomain.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -3771,7 +3797,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -3841,7 +3867,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMacine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
            */
           /**
            * Sample code: Create a vm in a Virtual Machine Scale Set with customer assigned platformFaultDomain.
@@ -3901,7 +3927,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3911,7 +3937,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMacine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_InAVmssWithCustomerAssignedPlatformFaultDomain.json
        */
       async function createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain() {
         const subscriptionId = "{subscription-id}";
@@ -3965,7 +3991,7 @@ examples:
       createAVMInAVirtualMachineScaleSetWithCustomerAssignedPlatformFaultDomain().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4081,7 +4107,7 @@ examples:
       }
 - name: Create a vm in an availability set.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -4128,7 +4154,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -4197,7 +4223,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
            */
           /**
            * Sample code: Create a vm in an availability set.
@@ -4255,7 +4281,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4265,7 +4291,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_InAnAvailabilitySet.json
        */
       async function createAVMInAnAvailabilitySet() {
         const subscriptionId = "{subscription-id}";
@@ -4318,7 +4344,7 @@ examples:
       createAVMInAnAvailabilitySet().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4432,7 +4458,7 @@ examples:
       }
 - name: Create a vm with Scheduled Events Profile
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -4488,7 +4514,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -4569,7 +4595,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
            */
           /**
            * Sample code: Create a vm with Scheduled Events Profile.
@@ -4633,7 +4659,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4643,7 +4669,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithScheduledEventsProfile.json
        */
       async function createAVMWithScheduledEventsProfile() {
         const subscriptionId = "{subscription-id}";
@@ -4702,7 +4728,7 @@ examples:
       createAVMWithScheduledEventsProfile().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -4834,7 +4860,7 @@ examples:
       }
 - name: Create a vm with boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -4884,7 +4910,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -4957,7 +4983,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMacine_Create_WithBootDiagnostics.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_WithBootDiagnostics.json
            */
           /**
            * Sample code: Create a vm with boot diagnostics.
@@ -5017,7 +5043,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -5027,7 +5053,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMacine_Create_WithBootDiagnostics.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMacine_Create_WithBootDiagnostics.json
        */
       async function createAVMWithBootDiagnostics() {
         const subscriptionId = "{subscription-id}";
@@ -5083,7 +5109,7 @@ examples:
       createAVMWithBootDiagnostics().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5203,7 +5229,7 @@ examples:
       }
 - name: Create a vm with managed boot diagnostics.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -5252,7 +5278,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -5324,7 +5350,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
            */
           /**
            * Sample code: Create a vm with managed boot diagnostics.
@@ -5380,7 +5406,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -5390,7 +5416,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithManagedBootDiagnostics.json
        */
       async function createAVMWithManagedBootDiagnostics() {
         const subscriptionId = "{subscription-id}";
@@ -5441,7 +5467,7 @@ examples:
       createAVMWithManagedBootDiagnostics().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5559,7 +5585,7 @@ examples:
       }
 - name: Create a vm with empty data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -5615,7 +5641,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -5693,7 +5719,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
            */
           /**
            * Sample code: Create a vm with empty data disks.
@@ -5758,7 +5784,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -5768,7 +5794,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEmptyDataDisks.json
        */
       async function createAVMWithEmptyDataDisks() {
         const subscriptionId = "{subscription-id}";
@@ -5822,7 +5848,7 @@ examples:
       createAVMWithEmptyDataDisks().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -5970,7 +5996,7 @@ examples:
       }
 - name: Create a vm with a marketplace image plan.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -6019,7 +6045,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -6090,7 +6116,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
            */
           /**
            * Sample code: Create a vm with a marketplace image plan.
@@ -6149,7 +6175,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -6159,7 +6185,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithAMarketplaceImagePlan.json
        */
       async function createAVMWithAMarketplaceImagePlan() {
         const subscriptionId = "{subscription-id}";
@@ -6214,7 +6240,7 @@ examples:
       createAVMWithAMarketplaceImagePlan().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -6332,7 +6358,7 @@ examples:
       }
 - name: Create a vm from a custom image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -6373,7 +6399,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -6435,7 +6461,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
            */
           /**
            * Sample code: Create a vm from a custom image.
@@ -6487,7 +6513,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -6497,7 +6523,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACustomImage.json
        */
       async function createAVMFromACustomImage() {
         const subscriptionId = "{subscription-id}";
@@ -6544,7 +6570,7 @@ examples:
       createAVMFromACustomImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -6646,7 +6672,7 @@ examples:
       }
 - name: Create a platform-image vm with unmanaged os and data disks.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -6708,7 +6734,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -6791,7 +6817,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
            */
           /**
            * Sample code: Create a platform-image vm with unmanaged os and data disks.
@@ -6866,7 +6892,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -6876,7 +6902,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_PlatformImageVmWithUnmanagedOsAndDataDisks.json
        */
       async function createAPlatformImageVMWithUnmanagedOSAndDataDisks() {
         const subscriptionId = "{subscription-id}";
@@ -6946,7 +6972,7 @@ examples:
       createAPlatformImageVMWithUnmanagedOSAndDataDisks().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -7096,7 +7122,7 @@ examples:
       }
 - name: Create a custom-image vm from an unmanaged generalized os image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -7138,7 +7164,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -7200,7 +7226,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
            */
           /**
            * Sample code: Create a custom-image vm from an unmanaged generalized os image.
@@ -7255,7 +7281,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -7265,7 +7291,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_CustomImageVmFromAnUnmanagedGeneralizedOsImage.json
        */
       async function createACustomImageVMFromAnUnmanagedGeneralizedOSImage() {
         const subscriptionId = "{subscription-id}";
@@ -7315,7 +7341,7 @@ examples:
       createACustomImageVMFromAnUnmanagedGeneralizedOSImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -7417,7 +7443,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -7469,7 +7495,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -7545,7 +7571,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
            */
           /**
            * Sample code: Create a vm with ephemeral os disk.
@@ -7605,7 +7631,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -7615,7 +7641,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDisk.json
        */
       async function createAVMWithEphemeralOSDisk() {
         const subscriptionId = "{subscription-id}";
@@ -7671,7 +7697,7 @@ examples:
       createAVMWithEphemeralOSDisk().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -7795,7 +7821,7 @@ examples:
       }
 - name: Create a vm with DiskEncryptionSet resource id in the os disk and data disk.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -7866,7 +7892,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -7960,7 +7986,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
            */
           /**
            * Sample code: Create a vm with DiskEncryptionSet resource id in the os disk and data disk.
@@ -8046,7 +8072,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -8056,7 +8082,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskEncryptionSetResource.json
        */
       async function createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk() {
         const subscriptionId = "{subscription-id}";
@@ -8135,7 +8161,7 @@ examples:
       createAVMWithDiskEncryptionSetResourceIdInTheOSDiskAndDataDisk().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -8292,7 +8318,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk provisioning in Resource disk using placement property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -8345,7 +8371,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -8423,7 +8449,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
            */
           /**
            * Sample code: Create a vm with ephemeral os disk provisioning in Resource disk using placement property.
@@ -8487,7 +8513,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -8497,7 +8523,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsResourceDisk.json
        */
       async function createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty() {
         const subscriptionId = "{subscription-id}";
@@ -8553,7 +8579,7 @@ examples:
       createAVMWithEphemeralOSDiskProvisioningInResourceDiskUsingPlacementProperty().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -8679,7 +8705,7 @@ examples:
       }
 - name: Create a vm with ephemeral os disk provisioning in Cache disk using placement property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -8732,7 +8758,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -8810,7 +8836,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
            */
           /**
            * Sample code: Create a vm with ephemeral os disk provisioning in Cache disk using placement property.
@@ -8874,7 +8900,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -8884,7 +8910,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithADiffOsDiskUsingDiffDiskPlacementAsCacheDisk.json
        */
       async function createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty() {
         const subscriptionId = "{subscription-id}";
@@ -8940,7 +8966,7 @@ examples:
       createAVMWithEphemeralOSDiskProvisioningInCacheDiskUsingPlacementProperty().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -9066,7 +9092,7 @@ examples:
       }
 - name: Create a vm with Host Encryption using encryptionAtHost property.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -9118,7 +9144,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -9193,7 +9219,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
            */
           /**
            * Sample code: Create a vm with Host Encryption using encryptionAtHost property.
@@ -9254,7 +9280,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -9264,7 +9290,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithEncryptionAtHost.json
        */
       async function createAVMWithHostEncryptionUsingEncryptionAtHostProperty() {
         const subscriptionId = "{subscription-id}";
@@ -9320,7 +9346,7 @@ examples:
       createAVMWithHostEncryptionUsingEncryptionAtHostProperty().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -9444,7 +9470,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of AutomaticByOS.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -9495,7 +9521,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -9570,7 +9596,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
            */
           /**
            * Sample code: Create a Windows vm with a patch setting patchMode of AutomaticByOS.
@@ -9631,7 +9657,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -9641,7 +9667,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByOS.json
        */
       async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS() {
         const subscriptionId = "{subscription-id}";
@@ -9696,7 +9722,7 @@ examples:
       createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByOS().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -9810,7 +9836,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and AutomaticByPlatformSettings.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -9865,7 +9891,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -9947,7 +9973,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
            */
           /**
            * Sample code: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and
@@ -10015,7 +10041,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -10025,7 +10051,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithAutomaticByPlatformSettings.json
        */
       async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
         const subscriptionId = "{subscription-id}";
@@ -10086,7 +10112,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -10208,7 +10234,7 @@ examples:
       }
 - name: Create a Windows vm with patch settings patchMode and assessmentMode set to AutomaticByPlatform.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -10260,7 +10286,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -10337,7 +10363,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
            */
           /**
            * Sample code: Create a Windows vm with patch settings patchMode and assessmentMode set to AutomaticByPlatform.
@@ -10400,7 +10426,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -10410,7 +10436,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModesOfAutomaticByPlatform.json
        */
       async function createAWindowsVMWithPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
         const subscriptionId = "{subscription-id}";
@@ -10470,7 +10496,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -10586,7 +10612,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of Manual.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -10637,7 +10663,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -10712,7 +10738,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
            */
           /**
            * Sample code: Create a Windows vm with a patch setting patchMode of Manual.
@@ -10773,7 +10799,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -10783,7 +10809,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfManual.json
        */
       async function createAWindowsVMWithAPatchSettingPatchModeOfManual() {
         const subscriptionId = "{subscription-id}";
@@ -10838,7 +10864,7 @@ examples:
       createAWindowsVMWithAPatchSettingPatchModeOfManual().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -10952,7 +10978,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting assessmentMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -11003,7 +11029,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -11078,7 +11104,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
            */
           /**
            * Sample code: Create a Windows vm with a patch setting assessmentMode of ImageDefault.
@@ -11140,7 +11166,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -11150,7 +11176,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingAssessmentModeOfImageDefault.json
        */
       async function createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault() {
         const subscriptionId = "{subscription-id}";
@@ -11205,7 +11231,7 @@ examples:
       createAWindowsVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -11319,7 +11345,7 @@ examples:
       }
 - name: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and enableHotpatching set to true.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -11371,7 +11397,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -11447,7 +11473,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
            */
           /**
            * Sample code: Create a Windows vm with a patch setting patchMode of AutomaticByPlatform and enableHotpatching set
@@ -11511,7 +11537,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -11521,7 +11547,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WindowsVmWithPatchSettingModeOfAutomaticByPlatformAndEnableHotPatchingTrue.json
        */
       async function createAWindowsVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndEnableHotpatchingSetToTrue() {
         const subscriptionId = "{subscription-id}";
@@ -11581,7 +11607,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -11697,7 +11723,7 @@ examples:
       }
 - name: Create a Linux vm with a patch settings patchMode and assessmentMode set to AutomaticByPlatform.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -11748,7 +11774,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -11824,7 +11850,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
            */
           /**
            * Sample code: Create a Linux vm with a patch settings patchMode and assessmentMode set to AutomaticByPlatform.
@@ -11886,7 +11912,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -11896,7 +11922,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModesOfAutomaticByPlatform.json
        */
       async function createALinuxVMWithAPatchSettingsPatchModeAndAssessmentModeSetToAutomaticByPlatform() {
         const subscriptionId = "{subscription-id}";
@@ -11955,7 +11981,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -12069,7 +12095,7 @@ examples:
       }
 - name: Create a Linux vm with a patch setting patchMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -12119,7 +12145,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -12193,7 +12219,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
            */
           /**
            * Sample code: Create a Linux vm with a patch setting patchMode of ImageDefault.
@@ -12253,7 +12279,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -12263,7 +12289,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingModeOfImageDefault.json
        */
       async function createALinuxVMWithAPatchSettingPatchModeOfImageDefault() {
         const subscriptionId = "{subscription-id}";
@@ -12317,7 +12343,7 @@ examples:
       createALinuxVMWithAPatchSettingPatchModeOfImageDefault().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -12429,7 +12455,7 @@ examples:
       }
 - name: Create a Linux vm with a patch setting patchMode of AutomaticByPlatform and AutomaticByPlatformSettings.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -12483,7 +12509,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -12564,7 +12590,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
            */
           /**
            * Sample code: Create a Linux vm with a patch setting patchMode of AutomaticByPlatform and
@@ -12631,7 +12657,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -12641,7 +12667,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithAutomaticByPlatformSettings.json
        */
       async function createALinuxVMWithAPatchSettingPatchModeOfAutomaticByPlatformAndAutomaticByPlatformSettings() {
         const subscriptionId = "{subscription-id}";
@@ -12701,7 +12727,7 @@ examples:
       );
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -12821,7 +12847,7 @@ examples:
       }
 - name: Create a Linux vm with a patch setting assessmentMode of ImageDefault.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -12871,7 +12897,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -12945,7 +12971,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
            */
           /**
            * Sample code: Create a Linux vm with a patch setting assessmentMode of ImageDefault.
@@ -13006,92 +13032,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
-      func ExampleVirtualMachinesClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewVirtualMachinesClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"myResourceGroup",
-      		"myVM",
-      		armcompute.VirtualMachine{
-      			Location: to.Ptr("westus"),
-      			Properties: &armcompute.VirtualMachineProperties{
-      				HardwareProfile: &armcompute.HardwareProfile{
-      					VMSize: to.Ptr(armcompute.VirtualMachineSizeTypesStandardD2SV3),
-      				},
-      				NetworkProfile: &armcompute.NetworkProfile{
-      					NetworkInterfaces: []*armcompute.NetworkInterfaceReference{
-      						{
-      							ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}"),
-      							Properties: &armcompute.NetworkInterfaceReferenceProperties{
-      								Primary: to.Ptr(true),
-      							},
-      						}},
-      				},
-      				OSProfile: &armcompute.OSProfile{
-      					AdminPassword: to.Ptr("{your-password}"),
-      					AdminUsername: to.Ptr("{your-username}"),
-      					ComputerName:  to.Ptr("myVM"),
-      					LinuxConfiguration: &armcompute.LinuxConfiguration{
-      						PatchSettings: &armcompute.LinuxPatchSettings{
-      							AssessmentMode: to.Ptr(armcompute.LinuxPatchAssessmentModeImageDefault),
-      						},
-      						ProvisionVMAgent: to.Ptr(true),
-      					},
-      				},
-      				StorageProfile: &armcompute.StorageProfile{
-      					ImageReference: &armcompute.ImageReference{
-      						Offer:     to.Ptr("UbuntuServer"),
-      						Publisher: to.Ptr("Canonical"),
-      						SKU:       to.Ptr("16.04-LTS"),
-      						Version:   to.Ptr("latest"),
-      					},
-      					OSDisk: &armcompute.OSDisk{
-      						Name:         to.Ptr("myVMosdisk"),
-      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
-      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
-      						ManagedDisk: &armcompute.ManagedDiskParameters{
-      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesPremiumLRS),
-      						},
-      					},
-      				},
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -13101,7 +13042,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_LinuxVmWithPatchSettingAssessmentModeOfImageDefault.json
        */
       async function createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault() {
         const subscriptionId = "{subscription-id}";
@@ -13155,7 +13096,7 @@ examples:
       createALinuxVMWithAPatchSettingAssessmentModeOfImageDefault().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -13267,7 +13208,7 @@ examples:
       }
 - name: Create a vm with an extensions time budget.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -13318,7 +13259,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -13392,7 +13333,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
            */
           /**
            * Sample code: Create a vm with an extensions time budget.
@@ -13453,7 +13394,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -13463,7 +13404,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithExtensionsTimeBudget.json
        */
       async function createAVMWithAnExtensionsTimeBudget() {
         const subscriptionId = "{subscription-id}";
@@ -13520,7 +13461,7 @@ examples:
       createAVMWithAnExtensionsTimeBudget().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -13642,7 +13583,7 @@ examples:
       }
 - name: Create a VM with Uefi Settings of secureBoot and vTPM.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -13693,7 +13634,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -13768,7 +13709,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
            */
           /**
            * Sample code: Create a VM with Uefi Settings of secureBoot and vTPM.
@@ -13827,7 +13768,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -13837,7 +13778,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUefiSettings.json
        */
       async function createAVMWithUefiSettingsOfSecureBootAndVTpm() {
         const subscriptionId = "{subscription-id}";
@@ -13891,7 +13832,7 @@ examples:
       createAVMWithUefiSettingsOfSecureBootAndVTpm().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -14013,7 +13954,7 @@ examples:
       }
 - name: Create a vm from a generalized shared image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -14054,7 +13995,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -14116,7 +14057,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
            */
           /**
            * Sample code: Create a vm from a generalized shared image.
@@ -14168,7 +14109,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -14178,7 +14119,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromAGeneralizedSharedImage.json
        */
       async function createAVMFromAGeneralizedSharedImage() {
         const subscriptionId = "{subscription-id}";
@@ -14225,7 +14166,7 @@ examples:
       createAVMFromAGeneralizedSharedImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -14327,7 +14268,7 @@ examples:
       }
 - name: Create a vm from a specialized shared image.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -14363,7 +14304,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -14419,7 +14360,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
            */
           /**
            * Sample code: Create a vm from a specialized shared image.
@@ -14466,7 +14407,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -14476,7 +14417,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASpecializedSharedImage.json
        */
       async function createAVMFromASpecializedSharedImage() {
         const subscriptionId = "{subscription-id}";
@@ -14518,7 +14459,7 @@ examples:
       createAVMFromASpecializedSharedImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -14604,7 +14545,7 @@ examples:
       }
 - name: Create a VM with network interface configuration
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -14669,7 +14610,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -14763,7 +14704,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
            */
           /**
            * Sample code: Create a VM with network interface configuration.
@@ -14835,7 +14776,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -14845,7 +14786,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithNetworkInterfaceConfiguration.json
        */
       async function createAVMWithNetworkInterfaceConfiguration() {
         const subscriptionId = "{subscription-id}";
@@ -14909,7 +14850,7 @@ examples:
       createAVMWithNetworkInterfaceConfiguration().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -15017,7 +14958,7 @@ examples:
       }
 - name: Create a VM with UserData
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -15068,7 +15009,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -15142,7 +15083,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
            */
           /**
            * Sample code: Create a VM with UserData.
@@ -15203,7 +15144,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -15213,7 +15154,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithUserData.json
        */
       async function createAVMWithUserData() {
         const subscriptionId = "{subscription-id}";
@@ -15270,7 +15211,7 @@ examples:
       createAVMWithUserData().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -15390,7 +15331,7 @@ examples:
       }
 - name: Create a vm with Application Profile.
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -15449,7 +15390,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -15531,7 +15472,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
            */
           /**
            * Sample code: Create a vm with Application Profile.
@@ -15602,7 +15543,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -15612,7 +15553,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithApplicationProfile.json
        */
       async function createAVMWithApplicationProfile() {
         const subscriptionId = "{subscription-id}";
@@ -15680,7 +15621,7 @@ examples:
       createAVMWithApplicationProfile().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -15828,7 +15769,7 @@ examples:
       }
 - name: Create a VM with HibernationEnabled
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
     body: >-
       {
         "location": "eastus2euap",
@@ -15881,7 +15822,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/{vm-name}?api-version=2022-08-01
 
       {
         "location": "eastus2euap",
@@ -15958,7 +15899,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
            */
           /**
            * Sample code: Create a VM with HibernationEnabled.
@@ -16019,7 +15960,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -16029,7 +15970,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithHibernationEnabled.json
        */
       async function createAVMWithHibernationEnabled() {
         const subscriptionId = "{subscription-id}";
@@ -16086,7 +16027,7 @@ examples:
       createAVMWithHibernationEnabled().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -16212,7 +16153,7 @@ examples:
       }
 - name: Create a VM with VM Size Properties
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -16267,7 +16208,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -16346,7 +16287,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_CreateWithVMSizeProperties.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_CreateWithVMSizeProperties.json
            */
           /**
            * Sample code: Create a VM with VM Size Properties.
@@ -16410,7 +16351,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -16420,7 +16361,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_CreateWithVMSizeProperties.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_CreateWithVMSizeProperties.json
        */
       async function createAVMWithVMSizeProperties() {
         const subscriptionId = "{subscription-id}";
@@ -16480,7 +16421,7 @@ examples:
       createAVMWithVMSizeProperties().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -16608,7 +16549,7 @@ examples:
       }
 - name: Create or update a VM with capacity reservation
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -16662,7 +16603,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -16740,7 +16681,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
            */
           /**
            * Sample code: Create or update a VM with capacity reservation.
@@ -16805,7 +16746,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -16815,7 +16756,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithCapacityReservation.json
        */
       async function createOrUpdateAVMWithCapacityReservation() {
         const subscriptionId = "{subscription-id}";
@@ -16875,7 +16816,7 @@ examples:
       createOrUpdateAVMWithCapacityReservation().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -17003,7 +16944,7 @@ examples:
       }
 - name: Create a VM from a shared gallery image
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -17044,7 +16985,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -17106,7 +17047,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
            */
           /**
            * Sample code: Create a VM from a shared gallery image.
@@ -17158,7 +17099,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -17168,7 +17109,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromASharedGalleryImage.json
        */
       async function createAVMFromASharedGalleryImage() {
         const subscriptionId = "{subscription-id}";
@@ -17216,7 +17157,7 @@ examples:
       createAVMFromASharedGalleryImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -17318,7 +17259,7 @@ examples:
       }
 - name: Create a VM from a community gallery image
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -17359,7 +17300,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -17421,7 +17362,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
            */
           /**
            * Sample code: Create a VM from a community gallery image.
@@ -17473,7 +17414,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -17483,7 +17424,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_FromACommunityGalleryImage.json
        */
       async function createAVMFromACommunityGalleryImage() {
         const subscriptionId = "{subscription-id}";
@@ -17531,7 +17472,7 @@ examples:
       createAVMFromACommunityGalleryImage().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -17633,7 +17574,7 @@ examples:
       }
 - name: Create a VM with securityType ConfidentialVM with Platform Managed Keys
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -17687,7 +17628,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -17767,7 +17708,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
            */
           /**
            * Sample code: Create a VM with securityType ConfidentialVM with Platform Managed Keys.
@@ -17831,7 +17772,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -17841,7 +17782,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVM.json
        */
       async function createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys() {
         const subscriptionId = "{subscription-id}";
@@ -17898,7 +17839,7 @@ examples:
       createAVMWithSecurityTypeConfidentialVMWithPlatformManagedKeys().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -18024,7 +17965,7 @@ examples:
       }
 - name: Create a VM with securityType ConfidentialVM with Customer Managed Keys
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
     body: >-
       {
         "location": "westus",
@@ -18081,7 +18022,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-03-01
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
 
       {
         "location": "westus",
@@ -18165,7 +18106,7 @@ examples:
       /** Samples for VirtualMachines CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
            */
           /**
            * Sample code: Create a VM with securityType ConfidentialVM with Customer Managed Keys.
@@ -18233,7 +18174,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -18243,7 +18184,7 @@ examples:
        * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
        *
        * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithSecurityTypeConfidentialVMWithCustomerManagedKeys.json
        */
       async function createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys() {
         const subscriptionId = "{subscription-id}";
@@ -18305,7 +18246,7 @@ examples:
       createAVMWithSecurityTypeConfidentialVMWithCustomerManagedKeys().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -18433,6 +18374,386 @@ examples:
         },
         "type": "Microsoft.Compute/virtualMachines",
         "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "location": "westus"
+      }
+- name: Create a VM with Disk Controller Type
+  request:
+    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
+    body: >-
+      {
+        "location": "westus",
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "Standard_D4_v3"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "caching": "ReadWrite",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              },
+              "name": "myVMosdisk",
+              "createOption": "FromImage"
+            },
+            "diskControllerType": "NVMe"
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "computerName": "myVM",
+            "adminPassword": "{your-password}"
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "storageUri": "http://{existing-storage-account-name}.blob.core.windows.net",
+              "enabled": true
+            }
+          },
+          "userData": "U29tZSBDdXN0b20gRGF0YQ=="
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM?api-version=2022-08-01
+
+      {
+        "location": "westus",
+        "properties": {
+          "hardwareProfile": {
+            "vmSize": "Standard_D4_v3"
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "caching": "ReadWrite",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              },
+              "name": "myVMosdisk",
+              "createOption": "FromImage"
+            },
+            "diskControllerType": "NVMe"
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "computerName": "myVM",
+            "adminPassword": "{your-password}"
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "storageUri": "http://{existing-storage-account-name}.blob.core.windows.net",
+              "enabled": true
+            }
+          },
+          "userData": "U29tZSBDdXN0b20gRGF0YQ=="
+        }
+      }
+
+      ```
+
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.compute.fluent.models.VirtualMachineInner;
+      import com.azure.resourcemanager.compute.models.BootDiagnostics;
+      import com.azure.resourcemanager.compute.models.CachingTypes;
+      import com.azure.resourcemanager.compute.models.DiagnosticsProfile;
+      import com.azure.resourcemanager.compute.models.DiskControllerTypes;
+      import com.azure.resourcemanager.compute.models.DiskCreateOptionTypes;
+      import com.azure.resourcemanager.compute.models.HardwareProfile;
+      import com.azure.resourcemanager.compute.models.ImageReference;
+      import com.azure.resourcemanager.compute.models.ManagedDiskParameters;
+      import com.azure.resourcemanager.compute.models.NetworkInterfaceReference;
+      import com.azure.resourcemanager.compute.models.NetworkProfile;
+      import com.azure.resourcemanager.compute.models.OSDisk;
+      import com.azure.resourcemanager.compute.models.OSProfile;
+      import com.azure.resourcemanager.compute.models.StorageAccountTypes;
+      import com.azure.resourcemanager.compute.models.StorageProfile;
+      import com.azure.resourcemanager.compute.models.VirtualMachineSizeTypes;
+      import java.util.Arrays;
+
+      /** Samples for VirtualMachines CreateOrUpdate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
+           */
+          /**
+           * Sample code: Create a VM with Disk Controller Type.
+           *
+           * @param azure The entry point for accessing resource management APIs in Azure.
+           */
+          public static void createAVMWithDiskControllerType(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .virtualMachines()
+                  .manager()
+                  .serviceClient()
+                  .getVirtualMachines()
+                  .createOrUpdate(
+                      "myResourceGroup",
+                      "myVM",
+                      new VirtualMachineInner()
+                          .withLocation("westus")
+                          .withHardwareProfile(new HardwareProfile().withVmSize(VirtualMachineSizeTypes.STANDARD_D4_V3))
+                          .withStorageProfile(
+                              new StorageProfile()
+                                  .withImageReference(
+                                      new ImageReference()
+                                          .withPublisher("MicrosoftWindowsServer")
+                                          .withOffer("WindowsServer")
+                                          .withSku("2016-Datacenter")
+                                          .withVersion("latest"))
+                                  .withOsDisk(
+                                      new OSDisk()
+                                          .withName("myVMosdisk")
+                                          .withCaching(CachingTypes.READ_WRITE)
+                                          .withCreateOption(DiskCreateOptionTypes.FROM_IMAGE)
+                                          .withManagedDisk(
+                                              new ManagedDiskParameters()
+                                                  .withStorageAccountType(StorageAccountTypes.STANDARD_LRS)))
+                                  .withDiskControllerType(DiskControllerTypes.NVME))
+                          .withOsProfile(
+                              new OSProfile()
+                                  .withComputerName("myVM")
+                                  .withAdminUsername("{your-username}")
+                                  .withAdminPassword("{your-password}"))
+                          .withNetworkProfile(
+                              new NetworkProfile()
+                                  .withNetworkInterfaces(
+                                      Arrays
+                                          .asList(
+                                              new NetworkInterfaceReference()
+                                                  .withId(
+                                                      "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}")
+                                                  .withPrimary(true))))
+                          .withDiagnosticsProfile(
+                              new DiagnosticsProfile()
+                                  .withBootDiagnostics(
+                                      new BootDiagnostics()
+                                          .withEnabled(true)
+                                          .withStorageUri("http://{existing-storage-account-name}.blob.core.windows.net")))
+                          .withUserData("U29tZSBDdXN0b20gRGF0YQ=="),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ComputeManagementClient } = require("@azure/arm-compute");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+       *
+       * @summary The operation to create or update a virtual machine. Please note some properties can be set only during virtual machine creation.
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachine_Create_WithDiskControllerType.json
+       */
+      async function createAVMWithDiskControllerType() {
+        const subscriptionId = "{subscription-id}";
+        const resourceGroupName = "myResourceGroup";
+        const vmName = "myVM";
+        const parameters = {
+          diagnosticsProfile: {
+            bootDiagnostics: {
+              enabled: true,
+              storageUri: "http://{existing-storage-account-name}.blob.core.windows.net",
+            },
+          },
+          hardwareProfile: { vmSize: "Standard_D4_v3" },
+          location: "westus",
+          networkProfile: {
+            networkInterfaces: [
+              {
+                id: "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/{existing-nic-name}",
+                primary: true,
+              },
+            ],
+          },
+          osProfile: {
+            adminPassword: "{your-password}",
+            adminUsername: "{your-username}",
+            computerName: "myVM",
+          },
+          storageProfile: {
+            diskControllerType: "NVMe",
+            imageReference: {
+              offer: "WindowsServer",
+              publisher: "MicrosoftWindowsServer",
+              sku: "2016-Datacenter",
+              version: "latest",
+            },
+            osDisk: {
+              name: "myVMosdisk",
+              caching: "ReadWrite",
+              createOption: "FromImage",
+              managedDisk: { storageAccountType: "Standard_LRS" },
+            },
+          },
+          userData: "U29tZSBDdXN0b20gRGF0YQ==",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ComputeManagementClient(credential, subscriptionId);
+        const result = await client.virtualMachines.beginCreateOrUpdateAndWait(
+          resourceGroupName,
+          vmName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      createAVMWithDiskControllerType().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "osType": "Windows",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              }
+            },
+            "dataDisks": [],
+            "diskControllerType": "NVMe"
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "storageUri": "http://nsgdiagnostic.blob.core.windows.net",
+              "enabled": true
+            }
+          },
+          "vmId": "676420ba-7a24-4bfe-80bd-9c841ee184fa",
+          "hardwareProfile": {
+            "vmSize": "Standard_D4_v3"
+          },
+          "provisioningState": "Updating"
+        },
+        "name": "myVM",
+        "location": "westus"
+      }
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/virtualMachines/myVM",
+        "type": "Microsoft.Compute/virtualMachines",
+        "properties": {
+          "osProfile": {
+            "adminUsername": "{your-username}",
+            "secrets": [],
+            "computerName": "myVM",
+            "windowsConfiguration": {
+              "provisionVMAgent": true,
+              "enableAutomaticUpdates": true
+            }
+          },
+          "networkProfile": {
+            "networkInterfaces": [
+              {
+                "id": "/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/networkInterfaces/nsgExistingNic",
+                "properties": {
+                  "primary": true
+                }
+              }
+            ]
+          },
+          "storageProfile": {
+            "imageReference": {
+              "sku": "2016-Datacenter",
+              "publisher": "MicrosoftWindowsServer",
+              "version": "latest",
+              "offer": "WindowsServer"
+            },
+            "osDisk": {
+              "osType": "Windows",
+              "caching": "ReadWrite",
+              "createOption": "FromImage",
+              "name": "myVMosdisk",
+              "managedDisk": {
+                "storageAccountType": "Standard_LRS"
+              }
+            },
+            "dataDisks": [],
+            "diskControllerType": "NVMe"
+          },
+          "diagnosticsProfile": {
+            "bootDiagnostics": {
+              "storageUri": "http://nsgdiagnostic.blob.core.windows.net",
+              "enabled": true
+            }
+          },
+          "vmId": "676420ba-7a24-4bfe-80bd-9c841ee184fa",
+          "hardwareProfile": {
+            "vmSize": "Standard_D4_v3"
+          },
+          "provisioningState": "Creating"
+        },
+        "name": "myVM",
         "location": "westus"
       }
 security:

@@ -3,14 +3,14 @@ uid: management.azure.com.compute.capacityreservations.listbycapacityreservation
 name: List By Capacity Reservation Group
 service: Compute
 groupName: Capacity Reservations
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations?api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/capacityReservationGroups/{capacityReservationGroupName}/capacityReservations?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -86,6 +86,11 @@ definitions:
     description: A unique id generated and assigned to the capacity reservation by the platform which does not change throughout the lifetime of the resource.
     types:
     - uid: string
+  - name: properties.platformFaultDomainCount
+    isReadyOnly: true
+    description: 'Specifies the value of fault domain count that Capacity Reservation supports for requested VM size.<br>NOTE: The fault domain count specified for a resource (like virtual machines scale set) must be less than or equal to this value if it deploys using capacity reservation.<br><br>Minimum api-version: 2022-08-01.'
+    types:
+    - uid: integer
   - name: properties.virtualMachinesAssociated
     isReadyOnly: true
     description: A list of all virtual machine resource ids that are associated with the capacity reservation.
@@ -109,7 +114,7 @@ definitions:
     - uid: CapacityReservationInstanceView
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Capacity Reservation resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -233,6 +238,11 @@ definitions:
   description: Represents the capacity reservation utilization in terms of resources allocated.
   kind: object
   properties:
+  - name: currentCapacity
+    isReadyOnly: true
+    description: 'The value provides the current capacity of the VM size which was reserved successfully and for which the customer is getting billed.<br><br>Minimum api-version: 2022-08-01.'
+    types:
+    - uid: integer
   - name: virtualMachinesAllocated
     isReadyOnly: true
     description: A list of all virtual machines resource ids allocated against the capacity reservation.
@@ -279,11 +289,11 @@ definitions:
 examples:
 - name: List capacity reservations in reservation group.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/capacityReservationGroups/myCapacityReservationGroup/capacityReservations?api-version=2022-08-01
       ```
 
       # [Java](#tab/Java)
@@ -293,7 +303,7 @@ examples:
       /** Samples for CapacityReservations ListByCapacityReservationGroup. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
            */
           /**
            * Sample code: List capacity reservations in reservation group.
@@ -312,47 +322,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
-      func ExampleCapacityReservationsClient_NewListByCapacityReservationGroupPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewCapacityReservationsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListByCapacityReservationGroupPager("myResourceGroup",
-      		"myCapacityReservationGroup",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -362,7 +332,7 @@ examples:
        * This sample demonstrates how to Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
        *
        * @summary Lists all of the capacity reservations in the specified capacity reservation group. Use the nextLink property in the response to get the next page of capacity reservations.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservation_ListByReservationGroup.json
        */
       async function listCapacityReservationsInReservationGroup() {
         const subscriptionId = "{subscription-id}";
@@ -383,7 +353,7 @@ examples:
       listCapacityReservationsInReservationGroup().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -395,6 +365,7 @@ examples:
             "type": "Microsoft.Compute/CapacityReservations",
             "location": "West US",
             "properties": {
+              "platformFaultDomainCount": 3,
               "reservationId": "{GUID}",
               "provisioningTime": "2021-06-27T01:02:38.3138469+00:00",
               "virtualMachinesAssociated": [
@@ -427,6 +398,7 @@ examples:
             "type": "Microsoft.Compute/CapacityReservations",
             "location": "West US",
             "properties": {
+              "platformFaultDomainCount": 3,
               "reservationId": "{GUID}",
               "provisioningTime": "2021-06-27T01:02:38.3138469+00:00",
               "virtualMachinesAssociated": [

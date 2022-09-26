@@ -3,15 +3,15 @@ uid: management.azure.com.hybridcompute.machines.get
 name: Get
 service: Hybrid Compute
 groupName: Machines
-apiVersion: 2021-05-20
+apiVersion: 2022-05-10-preview
 summary: Retrieves information about the model view or the instance view of a hybrid machine.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2021-05-20
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2021-05-20&$expand=instanceView
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2022-05-10-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}?api-version=2022-05-10-preview&$expand=instanceView
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -69,6 +69,12 @@ definitions:
     description: Hybrid Compute Machine properties
     types:
     - uid: MachineProperties
+  - name: resources
+    isReadyOnly: true
+    description: The list of extensions affiliated to the machine
+    types:
+    - uid: MachineExtension
+      isArray: true
   - name: identity
     description: Identity for the resource.
     types:
@@ -121,8 +127,20 @@ definitions:
     description: Metadata pertaining to the geographic location of the resource.
     types:
     - uid: locationData
-  - name: osProfile
+  - name: agentConfiguration
     isReadyOnly: true
+    description: Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM.
+    types:
+    - uid: AgentConfiguration
+  - name: serviceStatuses
+    description: Statuses of dependent services that are reported back to ARM.
+    types:
+    - uid: ServiceStatuses
+  - name: cloudMetadata
+    description: The metadata of the cloud environment (Azure/GCP/AWS/OCI...).
+    types:
+    - uid: CloudMetadata
+  - name: osProfile
     description: Specifies the operating system settings for the hybrid machine.
     types:
     - uid: OSProfile
@@ -180,16 +198,15 @@ definitions:
     description: The version of Operating System running on the hybrid machine.
     types:
     - uid: string
+  - name: osType
+    description: The type of Operating System (windows/linux).
+    types:
+    - uid: string
   - name: vmUuid
     isReadyOnly: true
     description: Specifies the Arc Machine's unique SMBIOS ID
     types:
     - uid: string
-  - name: extensions
-    description: Machine Extensions information
-    types:
-    - uid: MachineExtensionInstanceView
-      isArray: true
   - name: osSku
     isReadyOnly: true
     description: Specifies the Operating System product SKU.
@@ -218,6 +235,10 @@ definitions:
     description: The resource id of the parent cluster (Azure HCI) this machine is assigned to, if any.
     types:
     - uid: string
+  - name: mssqlDiscovered
+    description: Specifies whether any MS SQL instance is discovered on the machine.
+    types:
+    - uid: string
   - name: detectedProperties
     isReadyOnly: true
     description: Detected properties from the machine.
@@ -227,6 +248,46 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+- name: MachineExtension
+  description: Describes a Machine Extension.
+  kind: object
+  properties:
+  - name: properties
+    description: Describes Machine Extension Properties.
+    types:
+    - uid: MachineExtensionProperties
+  - name: systemData
+    isReadyOnly: true
+    description: The system meta data relating to this resource.
+    types:
+    - uid: systemData
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: Identity
   description: Identity for the resource.
   kind: object
@@ -324,6 +385,75 @@ definitions:
     description: The country or region where the resource is located
     types:
     - uid: string
+- name: AgentConfiguration
+  description: Configurable properties that the user can set locally via the azcmagent config command, or remotely via ARM.
+  kind: object
+  properties:
+  - name: proxyUrl
+    isReadyOnly: true
+    description: Specifies the URL of the proxy to be used.
+    types:
+    - uid: string
+  - name: incomingConnectionsPorts
+    isReadyOnly: true
+    description: Specifies the list of ports that the agent will be able to listen on.
+    types:
+    - uid: string
+      isArray: true
+  - name: extensionsAllowList
+    isReadyOnly: true
+    description: Array of extensions that are allowed to be installed or updated.
+    types:
+    - uid: ConfigurationExtension
+      isArray: true
+  - name: extensionsBlockList
+    isReadyOnly: true
+    description: Array of extensions that are blocked (cannot be installed or updated)
+    types:
+    - uid: ConfigurationExtension
+      isArray: true
+  - name: proxyBypass
+    isReadyOnly: true
+    description: List of service names which should not use the specified proxy server.
+    types:
+    - uid: string
+      isArray: true
+  - name: extensionsEnabled
+    isReadyOnly: true
+    description: Specifies whether the extension service is enabled or disabled.
+    types:
+    - uid: string
+  - name: guestConfigurationEnabled
+    isReadyOnly: true
+    description: Specified whether the guest configuration service is enabled or disabled.
+    types:
+    - uid: string
+  - name: configMode
+    isReadyOnly: true
+    description: Name of configuration mode to use. Modes are pre-defined configurations of security controls, extension allowlists and guest configuration, maintained by Microsoft.
+    types:
+    - uid: agent configuration mode
+- name: ServiceStatuses
+  description: Reports the state and behavior of dependent services.
+  kind: object
+  properties:
+  - name: extensionService
+    description: The state of the extension service on the Arc-enabled machine.
+    types:
+    - uid: ServiceStatus
+  - name: guestConfigurationService
+    description: The state of the guest configuration service on the Arc-enabled machine.
+    types:
+    - uid: ServiceStatus
+- name: CloudMetadata
+  description: The metadata of the cloud environment (Azure/GCP/AWS/OCI...).
+  kind: object
+  properties:
+  - name: provider
+    isReadyOnly: true
+    description: Specifies the cloud provider (Azure/AWS/GCP...).
+    types:
+    - uid: string
 - name: OSProfile
   description: Specifies the operating system settings for the hybrid machine.
   kind: object
@@ -333,6 +463,14 @@ definitions:
     description: Specifies the host OS name of the hybrid machine.
     types:
     - uid: string
+  - name: windowsConfiguration
+    description: Specifies the windows configuration for update management.
+    types:
+    - uid: WindowsConfiguration
+  - name: linuxConfiguration
+    description: Specifies the linux configuration for update management.
+    types:
+    - uid: LinuxConfiguration
 - name: StatusTypes
   description: The status of the hybrid machine agent.
   kind: enum
@@ -346,12 +484,16 @@ definitions:
   - name: Error
     types:
     - uid: string
-- name: MachineExtensionInstanceView
-  description: Describes the Machine Extension Instance View.
+- name: MachineExtensionProperties
+  description: Describes the properties of a Machine Extension.
   kind: object
   properties:
-  - name: name
-    description: The machine extension name.
+  - name: forceUpdateTag
+    description: How the extension handler should be forced to update even if the extension configuration has not changed.
+    types:
+    - uid: string
+  - name: publisher
+    description: The name of the extension handler publisher.
     types:
     - uid: string
   - name: type
@@ -362,10 +504,31 @@ definitions:
     description: Specifies the version of the script handler.
     types:
     - uid: string
-  - name: status
-    description: Instance view status.
+  - name: enableAutomaticUpgrade
+    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
     types:
-    - uid: Status
+    - uid: boolean
+  - name: autoUpgradeMinorVersion
+    description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
+    types:
+    - uid: boolean
+  - name: settings
+    description: Json formatted public settings for the extension.
+    types:
+    - {}
+  - name: protectedSettings
+    description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
+    types:
+    - {}
+  - name: provisioningState
+    isReadyOnly: true
+    description: The provisioning state, which only appears in the response.
+    types:
+    - uid: string
+  - name: instanceView
+    description: The machine extension instance view.
+    types:
+    - uid: MachineExtensionInstanceView
 - name: ResourceIdentityType
   description: The identity type.
   kind: enum
@@ -403,6 +566,112 @@ definitions:
     description: The additional info.
     types:
     - uid: object
+- name: ConfigurationExtension
+  description: Describes properties that can identify extensions.
+  kind: object
+  properties:
+  - name: publisher
+    isReadyOnly: true
+    description: Publisher of the extension.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: Type of the extension.
+    types:
+    - uid: string
+- name: agent configuration mode
+  description: Name of configuration mode to use. Modes are pre-defined configurations of security controls, extension allowlists and guest configuration, maintained by Microsoft.
+  kind: enum
+  properties:
+  - name: full
+    types:
+    - uid: string
+  - name: monitor
+    types:
+    - uid: string
+- name: ServiceStatus
+  description: Describes the status and behavior of a service.
+  kind: object
+  properties:
+  - name: status
+    description: The current status of the service.
+    types:
+    - uid: string
+  - name: startupType
+    description: The behavior of the service when the Arc-enabled machine starts up.
+    types:
+    - uid: string
+- name: WindowsConfiguration
+  description: Specifies the windows configuration for update management.
+  kind: object
+  properties:
+  - name: patchSettings.assessmentMode
+    description: Specifies the assessment mode.
+    types:
+    - uid: AssessmentModeTypes
+  - name: patchSettings.patchMode
+    description: Specifies the patch mode.
+    types:
+    - uid: PatchModeTypes
+- name: LinuxConfiguration
+  description: Specifies the linux configuration for update management.
+  kind: object
+  properties:
+  - name: patchSettings.assessmentMode
+    description: Specifies the assessment mode.
+    types:
+    - uid: AssessmentModeTypes
+  - name: patchSettings.patchMode
+    description: Specifies the patch mode.
+    types:
+    - uid: PatchModeTypes
+- name: MachineExtensionInstanceView
+  description: Describes the Machine Extension Instance View.
+  kind: object
+  properties:
+  - name: name
+    description: The machine extension name.
+    types:
+    - uid: string
+  - name: type
+    description: Specifies the type of the extension; an example is "CustomScriptExtension".
+    types:
+    - uid: string
+  - name: typeHandlerVersion
+    description: Specifies the version of the script handler.
+    types:
+    - uid: string
+  - name: status
+    description: Instance view status.
+    types:
+    - uid: Status
+- name: AssessmentModeTypes
+  description: Specifies the assessment mode.
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+- name: PatchModeTypes
+  description: Specifies the patch mode.
+  kind: enum
+  properties:
+  - name: ImageDefault
+    types:
+    - uid: string
+  - name: AutomaticByPlatform
+    types:
+    - uid: string
+  - name: AutomaticByOS
+    types:
+    - uid: string
+  - name: Manual
+    types:
+    - uid: string
 - name: Status
   description: Instance view status.
   kind: object
@@ -443,32 +712,13 @@ definitions:
 examples:
 - name: Get Machine
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2021-05-20&$expand=instanceView
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2022-05-10-preview&$expand=instanceView
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2021-05-20&$expand=instanceView
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine?api-version=2022-05-10-preview&$expand=instanceView
       ```
 
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      async function getMachine() {
-        const subscriptionId = "{subscriptionId}";
-        const resourceGroupName = "myResourceGroup";
-        const machineName = "myMachine";
-        const credential = new DefaultAzureCredential();
-        const client = new HybridComputeManagementClient(credential, subscriptionId);
-        const result = await client.machines.get(resourceGroupName, machineName);
-        console.log(result);
-      }
-
-      getMachine().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hybridcompute_3.1.0-beta.1/sdk/hybridcompute/arm-hybridcompute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -496,10 +746,22 @@ examples:
           "domainName": null,
           "adFqdn": null,
           "dnsFqdn": null,
-          "osName": null,
           "osVersion": null,
+          "osType": null,
           "osProfile": {
-            "computerName": null
+            "computerName": null,
+            "windowsConfiguration": {
+              "patchSettings": {
+                "assessmentMode": null,
+                "patchMode": null
+              }
+            },
+            "linuxConfiguration": {
+              "patchSettings": {
+                "assessmentMode": null,
+                "patchMode": null
+              }
+            }
           },
           "vmId": "b7a098cc-b0b8-46e8-a205-62f301a62a8f",
           "locationData": {
@@ -510,14 +772,41 @@ examples:
           },
           "clientPublicKey": "string",
           "parentClusterResourceId": "{AzureStackHCIResourceId}",
+          "mssqlDiscovered": "false",
           "detectedProperties": {
             "cloudprovider": "N/A",
             "manufacturer": "Microsoft Corporation",
-            "model": "Virtual Machine",
-            "mssqldiscovered": "false"
+            "model": "Virtual Machine"
+          },
+          "agentConfiguration": {
+            "proxyUrl": "https://test.test",
+            "incomingConnectionsPorts": [
+              "22",
+              "23"
+            ],
+            "extensionsAllowList": null,
+            "extensionsBlockList": null,
+            "proxyBypass": [
+              "proxy1",
+              "proxy2"
+            ],
+            "extensionsEnabled": "true",
+            "guestConfigurationEnabled": "true",
+            "configMode": "full"
+          },
+          "serviceStatuses": {
+            "extensionService": {
+              "status": "Running",
+              "startupType": "Automatic"
+            },
+            "guestConfigurationService": {
+              "status": "Running",
+              "startupType": "Automatic"
+            }
           },
           "privateLinkScopeResourceId": "/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/privateLinkScopeName"
-        }
+        },
+        "resources": []
       }
 security:
 - name: azure_auth

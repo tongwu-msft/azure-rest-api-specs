@@ -3,14 +3,14 @@ uid: management.azure.com.compute.virtualmachinescalesets.update
 name: Update
 service: Compute
 groupName: Virtual Machine Scale Sets
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Update a VM scale set.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2022-03-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachineScaleSets/{vmScaleSetName}?api-version=2022-08-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -253,6 +253,10 @@ definitions:
     description: 'UserData for the VM, which must be base-64 encoded. Customer should not pass any secrets in here. <br><br>Minimum api-version: 2021-03-01'
     types:
     - uid: string
+  - name: hardwareProfile
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
+    types:
+    - uid: VirtualMachineScaleSetHardwareProfile
 - name: AdditionalCapabilities
   description: Enables or disables a capability on the virtual machine or virtual machine scale set.
   kind: object
@@ -376,9 +380,13 @@ definitions:
     description: Specifies the Spot Restore properties for the virtual machine scale set.
     types:
     - uid: SpotRestorePolicy
+  - name: properties.priorityMixPolicy
+    description: Specifies the desired targets for mixing Spot and Regular priority VMs within the same VMSS Flex instance.
+    types:
+    - uid: PriorityMixPolicy
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Virtual Machine Scale Set resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -608,6 +616,11 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the virtual machines in the scale set. <br>NOTE: You need to deallocate the virtual machines in the scale set before updating its disk controller type based on the upgrade mode configured for the scale set.<br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: string
+      isArray: true
 - name: VirtualMachineScaleSetUpdateNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -677,6 +690,14 @@ definitions:
     description: Specifies Terminate Scheduled Event related configurations.
     types:
     - uid: TerminateNotificationProfile
+- name: VirtualMachineScaleSetHardwareProfile
+  description: Specifies the hardware settings for the virtual machine scale set.
+  kind: object
+  properties:
+  - name: vmSizeProperties
+    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2021-11-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
+    types:
+    - uid: VMSizeProperties
 - name: ExtendedLocation
   description: The complex type of the extended location.
   kind: object
@@ -750,7 +771,7 @@ definitions:
     types:
     - uid: ApplicationProfile
   - name: hardwareProfile
-    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the hardware profile related details of a scale set. <br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: VirtualMachineScaleSetHardwareProfile
 - name: OrchestrationMode
@@ -775,6 +796,18 @@ definitions:
     description: Timeout value expressed as an ISO 8601 time duration after which the platform will not try to restore the VMSS SPOT instances
     types:
     - uid: string
+- name: PriorityMixPolicy
+  description: Specifies the target splits for Spot and Regular priority VMs within a scale set with flexible orchestration mode. <br><br>With this property the customer is able to specify the base number of regular priority VMs created as the VMSS flex instance scales out and the split between Spot and Regular priority VMs after this base target has been reached.
+  kind: object
+  properties:
+  - name: baseRegularPriorityCount
+    description: The base number of regular priority VMs that will be created in this scale set as it scales out.
+    types:
+    - uid: integer
+  - name: regularPriorityPercentageAboveBase
+    description: The percentage of VM instances, after the base regular priority count has been reached, that are expected to use regular priority.
+    types:
+    - uid: integer
 - name: ApiError
   description: Api error.
   kind: object
@@ -829,6 +862,10 @@ definitions:
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
     - uid: WinRMConfiguration
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: LinuxConfiguration
   description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
@@ -849,6 +886,10 @@ definitions:
     description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
     types:
     - uid: LinuxPatchSettings
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -912,7 +953,7 @@ definitions:
     types:
     - uid: boolean
   - name: diskSizeGB
-    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: image
@@ -957,7 +998,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -998,6 +1039,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -1132,7 +1177,7 @@ definitions:
   - name: properties.protectedSettingsFromKeyVault
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
-    - uid: object
+    - uid: KeyVaultSecretReference
   - name: id
     isReadyOnly: true
     description: Resource Id
@@ -1149,6 +1194,18 @@ definitions:
     description: Specifies whether the Terminate Scheduled event is enabled or disabled.
     types:
     - uid: boolean
+- name: VMSizeProperties
+  description: Specifies VM Size Property settings on the virtual machine.
+  kind: object
+  properties:
+  - name: vCPUsAvailable
+    description: Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
+    types:
+    - uid: integer
+  - name: vCPUsPerCore
+    description: Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled.
+    types:
+    - uid: integer
 - name: ExtendedLocationTypes
   description: The type of the extended location.
   kind: enum
@@ -1210,6 +1267,11 @@ definitions:
     types:
     - uid: VirtualMachineScaleSetDataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the virtual machines in the scale set. <br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: string
+      isArray: true
 - name: VirtualMachineScaleSetNetworkProfile
   description: Describes a virtual machine scale set network profile.
   kind: object
@@ -1267,14 +1329,6 @@ definitions:
     types:
     - uid: VMGalleryApplication
       isArray: true
-- name: VirtualMachineScaleSetHardwareProfile
-  description: Specifies the hardware settings for the virtual machine scale set.
-  kind: object
-  properties:
-  - name: vmSizeProperties
-    description: 'Specifies the properties for customizing the size of the virtual machine. Minimum api-version: 2022-03-01. <br><br> Please follow the instructions in [VM Customization](https://aka.ms/vmcustomization) for more details.'
-    types:
-    - uid: VMSizeProperties
 - name: ApiErrorBase
   description: Api error base.
   kind: object
@@ -1516,6 +1570,18 @@ definitions:
   - name: Detach
     types:
     - uid: string
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret
+  kind: object
+  properties:
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: The relative URL of the Key Vault containing the secret.
+    types:
+    - uid: SubResource
 - name: VirtualMachineScaleSetOSDisk
   description: Describes a virtual machine scale set operating system disk.
   kind: object
@@ -1541,7 +1607,7 @@ definitions:
     types:
     - uid: DiffDiskSettings
   - name: diskSizeGB
-    description: Specifies the size of the operating system disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: osType
@@ -1579,6 +1645,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -1638,18 +1708,6 @@ definitions:
     description: If set to true, when a new Gallery Application version is available in PIR/SIG, it will be automatically updated for the VM/VMSS
     types:
     - uid: boolean
-- name: VMSizeProperties
-  description: Specifies VM Size Property settings on the virtual machine.
-  kind: object
-  properties:
-  - name: vCPUsAvailable
-    description: Specifies the number of vCPUs available for the VM. <br><br> When this property is not specified in the request body the default behavior is to set it to the value of vCPUs available for that VM size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) .
-    types:
-    - uid: integer
-  - name: vCPUsPerCore
-    description: Specifies the vCPU to physical core ratio. <br><br> When this property is not specified in the request body the default behavior is set to the value of vCPUsPerCore for the VM Size exposed in api response of [List all available virtual machine sizes in a region](https://docs.microsoft.com/en-us/rest/api/compute/resource-skus/list) <br><br> Setting this property to 1 also means that hyper-threading is disabled.
-    types:
-    - uid: integer
 - name: PassNames
   description: The pass name. Currently, the only allowable value is OobeSystem.
   kind: enum
@@ -2067,7 +2125,7 @@ definitions:
 examples:
 - name: VirtualMachineScaleSets_Update_MaximumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2022-03-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2022-08-01
     body: >-
       {
         "sku": {
@@ -2354,7 +2412,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2022-03-01
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaa?api-version=2022-08-01
 
       {
         "sku": {
@@ -2722,7 +2780,7 @@ examples:
       /** Samples for VirtualMachineScaleSets Update. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
            */
           /**
            * Sample code: VirtualMachineScaleSets_Update_MaximumSet_Gen.
@@ -3028,314 +3086,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
-      func ExampleVirtualMachineScaleSetsClient_BeginUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginUpdate(ctx,
-      		"rgcompute",
-      		"aaaaaaaaaaaaa",
-      		armcompute.VirtualMachineScaleSetUpdate{
-      			Tags: map[string]*string{
-      				"key246": to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaa"),
-      			},
-      			Identity: &armcompute.VirtualMachineScaleSetIdentity{
-      				Type: to.Ptr(armcompute.ResourceIdentityTypeSystemAssigned),
-      				UserAssignedIdentities: map[string]*armcompute.UserAssignedIdentitiesValue{
-      					"key3951": {},
-      				},
-      			},
-      			Plan: &armcompute.Plan{
-      				Name:          to.Ptr("windows2016"),
-      				Product:       to.Ptr("windows-data-science-vm"),
-      				PromotionCode: to.Ptr("aaaaaaaaaa"),
-      				Publisher:     to.Ptr("microsoft-ads"),
-      			},
-      			Properties: &armcompute.VirtualMachineScaleSetUpdateProperties{
-      				AdditionalCapabilities: &armcompute.AdditionalCapabilities{
-      					HibernationEnabled: to.Ptr(true),
-      					UltraSSDEnabled:    to.Ptr(true),
-      				},
-      				AutomaticRepairsPolicy: &armcompute.AutomaticRepairsPolicy{
-      					Enabled:     to.Ptr(true),
-      					GracePeriod: to.Ptr("PT30M"),
-      				},
-      				DoNotRunExtensionsOnOverprovisionedVMs: to.Ptr(true),
-      				Overprovision:                          to.Ptr(true),
-      				ProximityPlacementGroup: &armcompute.SubResource{
-      					ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      				},
-      				ScaleInPolicy: &armcompute.ScaleInPolicy{
-      					ForceDeletion: to.Ptr(true),
-      					Rules: []*armcompute.VirtualMachineScaleSetScaleInRules{
-      						to.Ptr(armcompute.VirtualMachineScaleSetScaleInRulesOldestVM)},
-      				},
-      				SinglePlacementGroup: to.Ptr(true),
-      				UpgradePolicy: &armcompute.UpgradePolicy{
-      					AutomaticOSUpgradePolicy: &armcompute.AutomaticOSUpgradePolicy{
-      						DisableAutomaticRollback: to.Ptr(true),
-      						EnableAutomaticOSUpgrade: to.Ptr(true),
-      					},
-      					Mode: to.Ptr(armcompute.UpgradeModeManual),
-      					RollingUpgradePolicy: &armcompute.RollingUpgradePolicy{
-      						EnableCrossZoneUpgrade:              to.Ptr(true),
-      						MaxBatchInstancePercent:             to.Ptr[int32](49),
-      						MaxUnhealthyInstancePercent:         to.Ptr[int32](81),
-      						MaxUnhealthyUpgradedInstancePercent: to.Ptr[int32](98),
-      						PauseTimeBetweenBatches:             to.Ptr("aaaaaaaaaaaaaaa"),
-      						PrioritizeUnhealthyInstances:        to.Ptr(true),
-      					},
-      				},
-      				VirtualMachineProfile: &armcompute.VirtualMachineScaleSetUpdateVMProfile{
-      					BillingProfile: &armcompute.BillingProfile{
-      						MaxPrice: to.Ptr[float64](-1),
-      					},
-      					DiagnosticsProfile: &armcompute.DiagnosticsProfile{
-      						BootDiagnostics: &armcompute.BootDiagnostics{
-      							Enabled:    to.Ptr(true),
-      							StorageURI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net"),
-      						},
-      					},
-      					ExtensionProfile: &armcompute.VirtualMachineScaleSetExtensionProfile{
-      						ExtensionsTimeBudget: to.Ptr("PT1H20M"),
-      						Extensions: []*armcompute.VirtualMachineScaleSetExtension{
-      							{
-      								Name: to.Ptr("{extension-name}"),
-      								Properties: &armcompute.VirtualMachineScaleSetExtensionProperties{
-      									Type:                    to.Ptr("{extension-Type}"),
-      									AutoUpgradeMinorVersion: to.Ptr(true),
-      									EnableAutomaticUpgrade:  to.Ptr(true),
-      									ForceUpdateTag:          to.Ptr("aaaaaaaaa"),
-      									ProtectedSettings:       map[string]interface{}{},
-      									ProvisionAfterExtensions: []*string{
-      										to.Ptr("aa")},
-      									Publisher:          to.Ptr("{extension-Publisher}"),
-      									Settings:           map[string]interface{}{},
-      									SuppressFailures:   to.Ptr(true),
-      									TypeHandlerVersion: to.Ptr("{handler-version}"),
-      								},
-      							}},
-      					},
-      					LicenseType: to.Ptr("aaaaaaaaaaaa"),
-      					NetworkProfile: &armcompute.VirtualMachineScaleSetUpdateNetworkProfile{
-      						HealthProbe: &armcompute.APIEntityReference{
-      							ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"),
-      						},
-      						NetworkAPIVersion: to.Ptr(armcompute.NetworkAPIVersionTwoThousandTwenty1101),
-      						NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetUpdateNetworkConfiguration{
-      							{
-      								ID:   to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-      								Name: to.Ptr("aaaaaaaa"),
-      								Properties: &armcompute.VirtualMachineScaleSetUpdateNetworkConfigurationProperties{
-      									DeleteOption: to.Ptr(armcompute.DeleteOptionsDelete),
-      									DNSSettings: &armcompute.VirtualMachineScaleSetNetworkConfigurationDNSSettings{
-      										DNSServers: []*string{},
-      									},
-      									EnableAcceleratedNetworking: to.Ptr(true),
-      									EnableFpga:                  to.Ptr(true),
-      									EnableIPForwarding:          to.Ptr(true),
-      									IPConfigurations: []*armcompute.VirtualMachineScaleSetUpdateIPConfiguration{
-      										{
-      											ID:   to.Ptr("aaaaaaaaaaaaaaaa"),
-      											Name: to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa"),
-      											Properties: &armcompute.VirtualMachineScaleSetUpdateIPConfigurationProperties{
-      												ApplicationGatewayBackendAddressPools: []*armcompute.SubResource{
-      													{
-      														ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      													}},
-      												ApplicationSecurityGroups: []*armcompute.SubResource{
-      													{
-      														ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      													}},
-      												LoadBalancerBackendAddressPools: []*armcompute.SubResource{
-      													{
-      														ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      													}},
-      												LoadBalancerInboundNatPools: []*armcompute.SubResource{
-      													{
-      														ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      													}},
-      												Primary:                 to.Ptr(true),
-      												PrivateIPAddressVersion: to.Ptr(armcompute.IPVersionIPv4),
-      												PublicIPAddressConfiguration: &armcompute.VirtualMachineScaleSetUpdatePublicIPAddressConfiguration{
-      													Name: to.Ptr("a"),
-      													Properties: &armcompute.VirtualMachineScaleSetUpdatePublicIPAddressConfigurationProperties{
-      														DeleteOption: to.Ptr(armcompute.DeleteOptionsDelete),
-      														DNSSettings: &armcompute.VirtualMachineScaleSetPublicIPAddressConfigurationDNSSettings{
-      															DomainNameLabel: to.Ptr("aaaaaaaaaaaaaaaaaa"),
-      														},
-      														IdleTimeoutInMinutes: to.Ptr[int32](3),
-      													},
-      												},
-      												Subnet: &armcompute.APIEntityReference{
-      													ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/disks/disk123"),
-      												},
-      											},
-      										}},
-      									NetworkSecurityGroup: &armcompute.SubResource{
-      										ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/snapshots/mySnapshot"),
-      									},
-      									Primary: to.Ptr(true),
-      								},
-      							}},
-      					},
-      					OSProfile: &armcompute.VirtualMachineScaleSetUpdateOSProfile{
-      						CustomData: to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaaa"),
-      						LinuxConfiguration: &armcompute.LinuxConfiguration{
-      							DisablePasswordAuthentication: to.Ptr(true),
-      							PatchSettings: &armcompute.LinuxPatchSettings{
-      								AssessmentMode: to.Ptr(armcompute.LinuxPatchAssessmentModeImageDefault),
-      								PatchMode:      to.Ptr(armcompute.LinuxVMGuestPatchModeImageDefault),
-      							},
-      							ProvisionVMAgent: to.Ptr(true),
-      							SSH: &armcompute.SSHConfiguration{
-      								PublicKeys: []*armcompute.SSHPublicKey{
-      									{
-      										Path:    to.Ptr("/home/{your-username}/.ssh/authorized_keys"),
-      										KeyData: to.Ptr("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"),
-      									}},
-      							},
-      						},
-      						Secrets: []*armcompute.VaultSecretGroup{
-      							{
-      								SourceVault: &armcompute.SubResource{
-      									ID: to.Ptr("/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"),
-      								},
-      								VaultCertificates: []*armcompute.VaultCertificate{
-      									{
-      										CertificateStore: to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaa"),
-      										CertificateURL:   to.Ptr("aaaaaaa"),
-      									}},
-      							}},
-      						WindowsConfiguration: &armcompute.WindowsConfiguration{
-      							AdditionalUnattendContent: []*armcompute.AdditionalUnattendContent{
-      								{
-      									ComponentName: to.Ptr("Microsoft-Windows-Shell-Setup"),
-      									Content:       to.Ptr("aaaaaaaaaaaaaaaaaaaa"),
-      									PassName:      to.Ptr("OobeSystem"),
-      									SettingName:   to.Ptr(armcompute.SettingNamesAutoLogon),
-      								}},
-      							EnableAutomaticUpdates: to.Ptr(true),
-      							PatchSettings: &armcompute.PatchSettings{
-      								AssessmentMode: to.Ptr(armcompute.WindowsPatchAssessmentModeImageDefault),
-      								AutomaticByPlatformSettings: &armcompute.WindowsVMGuestPatchAutomaticByPlatformSettings{
-      									RebootSetting: to.Ptr(armcompute.WindowsVMGuestPatchAutomaticByPlatformRebootSettingNever),
-      								},
-      								EnableHotpatching: to.Ptr(true),
-      								PatchMode:         to.Ptr(armcompute.WindowsVMGuestPatchModeAutomaticByPlatform),
-      							},
-      							ProvisionVMAgent: to.Ptr(true),
-      							TimeZone:         to.Ptr("aaaaaaaaaaaaaaaa"),
-      							WinRM: &armcompute.WinRMConfiguration{
-      								Listeners: []*armcompute.WinRMListener{
-      									{
-      										CertificateURL: to.Ptr("aaaaaaaaaaaaaaaaaaaaaa"),
-      										Protocol:       to.Ptr(armcompute.ProtocolTypesHTTP),
-      									}},
-      							},
-      						},
-      					},
-      					ScheduledEventsProfile: &armcompute.ScheduledEventsProfile{
-      						TerminateNotificationProfile: &armcompute.TerminateNotificationProfile{
-      							Enable:           to.Ptr(true),
-      							NotBeforeTimeout: to.Ptr("PT10M"),
-      						},
-      					},
-      					SecurityProfile: &armcompute.SecurityProfile{
-      						EncryptionAtHost: to.Ptr(true),
-      						SecurityType:     to.Ptr(armcompute.SecurityTypesTrustedLaunch),
-      						UefiSettings: &armcompute.UefiSettings{
-      							SecureBootEnabled: to.Ptr(true),
-      							VTpmEnabled:       to.Ptr(true),
-      						},
-      					},
-      					StorageProfile: &armcompute.VirtualMachineScaleSetUpdateStorageProfile{
-      						DataDisks: []*armcompute.VirtualMachineScaleSetDataDisk{
-      							{
-      								Name:              to.Ptr("aaaaaaaaaaaaaaaaaaaaaaaaaa"),
-      								Caching:           to.Ptr(armcompute.CachingTypesNone),
-      								CreateOption:      to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
-      								DiskIOPSReadWrite: to.Ptr[int64](28),
-      								DiskMBpsReadWrite: to.Ptr[int64](15),
-      								DiskSizeGB:        to.Ptr[int32](1023),
-      								Lun:               to.Ptr[int32](26),
-      								ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
-      									DiskEncryptionSet: &armcompute.DiskEncryptionSetParameters{
-      										ID: to.Ptr("aaaaaaaaaaaa"),
-      									},
-      									StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
-      								},
-      								WriteAcceleratorEnabled: to.Ptr(true),
-      							}},
-      						ImageReference: &armcompute.ImageReference{
-      							ID:                   to.Ptr("aaaaaaaaaaaaaaaaaaa"),
-      							Offer:                to.Ptr("WindowsServer"),
-      							Publisher:            to.Ptr("MicrosoftWindowsServer"),
-      							SharedGalleryImageID: to.Ptr("aaaaaa"),
-      							SKU:                  to.Ptr("2016-Datacenter"),
-      							Version:              to.Ptr("latest"),
-      						},
-      						OSDisk: &armcompute.VirtualMachineScaleSetUpdateOSDisk{
-      							Caching:    to.Ptr(armcompute.CachingTypesReadWrite),
-      							DiskSizeGB: to.Ptr[int32](6),
-      							Image: &armcompute.VirtualHardDisk{
-      								URI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/myDisk.vhd"),
-      							},
-      							ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
-      								DiskEncryptionSet: &armcompute.DiskEncryptionSetParameters{
-      									ID: to.Ptr("aaaaaaaaaaaa"),
-      								},
-      								StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
-      							},
-      							VhdContainers: []*string{
-      								to.Ptr("aa")},
-      							WriteAcceleratorEnabled: to.Ptr(true),
-      						},
-      					},
-      					UserData: to.Ptr("aaaaaaaaaaaaa"),
-      				},
-      			},
-      			SKU: &armcompute.SKU{
-      				Name:     to.Ptr("DSv3-Type1"),
-      				Capacity: to.Ptr[int64](7),
-      				Tier:     to.Ptr("aaa"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3345,7 +3096,7 @@ examples:
        * This sample demonstrates how to Update a VM scale set.
        *
        * @summary Update a VM scale set.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MaximumSet_Gen.json
        */
       async function virtualMachineScaleSetsUpdateMaximumSetGen() {
         const subscriptionId = "{subscription-id}";
@@ -3594,7 +3345,7 @@ examples:
       virtualMachineScaleSetsUpdateMaximumSetGen().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -3956,12 +3707,12 @@ examples:
       }
 - name: VirtualMachineScaleSets_Update_MinimumSet_Gen
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2022-03-01
+    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2022-08-01
     body: '{}'
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2022-03-01
+      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachineScaleSets/aaaaaaaaaaaaaa?api-version=2022-08-01
 
       {}
 
@@ -3977,7 +3728,7 @@ examples:
       /** Samples for VirtualMachineScaleSets Update. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
            */
           /**
            * Sample code: VirtualMachineScaleSets_Update_MinimumSet_Gen.
@@ -4007,7 +3758,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4017,7 +3768,7 @@ examples:
        * This sample demonstrates how to Update a VM scale set.
        *
        * @summary Update a VM scale set.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSets_Update_MinimumSet_Gen.json
        */
       async function virtualMachineScaleSetsUpdateMinimumSetGen() {
         const subscriptionId = "{subscription-id}";
@@ -4037,7 +3788,7 @@ examples:
       virtualMachineScaleSetsUpdateMinimumSetGen().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

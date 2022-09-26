@@ -3,14 +3,14 @@ uid: management.azure.com.hybridcompute.machineextensions.get
 name: Get
 service: Hybrid Compute
 groupName: Machine Extensions
-apiVersion: 2021-05-20
+apiVersion: 2022-05-10-preview
 summary: The operation to get the extension.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}?api-version=2021-05-20
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/machines/{machineName}/extensions/{extensionName}?api-version=2022-05-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -121,6 +121,10 @@ definitions:
     description: Specifies the version of the script handler.
     types:
     - uid: string
+  - name: enableAutomaticUpgrade
+    description: Indicates whether the extension should be automatically upgraded by the platform if there is a newer version available.
+    types:
+    - uid: boolean
   - name: autoUpgradeMinorVersion
     description: Indicates whether the extension should use a newer minor version if one is available at deployment time. Once deployed, however, the extension will not upgrade minor versions unless redeployed, even with this property set to true.
     types:
@@ -128,11 +132,11 @@ definitions:
   - name: settings
     description: Json formatted public settings for the extension.
     types:
-    - uid: object
+    - {}
   - name: protectedSettings
     description: The extension can contain either protectedSettings or protectedSettingsFromKeyVault or no protected settings at all.
     types:
-    - uid: object
+    - {}
   - name: provisioningState
     isReadyOnly: true
     description: The provisioning state, which only appears in the response.
@@ -291,33 +295,13 @@ definitions:
 examples:
 - name: GET Machine Extension
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2021-05-20
+    uri: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-05-10-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2021-05-20
+      GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/machines/myMachine/extensions/CustomScriptExtension?api-version=2022-05-10-preview
       ```
 
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      async function getMachineExtension() {
-        const subscriptionId = "{subscriptionId}";
-        const resourceGroupName = "myResourceGroup";
-        const machineName = "myMachine";
-        const extensionName = "CustomScriptExtension";
-        const credential = new DefaultAzureCredential();
-        const client = new HybridComputeManagementClient(credential, subscriptionId);
-        const result = await client.machineExtensions.get(resourceGroupName, machineName, extensionName);
-        console.log(result);
-      }
-
-      getMachineExtension().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hybridcompute_3.1.0-beta.1/sdk/hybridcompute/arm-hybridcompute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -331,7 +315,9 @@ examples:
           "type": "string",
           "typeHandlerVersion": "1.10.3",
           "autoUpgradeMinorVersion": false,
-          "settings": "@{commandToExecute=powershell.exe -c \"Get-Process | Where-Object { $_.CPU -gt 10000 }\"}",
+          "settings": {
+            "commandToExecute": "powershell.exe -c \"Get-Process | Where-Object { $_.CPU -gt 10000 }\""
+          },
           "protectedSettings": {},
           "provisioningState": "Succeeded",
           "instanceView": {

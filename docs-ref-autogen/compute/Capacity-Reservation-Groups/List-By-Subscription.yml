@@ -3,15 +3,15 @@ uid: management.azure.com.compute.capacityreservationgroups.listbysubscription
 name: List By Subscription
 service: Compute
 groupName: Capacity Reservation Groups
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-03-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-08-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -218,6 +218,11 @@ definitions:
   description: Represents the capacity reservation utilization in terms of resources allocated.
   kind: object
   properties:
+  - name: currentCapacity
+    isReadyOnly: true
+    description: 'The value provides the current capacity of the VM size which was reserved successfully and for which the customer is getting billed.<br><br>Minimum api-version: 2022-08-01.'
+    types:
+    - uid: integer
   - name: virtualMachinesAllocated
     isReadyOnly: true
     description: A list of all virtual machines resource ids allocated against the capacity reservation.
@@ -264,11 +269,11 @@ definitions:
 examples:
 - name: List capacity reservation groups in subscription.
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-03-01&$expand=virtualMachines/$ref
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-08-01&$expand=virtualMachines/$ref
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-03-01&$expand=virtualMachines/$ref
+      GET https://management.azure.com/subscriptions/{subscription-id}/providers/Microsoft.Compute/capacityReservationGroups?api-version=2022-08-01&$expand=virtualMachines/$ref
       ```
 
       # [Java](#tab/Java)
@@ -279,7 +284,7 @@ examples:
       /** Samples for CapacityReservationGroups List. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
            */
           /**
            * Sample code: List capacity reservation groups in subscription.
@@ -298,46 +303,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
-      func ExampleCapacityReservationGroupsClient_NewListBySubscriptionPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewCapacityReservationGroupsClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListBySubscriptionPager(&armcompute.CapacityReservationGroupsClientListBySubscriptionOptions{Expand: to.Ptr(armcompute.ExpandTypesForGetCapacityReservationGroupsVirtualMachinesRef)})
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -347,7 +313,7 @@ examples:
        * This sample demonstrates how to Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
        *
        * @summary Lists all of the capacity reservation groups in the subscription. Use the nextLink property in the response to get the next page of capacity reservation groups.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/capacityReservationExamples/CapacityReservationGroup_ListBySubscription.json
        */
       async function listCapacityReservationGroupsInSubscription() {
         const subscriptionId = "{subscription-id}";
@@ -367,7 +333,7 @@ examples:
       listCapacityReservationGroupsInSubscription().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

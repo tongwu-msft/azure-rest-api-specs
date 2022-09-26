@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.operations.list
 name: List
 service: Service Bus
 groupName: Operations
-apiVersion: 2021-06-01-preview
+apiVersion: 2022-01-01-preview
 summary: Lists all of the available ServiceBus REST API operations.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2021-06-01-preview
+- content: GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2022-01-01-preview
 uriParameters:
 - name: api-version
   in: query
@@ -53,7 +53,7 @@ definitions:
     types:
     - uid: Error
 - name: Operation
-  description: A ServiceBus REST API operation
+  description: A Service Bus REST API operation
   kind: object
   properties:
   - name: name
@@ -61,10 +61,18 @@ definitions:
     description: 'Operation name: {provider}/{resource}/{operation}'
     types:
     - uid: string
-  - name: display
-    description: The object that represents the operation.
+  - name: isDataAction
+    description: Indicates whether the operation is a data action
     types:
-    - uid: Display
+    - uid: boolean
+  - name: display
+    description: Display of the operation
+    types:
+    - uid: OperationDisplay
+  - name: origin
+    description: Origin of the operation
+    types:
+    - uid: string
 - name: Error
   description: The error object.
   kind: object
@@ -96,23 +104,28 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
-- name: Display
-  description: The object that represents the operation.
+- name: OperationDisplay
+  description: Operation display payload
   kind: object
   properties:
   - name: provider
     isReadyOnly: true
-    description: 'Service provider: Microsoft.ServiceBus'
+    description: Resource provider of the operation
     types:
     - uid: string
   - name: resource
     isReadyOnly: true
-    description: 'Resource on which the operation is performed: Invoice, etc.'
+    description: Resource of the operation
     types:
     - uid: string
   - name: operation
     isReadyOnly: true
-    description: 'Operation type: Read, write, delete, etc.'
+    description: Localized friendly name for the operation
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: Localized friendly description for the operation
     types:
     - uid: string
 - name: ErrorAdditionalInfo
@@ -132,13 +145,51 @@ definitions:
 examples:
 - name: OperationsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2021-06-01-preview
+    uri: GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2022-01-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2021-06-01-preview
+      GET https://management.azure.com/providers/Microsoft.ServiceBus/operations?api-version=2022-01-01-preview
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-01-01-preview/examples/SBOperations_List.json
+      func ExampleOperationsClient_NewListPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv2.0.0-beta.1/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

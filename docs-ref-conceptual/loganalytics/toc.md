@@ -1,3 +1,3 @@
 # [Data Collector](create-request.md)
-# [Data Access](https://dev.loganalytics.io/)
+# [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 

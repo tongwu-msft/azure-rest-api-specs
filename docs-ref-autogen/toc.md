@@ -2518,12 +2518,7 @@
 ### [List All](application-gateway/Web-Application-Firewall-Policies/List-All.yml)
 # Application Insights
 ## [Overview](../docs-ref-conceptual/application-insights/index.md)
-## Data Access
-### [Overview](https://dev.applicationinsights.io/)
-### [Authorization](https://dev.applicationinsights.io/documentation/Authorization)
-### [Metrics](https://dev.applicationinsights.io/documentation/Using-the-API/Metrics)
-### [Events](https://dev.applicationinsights.io/documentation/Using-the-API/Events)
-### [Query](https://dev.applicationinsights.io/documentation/Using-the-API/Query)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Components
 #### [Overview](application-insights/Components.yml)
@@ -9839,6 +9834,10 @@
 ### [Get](devcenter/Pools/Get.yml)
 ### [List By Project](devcenter/Pools/List-By-Project.yml)
 ### [Update](devcenter/Pools/Update.yml)
+## Project Allowed Environment Types
+### [Overview](devcenter/Project-Allowed-Environment-Types.yml)
+### [Get](devcenter/Project-Allowed-Environment-Types/Get.yml)
+### [List](devcenter/Project-Allowed-Environment-Types/List.yml)
 ## Project Environment Types
 ### [Overview](devcenter/Project-Environment-Types.yml)
 ### [Create Or Update](devcenter/Project-Environment-Types/Create-Or-Update.yml)
@@ -10139,6 +10138,61 @@
 #### [List Providers](deviceupdate/2021-06-01-preview/Device-Update/List-Providers.yml)
 #### [List Updates](deviceupdate/2021-06-01-preview/Device-Update/List-Updates.yml)
 #### [List Versions](deviceupdate/2021-06-01-preview/Device-Update/List-Versions.yml)
+## 2022-10-01
+### Device Management
+#### [Overview](deviceupdate/2022-10-01/Device-Management.yml)
+#### [Create Or Update Deployment](deviceupdate/2022-10-01/Device-Management/Create-Or-Update-Deployment.yml)
+#### [Delete Deployment](deviceupdate/2022-10-01/Device-Management/Delete-Deployment.yml)
+#### [Delete Deployment For Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/Delete-Deployment-For-Device-Class-Subgroup.yml)
+#### [Delete Device Class](deviceupdate/2022-10-01/Device-Management/Delete-Device-Class.yml)
+#### [Delete Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/Delete-Device-Class-Subgroup.yml)
+#### [Delete Group](deviceupdate/2022-10-01/Device-Management/Delete-Group.yml)
+#### [Get Best Updates For Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/Get-Best-Updates-For-Device-Class-Subgroup.yml)
+#### [Get Deployment](deviceupdate/2022-10-01/Device-Management/Get-Deployment.yml)
+#### [Get Deployment For Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/Get-Deployment-For-Device-Class-Subgroup.yml)
+#### [Get Deployment Status](deviceupdate/2022-10-01/Device-Management/Get-Deployment-Status.yml)
+#### [Get Device](deviceupdate/2022-10-01/Device-Management/Get-Device.yml)
+#### [Get Device Class](deviceupdate/2022-10-01/Device-Management/Get-Device-Class.yml)
+#### [Get Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/Get-Device-Class-Subgroup.yml)
+#### [Get Device Class Subgroup Deployment Status](deviceupdate/2022-10-01/Device-Management/Get-Device-Class-Subgroup-Deployment-Status.yml)
+#### [Get Device Class Subgroup Update Compliance](deviceupdate/2022-10-01/Device-Management/Get-Device-Class-Subgroup-Update-Compliance.yml)
+#### [Get Device Module](deviceupdate/2022-10-01/Device-Management/Get-Device-Module.yml)
+#### [Get Group](deviceupdate/2022-10-01/Device-Management/Get-Group.yml)
+#### [Get Log Collection](deviceupdate/2022-10-01/Device-Management/Get-Log-Collection.yml)
+#### [Get Log Collection Detailed Status](deviceupdate/2022-10-01/Device-Management/Get-Log-Collection-Detailed-Status.yml)
+#### [Get Operation Status](deviceupdate/2022-10-01/Device-Management/Get-Operation-Status.yml)
+#### [Get Update Compliance](deviceupdate/2022-10-01/Device-Management/Get-Update-Compliance.yml)
+#### [Get Update Compliance For Group](deviceupdate/2022-10-01/Device-Management/Get-Update-Compliance-For-Group.yml)
+#### [Import Devices](deviceupdate/2022-10-01/Device-Management/Import-Devices.yml)
+#### [List Best Updates For Group](deviceupdate/2022-10-01/Device-Management/List-Best-Updates-For-Group.yml)
+#### [List Deployments For Device Class Subgroup](deviceupdate/2022-10-01/Device-Management/List-Deployments-For-Device-Class-Subgroup.yml)
+#### [List Deployments For Group](deviceupdate/2022-10-01/Device-Management/List-Deployments-For-Group.yml)
+#### [List Device Class Subgroups For Group](deviceupdate/2022-10-01/Device-Management/List-Device-Class-Subgroups-For-Group.yml)
+#### [List Device Classes](deviceupdate/2022-10-01/Device-Management/List-Device-Classes.yml)
+#### [List Device States For Device Class Subgroup Deployment](deviceupdate/2022-10-01/Device-Management/List-Device-States-For-Device-Class-Subgroup-Deployment.yml)
+#### [List Devices](deviceupdate/2022-10-01/Device-Management/List-Devices.yml)
+#### [List Groups](deviceupdate/2022-10-01/Device-Management/List-Groups.yml)
+#### [List Health Of Devices](deviceupdate/2022-10-01/Device-Management/List-Health-Of-Devices.yml)
+#### [List Installable Updates For Device Class](deviceupdate/2022-10-01/Device-Management/List-Installable-Updates-For-Device-Class.yml)
+#### [List Log Collections](deviceupdate/2022-10-01/Device-Management/List-Log-Collections.yml)
+#### [List Operation Statuses](deviceupdate/2022-10-01/Device-Management/List-Operation-Statuses.yml)
+#### [Retry Deployment](deviceupdate/2022-10-01/Device-Management/Retry-Deployment.yml)
+#### [Start Log Collection](deviceupdate/2022-10-01/Device-Management/Start-Log-Collection.yml)
+#### [Stop Deployment](deviceupdate/2022-10-01/Device-Management/Stop-Deployment.yml)
+#### [Update Device Class](deviceupdate/2022-10-01/Device-Management/Update-Device-Class.yml)
+### Device Update
+#### [Overview](deviceupdate/2022-10-01/Device-Update.yml)
+#### [Delete Update](deviceupdate/2022-10-01/Device-Update/Delete-Update.yml)
+#### [Get File](deviceupdate/2022-10-01/Device-Update/Get-File.yml)
+#### [Get Operation Status](deviceupdate/2022-10-01/Device-Update/Get-Operation-Status.yml)
+#### [Get Update](deviceupdate/2022-10-01/Device-Update/Get-Update.yml)
+#### [Import Update](deviceupdate/2022-10-01/Device-Update/Import-Update.yml)
+#### [List Files](deviceupdate/2022-10-01/Device-Update/List-Files.yml)
+#### [List Names](deviceupdate/2022-10-01/Device-Update/List-Names.yml)
+#### [List Operation Statuses](deviceupdate/2022-10-01/Device-Update/List-Operation-Statuses.yml)
+#### [List Providers](deviceupdate/2022-10-01/Device-Update/List-Providers.yml)
+#### [List Updates](deviceupdate/2022-10-01/Device-Update/List-Updates.yml)
+#### [List Versions](deviceupdate/2022-10-01/Device-Update/List-Versions.yml)
 ## Resource Manager
 ### Accounts
 #### [Overview](deviceupdate/resourcemanager/Accounts.yml)
@@ -12839,7 +12893,7 @@
 # Log Analytics
 ## [Overview](../docs-ref-conceptual/loganalytics/index.md)
 ## [Data Collector](../docs-ref-conceptual/loganalytics/create-request.md)
-## [Data Access](https://dev.loganalytics.io/)
+## [Data Access](https://docs.microsoft.com/azure/azure-monitor/logs/api/overview)
 ## Reference
 ### Available Service Tiers
 #### [Overview](loganalytics/Available-Service-Tiers.yml)
@@ -13865,6 +13919,30 @@
 #### [Get Features](maps/v2/WFS/Get-Features.yml)
 #### [Get Landing Page](maps/v2/WFS/Get-Landing-Page.yml)
 #### [List Conformance](maps/v2/WFS/List-Conformance.yml)
+## V20220901Preview
+### Map Configuration
+#### [Overview](maps/v20220901preview/Map-Configuration.yml)
+#### [Create](maps/v20220901preview/Map-Configuration/Create.yml)
+#### [Delete](maps/v20220901preview/Map-Configuration/Delete.yml)
+#### [Get](maps/v20220901preview/Map-Configuration/Get.yml)
+#### [Get Operation](maps/v20220901preview/Map-Configuration/Get-Operation.yml)
+#### [List](maps/v20220901preview/Map-Configuration/List.yml)
+### Style
+#### [Overview](maps/v20220901preview/Style.yml)
+#### [Create](maps/v20220901preview/Style/Create.yml)
+#### [Delete](maps/v20220901preview/Style/Delete.yml)
+#### [Get](maps/v20220901preview/Style/Get.yml)
+#### [Get Operation](maps/v20220901preview/Style/Get-Operation.yml)
+#### [List](maps/v20220901preview/Style/List.yml)
+### Tileset
+#### [Overview](maps/v20220901preview/Tileset.yml)
+#### [Create](maps/v20220901preview/Tileset/Create.yml)
+#### [Delete](maps/v20220901preview/Tileset/Delete.yml)
+#### [Get](maps/v20220901preview/Tileset/Get.yml)
+#### [Get Configuration](maps/v20220901preview/Tileset/Get-Configuration.yml)
+#### [Get Operation](maps/v20220901preview/Tileset/Get-Operation.yml)
+#### [List](maps/v20220901preview/Tileset/List.yml)
+#### [Validate Configuration](maps/v20220901preview/Tileset/Validate-Configuration.yml)
 # Maps Management
 ## [Overview](../docs-ref-conceptual/maps-management/index.md)
 ## Accounts
@@ -13959,12 +14037,17 @@
 ### [List By Server](MariaDB/Virtual-Network-Rules/List-By-Server.yml)
 # Marketplace Catalog
 ## [Overview](../docs-ref-conceptual/marketplacecatalog/index.md)
-## Operations
-### [Overview](marketplacecatalog/Operations.yml)
-### [List](marketplacecatalog/Operations/List.yml)
-## Search
-### [Overview](marketplacecatalog/Search.yml)
-### [Post Arm](marketplacecatalog/Search/Post-Arm.yml)
+## 2022-02-02
+### Operations
+#### [Overview](marketplacecatalog/2022-02-02/Operations.yml)
+#### [List](marketplacecatalog/2022-02-02/Operations/List.yml)
+### Search
+#### [Overview](marketplacecatalog/2022-02-02/Search.yml)
+#### [Post Arm](marketplacecatalog/2022-02-02/Search/Post-Arm.yml)
+## 2022-08-17-preview
+### Search
+#### [Overview](marketplacecatalog/2022-08-17-preview/Search.yml)
+#### [Get](marketplacecatalog/2022-08-17-preview/Search/Get.yml)
 # Marketplace Ordering
 ## [Overview](../docs-ref-conceptual/marketplaceordering/index.md)
 ## Marketplace Agreements
@@ -14558,6 +14641,23 @@
 ### Predictive Metric
 #### [Overview](monitor/Predictive-Metric.yml)
 #### [Get](monitor/Predictive-Metric/Get.yml)
+### Query Pack Queries
+#### [Overview](monitor/Query-Pack-Queries.yml)
+#### [Delete](monitor/Query-Pack-Queries/Delete.yml)
+#### [Get](monitor/Query-Pack-Queries/Get.yml)
+#### [List](monitor/Query-Pack-Queries/List.yml)
+#### [Put](monitor/Query-Pack-Queries/Put.yml)
+#### [Search](monitor/Query-Pack-Queries/Search.yml)
+#### [Update](monitor/Query-Pack-Queries/Update.yml)
+### Query Packs
+#### [Overview](monitor/Query-Packs.yml)
+#### [Create Or Update](monitor/Query-Packs/Create-Or-Update.yml)
+#### [Create Or Update Without Name](monitor/Query-Packs/Create-Or-Update-Without-Name.yml)
+#### [Delete](monitor/Query-Packs/Delete.yml)
+#### [Get](monitor/Query-Packs/Get.yml)
+#### [List](monitor/Query-Packs/List.yml)
+#### [List By Resource Group](monitor/Query-Packs/List-By-Resource-Group.yml)
+#### [Update Tags](monitor/Query-Packs/Update-Tags.yml)
 ### Smart Detector Alert Rules
 #### [Overview](monitor/Smart-Detector-Alert-Rules.yml)
 #### [Create Or Update](monitor/Smart-Detector-Alert-Rules/Create-Or-Update.yml)
@@ -14629,26 +14729,6 @@
 ##### [List](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List.yml)
 ##### [List By Resource Group](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/List-By-Resource-Group.yml)
 ##### [Update Tags](monitor/privatelinkscopes(preview)/Private%20Link%20Scopes%20(Preview)/Update-Tags.yml)
-### Query Packs (Preview)
-#### Operations
-##### [Overview](monitor/querypacks(preview)/Operations.yml)
-##### [List](monitor/querypacks(preview)/Operations/List.yml)
-#### Query Pack Queries (Preview)
-##### [Overview](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview).yml)
-##### [Delete](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Delete.yml)
-##### [Get](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Get.yml)
-##### [List](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/List.yml)
-##### [Put](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Put.yml)
-##### [Search](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Search.yml)
-##### [Update](monitor/querypacks(preview)/Query%20Pack%20Queries%20(Preview)/Update.yml)
-#### Query Packs (Preview)
-##### [Overview](monitor/querypacks(preview)/Query%20Packs%20(Preview).yml)
-##### [Create Or Update](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Create-Or-Update.yml)
-##### [Delete](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Delete.yml)
-##### [Get](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Get.yml)
-##### [List](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List.yml)
-##### [List By Resource Group](monitor/querypacks(preview)/Query%20Packs%20(Preview)/List-By-Resource-Group.yml)
-##### [Update Tags](monitor/querypacks(preview)/Query%20Packs%20(Preview)/Update-Tags.yml)
 ### Scheduled Query Rule - 2018-04-16
 #### Scheduled Query Rules
 ##### [Overview](monitor/scheduledqueryrule-2018-04-16/Scheduled-Query-Rules.yml)
@@ -17273,16 +17353,16 @@
 ### Preview
 #### Disaster Recovery Configs
 ##### [Overview](servicebus/preview/Disaster-Recovery-Configs.yml)
-##### [Break Pairing](servicebus/preview/Disaster-Recovery-Configs/Break-Pairing.yml)
+##### [Get Authorization Rule](servicebus/preview/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
+##### [List Authorization Rules](servicebus/preview/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
+##### [List Keys](servicebus/preview/Disaster-Recovery-Configs/List-Keys.yml)
 ##### [Check Name Availability](servicebus/preview/Disaster-Recovery-Configs/Check-Name-Availability.yml)
+##### [Break Pairing](servicebus/preview/Disaster-Recovery-Configs/Break-Pairing.yml)
 ##### [Create Or Update](servicebus/preview/Disaster-Recovery-Configs/Create-Or-Update.yml)
 ##### [Delete](servicebus/preview/Disaster-Recovery-Configs/Delete.yml)
 ##### [Fail Over](servicebus/preview/Disaster-Recovery-Configs/Fail-Over.yml)
 ##### [Get](servicebus/preview/Disaster-Recovery-Configs/Get.yml)
-##### [Get Authorization Rule](servicebus/preview/Disaster-Recovery-Configs/Get-Authorization-Rule.yml)
 ##### [List](servicebus/preview/Disaster-Recovery-Configs/List.yml)
-##### [List Authorization Rules](servicebus/preview/Disaster-Recovery-Configs/List-Authorization-Rules.yml)
-##### [List Keys](servicebus/preview/Disaster-Recovery-Configs/List-Keys.yml)
 #### Migration Configs
 ##### [Overview](servicebus/preview/Migration-Configs.yml)
 ##### [Complete Migration](servicebus/preview/Migration-Configs/Complete-Migration.yml)
@@ -25662,6 +25742,53 @@
 ## Operations
 ### [Overview](storageimportexport/Operations.yml)
 ### [List](storageimportexport/Operations/List.yml)
+# Storage Mover
+## [Overview](../docs-ref-conceptual/storagemover/index.md)
+## Agents
+### [Overview](storagemover/Agents.yml)
+### [Create Or Update](storagemover/Agents/Create-Or-Update.yml)
+### [Delete](storagemover/Agents/Delete.yml)
+### [Get](storagemover/Agents/Get.yml)
+### [List](storagemover/Agents/List.yml)
+### [Update](storagemover/Agents/Update.yml)
+## Endpoints
+### [Overview](storagemover/Endpoints.yml)
+### [Create Or Update](storagemover/Endpoints/Create-Or-Update.yml)
+### [Delete](storagemover/Endpoints/Delete.yml)
+### [Get](storagemover/Endpoints/Get.yml)
+### [List](storagemover/Endpoints/List.yml)
+### [Update](storagemover/Endpoints/Update.yml)
+## Job Definitions
+### [Overview](storagemover/Job-Definitions.yml)
+### [Create Or Update](storagemover/Job-Definitions/Create-Or-Update.yml)
+### [Delete](storagemover/Job-Definitions/Delete.yml)
+### [Get](storagemover/Job-Definitions/Get.yml)
+### [List](storagemover/Job-Definitions/List.yml)
+### [Start Job](storagemover/Job-Definitions/Start-Job.yml)
+### [Stop Job](storagemover/Job-Definitions/Stop-Job.yml)
+### [Update](storagemover/Job-Definitions/Update.yml)
+## Job Runs
+### [Overview](storagemover/Job-Runs.yml)
+### [Get](storagemover/Job-Runs/Get.yml)
+### [List](storagemover/Job-Runs/List.yml)
+## Operations
+### [Overview](storagemover/Operations.yml)
+### [List](storagemover/Operations/List.yml)
+## Projects
+### [Overview](storagemover/Projects.yml)
+### [Create Or Update](storagemover/Projects/Create-Or-Update.yml)
+### [Delete](storagemover/Projects/Delete.yml)
+### [Get](storagemover/Projects/Get.yml)
+### [List](storagemover/Projects/List.yml)
+### [Update](storagemover/Projects/Update.yml)
+## Storage Movers
+### [Overview](storagemover/Storage-Movers.yml)
+### [Create Or Update](storagemover/Storage-Movers/Create-Or-Update.yml)
+### [Delete](storagemover/Storage-Movers/Delete.yml)
+### [Get](storagemover/Storage-Movers/Get.yml)
+### [List](storagemover/Storage-Movers/List.yml)
+### [List By Subscription](storagemover/Storage-Movers/List-By-Subscription.yml)
+### [Update](storagemover/Storage-Movers/Update.yml)
 # Storage Resource Provider
 ## [Overview](../docs-ref-conceptual/storagerp/index.md)
 ## [SKU Types](../docs-ref-conceptual/storagerp/SRP_SKU_Types.md)
