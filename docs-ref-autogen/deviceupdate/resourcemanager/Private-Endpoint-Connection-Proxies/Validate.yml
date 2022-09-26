@@ -3,14 +3,14 @@ uid: management.azure.com.deviceupdate.resourcemanager.privateendpointconnection
 name: Validate
 service: Device Update
 groupName: Private Endpoint Connection Proxies
-apiVersion: 2020-03-01-preview
+apiVersion: 2022-10-01
 summary: (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyId}/validate?api-version=2020-03-01-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/privateEndpointConnectionProxies/{privateEndpointConnectionProxyId}/validate?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -404,7 +404,7 @@ definitions:
 examples:
 - name: PrivateEndpointConnectionProxyValidate
   request:
-    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01/validate?api-version=2020-03-01-preview
+    uri: POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01/validate?api-version=2022-10-01
     body: >-
       {
         "remotePrivateEndpoint": {
@@ -432,7 +432,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01/validate?api-version=2020-03-01-preview
+      POST https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnectionProxies/peexample01/validate?api-version=2022-10-01
 
       {
         "remotePrivateEndpoint": {
@@ -460,6 +460,62 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.deviceupdate.fluent.models.PrivateEndpointConnectionProxyInner;
+      import com.azure.resourcemanager.deviceupdate.models.PrivateLinkServiceConnection;
+      import com.azure.resourcemanager.deviceupdate.models.PrivateLinkServiceProxy;
+      import com.azure.resourcemanager.deviceupdate.models.RemotePrivateEndpoint;
+      import java.util.Arrays;
+
+      /** Samples for PrivateEndpointConnectionProxies Validate. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
+           */
+          /**
+           * Sample code: PrivateEndpointConnectionProxyValidate.
+           *
+           * @param manager Entry point to DeviceUpdateManager.
+           */
+          public static void privateEndpointConnectionProxyValidate(
+              com.azure.resourcemanager.deviceupdate.DeviceUpdateManager manager) {
+              manager
+                  .privateEndpointConnectionProxies()
+                  .validateWithResponse(
+                      "test-rg",
+                      "contoso",
+                      "peexample01",
+                      new PrivateEndpointConnectionProxyInner()
+                          .withRemotePrivateEndpoint(
+                              new RemotePrivateEndpoint()
+                                  .withId(
+                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}")
+                                  .withLocation("westus2")
+                                  .withImmutableSubscriptionId("00000000-0000-0000-0000-000000000000")
+                                  .withImmutableResourceId(
+                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{peName}")
+                                  .withManualPrivateLinkServiceConnections(
+                                      Arrays
+                                          .asList(
+                                              new PrivateLinkServiceConnection()
+                                                  .withName("{privateEndpointConnectionProxyId}")
+                                                  .withGroupIds(Arrays.asList("DeviceUpdate"))
+                                                  .withRequestMessage("Please approve my connection, thanks.")))
+                                  .withPrivateLinkServiceProxies(
+                                      Arrays
+                                          .asList(
+                                              new PrivateLinkServiceProxy()
+                                                  .withId(
+                                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}/privateLinkServiceProxies/{privateEndpointConnectionProxyId}")
+                                                  .withGroupConnectivityInformation(Arrays.asList())))),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-deviceupdate_1.0.0-beta.2/sdk/deviceupdate/azure-resourcemanager-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armdeviceupdate_test
@@ -473,52 +529,97 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceupdate/armdeviceupdate"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/preview/2020-03-01-preview/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
       func ExamplePrivateEndpointConnectionProxiesClient_Validate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armdeviceupdate.NewPrivateEndpointConnectionProxiesClient("<subscription-id>", cred, nil)
+      	client, err := armdeviceupdate.NewPrivateEndpointConnectionProxiesClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
-      	_, err = client.Validate(ctx,
-      		"<resource-group-name>",
-      		"<account-name>",
-      		"<private-endpoint-connection-proxy-id>",
-      		armdeviceupdate.PrivateEndpointConnectionProxy{
-      			RemotePrivateEndpoint: &armdeviceupdate.RemotePrivateEndpoint{
-      				ID:                      to.Ptr("<id>"),
-      				ImmutableResourceID:     to.Ptr("<immutable-resource-id>"),
-      				ImmutableSubscriptionID: to.Ptr("<immutable-subscription-id>"),
-      				Location:                to.Ptr("<location>"),
-      				ManualPrivateLinkServiceConnections: []*armdeviceupdate.PrivateLinkServiceConnection{
-      					{
-      						Name: to.Ptr("<name>"),
-      						GroupIDs: []*string{
-      							to.Ptr("DeviceUpdate")},
-      						RequestMessage: to.Ptr("<request-message>"),
-      					}},
-      				PrivateLinkServiceProxies: []*armdeviceupdate.PrivateLinkServiceProxy{
-      					{
-      						GroupConnectivityInformation: []*armdeviceupdate.GroupConnectivityInformation{},
-      						ID:                           to.Ptr("<id>"),
-      					}},
-      			},
+      	_, err = client.Validate(ctx, "test-rg", "contoso", "peexample01", armdeviceupdate.PrivateEndpointConnectionProxy{
+      		RemotePrivateEndpoint: &armdeviceupdate.RemotePrivateEndpoint{
+      			ID:                      to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}"),
+      			ImmutableResourceID:     to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{peName}"),
+      			ImmutableSubscriptionID: to.Ptr("00000000-0000-0000-0000-000000000000"),
+      			Location:                to.Ptr("westus2"),
+      			ManualPrivateLinkServiceConnections: []*armdeviceupdate.PrivateLinkServiceConnection{
+      				{
+      					Name: to.Ptr("{privateEndpointConnectionProxyId}"),
+      					GroupIDs: []*string{
+      						to.Ptr("DeviceUpdate")},
+      					RequestMessage: to.Ptr("Please approve my connection, thanks."),
+      				}},
+      			PrivateLinkServiceProxies: []*armdeviceupdate.PrivateLinkServiceProxy{
+      				{
+      					GroupConnectivityInformation: []*armdeviceupdate.GroupConnectivityInformation{},
+      					ID:                           to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}/privateLinkServiceProxies/{privateEndpointConnectionProxyId}"),
+      				}},
       		},
-      		nil)
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      		return
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv0.4.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv1.0.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DeviceUpdate } = require("@azure/arm-deviceupdate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
+       *
+       * @summary (INTERNAL - DO NOT USE) Validates a private endpoint connection proxy object.
+       * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/PrivateEndpointConnectionProxies/PrivateEndpointConnectionProxy_Validate.json
+       */
+      async function privateEndpointConnectionProxyValidate() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "test-rg";
+        const accountName = "contoso";
+        const privateEndpointConnectionProxyId = "peexample01";
+        const privateEndpointConnectionProxy = {
+          remotePrivateEndpoint: {
+            id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}",
+            immutableResourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{peName}",
+            immutableSubscriptionId: "00000000-0000-0000-0000-000000000000",
+            location: "westus2",
+            manualPrivateLinkServiceConnections: [
+              {
+                name: "{privateEndpointConnectionProxyId}",
+                groupIds: ["DeviceUpdate"],
+                requestMessage: "Please approve my connection, thanks.",
+              },
+            ],
+            privateLinkServiceProxies: [
+              {
+                groupConnectivityInformation: [],
+                id: "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Network/privateEndpoints/{privateEndpointConnectionProxyId}/privateLinkServiceProxies/{privateEndpointConnectionProxyId}",
+              },
+            ],
+          },
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DeviceUpdate(credential, subscriptionId);
+        const result = await client.privateEndpointConnectionProxies.validate(
+          resourceGroupName,
+          accountName,
+          privateEndpointConnectionProxyId,
+          privateEndpointConnectionProxy
+        );
+        console.log(result);
+      }
+
+      privateEndpointConnectionProxyValidate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-deviceupdate_1.0.0/sdk/deviceupdate/arm-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
 security:

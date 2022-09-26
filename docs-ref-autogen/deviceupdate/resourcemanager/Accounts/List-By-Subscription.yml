@@ -3,14 +3,14 @@ uid: management.azure.com.deviceupdate.resourcemanager.accounts.listbysubscripti
 name: List By Subscription
 service: Device Update
 groupName: Accounts
-apiVersion: 2020-03-01-preview
+apiVersion: 2022-10-01
 summary: Returns list of Accounts.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.DeviceUpdate/accounts?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -83,6 +83,17 @@ definitions:
     description: List of private endpoint connections associated with the account.
     types:
     - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.sku
+    description: Device Update Sku
+    types:
+    - uid: SKU
+    defaultValue: Standard
+  - name: properties.locations
+    isReadyOnly: true
+    description: Device Update account primary and failover location details
+    types:
+    - uid: Location
       isArray: true
   - name: tags
     description: Resource tags.
@@ -247,6 +258,28 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+- name: SKU
+  description: Device Update Sku
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Standard
+    types:
+    - uid: string
+- name: Location
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: role
+    description: Whether the location is primary or failover
+    types:
+    - uid: Role
+    defaultValue: Primary
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -360,6 +393,16 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: Role
+  description: Whether the location is primary or failover
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Failover
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -392,13 +435,34 @@ definitions:
 examples:
 - name: Get list of Accounts
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts?api-version=2022-10-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts?api-version=2020-03-01-preview
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/providers/Microsoft.DeviceUpdate/accounts?api-version=2022-10-01
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+
+      /** Samples for Accounts List. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_List.json
+           */
+          /**
+           * Sample code: Get list of Accounts.
+           *
+           * @param manager Entry point to DeviceUpdateManager.
+           */
+          public static void getListOfAccounts(com.azure.resourcemanager.deviceupdate.DeviceUpdateManager manager) {
+              manager.accounts().list(Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-deviceupdate_1.0.0-beta.2/sdk/deviceupdate/azure-resourcemanager-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armdeviceupdate_test
@@ -411,26 +475,22 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceupdate/armdeviceupdate"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/preview/2020-03-01-preview/examples/Accounts/Accounts_List.json
-      func ExampleAccountsClient_NewListByResourceGroupPager() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_List.json
+      func ExampleAccountsClient_NewListBySubscriptionPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armdeviceupdate.NewAccountsClient("<subscription-id>", cred, nil)
+      	client, err := armdeviceupdate.NewAccountsClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
-      	pager := client.NewListByResourceGroupPager("<resource-group-name>",
-      		nil)
+      	pager := client.NewListBySubscriptionPager(nil)
       	for pager.More() {
       		nextResult, err := pager.NextPage(ctx)
       		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
-      			return
       		}
       		for _, v := range nextResult.Value {
       			// TODO: use page item
@@ -440,7 +500,33 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv0.4.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv1.0.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DeviceUpdate } = require("@azure/arm-deviceupdate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Returns list of Accounts.
+       *
+       * @summary Returns list of Accounts.
+       * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_List.json
+       */
+      async function getListOfAccounts() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new DeviceUpdate(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.accounts.listBySubscription()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      getListOfAccounts().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-deviceupdate_1.0.0/sdk/deviceupdate/arm-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -455,6 +541,17 @@ examples:
             "properties": {
               "provisioningState": "Succeeded",
               "hostName": "contoso.api.adu.microsoft.com",
+              "sku": "Standard",
+              "locations": [
+                {
+                  "name": "westus2",
+                  "role": "Primary"
+                },
+                {
+                  "name": "westcentralus",
+                  "role": "Failover"
+                }
+              ],
               "privateEndpointConnections": [
                 {
                   "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/privateEndpointConnections/peexample01",

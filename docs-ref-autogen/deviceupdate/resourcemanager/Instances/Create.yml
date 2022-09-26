@@ -3,14 +3,14 @@ uid: management.azure.com.deviceupdate.resourcemanager.instances.create
 name: Create
 service: Device Update
 groupName: Instances
-apiVersion: 2020-03-01-preview
+apiVersion: 2022-10-01
 summary: Creates or updates instance.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2020-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}/instances/{instanceName}?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -95,14 +95,6 @@ definitions:
   properties:
   - name: resourceId
     description: IoTHub resource ID
-    types:
-    - uid: string
-  - name: ioTHubConnectionString
-    description: IoTHub connection string.
-    types:
-    - uid: string
-  - name: eventHubConnectionString
-    description: EventHub connection string.
     types:
     - uid: string
 - name: DiagnosticStorageProperties
@@ -309,16 +301,14 @@ definitions:
 examples:
 - name: Creates or updates Instance
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2022-10-01
     body: >-
       {
         "location": "westus2",
         "properties": {
           "iotHubs": [
             {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub",
-              "ioTHubConnectionString": "string",
-              "eventHubConnectionString": "string"
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
             }
           ],
           "enableDiagnostics": false,
@@ -332,16 +322,14 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2020-03-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso/instances/blue?api-version=2022-10-01
 
       {
         "location": "westus2",
         "properties": {
           "iotHubs": [
             {
-              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub",
-              "ioTHubConnectionString": "string",
-              "eventHubConnectionString": "string"
+              "resourceId": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"
             }
           ],
           "enableDiagnostics": false,
@@ -355,6 +343,48 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.deviceupdate.models.AuthenticationType;
+      import com.azure.resourcemanager.deviceupdate.models.DiagnosticStorageProperties;
+      import com.azure.resourcemanager.deviceupdate.models.IotHubSettings;
+      import java.util.Arrays;
+
+      /** Samples for Instances Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Create.json
+           */
+          /**
+           * Sample code: Creates or updates Instance.
+           *
+           * @param manager Entry point to DeviceUpdateManager.
+           */
+          public static void createsOrUpdatesInstance(com.azure.resourcemanager.deviceupdate.DeviceUpdateManager manager) {
+              manager
+                  .instances()
+                  .define("blue")
+                  .withRegion("westus2")
+                  .withExistingAccount("test-rg", "contoso")
+                  .withIotHubs(
+                      Arrays
+                          .asList(
+                              new IotHubSettings()
+                                  .withResourceId(
+                                      "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub")))
+                  .withEnableDiagnostics(false)
+                  .withDiagnosticStorageProperties(
+                      new DiagnosticStorageProperties()
+                          .withAuthenticationType(AuthenticationType.KEY_BASED)
+                          .withConnectionString("string")
+                          .withResourceId(
+                              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/adu-resource-group/providers/Microsoft.Storage/storageAccounts/testAccount"))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-deviceupdate_1.0.0-beta.2/sdk/deviceupdate/azure-resourcemanager-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armdeviceupdate_test
@@ -363,61 +393,95 @@ examples:
       	"context"
       	"log"
 
-      	"time"
-
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceupdate/armdeviceupdate"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/preview/2020-03-01-preview/examples/Instances/Instances_Create.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Create.json
       func ExampleInstancesClient_BeginCreate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armdeviceupdate.NewInstancesClient("<subscription-id>", cred, nil)
+      	client, err := armdeviceupdate.NewInstancesClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
-      	poller, err := client.BeginCreate(ctx,
-      		"<resource-group-name>",
-      		"<account-name>",
-      		"<instance-name>",
-      		armdeviceupdate.Instance{
-      			Location: to.Ptr("<location>"),
-      			Properties: &armdeviceupdate.InstanceProperties{
-      				DiagnosticStorageProperties: &armdeviceupdate.DiagnosticStorageProperties{
-      					AuthenticationType: to.Ptr(armdeviceupdate.AuthenticationTypeKeyBased),
-      					ConnectionString:   to.Ptr("<connection-string>"),
-      					ResourceID:         to.Ptr("<resource-id>"),
-      				},
-      				EnableDiagnostics: to.Ptr(false),
-      				IotHubs: []*armdeviceupdate.IotHubSettings{
-      					{
-      						EventHubConnectionString: to.Ptr("<event-hub-connection-string>"),
-      						IoTHubConnectionString:   to.Ptr("<io-thub-connection-string>"),
-      						ResourceID:               to.Ptr("<resource-id>"),
-      					}},
+      	poller, err := client.BeginCreate(ctx, "test-rg", "contoso", "blue", armdeviceupdate.Instance{
+      		Location: to.Ptr("westus2"),
+      		Properties: &armdeviceupdate.InstanceProperties{
+      			DiagnosticStorageProperties: &armdeviceupdate.DiagnosticStorageProperties{
+      				AuthenticationType: to.Ptr(armdeviceupdate.AuthenticationTypeKeyBased),
+      				ConnectionString:   to.Ptr("string"),
+      				ResourceID:         to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/adu-resource-group/providers/Microsoft.Storage/storageAccounts/testAccount"),
       			},
+      			EnableDiagnostics: to.Ptr(false),
+      			IotHubs: []*armdeviceupdate.IotHubSettings{
+      				{
+      					ResourceID: to.Ptr("/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub"),
+      				}},
       		},
-      		&armdeviceupdate.InstancesClientBeginCreateOptions{ResumeToken: ""})
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      		return
       	}
-      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	_, err = poller.PollUntilDone(ctx, nil)
       	if err != nil {
       		log.Fatalf("failed to pull the result: %v", err)
-      		return
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv0.4.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv1.0.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DeviceUpdate } = require("@azure/arm-deviceupdate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates instance.
+       *
+       * @summary Creates or updates instance.
+       * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Instances/Instances_Create.json
+       */
+      async function createsOrUpdatesInstance() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "test-rg";
+        const accountName = "contoso";
+        const instanceName = "blue";
+        const instance = {
+          diagnosticStorageProperties: {
+            authenticationType: "KeyBased",
+            connectionString: "string",
+            resourceId:
+              "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/adu-resource-group/providers/Microsoft.Storage/storageAccounts/testAccount",
+          },
+          enableDiagnostics: false,
+          iotHubs: [
+            {
+              resourceId:
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.Devices/IotHubs/blue-contoso-hub",
+            },
+          ],
+          location: "westus2",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new DeviceUpdate(credential, subscriptionId);
+        const result = await client.instances.beginCreateAndWait(
+          resourceGroupName,
+          accountName,
+          instanceName,
+          instance
+        );
+        console.log(result);
+      }
+
+      createsOrUpdatesInstance().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-deviceupdate_1.0.0/sdk/deviceupdate/arm-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
