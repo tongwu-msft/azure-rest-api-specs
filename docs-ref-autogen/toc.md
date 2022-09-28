@@ -13005,6 +13005,7 @@
 ##### [Post](loganalytics/dataaccess/Metadata/Post.yml)
 #### Query
 ##### [Overview](loganalytics/dataaccess/Query.yml)
+##### [Batch](loganalytics/dataaccess/Query/Batch.yml)
 ##### [Execute](loganalytics/dataaccess/Query/Execute.yml)
 ##### [Get](loganalytics/dataaccess/Query/Get.yml)
 # Logic Apps
