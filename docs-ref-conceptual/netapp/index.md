@@ -8,7 +8,7 @@ ms.service: azure-netapp-files
 ms.suite: na
 ms.tgt_pltfrm: na
 ms.topic: reference
-author: b-juche
+author: b-hchen
 manager: na
 ---
 # Azure NetApp Files REST API

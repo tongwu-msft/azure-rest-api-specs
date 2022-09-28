@@ -5,7 +5,6 @@ description: Learn how the Azure Log Analytics HTTP Data Collector API allows yo
 ms.service: azure
 author: bwren
 ms.author: bwren
-ms.manager: carmon
 ---
 
 # Send log data to Log Analytics with the HTTP Data Collector API
@@ -16,7 +15,7 @@ To specify your Log analytics workspace, replace *{CustomerID}* with your Worksp
 
 | Method | Request URI |
 |:--|:--|
-| Post | https://*{CustomerID}*.ods.opinsights.azure.com/<Resource>?api-version=2016-04-01 |
+| Post | https://*{CustomerID}*.ods.opinsights.azure.com/\<Resource\>?api-version=2016-04-01 |
 
 | Request | URI Parameters |
 |:--|:--|
