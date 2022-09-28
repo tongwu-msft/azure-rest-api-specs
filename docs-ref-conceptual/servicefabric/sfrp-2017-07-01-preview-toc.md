@@ -1,4 +1,11 @@
-# [Service Fabric Resource Manager APIs (2017-07-01-preview)](https://docs.microsoft.com/rest/api/servicefabric/sfrp-2017-07-01-preview-index)
+---
+title: "Table of Contents"
+description: "Learn about a various articles and reference information related to the Service Fabric Resource Manager APIs."
+ms.date: 05/25/2018
+ms.service: "service-fabric"
+---
+
+# [Service Fabric Resource Manager APIs (2017-07-01-preview)](/rest/api/servicefabric/sfrp-2017-07-01-preview-index)
 ## [Operations](sfrp-2017-07-01-preview-index-operations.md)
 ### [List](sfrp-2017-07-01-preview-api-operations_list.md)
 ## [ApplicationType](sfrp-2017-07-01-preview-index-applicationtype.md)
