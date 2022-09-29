@@ -1,0 +1,136 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.importdevices
+name: Import Devices
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://{endpoint}/deviceUpdate/{instanceId}/management/devices:import?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: Accepted device import request; background operation location to track status is specified in Operation-Location response header.
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_ImportDevices
+  request:
+    uri: POST https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/devices:import?api-version=2022-10-01
+    body: "\"All\""
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/devices:import?api-version=2022-10-01
+
+      "All"
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: /deviceUpdate/instanceId/devices/operations/e4491c54-916f-443d-9094-bcca546ace2f?api-version=2022-10-01
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Import existing devices from IoT Hub. This is a long-running-operation; use Operation-Location response header value to check for operation status.
+errorCodes: []

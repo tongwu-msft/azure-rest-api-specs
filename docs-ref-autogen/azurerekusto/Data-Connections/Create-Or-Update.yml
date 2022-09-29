@@ -3,14 +3,14 @@ uid: management.azure.com.azurerekusto.dataconnections.createorupdate
 name: Create Or Update
 service: Azure Kusto
 groupName: Data Connections
-apiVersion: 2022-02-01
+apiVersion: 2022-07-07
 summary: Creates or updates a data connection.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}?api-version=2022-02-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Kusto/clusters/{clusterName}/databases/{databaseName}/dataConnections/{dataConnectionName}?api-version=2022-07-07
 uriParameters:
 - name: subscriptionId
   in: path
@@ -118,7 +118,7 @@ requestBody:
     - uid: compression
   - name: properties.managedIdentityResourceId
     in: body
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub.
     types:
     - uid: string
   - name: properties.databaseRouting
@@ -126,6 +126,11 @@ requestBody:
     description: Indication for database routing information from the data connection, by default only database routing information is allowed
     types:
     - uid: DatabaseRouting
+  - name: properties.retrievalStartDate
+    in: body
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: location
     in: body
     description: Resource location.
@@ -185,6 +190,11 @@ requestBody:
     description: Indication for database routing information from the data connection, by default only database routing information is allowed
     types:
     - uid: DatabaseRouting
+  - name: properties.retrievalStartDate
+    in: body
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: location
     in: body
     description: Resource location.
@@ -250,7 +260,7 @@ requestBody:
     - uid: blobStorageEventType
   - name: properties.managedIdentityResourceId
     in: body
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account.
     types:
     - uid: string
   - name: properties.databaseRouting
@@ -312,7 +322,7 @@ definitions:
     types:
     - uid: ProvisioningState
   - name: properties.managedIdentityResourceId
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub.
     types:
     - uid: string
   - name: properties.managedIdentityObjectId
@@ -325,6 +335,10 @@ definitions:
     types:
     - uid: DatabaseRouting
     defaultValue: Single
+  - name: properties.retrievalStartDate
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: location
     description: Resource location.
     types:
@@ -387,6 +401,10 @@ definitions:
     types:
     - uid: DatabaseRouting
     defaultValue: Single
+  - name: properties.retrievalStartDate
+    description: When defined, the data connection retrieves existing Event hub events created since the Retrieval start date. It can only retrieve events retained by the Event hub, based on its retention period.
+    types:
+    - uid: string
   - name: properties.provisioningState
     isReadyOnly: true
     description: The provisioned state of the resource.
@@ -457,7 +475,7 @@ definitions:
     types:
     - uid: blobStorageEventType
   - name: properties.managedIdentityResourceId
-    description: Empty for non-managed identity based data connection. For system assigned identity, provide cluster resource Id.  For user assigned identity (UAI) provide the UAI resource Id.
+    description: The resource ID of a managed identity (system or user assigned) to be used to authenticate with event hub and storage account.
     types:
     - uid: string
   - name: properties.managedIdentityObjectId
@@ -739,7 +757,7 @@ definitions:
 examples:
 - name: KustoDataConnectionsCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-07-07
     body: >-
       {
         "location": "westus",
@@ -753,7 +771,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-07-07
 
       {
         "location": "westus",
@@ -775,7 +793,7 @@ examples:
       /** Samples for DataConnections CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsCreateOrUpdate.json
+           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCreateOrUpdate.json
            */
           /**
            * Sample code: KustoDataConnectionsCreateOrUpdate.
@@ -802,7 +820,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.5/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armkusto_test
@@ -816,8 +834,8 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsCreateOrUpdate.json
-      func ExampleDataConnectionsClient_BeginCreateOrUpdate() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCreateOrUpdate.json
+      func ExampleDataConnectionsClient_BeginCreateOrUpdate_kustoDataConnectionsCreateOrUpdate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -827,21 +845,15 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginCreateOrUpdate(ctx,
-      		"kustorptest",
-      		"kustoCluster",
-      		"KustoDatabase8",
-      		"dataConnectionTest",
-      		&armkusto.EventHubDataConnection{
-      			Kind:     to.Ptr(armkusto.DataConnectionKindEventHub),
-      			Location: to.Ptr("westus"),
-      			Properties: &armkusto.EventHubConnectionProperties{
-      				ConsumerGroup:             to.Ptr("testConsumerGroup1"),
-      				EventHubResourceID:        to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1"),
-      				ManagedIdentityResourceID: to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1"),
-      			},
+      	poller, err := client.BeginCreateOrUpdate(ctx, "kustorptest", "kustoCluster", "KustoDatabase8", "dataConnectionTest", &armkusto.EventHubDataConnection{
+      		Kind:     to.Ptr(armkusto.DataConnectionKindEventHub),
+      		Location: to.Ptr("westus"),
+      		Properties: &armkusto.EventHubConnectionProperties{
+      			ConsumerGroup:             to.Ptr("testConsumerGroup1"),
+      			EventHubResourceID:        to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest1"),
+      			ManagedIdentityResourceID: to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1"),
       		},
-      		nil)
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -854,7 +866,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.0.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.1.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { KustoManagementClient } = require("@azure/arm-kusto");
@@ -864,7 +876,7 @@ examples:
        * This sample demonstrates how to Creates or updates a data connection.
        *
        * @summary Creates or updates a data connection.
-       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsCreateOrUpdate.json
+       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsCreateOrUpdate.json
        */
       async function kustoDataConnectionsCreateOrUpdate() {
         const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -896,7 +908,7 @@ examples:
       kustoDataConnectionsCreateOrUpdate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.2.0/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -945,7 +957,7 @@ examples:
       }
 - name: KustoDataConnectionsEventGridCreateOrUpdate
   request:
-    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
+    uri: PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-07-07
     body: >-
       {
         "location": "westus",
@@ -967,7 +979,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-02-01
+      PUT https://management.azure.com/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Kusto/clusters/kustoCluster/databases/KustoDatabase8/dataConnections/dataConnectionTest?api-version=2022-07-07
 
       {
         "location": "westus",
@@ -1000,7 +1012,7 @@ examples:
       /** Samples for DataConnections CreateOrUpdate. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+           * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
            */
           /**
            * Sample code: KustoDataConnectionsEventGridCreateOrUpdate.
@@ -1038,7 +1050,61 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.4/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-kusto_1.0.0-beta.5/sdk/kusto/azure-resourcemanager-kusto/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armkusto_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/kusto/armkusto"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+      func ExampleDataConnectionsClient_BeginCreateOrUpdate_kustoDataConnectionsEventGridCreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armkusto.NewDataConnectionsClient("12345678-1234-1234-1234-123456789098", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "kustorptest", "kustoCluster", "KustoDatabase8", "dataConnectionTest", &armkusto.EventGridDataConnection{
+      		Kind:     to.Ptr(armkusto.DataConnectionKindEventGrid),
+      		Location: to.Ptr("westus"),
+      		Properties: &armkusto.EventGridConnectionProperties{
+      			BlobStorageEventType:      to.Ptr(armkusto.BlobStorageEventTypeMicrosoftStorageBlobCreated),
+      			ConsumerGroup:             to.Ptr("$Default"),
+      			DataFormat:                to.Ptr(armkusto.EventGridDataFormatJSON),
+      			DatabaseRouting:           to.Ptr(armkusto.DatabaseRoutingSingle),
+      			EventGridResourceID:       to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount/providers/Microsoft.EventGrid/eventSubscriptions/eventSubscriptionTest"),
+      			EventHubResourceID:        to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.EventHub/namespaces/eventhubTestns1/eventhubs/eventhubTest2"),
+      			IgnoreFirstRecord:         to.Ptr(false),
+      			ManagedIdentityResourceID: to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.ManagedIdentity/userAssignedIdentities/managedidentityTest1"),
+      			MappingRuleName:           to.Ptr("TestMapping"),
+      			StorageAccountResourceID:  to.Ptr("/subscriptions/12345678-1234-1234-1234-123456789098/resourceGroups/kustorptest/providers/Microsoft.Storage/storageAccounts/teststorageaccount"),
+      			TableName:                 to.Ptr("TestTable"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fkusto%2Farmkusto%2Fv1.1.0/sdk/resourcemanager/kusto/armkusto/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { KustoManagementClient } = require("@azure/arm-kusto");
@@ -1048,7 +1114,7 @@ examples:
        * This sample demonstrates how to Creates or updates a data connection.
        *
        * @summary Creates or updates a data connection.
-       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-02-01/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
+       * x-ms-original-file: specification/azure-kusto/resource-manager/Microsoft.Kusto/stable/2022-07-07/examples/KustoDataConnectionsEventGridCreateOrUpdate.json
        */
       async function kustoDataConnectionsEventGridCreateOrUpdate() {
         const subscriptionId = "12345678-1234-1234-1234-123456789098";
@@ -1090,7 +1156,7 @@ examples:
       kustoDataConnectionsEventGridCreateOrUpdate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.1.2/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-kusto_7.2.0/sdk/kusto/arm-kusto/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

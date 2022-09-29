@@ -1,0 +1,228 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.listgroups
+name: List Groups
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Gets a list of all device groups.  The $default group will always be returned first.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups?api-version=2022-10-01
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups?orderby={orderby}&api-version=2022-10-01
+  isOptional: true
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: orderby
+  in: query
+  description: Orders the set of groups returned. You can order by groupId, deviceCount, createdDate, subgroupsWithNewUpdatesAvailableCount, subgroupsWithUpdatesInProgressCount, or subgroupsOnLatestUpdateCount.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The device groups.
+  types:
+  - uid: GroupsList
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: GroupsList
+  description: The list of groups.
+  kind: object
+  properties:
+  - name: value
+    description: The collection of pageable items.
+    types:
+    - uid: Group
+      isArray: true
+  - name: nextLink
+    description: The link to the next page of items.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Group
+  description: Group details.
+  kind: object
+  properties:
+  - name: groupId
+    description: Group identity. This is created from the value of the ADUGroup tag in the Iot Hub's device/module twin or $default for devices with no tag.
+    types:
+    - uid: string
+  - name: groupType
+    description: Group type.
+    types:
+    - uid: GroupType
+  - name: createdDateTime
+    description: Date and time when the update was created.
+    types:
+    - uid: string
+  - name: deviceCount
+    description: The number of devices in the group.
+    types:
+    - uid: integer
+  - name: subgroupsWithNewUpdatesAvailableCount
+    description: The count of subgroups with new updates available.
+    types:
+    - uid: integer
+  - name: subgroupsWithUpdatesInProgressCount
+    description: The count of subgroups with updates in progress.
+    types:
+    - uid: integer
+  - name: subgroupsWithOnLatestUpdateCount
+    description: The count of subgroups with devices on the latest update.
+    types:
+    - uid: integer
+  - name: deployments
+    description: The active deployment Ids for the group
+    types:
+    - uid: string
+      isArray: true
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: GroupType
+  description: Supported group types.
+  kind: enum
+  properties:
+  - name: IoTHubTag
+    description: IoT Hub tag based group, all devices in the group share an ADUGroup tag value.
+    types:
+    - uid: string
+  - name: DefaultNoTag
+    description: Default group for untagged devices.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_ListGroups
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "value": [
+          {
+            "groupId": "MyGroup1",
+            "groupType": "IoTHubTag",
+            "createdDateTime": "2020-07-01T12:13:14.0000000Z",
+            "deviceCount": 100,
+            "subgroupsWithNewUpdatesAvailableCount": 2,
+            "subgroupsWithUpdatesInProgressCount": 0,
+            "subgroupsWithOnLatestUpdateCount": 1,
+            "deployments": [
+              "deployment1",
+              "deployment2"
+            ]
+          },
+          {
+            "groupId": "MyGroup2",
+            "groupType": "IoTHubTag",
+            "createdDateTime": "2020-08-01T12:13:14.0000000Z",
+            "deviceCount": 200,
+            "subgroupsWithNewUpdatesAvailableCount": 1,
+            "subgroupsWithUpdatesInProgressCount": 1,
+            "subgroupsWithOnLatestUpdateCount": 1,
+            "deployments": [
+              "deployment3",
+              "deployment4"
+            ]
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: >
+    Learn more about Device Update service - Gets a list of all device groups.  The $default group will always be returned first.
+errorCodes: []

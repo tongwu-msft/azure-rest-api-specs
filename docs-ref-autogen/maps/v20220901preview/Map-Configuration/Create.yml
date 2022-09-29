@@ -1,0 +1,371 @@
+### YamlMime:RESTOperation
+uid: maps.v20220901preview.mapconfiguration.create
+name: Create
+service: Maps Creator
+groupName: Map Configuration
+apiVersion: 2022-09-01-preview
+summary: "**Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).\n\nThe Map Configuration Create request allows the caller to create a map configuration in their Azure Maps account.\n\nCreator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.\n\n## Submit Create Request\n\nTo create your map configuration you will make a `POST` request with a map configuration file. \n\n### POST Body for Create Request\nAn `HTTP POST` request with the map configuration data in the body of the request is required to create a new map configuration in your Azure Maps account.  The map configuration data must be in JSON format with `Content-Type` set to `application/json` in the header. Alternatively, you can send the map configuration JSON in a ZIP file along with any thumbnail images it references, with `Content-Type` set to `application/zip` in the header. \n\n Note: The embedded JSON size limit is 1 MB and zip file size limit is 23 MB.\n\n\n Here's a sample map configuration json:\n\n\n```json\n{\n  \"version\": 1.0,\n  \"description\": \"First indoor map configuration!\",\n  \"defaultConfiguration\": \"indoor_light\",\n  \"configurations\": [\n    {\n      \"name\": \"indoor_light\",\n      \"displayName\": \"Indoor light\",\n      \"theme\": \"light\",\n      \"thumbnail\": \"indoor_2022-01-01.png\",\n      \"baseMap\": \"microsoft_light\",\n      \"layers\": [\n        {\n         \"tilesetId\": \"9601b149-cff6-dae6-af94-396f1b795fdb\",\n         \"styleId\": \"microsoft-maps:indoor_2022-01-01\"\n        }\n       ] \n    },\n    {\n      \"name\": \"indoor_dark\",\n      \"displayName\": \"Indoor dark\",\n      \"theme\": \"dark\",\n      \"baseMap\": \"microsoft_dark\",\n      \"thumbnail\": \"indoor_dark_2022-01-01.png\",\n      \"layers\": [\n        {\n          \"tilesetId\": \"9601b149-cff6-dae6-af94-396f1b795fdb\",\n          \"styleId\": \"microsoft-maps:indoor_dark_2022-01-01\"\n        }\n      ]\n    }\n  ]\n}\n```     \n\n Since the map configuration json contains two thumbnail image references 'indoor_2022-01-01.png' and 'indoor_dark_2022-01-01.png', a zip file including the map configuration json file and two thumbnail images should be provided as request body to make a valid create request. \n\nThe Create Map Configuration API is a [long-running request](https://aka.ms/am-creator-lrt-v2)."
+consumes:
+- application/json
+- application/zip
+produces:
+- application/json
+paths:
+- content: POST https://{geography}.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview
+- content: POST https://{geography}.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview&alias={alias}&description={description}
+  isOptional: true
+uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.
+  types:
+  - uid: string
+- name: alias
+  in: query
+  description: The alias of the map configuration. Maximum length 1024 characters. Alias cannot start with `microsoft-maps` which is a reserved prefix. Alias can be provided optionally during creating a map configuration, and can be used as same as mapConfigurationId after map configuration creation.
+  types:
+  - uid: string
+- name: description
+  in: query
+  description: User provided description of the map configuration. Maximum length 1024 characters.
+  types:
+  - uid: string
+responses:
+- name: 202 Accepted
+  headers:
+  - name: Operation-Location
+    value: string
+  description: 'Request Accepted: The request has been accepted for processing. Please use the URL in the Operation-Location Header to obtain status.'
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: ErrorResponse
+requestBody:
+- name: default
+  parameters:
+  - name: version
+    in: body
+    isRequired: true
+    description: The version of the map configuration, currently only version 1.0 is supported.
+    types:
+    - uid: number
+  - name: description
+    in: body
+    description: The description the caller provided when creating the map configuration. Maximum length 1024 characters.
+    types:
+    - uid: string
+  - name: defaultConfiguration
+    in: body
+    description: The default configuration for the map configuration. The value should be one of the 'name' field in ConfigurationObject under 'configurations' array. If not provided, first entry in the 'configurations' list will be used.
+    types:
+    - uid: string
+  - name: configurations
+    in: body
+    description: "'Configurations' array will allow customer to configure different map representations for their tileset. Each configuration configured here will be reflected as one map style in style picker in client SDK. The name should be unique in the configurations array."
+    types:
+    - uid: ConfigurationObject
+      isArray: true
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  types:
+  - uid: string
+definitions:
+- name: ConfigurationObject
+  description: Define the format to configure a style picker and the associated map in client SDK.
+  kind: object
+  properties:
+  - name: name
+    description: The name for the style. Maximum length 255 characters.
+    types:
+    - uid: string
+  - name: displayName
+    description: The display name for the style picker in client SDK. Maximum length 255 characters.
+    types:
+    - uid: string
+  - name: description
+    description: The description for the style. Maximum length 500 characters.
+    types:
+    - uid: string
+  - name: theme
+    description: The theme for client SDK widgets(style picker, zoom, level picker).
+    types:
+    - uid: theme
+  - name: thumbnail
+    description: The thumbnail image file for the style picker in client SDK. Maximum length 255 characters. The size limit is 400KB and pixel limit is 512*512.
+    types:
+    - uid: string
+  - name: baseMap
+    description: The base map is a background layer for private indoor map. This property is optional, no base map will show if not provided. Maximum length 100 characters.
+    types:
+    - uid: BaseMap
+  - name: layers
+    description: To configure the style for tileset. You can have one style for the whole tileset. And you can have different styles for different layers in one tileset, for example, one style for `indoor unit` layer and another style for `indoor facility` layer. And you have also have one style for different tileset
+    types:
+    - uid: TilesetStyleTuple
+      isArray: true
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: MapConfiguration
+  description: A map configuration object which describes the map configuration json format.
+  kind: object
+  properties:
+  - name: version
+    description: The version of the map configuration, currently only version 1.0 is supported.
+    types:
+    - uid: number
+  - name: description
+    description: The description the caller provided when creating the map configuration. Maximum length 1024 characters.
+    types:
+    - uid: string
+  - name: defaultConfiguration
+    description: The default configuration for the map configuration. The value should be one of the 'name' field in ConfigurationObject under 'configurations' array. If not provided, first entry in the 'configurations' list will be used.
+    types:
+    - uid: string
+  - name: configurations
+    description: "'Configurations' array will allow customer to configure different map representations for their tileset. Each configuration configured here will be reflected as one map style in style picker in client SDK. The name should be unique in the configurations array."
+    types:
+    - uid: ConfigurationObject
+      isArray: true
+- name: theme
+  description: The theme for client SDK widgets(style picker, zoom, level picker).
+  kind: enum
+  properties:
+  - name: light
+    description: The light theme for client SDK widgets(style picker, zoom, level picker).
+    types:
+    - uid: string
+  - name: dark
+    description: The dark theme for client SDK widgets(style picker, zoom, level picker).
+    types:
+    - uid: string
+- name: BaseMap
+  description: The base map is a background layer for private indoor map. This property is optional, no base map will show if not provided. Maximum length 100 characters.
+  kind: enum
+  properties:
+  - name: microsoft_light
+    description: The base road map style.
+    types:
+    - uid: string
+  - name: microsoft_dark
+    description: The base dark road map style.
+    types:
+    - uid: string
+  - name: microsoft_grayscale_light
+    description: The grayscale light map style.
+    types:
+    - uid: string
+  - name: microsoft_grayscale_dark
+    description: The grayscale dark map style.
+    types:
+    - uid: string
+  - name: microsoft_high_contrast_light
+    description: The high contrast light map style.
+    types:
+    - uid: string
+  - name: microsoft_high_contrast_dark
+    description: The high contrast dark map style.
+    types:
+    - uid: string
+  - name: microsoft_shaded_relief
+    description: The shaded relief map style.
+    types:
+    - uid: string
+  - name: microsoft_satellite
+    description: The satellite imagery map style.
+    types:
+    - uid: string
+  - name: microsoft_satellite_road
+    description: The satellite and road map style.
+    types:
+    - uid: string
+- name: TilesetStyleTuple
+  description: TilesetId and StyleId tuple
+  kind: object
+  properties:
+  - name: tilesetId
+    description: The unique id of a tileset.
+    types:
+    - uid: string
+  - name: styleId
+    description: The unique id of an azure map style. Two predefined styleId aliases are `microsoft-maps:indoor_2022-01-01` for indoor light and `microsoft-maps:indoor_dark_2022-01-01` for indoor dark.
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Create a map configuration by providing a configuration file
+  request:
+    uri: POST https://us.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview&alias=sample-alias&description=This is my first map configuration.
+    body: >-
+      {
+        "version": 1,
+        "description": "This is Microsoft default indoor map configuration",
+        "defaultConfiguration": "microsoft_light",
+        "configurations": [
+          {
+            "name": "indoor_light",
+            "displayName": "Indoor light",
+            "description": "A base style for Azure Maps.",
+            "theme": "light",
+            "baseMap": "microsoft_light",
+            "layers": [
+              {
+                "tilesetId": "{tilesetId}",
+                "styleId": "microsoft-maps:indoor_2022-01-01"
+              }
+            ]
+          },
+          {
+            "name": "indoor_dark",
+            "displayName": "Indoor dark",
+            "description": "A base style for Azure Maps.",
+            "theme": "dark",
+            "baseMap": "microsoft_dark",
+            "layers": [
+              {
+                "tilesetId": "{tilesetId}",
+                "styleId": "microsoft-maps:indoor_dark_2022-01-01"
+              }
+            ]
+          }
+        ]
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://us.atlas.microsoft.com/styles/mapconfigurations?api-version=2022-09-01-preview&alias=sample-alias&description=This is my first map configuration.
+
+      {
+        "version": 1,
+        "description": "This is Microsoft default indoor map configuration",
+        "defaultConfiguration": "microsoft_light",
+        "configurations": [
+          {
+            "name": "indoor_light",
+            "displayName": "Indoor light",
+            "description": "A base style for Azure Maps.",
+            "theme": "light",
+            "baseMap": "microsoft_light",
+            "layers": [
+              {
+                "tilesetId": "{tilesetId}",
+                "styleId": "microsoft-maps:indoor_2022-01-01"
+              }
+            ]
+          },
+          {
+            "name": "indoor_dark",
+            "displayName": "Indoor dark",
+            "description": "A base style for Azure Maps.",
+            "theme": "dark",
+            "baseMap": "microsoft_dark",
+            "layers": [
+              {
+                "tilesetId": "{tilesetId}",
+                "styleId": "microsoft-maps:indoor_dark_2022-01-01"
+              }
+            ]
+          }
+        ]
+      }
+
+      ```
+
+  responses:
+  - statusCode: "202"
+    headers:
+    - name: Operation-Location
+      value: https://us.atlas.microsoft.com/styles/mapConfigurations/operations/{operationId}?api-version=2022-01-01-preview
+    - name: Access-Control-Expose-Headers
+      value: Operation-Location
+security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://atlas.microsoft.com/.default
+    description: https://atlas.microsoft.com/.default
+- name: subscription-key
+  type: apiKey
+  description: >-
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
+
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
+
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
+  in: query
+- name: SAS Token
+  type: apiKey
+  description: >-
+    This is a shared access signature token is created from the List SAS operation on the [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this token, any application is authorized to access with Azure role-based access controls and fine-grain control to the expiration, rate, and region(s) of use for the particular token. In other words, the SAS Token can be used to allow applications to control access in a more secured way than the shared key.
+
+     For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
+  in: header
+metadata:
+  description: >-
+    Applies to: see pricing tiers.
+
+    The Map Configuration Create request allows the caller to create a map configuration in their Azure Maps account.
+errorCodes: []

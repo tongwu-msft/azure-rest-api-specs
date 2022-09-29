@@ -3,15 +3,15 @@ uid: management.azure.com.compute.virtualmachines.list
 name: List
 service: Compute
 groupName: Virtual Machines
-apiVersion: 2022-03-01
+apiVersion: 2022-08-01
 summary: Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?api-version=2022-03-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?$filter={$filter}&api-version=2022-03-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?api-version=2022-08-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/virtualMachines?$filter={$filter}&api-version=2022-08-01
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -201,7 +201,7 @@ definitions:
     - uid: ApplicationProfile
   - name: properties.timeCreated
     isReadyOnly: true
-    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2022-03-01.'
+    description: 'Specifies the time at which the Virtual Machine resource was created.<br><br>Minimum api-version: 2021-11-01.'
     types:
     - uid: string
   - name: id
@@ -328,7 +328,7 @@ definitions:
   - name: properties.protectedSettingsFromKeyVault
     description: The extensions protected settings that are passed by reference, and consumed from key vault
     types:
-    - uid: object
+    - uid: KeyVaultSecretReference
   - name: location
     description: Resource location
     types:
@@ -419,6 +419,10 @@ definitions:
     types:
     - uid: DataDisk
       isArray: true
+  - name: diskControllerType
+    description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+    types:
+    - uid: DiskControllerTypes
 - name: AdditionalCapabilities
   description: Enables or disables a capability on the virtual machine or virtual machine scale set.
   kind: object
@@ -703,6 +707,18 @@ definitions:
     types:
     - uid: InstanceViewStatus
       isArray: true
+- name: KeyVaultSecretReference
+  description: Describes a reference to Key Vault Secret
+  kind: object
+  properties:
+  - name: secretUrl
+    description: The URL referencing a secret in a Key Vault.
+    types:
+    - uid: string
+  - name: sourceVault
+    description: The relative URL of the Key Vault containing the secret.
+    types:
+    - uid: SubResource
 - name: ResourceIdentityType
   description: The type of identity used for the virtual machine. The type 'SystemAssigned, UserAssigned' includes both an implicitly created identity and a set of user assigned identities. The type 'None' will remove any identities from the virtual machine.
   kind: enum
@@ -1326,7 +1342,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1370,7 +1386,7 @@ definitions:
     types:
     - uid: DiskCreateOptionTypes
   - name: diskSizeGB
-    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> This value cannot be larger than 1023 GB
+    description: Specifies the size of an empty data disk in gigabytes. This element can be used to overwrite the size of the disk in a virtual machine image. <br><br> diskSizeGB is the number of bytes x 1024^3 for the disk and the value cannot be larger than 1023
     types:
     - uid: integer
   - name: managedDisk
@@ -1399,6 +1415,16 @@ definitions:
     description: 'Specifies whether data disk should be deleted or detached upon VM deletion.<br><br> Possible values: <br><br> **Delete** If this value is used, the data disk is deleted when VM is deleted.<br><br> **Detach** If this value is used, the data disk is retained after VM is deleted.<br><br> The default value is set to **detach**'
     types:
     - uid: DiskDeleteOptionTypes
+- name: DiskControllerTypes
+  description: 'Specifies the disk controller type configured for the VM. <br><br>NOTE: This property will be set to the default disk controller type if not specified provided virtual machine is being created as a hyperVGeneration: V2 based on the capabilities of the operating system disk and VM size from the the specified minimum api version. <br>You need to deallocate the VM before updating its disk controller type unless you are updating the VM size in the VM configuration which implicitly deallocates and reallocates the VM. <br><br> Minimum api-version: 2022-08-01'
+  kind: enum
+  properties:
+  - name: SCSI
+    types:
+    - uid: string
+  - name: NVMe
+    types:
+    - uid: string
 - name: WindowsConfiguration
   description: Specifies Windows operating system settings on the virtual machine.
   kind: object
@@ -1428,6 +1454,10 @@ definitions:
     description: Specifies the Windows Remote Management listeners. This enables remote Windows PowerShell.
     types:
     - uid: WinRMConfiguration
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Windows virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: LinuxConfiguration
   description: Specifies the Linux operating system settings on the virtual machine. <br><br>For a list of supported Linux distributions, see [Linux on Azure-Endorsed Distributions](https://docs.microsoft.com/azure/virtual-machines/linux/endorsed-distros).
   kind: object
@@ -1448,6 +1478,10 @@ definitions:
     description: '[Preview Feature] Specifies settings related to VM Guest Patching on Linux.'
     types:
     - uid: LinuxPatchSettings
+  - name: enableVMAgentPlatformUpdates
+    description: Indicates whether VMAgent Platform Updates is enabled for the Linux virtual machine. Default value is false.
+    types:
+    - uid: boolean
 - name: VaultSecretGroup
   description: Describes a set of certificates which are all in the same Key Vault.
   kind: object
@@ -1502,6 +1536,10 @@ definitions:
     - uid: DeleteOptions
   - name: properties.enableAcceleratedNetworking
     description: Specifies whether the network interface is accelerated networking-enabled.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Specifies whether the network interface is disabled for tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableFpga
@@ -2151,18 +2189,6 @@ definitions:
     description: The errors that were encountered during execution of the operation. The details array contains the list of them.
     types:
     - uid: ApiError
-- name: KeyVaultSecretReference
-  description: Describes a reference to Key Vault Secret
-  kind: object
-  properties:
-  - name: secretUrl
-    description: The URL referencing a secret in a Key Vault.
-    types:
-    - uid: string
-  - name: sourceVault
-    description: The relative URL of the Key Vault containing the secret.
-    types:
-    - uid: SubResource
 - name: KeyVaultKeyReference
   description: Describes a reference to Key Vault Key
   kind: object
@@ -2531,11 +2557,11 @@ definitions:
 examples:
 - name: VirtualMachines_List_MaximumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?$filter=aaaaaaaaaaaaaaaaaaaaaaa&api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?$filter=aaaaaaaaaaaaaaaaaaaaaaa&api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?$filter=aaaaaaaaaaaaaaaaaaaaaaa&api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?$filter=aaaaaaaaaaaaaaaaaaaaaaa&api-version=2022-08-01
       ```
 
       # [Java](#tab/Java)
@@ -2545,7 +2571,7 @@ examples:
       /** Samples for VirtualMachines ListByResourceGroup. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
            */
           /**
            * Sample code: VirtualMachines_List_MaximumSet_Gen.
@@ -2563,47 +2589,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armcompute_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v3"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
-      func ExampleVirtualMachinesClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armcompute.NewVirtualMachinesClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("rgcompute",
-      		&armcompute.VirtualMachinesClientListOptions{Filter: to.Ptr("aaaaaaaaaaaaaaaaaaaaaaa")})
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv3.0.1/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -2613,7 +2599,7 @@ examples:
        * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
        *
        * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MaximumSet_Gen.json
        */
       async function virtualMachinesListMaximumSetGen() {
         const subscriptionId = "{subscription-id}";
@@ -2632,7 +2618,7 @@ examples:
       virtualMachinesListMaximumSetGen().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2771,7 +2757,7 @@ examples:
                     }
                   }
                 ],
-                "networkApiVersion": "2020-11-01",
+                "networkApiVersion": "2022-05-01",
                 "networkInterfaceConfigurations": [
                   {
                     "name": "aaaaaaaa",
@@ -2779,6 +2765,7 @@ examples:
                       "primary": true,
                       "deleteOption": "Delete",
                       "enableAcceleratedNetworking": true,
+                      "disableTcpStateTracking": true,
                       "enableFpga": true,
                       "enableIPForwarding": true,
                       "networkSecurityGroup": {
@@ -2884,199 +2871,6 @@ examples:
               "hostGroup": {
                 "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
               },
-              "instanceView": {
-                "platformUpdateDomain": 1,
-                "platformFaultDomain": 29,
-                "computerName": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "osName": "aaaaaaaaaaa",
-                "osVersion": "aaaaaaaaaaaaaa",
-                "hyperVGeneration": "V1",
-                "rdpThumbPrint": "aaaaaaaaaaaaaaaaaaaaaaa",
-                "vmAgent": {
-                  "vmAgentVersion": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                  "extensionHandlers": [
-                    {
-                      "type": "aaaaa",
-                      "typeHandlerVersion": "aaaaaaaaaaaaaaaaaaa",
-                      "status": {
-                        "code": "aaa",
-                        "level": "Info",
-                        "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                        "message": "aaaaaaaaaaaaaaaaaaa",
-                        "time": "2022-01-14T16:43:41.657Z"
-                      }
-                    }
-                  ],
-                  "statuses": [
-                    {
-                      "code": "aaa",
-                      "level": "Info",
-                      "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                      "message": "aaaaaaaaaaaaaaaaaaa",
-                      "time": "2022-01-14T16:43:41.657Z"
-                    }
-                  ]
-                },
-                "maintenanceRedeployStatus": {
-                  "isCustomerInitiatedMaintenanceAllowed": true,
-                  "preMaintenanceWindowStartTime": "2022-01-14T16:43:41.682Z",
-                  "preMaintenanceWindowEndTime": "2022-01-14T16:43:41.682Z",
-                  "maintenanceWindowStartTime": "2022-01-14T16:43:41.682Z",
-                  "maintenanceWindowEndTime": "2022-01-14T16:43:41.682Z",
-                  "lastOperationResultCode": "None",
-                  "lastOperationMessage": "aa"
-                },
-                "disks": [
-                  {
-                    "name": "a",
-                    "encryptionSettings": [
-                      {
-                        "diskEncryptionKey": {
-                          "secretUrl": "aaaaaaaaa",
-                          "sourceVault": {
-                            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                          }
-                        },
-                        "keyEncryptionKey": {
-                          "keyUrl": "aaaaaaaaaaaaa",
-                          "sourceVault": {
-                            "id": "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/availabilitySets/{availabilitySetName}"
-                          }
-                        },
-                        "enabled": true
-                      }
-                    ],
-                    "statuses": [
-                      {
-                        "code": "aaa",
-                        "level": "Info",
-                        "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                        "message": "aaaaaaaaaaaaaaaaaaa",
-                        "time": "2022-01-14T16:43:41.657Z"
-                      }
-                    ]
-                  }
-                ],
-                "extensions": [
-                  {
-                    "name": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                    "type": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                    "typeHandlerVersion": "aaaaaa",
-                    "substatuses": [
-                      {
-                        "code": "aaa",
-                        "level": "Info",
-                        "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                        "message": "aaaaaaaaaaaaaaaaaaa",
-                        "time": "2022-01-14T16:43:41.657Z"
-                      }
-                    ],
-                    "statuses": [
-                      {
-                        "code": "aaa",
-                        "level": "Info",
-                        "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                        "message": "aaaaaaaaaaaaaaaaaaa",
-                        "time": "2022-01-14T16:43:41.657Z"
-                      }
-                    ]
-                  }
-                ],
-                "vmHealth": {
-                  "status": {
-                    "code": "aaa",
-                    "level": "Info",
-                    "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                    "message": "aaaaaaaaaaaaaaaaaaa",
-                    "time": "2022-01-14T16:43:41.657Z"
-                  }
-                },
-                "bootDiagnostics": {
-                  "consoleScreenshotBlobUri": "aaaaaaaaaaaaaaaaaaaaaaa",
-                  "serialConsoleLogBlobUri": "aaaaaaaaaaaaaaaaaaa",
-                  "status": {
-                    "code": "aaa",
-                    "level": "Info",
-                    "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                    "message": "aaaaaaaaaaaaaaaaaaa",
-                    "time": "2022-01-14T16:43:41.657Z"
-                  }
-                },
-                "assignedHost": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                "statuses": [
-                  {
-                    "code": "aaa",
-                    "level": "Info",
-                    "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                    "message": "aaaaaaaaaaaaaaaaaaa",
-                    "time": "2022-01-14T16:43:41.657Z"
-                  }
-                ],
-                "patchStatus": {
-                  "availablePatchSummary": {
-                    "status": "Unknown",
-                    "assessmentActivityId": "aaaaaaaaaaaaaaaaaaa",
-                    "rebootPending": true,
-                    "criticalAndSecurityPatchCount": 22,
-                    "otherPatchCount": 25,
-                    "startTime": "2022-01-14T16:43:41.682Z",
-                    "lastModifiedTime": "2022-01-14T16:43:41.683Z",
-                    "error": {
-                      "details": [
-                        {
-                          "code": "aaaaaaaaaaaaaaaaaaaaa",
-                          "target": "aaaaaa",
-                          "message": "aaaaaaaaaaaaa"
-                        }
-                      ],
-                      "innererror": {
-                        "exceptiontype": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                        "errordetail": "aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                      },
-                      "code": "aaaaaa",
-                      "target": "aaaaaaaaa",
-                      "message": "aaa"
-                    }
-                  },
-                  "lastPatchInstallationSummary": {
-                    "status": "Unknown",
-                    "installationActivityId": "aaaaaa",
-                    "maintenanceWindowExceeded": true,
-                    "notSelectedPatchCount": 20,
-                    "excludedPatchCount": 1,
-                    "pendingPatchCount": 2,
-                    "installedPatchCount": 28,
-                    "failedPatchCount": 30,
-                    "startTime": "2022-01-14T16:43:41.683Z",
-                    "lastModifiedTime": "2022-01-14T16:43:41.683Z",
-                    "error": {
-                      "details": [
-                        {
-                          "code": "aaaaaaaaaaaaaaaaaaaaa",
-                          "target": "aaaaaa",
-                          "message": "aaaaaaaaaaaaa"
-                        }
-                      ],
-                      "innererror": {
-                        "exceptiontype": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-                        "errordetail": "aaaaaaaaaaaaaaaaaaaaaaaaaaaa"
-                      },
-                      "code": "aaaaaa",
-                      "target": "aaaaaaaaa",
-                      "message": "aaa"
-                    }
-                  },
-                  "configurationStatuses": [
-                    {
-                      "code": "aaa",
-                      "level": "Info",
-                      "displayStatus": "aaaaaaaaaaaaaaaaaaaaaaaa",
-                      "message": "aaaaaaaaaaaaaaaaaaa",
-                      "time": "2022-01-14T16:43:41.657Z"
-                    }
-                  ]
-                }
-              },
               "licenseType": "aaaaaaaaaaaaaaa",
               "extensionsTimeBudget": "aaaaaaaaaaaaaaaaaaaaaaaaaaaa",
               "platformFaultDomain": 8,
@@ -3151,7 +2945,12 @@ examples:
                     ]
                   },
                   "suppressFailures": true,
-                  "protectedSettingsFromKeyVault": {}
+                  "protectedSettingsFromKeyVault": {
+                    "sourceVault": {
+                      "id": "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
+                    },
+                    "secretUrl": "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e"
+                  }
                 },
                 "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "name": "aaaaaaaaaaaaa",
@@ -3314,7 +3113,7 @@ examples:
                     }
                   }
                 ],
-                "networkApiVersion": "2020-11-01",
+                "networkApiVersion": "2022-05-01",
                 "networkInterfaceConfigurations": [
                   {
                     "name": "aaaaaaaa",
@@ -3322,6 +3121,7 @@ examples:
                       "primary": true,
                       "deleteOption": "Delete",
                       "enableAcceleratedNetworking": true,
+                      "disableTcpStateTracking": true,
                       "enableFpga": true,
                       "enableIPForwarding": true,
                       "networkSecurityGroup": {
@@ -3694,7 +3494,12 @@ examples:
                     ]
                   },
                   "suppressFailures": true,
-                  "protectedSettingsFromKeyVault": {}
+                  "protectedSettingsFromKeyVault": {
+                    "sourceVault": {
+                      "id": "/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"
+                    },
+                    "secretUrl": "https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e"
+                  }
                 },
                 "id": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
                 "name": "aaaaaaaaaaaaa",
@@ -3729,11 +3534,11 @@ examples:
       }
 - name: VirtualMachines_List_MinimumSet_Gen
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?api-version=2022-03-01
+    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?api-version=2022-08-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?api-version=2022-03-01
+      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/rgcompute/providers/Microsoft.Compute/virtualMachines?api-version=2022-08-01
       ```
 
       # [Java](#tab/Java)
@@ -3743,7 +3548,7 @@ examples:
       /** Samples for VirtualMachines ListByResourceGroup. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-03-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
+           * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
            */
           /**
            * Sample code: VirtualMachines_List_MinimumSet_Gen.
@@ -3761,7 +3566,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.18.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3771,7 +3576,7 @@ examples:
        * This sample demonstrates how to Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
        *
        * @summary Lists all of the virtual machines in the specified resource group. Use the nextLink property in the response to get the next page of virtual machines.
-       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/stable/2022-03-01/ComputeRP/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
+       * x-ms-original-file: specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineExamples/VirtualMachines_List_MinimumSet_Gen.json
        */
       async function virtualMachinesListMinimumSetGen() {
         const subscriptionId = "{subscription-id}";
@@ -3788,7 +3593,7 @@ examples:
       virtualMachinesListMinimumSetGen().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.1.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-compute_19.2.0/sdk/compute/arm-compute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

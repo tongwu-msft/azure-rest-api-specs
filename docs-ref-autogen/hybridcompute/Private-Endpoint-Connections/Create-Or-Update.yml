@@ -3,14 +3,14 @@ uid: management.azure.com.hybridcompute.privateendpointconnections.createorupdat
 name: Create Or Update
 service: Hybrid Compute
 groupName: Private Endpoint Connections
-apiVersion: 2021-05-20
+apiVersion: 2022-05-10-preview
 summary: Approve or reject a private endpoint connection with a given name.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-05-20
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-05-10-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -80,6 +80,12 @@ definitions:
     description: State of the private endpoint connection.
     types:
     - uid: string
+  - name: groupIds
+    isReadyOnly: true
+    description: List of group IDs.
+    types:
+    - uid: string
+      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -233,7 +239,7 @@ definitions:
 examples:
 - name: Approve or reject a private endpoint connection with a given name.
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateEndpointConnections/private-endpoint-connection-name?api-version=2021-05-20
+    uri: PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateEndpointConnections/private-endpoint-connection-name?api-version=2022-05-10-preview
     body: >-
       {
         "properties": {
@@ -246,7 +252,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateEndpointConnections/private-endpoint-connection-name?api-version=2021-05-20
+      PUT https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateEndpointConnections/private-endpoint-connection-name?api-version=2022-05-10-preview
 
       {
         "properties": {
@@ -259,39 +265,6 @@ examples:
 
       ```
 
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { HybridComputeManagementClient } = require("@azure/arm-hybridcompute");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      async function approveOrRejectAPrivateEndpointConnectionWithAGivenName() {
-        const subscriptionId = "00000000-1111-2222-3333-444444444444";
-        const resourceGroupName = "myResourceGroup";
-        const scopeName = "myPrivateLinkScope";
-        const privateEndpointConnectionName = "private-endpoint-connection-name";
-        const parameters = {
-          properties: {
-            privateLinkServiceConnectionState: {
-              description: "Approved by johndoe@contoso.com",
-              status: "Approved",
-            },
-          },
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new HybridComputeManagementClient(credential, subscriptionId);
-        const result = await client.privateEndpointConnections.beginCreateOrUpdateAndWait(
-          resourceGroupName,
-          scopeName,
-          privateEndpointConnectionName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      approveOrRejectAPrivateEndpointConnectionWithAGivenName().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-hybridcompute_3.1.0-beta.1/sdk/hybridcompute/arm-hybridcompute/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -308,7 +281,10 @@ examples:
             "status": "Approved",
             "description": "Approved by johndoe@contoso.com",
             "actionsRequired": "None"
-          }
+          },
+          "groupIds": [
+            "hybridcompute"
+          ]
         }
       }
   - statusCode: "202"

@@ -3,14 +3,14 @@ uid: management.azure.com.deviceupdate.resourcemanager.accounts.create
 name: Create
 service: Device Update
 groupName: Accounts
-apiVersion: 2020-03-01-preview
+apiVersion: 2022-10-01
 summary: Creates or updates Account.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}?api-version=2020-03-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DeviceUpdate/accounts/{accountName}?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -65,6 +65,11 @@ requestBody:
     types:
     - uid: PrivateEndpointConnection
       isArray: true
+  - name: properties.sku
+    in: body
+    description: Device Update Sku
+    types:
+    - uid: SKU
   - name: tags
     in: body
     description: Resource tags.
@@ -150,6 +155,18 @@ definitions:
     description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
     types:
     - uid: systemData
+- name: Location
+  kind: object
+  properties:
+  - name: name
+    description: ''
+    types:
+    - uid: string
+  - name: role
+    description: Whether the location is primary or failover
+    types:
+    - uid: Role
+    defaultValue: Primary
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -205,6 +222,17 @@ definitions:
     description: List of private endpoint connections associated with the account.
     types:
     - uid: PrivateEndpointConnection
+      isArray: true
+  - name: properties.sku
+    description: Device Update Sku
+    types:
+    - uid: SKU
+    defaultValue: Standard
+  - name: properties.locations
+    isReadyOnly: true
+    description: Device Update account primary and failover location details
+    types:
+    - uid: Location
       isArray: true
   - name: tags
     description: Resource tags.
@@ -317,6 +345,16 @@ definitions:
   - name: Failed
     types:
     - uid: string
+- name: Role
+  description: Whether the location is primary or failover
+  kind: enum
+  properties:
+  - name: Primary
+    types:
+    - uid: string
+  - name: Failover
+    types:
+    - uid: string
 - name: createdByType
   description: The type of identity that created the resource.
   kind: enum
@@ -363,6 +401,16 @@ definitions:
     types:
     - uid: string
   - name: Disabled
+    types:
+    - uid: string
+- name: SKU
+  description: Device Update Sku
+  kind: enum
+  properties:
+  - name: Free
+    types:
+    - uid: string
+  - name: Standard
     types:
     - uid: string
 - name: ErrorDetail
@@ -426,7 +474,7 @@ definitions:
 examples:
 - name: Creates or updates Account
   request:
-    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2020-03-01-preview
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2022-10-01
     body: >-
       {
         "location": "westus2",
@@ -435,7 +483,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2020-03-01-preview
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/test-rg/providers/Microsoft.DeviceUpdate/accounts/contoso?api-version=2022-10-01
 
       {
         "location": "westus2",
@@ -444,6 +492,25 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      /** Samples for Accounts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Create.json
+           */
+          /**
+           * Sample code: Creates or updates Account.
+           *
+           * @param manager Entry point to DeviceUpdateManager.
+           */
+          public static void createsOrUpdatesAccount(com.azure.resourcemanager.deviceupdate.DeviceUpdateManager manager) {
+              manager.accounts().define("contoso").withRegion("westus2").withExistingResourceGroup("test-rg").create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-deviceupdate_1.0.0-beta.2/sdk/deviceupdate/azure-resourcemanager-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armdeviceupdate_test
@@ -452,47 +519,63 @@ examples:
       	"context"
       	"log"
 
-      	"time"
-
       	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
       	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/deviceupdate/armdeviceupdate"
       )
 
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/preview/2020-03-01-preview/examples/Accounts/Accounts_Create.json
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Create.json
       func ExampleAccountsClient_BeginCreate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
-      		return
       	}
       	ctx := context.Background()
-      	client, err := armdeviceupdate.NewAccountsClient("<subscription-id>", cred, nil)
+      	client, err := armdeviceupdate.NewAccountsClient("00000000-0000-0000-0000-000000000000", cred, nil)
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
-      		return
       	}
-      	poller, err := client.BeginCreate(ctx,
-      		"<resource-group-name>",
-      		"<account-name>",
-      		armdeviceupdate.Account{
-      			Location:   to.Ptr("<location>"),
-      			Properties: &armdeviceupdate.AccountProperties{},
-      		},
-      		&armdeviceupdate.AccountsClientBeginCreateOptions{ResumeToken: ""})
+      	poller, err := client.BeginCreate(ctx, "test-rg", "contoso", armdeviceupdate.Account{
+      		Location:   to.Ptr("westus2"),
+      		Properties: &armdeviceupdate.AccountProperties{},
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
-      		return
       	}
-      	_, err = poller.PollUntilDone(ctx, 30*time.Second)
+      	_, err = poller.PollUntilDone(ctx, nil)
       	if err != nil {
       		log.Fatalf("failed to pull the result: %v", err)
-      		return
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv0.4.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdeviceupdate%2Farmdeviceupdate%2Fv1.0.0/sdk/resourcemanager/deviceupdate/armdeviceupdate/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { DeviceUpdate } = require("@azure/arm-deviceupdate");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Creates or updates Account.
+       *
+       * @summary Creates or updates Account.
+       * x-ms-original-file: specification/deviceupdate/resource-manager/Microsoft.DeviceUpdate/stable/2022-10-01/examples/Accounts/Accounts_Create.json
+       */
+      async function createsOrUpdatesAccount() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const resourceGroupName = "test-rg";
+        const accountName = "contoso";
+        const account = { location: "westus2" };
+        const credential = new DefaultAzureCredential();
+        const client = new DeviceUpdate(credential, subscriptionId);
+        const result = await client.accounts.beginCreateAndWait(resourceGroupName, accountName, account);
+        console.log(result);
+      }
+
+      createsOrUpdatesAccount().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-deviceupdate_1.0.0/sdk/deviceupdate/arm-deviceupdate/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-
@@ -504,7 +587,18 @@ examples:
         "properties": {
           "provisioningState": "Accepted",
           "hostName": "contoso.api.adu.microsoft.com",
-          "privateEndpointConnections": []
+          "privateEndpointConnections": [],
+          "sku": "Standard",
+          "locations": [
+            {
+              "name": "westus2",
+              "role": "Primary"
+            },
+            {
+              "name": "westcentralus",
+              "role": "Failover"
+            }
+          ]
         }
       }
 security:

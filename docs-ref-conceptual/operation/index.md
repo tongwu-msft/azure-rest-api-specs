@@ -5,9 +5,8 @@ ms.date: 12/4/2017
 ms.service: api-management
 ms.topic: reference
 ms.devlang: rest
-author: EvgenyAgafonchikov
-ms.author: v-evagaf
-ms.manager: franksie
+author: mcleanbyron
+ms.author: mcleans
 ---
 
 # Operation REST API

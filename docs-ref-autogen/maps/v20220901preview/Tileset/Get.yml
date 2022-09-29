@@ -1,0 +1,262 @@
+### YamlMime:RESTOperation
+uid: maps.v20220901preview.tileset.get
+name: Get
+service: Maps Creator
+groupName: Tileset
+apiVersion: 2022-09-01-preview
+summary: >-
+  **Applies to:** see pricing [tiers](https://aka.ms/AzureMapsPricingTier).
+
+
+  The Tileset Get request allows the caller to fetch a tileset.
+
+
+  Creator makes it possible to develop applications based on your private indoor map data using Azure Maps API and SDK. [This](https://docs.microsoft.com/azure/azure-maps/creator-indoor-maps) article introduces concepts and tools that apply to Azure Maps Creator.
+consumes: []
+produces:
+- application/json
+paths:
+- content: GET https://{geography}.atlas.microsoft.com/tilesets/{tilesetId}?api-version=2022-09-01-preview
+uriParameters:
+- name: geography
+  in: path
+  isRequired: true
+  description: This parameter specifies where the Azure Maps Creator resource is located.  Valid values are us and eu.
+  types:
+  - uid: string
+- name: tilesetId
+  in: path
+  isRequired: true
+  description: The Tileset Id
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version number of Azure Maps API.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: List tileset request completed successfully. The response body contains a list of all tilesets.
+  types:
+  - uid: Tileset
+- name: Other Status Codes
+  description: An unexpected error occurred.
+  types:
+  - uid: ErrorResponse
+requestHeader:
+- name: x-ms-client-id
+  in: header
+  description: Specifies which account is intended for usage in conjunction with the Azure AD security model.  It represents a unique ID for the Azure Maps account and can be retrieved from the Azure Maps management  plane Account API. To use Azure AD security in Azure Maps see the following [articles](https://aka.ms/amauthdetails) for guidance.
+  types:
+  - uid: string
+definitions:
+- name: Tileset
+  description: Detail information for the data.
+  kind: object
+  properties:
+  - name: tilesetId
+    isReadyOnly: true
+    description: The unique tileset id for the tileset.
+    types:
+    - uid: string
+  - name: ontology
+    isReadyOnly: true
+    description: The ontology version of this dataset.
+    types:
+    - uid: string
+  - name: datasetId
+    isReadyOnly: true
+    description: The unique dataset Id used to create the tileset.
+    types:
+    - uid: string
+  - name: description
+    isReadyOnly: true
+    description: The description the caller provided when creating the tileset. Maximum length 1024 characters.
+    types:
+    - uid: string
+  - name: minZoom
+    isReadyOnly: true
+    description: The lowest tile zoom level tile generated for the tileset.
+    types:
+    - uid: integer
+  - name: maxZoom
+    isReadyOnly: true
+    description: The highest tile zoom level tile generated for the tileset.
+    types:
+    - uid: integer
+  - name: bbox
+    isReadyOnly: true
+    description: "Bounding box which all features of the tileset lay within. Projection used - EPSG:3857. Format : 'minLon, minLat, maxLon, maxLat'."
+    types:
+    - uid: number
+      isArray: true
+  - name: tilesetConfiguration
+    description: Tileset configuration which is used to build the tileset.
+    types:
+    - uid: TilesetConfiguration
+  - name: defaultMapConfigurationId
+    isReadyOnly: true
+    description: The default generated map configuration id for the tileset
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: TilesetConfiguration
+  description: 'Tileset configuration top-level fields. A tileset configuration is a JSON object that must contain the following top-level fields:'
+  kind: object
+  properties:
+  - name: version
+    description: The version of Azure Maps Tiling service configuration reference that the tileset configuration uses. Currently only version 1 is allowed. Using any version other the current version or a previous version will result in an error.
+    types:
+    - uid: integer
+  - name: layers
+    description: The names of the layers and their configuration options. The configuration layers object contains key-value pairs associating the names of tile layers with their configuration. For each key-value pair, the key is the name of the layer, and the value is a LayerObject containing the configuration and options for the layer. Each layer must have a name. This is the unique identifier for the layer of data in your final tileset. In any tileset, each layer name must be unique. The layer name must be a string with only underscores (_) and alphanumeric characters. The corresponding LayerObject for each layer name describes how that vector tile layer should be created. It specifies which feature classes to retrieve feature data, the precision of the data through zoom levels, and how to transform features and render them into tiles.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: LayerObject
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: LayerObject
+  description: Layer object for tileset configuration.
+  kind: object
+  properties:
+  - name: features
+    description: Specifies the feature classes and filters.
+    types:
+    - uid: Feature
+  - name: minZoom
+    description: The lowest zoom level for the layer to build.
+    types:
+    - uid: integer
+  - name: maxZoom
+    description: The highest zoom level for the layer to build.
+    types:
+    - uid: integer
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+- name: Feature
+  description: Feature configuration for tileset configuration.
+  kind: object
+  properties:
+  - name: featureClasses
+    description: The list of feature classes that will be used to build the layer. The valid feature classes can be found in its ontology definition. For example, [Facility Ontology](https://docs.microsoft.com/en-us/azure/azure-maps/creator-facility-ontology)
+    types:
+    - uid: string
+      isArray: true
+  - name: filter
+    description: Removes features that do not match a pattern. Refer to [MapLibre filter expression](https://maplibre.org/maplibre-gl-js-docs/style-spec/layers/#filter)
+    types:
+    - uid: object
+examples:
+- name: Gets the details for a single tileset
+  request:
+    uri: GET https://us.atlas.microsoft.com/tilesets/{tilesetId}?api-version=2022-09-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://us.atlas.microsoft.com/tilesets/{tilesetId}?api-version=2022-09-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "tilesetId": "{tilesetId}",
+        "datasetId": "{datasetId}",
+        "description": "My first tileset",
+        "minZoom": 16,
+        "maxZoom": 18,
+        "bbox": [
+          -122.13595,
+          47.636524,
+          -122.1329,
+          47.637525
+        ]
+      }
+security:
+- name: AADToken
+  type: oauth2
+  description: "These are the [Azure Active Directory OAuth2](https://docs.microsoft.com/azure/active-directory/develop/v1-overview) Flows. When paired with [Azure role-based access](https://docs.microsoft.com/azure/role-based-access-control/overview) control it can be used to control access to Azure Maps REST APIs. Azure role-based access controls are used to designate access to one or more Azure Maps resource account or sub-resources. Any user, group, or service principal can be granted access via a  built-in role or a custom role composed of one or more permissions to Azure Maps REST APIs.\n\nTo implement scenarios, we recommend viewing [authentication concepts](https://aka.ms/amauth). In summary, this security definition provides a solution for modeling application(s) via objects capable of access control on specific APIs and scopes.\n\n#### Notes\n* This security definition **requires** the use of the `x-ms-client-id` header to indicate which Azure Maps resource the application is requesting access to. This can be acquired from the [Maps management API](https://aka.ms/amauthdetails).\n* \nThe `Authorization URL` is specific to the Azure public cloud instance. Sovereign clouds have unique Authorization URLs and Azure Active directory configurations. \n* \nThe Azure role-based access control is configured from the [Azure management plane](https://aka.ms/amrbac) via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.\n* \nUsage of the [Azure Maps Web SDK](https://aka.ms/amaadmc) allows for configuration based setup of an application for multiple use cases.\n* Currently, Azure Active Directory [v1.0 or v2.0](https://docs.microsoft.com/azure/active-directory/develop/azure-ad-endpoint-comparison) supports Work, School, and Guests but does not support Personal accounts."
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://atlas.microsoft.com/.default
+    description: https://atlas.microsoft.com/.default
+- name: subscription-key
+  type: apiKey
+  description: >-
+    This is a shared key that is provisioned when you [Create an Azure Maps account](https://docs.microsoft.com/azure/azure-maps/quick-demo-map-app#create-an-azure-maps-account) in the Azure portal or using PowerShell, CLI, Azure SDKs, or REST API.
+
+     With this key, any application can access all REST API. In other words, this key can be used as a master key in the account that they are issued in.
+
+     For publicly exposed applications, our recommendation is to use the [confidential client applications](https://docs.microsoft.com/azure/azure-maps/authentication-best-practices#confidential-client-applications) approach to access Azure Maps REST APIs so your key can be securely stored.
+  in: query
+- name: SAS Token
+  type: apiKey
+  description: >-
+    This is a shared access signature token is created from the List SAS operation on the [Azure Maps resource](https://aka.ms/amauth) through the Azure management plane via Azure portal, PowerShell, CLI, Azure SDKs, or REST APIs.
+
+     With this token, any application is authorized to access with Azure role-based access controls and fine-grain control to the expiration, rate, and region(s) of use for the particular token. In other words, the SAS Token can be used to allow applications to control access in a more secured way than the shared key.
+
+     For publicly exposed applications, our recommendation is to configure a specific list of allowed origins on the [Map account resource](https://aka.ms/amauth) to limit rendering abuse and regularly renew the SAS Token.
+  in: header
+metadata:
+  description: >-
+    Applies to: see pricing tiers.
+
+    The Tileset Get request allows the caller to fetch a tileset.
+
+    Creator makes it possible to develop applications based on your pri
+errorCodes: []

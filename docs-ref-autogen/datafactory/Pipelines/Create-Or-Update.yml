@@ -4450,7 +4450,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.17/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armdatafactory_test
@@ -4465,7 +4465,7 @@ examples:
       )
 
       // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Create.json
-      func ExamplePipelinesClient_CreateOrUpdate() {
+      func ExamplePipelinesClient_CreateOrUpdate_pipelinesCreate() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
@@ -4475,86 +4475,81 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.CreateOrUpdate(ctx,
-      		"exampleResourceGroup",
-      		"exampleFactoryName",
-      		"examplePipeline",
-      		armdatafactory.PipelineResource{
-      			Properties: &armdatafactory.Pipeline{
-      				Activities: []armdatafactory.ActivityClassification{
-      					&armdatafactory.ForEachActivity{
-      						Name: to.Ptr("ExampleForeachActivity"),
-      						Type: to.Ptr("ForEach"),
-      						TypeProperties: &armdatafactory.ForEachActivityTypeProperties{
-      							Activities: []armdatafactory.ActivityClassification{
-      								&armdatafactory.CopyActivity{
-      									Name: to.Ptr("ExampleCopyActivity"),
-      									Type: to.Ptr("Copy"),
-      									Inputs: []*armdatafactory.DatasetReference{
-      										{
-      											Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
-      											Parameters: map[string]interface{}{
-      												"MyFileName":   "examplecontainer.csv",
-      												"MyFolderPath": "examplecontainer",
-      											},
-      											ReferenceName: to.Ptr("exampleDataset"),
-      										}},
-      									Outputs: []*armdatafactory.DatasetReference{
-      										{
-      											Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
-      											Parameters: map[string]interface{}{
-      												"MyFileName": map[string]interface{}{
-      													"type":  "Expression",
-      													"value": "@item()",
-      												},
-      												"MyFolderPath": "examplecontainer",
-      											},
-      											ReferenceName: to.Ptr("exampleDataset"),
-      										}},
-      									TypeProperties: &armdatafactory.CopyActivityTypeProperties{
-      										DataIntegrationUnits: float64(32),
-      										Sink: &armdatafactory.BlobSink{
-      											Type: to.Ptr("BlobSink"),
+      	res, err := client.CreateOrUpdate(ctx, "exampleResourceGroup", "exampleFactoryName", "examplePipeline", armdatafactory.PipelineResource{
+      		Properties: &armdatafactory.Pipeline{
+      			Activities: []armdatafactory.ActivityClassification{
+      				&armdatafactory.ForEachActivity{
+      					Name: to.Ptr("ExampleForeachActivity"),
+      					Type: to.Ptr("ForEach"),
+      					TypeProperties: &armdatafactory.ForEachActivityTypeProperties{
+      						Activities: []armdatafactory.ActivityClassification{
+      							&armdatafactory.CopyActivity{
+      								Name: to.Ptr("ExampleCopyActivity"),
+      								Type: to.Ptr("Copy"),
+      								Inputs: []*armdatafactory.DatasetReference{
+      									{
+      										Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      										Parameters: map[string]interface{}{
+      											"MyFileName":   "examplecontainer.csv",
+      											"MyFolderPath": "examplecontainer",
       										},
-      										Source: &armdatafactory.BlobSource{
-      											Type: to.Ptr("BlobSource"),
+      										ReferenceName: to.Ptr("exampleDataset"),
+      									}},
+      								Outputs: []*armdatafactory.DatasetReference{
+      									{
+      										Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      										Parameters: map[string]interface{}{
+      											"MyFileName": map[string]interface{}{
+      												"type":  "Expression",
+      												"value": "@item()",
+      											},
+      											"MyFolderPath": "examplecontainer",
       										},
+      										ReferenceName: to.Ptr("exampleDataset"),
+      									}},
+      								TypeProperties: &armdatafactory.CopyActivityTypeProperties{
+      									DataIntegrationUnits: float64(32),
+      									Sink: &armdatafactory.BlobSink{
+      										Type: to.Ptr("BlobSink"),
       									},
-      								}},
-      							IsSequential: to.Ptr(true),
-      							Items: &armdatafactory.Expression{
-      								Type:  to.Ptr(armdatafactory.ExpressionTypeExpression),
-      								Value: to.Ptr("@pipeline().parameters.OutputBlobNameList"),
-      							},
+      									Source: &armdatafactory.BlobSource{
+      										Type: to.Ptr("BlobSource"),
+      									},
+      								},
+      							}},
+      						IsSequential: to.Ptr(true),
+      						Items: &armdatafactory.Expression{
+      							Type:  to.Ptr(armdatafactory.ExpressionTypeExpression),
+      							Value: to.Ptr("@pipeline().parameters.OutputBlobNameList"),
       						},
-      					}},
-      				Parameters: map[string]*armdatafactory.ParameterSpecification{
-      					"JobId": {
-      						Type: to.Ptr(armdatafactory.ParameterTypeString),
       					},
-      					"OutputBlobNameList": {
-      						Type: to.Ptr(armdatafactory.ParameterTypeArray),
-      					},
+      				}},
+      			Parameters: map[string]*armdatafactory.ParameterSpecification{
+      				"JobId": {
+      					Type: to.Ptr(armdatafactory.ParameterTypeString),
       				},
-      				Policy: &armdatafactory.PipelinePolicy{
-      					ElapsedTimeMetric: &armdatafactory.PipelineElapsedTimeMetricPolicy{
-      						Duration: "0.00:10:00",
-      					},
+      				"OutputBlobNameList": {
+      					Type: to.Ptr(armdatafactory.ParameterTypeArray),
       				},
-      				RunDimensions: map[string]interface{}{
-      					"JobId": map[string]interface{}{
-      						"type":  "Expression",
-      						"value": "@pipeline().parameters.JobId",
-      					},
+      			},
+      			Policy: &armdatafactory.PipelinePolicy{
+      				ElapsedTimeMetric: &armdatafactory.PipelineElapsedTimeMetricPolicy{
+      					Duration: "0.00:10:00",
       				},
-      				Variables: map[string]*armdatafactory.VariableSpecification{
-      					"TestVariableArray": {
-      						Type: to.Ptr(armdatafactory.VariableTypeArray),
-      					},
+      			},
+      			RunDimensions: map[string]interface{}{
+      				"JobId": map[string]interface{}{
+      					"type":  "Expression",
+      					"value": "@pipeline().parameters.JobId",
+      				},
+      			},
+      			Variables: map[string]*armdatafactory.VariableSpecification{
+      				"TestVariableArray": {
+      					Type: to.Ptr(armdatafactory.VariableTypeArray),
       				},
       			},
       		},
-      		&armdatafactory.PipelinesClientCreateOrUpdateOptions{IfMatch: nil})
+      	}, &armdatafactory.PipelinesClientCreateOrUpdateOptions{IfMatch: nil})
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -4563,7 +4558,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.2.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.3.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
@@ -4645,7 +4640,7 @@ examples:
       pipelinesCreate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.8.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:
@@ -4985,7 +4980,102 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.16/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-datafactory_1.0.0-beta.17/sdk/datafactory/azure-resourcemanager-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armdatafactory_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/datafactory/armdatafactory"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/datafactory/resource-manager/Microsoft.DataFactory/stable/2018-06-01/examples/Pipelines_Update.json
+      func ExamplePipelinesClient_CreateOrUpdate_pipelinesUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armdatafactory.NewPipelinesClient("12345678-1234-1234-1234-12345678abc", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx, "exampleResourceGroup", "exampleFactoryName", "examplePipeline", armdatafactory.PipelineResource{
+      		Properties: &armdatafactory.Pipeline{
+      			Description: to.Ptr("Example description"),
+      			Activities: []armdatafactory.ActivityClassification{
+      				&armdatafactory.ForEachActivity{
+      					Name: to.Ptr("ExampleForeachActivity"),
+      					Type: to.Ptr("ForEach"),
+      					TypeProperties: &armdatafactory.ForEachActivityTypeProperties{
+      						Activities: []armdatafactory.ActivityClassification{
+      							&armdatafactory.CopyActivity{
+      								Name: to.Ptr("ExampleCopyActivity"),
+      								Type: to.Ptr("Copy"),
+      								Inputs: []*armdatafactory.DatasetReference{
+      									{
+      										Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      										Parameters: map[string]interface{}{
+      											"MyFileName":   "examplecontainer.csv",
+      											"MyFolderPath": "examplecontainer",
+      										},
+      										ReferenceName: to.Ptr("exampleDataset"),
+      									}},
+      								Outputs: []*armdatafactory.DatasetReference{
+      									{
+      										Type: to.Ptr(armdatafactory.DatasetReferenceTypeDatasetReference),
+      										Parameters: map[string]interface{}{
+      											"MyFileName": map[string]interface{}{
+      												"type":  "Expression",
+      												"value": "@item()",
+      											},
+      											"MyFolderPath": "examplecontainer",
+      										},
+      										ReferenceName: to.Ptr("exampleDataset"),
+      									}},
+      								TypeProperties: &armdatafactory.CopyActivityTypeProperties{
+      									DataIntegrationUnits: float64(32),
+      									Sink: &armdatafactory.BlobSink{
+      										Type: to.Ptr("BlobSink"),
+      									},
+      									Source: &armdatafactory.BlobSource{
+      										Type: to.Ptr("BlobSource"),
+      									},
+      								},
+      							}},
+      						IsSequential: to.Ptr(true),
+      						Items: &armdatafactory.Expression{
+      							Type:  to.Ptr(armdatafactory.ExpressionTypeExpression),
+      							Value: to.Ptr("@pipeline().parameters.OutputBlobNameList"),
+      						},
+      					},
+      				}},
+      			Parameters: map[string]*armdatafactory.ParameterSpecification{
+      				"OutputBlobNameList": {
+      					Type: to.Ptr(armdatafactory.ParameterTypeArray),
+      				},
+      			},
+      			Policy: &armdatafactory.PipelinePolicy{
+      				ElapsedTimeMetric: &armdatafactory.PipelineElapsedTimeMetricPolicy{
+      					Duration: "0.00:10:00",
+      				},
+      			},
+      		},
+      	}, &armdatafactory.PipelinesClientCreateOrUpdateOptions{IfMatch: nil})
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fdatafactory%2Farmdatafactory%2Fv1.3.0/sdk/resourcemanager/datafactory/armdatafactory/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { DataFactoryManagementClient } = require("@azure/arm-datafactory");
@@ -5061,7 +5151,7 @@ examples:
       pipelinesUpdate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.7.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-datafactory_10.8.0/sdk/datafactory/arm-datafactory/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

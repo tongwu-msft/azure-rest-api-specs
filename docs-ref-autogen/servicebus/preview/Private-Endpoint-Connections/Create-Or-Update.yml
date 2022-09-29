@@ -3,14 +3,14 @@ uid: management.azure.com.servicebus.preview.privateendpointconnections.createor
 name: Create Or Update
 service: Service Bus
 groupName: Private Endpoint Connections
-apiVersion: 2021-06-01-preview
+apiVersion: 2022-01-01-preview
 summary: Creates or updates PrivateEndpointConnections of service namespace.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2021-06-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/privateEndpointConnections/{privateEndpointConnectionName}?api-version=2022-01-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -48,6 +48,10 @@ responses:
   types:
   - uid: PrivateEndpointConnection
 - name: 201 Created
+  description: Request to update Status of PrivateEndPoint Connection accepted.
+  types:
+  - uid: PrivateEndpointConnection
+- name: 202 Accepted
   description: Request to update Status of PrivateEndPoint Connection accepted.
   types:
   - uid: PrivateEndpointConnection
@@ -146,17 +150,22 @@ definitions:
     - uid: EndPointProvisioningState
   - name: id
     isReadyOnly: true
-    description: Resource Id
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: Resource name
+    description: The name of the resource
     types:
     - uid: string
   - name: type
     isReadyOnly: true
-    description: Resource type
+    description: The type of the resource. E.g. "Microsoft.EventHub/Namespaces" or "Microsoft.EventHub/Namespaces/EventHubs"
+    types:
+    - uid: string
+  - name: location
+    isReadyOnly: true
+    description: The geo-location where the resource lives
     types:
     - uid: string
 - name: ErrorResponse
@@ -269,7 +278,7 @@ definitions:
 examples:
 - name: NameSpacePrivateEndPointConnectionCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subID/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924/privateEndpointConnections/privateEndpointConnectionName?api-version=2021-06-01-preview
+    uri: PUT https://management.azure.com/subscriptions/subID/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924/privateEndpointConnections/privateEndpointConnectionName?api-version=2022-01-01-preview
     body: >-
       {
         "properties": {
@@ -286,7 +295,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subID/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924/privateEndpointConnections/privateEndpointConnectionName?api-version=2021-06-01-preview
+      PUT https://management.azure.com/subscriptions/subID/resourceGroups/ArunMonocle/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-2924/privateEndpointConnections/privateEndpointConnectionName?api-version=2022-01-01-preview
 
       {
         "properties": {
@@ -303,6 +312,56 @@ examples:
 
       ```
 
+      # [Go](#tab/Go)
+      ``` go
+      package armservicebus_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/servicebus/armservicebus/v2"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/servicebus/resource-manager/Microsoft.ServiceBus/preview/2022-01-01-preview/examples/NameSpaces/PrivateEndPointConnectionCreate.json
+      func ExamplePrivateEndpointConnectionsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armservicebus.NewPrivateEndpointConnectionsClient("subID", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"ArunMonocle",
+      		"sdk-Namespace-2924",
+      		"privateEndpointConnectionName",
+      		armservicebus.PrivateEndpointConnection{
+      			Properties: &armservicebus.PrivateEndpointConnectionProperties{
+      				PrivateEndpoint: &armservicebus.PrivateEndpoint{
+      					ID: to.Ptr("/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-8396/providers/Microsoft.Network/privateEndpoints/sdk-Namespace-2847"),
+      				},
+      				PrivateLinkServiceConnectionState: &armservicebus.ConnectionState{
+      					Description: to.Ptr("testing"),
+      					Status:      to.Ptr(armservicebus.PrivateLinkConnectionStatusRejected),
+      				},
+      				ProvisioningState: to.Ptr(armservicebus.EndPointProvisioningStateSucceeded),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fservicebus%2Farmservicebus%2Fv2.0.0-beta.1/sdk/resourcemanager/servicebus/armservicebus/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -322,6 +381,23 @@ examples:
         }
       }
   - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-4794/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-5828/privateEndpointConnections/928c44d5-b7c6-423b-b6fa-811e0c27b3e0",
+        "name": "928c44d5-b7c6-423b-b6fa-811e0c27b3e0",
+        "type": "Microsoft.ServiceBus/Namespaces/PrivateEndpointConnections",
+        "properties": {
+          "provisioningState": "Succeeded",
+          "privateEndpoint": {
+            "id": "/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-4794/providers/Microsoft.Network/privateEndpoints/sdk-Namespace-5828"
+          },
+          "privateLinkServiceConnectionState": {
+            "status": "Approved",
+            "description": "Auto-Approved"
+          }
+        }
+      }
+  - statusCode: "202"
     body: >-
       {
         "id": "/subscriptions/dbedb4e0-40e6-4145-81f3-f1314c150774/resourceGroups/SDK-ServiceBus-4794/providers/Microsoft.ServiceBus/namespaces/sdk-Namespace-5828/privateEndpointConnections/928c44d5-b7c6-423b-b6fa-811e0c27b3e0",

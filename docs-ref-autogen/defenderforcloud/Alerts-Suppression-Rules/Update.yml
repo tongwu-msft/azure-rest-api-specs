@@ -292,6 +292,79 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.management.serializer.SerializerFactory;
+      import com.azure.core.util.Context;
+      import com.azure.core.util.serializer.SerializerEncoding;
+      import com.azure.resourcemanager.security.fluent.models.AlertsSuppressionRuleInner;
+      import com.azure.resourcemanager.security.models.RuleState;
+      import com.azure.resourcemanager.security.models.ScopeElement;
+      import com.azure.resourcemanager.security.models.SuppressionAlertsScope;
+      import java.io.IOException;
+      import java.time.OffsetDateTime;
+      import java.util.Arrays;
+      import java.util.HashMap;
+      import java.util.Map;
+
+      /** Samples for AlertsSuppressionRules Update. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2019-01-01-preview/examples/AlertsSuppressionRules/PutAlertsSuppressionRule_example.json
+           */
+          /**
+           * Sample code: Update or create suppression rule for subscription.
+           *
+           * @param manager Entry point to SecurityManager.
+           */
+          public static void updateOrCreateSuppressionRuleForSubscription(
+              com.azure.resourcemanager.security.SecurityManager manager) throws IOException {
+              manager
+                  .alertsSuppressionRules()
+                  .updateWithResponse(
+                      "dismissIpAnomalyAlerts",
+                      new AlertsSuppressionRuleInner()
+                          .withAlertType("IpAnomaly")
+                          .withExpirationDateUtc(OffsetDateTime.parse("2019-12-01T19:50:47.083633Z"))
+                          .withReason("FalsePositive")
+                          .withState(RuleState.ENABLED)
+                          .withComment("Test VM")
+                          .withSuppressionAlertsScope(
+                              new SuppressionAlertsScope()
+                                  .withAllOf(
+                                      Arrays
+                                          .asList(
+                                              new ScopeElement()
+                                                  .withField("entities.ip.address")
+                                                  .withAdditionalProperties(
+                                                      mapOf(
+                                                          "in",
+                                                          SerializerFactory
+                                                              .createDefaultManagementSerializerAdapter()
+                                                              .deserialize(
+                                                                  "[\"104.215.95.187\",\"52.164.206.56\"]",
+                                                                  Object.class,
+                                                                  SerializerEncoding.JSON))),
+                                              new ScopeElement()
+                                                  .withField("entities.process.commandline")
+                                                  .withAdditionalProperties(mapOf("contains", "POWERSHELL.EXE"))))),
+                      Context.NONE);
+          }
+
+          @SuppressWarnings("unchecked")
+          private static <T> Map<String, T> mapOf(Object... inputs) {
+              Map<String, T> map = new HashMap<>();
+              for (int i = 0; i < inputs.length; i += 2) {
+                  String key = (String) inputs[i];
+                  T value = (T) inputs[i + 1];
+                  map.put(key, value);
+              }
+              return map;
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-security_1.0.0-beta.2/sdk/security/azure-resourcemanager-security/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armsecurity_test
@@ -318,36 +391,33 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	res, err := client.Update(ctx,
-      		"dismissIpAnomalyAlerts",
-      		armsecurity.AlertsSuppressionRule{
-      			Properties: &armsecurity.AlertsSuppressionRuleProperties{
-      				AlertType:         to.Ptr("IpAnomaly"),
-      				Comment:           to.Ptr("Test VM"),
-      				ExpirationDateUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2019-12-01T19:50:47.083633Z"); return t }()),
-      				Reason:            to.Ptr("FalsePositive"),
-      				State:             to.Ptr(armsecurity.RuleStateEnabled),
-      				SuppressionAlertsScope: &armsecurity.SuppressionAlertsScope{
-      					AllOf: []*armsecurity.ScopeElement{
-      						{
-      							AdditionalProperties: map[string]interface{}{
-      								"in": []interface{}{
-      									"104.215.95.187",
-      									"52.164.206.56",
-      								},
+      	res, err := client.Update(ctx, "dismissIpAnomalyAlerts", armsecurity.AlertsSuppressionRule{
+      		Properties: &armsecurity.AlertsSuppressionRuleProperties{
+      			AlertType:         to.Ptr("IpAnomaly"),
+      			Comment:           to.Ptr("Test VM"),
+      			ExpirationDateUTC: to.Ptr(func() time.Time { t, _ := time.Parse(time.RFC3339Nano, "2019-12-01T19:50:47.083633Z"); return t }()),
+      			Reason:            to.Ptr("FalsePositive"),
+      			State:             to.Ptr(armsecurity.RuleStateEnabled),
+      			SuppressionAlertsScope: &armsecurity.SuppressionAlertsScope{
+      				AllOf: []*armsecurity.ScopeElement{
+      					{
+      						AdditionalProperties: map[string]interface{}{
+      							"in": []interface{}{
+      								"104.215.95.187",
+      								"52.164.206.56",
       							},
-      							Field: to.Ptr("entities.ip.address"),
       						},
-      						{
-      							AdditionalProperties: map[string]interface{}{
-      								"contains": "POWERSHELL.EXE",
-      							},
-      							Field: to.Ptr("entities.process.commandline"),
-      						}},
-      				},
+      						Field: to.Ptr("entities.ip.address"),
+      					},
+      					{
+      						AdditionalProperties: map[string]interface{}{
+      							"contains": "POWERSHELL.EXE",
+      						},
+      						Field: to.Ptr("entities.process.commandline"),
+      					}},
       			},
       		},
-      		nil)
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -356,7 +426,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.8.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { SecurityCenter } = require("@azure/arm-security");
@@ -393,7 +463,7 @@ examples:
       updateOrCreateSuppressionRuleForSubscription().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_6.0.0-beta.1/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

@@ -1,0 +1,160 @@
+### YamlMime:RESTOperation
+uid: deviceupdate.2022-10-01.devicemanagement.getupdatecomplianceforgroup
+name: Get Update Compliance For Group
+service: Device Update
+groupName: Device Management
+apiVersion: 2022-10-01
+summary: Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on receiving a new update.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: GET https://{endpoint}/deviceUpdate/{instanceId}/management/groups/{groupId}/updateCompliance?api-version=2022-10-01
+uriParameters:
+- name: endpoint
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account endpoint (hostname only, no protocol).
+  types:
+  - uid: string
+  format: url
+- name: instanceId
+  in: path
+  isRequired: true
+  skipUrlEncoding: true
+  description: The Device Update for IoT Hub account instance identifier.
+  types:
+  - uid: string
+- name: groupId
+  in: path
+  isRequired: true
+  description: Group identifier.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of the API to be used with the client request.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The device group update compliance information.
+  types:
+  - uid: UpdateCompliance
+- name: Other Status Codes
+  description: Default response.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: UpdateCompliance
+  description: Update compliance information.
+  kind: object
+  properties:
+  - name: totalDeviceCount
+    description: Total number of devices.
+    types:
+    - uid: integer
+  - name: onLatestUpdateDeviceCount
+    description: Number of devices on the latest update.
+    types:
+    - uid: integer
+  - name: newUpdatesAvailableDeviceCount
+    description: Number of devices with a newer update available.
+    types:
+    - uid: integer
+  - name: updatesInProgressDeviceCount
+    description: Number of devices with update in-progress.
+    types:
+    - uid: integer
+- name: ErrorResponse
+  description: Common error response.
+  kind: object
+  properties:
+  - name: error
+    description: The error details.
+    types:
+    - uid: Error
+- name: Error
+  description: Error details.
+  kind: object
+  properties:
+  - name: code
+    description: Server defined error code.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the error.
+    types:
+    - uid: string
+  - name: details
+    description: An array of errors that led to the reported error.
+    types:
+    - uid: Error
+      isArray: true
+  - name: innererror
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+  - name: occurredDateTime
+    description: Date and time in UTC when the error occurred.
+    types:
+    - uid: string
+- name: InnerError
+  description: An object containing more specific information than the current object about the error.
+  kind: object
+  properties:
+  - name: code
+    description: A more specific error code than what was provided by the containing error.
+    types:
+    - uid: string
+  - name: message
+    description: A human-readable representation of the error.
+    types:
+    - uid: string
+  - name: errorDetail
+    description: The internal error or exception message.
+    types:
+    - uid: string
+  - name: innerError
+    description: An object containing more specific information than the current object about the error.
+    types:
+    - uid: InnerError
+examples:
+- name: DeviceManagement_GetUpdateComplianceForGroup
+  request:
+    uri: GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/updateCompliance?api-version=2022-10-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      GET https://contoso.api.adu.microsoft.com/deviceUpdate/blue/management/groups/group1/updateCompliance?api-version=2022-10-01
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalDeviceCount": 302204,
+        "onLatestUpdateDeviceCount": 256873,
+        "newUpdatesAvailableDeviceCount": 36265,
+        "updatesInProgressDeviceCount": 9066
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: https://api.adu.microsoft.com/.default
+    description: Default authorization scope.
+metadata:
+  description: Get device group update compliance information such as how many devices are on their latest update, how many need new updates, and how many are in progress on r
+errorCodes: []

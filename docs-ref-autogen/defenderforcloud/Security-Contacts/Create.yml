@@ -278,6 +278,75 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.resourcemanager.security.models.MinimalSeverity;
+      import com.azure.resourcemanager.security.models.Roles;
+      import com.azure.resourcemanager.security.models.SecurityContactPropertiesAlertNotifications;
+      import com.azure.resourcemanager.security.models.SecurityContactPropertiesNotificationsByRole;
+      import com.azure.resourcemanager.security.models.State;
+      import java.util.Arrays;
+
+      /** Samples for SecurityContacts Create. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
+           */
+          /**
+           * Sample code: Create security contact data.
+           *
+           * @param manager Entry point to SecurityManager.
+           */
+          public static void createSecurityContactData(com.azure.resourcemanager.security.SecurityManager manager) {
+              manager
+                  .securityContacts()
+                  .define("default")
+                  .withEmails("john@contoso.com;jane@contoso.com")
+                  .withPhone("(214)275-4038")
+                  .withAlertNotifications(
+                      new SecurityContactPropertiesAlertNotifications()
+                          .withState(State.fromString("On"))
+                          .withMinimalSeverity(MinimalSeverity.LOW))
+                  .withNotificationsByRole(
+                      new SecurityContactPropertiesNotificationsByRole()
+                          .withState(State.fromString("On"))
+                          .withRoles(Arrays.asList(Roles.OWNER)))
+                  .create();
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-security_1.0.0-beta.2/sdk/security/azure-resourcemanager-security/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { SecurityCenter } = require("@azure/arm-security");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create security contact configurations for the subscription
+       *
+       * @summary Create security contact configurations for the subscription
+       * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/preview/2020-01-01-preview/examples/SecurityContacts/CreateSecurityContact_example.json
+       */
+      async function createSecurityContactData() {
+        const subscriptionId = "20ff7fc3-e762-44dd-bd96-b71116dcdc23";
+        const securityContactName = "default";
+        const securityContact = {
+          alertNotifications: { minimalSeverity: "Low", state: "On" },
+          emails: "john@contoso.com;jane@contoso.com",
+          notificationsByRole: { roles: ["Owner"], state: "On" },
+          phone: "+214-2754038",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new SecurityCenter(credential, subscriptionId);
+        const result = await client.securityContacts.create(securityContactName, securityContact);
+        console.log(result);
+      }
+
+      createSecurityContactData().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_6.0.0-beta.1/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "201"
     body: >-

@@ -295,6 +295,62 @@ examples:
 
       ```
 
+      # [Java](#tab/Java)
+      ``` java
+      import com.azure.core.util.Context;
+      import com.azure.resourcemanager.security.models.AdaptiveNetworkHardeningEnforceRequest;
+      import com.azure.resourcemanager.security.models.Direction;
+      import com.azure.resourcemanager.security.models.Rule;
+      import com.azure.resourcemanager.security.models.TransportProtocol;
+      import java.util.Arrays;
+
+      /** Samples for AdaptiveNetworkHardenings Enforce. */
+      public final class Main {
+          /*
+           * x-ms-original-file: specification/security/resource-manager/Microsoft.Security/stable/2020-01-01/examples/AdaptiveNetworkHardenings/EnforceAdaptiveNetworkHardeningRules_example.json
+           */
+          /**
+           * Sample code: Enforces the given rules on the NSG(s) listed in the request.
+           *
+           * @param manager Entry point to SecurityManager.
+           */
+          public static void enforcesTheGivenRulesOnTheNSGSListedInTheRequest(
+              com.azure.resourcemanager.security.SecurityManager manager) {
+              manager
+                  .adaptiveNetworkHardenings()
+                  .enforce(
+                      "rg1",
+                      "Microsoft.Compute",
+                      "virtualMachines",
+                      "vm1",
+                      "default",
+                      new AdaptiveNetworkHardeningEnforceRequest()
+                          .withRules(
+                              Arrays
+                                  .asList(
+                                      new Rule()
+                                          .withName("rule1")
+                                          .withDirection(Direction.INBOUND)
+                                          .withDestinationPort(3389)
+                                          .withProtocols(Arrays.asList(TransportProtocol.TCP))
+                                          .withIpAddresses(Arrays.asList("100.10.1.1", "200.20.2.2", "81.199.3.0/24")),
+                                      new Rule()
+                                          .withName("rule2")
+                                          .withDirection(Direction.INBOUND)
+                                          .withDestinationPort(22)
+                                          .withProtocols(Arrays.asList(TransportProtocol.TCP))
+                                          .withIpAddresses(Arrays.asList())))
+                          .withNetworkSecurityGroups(
+                              Arrays
+                                  .asList(
+                                      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1",
+                                      "/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2")),
+                      Context.NONE);
+          }
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-security_1.0.0-beta.2/sdk/security/azure-resourcemanager-security/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armsecurity_test
@@ -319,38 +375,31 @@ examples:
       	if err != nil {
       		log.Fatalf("failed to create client: %v", err)
       	}
-      	poller, err := client.BeginEnforce(ctx,
-      		"rg1",
-      		"Microsoft.Compute",
-      		"virtualMachines",
-      		"vm1",
-      		"default",
-      		armsecurity.AdaptiveNetworkHardeningEnforceRequest{
-      			NetworkSecurityGroups: []*string{
-      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"),
-      				to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2")},
-      			Rules: []*armsecurity.Rule{
-      				{
-      					Name:            to.Ptr("rule1"),
-      					DestinationPort: to.Ptr[int32](3389),
-      					Direction:       to.Ptr(armsecurity.DirectionInbound),
-      					IPAddresses: []*string{
-      						to.Ptr("100.10.1.1"),
-      						to.Ptr("200.20.2.2"),
-      						to.Ptr("81.199.3.0/24")},
-      					Protocols: []*armsecurity.TransportProtocol{
-      						to.Ptr(armsecurity.TransportProtocolTCP)},
-      				},
-      				{
-      					Name:            to.Ptr("rule2"),
-      					DestinationPort: to.Ptr[int32](22),
-      					Direction:       to.Ptr(armsecurity.DirectionInbound),
-      					IPAddresses:     []*string{},
-      					Protocols: []*armsecurity.TransportProtocol{
-      						to.Ptr(armsecurity.TransportProtocolTCP)},
-      				}},
-      		},
-      		nil)
+      	poller, err := client.BeginEnforce(ctx, "rg1", "Microsoft.Compute", "virtualMachines", "vm1", "default", armsecurity.AdaptiveNetworkHardeningEnforceRequest{
+      		NetworkSecurityGroups: []*string{
+      			to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg1/providers/Microsoft.Network/networkSecurityGroups/nsg1"),
+      			to.Ptr("/subscriptions/20ff7fc3-e762-44dd-bd96-b71116dcdc23/resourceGroups/rg2/providers/Microsoft.Network/networkSecurityGroups/nsg2")},
+      		Rules: []*armsecurity.Rule{
+      			{
+      				Name:            to.Ptr("rule1"),
+      				DestinationPort: to.Ptr[int32](3389),
+      				Direction:       to.Ptr(armsecurity.DirectionInbound),
+      				IPAddresses: []*string{
+      					to.Ptr("100.10.1.1"),
+      					to.Ptr("200.20.2.2"),
+      					to.Ptr("81.199.3.0/24")},
+      				Protocols: []*armsecurity.TransportProtocol{
+      					to.Ptr(armsecurity.TransportProtocolTCP)},
+      			},
+      			{
+      				Name:            to.Ptr("rule2"),
+      				DestinationPort: to.Ptr[int32](22),
+      				Direction:       to.Ptr(armsecurity.DirectionInbound),
+      				IPAddresses:     []*string{},
+      				Protocols: []*armsecurity.TransportProtocol{
+      					to.Ptr(armsecurity.TransportProtocolTCP)},
+      			}},
+      	}, nil)
       	if err != nil {
       		log.Fatalf("failed to finish the request: %v", err)
       	}
@@ -361,7 +410,7 @@ examples:
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.7.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fsecurity%2Farmsecurity%2Fv0.8.0/sdk/resourcemanager/security/armsecurity/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { SecurityCenter } = require("@azure/arm-security");
@@ -418,7 +467,7 @@ examples:
       enforcesTheGivenRulesOnTheNsgSListedInTheRequest().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_5.0.0/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-security_6.0.0-beta.1/sdk/security/arm-security/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

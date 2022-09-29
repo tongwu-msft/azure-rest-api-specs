@@ -40,4 +40,4 @@ Visit the [Cognitive Services REST API Sample GitHub repo](https://github.com/Az
 
 - For an overview of the service, see [What is Text Analytics?](/azure/cognitive-services/text-analytics/overview)
 - To create an Azure Cognitive Service resource, see [Get started with Azure Cognitive Service](/azure/cognitive-services/cognitive-services-apis-create-account).
-- To access REST specifications for previous versions of Text Analytics API, see this [GitHub repo](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/cognitiveservices/data-plane/TextAnalytics).
+- To access REST specifications for previous versions of Text Analytics API, see this [GitHub repo](https://github.com/Azure/azure-rest-api-specs/tree/main/specification/cognitiveservices/data-plane/TextAnalytics).
