@@ -5,8 +5,6 @@ ms.date: 05/09/2022
 ms.service: azure-maps
 ms.topic: reference
 ms.devlang: rest-api
-author: sethmanheim
-ms.author: sethm
 ---
 
 # Azure Maps overview
