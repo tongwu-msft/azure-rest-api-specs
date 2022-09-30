@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedidentity.operations.list
+uid: management.azure.com.managedidentity.2022-01-31-preview.operations.list
 name: List
 service: Managed Identity
 groupName: Operations
-apiVersion: 2018-11-30
+apiVersion: 2022-01-31-preview
 summary: Lists available operations for the Microsoft.ManagedIdentity provider
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2018-11-30
+- content: GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2022-01-31-preview
 uriParameters:
 - name: api-version
   in: query
@@ -106,34 +106,13 @@ definitions:
 examples:
 - name: MsiOperationsList
   request:
-    uri: GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2018-11-30
+    uri: GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2022-01-31-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2018-11-30
+      GET https://management.azure.com/providers/Microsoft.ManagedIdentity/operations?api-version=2022-01-31-preview
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Operations List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/MsiOperationsList.json
-           */
-          /**
-           * Sample code: MsiOperationsList.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void msiOperationsList(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.identities().manager().serviceClient().getOperations().list(Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armmsi_test
@@ -146,31 +125,58 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
       )
 
-      // x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/MsiOperationsList.json
-      func ExampleOperationsClient_List() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/MsiOperationsList.json
+      func ExampleOperationsClient_NewListPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmsi.NewOperationsClient(cred, nil)
-      	pager := client.List(nil)
-      	for {
-      		nextResult := pager.NextPage(ctx)
-      		if err := pager.Err(); err != nil {
+      	client, err := armmsi.NewOperationsClient(cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListPager(nil)
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
       		}
-      		if !nextResult {
-      			break
-      		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("Pager result: %#v\n", v)
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
       		}
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.3.1/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.7.0/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists available operations for the Microsoft.ManagedIdentity provider
+       *
+       * @summary Lists available operations for the Microsoft.ManagedIdentity provider
+       * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/MsiOperationsList.json
+       */
+      async function msiOperationsList() {
+        const subscriptionId = "00000000-0000-0000-0000-000000000000";
+        const credential = new DefaultAzureCredential();
+        const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.operations.list()) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      msiOperationsList().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-msi_2.1.0-beta.2/sdk/msi/arm-msi/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -204,7 +210,7 @@ examples:
             "name": "Microsoft.ManagedIdentity/userAssignedIdentities/delete"
           }
         ],
-        "nextLink": "https://serviceRoot/providers/Microsoft.ManagedIdentity/operations?api-version=2018-11-30&$skiptoken=X'12345'"
+        "nextLink": "https://serviceRoot/providers/Microsoft.ManagedIdentity/operations?api-version=2022-01-31-preview&$skiptoken=X'12345'"
       }
 security:
 - name: azure_auth
