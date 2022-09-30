@@ -3,15 +3,15 @@ uid: management.azure.com.application-gateway.applicationgateways.backendhealtho
 name: Backend Health On Demand
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand?api-version=2022-01-01
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand?api-version=2022-01-01&$expand={$expand}
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand?api-version=2022-05-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/applicationGateways/{applicationGatewayName}/getBackendHealthOnDemand?api-version=2022-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -1822,18 +1822,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2158,6 +2154,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -2495,14 +2495,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -2931,7 +2934,7 @@ definitions:
 examples:
 - name: Test Backend Health
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/getBackendHealthOnDemand?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/getBackendHealthOnDemand?api-version=2022-05-01
     body: >-
       {
         "protocol": "Http",
@@ -2948,7 +2951,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/getBackendHealthOnDemand?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/getBackendHealthOnDemand?api-version=2022-05-01
 
       {
         "protocol": "Http",
@@ -2965,142 +2968,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.management.SubResource;
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.ApplicationGatewayOnDemandProbe;
-      import com.azure.resourcemanager.network.models.ApplicationGatewayProtocol;
-
-      /** Samples for ApplicationGateways BackendHealthOnDemand. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayBackendHealthTest.json
-           */
-          /**
-           * Sample code: Test Backend Health.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void testBackendHealth(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getApplicationGateways()
-                  .backendHealthOnDemand(
-                      "rg1",
-                      "appgw",
-                      new ApplicationGatewayOnDemandProbe()
-                          .withProtocol(ApplicationGatewayProtocol.HTTP)
-                          .withPath("/")
-                          .withTimeout(30)
-                          .withPickHostnameFromBackendHttpSettings(true)
-                          .withBackendAddressPool(
-                              new SubResource()
-                                  .withId(
-                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool"))
-                          .withBackendHttpSettings(
-                              new SubResource()
-                                  .withId(
-                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings")),
-                      null,
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayBackendHealthTest.json
-      func ExampleApplicationGatewaysClient_BeginBackendHealthOnDemand() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewApplicationGatewaysClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginBackendHealthOnDemand(ctx, "rg1", "appgw", armnetwork.ApplicationGatewayOnDemandProbe{
-      		Path: to.Ptr("/"),
-      		BackendAddressPool: &armnetwork.SubResource{
-      			ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool"),
-      		},
-      		BackendHTTPSettings: &armnetwork.SubResource{
-      			ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings"),
-      		},
-      		PickHostNameFromBackendHTTPSettings: to.Ptr(true),
-      		Timeout:                             to.Ptr[int32](30),
-      		Protocol:                            to.Ptr(armnetwork.ApplicationGatewayProtocolHTTP),
-      	}, &armnetwork.ApplicationGatewaysClientBeginBackendHealthOnDemandOptions{Expand: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
-       *
-       * @summary Gets the backend health for given combination of backend pool and http setting of the specified application gateway in a resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayBackendHealthTest.json
-       */
-      async function testBackendHealth() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const applicationGatewayName = "appgw";
-        const probeRequest = {
-          path: "/",
-          backendAddressPool: {
-            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendaddressPools/MFAnalyticsPool",
-          },
-          backendHttpSettings: {
-            id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/applicationGateways/appgw/backendHttpSettingsCollection/MFPoolSettings",
-          },
-          pickHostNameFromBackendHttpSettings: true,
-          timeout: 30,
-          protocol: "Http",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.applicationGateways.beginBackendHealthOnDemandAndWait(
-          resourceGroupName,
-          applicationGatewayName,
-          probeRequest
-        );
-        console.log(result);
-      }
-
-      testBackendHealth().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

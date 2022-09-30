@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.bastionhosts.updatetags
 name: Update Tags
 service: Virtual Networks
 groupName: Bastion Hosts
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Updates Tags for BastionHost resource
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}?api-version=2022-01-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -279,7 +279,7 @@ definitions:
 examples:
 - name: Patch Bastion Host
   request:
-    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant?api-version=2022-01-01
+    uri: PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant?api-version=2022-05-01
     body: >-
       {
         "tags": {
@@ -290,7 +290,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant?api-version=2022-01-01
+      PATCH https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant?api-version=2022-05-01
 
       {
         "tags": {
@@ -301,123 +301,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.TagsObject;
-      import java.util.HashMap;
-      import java.util.Map;
-
-      /** Samples for BastionHosts UpdateTags. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/BastionHostPatch.json
-           */
-          /**
-           * Sample code: Patch Bastion Host.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void patchBastionHost(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getBastionHosts()
-                  .updateTags(
-                      "rg1",
-                      "bastionhosttenant",
-                      new TagsObject().withTags(mapOf("tag1", "value1", "tag2", "value2")),
-                      Context.NONE);
-          }
-
-          @SuppressWarnings("unchecked")
-          private static <T> Map<String, T> mapOf(Object... inputs) {
-              Map<String, T> map = new HashMap<>();
-              for (int i = 0; i < inputs.length; i += 2) {
-                  String key = (String) inputs[i];
-                  T value = (T) inputs[i + 1];
-                  map.put(key, value);
-              }
-              return map;
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/BastionHostPatch.json
-      func ExampleBastionHostsClient_BeginUpdateTags() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewBastionHostsClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginUpdateTags(ctx, "rg1", "bastionhosttenant", armnetwork.TagsObject{
-      		Tags: map[string]*string{
-      			"tag1": to.Ptr("value1"),
-      			"tag2": to.Ptr("value2"),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Updates Tags for BastionHost resource
-       *
-       * @summary Updates Tags for BastionHost resource
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/BastionHostPatch.json
-       */
-      async function patchBastionHost() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const bastionHostName = "bastionhosttenant";
-        const parameters = { tags: { tag1: "value1", tag2: "value2" } };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.bastionHosts.beginUpdateTagsAndWait(
-          resourceGroupName,
-          bastionHostName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      patchBastionHost().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "200"

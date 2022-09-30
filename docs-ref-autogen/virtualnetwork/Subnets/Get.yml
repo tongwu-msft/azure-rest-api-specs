@@ -3,15 +3,15 @@ uid: management.azure.com.virtualnetwork.subnets.get
 name: Get
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets the specified subnet by virtual network and resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2022-01-01
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2022-01-01&$expand={$expand}
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2022-05-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}?api-version=2022-05-01&$expand={$expand}
   isOptional: true
 uriParameters:
 - name: subscriptionId
@@ -927,6 +927,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -1855,18 +1859,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2490,14 +2490,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -2660,98 +2663,13 @@ definitions:
 examples:
 - name: Get subnet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Subnets Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGet.json
-           */
-          /**
-           * Sample code: Get subnet.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getSubnet(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getSubnets()
-                  .getWithResponse("subnet-test", "vnetname", "subnet1", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGet.json
-      func ExampleSubnetsClient_Get_subnetGet() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewSubnetsClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx, "subnet-test", "vnetname", "subnet1", &armnetwork.SubnetsClientGetOptions{Expand: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
-       *
-       * @summary Gets the specified subnet by virtual network and resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGet.json
-       */
-      async function getSubnet() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "subnet-test";
-        const virtualNetworkName = "vnetname";
-        const subnetName = "subnet1";
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.subnets.get(resourceGroupName, virtualNetworkName, subnetName);
-        console.log(result);
-      }
-
-      getSubnet().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -2765,98 +2683,13 @@ examples:
       }
 - name: Get subnet with a delegation
   request:
-    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subId/resourceGroups/subnet-test/providers/Microsoft.Network/virtualNetworks/vnetname/subnets/subnet1?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for Subnets Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGetWithDelegation.json
-           */
-          /**
-           * Sample code: Get subnet with a delegation.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getSubnetWithADelegation(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getSubnets()
-                  .getWithResponse("subnet-test", "vnetname", "subnet1", null, Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGetWithDelegation.json
-      func ExampleSubnetsClient_Get_subnetGetWithDelegation() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewSubnetsClient("subId", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx, "subnet-test", "vnetname", "subnet1", &armnetwork.SubnetsClientGetOptions{Expand: nil})
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Gets the specified subnet by virtual network and resource group.
-       *
-       * @summary Gets the specified subnet by virtual network and resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetGetWithDelegation.json
-       */
-      async function getSubnetWithADelegation() {
-        const subscriptionId = "subId";
-        const resourceGroupName = "subnet-test";
-        const virtualNetworkName = "vnetname";
-        const subnetName = "subnet1";
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.subnets.get(resourceGroupName, virtualNetworkName, subnetName);
-        console.log(result);
-      }
-
-      getSubnetWithADelegation().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
