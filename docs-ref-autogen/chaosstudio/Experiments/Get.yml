@@ -3,14 +3,14 @@ uid: management.azure.com.chaosstudio.experiments.get
 name: Get
 service: Chaos Studio
 groupName: Experiments
-apiVersion: 2022-07-01-preview
+apiVersion: 2022-10-01-preview
 summary: Get a Experiment resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}?api-version=2022-07-01-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}?api-version=2022-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -189,6 +189,11 @@ definitions:
     types:
     - uid: targetReference
       isArray: true
+  - name: filter
+    description: Model that represents available filter types that can be applied to a targets list.
+    types:
+    - uid: simpleFilter
+    typesTitle: filter
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -313,6 +318,19 @@ definitions:
   - name: ChaosTarget
     types:
     - uid: string
+- name: simpleFilter
+  description: Model that represents a simple target filter.
+  kind: object
+  properties:
+  - name: parameters
+    description: Model that represents the Simple filter parameters.
+    types:
+    - uid: simpleFilterParameters
+  - name: type
+    description: Enum that discriminates between filter types. Currently only `Simple` type is supported.
+    types:
+    - uid: Simple
+    typesTitle: string
 - name: delayAction
   description: Model that represents a delay action.
   kind: object
@@ -378,6 +396,15 @@ definitions:
     description: String that represents a Capability URN.
     types:
     - uid: string
+- name: simpleFilterParameters
+  description: Model that represents the Simple filter parameters.
+  kind: object
+  properties:
+  - name: zones
+    description: List of Azure availability zones to filter targets by.
+    types:
+    - uid: string
+      isArray: true
 - name: keyValuePair
   description: A map to describe the settings of an action.
   kind: object
@@ -393,38 +420,13 @@ definitions:
 examples:
 - name: Get a Experiment in a resource group.
   request:
-    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview
+    uri: GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview
+      GET https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview
       ```
 
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ChaosManagementClient } = require("@azure/arm-chaos");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Get a Experiment resource.
-       *
-       * @summary Get a Experiment resource.
-       * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/GetAExperiment.json
-       */
-      async function getAExperimentInAResourceGroup() {
-        const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-        const resourceGroupName = "exampleRG";
-        const experimentName = "exampleExperiment";
-        const credential = new DefaultAzureCredential();
-        const client = new ChaosManagementClient(credential, subscriptionId);
-        const result = await client.experiments.get(resourceGroupName, experimentName);
-        console.log(result);
-      }
-
-      getAExperimentInAResourceGroup().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-chaos_1.0.0-beta.1/sdk/chaos/arm-chaos/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

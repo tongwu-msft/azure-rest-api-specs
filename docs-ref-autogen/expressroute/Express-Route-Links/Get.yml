@@ -3,14 +3,14 @@ uid: management.azure.com.expressroute.expressroutelinks.get
 name: Get
 service: ExpressRoute
 groupName: Express Route Links
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Retrieves the specified ExpressRouteLink resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/ExpressRoutePorts/{expressRoutePortName}/links/{linkName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,11 @@ definitions:
   - name: properties.rackId
     isReadyOnly: true
     description: Mapping of physical patch panel to rack.
+    types:
+    - uid: string
+  - name: properties.coloLocation
+    isReadyOnly: true
+    description: Cololocation for ExpressRoute Hybrid Direct.
     types:
     - uid: string
   - name: properties.connectorType
@@ -222,102 +227,13 @@ definitions:
 examples:
 - name: ExpressRouteLinkGet
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName/links/linkName?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName/links/linkName?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName/links/linkName?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ExpressRoutePorts/portName/links/linkName?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for ExpressRouteLinks Get. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteLinkGet.json
-           */
-          /**
-           * Sample code: ExpressRouteLinkGet.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void expressRouteLinkGet(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getExpressRouteLinks()
-                  .getWithResponse("rg1", "portName", "linkName", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteLinkGet.json
-      func ExampleExpressRouteLinksClient_Get() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewExpressRouteLinksClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.Get(ctx, "rg1", "portName", "linkName", nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Retrieves the specified ExpressRouteLink resource.
-       *
-       * @summary Retrieves the specified ExpressRouteLink resource.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteLinkGet.json
-       */
-      async function expressRouteLinkGet() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const expressRoutePortName = "portName";
-        const linkName = "linkName";
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.expressRouteLinks.get(
-          resourceGroupName,
-          expressRoutePortName,
-          linkName
-        );
-        console.log(result);
-      }
-
-      expressRouteLinkGet().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -330,6 +246,7 @@ examples:
           "interfaceName": "Ethernet 0/0",
           "patchPanelId": "patchPanelId1",
           "rackId": "rackId1",
+          "coloLocation": "coloLocationName",
           "connectorType": "LC",
           "adminState": "Disabled"
         }

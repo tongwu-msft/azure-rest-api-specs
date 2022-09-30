@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.deletebastionshareablelink.deletebastio
 name: Delete Bastion Shareable Link
 service: Virtual Networks
 groupName: Delete Bastion Shareable Link
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Deletes the Bastion Shareable Links for all the VMs specified in the request.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/bastionHosts/{bastionHostName}/deleteShareableLinks?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -150,7 +150,7 @@ definitions:
 examples:
 - name: Delete Bastion Shareable Links for the request VMs
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant/deleteShareableLinks?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant/deleteShareableLinks?api-version=2022-05-01
     body: >-
       {
         "vms": [
@@ -169,7 +169,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant/deleteShareableLinks?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/bastionHosts/bastionhosttenant/deleteShareableLinks?api-version=2022-05-01
 
       {
         "vms": [
@@ -188,97 +188,6 @@ examples:
 
       ```
 
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/BastionShareableLinkDelete.json
-      func ExampleManagementClient_BeginDeleteBastionShareableLink() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewManagementClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginDeleteBastionShareableLink(ctx, "rg1", "bastionhosttenant", armnetwork.BastionShareableLinkListRequest{
-      		VMs: []*armnetwork.BastionShareableLink{
-      			{
-      				VM: &armnetwork.VM{
-      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1"),
-      				},
-      			},
-      			{
-      				VM: &armnetwork.VM{
-      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2"),
-      				},
-      			}},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	_, err = poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Deletes the Bastion Shareable Links for all the VMs specified in the request.
-       *
-       * @summary Deletes the Bastion Shareable Links for all the VMs specified in the request.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/BastionShareableLinkDelete.json
-       */
-      async function deleteBastionShareableLinksForTheRequestVMS() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const bastionHostName = "bastionhosttenant";
-        const bslRequest = {
-          vms: [
-            {
-              vm: {
-                id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm1",
-              },
-            },
-            {
-              vm: {
-                id: "/subscriptions/subid/resourceGroups/rgx/providers/Microsoft.Compute/virtualMachines/vm2",
-              },
-            },
-          ],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.beginDeleteBastionShareableLinkAndWait(
-          resourceGroupName,
-          bastionHostName,
-          bslRequest
-        );
-        console.log(result);
-      }
-
-      deleteBastionShareableLinksForTheRequestVMS().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"

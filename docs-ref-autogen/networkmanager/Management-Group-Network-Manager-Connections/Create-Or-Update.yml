@@ -3,14 +3,14 @@ uid: management.azure.com.networkmanager.managementgroupnetworkmanagerconnection
 name: Create Or Update
 service: Network Manager
 groupName: Management Group Network Manager Connections
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Create a network manager connection on this management group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Network/networkManagerConnections/{networkManagerConnectionName}?api-version=2022-05-01
 uriParameters:
 - name: managementGroupId
   in: path
@@ -171,7 +171,7 @@ definitions:
 examples:
 - name: Create or Update Management Group Network Manager Connection
   request:
-    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-01-01
+    uri: PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -181,7 +181,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-01-01
+      PUT https://management.azure.com/providers/Microsoft.Management/managementGroups/managementGroupA/providers/Microsoft.Network/networkManagerConnections/TestNMConnection?api-version=2022-05-01
 
       {
         "properties": {
@@ -191,111 +191,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.NetworkManagerConnectionInner;
-
-      /** Samples for ManagementGroupNetworkManagerConnections CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerConnectionManagementGroupPut.json
-           */
-          /**
-           * Sample code: Create or Update Management Group Network Manager Connection.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createOrUpdateManagementGroupNetworkManagerConnection(
-              com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getManagementGroupNetworkManagerConnections()
-                  .createOrUpdateWithResponse(
-                      "managementGroupA",
-                      "TestNMConnection",
-                      new NetworkManagerConnectionInner()
-                          .withNetworkManagerId(
-                              "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerConnectionManagementGroupPut.json
-      func ExampleManagementGroupNetworkManagerConnectionsClient_CreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewManagementGroupNetworkManagerConnectionsClient(cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.CreateOrUpdate(ctx, "managementGroupA", "TestNMConnection", armnetwork.ManagerConnection{
-      		Properties: &armnetwork.ManagerConnectionProperties{
-      			NetworkManagerID: to.Ptr("/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager"),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a network manager connection on this management group.
-       *
-       * @summary Create a network manager connection on this management group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkManagerConnectionManagementGroupPut.json
-       */
-      async function createOrUpdateManagementGroupNetworkManagerConnection() {
-        const subscriptionId = "00000000-0000-0000-0000-000000000000";
-        const managementGroupId = "managementGroupA";
-        const networkManagerConnectionName = "TestNMConnection";
-        const parameters = {
-          networkManagerId:
-            "/subscriptions/subscriptionC/resourceGroup/rg1/providers/Microsoft.Network/networkManagers/testNetworkManager",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.managementGroupNetworkManagerConnections.createOrUpdate(
-          managementGroupId,
-          networkManagerConnectionName,
-          parameters
-        );
-        console.log(result);
-      }
-
-      createOrUpdateManagementGroupNetworkManagerConnection().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     headers:

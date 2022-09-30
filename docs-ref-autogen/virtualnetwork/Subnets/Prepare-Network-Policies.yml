@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.subnets.preparenetworkpolicies
 name: Prepare Network Policies
 service: Virtual Networks
 groupName: Subnets
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Prepares a subnet by applying network intent policies.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworks/{virtualNetworkName}/subnets/{subnetName}/PrepareNetworkPolicies?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -159,7 +159,7 @@ definitions:
 examples:
 - name: Prepare Network Policies
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/PrepareNetworkPolicies?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/PrepareNetworkPolicies?api-version=2022-05-01
     body: >-
       {
         "serviceName": "Microsoft.Sql/managedInstances"
@@ -167,7 +167,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/PrepareNetworkPolicies?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/test-vnet/subnets/subnet1/PrepareNetworkPolicies?api-version=2022-05-01
 
       {
         "serviceName": "Microsoft.Sql/managedInstances"
@@ -175,110 +175,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.PrepareNetworkPoliciesRequest;
-
-      /** Samples for Subnets PrepareNetworkPolicies. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetPrepareNetworkPolicies.json
-           */
-          /**
-           * Sample code: Prepare Network Policies.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void prepareNetworkPolicies(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getSubnets()
-                  .prepareNetworkPolicies(
-                      "rg1",
-                      "test-vnet",
-                      "subnet1",
-                      new PrepareNetworkPoliciesRequest().withServiceName("Microsoft.Sql/managedInstances"),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetPrepareNetworkPolicies.json
-      func ExampleSubnetsClient_BeginPrepareNetworkPolicies() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewSubnetsClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginPrepareNetworkPolicies(ctx, "rg1", "test-vnet", "subnet1", armnetwork.PrepareNetworkPoliciesRequest{
-      		ServiceName: to.Ptr("Microsoft.Sql/managedInstances"),
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	_, err = poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { NetworkManagementClient } = require("@azure/arm-network");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Prepares a subnet by applying network intent policies.
-       *
-       * @summary Prepares a subnet by applying network intent policies.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/SubnetPrepareNetworkPolicies.json
-       */
-      async function prepareNetworkPolicies() {
-        const subscriptionId = "subid";
-        const resourceGroupName = "rg1";
-        const virtualNetworkName = "test-vnet";
-        const subnetName = "subnet1";
-        const prepareNetworkPoliciesRequestParameters = {
-          serviceName: "Microsoft.Sql/managedInstances",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new NetworkManagementClient(credential, subscriptionId);
-        const result = await client.subnets.beginPrepareNetworkPoliciesAndWait(
-          resourceGroupName,
-          virtualNetworkName,
-          subnetName,
-          prepareNetworkPoliciesRequestParameters
-        );
-        console.log(result);
-      }
-
-      prepareNetworkPolicies().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
   - statusCode: "202"
