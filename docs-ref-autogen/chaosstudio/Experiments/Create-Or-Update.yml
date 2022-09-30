@@ -3,14 +3,14 @@ uid: management.azure.com.chaosstudio.experiments.createorupdate
 name: Create Or Update
 service: Chaos Studio
 groupName: Experiments
-apiVersion: 2022-07-01-preview
+apiVersion: 2022-10-01-preview
 summary: Create or update a Experiment resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}?api-version=2022-07-01-preview
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Chaos/experiments/{experimentName}?api-version=2022-10-01-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -169,6 +169,11 @@ definitions:
     types:
     - uid: targetReference
       isArray: true
+  - name: filter
+    description: Model that represents available filter types that can be applied to a targets list.
+    types:
+    - uid: simpleFilter
+    typesTitle: filter
 - name: experiment
   description: Model that represents a Experiment resource.
   kind: object
@@ -341,6 +346,19 @@ definitions:
   - name: ChaosTarget
     types:
     - uid: string
+- name: simpleFilter
+  description: Model that represents a simple target filter.
+  kind: object
+  properties:
+  - name: parameters
+    description: Model that represents the Simple filter parameters.
+    types:
+    - uid: simpleFilterParameters
+  - name: type
+    description: Enum that discriminates between filter types. Currently only `Simple` type is supported.
+    types:
+    - uid: Simple
+    typesTitle: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -420,6 +438,15 @@ definitions:
     description: String that represents a Capability URN.
     types:
     - uid: string
+- name: simpleFilterParameters
+  description: Model that represents the Simple filter parameters.
+  kind: object
+  properties:
+  - name: zones
+    description: List of Azure availability zones to filter targets by.
+    types:
+    - uid: string
+      isArray: true
 - name: keyValuePair
   description: A map to describe the settings of an action.
   kind: object
@@ -435,10 +462,10 @@ definitions:
 examples:
 - name: Create/update a Experiment in a resource group.
   request:
-    uri: PUT https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview
+    uri: PUT https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview
     body: >-
       {
-        "location": "centraluseuap",
+        "location": "eastus2euap",
         "identity": {
           "type": "SystemAssigned"
         },
@@ -452,7 +479,7 @@ examples:
                   "actions": [
                     {
                       "type": "continuous",
-                      "name": "urn:csci:provider:providername:Shutdown/1.0",
+                      "name": "urn:csci:microsoft:virtualMachine:shutdown/1.0",
                       "selectorId": "selector1",
                       "duration": "PT10M",
                       "parameters": [
@@ -484,10 +511,10 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-07-01-preview
+      PUT https://management.azure.com/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment?api-version=2022-10-01-preview
 
       {
-        "location": "centraluseuap",
+        "location": "eastus2euap",
         "identity": {
           "type": "SystemAssigned"
         },
@@ -501,7 +528,7 @@ examples:
                   "actions": [
                     {
                       "type": "continuous",
-                      "name": "urn:csci:provider:providername:Shutdown/1.0",
+                      "name": "urn:csci:microsoft:virtualMachine:shutdown/1.0",
                       "selectorId": "selector1",
                       "duration": "PT10M",
                       "parameters": [
@@ -533,70 +560,6 @@ examples:
 
       ```
 
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { ChaosManagementClient } = require("@azure/arm-chaos");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a Experiment resource.
-       *
-       * @summary Create or update a Experiment resource.
-       * x-ms-original-file: specification/chaos/resource-manager/Microsoft.Chaos/preview/2022-07-01-preview/examples/CreateOrUpdateAExperiment.json
-       */
-      async function createOrUpdateAExperimentInAResourceGroup() {
-        const subscriptionId = "6b052e15-03d3-4f17-b2e1-be7f07588291";
-        const resourceGroupName = "exampleRG";
-        const experimentName = "exampleExperiment";
-        const experiment = {
-          identity: { type: "SystemAssigned" },
-          location: "centraluseuap",
-          selectors: [
-            {
-              type: "List",
-              id: "selector1",
-              targets: [
-                {
-                  type: "ChaosTarget",
-                  id: "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Compute/virtualMachines/exampleVM/providers/Microsoft.Chaos/targets/Microsoft-VirtualMachine",
-                },
-              ],
-            },
-          ],
-          steps: [
-            {
-              name: "step1",
-              branches: [
-                {
-                  name: "branch1",
-                  actions: [
-                    {
-                      name: "urn:csci:provider:providername:Shutdown/1.0",
-                      type: "continuous",
-                      duration: "PT10M",
-                      parameters: [{ key: "abruptShutdown", value: "false" }],
-                      selectorId: "selector1",
-                    },
-                  ],
-                },
-              ],
-            },
-          ],
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new ChaosManagementClient(credential, subscriptionId);
-        const result = await client.experiments.createOrUpdate(
-          resourceGroupName,
-          experimentName,
-          experiment
-        );
-        console.log(result);
-      }
-
-      createOrUpdateAExperimentInAResourceGroup().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-chaos_1.0.0-beta.1/sdk/chaos/arm-chaos/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -604,7 +567,7 @@ examples:
         "id": "/subscriptions/6b052e15-03d3-4f17-b2e1-be7f07588291/resourceGroups/exampleRG/providers/Microsoft.Chaos/experiments/exampleExperiment",
         "type": "Microsoft.Chaos/experiments",
         "name": "exampleExperiment",
-        "location": "centraluseuap",
+        "location": "eastus2euap",
         "identity": {
           "type": "SystemAssigned",
           "principalId": "d04ab567-2c07-43ef-a7f4-4527626b7f56",
@@ -620,7 +583,7 @@ examples:
                   "actions": [
                     {
                       "type": "continuous",
-                      "name": "urn:csci:provider:providername:Shutdown/1.0",
+                      "name": "urn:csci:microsoft:virtualMachine:shutdown/1.0",
                       "selectorId": "selector1",
                       "duration": "PT10M",
                       "parameters": [
