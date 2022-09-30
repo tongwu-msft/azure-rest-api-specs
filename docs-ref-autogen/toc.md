@@ -13657,20 +13657,43 @@
 ### [List](managed-grafana/Private-Link-Resources/List.yml)
 # Managed Identity
 ## [Overview](../docs-ref-conceptual/managedidentity/index.md)
-## Operations
-### [Overview](managedidentity/Operations.yml)
-### [List](managedidentity/Operations/List.yml)
-## System Assigned Identities
-### [Overview](managedidentity/System-Assigned-Identities.yml)
-### [Get By Scope](managedidentity/System-Assigned-Identities/Get-By-Scope.yml)
-## User Assigned Identities
-### [Overview](managedidentity/User-Assigned-Identities.yml)
-### [Create Or Update](managedidentity/User-Assigned-Identities/Create-Or-Update.yml)
-### [Delete](managedidentity/User-Assigned-Identities/Delete.yml)
-### [Get](managedidentity/User-Assigned-Identities/Get.yml)
-### [List By Resource Group](managedidentity/User-Assigned-Identities/List-By-Resource-Group.yml)
-### [List By Subscription](managedidentity/User-Assigned-Identities/List-By-Subscription.yml)
-### [Update](managedidentity/User-Assigned-Identities/Update.yml)
+## 2018-11-30
+### Operations
+#### [Overview](managedidentity/2018-11-30/Operations.yml)
+#### [List](managedidentity/2018-11-30/Operations/List.yml)
+### System Assigned Identities
+#### [Overview](managedidentity/2018-11-30/System-Assigned-Identities.yml)
+#### [Get By Scope](managedidentity/2018-11-30/System-Assigned-Identities/Get-By-Scope.yml)
+### User Assigned Identities
+#### [Overview](managedidentity/2018-11-30/User-Assigned-Identities.yml)
+#### [Create Or Update](managedidentity/2018-11-30/User-Assigned-Identities/Create-Or-Update.yml)
+#### [Delete](managedidentity/2018-11-30/User-Assigned-Identities/Delete.yml)
+#### [Get](managedidentity/2018-11-30/User-Assigned-Identities/Get.yml)
+#### [List By Resource Group](managedidentity/2018-11-30/User-Assigned-Identities/List-By-Resource-Group.yml)
+#### [List By Subscription](managedidentity/2018-11-30/User-Assigned-Identities/List-By-Subscription.yml)
+#### [Update](managedidentity/2018-11-30/User-Assigned-Identities/Update.yml)
+## 2022-01-31-preview
+### Federated Identity Credentials
+#### [Overview](managedidentity/2022-01-31-preview/Federated-Identity-Credentials.yml)
+#### [Create Or Update](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Create-Or-Update.yml)
+#### [Delete](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Delete.yml)
+#### [Get](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Get.yml)
+#### [List](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/List.yml)
+### Operations
+#### [Overview](managedidentity/2022-01-31-preview/Operations.yml)
+#### [List](managedidentity/2022-01-31-preview/Operations/List.yml)
+### System Assigned Identities
+#### [Overview](managedidentity/2022-01-31-preview/System-Assigned-Identities.yml)
+#### [Get By Scope](managedidentity/2022-01-31-preview/System-Assigned-Identities/Get-By-Scope.yml)
+### User Assigned Identities
+#### [Overview](managedidentity/2022-01-31-preview/User-Assigned-Identities.yml)
+#### [Create Or Update](managedidentity/2022-01-31-preview/User-Assigned-Identities/Create-Or-Update.yml)
+#### [Delete](managedidentity/2022-01-31-preview/User-Assigned-Identities/Delete.yml)
+#### [Get](managedidentity/2022-01-31-preview/User-Assigned-Identities/Get.yml)
+#### [List Associated Resources](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-Associated-Resources.yml)
+#### [List By Resource Group](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-By-Resource-Group.yml)
+#### [List By Subscription](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-By-Subscription.yml)
+#### [Update](managedidentity/2022-01-31-preview/User-Assigned-Identities/Update.yml)
 # Managed Services
 ## [Overview](../docs-ref-conceptual/managedservices/index.md)
 ## Marketplace Registration Definitions

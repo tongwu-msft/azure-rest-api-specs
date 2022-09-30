@@ -1,0 +1,296 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.managedidentity.2022-01-31-preview.userassignedidentities.listassociatedresources
+name: List Associated Resources
+service: Managed Identity
+groupName: User Assigned Identities
+apiVersion: 2022-01-31-preview
+summary: Lists the associated resources for this identity.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/listAssociatedResources?api-version=2022-01-31-preview
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/listAssociatedResources?$filter={$filter}&$orderby={$orderby}&$top={$top}&$skip={$skip}&$skiptoken={$skiptoken}&api-version=2022-01-31-preview
+  isOptional: true
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Id of the Subscription to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Resource Group to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the identity resource.
+  types:
+  - uid: string
+- name: $filter
+  in: query
+  description: OData filter expression to apply to the query.
+  types:
+  - uid: string
+- name: $orderby
+  in: query
+  description: OData orderBy expression to apply to the query.
+  types:
+  - uid: string
+- name: $top
+  in: query
+  description: Number of records to return.
+  types:
+  - uid: integer
+  format: int32
+- name: $skip
+  in: query
+  description: Number of records to skip.
+  types:
+  - uid: integer
+  format: int32
+- name: $skiptoken
+  in: query
+  description: A skip token is used to continue retrieving items after an operation returns a partial result. If a previous response contains a nextLink element, the value of the nextLink element will include a skipToken parameter that specifies a starting point to use for subsequent calls.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: OK. List of resources associated with this identity.
+  types:
+  - uid: AssociatedResourcesListResult
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: AssociatedResourcesListResult
+  description: Azure resources returned by the resource action to get a list of assigned resources.
+  kind: object
+  properties:
+  - name: totalCount
+    isReadyOnly: true
+    description: Total number of Azure resources assigned to the identity.
+    types:
+    - uid: number
+  - name: value
+    isReadyOnly: true
+    description: The collection of Azure resources returned by the resource action to get a list of assigned resources.
+    types:
+    - uid: AzureResource
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The url to get the next page of results, if any.
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: error
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+- name: AzureResource
+  description: Azure Resource properties.
+  kind: object
+  properties:
+  - name: id
+    isReadyOnly: true
+    description: The ID of this resource.
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of this resource.
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of this resource.
+    types:
+    - uid: string
+  - name: resourceGroup
+    isReadyOnly: true
+    description: The name of the resource group this resource belongs to.
+    types:
+    - uid: string
+  - name: subscriptionId
+    isReadyOnly: true
+    description: The ID of the subscription this resource belongs to.
+    types:
+    - uid: string
+  - name: subscriptionDisplayName
+    isReadyOnly: true
+    description: The name of the subscription this resource belongs to.
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: IdentityListAssociatedResources
+  request:
+    uri: POST https://management.azure.com/subscriptions/1cscb752-d7c9-463f-9731-fd31edada74a/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testid/listAssociatedResources?$filter=contains(name, 'test')&$orderby=name asc&$top=10&$skip=1&api-version=2022-01-31-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/1cscb752-d7c9-463f-9731-fd31edada74a/resourceGroups/testrg/providers/Microsoft.ManagedIdentity/userAssignedIdentities/testid/listAssociatedResources?$filter=contains(name, 'test')&$orderby=name asc&$top=10&$skip=1&api-version=2022-01-31-preview
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmsi_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListAssociatedResources.json
+      func ExampleUserAssignedIdentitiesClient_NewListAssociatedResourcesPager() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmsi.NewUserAssignedIdentitiesClient("1cscb752-d7c9-463f-9731-fd31edada74a", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListAssociatedResourcesPager("testrg",
+      		"testid",
+      		&armmsi.UserAssignedIdentitiesClientListAssociatedResourcesOptions{Filter: to.Ptr("contains(name, 'test')"),
+      			Orderby:   to.Ptr("name asc"),
+      			Top:       to.Ptr[int32](10),
+      			Skip:      to.Ptr[int32](1),
+      			Skiptoken: nil,
+      		})
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
+      			log.Fatalf("failed to advance page: %v", err)
+      		}
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
+      		}
+      	}
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.7.0/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists the associated resources for this identity.
+       *
+       * @summary Lists the associated resources for this identity.
+       * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListAssociatedResources.json
+       */
+      async function identityListAssociatedResources() {
+        const subscriptionId = "1cscb752-d7c9-463f-9731-fd31edada74a";
+        const resourceGroupName = "testrg";
+        const resourceName = "testid";
+        const filter = "contains(name, 'test')";
+        const orderby = "name asc";
+        const top = 10;
+        const skip = 1;
+        const options = {
+          filter,
+          orderby,
+          top,
+          skip,
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.userAssignedIdentities.listAssociatedResources(
+          resourceGroupName,
+          resourceName,
+          options
+        )) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      identityListAssociatedResources().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-msi_2.1.0-beta.2/sdk/msi/arm-msi/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "totalCount": 4,
+        "value": [
+          {
+            "id": "/subscriptions/1cscb752-d7c9-463f-9731-fd31edada74a/resourceGroups/testrg/providers/Microsoft.CognitiveServices/accounts/test1",
+            "name": "test1",
+            "type": "microsoft.cognitiveservices/accounts",
+            "resourceGroup": "testrg",
+            "subscriptionId": "1cscb752-d7c9-463f-9731-fd31edada74a",
+            "subscriptionDisplayName": "TestSubscription"
+          },
+          {
+            "id": "/subscriptions/1cscb752-d7c9-463f-9731-fd31edada74a/resourceGroups/testrg/providers/Microsoft.CognitiveServices/accounts/test2",
+            "name": "test2",
+            "type": "microsoft.cognitiveservices/accounts",
+            "resourceGroup": "testrg",
+            "subscriptionId": "1cscb752-d7c9-463f-9731-fd31edada74a",
+            "subscriptionDisplayName": "TestSubscription"
+          }
+        ]
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Managed Identity service - Lists the associated resources for this identity.
+errorCodes: []

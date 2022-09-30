@@ -1,21 +1,22 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedidentity.userassignedidentities.listbysubscription
-name: List By Subscription
+uid: management.azure.com.managedidentity.2018-11-30.systemassignedidentities.getbyscope
+name: Get By Scope
 service: Managed Identity
-groupName: User Assigned Identities
+groupName: System Assigned Identities
 apiVersion: 2018-11-30
-summary: Lists all the userAssignedIdentities available under the specified subscription.
+summary: Gets the systemAssignedIdentity available under the specified RP scope.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+- content: GET https://management.azure.com/{scope}/providers/Microsoft.ManagedIdentity/identities/default?api-version=2018-11-30
 uriParameters:
-- name: subscriptionId
+- name: scope
   in: path
   isRequired: true
-  description: The Id of the Subscription to which the identity belongs.
+  skipUrlEncoding: true
+  description: The resource provider scope of the resource. Parent resource being extended by Managed Identities.
   types:
   - uid: string
 - name: api-version
@@ -26,40 +27,31 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: OK. The list of userAssignedIdentities was retrieved and returned successfully.
+  description: OK. The systemAssignedIdentity was retrieved and returned successfully.
   types:
-  - uid: UserAssignedIdentitiesListResult
+  - uid: SystemAssignedIdentity
 - name: Other Status Codes
   description: Error response describing why the operation failed.
   types:
   - uid: CloudError
 requestHeader: []
 definitions:
-- name: UserAssignedIdentitiesListResult
-  description: Values returned by the List operation.
+- name: SystemAssignedIdentity
+  description: Describes a system assigned identity resource.
   kind: object
   properties:
-  - name: value
-    description: The collection of userAssignedIdentities returned by the listing operation.
-    types:
-    - uid: Identity
-      isArray: true
-  - name: nextLink
-    description: The url to get the next page of results, if any.
+  - name: location
+    description: The geo-location where the resource lives
     types:
     - uid: string
-- name: CloudError
-  description: An error response from the ManagedServiceIdentity service.
-  kind: object
-  properties:
-  - name: error
-    description: A list of additional details about the error.
+  - name: tags
+    description: Resource tags
     types:
-    - uid: CloudErrorBody
-- name: Identity
-  description: Describes an identity resource.
-  kind: object
-  properties:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
   - name: properties.tenantId
     isReadyOnly: true
     description: The id of the tenant which the identity belongs to.
@@ -75,16 +67,9 @@ definitions:
     description: The id of the app associated with the identity. This is a random generated UUID by MSI.
     types:
     - uid: string
-  - name: tags
-    description: Resource tags.
-    types:
-    - uid: object
-      isDictionary: true
-      additionalTypes:
-      - uid: string
-      - uid: string
-  - name: location
-    description: The geo-location where the resource lives
+  - name: properties.clientSecretUrl
+    isReadyOnly: true
+    description: " The ManagedServiceIdentity DataPlane URL that can be queried to obtain the identity credentials."
     types:
     - uid: string
   - name: id
@@ -102,6 +87,14 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+- name: CloudError
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: error
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
 - name: CloudErrorBody
   description: An error response from the ManagedServiceIdentity service.
   kind: object
@@ -124,31 +117,36 @@ definitions:
     - uid: CloudErrorBody
       isArray: true
 examples:
-- name: IdentityListBySubscription
+- name: MsiOperationsList
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+    uri: GET https://management.azure.com/scope/providers/Microsoft.ManagedIdentity/identities/default?api-version=2018-11-30
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+      GET https://management.azure.com/scope/providers/Microsoft.ManagedIdentity/identities/default?api-version=2018-11-30
       ```
 
       # [Java](#tab/Java)
       ``` java
       import com.azure.core.util.Context;
 
-      /** Samples for UserAssignedIdentities List. */
+      /** Samples for SystemAssignedIdentities GetByScope. */
       public final class Main {
           /*
-           * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/IdentityListBySubscription.json
+           * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/SystemAssignedIdentityGet.json
            */
           /**
-           * Sample code: IdentityListBySubscription.
+           * Sample code: MsiOperationsList.
            *
            * @param azure The entry point for accessing resource management APIs in Azure.
            */
-          public static void identityListBySubscription(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.identities().manager().serviceClient().getUserAssignedIdentities().list(Context.NONE);
+          public static void msiOperationsList(com.azure.resourcemanager.AzureResourceManager azure) {
+              azure
+                  .identities()
+                  .manager()
+                  .serviceClient()
+                  .getSystemAssignedIdentities()
+                  .getByScopeWithResponse("scope", Context.NONE);
           }
       }
 
@@ -166,27 +164,21 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
       )
 
-      // x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/IdentityListBySubscription.json
-      func ExampleUserAssignedIdentitiesClient_ListBySubscription() {
+      // x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/SystemAssignedIdentityGet.json
+      func ExampleSystemAssignedIdentitiesClient_GetByScope() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmsi.NewUserAssignedIdentitiesClient("<subscription-id>", cred, nil)
-      	pager := client.ListBySubscription(nil)
-      	for {
-      		nextResult := pager.NextPage(ctx)
-      		if err := pager.Err(); err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		if !nextResult {
-      			break
-      		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("Pager result: %#v\n", v)
-      		}
+      	client := armmsi.NewSystemAssignedIdentitiesClient(cred, nil)
+      	res, err := client.GetByScope(ctx,
+      		"<scope>",
+      		nil)
+      	if err != nil {
+      		log.Fatal(err)
       	}
+      	log.Printf("Response result: %#v\n", res.SystemAssignedIdentitiesClientGetByScopeResult)
       }
 
       ```
@@ -195,24 +187,16 @@ examples:
   - statusCode: "200"
     body: >-
       {
-        "value": [
-          {
-            "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName",
-            "location": "eastus",
-            "name": "identityName",
-            "properties": {
-              "clientId": "clientGUID",
-              "principalId": "identityObjectID",
-              "tenantId": "tenantGUID"
-            },
-            "tags": {
-              "key1": "value1",
-              "key2": "value2"
-            },
-            "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
-          }
-        ],
-        "nextLink": "https://serviceRoot/subscriptions/subId/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30&$skiptoken=X'12345'"
+        "id": "/scope",
+        "location": "cus",
+        "name": "resourceName",
+        "properties": {
+          "clientId": "clientGUID",
+          "clientSecretUrl": "https://serviceRoot/scope/credentials?tid=tenantId&oid=principalId&aid=clientId",
+          "principalId": "identityObjectID",
+          "tenantId": "tenantGUID"
+        },
+        "type": "ResourceProvider"
       }
 security:
 - name: azure_auth
@@ -225,5 +209,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Managed Identity service - Lists all the userAssignedIdentities available under the specified subscription.
+    Learn more about Managed Identity service - Gets the systemAssignedIdentity available under the specified RP scope.
 errorCodes: []

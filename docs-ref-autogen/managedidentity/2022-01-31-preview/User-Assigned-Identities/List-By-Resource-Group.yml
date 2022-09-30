@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.managedidentity.userassignedidentities.listbyresourcegroup
+uid: management.azure.com.managedidentity.2022-01-31-preview.userassignedidentities.listbyresourcegroup
 name: List By Resource Group
 service: Managed Identity
 groupName: User Assigned Identities
-apiVersion: 2018-11-30
+apiVersion: 2022-01-31-preview
 summary: Lists all the userAssignedIdentities available under the specified ResourceGroup.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2022-01-31-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -132,39 +132,13 @@ definitions:
 examples:
 - name: IdentityListByResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2022-01-31-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2022-01-31-preview
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for UserAssignedIdentities ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/IdentityListByResourceGroup.json
-           */
-          /**
-           * Sample code: IdentityListByResourceGroup.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void identityListByResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .identities()
-                  .manager()
-                  .serviceClient()
-                  .getUserAssignedIdentities()
-                  .listByResourceGroup("rgName", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
       # [Go](#tab/Go)
       ``` go
       package armmsi_test
@@ -177,32 +151,60 @@ examples:
       	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
       )
 
-      // x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/stable/2018-11-30/examples/IdentityListByResourceGroup.json
-      func ExampleUserAssignedIdentitiesClient_ListByResourceGroup() {
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListByResourceGroup.json
+      func ExampleUserAssignedIdentitiesClient_NewListByResourceGroupPager() {
       	cred, err := azidentity.NewDefaultAzureCredential(nil)
       	if err != nil {
       		log.Fatalf("failed to obtain a credential: %v", err)
       	}
       	ctx := context.Background()
-      	client := armmsi.NewUserAssignedIdentitiesClient("<subscription-id>", cred, nil)
-      	pager := client.ListByResourceGroup("<resource-group-name>",
+      	client, err := armmsi.NewUserAssignedIdentitiesClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	pager := client.NewListByResourceGroupPager("rgName",
       		nil)
-      	for {
-      		nextResult := pager.NextPage(ctx)
-      		if err := pager.Err(); err != nil {
+      	for pager.More() {
+      		nextResult, err := pager.NextPage(ctx)
+      		if err != nil {
       			log.Fatalf("failed to advance page: %v", err)
       		}
-      		if !nextResult {
-      			break
-      		}
-      		for _, v := range pager.PageResponse().Value {
-      			log.Printf("Pager result: %#v\n", v)
+      		for _, v := range nextResult.Value {
+      			// TODO: use page item
+      			_ = v
       		}
       	}
       }
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.3.1/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.7.0/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Lists all the userAssignedIdentities available under the specified ResourceGroup.
+       *
+       * @summary Lists all the userAssignedIdentities available under the specified ResourceGroup.
+       * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/IdentityListByResourceGroup.json
+       */
+      async function identityListByResourceGroup() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rgName";
+        const credential = new DefaultAzureCredential();
+        const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+        const resArray = new Array();
+        for await (let item of client.userAssignedIdentities.listByResourceGroup(resourceGroupName)) {
+          resArray.push(item);
+        }
+        console.log(resArray);
+      }
+
+      identityListByResourceGroup().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-msi_2.1.0-beta.2/sdk/msi/arm-msi/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -213,9 +215,9 @@ examples:
             "location": "eastus",
             "name": "identityName",
             "properties": {
-              "clientId": "clientGUID",
-              "principalId": "identityObjectID",
-              "tenantId": "tenantGUID"
+              "clientId": "4024ab25-56a8-4370-aea6-6389221caf29",
+              "principalId": "25cc773c-7f05-40fc-a104-32d2300754ad",
+              "tenantId": "b6c948ef-f6b5-4384-8354-da3a15eca969"
             },
             "tags": {
               "key1": "value1",
@@ -224,7 +226,7 @@ examples:
             "type": "Microsoft.ManagedIdentity/userAssignedIdentities"
           }
         ],
-        "nextLink": "https://serviceRoot/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2018-11-30&$skiptoken=X'12345'"
+        "nextLink": "https://serviceRoot/subscriptions/subId/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities?api-version=2022-01-31-preview&$skiptoken=X'12345'"
       }
 security:
 - name: azure_auth
