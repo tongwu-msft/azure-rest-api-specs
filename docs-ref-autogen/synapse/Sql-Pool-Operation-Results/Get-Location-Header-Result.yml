@@ -51,17 +51,113 @@ responses:
 - name: 200 OK
   description: OK
   types:
-  - uid: object
+  - uid: SqlPool
 - name: 202 Accepted
   description: Accepted
   types:
-  - uid: object
+  - uid: SqlPool
 - name: Other Status Codes
   description: ''
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
+- name: SqlPool
+  description: SQL pool
+  kind: object
+  properties:
+  - name: sku
+    description: "Sku  \nSQL pool SKU"
+    types:
+    - uid: Sku
+  - name: properties.maxSizeBytes
+    description: Maximum size in bytes
+    types:
+    - uid: integer
+  - name: properties.collation
+    description: Collation mode
+    types:
+    - uid: string
+    defaultValue: ''
+  - name: properties.sourceDatabaseId
+    description: Source database to create from
+    types:
+    - uid: string
+  - name: properties.recoverableDatabaseId
+    description: Backup database to restore from
+    types:
+    - uid: string
+  - name: properties.provisioningState
+    description: Resource state
+    types:
+    - uid: string
+  - name: properties.status
+    isReadyOnly: true
+    description: Resource status
+    types:
+    - uid: string
+  - name: properties.restorePointInTime
+    description: Snapshot time to restore
+    types:
+    - uid: string
+  - name: properties.createMode
+    description: >-
+      Specifies the mode of sql pool creation.
+
+
+      Default: regular sql pool creation.
+
+
+      PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified.
+
+
+      Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified as the recoverableDatabaseId to restore.
+
+
+      Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified.
+    types:
+    - uid: createMode
+  - name: properties.creationDate
+    isReadyOnly: true
+    description: Date the SQL pool was created
+    types:
+    - uid: string
+  - name: properties.storageAccountType
+    description: The storage account type used to store backups for this sql pool.
+    types:
+    - uid: StorageAccountType
+    defaultValue: GRS
+  - name: properties.sourceDatabaseDeletionDate
+    description: Specifies the time that the sql pool was deleted
+    types:
+    - uid: string
+  - name: tags
+    description: Resource tags.
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: string
+  - name: location
+    description: The geo-location where the resource lives
+    types:
+    - uid: string
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -70,6 +166,61 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
+- name: Sku
+  description: Sku
+  kind: object
+  properties:
+  - name: tier
+    description: The service tier
+    types:
+    - uid: string
+  - name: name
+    description: The SKU name
+    types:
+    - uid: string
+  - name: capacity
+    description: If the SKU supports scale out/in then the capacity integer should be included. If scale out/in is not possible for the resource this may be omitted.
+    types:
+    - uid: integer
+- name: createMode
+  description: >-
+    Specifies the mode of sql pool creation.
+
+
+    Default: regular sql pool creation.
+
+
+    PointInTimeRestore: Creates a sql pool by restoring a point in time backup of an existing sql pool. sourceDatabaseId must be specified as the resource ID of the existing sql pool, and restorePointInTime must be specified.
+
+
+    Recovery: Creates a sql pool by a geo-replicated backup. sourceDatabaseId  must be specified as the recoverableDatabaseId to restore.
+
+
+    Restore: Creates a sql pool by restoring a backup of a deleted sql  pool. SourceDatabaseId should be the sql pool's original resource ID. SourceDatabaseId and sourceDatabaseDeletionDate must be specified.
+  kind: enum
+  properties:
+  - name: Default
+    types:
+    - uid: string
+  - name: PointInTimeRestore
+    types:
+    - uid: string
+  - name: Recovery
+    types:
+    - uid: string
+  - name: Restore
+    types:
+    - uid: string
+- name: StorageAccountType
+  description: The storage account type used to store backups for this sql pool.
+  kind: enum
+  properties:
+  - name: GRS
+    types:
+    - uid: string
+  - name: LRS
+    types:
+    - uid: string
 - name: ErrorDetail
   description: The error detail.
   kind: object
@@ -229,16 +380,11 @@ examples:
     body: >-
       {
         "sku": {},
-        "kind": "v12.0,user,datawarehouse,gen2",
         "properties": {
           "collation": "SQL_Latin1_General_CP1_CI_AS",
           "maxSizeBytes": 263882790666240,
           "status": "Paused",
-          "databaseId": "00000000-1111-2222-3333-444444444444",
-          "creationDate": "2022-08-25T09:22:46.68Z",
-          "currentServiceObjectiveName": "DW100c",
-          "defaultSecondaryLocation": "westus",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+          "creationDate": "2022-08-25T09:22:46.68Z"
         },
         "location": "eastus",
         "tags": {},
@@ -250,16 +396,11 @@ examples:
     body: >-
       {
         "sku": {},
-        "kind": "v12.0,user,datawarehouse,gen2",
         "properties": {
           "collation": "SQL_Latin1_General_CP1_CI_AS",
           "maxSizeBytes": 263882790666240,
           "status": "Paused",
-          "databaseId": "00000000-1111-2222-3333-444444444444",
-          "creationDate": "2022-08-25T09:22:46.68Z",
-          "currentServiceObjectiveName": "DW100c",
-          "defaultSecondaryLocation": "westus",
-          "catalogCollation": "SQL_Latin1_General_CP1_CI_AS"
+          "creationDate": "2022-08-25T09:22:46.68Z"
         },
         "location": "eastus",
         "tags": {},
