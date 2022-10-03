@@ -3,14 +3,14 @@ uid: management.azure.com.stackhci.clusters.create
 name: Create
 service: Azure Stack HCI
 groupName: Clusters
-apiVersion: 2022-09-01
+apiVersion: 2022-10-01
 summary: Create an HCI cluster.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-09-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureStackHCI/clusters/{clusterName}?api-version=2022-10-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -78,6 +78,21 @@ requestBody:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+  - name: identity.type
+    in: body
+    isRequired: true
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: identity.userAssignedIdentities
+    in: body
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
   - name: properties.cloudManagementEndpoint
     in: body
     description: Endpoint configured for management from the Azure portal.
@@ -130,6 +145,20 @@ requestBody:
     - uid: string
 requestHeader: []
 definitions:
+- name: UserAssignedIdentity
+  description: User assigned identity properties
+  kind: object
+  properties:
+  - name: principalId
+    isReadyOnly: true
+    description: The principal ID of the assigned identity.
+    types:
+    - uid: string
+  - name: clientId
+    isReadyOnly: true
+    description: The client ID of the assigned identity.
+    types:
+    - uid: string
 - name: SoftwareAssuranceProperties
   description: Software Assurance properties of the cluster.
   kind: object
@@ -198,6 +227,34 @@ definitions:
     description: Level of diagnostic data emitted by the cluster.
     types:
     - uid: DiagnosticLevel
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: Cluster
   description: Cluster details.
   kind: object
@@ -226,6 +283,28 @@ definitions:
     description: The timestamp of resource last modification (UTC)
     types:
     - uid: string
+  - name: identity.principalId
+    isReadyOnly: true
+    description: The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: identity.tenantId
+    isReadyOnly: true
+    description: The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity.
+    types:
+    - uid: string
+  - name: identity.type
+    description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+    types:
+    - uid: ManagedServiceIdentityType
+  - name: identity.userAssignedIdentities
+    description: "User-Assigned Identities  \nThe set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests."
+    types:
+    - uid: object
+      isDictionary: true
+      additionalTypes:
+      - uid: string
+      - uid: UserAssignedIdentity
   - name: properties.provisioningState
     isReadyOnly: true
     description: Provisioning state.
@@ -331,6 +410,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -472,6 +556,22 @@ definitions:
   - name: Key
     types:
     - uid: string
+- name: ManagedServiceIdentityType
+  description: Type of managed service identity (where both SystemAssigned and UserAssigned types are allowed).
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: SystemAssigned
+    types:
+    - uid: string
+  - name: UserAssigned
+    types:
+    - uid: string
+  - name: SystemAssigned, UserAssigned
+    types:
+    - uid: string
 - name: ProvisioningState
   description: Provisioning state.
   kind: enum
@@ -568,7 +668,7 @@ definitions:
 examples:
 - name: Create cluster
   request:
-    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
+    uri: PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-10-01
     body: >-
       {
         "location": "East US",
@@ -576,12 +676,15 @@ examples:
           "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
           "aadClientId": "24a6e53d-04e5-44d2-b7cc-1b732a847dfc",
           "aadTenantId": "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94"
+        },
+        "identity": {
+          "type": "SystemAssigned"
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-09-01
+      PUT https://management.azure.com/subscriptions/fd3c3665-1729-4b7b-9a38-238e83b0f98b/resourceGroups/test-rg/providers/Microsoft.AzureStackHCI/clusters/myCluster?api-version=2022-10-01
 
       {
         "location": "East US",
@@ -589,6 +692,9 @@ examples:
           "cloudManagementEndpoint": "https://98294836-31be-4668-aeae-698667faf99b.waconazure.com",
           "aadClientId": "24a6e53d-04e5-44d2-b7cc-1b732a847dfc",
           "aadTenantId": "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94"
+        },
+        "identity": {
+          "type": "SystemAssigned"
         }
       }
 
@@ -602,6 +708,11 @@ examples:
         "name": "myCluster",
         "type": "Microsoft.AzureStackHCI/clusters",
         "location": "East US",
+        "identity": {
+          "principalId": "87a834db-2e45-409e-911b-e16a44562ec3",
+          "tenantId": "7e589cc1-a8b6-4dff-91bd-5ec0fa18db94",
+          "type": "SystemAssigned"
+        },
         "tags": {},
         "systemData": {
           "createdBy": "user1",

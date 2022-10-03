@@ -4369,9 +4369,35 @@
 ### [Get](stackhci/Extensions/Get.yml)
 ### [List By Arc Setting](stackhci/Extensions/List-By-Arc-Setting.yml)
 ### [Update](stackhci/Extensions/Update.yml)
+## Offers
+### [Overview](stackhci/Offers.yml)
+### [Get](stackhci/Offers/Get.yml)
+### [List By Cluster](stackhci/Offers/List-By-Cluster.yml)
+### [List By Publisher](stackhci/Offers/List-By-Publisher.yml)
 ## Operations
 ### [Overview](stackhci/Operations.yml)
 ### [List](stackhci/Operations/List.yml)
+## Publishers
+### [Overview](stackhci/Publishers.yml)
+### [Get](stackhci/Publishers/Get.yml)
+### [List By Cluster](stackhci/Publishers/List-By-Cluster.yml)
+## Skus
+### [Overview](stackhci/Skus.yml)
+### [Get](stackhci/Skus/Get.yml)
+### [List By Offer](stackhci/Skus/List-By-Offer.yml)
+## Update Runs
+### [Overview](stackhci/Update-Runs.yml)
+### [Get](stackhci/Update-Runs/Get.yml)
+### [List](stackhci/Update-Runs/List.yml)
+## Update Summaries
+### [Overview](stackhci/Update-Summaries.yml)
+### [Get](stackhci/Update-Summaries/Get.yml)
+### [List](stackhci/Update-Summaries/List.yml)
+## Updates
+### [Overview](stackhci/Updates.yml)
+### [Get](stackhci/Updates/Get.yml)
+### [List](stackhci/Updates/List.yml)
+### [Post](stackhci/Updates/Post.yml)
 # Azure Video Analyzer
 ## [Overview](../docs-ref-conceptual/videoanalyzer/index.md)
 ## Access Policies
