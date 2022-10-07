@@ -27,7 +27,7 @@ Policy REST API surfaces operations related to [Azure Policy](/azure/governance/
 | [Policy Set Definitions](xref:management.azure.com.policy.policysetdefinitions)       | Provides operations to create groups of policy definitions. |
 | [Policy States](xref:management.azure.com.policy.policystates) | Query policy compliance states for resources. |
 | [Policy Tracked Resources](xref:management.azure.com.policy.policytrackedresources) | Query resources deployed by policy. |
-| [Policy Attestations](xref:management.azure.com.policy.policyattestations) | Describes operations for manual policy attestation. |
+| [Policy Attestations](xref:management.azure.com.policy.attestations) | Describes operations for manual policy attestation. |
 | [Remediations](xref:management.azure.com.policy.remediations) | Provides operations to remediate resources that are non-compliant with policy. |
 
 ## See also
