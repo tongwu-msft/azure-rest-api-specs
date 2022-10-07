@@ -35,7 +35,7 @@ Preview versions are released to test new functionality, gather feedback, and di
 |-------------|---------------|-------------|
 | [`2021-04-30-Preview`](/rest/api/searchservice/index-preview) | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2021-04-30-Preview) | [Release note](#2021-04-30-Preview) |
 | `2020-06-30-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2020-06-30-Preview) | [Release note](#2020-06-30-Preview)  |
-| `2019-05-06-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-Preview)| [Release note](#2019-05-06-Preview) |
+| `2019-05-06-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-preview)| [Release note](#2019-05-06-Preview) |
 | `2017-11-11-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2017-11-11-preview)| Preview version associated with stable version. |
 | `2016-09-01-Preview` | [Swagger specification](https://github.com/Azure/azure-rest-api-specs/tree/master/specification/search/data-plane/Microsoft.Azure.Search.Data/preview/2016-09-01-preview) | Preview version associated with stable version.|
 | `2015-02-28-Preview` | Unsupported after 10-10-2020  | Preview version associated with stable version. |

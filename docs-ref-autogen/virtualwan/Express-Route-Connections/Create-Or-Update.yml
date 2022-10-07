@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.expressrouteconnections.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Express Route Connections
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/expressRouteGateways/{expressRouteGatewayName}/expressRouteConnections/{connectionName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -90,6 +90,11 @@ requestBody:
     description: Enable FastPath to vWan Firewall hub.
     types:
     - uid: boolean
+  - name: properties.enablePrivateLinkFastPath
+    in: body
+    description: Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled.
+    types:
+    - uid: boolean
   - name: properties.routingConfiguration
     in: body
     description: The Routing Configuration indicating the associated and propagated route tables on this connection.
@@ -126,6 +131,14 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+  - name: inboundRouteMap
+    description: The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+    types:
+    - uid: SubResource
+  - name: outboundRouteMap
+    description: The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+    types:
+    - uid: SubResource
 - name: ExpressRouteConnection
   description: ExpressRouteConnection resource.
   kind: object
@@ -157,6 +170,10 @@ definitions:
     - uid: boolean
   - name: properties.expressRouteGatewayBypass
     description: Enable FastPath to vWan Firewall hub.
+    types:
+    - uid: boolean
+  - name: properties.enablePrivateLinkFastPath
+    description: Bypass the ExpressRoute gateway when accessing private-links. ExpressRoute FastPath (expressRouteGatewayBypass) must be enabled.
     types:
     - uid: boolean
   - name: properties.routingConfiguration
@@ -201,6 +218,10 @@ definitions:
   description: List of routes that control routing from VirtualHub into a virtual network connection.
   kind: object
   properties:
+  - name: staticRoutesConfig
+    description: Configuration for static routes on this HubVnetConnection.
+    types:
+    - uid: StaticRoutesConfig
   - name: staticRoutes
     description: List of all Static Routes.
     types:
@@ -249,6 +270,19 @@ definitions:
     types:
     - uid: CloudErrorBody
       isArray: true
+- name: StaticRoutesConfig
+  description: Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection.
+  kind: object
+  properties:
+  - name: propagateStaticRoutes
+    isReadyOnly: true
+    description: Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+    types:
+    - uid: boolean
+  - name: vnetLocalRouteOverrideCriteria
+    description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+    types:
+    - uid: VnetLocalRouteOverrideCriteria
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -266,10 +300,20 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VnetLocalRouteOverrideCriteria
+  description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet.
+  kind: enum
+  properties:
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
 examples:
 - name: ExpressRouteConnectionCreate
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName?api-version=2022-05-01
     body: >-
       {
         "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName",
@@ -279,13 +323,41 @@ examples:
           "authorizationKey": "authorizationKey",
           "expressRouteCircuitPeering": {
             "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering"
+          },
+          "routingConfiguration": {
+            "associatedRouteTable": {
+              "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1"
+            },
+            "inboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1"
+            },
+            "outboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"
+            },
+            "propagatedRouteTables": {
+              "labels": [
+                "label1",
+                "label2"
+              ],
+              "ids": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable2"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable3"
+                }
+              ]
+            }
           }
         }
       }
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName?api-version=2022-05-01
 
       {
         "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName",
@@ -295,102 +367,40 @@ examples:
           "authorizationKey": "authorizationKey",
           "expressRouteCircuitPeering": {
             "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering"
+          },
+          "routingConfiguration": {
+            "associatedRouteTable": {
+              "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1"
+            },
+            "inboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1"
+            },
+            "outboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"
+            },
+            "propagatedRouteTables": {
+              "labels": [
+                "label1",
+                "label2"
+              ],
+              "ids": [
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable2"
+                },
+                {
+                  "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable3"
+                }
+              ]
+            }
           }
         }
       }
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.ExpressRouteConnectionInner;
-      import com.azure.resourcemanager.network.models.ExpressRouteCircuitPeeringId;
-
-      /** Samples for ExpressRouteConnections CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteConnectionCreate.json
-           */
-          /**
-           * Sample code: ExpressRouteConnectionCreate.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void expressRouteConnectionCreate(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getExpressRouteConnections()
-                  .createOrUpdate(
-                      "resourceGroupName",
-                      "gateway-2",
-                      "connectionName",
-                      new ExpressRouteConnectionInner()
-                          .withId(
-                              "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName")
-                          .withName("connectionName")
-                          .withExpressRouteCircuitPeering(
-                              new ExpressRouteCircuitPeeringId()
-                                  .withId(
-                                      "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering"))
-                          .withAuthorizationKey("authorizationKey")
-                          .withRoutingWeight(2),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteConnectionCreate.json
-      func ExampleExpressRouteConnectionsClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewExpressRouteConnectionsClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "resourceGroupName", "gateway-2", "connectionName", armnetwork.ExpressRouteConnection{
-      		ID:   to.Ptr("/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName"),
-      		Name: to.Ptr("connectionName"),
-      		Properties: &armnetwork.ExpressRouteConnectionProperties{
-      			AuthorizationKey: to.Ptr("authorizationKey"),
-      			ExpressRouteCircuitPeering: &armnetwork.ExpressRouteCircuitPeeringID{
-      				ID: to.Ptr("/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering"),
-      			},
-      			RoutingWeight: to.Ptr[int32](2),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -400,7 +410,7 @@ examples:
        * This sample demonstrates how to Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
        *
        * @summary Creates a connection between an ExpressRoute gateway and an ExpressRoute circuit.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ExpressRouteConnectionCreate.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ExpressRouteConnectionCreate.json
        */
       async function expressRouteConnectionCreate() {
         const subscriptionId = "subid";
@@ -414,6 +424,31 @@ examples:
             id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteCircuits/circuitName/peerings/AzurePrivatePeering",
           },
           id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/expressRouteGateways/gateway-2/expressRouteConnections/connectionName",
+          routingConfiguration: {
+            associatedRouteTable: {
+              id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1",
+            },
+            inboundRouteMap: {
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1",
+            },
+            outboundRouteMap: {
+              id: "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2",
+            },
+            propagatedRouteTables: {
+              ids: [
+                {
+                  id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1",
+                },
+                {
+                  id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable2",
+                },
+                {
+                  id: "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable3",
+                },
+              ],
+              labels: ["label1", "label2"],
+            },
+          },
           routingWeight: 2,
         };
         const credential = new DefaultAzureCredential();
@@ -430,7 +465,7 @@ examples:
       expressRouteConnectionCreate().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -446,6 +481,7 @@ examples:
           "routingWeight": 2,
           "enableInternetSecurity": false,
           "expressRouteGatewayBypass": false,
+          "enablePrivateLinkFastPath": false,
           "routingConfiguration": {
             "associatedRouteTable": {
               "id": "/subscriptions/subid/resourceGroups/resourceGroupName/providers/Microsoft.Network/virtualHubs/hub1/hubRouteTables/hubRouteTable1"
@@ -467,8 +503,11 @@ examples:
                 }
               ]
             },
-            "vnetRoutes": {
-              "staticRoutes": []
+            "inboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1"
+            },
+            "outboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"
             }
           }
         }
@@ -507,8 +546,11 @@ examples:
                 }
               ]
             },
-            "vnetRoutes": {
-              "staticRoutes": []
+            "inboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap1"
+            },
+            "outboundRouteMap": {
+              "id": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualHubs/virtualHub1/routeMaps/routeMap2"
             }
           }
         }

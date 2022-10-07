@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.natrules.createorupdate
 name: Create Or Update
 service: Virtual WAN
 groupName: Nat Rules
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/natRules/{natRuleName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -246,7 +246,7 @@ definitions:
 examples:
 - name: NatRulePut
   request:
-    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -268,7 +268,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/gateway1/natRules/natRule1?api-version=2022-05-01
 
       {
         "properties": {
@@ -290,100 +290,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.VpnGatewayNatRuleInner;
-      import com.azure.resourcemanager.network.models.VpnNatRuleMapping;
-      import com.azure.resourcemanager.network.models.VpnNatRuleMode;
-      import com.azure.resourcemanager.network.models.VpnNatRuleType;
-      import java.util.Arrays;
-
-      /** Samples for NatRules CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NatRulePut.json
-           */
-          /**
-           * Sample code: NatRulePut.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void natRulePut(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNatRules()
-                  .createOrUpdate(
-                      "rg1",
-                      "gateway1",
-                      "natRule1",
-                      new VpnGatewayNatRuleInner()
-                          .withTypePropertiesType(VpnNatRuleType.STATIC)
-                          .withMode(VpnNatRuleMode.EGRESS_SNAT)
-                          .withInternalMappings(Arrays.asList(new VpnNatRuleMapping().withAddressSpace("10.4.0.0/24")))
-                          .withExternalMappings(Arrays.asList(new VpnNatRuleMapping().withAddressSpace("192.168.21.0/24")))
-                          .withIpConfigurationId(
-                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/cloudnet1-VNG/ipConfigurations/default"),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NatRulePut.json
-      func ExampleNatRulesClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewNatRulesClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "gateway1", "natRule1", armnetwork.VPNGatewayNatRule{
-      		Properties: &armnetwork.VPNGatewayNatRuleProperties{
-      			Type: to.Ptr(armnetwork.VPNNatRuleTypeStatic),
-      			ExternalMappings: []*armnetwork.VPNNatRuleMapping{
-      				{
-      					AddressSpace: to.Ptr("192.168.21.0/24"),
-      				}},
-      			InternalMappings: []*armnetwork.VPNNatRuleMapping{
-      				{
-      					AddressSpace: to.Ptr("10.4.0.0/24"),
-      				}},
-      			IPConfigurationID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways/cloudnet1-VNG/ipConfigurations/default"),
-      			Mode:              to.Ptr(armnetwork.VPNNatRuleModeEgressSnat),
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -393,7 +299,7 @@ examples:
        * This sample demonstrates how to Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
        *
        * @summary Creates a nat rule to a scalable vpn gateway if it doesn't exist else updates the existing nat rules.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NatRulePut.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NatRulePut.json
        */
       async function natRulePut() {
         const subscriptionId = "subid";
@@ -422,7 +328,7 @@ examples:
       natRulePut().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

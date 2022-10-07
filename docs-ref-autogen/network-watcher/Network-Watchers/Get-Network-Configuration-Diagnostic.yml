@@ -3,14 +3,14 @@ uid: management.azure.com.network-watcher.networkwatchers.getnetworkconfiguratio
 name: Get Network Configuration Diagnostic
 service: Network Watcher
 groupName: Network Watchers
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/networkConfigurationDiagnostic?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -271,7 +271,7 @@ definitions:
 examples:
 - name: Network configuration diagnostic
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-05-01
     body: >-
       {
         "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
@@ -288,7 +288,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-05-01
 
       {
         "targetResourceId": "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1",
@@ -305,99 +305,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.models.Direction;
-      import com.azure.resourcemanager.network.models.NetworkConfigurationDiagnosticParameters;
-      import com.azure.resourcemanager.network.models.NetworkConfigurationDiagnosticProfile;
-      import java.util.Arrays;
-
-      /** Samples for NetworkWatchers GetNetworkConfigurationDiagnostic. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherNetworkConfigurationDiagnostic.json
-           */
-          /**
-           * Sample code: Network configuration diagnostic.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void networkConfigurationDiagnostic(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getNetworkWatchers()
-                  .getNetworkConfigurationDiagnostic(
-                      "rg1",
-                      "nw1",
-                      new NetworkConfigurationDiagnosticParameters()
-                          .withTargetResourceId(
-                              "/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1")
-                          .withProfiles(
-                              Arrays
-                                  .asList(
-                                      new NetworkConfigurationDiagnosticProfile()
-                                          .withDirection(Direction.INBOUND)
-                                          .withProtocol("TCP")
-                                          .withSource("10.1.0.4")
-                                          .withDestination("12.11.12.14")
-                                          .withDestinationPort("12100"))),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherNetworkConfigurationDiagnostic.json
-      func ExampleWatchersClient_BeginGetNetworkConfigurationDiagnostic() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewWatchersClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginGetNetworkConfigurationDiagnostic(ctx, "rg1", "nw1", armnetwork.ConfigurationDiagnosticParameters{
-      		Profiles: []*armnetwork.ConfigurationDiagnosticProfile{
-      			{
-      				Destination:     to.Ptr("12.11.12.14"),
-      				DestinationPort: to.Ptr("12100"),
-      				Direction:       to.Ptr(armnetwork.DirectionInbound),
-      				Source:          to.Ptr("10.1.0.4"),
-      				Protocol:        to.Ptr("TCP"),
-      			}},
-      		TargetResourceID: to.Ptr("/subscriptions/subid/resourceGroups/rg2/providers/Microsoft.Compute/virtualMachines/vm1"),
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -407,7 +314,7 @@ examples:
        * This sample demonstrates how to Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results.
        *
        * @summary Gets Network Configuration Diagnostic data to help customers understand and debug network behavior. It provides detailed information on what security rules were applied to a specified traffic flow and the result of evaluating these rules. Customers must provide details of a flow like source, destination, protocol, etc. The API returns whether traffic was allowed or denied, the rules evaluated for the specified flow and the evaluation results.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/NetworkWatcherNetworkConfigurationDiagnostic.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/NetworkWatcherNetworkConfigurationDiagnostic.json
        */
       async function networkConfigurationDiagnostic() {
         const subscriptionId = "subid";
@@ -439,7 +346,7 @@ examples:
       networkConfigurationDiagnostic().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -532,7 +439,7 @@ examples:
   - statusCode: "202"
     headers:
     - name: Location
-      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-01-01
+      value: https:/management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/networkWatchers/nw1/networkConfigurationDiagnostic?api-version=2022-05-01
     body: >-
       {
         "results": [

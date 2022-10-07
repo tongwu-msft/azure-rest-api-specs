@@ -3,14 +3,14 @@ uid: management.azure.com.network-gateway.virtualnetworkgateways.list
 name: List
 service: Network Gateway
 groupName: Virtual Network Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Gets all virtual network gateways by resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -121,6 +121,11 @@ definitions:
     description: The reference to the VpnClientConfiguration resource which represents the P2S VpnClient configurations.
     types:
     - uid: VpnClientConfiguration
+  - name: properties.virtualNetworkGatewayPolicyGroups
+    description: The reference to the VirtualNetworkGatewayPolicyGroup resource which represents the available VirtualNetworkGatewayPolicyGroup for the gateway.
+    types:
+    - uid: VirtualNetworkGatewayPolicyGroup
+      isArray: true
   - name: properties.bgpSettings
     description: Virtual network gateway's BGP speaker settings.
     types:
@@ -159,6 +164,14 @@ definitions:
       isArray: true
   - name: properties.enableBgpRouteTranslationForNat
     description: EnableBgpRouteTranslationForNat flag.
+    types:
+    - uid: boolean
+  - name: properties.allowVirtualWanTraffic
+    description: Configures this gateway to accept traffic from remote Virtual WAN networks.
+    types:
+    - uid: boolean
+  - name: properties.allowRemoteVnetTraffic
+    description: Configure this gateway to accept traffic from other Azure Virtual Networks. This configuration does not support connectivity to Azure Virtual WAN.
     types:
     - uid: boolean
   - name: id
@@ -376,6 +389,52 @@ definitions:
     - uid: string
   - name: aadIssuer
     description: The AADIssuer property of the VirtualNetworkGateway resource for vpn client connection used for AAD authentication.
+    types:
+    - uid: string
+  - name: vngClientConnectionConfigurations
+    description: per ip address pool connection policy for virtual network gateway P2S client.
+    types:
+    - uid: VngClientConnectionConfiguration
+      isArray: true
+- name: VirtualNetworkGatewayPolicyGroup
+  description: Parameters for VirtualNetworkGatewayPolicyGroup.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.isDefault
+    description: Shows if this is a Default VirtualNetworkGatewayPolicyGroup or not.
+    types:
+    - uid: boolean
+  - name: properties.priority
+    description: Priority for VirtualNetworkGatewayPolicyGroup.
+    types:
+    - uid: integer
+  - name: properties.policyMembers
+    description: Multiple PolicyMembers for VirtualNetworkGatewayPolicyGroup.
+    types:
+    - uid: VirtualNetworkGatewayPolicyGroupMember
+      isArray: true
+  - name: properties.vngClientConnectionConfigurations
+    isReadyOnly: true
+    description: List of references to vngClientConnectionConfigurations.
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the VirtualNetworkGatewayPolicyGroup resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
     types:
     - uid: string
 - name: BgpSettings
@@ -704,6 +763,53 @@ definitions:
     description: The secret used for this radius server.
     types:
     - uid: string
+- name: VngClientConnectionConfiguration
+  description: A vpn client connection configuration for client connection configuration.
+  kind: object
+  properties:
+  - name: name
+    description: The name of the resource that is unique within a resource group. This name can be used to access the resource.
+    types:
+    - uid: string
+  - name: etag
+    isReadyOnly: true
+    description: A unique read-only string that changes whenever the resource is updated.
+    types:
+    - uid: string
+  - name: properties.vpnClientAddressPool
+    description: The reference to the address space resource which represents Address space for P2S VpnClient.
+    types:
+    - uid: AddressSpace
+  - name: properties.virtualNetworkGatewayPolicyGroups
+    description: List of references to virtualNetworkGatewayPolicyGroups
+    types:
+    - uid: SubResource
+      isArray: true
+  - name: properties.provisioningState
+    isReadyOnly: true
+    description: The provisioning state of the VngClientConnectionConfiguration resource.
+    types:
+    - uid: ProvisioningState
+  - name: id
+    description: Resource ID.
+    types:
+    - uid: string
+- name: VirtualNetworkGatewayPolicyGroupMember
+  description: Vpn Client Connection configuration PolicyGroup member
+  kind: object
+  properties:
+  - name: name
+    description: Name of the VirtualNetworkGatewayPolicyGroupMember.
+    types:
+    - uid: string
+  - name: attributeType
+    description: The Vpn Policy member attribute type.
+    types:
+    - uid: VpnPolicyMemberAttributeType
+  - name: attributeValue
+    description: The value of Attribute used for this VirtualNetworkGatewayPolicyGroupMember.
+    types:
+    - uid: string
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -920,75 +1026,29 @@ definitions:
   - name: PFSMM
     types:
     - uid: string
+- name: VpnPolicyMemberAttributeType
+  description: The Vpn Policy member attribute type.
+  kind: enum
+  properties:
+  - name: CertificateGroupId
+    types:
+    - uid: string
+  - name: AADGroupId
+    types:
+    - uid: string
+  - name: RadiusAzureGroupId
+    types:
+    - uid: string
 examples:
 - name: ListVirtualNetworkGatewaysinResourceGroup
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworkGateways?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VirtualNetworkGateways ListByResourceGroup. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkGatewayList.json
-           */
-          /**
-           * Sample code: ListVirtualNetworkGatewaysinResourceGroup.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void listVirtualNetworkGatewaysinResourceGroup(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.networks().manager().serviceClient().getVirtualNetworkGateways().listByResourceGroup("rg1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkGatewayList.json
-      func ExampleVirtualNetworkGatewaysClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewVirtualNetworkGatewaysClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("rg1", nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -998,7 +1058,7 @@ examples:
        * This sample demonstrates how to Gets all virtual network gateways by resource group.
        *
        * @summary Gets all virtual network gateways by resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VirtualNetworkGatewayList.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VirtualNetworkGatewayList.json
        */
       async function listVirtualNetworkGatewaysinResourceGroup() {
         const subscriptionId = "subid";
@@ -1015,7 +1075,7 @@ examples:
       listVirtualNetworkGatewaysinResourceGroup().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -1116,7 +1176,9 @@ examples:
                 "addressPrefixes": [
                   "101.168.0.6/32"
                 ]
-              }
+              },
+              "allowVirtualWanTraffic": false,
+              "allowRemoteVnetTraffic": false
             }
           },
           {
@@ -1223,7 +1285,9 @@ examples:
                 "addressPrefixes": [
                   "101.168.0.6/32"
                 ]
-              }
+              },
+              "allowVirtualWanTraffic": false,
+              "allowRemoteVnetTraffic": false
             }
           }
         ]

@@ -3,14 +3,14 @@ uid: management.azure.com.virtualwan.vpngateways.reset
 name: Reset
 service: Virtual WAN
 groupName: Vpn Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Resets the primary of the vpn gateway in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset?api-version=2022-01-01
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/vpnGateways/{gatewayName}/reset?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -570,6 +570,14 @@ definitions:
     description: List of routes that control routing from VirtualHub into a virtual network connection.
     types:
     - uid: VnetRoute
+  - name: inboundRouteMap
+    description: The resource id of the RouteMap associated with this RoutingConfiguration for inbound learned routes.
+    types:
+    - uid: SubResource
+  - name: outboundRouteMap
+    description: The resource id of theRouteMap associated with this RoutingConfiguration for outbound advertised routes.
+    types:
+    - uid: SubResource
 - name: IPConfigurationBgpPeeringAddress
   description: Properties of IPConfigurationBgpPeeringAddress.
   kind: object
@@ -829,6 +837,10 @@ definitions:
   description: List of routes that control routing from VirtualHub into a virtual network connection.
   kind: object
   properties:
+  - name: staticRoutesConfig
+    description: Configuration for static routes on this HubVnetConnection.
+    types:
+    - uid: StaticRoutesConfig
   - name: staticRoutes
     description: List of all Static Routes.
     types:
@@ -840,6 +852,19 @@ definitions:
     types:
     - uid: SubResource
       isArray: true
+- name: StaticRoutesConfig
+  description: Configuration for static routes on this HubVnetConnectionConfiguration for static routes on this HubVnetConnection.
+  kind: object
+  properties:
+  - name: propagateStaticRoutes
+    isReadyOnly: true
+    description: Boolean indicating whether static routes on this connection are automatically propagate to route tables which this connection propagates to.
+    types:
+    - uid: boolean
+  - name: vnetLocalRouteOverrideCriteria
+    description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke.
+    types:
+    - uid: VnetLocalRouteOverrideCriteria
 - name: StaticRoute
   description: List of all Static Routes.
   kind: object
@@ -857,74 +882,26 @@ definitions:
     description: The ip address of the next hop.
     types:
     - uid: string
+- name: VnetLocalRouteOverrideCriteria
+  description: Parameter determining whether NVA in spoke vnet is bypassed for traffic with destination in spoke vnet.
+  kind: enum
+  properties:
+  - name: Contains
+    types:
+    - uid: string
+  - name: Equal
+    types:
+    - uid: string
 examples:
 - name: ResetVpnGateway
   request:
-    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw/reset?api-version=2022-01-01
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw/reset?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw/reset?api-version=2022-01-01
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/vpnGateways/vpngw/reset?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for VpnGateways Reset. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayReset.json
-           */
-          /**
-           * Sample code: ResetVpnGateway.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void resetVpnGateway(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure.networks().manager().serviceClient().getVpnGateways().reset("rg1", "vpngw", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayReset.json
-      func ExampleVPNGatewaysClient_BeginReset() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewVPNGatewaysClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginReset(ctx, "rg1", "vpngw", nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -934,7 +911,7 @@ examples:
        * This sample demonstrates how to Resets the primary of the vpn gateway in the specified resource group.
        *
        * @summary Resets the primary of the vpn gateway in the specified resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/VpnGatewayReset.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/VpnGatewayReset.json
        */
       async function resetVpnGateway() {
         const subscriptionId = "subid";
@@ -949,7 +926,7 @@ examples:
       resetVpnGateway().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "202"
   - statusCode: "200"

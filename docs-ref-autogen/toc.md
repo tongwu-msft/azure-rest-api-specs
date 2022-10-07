@@ -2490,6 +2490,12 @@
 ## Application Gateway Private Link Resources
 ### [Overview](application-gateway/Application-Gateway-Private-Link-Resources.yml)
 ### [List](application-gateway/Application-Gateway-Private-Link-Resources/List.yml)
+## Application Gateway Waf Dynamic Manifests
+### [Overview](application-gateway/Application-Gateway-Waf-Dynamic-Manifests.yml)
+### [Get](application-gateway/Application-Gateway-Waf-Dynamic-Manifests/Get.yml)
+## Application Gateway Waf Dynamic Manifests Default
+### [Overview](application-gateway/Application-Gateway-Waf-Dynamic-Manifests-Default.yml)
+### [Get](application-gateway/Application-Gateway-Waf-Dynamic-Manifests-Default/Get.yml)
 ## Application Gateways
 ### [Overview](application-gateway/Application-Gateways.yml)
 ### [Backend Health](application-gateway/Application-Gateways/Backend-Health.yml)
@@ -4363,9 +4369,35 @@
 ### [Get](stackhci/Extensions/Get.yml)
 ### [List By Arc Setting](stackhci/Extensions/List-By-Arc-Setting.yml)
 ### [Update](stackhci/Extensions/Update.yml)
+## Offers
+### [Overview](stackhci/Offers.yml)
+### [Get](stackhci/Offers/Get.yml)
+### [List By Cluster](stackhci/Offers/List-By-Cluster.yml)
+### [List By Publisher](stackhci/Offers/List-By-Publisher.yml)
 ## Operations
 ### [Overview](stackhci/Operations.yml)
 ### [List](stackhci/Operations/List.yml)
+## Publishers
+### [Overview](stackhci/Publishers.yml)
+### [Get](stackhci/Publishers/Get.yml)
+### [List By Cluster](stackhci/Publishers/List-By-Cluster.yml)
+## Skus
+### [Overview](stackhci/Skus.yml)
+### [Get](stackhci/Skus/Get.yml)
+### [List By Offer](stackhci/Skus/List-By-Offer.yml)
+## Update Runs
+### [Overview](stackhci/Update-Runs.yml)
+### [Get](stackhci/Update-Runs/Get.yml)
+### [List](stackhci/Update-Runs/List.yml)
+## Update Summaries
+### [Overview](stackhci/Update-Summaries.yml)
+### [Get](stackhci/Update-Summaries/Get.yml)
+### [List](stackhci/Update-Summaries/List.yml)
+## Updates
+### [Overview](stackhci/Updates.yml)
+### [Get](stackhci/Updates/Get.yml)
+### [List](stackhci/Updates/List.yml)
+### [Post](stackhci/Updates/Post.yml)
 # Azure Video Analyzer
 ## [Overview](../docs-ref-conceptual/videoanalyzer/index.md)
 ## Access Policies
@@ -13005,6 +13037,7 @@
 ##### [Post](loganalytics/dataaccess/Metadata/Post.yml)
 #### Query
 ##### [Overview](loganalytics/dataaccess/Query.yml)
+##### [Batch](loganalytics/dataaccess/Query/Batch.yml)
 ##### [Execute](loganalytics/dataaccess/Query/Execute.yml)
 ##### [Get](loganalytics/dataaccess/Query/Get.yml)
 # Logic Apps
@@ -13656,20 +13689,43 @@
 ### [List](managed-grafana/Private-Link-Resources/List.yml)
 # Managed Identity
 ## [Overview](../docs-ref-conceptual/managedidentity/index.md)
-## Operations
-### [Overview](managedidentity/Operations.yml)
-### [List](managedidentity/Operations/List.yml)
-## System Assigned Identities
-### [Overview](managedidentity/System-Assigned-Identities.yml)
-### [Get By Scope](managedidentity/System-Assigned-Identities/Get-By-Scope.yml)
-## User Assigned Identities
-### [Overview](managedidentity/User-Assigned-Identities.yml)
-### [Create Or Update](managedidentity/User-Assigned-Identities/Create-Or-Update.yml)
-### [Delete](managedidentity/User-Assigned-Identities/Delete.yml)
-### [Get](managedidentity/User-Assigned-Identities/Get.yml)
-### [List By Resource Group](managedidentity/User-Assigned-Identities/List-By-Resource-Group.yml)
-### [List By Subscription](managedidentity/User-Assigned-Identities/List-By-Subscription.yml)
-### [Update](managedidentity/User-Assigned-Identities/Update.yml)
+## 2018-11-30
+### Operations
+#### [Overview](managedidentity/2018-11-30/Operations.yml)
+#### [List](managedidentity/2018-11-30/Operations/List.yml)
+### System Assigned Identities
+#### [Overview](managedidentity/2018-11-30/System-Assigned-Identities.yml)
+#### [Get By Scope](managedidentity/2018-11-30/System-Assigned-Identities/Get-By-Scope.yml)
+### User Assigned Identities
+#### [Overview](managedidentity/2018-11-30/User-Assigned-Identities.yml)
+#### [Create Or Update](managedidentity/2018-11-30/User-Assigned-Identities/Create-Or-Update.yml)
+#### [Delete](managedidentity/2018-11-30/User-Assigned-Identities/Delete.yml)
+#### [Get](managedidentity/2018-11-30/User-Assigned-Identities/Get.yml)
+#### [List By Resource Group](managedidentity/2018-11-30/User-Assigned-Identities/List-By-Resource-Group.yml)
+#### [List By Subscription](managedidentity/2018-11-30/User-Assigned-Identities/List-By-Subscription.yml)
+#### [Update](managedidentity/2018-11-30/User-Assigned-Identities/Update.yml)
+## 2022-01-31-preview
+### Federated Identity Credentials
+#### [Overview](managedidentity/2022-01-31-preview/Federated-Identity-Credentials.yml)
+#### [Create Or Update](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Create-Or-Update.yml)
+#### [Delete](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Delete.yml)
+#### [Get](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/Get.yml)
+#### [List](managedidentity/2022-01-31-preview/Federated-Identity-Credentials/List.yml)
+### Operations
+#### [Overview](managedidentity/2022-01-31-preview/Operations.yml)
+#### [List](managedidentity/2022-01-31-preview/Operations/List.yml)
+### System Assigned Identities
+#### [Overview](managedidentity/2022-01-31-preview/System-Assigned-Identities.yml)
+#### [Get By Scope](managedidentity/2022-01-31-preview/System-Assigned-Identities/Get-By-Scope.yml)
+### User Assigned Identities
+#### [Overview](managedidentity/2022-01-31-preview/User-Assigned-Identities.yml)
+#### [Create Or Update](managedidentity/2022-01-31-preview/User-Assigned-Identities/Create-Or-Update.yml)
+#### [Delete](managedidentity/2022-01-31-preview/User-Assigned-Identities/Delete.yml)
+#### [Get](managedidentity/2022-01-31-preview/User-Assigned-Identities/Get.yml)
+#### [List Associated Resources](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-Associated-Resources.yml)
+#### [List By Resource Group](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-By-Resource-Group.yml)
+#### [List By Subscription](managedidentity/2022-01-31-preview/User-Assigned-Identities/List-By-Subscription.yml)
+#### [Update](managedidentity/2022-01-31-preview/User-Assigned-Identities/Update.yml)
 # Managed Services
 ## [Overview](../docs-ref-conceptual/managedservices/index.md)
 ## Marketplace Registration Definitions
@@ -27640,14 +27696,6 @@
 ### [List By Subscription](virtualnetwork/Private-Link-Services/List-By-Subscription.yml)
 ### [List Private Endpoint Connections](virtualnetwork/Private-Link-Services/List-Private-Endpoint-Connections.yml)
 ### [Update Private Endpoint Connection](virtualnetwork/Private-Link-Services/Update-Private-Endpoint-Connection.yml)
-## Public IP Addresses
-### [Overview](virtualnetwork/Public-IP-Addresses.yml)
-### [Create Or Update](virtualnetwork/Public-IP-Addresses/Create-Or-Update.yml)
-### [Delete](virtualnetwork/Public-IP-Addresses/Delete.yml)
-### [Get](virtualnetwork/Public-IP-Addresses/Get.yml)
-### [List](virtualnetwork/Public-IP-Addresses/List.yml)
-### [List All](virtualnetwork/Public-IP-Addresses/List-All.yml)
-### [Update Tags](virtualnetwork/Public-IP-Addresses/Update-Tags.yml)
 ## Public IP Prefixes
 ### [Overview](virtualnetwork/Public-IP-Prefixes.yml)
 ### [Create Or Update](virtualnetwork/Public-IP-Prefixes/Create-Or-Update.yml)
@@ -27656,6 +27704,9 @@
 ### [List](virtualnetwork/Public-IP-Prefixes/List.yml)
 ### [List All](virtualnetwork/Public-IP-Prefixes/List-All.yml)
 ### [Update Tags](virtualnetwork/Public-IP-Prefixes/Update-Tags.yml)
+## Public Ip Addresses
+### [Overview](virtualnetwork/Public-Ip-Addresses.yml)
+### [Ddos Protection Status](virtualnetwork/Public-Ip-Addresses/Ddos-Protection-Status.yml)
 ## PublicIPAddress In CloudService
 ### [Overview](virtualnetwork/Public-IP-Address-In-Cloud-Service.yml)
 ### [Get Cloud Service Public IP Address](virtualnetwork/Public-IP-Address-In-Cloud-Service/Get-Cloud-Service-Public-IP-Address.yml)
@@ -27666,6 +27717,14 @@
 ### [Get Virtual Machine Scale Set Public IP Address](virtualnetwork/Public-IP-Address-In-VM-SS/Get-Virtual-Machine-Scale-Set-Public-IP-Address.yml)
 ### [List Virtual Machine Scale Set Public IP Addresses](virtualnetwork/Public-IP-Address-In-VM-SS/List-Virtual-Machine-Scale-Set-Public-IP-Addresses.yml)
 ### [List Virtual Machine Scale Set VM Public IP Addresses](virtualnetwork/Public-IP-Address-In-VM-SS/List-Virtual-Machine-Scale-Set-VM-Public-IP-Addresses.yml)
+## PublicIPAddresses2
+### [Overview](virtualnetwork/PublicIPAddresses2.yml)
+### [Create Or Update](virtualnetwork/PublicIPAddresses2/Create-Or-Update.yml)
+### [Delete](virtualnetwork/PublicIPAddresses2/Delete.yml)
+### [Get](virtualnetwork/PublicIPAddresses2/Get.yml)
+### [List](virtualnetwork/PublicIPAddresses2/List.yml)
+### [List All](virtualnetwork/PublicIPAddresses2/List-All.yml)
+### [Update Tags](virtualnetwork/PublicIPAddresses2/Update-Tags.yml)
 ## Put Bastion Shareable Link
 ### [Overview](virtualnetwork/Put-Bastion-Shareable-Link.yml)
 ### [Put Bastion Shareable Link](virtualnetwork/Put-Bastion-Shareable-Link/Put-Bastion-Shareable-Link.yml)
@@ -27720,6 +27779,11 @@
 ## Usages
 ### [Overview](virtualnetwork/Usages.yml)
 ### [List](virtualnetwork/Usages/List.yml)
+## Vip Swap
+### [Overview](virtualnetwork/Vip-Swap.yml)
+### [Create](virtualnetwork/Vip-Swap/Create.yml)
+### [Get](virtualnetwork/Vip-Swap/Get.yml)
+### [List](virtualnetwork/Vip-Swap/List.yml)
 ## Virtual Appliance Sites
 ### [Overview](virtualnetwork/Virtual-Appliance-Sites.yml)
 ### [Create Or Update](virtualnetwork/Virtual-Appliance-Sites/Create-Or-Update.yml)
@@ -27744,6 +27808,7 @@
 ### [Get](virtualnetwork/Virtual-Networks/Get.yml)
 ### [List](virtualnetwork/Virtual-Networks/List.yml)
 ### [List All](virtualnetwork/Virtual-Networks/List-All.yml)
+### [List Ddos Protection Status](virtualnetwork/Virtual-Networks/List-Ddos-Protection-Status.yml)
 ### [List Usage](virtualnetwork/Virtual-Networks/List-Usage.yml)
 ### [Update Tags](virtualnetwork/Virtual-Networks/Update-Tags.yml)
 ## Virtual Router Peerings
@@ -27817,6 +27882,12 @@
 ### [List](virtualwan/P2s-Vpn-Gateways/List.yml)
 ### [List By Resource Group](virtualwan/P2s-Vpn-Gateways/List-By-Resource-Group.yml)
 ### [Update Tags](virtualwan/P2s-Vpn-Gateways/Update-Tags.yml)
+## Route Maps
+### [Overview](virtualwan/Route-Maps.yml)
+### [Create Or Update](virtualwan/Route-Maps/Create-Or-Update.yml)
+### [Delete](virtualwan/Route-Maps/Delete.yml)
+### [Get](virtualwan/Route-Maps/Get.yml)
+### [List](virtualwan/Route-Maps/List.yml)
 ## Routing Intent
 ### [Overview](virtualwan/Routing-Intent.yml)
 ### [Create Or Update](virtualwan/Routing-Intent/Create-Or-Update.yml)
@@ -27854,6 +27925,8 @@
 ### [Delete](virtualwan/Virtual-Hubs/Delete.yml)
 ### [Get](virtualwan/Virtual-Hubs/Get.yml)
 ### [Get Effective Virtual Hub Routes](virtualwan/Virtual-Hubs/Get-Effective-Virtual-Hub-Routes.yml)
+### [Get Inbound Routes](virtualwan/Virtual-Hubs/Get-Inbound-Routes.yml)
+### [Get Outbound Routes](virtualwan/Virtual-Hubs/Get-Outbound-Routes.yml)
 ### [List](virtualwan/Virtual-Hubs/List.yml)
 ### [List By Resource Group](virtualwan/Virtual-Hubs/List-By-Resource-Group.yml)
 ### [Update Tags](virtualwan/Virtual-Hubs/Update-Tags.yml)

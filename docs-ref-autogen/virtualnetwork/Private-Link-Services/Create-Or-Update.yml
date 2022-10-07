@@ -3,14 +3,14 @@ uid: management.azure.com.virtualnetwork.privatelinkservices.createorupdate
 name: Create Or Update
 service: Virtual Networks
 groupName: Private Link Services
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Creates or updates an private link service in the specified resource group.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2022-01-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/privateLinkServices/{serviceName}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -313,6 +313,10 @@ definitions:
     - uid: boolean
   - name: properties.enableAcceleratedNetworking
     description: If the network interface is configured for accelerated networking. Not applicable to VM sizes which require accelerated networking.
+    types:
+    - uid: boolean
+  - name: properties.disableTcpStateTracking
+    description: Indicates whether to disable tcp state tracking.
     types:
     - uid: boolean
   - name: properties.enableIPForwarding
@@ -1638,18 +1642,14 @@ definitions:
   description: Contains the DDoS protection settings of the public IP.
   kind: object
   properties:
-  - name: ddosCustomPolicy
-    description: The DDoS custom policy associated with the public IP.
+  - name: protectionMode
+    description: The DDoS protection mode of the public IP
+    types:
+    - uid: DdosSettingsProtectionMode
+  - name: ddosProtectionPlan
+    description: The DDoS protection plan associated with the public IP. Can only be set if ProtectionMode is Enabled
     types:
     - uid: SubResource
-  - name: protectionCoverage
-    description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
-    types:
-    - uid: DdosSettingsProtectionCoverage
-  - name: protectedIP
-    description: Enables DDoS protection on the public IP.
-    types:
-    - uid: boolean
 - name: IpTag
   description: Contains the IpTag associated with the object.
   kind: object
@@ -2426,14 +2426,17 @@ definitions:
   - name: Global
     types:
     - uid: string
-- name: DdosSettingsProtectionCoverage
-  description: The DDoS protection policy customizability of the public IP. Only standard coverage will have the ability to be customized.
+- name: DdosSettingsProtectionMode
+  description: The DDoS protection mode of the public IP
   kind: enum
   properties:
-  - name: Basic
+  - name: VirtualNetworkInherited
     types:
     - uid: string
-  - name: Standard
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
     types:
     - uid: string
 - name: NatGatewaySku
@@ -2723,7 +2726,7 @@ definitions:
 examples:
 - name: Create private link service
   request:
-    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2022-01-01
+    uri: PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2022-05-01
     body: >-
       {
         "location": "eastus",
@@ -2769,7 +2772,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2022-01-01
+      PUT https://management.azure.com/subscriptions/subId/resourceGroups/rg1/providers/Microsoft.Network/privateLinkServices/testPls?api-version=2022-05-01
 
       {
         "location": "eastus",
@@ -2815,144 +2818,6 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.network.fluent.models.FrontendIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.PrivateLinkServiceInner;
-      import com.azure.resourcemanager.network.fluent.models.PrivateLinkServiceIpConfigurationInner;
-      import com.azure.resourcemanager.network.fluent.models.SubnetInner;
-      import com.azure.resourcemanager.network.models.IpAllocationMethod;
-      import com.azure.resourcemanager.network.models.IpVersion;
-      import com.azure.resourcemanager.network.models.PrivateLinkServicePropertiesAutoApproval;
-      import com.azure.resourcemanager.network.models.PrivateLinkServicePropertiesVisibility;
-      import java.util.Arrays;
-
-      /** Samples for PrivateLinkServices CreateOrUpdate. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateLinkServiceCreate.json
-           */
-          /**
-           * Sample code: Create private link service.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void createPrivateLinkService(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getPrivateLinkServices()
-                  .createOrUpdate(
-                      "rg1",
-                      "testPls",
-                      new PrivateLinkServiceInner()
-                          .withLocation("eastus")
-                          .withLoadBalancerFrontendIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new FrontendIpConfigurationInner()
-                                          .withId(
-                                              "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb")))
-                          .withIpConfigurations(
-                              Arrays
-                                  .asList(
-                                      new PrivateLinkServiceIpConfigurationInner()
-                                          .withName("fe-lb")
-                                          .withPrivateIpAddress("10.0.1.4")
-                                          .withPrivateIpAllocationMethod(IpAllocationMethod.STATIC)
-                                          .withSubnet(
-                                              new SubnetInner()
-                                                  .withId(
-                                                      "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"))
-                                          .withPrivateIpAddressVersion(IpVersion.IPV4)))
-                          .withVisibility(
-                              new PrivateLinkServicePropertiesVisibility()
-                                  .withSubscriptions(Arrays.asList("subscription1", "subscription2", "subscription3")))
-                          .withAutoApproval(
-                              new PrivateLinkServicePropertiesAutoApproval()
-                                  .withSubscriptions(Arrays.asList("subscription1", "subscription2")))
-                          .withFqdns(Arrays.asList("fqdn1", "fqdn2", "fqdn3")),
-                      Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateLinkServiceCreate.json
-      func ExamplePrivateLinkServicesClient_BeginCreateOrUpdate() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewPrivateLinkServicesClient("subId", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreateOrUpdate(ctx, "rg1", "testPls", armnetwork.PrivateLinkService{
-      		Location: to.Ptr("eastus"),
-      		Properties: &armnetwork.PrivateLinkServiceProperties{
-      			AutoApproval: &armnetwork.PrivateLinkServicePropertiesAutoApproval{
-      				Subscriptions: []*string{
-      					to.Ptr("subscription1"),
-      					to.Ptr("subscription2")},
-      			},
-      			Fqdns: []*string{
-      				to.Ptr("fqdn1"),
-      				to.Ptr("fqdn2"),
-      				to.Ptr("fqdn3")},
-      			IPConfigurations: []*armnetwork.PrivateLinkServiceIPConfiguration{
-      				{
-      					Name: to.Ptr("fe-lb"),
-      					Properties: &armnetwork.PrivateLinkServiceIPConfigurationProperties{
-      						PrivateIPAddress:          to.Ptr("10.0.1.4"),
-      						PrivateIPAddressVersion:   to.Ptr(armnetwork.IPVersionIPv4),
-      						PrivateIPAllocationMethod: to.Ptr(armnetwork.IPAllocationMethodStatic),
-      						Subnet: &armnetwork.Subnet{
-      							ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/virtualNetworks/vnetlb/subnets/subnetlb"),
-      						},
-      					},
-      				}},
-      			LoadBalancerFrontendIPConfigurations: []*armnetwork.FrontendIPConfiguration{
-      				{
-      					ID: to.Ptr("/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/loadBalancers/lb/frontendIPConfigurations/fe-lb"),
-      				}},
-      			Visibility: &armnetwork.PrivateLinkServicePropertiesVisibility{
-      				Subscriptions: []*string{
-      					to.Ptr("subscription1"),
-      					to.Ptr("subscription2"),
-      					to.Ptr("subscription3")},
-      			},
-      		},
-      	}, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -2962,7 +2827,7 @@ examples:
        * This sample demonstrates how to Creates or updates an private link service in the specified resource group.
        *
        * @summary Creates or updates an private link service in the specified resource group.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/PrivateLinkServiceCreate.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PrivateLinkServiceCreate.json
        */
       async function createPrivateLinkService() {
         const subscriptionId = "subId";
@@ -3005,7 +2870,7 @@ examples:
       createPrivateLinkService().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

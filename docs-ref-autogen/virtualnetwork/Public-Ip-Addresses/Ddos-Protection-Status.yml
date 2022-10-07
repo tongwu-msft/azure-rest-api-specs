@@ -1,0 +1,171 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.virtualnetwork.publicipaddresses.ddosprotectionstatus
+name: Ddos Protection Status
+service: Virtual Networks
+groupName: Public Ip Addresses
+apiVersion: 2022-05-01
+summary: Gets the Ddos Protection Status of a Public IP Address
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/publicIPAddresses/{publicIpAddressName}/ddosProtectionStatus?api-version=2022-05-01
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The subscription credentials which uniquely identify the Microsoft Azure subscription. The subscription ID forms part of the URI for every service call.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group.
+  types:
+  - uid: string
+- name: publicIpAddressName
+  in: path
+  isRequired: true
+  description: The name of the public IP address.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Client API version.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Request successful. The operation returns the Ddos Protection Status of this Public IP.
+  types:
+  - uid: PublicIpDdosProtectionStatusResult
+- name: 202 Accepted
+  description: Accepted and the operation will complete asynchronously.
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestHeader: []
+definitions:
+- name: PublicIpDdosProtectionStatusResult
+  description: Response for GetPublicIpAddressDdosProtectionStatusOperation API service call.
+  kind: object
+  properties:
+  - name: publicIpAddressId
+    description: Public IP ARM resource ID
+    types:
+    - uid: string
+  - name: publicIpAddress
+    description: IP Address of the Public IP Resource
+    types:
+    - uid: string
+  - name: isWorkloadProtected
+    description: Value indicating whether the IP address is DDoS workload protected or not.
+    types:
+    - uid: IsWorkloadProtected
+  - name: ddosProtectionPlanId
+    description: " DDoS protection plan Resource Id of a if IP address is protected through a plan."
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: error
+    description: Cloud error body.
+    types:
+    - uid: CloudErrorBody
+- name: IsWorkloadProtected
+  description: Value indicating whether the IP address is DDoS workload protected or not.
+  kind: enum
+  properties:
+  - name: "False"
+    types:
+    - uid: string
+  - name: "True"
+    types:
+    - uid: string
+- name: CloudErrorBody
+  description: An error response from the service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error. Codes are invariant and are intended to be consumed programmatically.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: Get Ddos Protection Status of a Public IP Address
+  request:
+    uri: POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip/ddosProtectionStatus?api-version=2022-05-01
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip/ddosProtectionStatus?api-version=2022-05-01
+      ```
+
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { NetworkManagementClient } = require("@azure/arm-network");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Gets the Ddos Protection Status of a Public IP Address
+       *
+       * @summary Gets the Ddos Protection Status of a Public IP Address
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/PublicIpAddressGetDdosProtectionStatus.json
+       */
+      async function getDdosProtectionStatusOfAPublicIPAddress() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rg1";
+        const publicIpAddressName = "test-pip";
+        const credential = new DefaultAzureCredential();
+        const client = new NetworkManagementClient(credential, subscriptionId);
+        const result = await client.publicIPAddresses.beginDdosProtectionStatusAndWait(
+          resourceGroupName,
+          publicIpAddressName
+        );
+        console.log(result);
+      }
+
+      getDdosProtectionStatusOfAPublicIPAddress().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "publicIpAddressId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/publicIPAddresses/test-pip",
+        "publicIpAddress": "10.0.1.5",
+        "isWorkloadProtected": "True",
+        "ddosProtectionPlanId": "/subscriptions/subid/resourceGroups/rg1/providers/Microsoft.Network/ddosProtectionPlans/test-plan"
+      }
+  - statusCode: "202"
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Virtual Networks service - Gets the Ddos Protection Status of a Public IP Address
+errorCodes: []

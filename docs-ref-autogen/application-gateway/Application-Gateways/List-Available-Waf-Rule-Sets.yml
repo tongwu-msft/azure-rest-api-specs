@@ -3,14 +3,14 @@ uid: management.azure.com.application-gateway.applicationgateways.listavailablew
 name: List Available Waf Rule Sets
 service: Application Gateway
 groupName: Application Gateways
-apiVersion: 2022-01-01
+apiVersion: 2022-05-01
 summary: Lists all available web application firewall rule sets.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-01-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -73,6 +73,11 @@ definitions:
     description: The rule groups of the web application firewall rule set.
     types:
     - uid: ApplicationGatewayFirewallRuleGroup
+      isArray: true
+  - name: properties.tiers
+    description: Tier of an application gateway that support the rule set.
+    types:
+    - uid: string
       isArray: true
   - name: id
     description: Resource ID.
@@ -162,79 +167,61 @@ definitions:
     description: The identifier of the web application firewall rule.
     types:
     - uid: integer
+  - name: ruleIdString
+    description: The string representation of the web application firewall rule identifier.
+    types:
+    - uid: string
+  - name: state
+    description: The string representation of the web application firewall rule state.
+    types:
+    - uid: ApplicationGatewayWafRuleStateTypes
+  - name: action
+    description: The string representation of the web application firewall rule action.
+    types:
+    - uid: ApplicationGatewayWafRuleActionTypes
   - name: description
     description: The description of the web application firewall rule.
+    types:
+    - uid: string
+- name: ApplicationGatewayWafRuleStateTypes
+  description: The string representation of the web application firewall rule state.
+  kind: enum
+  properties:
+  - name: Enabled
+    types:
+    - uid: string
+  - name: Disabled
+    types:
+    - uid: string
+- name: ApplicationGatewayWafRuleActionTypes
+  description: The string representation of the web application firewall rule action.
+  kind: enum
+  properties:
+  - name: None
+    types:
+    - uid: string
+  - name: AnomalyScoring
+    types:
+    - uid: string
+  - name: Allow
+    types:
+    - uid: string
+  - name: Block
+    types:
+    - uid: string
+  - name: Log
     types:
     - uid: string
 examples:
 - name: Get Available Waf Rule Sets
   request:
-    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-01-01
+    uri: GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-01-01
+      GET https://management.azure.com/subscriptions/subid/providers/Microsoft.Network/applicationGatewayAvailableWafRuleSets?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for ApplicationGateways ListAvailableWafRuleSets. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
-           */
-          /**
-           * Sample code: Get Available Waf Rule Sets.
-           *
-           * @param azure The entry point for accessing resource management APIs in Azure.
-           */
-          public static void getAvailableWafRuleSets(com.azure.resourcemanager.AzureResourceManager azure) {
-              azure
-                  .networks()
-                  .manager()
-                  .serviceClient()
-                  .getApplicationGateways()
-                  .listAvailableWafRuleSetsWithResponse(Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armnetwork_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/network/armnetwork"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
-      func ExampleApplicationGatewaysClient_ListAvailableWafRuleSets() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armnetwork.NewApplicationGatewaysClient("subid", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	res, err := client.ListAvailableWafRuleSets(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fnetwork%2Farmnetwork%2Fv1.1.0/sdk/resourcemanager/network/armnetwork/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { NetworkManagementClient } = require("@azure/arm-network");
@@ -244,7 +231,7 @@ examples:
        * This sample demonstrates how to Lists all available web application firewall rule sets.
        *
        * @summary Lists all available web application firewall rule sets.
-       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-01-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
+       * x-ms-original-file: specification/network/resource-manager/Microsoft.Network/stable/2022-05-01/examples/ApplicationGatewayAvailableWafRuleSetsGet.json
        */
       async function getAvailableWafRuleSets() {
         const subscriptionId = "subid";
@@ -257,7 +244,7 @@ examples:
       getAvailableWafRuleSets().catch(console.error);
 
       ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_29.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-network_30.0.0/sdk/network/arm-network/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
@@ -278,6 +265,7 @@ examples:
                   "rules": [
                     {
                       "ruleId": 200004,
+                      "ruleIdString": "200004",
                       "description": "Possible Multipart Unmatched Boundary."
                     }
                   ]

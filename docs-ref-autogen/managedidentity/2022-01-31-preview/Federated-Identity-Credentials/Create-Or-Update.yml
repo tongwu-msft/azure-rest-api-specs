@@ -1,0 +1,297 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.managedidentity.2022-01-31-preview.federatedidentitycredentials.createorupdate
+name: Create Or Update
+service: Managed Identity
+groupName: Federated Identity Credentials
+apiVersion: 2022-01-31-preview
+summary: Create or update a federated identity credential under the specified user assigned identity.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{resourceName}/federatedIdentityCredentials/{federatedIdentityCredentialResourceName}?api-version=2022-01-31-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The Id of the Subscription to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the Resource Group to which the identity belongs.
+  types:
+  - uid: string
+- name: resourceName
+  in: path
+  isRequired: true
+  description: The name of the identity resource.
+  types:
+  - uid: string
+- name: federatedIdentityCredentialResourceName
+  in: path
+  isRequired: true
+  description: The name of the federated identity credential resource.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: Version of API to invoke.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: Updated federated identity credential.
+  types:
+  - uid: FederatedIdentityCredential
+- name: 201 Created
+  description: Created federated identity credential.
+  types:
+  - uid: FederatedIdentityCredential
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: CloudError
+requestBody:
+- name: default
+  parameters:
+  - name: properties.issuer
+    in: body
+    isRequired: true
+    description: The URL of the issuer to be trusted.
+    types:
+    - uid: string
+  - name: properties.subject
+    in: body
+    isRequired: true
+    description: The identifier of the external identity.
+    types:
+    - uid: string
+  - name: properties.audiences
+    in: body
+    isRequired: true
+    description: The list of audiences that can appear in the issued token.
+    types:
+    - uid: string
+      isArray: true
+requestHeader: []
+definitions:
+- name: FederatedIdentityCredential
+  description: Describes a federated identity credential.
+  kind: object
+  properties:
+  - name: properties.issuer
+    description: The URL of the issuer to be trusted.
+    types:
+    - uid: string
+  - name: properties.subject
+    description: The identifier of the external identity.
+    types:
+    - uid: string
+  - name: properties.audiences
+    description: The list of audiences that can appear in the issued token.
+    types:
+    - uid: string
+      isArray: true
+  - name: id
+    isReadyOnly: true
+    description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
+    types:
+    - uid: string
+  - name: name
+    isReadyOnly: true
+    description: The name of the resource
+    types:
+    - uid: string
+  - name: type
+    isReadyOnly: true
+    description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
+    types:
+    - uid: string
+- name: CloudError
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: error
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+- name: CloudErrorBody
+  description: An error response from the ManagedServiceIdentity service.
+  kind: object
+  properties:
+  - name: code
+    description: An identifier for the error.
+    types:
+    - uid: string
+  - name: message
+    description: A message describing the error, intended to be suitable for display in a user interface.
+    types:
+    - uid: string
+  - name: target
+    description: The target of the particular error. For example, the name of the property in error.
+    types:
+    - uid: string
+  - name: details
+    description: A list of additional details about the error.
+    types:
+    - uid: CloudErrorBody
+      isArray: true
+examples:
+- name: FederatedIdentityCredentialCreate
+  request:
+    uri: PUT https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName/federatedIdentityCredentials/ficResourceName?api-version=2022-01-31-preview
+    body: >-
+      {
+        "properties": {
+          "issuer": "https://oidc.prod-aks.azure.com/IssuerGUID",
+          "subject": "system:serviceaccount:ns:svcaccount",
+          "audiences": [
+            "api://AzureADTokenExchange"
+          ]
+        }
+      }
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      PUT https://management.azure.com/subscriptions/subid/resourceGroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/resourceName/federatedIdentityCredentials/ficResourceName?api-version=2022-01-31-preview
+
+      {
+        "properties": {
+          "issuer": "https://oidc.prod-aks.azure.com/IssuerGUID",
+          "subject": "system:serviceaccount:ns:svcaccount",
+          "audiences": [
+            "api://AzureADTokenExchange"
+          ]
+        }
+      }
+
+      ```
+
+      # [Go](#tab/Go)
+      ``` go
+      package armmsi_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/msi/armmsi"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialCreate.json
+      func ExampleFederatedIdentityCredentialsClient_CreateOrUpdate() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armmsi.NewFederatedIdentityCredentialsClient("subid", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	res, err := client.CreateOrUpdate(ctx,
+      		"rgName",
+      		"resourceName",
+      		"ficResourceName",
+      		armmsi.FederatedIdentityCredential{
+      			Properties: &armmsi.FederatedIdentityCredentialProperties{
+      				Audiences: []*string{
+      					to.Ptr("api://AzureADTokenExchange")},
+      				Issuer:  to.Ptr("https://oidc.prod-aks.azure.com/IssuerGUID"),
+      				Subject: to.Ptr("system:serviceaccount:ns:svcaccount"),
+      			},
+      		},
+      		nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fmsi%2Farmmsi%2Fv0.7.0/sdk/resourcemanager/msi/armmsi/README.md) on how to add the SDK to your project and authenticate.
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ManagedServiceIdentityClient } = require("@azure/arm-msi");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Create or update a federated identity credential under the specified user assigned identity.
+       *
+       * @summary Create or update a federated identity credential under the specified user assigned identity.
+       * x-ms-original-file: specification/msi/resource-manager/Microsoft.ManagedIdentity/preview/2022-01-31-preview/examples/FederatedIdentityCredentialCreate.json
+       */
+      async function federatedIdentityCredentialCreate() {
+        const subscriptionId = "subid";
+        const resourceGroupName = "rgName";
+        const resourceName = "resourceName";
+        const federatedIdentityCredentialResourceName = "ficResourceName";
+        const parameters = {
+          audiences: ["api://AzureADTokenExchange"],
+          issuer: "https://oidc.prod-aks.azure.com/IssuerGUID",
+          subject: "system:serviceaccount:ns:svcaccount",
+        };
+        const credential = new DefaultAzureCredential();
+        const client = new ManagedServiceIdentityClient(credential, subscriptionId);
+        const result = await client.federatedIdentityCredentials.createOrUpdate(
+          resourceGroupName,
+          resourceName,
+          federatedIdentityCredentialResourceName,
+          parameters
+        );
+        console.log(result);
+      }
+
+      federatedIdentityCredentialCreate().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-msi_2.1.0-beta.2/sdk/msi/arm-msi/README.md) on how to add the SDK to your project and authenticate.
+  responses:
+  - statusCode: "201"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName/federatedIdentityCredentials/ficResourceName",
+        "name": "ficResourceName",
+        "properties": {
+          "issuer": "https://oidc.prod-aks.azure.com/IssuerGUID",
+          "subject": "system:serviceaccount:ns:svcaccount",
+          "audiences": [
+            "api://AzureADTokenExchange"
+          ]
+        },
+        "type": "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
+      }
+  - statusCode: "200"
+    body: >-
+      {
+        "id": "/subscriptions/subid/resourcegroups/rgName/providers/Microsoft.ManagedIdentity/userAssignedIdentities/identityName/federatedIdentityCredentials/ficResourceName",
+        "name": "ficResourceName",
+        "properties": {
+          "issuer": "https://oidc.prod-aks.azure.com/IssuerGUID",
+          "subject": "system:serviceaccount:ns:svcaccount",
+          "audiences": [
+            "api://AzureADTokenExchange"
+          ]
+        },
+        "type": "Microsoft.ManagedIdentity/userAssignedIdentities/federatedIdentityCredentials"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Managed Identity service - Create or update a federated identity credential under the specified user assigned identity.
+errorCodes: []
