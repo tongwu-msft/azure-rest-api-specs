@@ -3,14 +3,14 @@ uid: management.azure.com.activedirectory.b2ctenants.update
 name: Update
 service: Azure AD B2C
 groupName: B2C Tenants
-apiVersion: 2019-01-01-preview
+apiVersion: 2021-04-01
 summary: Update the Azure AD B2C tenant resource.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2019-01-01-preview
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AzureActiveDirectory/b2cDirectories/{resourceName}?api-version=2021-04-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -27,7 +27,7 @@ uriParameters:
 - name: resourceName
   in: path
   isRequired: true
-  description: The initial domain name of the B2C tenant.
+  description: The initial domain name of the Azure AD B2C tenant.
   types:
   - uid: string
 - name: api-version
@@ -69,7 +69,7 @@ requestBody:
     - uid: BillingConfig
   - name: properties.tenantId
     in: body
-    description: An identifier of the B2C tenant.
+    description: An identifier of the Azure AD B2C tenant.
     types:
     - uid: string
 requestHeader: []
@@ -113,16 +113,16 @@ definitions:
     - uid: B2CResourceSKU
   - name: id
     isReadyOnly: true
-    description: An identifier that represents the B2C tenant resource.
+    description: An identifier that represents the Azure AD B2C tenant resource.
     types:
     - uid: string
   - name: name
     isReadyOnly: true
-    description: The name of the B2C tenant resource.
+    description: The name of the Azure AD B2C tenant resource.
     types:
     - uid: string
   - name: location
-    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia' (preview). Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
+    description: The location in which the resource is hosted and data resides. Can be one of 'United States', 'Europe', 'Asia Pacific', or 'Australia'. Refer to [this documentation](https://aka.ms/B2CDataResidency) for more information.
     types:
     - uid: string
   - name: tags
@@ -133,12 +133,17 @@ definitions:
       additionalTypes:
       - uid: string
       - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Metadata pertaining to creation and last modification of the resource.
+    types:
+    - uid: systemData
   - name: properties.billingConfig
     description: The billing configuration for the tenant.
     types:
     - uid: BillingConfig
   - name: properties.tenantId
-    description: An identifier of the B2C tenant.
+    description: An identifier of the Azure AD B2C tenant.
     types:
     - uid: string
 - name: CloudError
@@ -170,7 +175,7 @@ definitions:
     types:
     - uid: BillingConfig
   - name: properties.tenantId
-    description: An identifier of the B2C tenant.
+    description: An identifier of the Azure AD B2C tenant.
     types:
     - uid: string
 - name: B2CResourceSKUName
@@ -217,6 +222,34 @@ definitions:
     description: The resource type for Azure AD B2C tenant resource.
     types:
     - uid: string
+- name: systemData
+  description: Metadata pertaining to creation and last modification of the resource.
+  kind: object
+  properties:
+  - name: createdBy
+    description: The identity that created the resource.
+    types:
+    - uid: string
+  - name: createdByType
+    description: The type of identity that created the resource.
+    types:
+    - uid: createdByType
+  - name: createdAt
+    description: The timestamp of resource creation (UTC).
+    types:
+    - uid: string
+  - name: lastModifiedBy
+    description: The identity that last modified the resource.
+    types:
+    - uid: string
+  - name: lastModifiedByType
+    description: The type of identity that last modified the resource.
+    types:
+    - uid: createdByType
+  - name: lastModifiedAt
+    description: The timestamp of resource last modification (UTC)
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -248,6 +281,22 @@ definitions:
     types:
     - uid: ErrorAdditionalInfo
       isArray: true
+- name: createdByType
+  description: The type of identity that created the resource.
+  kind: enum
+  properties:
+  - name: User
+    types:
+    - uid: string
+  - name: Application
+    types:
+    - uid: string
+  - name: ManagedIdentity
+    types:
+    - uid: string
+  - name: Key
+    types:
+    - uid: string
 - name: ErrorAdditionalInfo
   description: The resource management error additional info.
   kind: object
@@ -263,9 +312,9 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Get tenant
+- name: Update tenant
   request:
-    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+    uri: PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
     body: >-
       {
         "sku": {
@@ -283,7 +332,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2019-01-01-preview
+      PATCH https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/contosoResourceGroup/providers/Microsoft.AzureActiveDirectory/b2cDirectories/contoso.onmicrosoft.com?api-version=2021-04-01
 
       {
         "sku": {
@@ -301,6 +350,37 @@ examples:
 
       ```
 
+      # [JavaScript](#tab/JavaScript)
+      ``` js
+      const { ExternalIdentitiesConfigurationClient } = require("@azure/arm-azureadexternalidentities");
+      const { DefaultAzureCredential } = require("@azure/identity");
+
+      /**
+       * This sample demonstrates how to Update the Azure AD B2C tenant resource.
+       *
+       * @summary Update the Azure AD B2C tenant resource.
+       * x-ms-original-file: specification/cpim/resource-manager/Microsoft.AzureActiveDirectory/stable/2021-04-01/examples/updateTenant.json
+       */
+      async function updateTenant() {
+        const subscriptionId = "34adfa4f-cedf-4dc0-ba29-b6d1a69ab345";
+        const resourceGroupName = "contosoResourceGroup";
+        const resourceName = "contoso.onmicrosoft.com";
+        const updateTenantRequestBody = {
+          billingConfig: { billingType: "MAU" },
+          sku: { name: "PremiumP1" },
+          tags: { key: "value" },
+        };
+        const options = { updateTenantRequestBody };
+        const credential = new DefaultAzureCredential();
+        const client = new ExternalIdentitiesConfigurationClient(credential, subscriptionId);
+        const result = await client.b2CTenants.update(resourceGroupName, resourceName, options);
+        console.log(result);
+      }
+
+      updateTenant().catch(console.error);
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-azureadexternalidentities_1.0.1/sdk/azureadexternalidentities/arm-azureadexternalidentities/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-

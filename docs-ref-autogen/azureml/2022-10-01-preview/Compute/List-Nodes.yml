@@ -1,0 +1,225 @@
+### YamlMime:RESTOperation
+uid: management.azure.com.azureml.2022-10-01-preview.compute.listnodes
+name: List Nodes
+service: Machine Learning
+groupName: Compute
+apiVersion: 2022-10-01-preview
+summary: Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
+consumes:
+- application/json
+produces:
+- application/json
+paths:
+- content: POST https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MachineLearningServices/workspaces/{workspaceName}/computes/{computeName}/listNodes?api-version=2022-10-01-preview
+uriParameters:
+- name: subscriptionId
+  in: path
+  isRequired: true
+  description: The ID of the target subscription.
+  types:
+  - uid: string
+- name: resourceGroupName
+  in: path
+  isRequired: true
+  description: The name of the resource group. The name is case insensitive.
+  types:
+  - uid: string
+- name: workspaceName
+  in: path
+  isRequired: true
+  description: Name of Azure Machine Learning workspace.
+  types:
+  - uid: string
+- name: computeName
+  in: path
+  isRequired: true
+  description: Name of the Azure Machine Learning compute.
+  types:
+  - uid: string
+- name: api-version
+  in: query
+  isRequired: true
+  description: The API version to use for this operation.
+  types:
+  - uid: string
+responses:
+- name: 200 OK
+  description: The operation was successful. The response contains the list of IP addresses.
+  types:
+  - uid: AmlComputeNodesInformation
+- name: Other Status Codes
+  description: Error response describing why the operation failed.
+  types:
+  - uid: ErrorResponse
+requestHeader: []
+definitions:
+- name: AmlComputeNodesInformation
+  description: Result of AmlCompute Nodes
+  kind: object
+  properties:
+  - name: nodes
+    isReadyOnly: true
+    description: The collection of returned AmlCompute nodes details.
+    types:
+    - uid: AmlComputeNodeInformation
+      isArray: true
+  - name: nextLink
+    isReadyOnly: true
+    description: The continuation token.
+    types:
+    - uid: string
+- name: ErrorResponse
+  description: Error response
+  kind: object
+  properties:
+  - name: error
+    description: The error object.
+    types:
+    - uid: ErrorDetail
+- name: AmlComputeNodeInformation
+  description: Compute node information related to a AmlCompute.
+  kind: object
+  properties:
+  - name: nodeId
+    isReadyOnly: true
+    description: "Node ID.  \nID of the compute node."
+    types:
+    - uid: string
+  - name: privateIpAddress
+    isReadyOnly: true
+    description: "Private IP address.  \nPrivate IP address of the compute node."
+    types:
+    - uid: string
+  - name: publicIpAddress
+    isReadyOnly: true
+    description: "Public IP address.  \nPublic IP address of the compute node."
+    types:
+    - uid: string
+  - name: port
+    isReadyOnly: true
+    description: "Port.  \nSSH port number of the node."
+    types:
+    - uid: number
+  - name: nodeState
+    isReadyOnly: true
+    description: State of the compute node. Values are idle, running, preparing, unusable, leaving and preempted.
+    types:
+    - uid: nodeState
+  - name: runId
+    isReadyOnly: true
+    description: "Run ID.  \nID of the Experiment running on the node, if any else null."
+    types:
+    - uid: string
+- name: ErrorDetail
+  description: The error detail.
+  kind: object
+  properties:
+  - name: code
+    isReadyOnly: true
+    description: The error code.
+    types:
+    - uid: string
+  - name: message
+    isReadyOnly: true
+    description: The error message.
+    types:
+    - uid: string
+  - name: target
+    isReadyOnly: true
+    description: The error target.
+    types:
+    - uid: string
+  - name: details
+    isReadyOnly: true
+    description: The error details.
+    types:
+    - uid: ErrorDetail
+      isArray: true
+  - name: additionalInfo
+    isReadyOnly: true
+    description: The error additional info.
+    types:
+    - uid: ErrorAdditionalInfo
+      isArray: true
+- name: nodeState
+  description: State of the compute node. Values are idle, running, preparing, unusable, leaving and preempted.
+  kind: enum
+  properties:
+  - name: idle
+    types:
+    - uid: string
+  - name: running
+    types:
+    - uid: string
+  - name: preparing
+    types:
+    - uid: string
+  - name: unusable
+    types:
+    - uid: string
+  - name: leaving
+    types:
+    - uid: string
+  - name: preempted
+    types:
+    - uid: string
+- name: ErrorAdditionalInfo
+  description: The resource management error additional info.
+  kind: object
+  properties:
+  - name: type
+    isReadyOnly: true
+    description: The additional info type.
+    types:
+    - uid: string
+  - name: info
+    isReadyOnly: true
+    description: The additional info.
+    types:
+    - uid: object
+examples:
+- name: Get compute nodes information for a compute
+  request:
+    uri: POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes/compute123/listNodes?api-version=2022-10-01-preview
+    codeTab: |+
+      # [HTTP](#tab/HTTP)
+      ``` http
+      POST https://management.azure.com/subscriptions/34adfa4f-cedf-4dc0-ba29-b6d1a69ab345/resourceGroups/testrg123/providers/Microsoft.MachineLearningServices/workspaces/workspaces123/computes/compute123/listNodes?api-version=2022-10-01-preview
+      ```
+
+  responses:
+  - statusCode: "200"
+    body: >-
+      {
+        "nodes": [
+          {
+            "nodeId": "tvm-3601533753_1-20170719t162906z",
+            "privateIpAddress": "13.84.190.124",
+            "publicIpAddress": "13.84.190.134",
+            "port": 50000,
+            "nodeState": "running",
+            "runId": "2f378a44-38f2-443a-9f0d-9909d0b47890"
+          },
+          {
+            "nodeId": "tvm-3601533753_2-20170719t162906z",
+            "privateIpAddress": "13.84.190.124",
+            "publicIpAddress": "13.84.190.134",
+            "port": 50001,
+            "nodeState": "idle"
+          }
+        ],
+        "nextLink": "nextLink"
+      }
+security:
+- name: azure_auth
+  type: oauth2
+  description: Azure Active Directory OAuth2 Flow.
+  flow: implicit
+  authorizationUrl: https://login.microsoftonline.com/common/oauth2/authorize
+  scopes:
+  - name: user_impersonation
+    description: impersonate your user account
+metadata:
+  description: >
+    Learn more about Machine Learning service - Get the details (e.g IP address, port etc) of all the compute nodes in the compute.
+errorCodes: []
