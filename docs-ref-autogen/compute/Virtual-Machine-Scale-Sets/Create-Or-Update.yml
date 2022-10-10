@@ -2070,6 +2070,98 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPasswordAuthentication.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithPasswordAuthentication() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -2545,6 +2637,107 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSshAuthentication.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithSshAuthentication() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      					LinuxConfiguration: &armcompute.LinuxConfiguration{
+      						DisablePasswordAuthentication: to.Ptr(true),
+      						SSH: &armcompute.SSHConfiguration{
+      							PublicKeys: []*armcompute.SSHPublicKey{
+      								{
+      									Path:    to.Ptr("/home/{your-username}/.ssh/authorized_keys"),
+      									KeyData: to.Ptr("ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCeClRAk2ipUs/l5voIsDC5q9RI+YSRd1Bvd/O+axgY4WiBzG+4FwJWZm/mLLe5DoOdHQwmU2FrKXZSW4w2sYE70KeWnrFViCOX5MTVvJgPE8ClugNl8RWth/tU849DvM9sT7vFgfVSHcAS2yDRyDlueii+8nF2ym8XWAPltFVCyLHRsyBp5YPqK8JFYIa1eybKsY3hEAxRCA+/7bq8et+Gj3coOsuRmrehav7rE6N12Pb80I6ofa6SM5XNYq4Xk0iYNx7R3kdz0Jj9XgZYWjAHjJmT0gTRoOnt6upOuxK7xI/ykWrllgpXrCPu3Ymz+c+ujaqcxDopnAl2lmf69/J1"),
+      								}},
+      						},
+      					},
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3009,6 +3202,98 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPremiumStorage.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithPremiumStorage() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesPremiumLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -3487,6 +3772,110 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEmptyDataDisksOnEachVm.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithEmptyDataDisksOnEachVm() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					DataDisks: []*armcompute.VirtualMachineScaleSetDataDisk{
+      						{
+      							CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
+      							DiskSizeGB:   to.Ptr[int32](1023),
+      							Lun:          to.Ptr[int32](0),
+      						},
+      						{
+      							CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
+      							DiskSizeGB:   to.Ptr[int32](1023),
+      							Lun:          to.Ptr[int32](1),
+      						}},
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						DiskSizeGB:   to.Ptr[int32](512),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D2_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4024,6 +4413,112 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureLoadBalancer.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithAnAzureLoadBalancer() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											LoadBalancerBackendAddressPools: []*armcompute.SubResource{
+      												{
+      													ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/backendAddressPools/{existing-backend-address-pool-name}"),
+      												}},
+      											LoadBalancerInboundNatPools: []*armcompute.SubResource{
+      												{
+      													ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/loadBalancers/{existing-load-balancer-name}/inboundNatPools/{existing-nat-pool-name}"),
+      												}},
+      											PublicIPAddressConfiguration: &armcompute.VirtualMachineScaleSetPublicIPAddressConfiguration{
+      												Name: to.Ptr("{vmss-name}"),
+      												Properties: &armcompute.VirtualMachineScaleSetPublicIPAddressConfigurationProperties{
+      													PublicIPAddressVersion: to.Ptr(armcompute.IPVersionIPv4),
+      												},
+      											},
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4515,6 +5010,102 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAzureApplicationGateway.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithAnAzureApplicationGateway() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											ApplicationGatewayBackendAddressPools: []*armcompute.SubResource{
+      												{
+      													ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/applicationGateways/{existing-application-gateway-name}/backendAddressPools/{existing-backend-address-pool-name}"),
+      												}},
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -4990,6 +5581,104 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithBootDiagnostics.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithBootDiagnostics() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				DiagnosticsProfile: &armcompute.DiagnosticsProfile{
+      					BootDiagnostics: &armcompute.BootDiagnostics{
+      						Enabled:    to.Ptr(true),
+      						StorageURI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net"),
+      					},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -5461,6 +6150,103 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithManagedBootDiagnostics.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithManagedBootDiagnostics() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				DiagnosticsProfile: &armcompute.DiagnosticsProfile{
+      					BootDiagnostics: &armcompute.BootDiagnostics{
+      						Enabled: to.Ptr(true),
+      					},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -5927,6 +6713,103 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAMarketplaceImagePlan.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithAMarketplaceImagePlan() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Plan: &armcompute.Plan{
+      			Name:      to.Ptr("windows2016"),
+      			Product:   to.Ptr("windows-data-science-vm"),
+      			Publisher: to.Ptr("microsoft-ads"),
+      		},
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("windows-data-science-vm"),
+      						Publisher: to.Ptr("microsoft-ads"),
+      						SKU:       to.Ptr("windows2016"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -6373,6 +7256,95 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromACustomImage.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetFromACustomImage() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -6816,6 +7788,102 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_PlatformImageWithUnmanagedOsDisks.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAPlatformImageScaleSetWithUnmanagedOsDisks() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Name:         to.Ptr("osDisk"),
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						VhdContainers: []*string{
+      							to.Ptr("http://{existing-storage-account-name-0}.blob.core.windows.net/vhdContainer"),
+      							to.Ptr("http://{existing-storage-account-name-1}.blob.core.windows.net/vhdContainer"),
+      							to.Ptr("http://{existing-storage-account-name-2}.blob.core.windows.net/vhdContainer"),
+      							to.Ptr("http://{existing-storage-account-name-3}.blob.core.windows.net/vhdContainer"),
+      							to.Ptr("http://{existing-storage-account-name-4}.blob.core.windows.net/vhdContainer")},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -7249,6 +8317,93 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_CustomImageFromAnUnmanagedGeneralizedOsImage.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createACustomImageScaleSetFromAnUnmanagedGeneralizedOsImage() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Name:         to.Ptr("osDisk"),
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						Image: &armcompute.VirtualHardDisk{
+      							URI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net/{existing-container-name}/{existing-generalized-os-image-blob-name}.vhd"),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -7726,6 +8881,113 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMsInDifferentZones.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithVirtualMachinesInDifferentZones() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("centralus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeAutomatic),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					DataDisks: []*armcompute.VirtualMachineScaleSetDataDisk{
+      						{
+      							CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
+      							DiskSizeGB:   to.Ptr[int32](1023),
+      							Lun:          to.Ptr[int32](0),
+      						},
+      						{
+      							CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
+      							DiskSizeGB:   to.Ptr[int32](1023),
+      							Lun:          to.Ptr[int32](1),
+      						}},
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						DiskSizeGB:   to.Ptr[int32](512),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_A1_v2"),
+      			Capacity: to.Ptr[int64](2),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      		Zones: []*string{
+      			to.Ptr("1"),
+      			to.Ptr("3")},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -8249,6 +9511,106 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiffOsDisk.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithEphemeralOsDisks() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Plan: &armcompute.Plan{
+      			Name:      to.Ptr("windows2016"),
+      			Product:   to.Ptr("windows-data-science-vm"),
+      			Publisher: to.Ptr("microsoft-ads"),
+      		},
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("windows-data-science-vm"),
+      						Publisher: to.Ptr("microsoft-ads"),
+      						SKU:       to.Ptr("windows2016"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadOnly),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						DiffDiskSettings: &armcompute.DiffDiskSettings{
+      							Option: to.Ptr(armcompute.DiffDiskOptionsLocal),
+      						},
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DS1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -8731,6 +10093,104 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithTerminateScheduledEventEnabled.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithTerminateScheduledEventsEnabled() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				ScheduledEventsProfile: &armcompute.ScheduledEventsProfile{
+      					TerminateNotificationProfile: &armcompute.TerminateNotificationProfile{
+      						Enable:           to.Ptr(true),
+      						NotBeforeTimeout: to.Ptr("PT5M"),
+      					},
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -9196,6 +10656,102 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithAutomaticRepairs.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithAutomaticRepairsEnabled() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			AutomaticRepairsPolicy: &armcompute.AutomaticRepairsPolicy{
+      				Enabled:     to.Ptr(true),
+      				GracePeriod: to.Ptr("PT10M"),
+      			},
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -9692,6 +11248,111 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskEncryptionSetResource.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithDiskEncryptionSetResourceInOsDiskAndDataDisk() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					DataDisks: []*armcompute.VirtualMachineScaleSetDataDisk{
+      						{
+      							Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      							CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesEmpty),
+      							DiskSizeGB:   to.Ptr[int32](1023),
+      							Lun:          to.Ptr[int32](0),
+      							ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      								DiskEncryptionSet: &armcompute.DiskEncryptionSetParameters{
+      									ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"),
+      								},
+      								StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      							},
+      						}},
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							DiskEncryptionSet: &armcompute.DiskEncryptionSetParameters{
+      								ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/diskEncryptionSets/{existing-diskEncryptionSet-name}"),
+      							},
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DS1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -10205,6 +11866,107 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_CreateA_WithDiffOsDiskUsingDiffDiskPlacement.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithEphemeralOsDisksUsingPlacementProperty() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Plan: &armcompute.Plan{
+      			Name:      to.Ptr("windows2016"),
+      			Product:   to.Ptr("windows-data-science-vm"),
+      			Publisher: to.Ptr("microsoft-ads"),
+      		},
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("windows-data-science-vm"),
+      						Publisher: to.Ptr("microsoft-ads"),
+      						SKU:       to.Ptr("windows2016"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadOnly),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						DiffDiskSettings: &armcompute.DiffDiskSettings{
+      							Option:    to.Ptr(armcompute.DiffDiskOptionsLocal),
+      							Placement: to.Ptr(armcompute.DiffDiskPlacementResourceDisk),
+      						},
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DS1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -10741,6 +12503,118 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsTimeBudget.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithExtensionTimeBudget() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				DiagnosticsProfile: &armcompute.DiagnosticsProfile{
+      					BootDiagnostics: &armcompute.BootDiagnostics{
+      						Enabled:    to.Ptr(true),
+      						StorageURI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net"),
+      					},
+      				},
+      				ExtensionProfile: &armcompute.VirtualMachineScaleSetExtensionProfile{
+      					ExtensionsTimeBudget: to.Ptr("PT1H20M"),
+      					Extensions: []*armcompute.VirtualMachineScaleSetExtension{
+      						{
+      							Name: to.Ptr("{extension-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetExtensionProperties{
+      								Type:                    to.Ptr("{extension-Type}"),
+      								AutoUpgradeMinorVersion: to.Ptr(false),
+      								Publisher:               to.Ptr("{extension-Publisher}"),
+      								Settings:                map[string]interface{}{},
+      								TypeHandlerVersion:      to.Ptr("{handler-version}"),
+      							},
+      						}},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -11266,6 +13140,106 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithEncryptionAtHost.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithHostEncryptionUsingEncryptionAtHostProperty() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Plan: &armcompute.Plan{
+      			Name:      to.Ptr("windows2016"),
+      			Product:   to.Ptr("windows-data-science-vm"),
+      			Publisher: to.Ptr("microsoft-ads"),
+      		},
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				SecurityProfile: &armcompute.SecurityProfile{
+      					EncryptionAtHost: to.Ptr(true),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("windows-data-science-vm"),
+      						Publisher: to.Ptr("microsoft-ads"),
+      						SKU:       to.Ptr("windows2016"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadOnly),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DS1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -11779,6 +13753,115 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithFpgaNetworkInterface.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithFpgaNetworkInterfaces() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						},
+      						{
+      							Name: to.Ptr("{fpgaNic-Name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableAcceleratedNetworking: to.Ptr(false),
+      								EnableFpga:                  to.Ptr(true),
+      								EnableIPForwarding:          to.Ptr(false),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{fpgaNic-Name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Primary:                 to.Ptr(true),
+      											PrivateIPAddressVersion: to.Ptr(armcompute.IPVersionIPv4),
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(false),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -12293,6 +14376,105 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUefiSettings.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithUefiSettingsOfSecureBootAndVTpm() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				SecurityProfile: &armcompute.SecurityProfile{
+      					SecurityType: to.Ptr(armcompute.SecurityTypesTrustedLaunch),
+      					UefiSettings: &armcompute.UefiSettings{
+      						SecureBootEnabled: to.Ptr(true),
+      						VTpmEnabled:       to.Ptr(true),
+      					},
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("windowsserver-gen2preview-preview"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("windows10-tvm"),
+      						Version:   to.Ptr("18363.592.2001092016"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadOnly),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardSSDLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D2s_v3"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -12743,6 +14925,95 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromAGeneralizedSharedImage.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetFromAGeneralizedSharedImage() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -13148,6 +15419,90 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromASpecializedSharedImage.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetFromASpecializedSharedImage() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/galleries/mySharedGallery/images/mySharedImage"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -13558,6 +15913,99 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithUserData.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithUserData() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      				UserData: to.Ptr("RXhhbXBsZSBVc2VyRGF0YQ=="),
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -14059,6 +16507,112 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithApplicationProfile.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithApplicationProfile() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				ApplicationProfile: &armcompute.ApplicationProfile{
+      					GalleryApplications: []*armcompute.VMGalleryApplication{
+      						{
+      							ConfigurationReference:          to.Ptr("https://mystorageaccount.blob.core.windows.net/configurations/settings.config"),
+      							EnableAutomaticUpgrade:          to.Ptr(false),
+      							Order:                           to.Ptr[int32](1),
+      							PackageReferenceID:              to.Ptr("/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdb/resourceGroups/myresourceGroupName2/providers/Microsoft.Compute/galleries/myGallery1/applications/MyApplication1/versions/1.0"),
+      							Tags:                            to.Ptr("myTag1"),
+      							TreatFailureAsDeploymentFailure: to.Ptr(true),
+      						},
+      						{
+      							PackageReferenceID: to.Ptr("/subscriptions/32c17a9e-aa7b-4ba5-a45b-e324116b6fdg/resourceGroups/myresourceGroupName3/providers/Microsoft.Compute/galleries/myGallery2/applications/MyApplication2/versions/1.1"),
+      						}},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -14560,6 +17114,103 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithScaleInPolicy.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithScaleInPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			ScaleInPolicy: &armcompute.ScaleInPolicy{
+      				ForceDeletion: to.Ptr(true),
+      				Rules: []*armcompute.VirtualMachineScaleSetScaleInRules{
+      					to.Ptr(armcompute.VirtualMachineScaleSetScaleInRulesOldestVM)},
+      			},
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -15085,6 +17736,118 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithExtensionsSuppressFailuresEnabled.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAVmssWithAnExtensionThatHasSuppressFailuresEnabled() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				DiagnosticsProfile: &armcompute.DiagnosticsProfile{
+      					BootDiagnostics: &armcompute.BootDiagnostics{
+      						Enabled:    to.Ptr(true),
+      						StorageURI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net"),
+      					},
+      				},
+      				ExtensionProfile: &armcompute.VirtualMachineScaleSetExtensionProfile{
+      					Extensions: []*armcompute.VirtualMachineScaleSetExtension{
+      						{
+      							Name: to.Ptr("{extension-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetExtensionProperties{
+      								Type:                    to.Ptr("{extension-Type}"),
+      								AutoUpgradeMinorVersion: to.Ptr(false),
+      								Publisher:               to.Ptr("{extension-Publisher}"),
+      								Settings:                map[string]interface{}{},
+      								SuppressFailures:        to.Ptr(true),
+      								TypeHandlerVersion:      to.Ptr("{handler-version}"),
+      							},
+      						}},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -15604,6 +18367,103 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithCapacityReservation.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createOrUpdateAScaleSetWithCapacityReservation() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				CapacityReservation: &armcompute.CapacityReservationProfile{
+      					CapacityReservationGroup: &armcompute.SubResource{
+      						ID: to.Ptr("subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/CapacityReservationGroups/{crgName}"),
+      					},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DS1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -16084,6 +18944,107 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSpotRestorePolicy.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithSpotRestorePolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			SpotRestorePolicy: &armcompute.SpotRestorePolicy{
+      				Enabled:        to.Ptr(true),
+      				RestoreTimeout: to.Ptr("PT1H"),
+      			},
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				BillingProfile: &armcompute.BillingProfile{
+      					MaxPrice: to.Ptr[float64](-1),
+      				},
+      				EvictionPolicy: to.Ptr(armcompute.VirtualMachineEvictionPolicyTypesDeallocate),
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				Priority: to.Ptr(armcompute.VirtualMachinePriorityTypesSpot),
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_A8m_v2"),
+      			Capacity: to.Ptr[int64](2),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -16569,6 +19530,105 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithPriorityMixPolicy.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithPriorityMixPolicy() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			OrchestrationMode: to.Ptr(armcompute.OrchestrationModeFlexible),
+      			PriorityMixPolicy: &armcompute.PriorityMixPolicy{
+      				BaseRegularPriorityCount:           to.Ptr[int32](4),
+      				RegularPriorityPercentageAboveBase: to.Ptr[int32](50),
+      			},
+      			SinglePlacementGroup: to.Ptr(false),
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				BillingProfile: &armcompute.BillingProfile{
+      					MaxPrice: to.Ptr[float64](-1),
+      				},
+      				EvictionPolicy: to.Ptr(armcompute.VirtualMachineEvictionPolicyTypesDeallocate),
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				Priority: to.Ptr(armcompute.VirtualMachinePriorityTypesSpot),
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_A8m_v2"),
+      			Capacity: to.Ptr[int64](10),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -17119,6 +20179,123 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithProtectedSettingsFromKeyVault.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAVmssWithAnExtensionWithProtectedSettingsFromKeyVault() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				DiagnosticsProfile: &armcompute.DiagnosticsProfile{
+      					BootDiagnostics: &armcompute.BootDiagnostics{
+      						Enabled:    to.Ptr(true),
+      						StorageURI: to.Ptr("http://{existing-storage-account-name}.blob.core.windows.net"),
+      					},
+      				},
+      				ExtensionProfile: &armcompute.VirtualMachineScaleSetExtensionProfile{
+      					Extensions: []*armcompute.VirtualMachineScaleSetExtension{
+      						{
+      							Name: to.Ptr("{extension-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetExtensionProperties{
+      								Type:                    to.Ptr("{extension-Type}"),
+      								AutoUpgradeMinorVersion: to.Ptr(false),
+      								ProtectedSettingsFromKeyVault: &armcompute.KeyVaultSecretReference{
+      									SecretURL: to.Ptr("https://kvName.vault.azure.net/secrets/secretName/79b88b3a6f5440ffb2e73e44a0db712e"),
+      									SourceVault: &armcompute.SubResource{
+      										ID: to.Ptr("/subscriptions/a53f7094-a16c-47af-abe4-b05c05d0d79a/resourceGroups/myResourceGroup/providers/Microsoft.KeyVault/vaults/kvName"),
+      									},
+      								},
+      								Publisher:          to.Ptr("{extension-Publisher}"),
+      								Settings:           map[string]interface{}{},
+      								TypeHandlerVersion: to.Ptr("{handler-version}"),
+      							},
+      						}},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -17656,6 +20833,105 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithVMSizeProperties.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithVmSizeProperties() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				HardwareProfile: &armcompute.VirtualMachineScaleSetHardwareProfile{
+      					VMSizeProperties: &armcompute.VMSizeProperties{
+      						VCPUsAvailable: to.Ptr[int32](1),
+      						VCPUsPerCore:   to.Ptr[int32](1),
+      					},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      				UserData: to.Ptr("RXhhbXBsZSBVc2VyRGF0YQ=="),
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -18158,6 +21434,108 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithSecurityTypeConfidentialVM.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithSecurityTypeAsConfidentialVm() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				SecurityProfile: &armcompute.SecurityProfile{
+      					SecurityType: to.Ptr(armcompute.SecurityTypesConfidentialVM),
+      					UefiSettings: &armcompute.UefiSettings{
+      						SecureBootEnabled: to.Ptr(true),
+      						VTpmEnabled:       to.Ptr(true),
+      					},
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("2019-datacenter-cvm"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("windows-cvm"),
+      						Version:   to.Ptr("17763.2183.2109130127"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadOnly),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							SecurityProfile: &armcompute.VMDiskSecurityProfile{
+      								SecurityEncryptionType: to.Ptr(armcompute.SecurityEncryptionTypesVMGuestStateOnly),
+      							},
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardSSDLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_DC2as_v5"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -18648,6 +22026,106 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_WithDiskControllerType.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWithDiskControllerType() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				HardwareProfile: &armcompute.VirtualMachineScaleSetHardwareProfile{
+      					VMSizeProperties: &armcompute.VMSizeProperties{
+      						VCPUsAvailable: to.Ptr[int32](1),
+      						VCPUsPerCore:   to.Ptr[int32](1),
+      					},
+      				},
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{vmss-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								EnableIPForwarding: to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					DiskControllerType: to.Ptr("NVMe"),
+      					ImageReference: &armcompute.ImageReference{
+      						Offer:     to.Ptr("WindowsServer"),
+      						Publisher: to.Ptr("MicrosoftWindowsServer"),
+      						SKU:       to.Ptr("2016-Datacenter"),
+      						Version:   to.Ptr("latest"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      				UserData: to.Ptr("RXhhbXBsZSBVc2VyRGF0YQ=="),
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
@@ -19177,6 +22655,117 @@ examples:
 
       ```
       Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager_2.19.0/sdk/resourcemanager/azure-resourcemanager/README.md) on how to add the SDK to your project and authenticate.
+      # [Go](#tab/Go)
+      ``` go
+      package armcompute_test
+
+      import (
+      	"context"
+      	"log"
+
+      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
+      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
+      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/compute/armcompute/v4"
+      )
+
+      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/compute/resource-manager/Microsoft.Compute/ComputeRP/stable/2022-08-01/examples/virtualMachineScaleSetExamples/VirtualMachineScaleSet_Create_FromWithDisableTcpStateTrackingNetworkInterface.json
+      func ExampleVirtualMachineScaleSetsClient_BeginCreateOrUpdate_createAScaleSetWhereNicConfigHasDisableTcpStateTrackingProperty() {
+      	cred, err := azidentity.NewDefaultAzureCredential(nil)
+      	if err != nil {
+      		log.Fatalf("failed to obtain a credential: %v", err)
+      	}
+      	ctx := context.Background()
+      	client, err := armcompute.NewVirtualMachineScaleSetsClient("{subscription-id}", cred, nil)
+      	if err != nil {
+      		log.Fatalf("failed to create client: %v", err)
+      	}
+      	poller, err := client.BeginCreateOrUpdate(ctx, "myResourceGroup", "{vmss-name}", armcompute.VirtualMachineScaleSet{
+      		Location: to.Ptr("westus"),
+      		Properties: &armcompute.VirtualMachineScaleSetProperties{
+      			Overprovision: to.Ptr(true),
+      			UpgradePolicy: &armcompute.UpgradePolicy{
+      				Mode: to.Ptr(armcompute.UpgradeModeManual),
+      			},
+      			VirtualMachineProfile: &armcompute.VirtualMachineScaleSetVMProfile{
+      				NetworkProfile: &armcompute.VirtualMachineScaleSetNetworkProfile{
+      					NetworkInterfaceConfigurations: []*armcompute.VirtualMachineScaleSetNetworkConfiguration{
+      						{
+      							Name: to.Ptr("{nicConfig1-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								DisableTCPStateTracking:     to.Ptr(true),
+      								EnableAcceleratedNetworking: to.Ptr(true),
+      								EnableIPForwarding:          to.Ptr(true),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{vmss-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-subnet-name}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(true),
+      							},
+      						},
+      						{
+      							Name: to.Ptr("{nicConfig2-name}"),
+      							Properties: &armcompute.VirtualMachineScaleSetNetworkConfigurationProperties{
+      								DisableTCPStateTracking:     to.Ptr(false),
+      								EnableAcceleratedNetworking: to.Ptr(false),
+      								EnableIPForwarding:          to.Ptr(false),
+      								IPConfigurations: []*armcompute.VirtualMachineScaleSetIPConfiguration{
+      									{
+      										Name: to.Ptr("{nicConfig2-name}"),
+      										Properties: &armcompute.VirtualMachineScaleSetIPConfigurationProperties{
+      											Primary:                 to.Ptr(true),
+      											PrivateIPAddressVersion: to.Ptr(armcompute.IPVersionIPv4),
+      											Subnet: &armcompute.APIEntityReference{
+      												ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Network/virtualNetworks/{existing-virtual-network-name}/subnets/{existing-fpga-subnet-name2}"),
+      											},
+      										},
+      									}},
+      								Primary: to.Ptr(false),
+      							},
+      						}},
+      				},
+      				OSProfile: &armcompute.VirtualMachineScaleSetOSProfile{
+      					AdminPassword:      to.Ptr("{your-password}"),
+      					AdminUsername:      to.Ptr("{your-username}"),
+      					ComputerNamePrefix: to.Ptr("{vmss-name}"),
+      				},
+      				StorageProfile: &armcompute.VirtualMachineScaleSetStorageProfile{
+      					ImageReference: &armcompute.ImageReference{
+      						ID: to.Ptr("/subscriptions/{subscription-id}/resourceGroups/myResourceGroup/providers/Microsoft.Compute/images/{existing-custom-image-name}"),
+      					},
+      					OSDisk: &armcompute.VirtualMachineScaleSetOSDisk{
+      						Caching:      to.Ptr(armcompute.CachingTypesReadWrite),
+      						CreateOption: to.Ptr(armcompute.DiskCreateOptionTypesFromImage),
+      						ManagedDisk: &armcompute.VirtualMachineScaleSetManagedDiskParameters{
+      							StorageAccountType: to.Ptr(armcompute.StorageAccountTypesStandardLRS),
+      						},
+      					},
+      				},
+      			},
+      		},
+      		SKU: &armcompute.SKU{
+      			Name:     to.Ptr("Standard_D1_v2"),
+      			Capacity: to.Ptr[int64](3),
+      			Tier:     to.Ptr("Standard"),
+      		},
+      	}, nil)
+      	if err != nil {
+      		log.Fatalf("failed to finish the request: %v", err)
+      	}
+      	res, err := poller.PollUntilDone(ctx, nil)
+      	if err != nil {
+      		log.Fatalf("failed to pull the result: %v", err)
+      	}
+      	// TODO: use response item
+      	_ = res
+      }
+
+      ```
+      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Fcompute%2Farmcompute%2Fv4.0.0/sdk/resourcemanager/compute/armcompute/README.md) on how to add the SDK to your project and authenticate.
       # [JavaScript](#tab/JavaScript)
       ``` js
       const { ComputeManagementClient } = require("@azure/arm-compute");
