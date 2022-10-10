@@ -1,3 +1,14 @@
+---
+title: Azure Communication Services Repeatable Requests
+description: Detailed error codes and troubleshooting for repeatable requests in Communication Services REST APIs
+author: apattath
+ms.author: rifox
+ms.manager: sstacey
+ms.date: 10/10/2020
+ms.topic: reference
+ms.service: azure-communication-services
+ms.devlang: rest-api
+---
 # Repeatability of Requests
 
 Applies to: ACS Email (Email Send API)
