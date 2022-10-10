@@ -25715,6 +25715,40 @@
 ##### [Overview](sql/2022-02-01-preview/Sql-Agent.yml)
 ##### [Create Or Update](sql/2022-02-01-preview/Sql-Agent/Create-Or-Update.yml)
 ##### [Get](sql/2022-02-01-preview/Sql-Agent/Get.yml)
+#### Sql Vulnerability Assessment Baseline
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Baseline.yml)
+##### [Get](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Baseline/Get.yml)
+##### [List By Sql Vulnerability Assessment](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Baseline/List-By-Sql-Vulnerability-Assessment.yml)
+#### Sql Vulnerability Assessment Baselines
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Baselines.yml)
+##### [Create Or Update](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Baselines/Create-Or-Update.yml)
+#### Sql Vulnerability Assessment Execute Scan
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Execute-Scan.yml)
+##### [Execute](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Execute-Scan/Execute.yml)
+#### Sql Vulnerability Assessment Rule Baseline
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baseline.yml)
+##### [Create Or Update](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baseline/Create-Or-Update.yml)
+##### [Get](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baseline/Get.yml)
+##### [List By Baseline](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baseline/List-By-Baseline.yml)
+#### Sql Vulnerability Assessment Rule Baselines
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baselines.yml)
+##### [Delete](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Rule-Baselines/Delete.yml)
+#### Sql Vulnerability Assessment Scan Result
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scan-Result.yml)
+##### [Get](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scan-Result/Get.yml)
+##### [List By Scan](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scan-Result/List-By-Scan.yml)
+#### Sql Vulnerability Assessment Scans
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scans.yml)
+##### [Get](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scans/Get.yml)
+##### [List By Sql Vulnerability Assessments](sql/2022-02-01-preview/Sql-Vulnerability-Assessment-Scans/List-By-Sql-Vulnerability-Assessments.yml)
+#### Sql Vulnerability Assessments
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessments.yml)
+##### [Delete](sql/2022-02-01-preview/Sql-Vulnerability-Assessments/Delete.yml)
+#### Sql Vulnerability Assessments Settings
+##### [Overview](sql/2022-02-01-preview/Sql-Vulnerability-Assessments-Settings.yml)
+##### [Create Or Update](sql/2022-02-01-preview/Sql-Vulnerability-Assessments-Settings/Create-Or-Update.yml)
+##### [Get](sql/2022-02-01-preview/Sql-Vulnerability-Assessments-Settings/Get.yml)
+##### [List By Server](sql/2022-02-01-preview/Sql-Vulnerability-Assessments-Settings/List-By-Server.yml)
 #### Subscription Usages
 ##### [Overview](sql/2022-02-01-preview/Subscription-Usages.yml)
 ##### [Get](sql/2022-02-01-preview/Subscription-Usages/Get.yml)
