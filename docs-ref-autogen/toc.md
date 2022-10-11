@@ -11767,6 +11767,10 @@
 ### [Update](healthcareapis/Workspaces/Update.yml)
 # Hybrid Compute
 ## [Overview](../docs-ref-conceptual/hybridcompute/index.md)
+## Extension Metadata
+### [Overview](hybridcompute/Extension-Metadata.yml)
+### [Get](hybridcompute/Extension-Metadata/Get.yml)
+### [List](hybridcompute/Extension-Metadata/List.yml)
 ## Machine Extensions
 ### [Overview](hybridcompute/Machine-Extensions.yml)
 ### [Create Or Update](hybridcompute/Machine-Extensions/Create-Or-Update.yml)

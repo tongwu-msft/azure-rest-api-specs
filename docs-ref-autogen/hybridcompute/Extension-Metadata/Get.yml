@@ -1,16 +1,16 @@
 ### YamlMime:RESTOperation
-uid: management.azure.com.hybridcompute.privatelinkresources.get
+uid: management.azure.com.hybridcompute.extensionmetadata.get
 name: Get
 service: Hybrid Compute
-groupName: Private Link Resources
+groupName: Extension Metadata
 apiVersion: 2022-08-11-preview
-summary: Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
+summary: Gets an Extension Metadata based on location, publisher, extensionType and version
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HybridCompute/privateLinkScopes/{scopeName}/privateLinkResources/{groupName}?api-version=2022-08-11-preview
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/providers/Microsoft.HybridCompute/locations/{location}/publishers/{publisher}/extensionTypes/{extensionType}/versions/{version}?api-version=2022-08-11-preview
 uriParameters:
 - name: subscriptionId
   in: path
@@ -18,22 +18,28 @@ uriParameters:
   description: The ID of the target subscription.
   types:
   - uid: string
-- name: resourceGroupName
+- name: location
   in: path
   isRequired: true
-  description: The name of the resource group. The name is case insensitive.
+  description: The location of the Extension being received.
   types:
   - uid: string
-- name: scopeName
+- name: publisher
   in: path
   isRequired: true
-  description: The name of the Azure Arc PrivateLinkScope resource.
+  description: The publisher of the Extension being received.
   types:
   - uid: string
-- name: groupName
+- name: extensionType
   in: path
   isRequired: true
-  description: The name of the private link resource.
+  description: The extensionType of the Extension being received.
+  types:
+  - uid: string
+- name: version
+  in: path
+  isRequired: true
+  description: The version of the Extension being received.
   types:
   - uid: string
 - name: api-version
@@ -44,28 +50,34 @@ uriParameters:
   - uid: string
 responses:
 - name: 200 OK
-  description: Successfully retrieved a specified private link resource.
+  description: OK
   types:
-  - uid: PrivateLinkResource
+  - uid: ExtensionValue
 - name: Other Status Codes
-  description: Error response describing why the operation failed.
+  description: Error in retrieving an extension metadata
   types:
   - uid: ErrorResponse
 requestHeader: []
 definitions:
-- name: PrivateLinkResource
-  description: A private link resource
+- name: ExtensionValue
+  description: Describes a Extension Metadata
   kind: object
   properties:
-  - name: properties
-    description: Resource properties.
-    types:
-    - uid: PrivateLinkResourceProperties
-  - name: systemData
+  - name: properties.version
     isReadyOnly: true
-    description: The system meta data relating to this resource.
+    description: The version of the Extension being received.
     types:
-    - uid: systemData
+    - uid: string
+  - name: properties.extensionType
+    isReadyOnly: true
+    description: The type of the Extension being received.
+    types:
+    - uid: string
+  - name: properties.publisher
+    isReadyOnly: true
+    description: The publisher of the Extension being received.
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
@@ -81,6 +93,11 @@ definitions:
     description: The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts"
     types:
     - uid: string
+  - name: systemData
+    isReadyOnly: true
+    description: Azure Resource Manager metadata containing createdBy and modifiedBy information.
+    types:
+    - uid: systemData
 - name: ErrorResponse
   description: Error response
   kind: object
@@ -89,27 +106,6 @@ definitions:
     description: The error object.
     types:
     - uid: ErrorDetail
-- name: PrivateLinkResourceProperties
-  description: Properties of a private link resource.
-  kind: object
-  properties:
-  - name: groupId
-    isReadyOnly: true
-    description: The private link resource group id.
-    types:
-    - uid: string
-  - name: requiredMembers
-    isReadyOnly: true
-    description: The private link resource required member names.
-    types:
-    - uid: string
-      isArray: true
-  - name: requiredZoneNames
-    isReadyOnly: true
-    description: Required DNS zone names of the the private link resource.
-    types:
-    - uid: string
-      isArray: true
 - name: systemData
   description: Metadata pertaining to creation and last modification of the resource.
   kind: object
@@ -200,34 +196,24 @@ definitions:
     types:
     - uid: object
 examples:
-- name: Gets private endpoint connection.
+- name: GET an extensions metadata
   request:
-    uri: GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateLinkResources/hybridcompute?api-version=2022-08-11-preview
+    uri: GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.HybridCompute/locations/EastUS/publishers/microsoft.azure.monitor/extensionTypes/azuremonitorlinuxagent/versions/1.9.1?api-version=2022-08-11-preview
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateLinkResources/hybridcompute?api-version=2022-08-11-preview
+      GET https://management.azure.com/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/providers/Microsoft.HybridCompute/locations/EastUS/publishers/microsoft.azure.monitor/extensionTypes/azuremonitorlinuxagent/versions/1.9.1?api-version=2022-08-11-preview
       ```
 
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/00000000-1111-2222-3333-444444444444/resourceGroups/myResourceGroup/providers/Microsoft.HybridCompute/privateLinkScopes/myPrivateLinkScope/privateLinkResources/hybridcompute",
-        "name": "hybridcompute",
-        "type": "Microsoft.HybridCompute/privateLinkScopes/privateLinkResources",
+        "id": "/subscriptions/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/Providers/Microsoft.HybridCompute/locations/eastus/publishers/microsoft.azure.monitor/extensionTypes/azuremonitorlinuxagent/versions/1.9.1",
         "properties": {
-          "groupId": "hybridcompute",
-          "requiredMembers": [
-            "HybridCompute.Server",
-            "HybridCompute.K8sConfiguration",
-            "GuestConfig.DP"
-          ],
-          "requiredZoneNames": [
-            "privatelink.his.arc.azure.com",
-            "privatelink.kubernetesconfiguration.azure.com",
-            "privatelink.Guestconfiguration.azure.com"
-          ]
+          "version": "1.9.1",
+          "extensionType": "azuremonitorlinuxagent",
+          "publisher": "microsoft.azure.monitor"
         }
       }
 security:
@@ -241,5 +227,5 @@ security:
     description: impersonate your user account
 metadata:
   description: >
-    Learn more about Hybrid Compute service - Gets the private link resources that need to be created for a Azure Monitor PrivateLinkScope.
+    Learn more about Hybrid Compute service - Gets an Extension Metadata based on location, publisher, extensionType and version
 errorCodes: []
