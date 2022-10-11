@@ -2,8 +2,8 @@
 title: Azure Communication Services Repeatable Requests
 description: Detailed error codes and troubleshooting for repeatable requests in Communication Services REST APIs
 author: apattath
-ms.author: rifox
-ms.manager: sstacey
+ms.author: rloutlaw
+ms.manager: rloutlaw
 ms.date: 10/10/2020
 ms.topic: reference
 ms.service: azure-communication-services
@@ -29,7 +29,7 @@ The value of this header represents the time stamp when the original request was
 ## Repeatability in ACS SDKs
 Repeatability headers are automatically generated, added and sent to the API when using any of our ACS SDK libraries.
 
-## Repeatable request error codes
+## Repeatable request response codes
 Detailed information about various status codes for repeatable requests are included in the table below.
 
 | Repeatability-Request-ID | Repeatability-First-Sent | Repeatability Result | Response Statuscode |
@@ -37,10 +37,10 @@ Detailed information about various status codes for repeatable requests are incl
 | Valid GUID | Invalid format | Rejected | 400 |
 | Invalid format | [Valid Date](https://www.rfc-editor.org/rfc/rfc7231.html) | Rejected | 400 |
 | Invalid format | Invalid format | Rejected | 400 |
-| Valid | Outside TrackedTimeWindow | Rejected | 412 (Precondition failed) |
-| Valid new/unrepeated request | Within TrackedTimeWindow | Accepted | Status code from normal execution |
-| Valid repeated request | Within TrackedTimeWindow, but doesn't match previous request | Rejected | 400 |
-| Valid repeated request | Within TrackedTimeWindow, matches previous request | Accepted | These are specific to Email Send API: <ul><li>If original request is still in progress: 409</li> <li>If original request's status code was 2xx or 4xx, return that status code.</li> <li>If original request's status code was 5xx, return status code from re-execution of the request.</li></ul> |
+| Valid | Outside tracking duration | Rejected | 412 (Precondition failed) |
+| Valid new/unrepeated request | Within tracking duration | Accepted | Status code from normal execution |
+| Valid repeated request | Within tracking duration, but doesn't match previous request | Rejected | 400 |
+| Valid repeated request | Within tracking duration, matches previous request | Accepted | In Email Send API: <ul><li>If original request is still in progress: 409</li> <li>If original request's status code was 2xx or 4xx, return that status code.</li> <li>If original request's status code was 5xx, return status code from re-execution of the request.</li></ul> |
 
 ## Troubleshooting
 
