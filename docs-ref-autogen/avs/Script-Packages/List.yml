@@ -3,14 +3,14 @@ uid: management.azure.com.avs.scriptpackages.list
 name: List
 service: AVS
 groupName: Script Packages
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: List script packages available to run on the private cloud
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2021-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -84,6 +84,16 @@ definitions:
     description: Module version
     types:
     - uid: string
+  - name: properties.company
+    isReadyOnly: true
+    description: Company that created and supports the package
+    types:
+    - uid: string
+  - name: properties.uri
+    isReadyOnly: true
+    description: Link to support by the package vendor
+    types:
+    - uid: string
   - name: id
     isReadyOnly: true
     description: Resource ID.
@@ -147,122 +157,37 @@ definitions:
 examples:
 - name: ScriptPackages_List
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2021-12-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2021-12-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/{privateCloudName}/scriptPackages?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for ScriptPackages List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptPackages_List.json
-           */
-          /**
-           * Sample code: ScriptPackages_List.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void scriptPackagesList(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.scriptPackages().list("group1", "{privateCloudName}", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptPackages_List.json
-      func ExampleScriptPackagesClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewScriptPackagesClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("group1",
-      		"{privateCloudName}",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to List script packages available to run on the private cloud
-       *
-       * @summary List script packages available to run on the private cloud
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/ScriptPackages_List.json
-       */
-      async function scriptPackagesList() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "{privateCloudName}";
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.scriptPackages.list(resourceGroupName, privateCloudName)) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      scriptPackagesList().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.2/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "name": "AVS.PowerCommands@1.0.0",
-            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/AVS.PowerCommands@1.0.0",
+            "name": "Microsoft.AVS.Management@3.0.48",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/{scriptPackageName}",
             "properties": {
               "description": "Various cmdlets for elevated access to Private Cloud administrative functions",
-              "version": "1.0.0"
+              "version": "3.0.48",
+              "company": "Microsoft",
+              "uri": "https://microsoft.com"
             },
             "type": "Microsoft.AVS/privateClouds/scriptPackages"
           },
           {
-            "name": "JSDR.Configuration@1.0",
-            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/JSDR.Configuration@1.0",
+            "name": "JSDR.Configuration@1.0.0",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/scriptPackages/JSDR.Configuration@1.0.0",
             "properties": {
               "description": "Various cmdlets by Jetstream for Private Cloud administration",
-              "version": "1.0.0"
+              "version": "1.0.0",
+              "company": "Jetstream Software",
+              "uri": "https://www.jetstreamsoft.com/about/support/"
             },
             "type": "Microsoft.AVS/privateClouds/scriptPackages"
           }

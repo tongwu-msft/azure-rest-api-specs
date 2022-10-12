@@ -3,14 +3,14 @@ uid: management.azure.com.avs.workloadnetworks.createpublicip
 name: Create Public IP
 service: AVS
 groupName: Workload Networks
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create a Public IP Block by id in a private cloud workload network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}?api-version=2021-12-01
+- content: PUT https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/publicIPs/{publicIPId}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -134,6 +134,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -182,7 +185,7 @@ definitions:
 examples:
 - name: WorkloadNetworks_CreatePublicIP
   request:
-    uri: PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1?api-version=2021-12-01
+    uri: PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -193,7 +196,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PUT https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1?api-version=2021-12-01
+      PUT https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1?api-version=2022-05-01
 
       {
         "properties": {
@@ -204,119 +207,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      /** Samples for WorkloadNetworks CreatePublicIp. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreatePublicIPs.json
-           */
-          /**
-           * Sample code: WorkloadNetworks_CreatePublicIP.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void workloadNetworksCreatePublicIP(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager
-                  .workloadNetworks()
-                  .definePublicIp("publicIP1")
-                  .withExistingPrivateCloud("group1", "cloud1")
-                  .withDisplayName("publicIP1")
-                  .withNumberOfPublicIPs(32L)
-                  .create();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreatePublicIPs.json
-      func ExampleWorkloadNetworksClient_BeginCreatePublicIP() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewWorkloadNetworksClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	poller, err := client.BeginCreatePublicIP(ctx,
-      		"group1",
-      		"cloud1",
-      		"publicIP1",
-      		armavs.WorkloadNetworkPublicIP{
-      			Properties: &armavs.WorkloadNetworkPublicIPProperties{
-      				DisplayName:       to.Ptr("publicIP1"),
-      				NumberOfPublicIPs: to.Ptr[int64](32),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatalf("failed to finish the request: %v", err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, nil)
-      	if err != nil {
-      		log.Fatalf("failed to pull the result: %v", err)
-      	}
-      	// TODO: use response item
-      	_ = res
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create a Public IP Block by id in a private cloud workload network.
-       *
-       * @summary Create a Public IP Block by id in a private cloud workload network.
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_CreatePublicIPs.json
-       */
-      async function workloadNetworksCreatePublicIP() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const publicIPId = "publicIP1";
-        const workloadNetworkPublicIP = {
-          displayName: "publicIP1",
-          numberOfPublicIPs: 32,
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.workloadNetworks.beginCreatePublicIPAndWait(
-          resourceGroupName,
-          privateCloudName,
-          publicIPId,
-          workloadNetworkPublicIP
-        );
-        console.log(result);
-      }
-
-      workloadNetworksCreatePublicIP().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.2/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1",
         "name": "publicIP1",
         "properties": {
           "displayName": "publicIP1",
@@ -327,7 +222,7 @@ examples:
   - statusCode: "201"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/publicIPs/publicIP1",
         "name": "publicIP1",
         "properties": {
           "displayName": "publicIP1",

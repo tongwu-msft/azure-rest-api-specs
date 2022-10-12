@@ -3,14 +3,14 @@ uid: management.azure.com.avs.workloadnetworks.updatednszone
 name: Update Dns Zone
 service: AVS
 groupName: Workload Networks
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: Create or update a DNS zone by id in a private cloud workload network.
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}?api-version=2021-12-01
+- content: PATCH https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/workloadNetworks/default/dnsZones/{dnsZoneId}?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -167,6 +167,9 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
 - name: ErrorResponse
   description: Error Response
   kind: object
@@ -215,7 +218,7 @@ definitions:
 examples:
 - name: WorkloadNetworks_UpdateDnsZone
   request:
-    uri: PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2021-12-01
+    uri: PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2022-05-01
     body: >-
       {
         "properties": {
@@ -231,7 +234,7 @@ examples:
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      PATCH https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2021-12-01
+      PATCH https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1?api-version=2022-05-01
 
       {
         "properties": {
@@ -247,131 +250,11 @@ examples:
 
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-      import com.azure.resourcemanager.avs.models.WorkloadNetworkDnsZone;
-      import java.util.Arrays;
-
-      /** Samples for WorkloadNetworks UpdateDnsZone. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_UpdateDnsZones.json
-           */
-          /**
-           * Sample code: WorkloadNetworks_UpdateDnsZone.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void workloadNetworksUpdateDnsZone(com.azure.resourcemanager.avs.AvsManager manager) {
-              WorkloadNetworkDnsZone resource =
-                  manager.workloadNetworks().getDnsZoneWithResponse("group1", "cloud1", "dnsZone1", Context.NONE).getValue();
-              resource
-                  .update()
-                  .withDisplayName("dnsZone1")
-                  .withDomain(Arrays.asList())
-                  .withDnsServerIps(Arrays.asList("1.1.1.1"))
-                  .withSourceIp("8.8.8.8")
-                  .withRevision(1L)
-                  .apply();
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"time"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azcore/to"
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_UpdateDnsZones.json
-      func ExampleWorkloadNetworksClient_BeginUpdateDNSZone() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client := armavs.NewWorkloadNetworksClient("<subscription-id>", cred, nil)
-      	poller, err := client.BeginUpdateDNSZone(ctx,
-      		"<resource-group-name>",
-      		"<private-cloud-name>",
-      		"<dns-zone-id>",
-      		armavs.WorkloadNetworkDNSZone{
-      			Properties: &armavs.WorkloadNetworkDNSZoneProperties{
-      				DisplayName: to.StringPtr("<display-name>"),
-      				DNSServerIPs: []*string{
-      					to.StringPtr("1.1.1.1")},
-      				Domain:   []*string{},
-      				Revision: to.Int64Ptr(1),
-      				SourceIP: to.StringPtr("<source-ip>"),
-      			},
-      		},
-      		nil)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	res, err := poller.PollUntilDone(ctx, 30*time.Second)
-      	if err != nil {
-      		log.Fatal(err)
-      	}
-      	log.Printf("WorkloadNetworkDNSZone.ID: %s\n", *res.ID)
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv0.1.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to Create or update a DNS zone by id in a private cloud workload network.
-       *
-       * @summary Create or update a DNS zone by id in a private cloud workload network.
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/WorkloadNetworks_UpdateDnsZones.json
-       */
-      async function workloadNetworksUpdateDnsZone() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const dnsZoneId = "dnsZone1";
-        const workloadNetworkDnsZone = {
-          displayName: "dnsZone1",
-          dnsServerIps: ["1.1.1.1"],
-          domain: [],
-          revision: 1,
-          sourceIp: "8.8.8.8",
-        };
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const result = await client.workloadNetworks.beginUpdateDnsZoneAndWait(
-          resourceGroupName,
-          privateCloudName,
-          dnsZoneId,
-          workloadNetworkDnsZone
-        );
-        console.log(result);
-      }
-
-      workloadNetworksUpdateDnsZone().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.2/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
-        "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1",
+        "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/workloadNetworks/default/dnsZones/dnsZone1",
         "name": "dnsZone1",
         "properties": {
           "displayName": "dnsZone1",

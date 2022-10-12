@@ -3,14 +3,14 @@ uid: management.azure.com.avs.placementpolicies.list
 name: List
 service: AVS
 groupName: Placement Policies
-apiVersion: 2021-12-01
+apiVersion: 2022-05-01
 summary: List placement policies in a private cloud cluster
 consumes:
 - application/json
 produces:
 - application/json
 paths:
-- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies?api-version=2021-12-01
+- content: GET https://management.azure.com/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.AVS/privateClouds/{privateCloudName}/clusters/{clusterName}/placementPolicies?api-version=2022-05-01
 uriParameters:
 - name: subscriptionId
   in: path
@@ -195,6 +195,14 @@ definitions:
     description: placement policy affinity type
     types:
     - uid: AffinityType
+  - name: affinityStrength
+    description: vm-host placement policy affinity strength (should/must)
+    types:
+    - uid: AffinityStrength
+  - name: azureHybridBenefitType
+    description: placement policy azure hybrid benefit opt-in type
+    types:
+    - uid: AzureHybridBenefitType
   - name: type
     description: placement policy type
     types:
@@ -252,118 +260,46 @@ definitions:
   - name: Updating
     types:
     - uid: string
+  - name: Canceled
+    types:
+    - uid: string
+- name: AffinityStrength
+  description: VM-Host placement policy affinity strength (should/must)
+  kind: enum
+  properties:
+  - name: Should
+    types:
+    - uid: string
+  - name: Must
+    types:
+    - uid: string
+- name: AzureHybridBenefitType
+  description: Placement policy hosts opt-in Azure Hybrid Benefit type
+  kind: enum
+  properties:
+  - name: SqlHost
+    types:
+    - uid: string
+  - name: None
+    types:
+    - uid: string
 examples:
 - name: PlacementPolicies_List
   request:
-    uri: GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies?api-version=2021-12-01
+    uri: GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies?api-version=2022-05-01
     codeTab: |+
       # [HTTP](#tab/HTTP)
       ``` http
-      GET https://management.azure.com/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies?api-version=2021-12-01
+      GET https://management.azure.com/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies?api-version=2022-05-01
       ```
 
-      # [Java](#tab/Java)
-      ``` java
-      import com.azure.core.util.Context;
-
-      /** Samples for PlacementPolicies List. */
-      public final class Main {
-          /*
-           * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_List.json
-           */
-          /**
-           * Sample code: PlacementPolicies_List.
-           *
-           * @param manager Entry point to AvsManager.
-           */
-          public static void placementPoliciesList(com.azure.resourcemanager.avs.AvsManager manager) {
-              manager.placementPolicies().list("group1", "cloud1", "cluster1", Context.NONE);
-          }
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-java/blob/azure-resourcemanager-avs_1.0.0-beta.3/sdk/avs/azure-resourcemanager-avs/README.md) on how to add the SDK to your project and authenticate.
-      # [Go](#tab/Go)
-      ``` go
-      package armavs_test
-
-      import (
-      	"context"
-      	"log"
-
-      	"github.com/Azure/azure-sdk-for-go/sdk/azidentity"
-      	"github.com/Azure/azure-sdk-for-go/sdk/resourcemanager/avs/armavs"
-      )
-
-      // Generated from example definition: https://github.com/Azure/azure-rest-api-specs/tree/main/specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_List.json
-      func ExamplePlacementPoliciesClient_NewListPager() {
-      	cred, err := azidentity.NewDefaultAzureCredential(nil)
-      	if err != nil {
-      		log.Fatalf("failed to obtain a credential: %v", err)
-      	}
-      	ctx := context.Background()
-      	client, err := armavs.NewPlacementPoliciesClient("{subscription-id}", cred, nil)
-      	if err != nil {
-      		log.Fatalf("failed to create client: %v", err)
-      	}
-      	pager := client.NewListPager("group1",
-      		"cloud1",
-      		"cluster1",
-      		nil)
-      	for pager.More() {
-      		nextResult, err := pager.NextPage(ctx)
-      		if err != nil {
-      			log.Fatalf("failed to advance page: %v", err)
-      		}
-      		for _, v := range nextResult.Value {
-      			// TODO: use page item
-      			_ = v
-      		}
-      	}
-      }
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-go/blob/sdk%2Fresourcemanager%2Favs%2Farmavs%2Fv1.0.0/sdk/resourcemanager/avs/armavs/README.md) on how to add the SDK to your project and authenticate.
-      # [JavaScript](#tab/JavaScript)
-      ``` js
-      const { AzureVMwareSolutionAPI } = require("@azure/arm-avs");
-      const { DefaultAzureCredential } = require("@azure/identity");
-
-      /**
-       * This sample demonstrates how to List placement policies in a private cloud cluster
-       *
-       * @summary List placement policies in a private cloud cluster
-       * x-ms-original-file: specification/vmware/resource-manager/Microsoft.AVS/stable/2021-12-01/examples/PlacementPolicies_List.json
-       */
-      async function placementPoliciesList() {
-        const subscriptionId = "{subscription-id}";
-        const resourceGroupName = "group1";
-        const privateCloudName = "cloud1";
-        const clusterName = "cluster1";
-        const credential = new DefaultAzureCredential();
-        const client = new AzureVMwareSolutionAPI(credential, subscriptionId);
-        const resArray = new Array();
-        for await (let item of client.placementPolicies.list(
-          resourceGroupName,
-          privateCloudName,
-          clusterName
-        )) {
-          resArray.push(item);
-        }
-        console.log(resArray);
-      }
-
-      placementPoliciesList().catch(console.error);
-
-      ```
-      Read this [SDK documentation](https://github.com/Azure/azure-sdk-for-js/blob/%40azure%2Farm-avs_3.1.2/sdk/avs/arm-avs/README.md) on how to add the SDK to your project and authenticate.
   responses:
   - statusCode: "200"
     body: >-
       {
         "value": [
           {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy1",
             "name": "policy1",
             "type": "Microsoft.AVS/privateClouds/clusters/placementPolicies",
             "properties": {
@@ -371,8 +307,8 @@ examples:
               "type": "VmHost",
               "state": "Enabled",
               "vmMembers": [
-                "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-                "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
               ],
               "hostMembers": [
                 "fakehost22.nyc1.kubernetes.center",
@@ -380,11 +316,13 @@ examples:
                 "fakehost24.nyc1.kubernetes.center"
               ],
               "affinityType": "AntiAffinity",
+              "affinityStrength": "Must",
+              "azureHybridBenefitType": "SqlHost",
               "provisioningState": "Succeeded"
             }
           },
           {
-            "id": "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy2",
+            "id": "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/placementPolicies/policy2",
             "name": "policy2",
             "type": "Microsoft.AVS/privateClouds/clusters/placementPolicies",
             "properties": {
@@ -392,8 +330,8 @@ examples:
               "type": "VmVm",
               "state": "Enabled",
               "vmMembers": [
-                "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
-                "/subscriptions/{subscription-id}/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-128",
+                "/subscriptions/00000000-0000-0000-0000-000000000000/resourceGroups/group1/providers/Microsoft.AVS/privateClouds/cloud1/clusters/cluster1/virtualMachines/vm-256"
               ],
               "affinityType": "Affinity",
               "provisioningState": "Succeeded"

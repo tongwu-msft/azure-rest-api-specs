@@ -3054,6 +3054,7 @@
 ### [Delete](avs/Clusters/Delete.yml)
 ### [Get](avs/Clusters/Get.yml)
 ### [List](avs/Clusters/List.yml)
+### [List Zones](avs/Clusters/List-Zones.yml)
 ### [Update](avs/Clusters/Update.yml)
 ## Datastores
 ### [Overview](avs/Datastores.yml)
@@ -3134,6 +3135,7 @@
 ### [Delete Public IP](avs/Workload-Networks/Delete-Public-IP.yml)
 ### [Delete Segment](avs/Workload-Networks/Delete-Segment.yml)
 ### [Delete VM Group](avs/Workload-Networks/Delete-VM-Group.yml)
+### [Get](avs/Workload-Networks/Get.yml)
 ### [Get Dhcp](avs/Workload-Networks/Get-Dhcp.yml)
 ### [Get Dns Service](avs/Workload-Networks/Get-Dns-Service.yml)
 ### [Get Dns Zone](avs/Workload-Networks/Get-Dns-Zone.yml)
@@ -3143,6 +3145,7 @@
 ### [Get Segment](avs/Workload-Networks/Get-Segment.yml)
 ### [Get VM Group](avs/Workload-Networks/Get-VM-Group.yml)
 ### [Get Virtual Machine](avs/Workload-Networks/Get-Virtual-Machine.yml)
+### [List](avs/Workload-Networks/List.yml)
 ### [List Dhcp](avs/Workload-Networks/List-Dhcp.yml)
 ### [List Dns Services](avs/Workload-Networks/List-Dns-Services.yml)
 ### [List Dns Zones](avs/Workload-Networks/List-Dns-Zones.yml)
@@ -27748,9 +27751,6 @@
 ### [List](virtualnetwork/Public-IP-Prefixes/List.yml)
 ### [List All](virtualnetwork/Public-IP-Prefixes/List-All.yml)
 ### [Update Tags](virtualnetwork/Public-IP-Prefixes/Update-Tags.yml)
-## Public Ip Addresses
-### [Overview](virtualnetwork/Public-Ip-Addresses.yml)
-### [Ddos Protection Status](virtualnetwork/Public-Ip-Addresses/Ddos-Protection-Status.yml)
 ## PublicIPAddress In CloudService
 ### [Overview](virtualnetwork/Public-IP-Address-In-Cloud-Service.yml)
 ### [Get Cloud Service Public IP Address](virtualnetwork/Public-IP-Address-In-Cloud-Service/Get-Cloud-Service-Public-IP-Address.yml)
@@ -27764,6 +27764,7 @@
 ## PublicIPAddresses2
 ### [Overview](virtualnetwork/PublicIPAddresses2.yml)
 ### [Create Or Update](virtualnetwork/PublicIPAddresses2/Create-Or-Update.yml)
+### [Ddos Protection Status](virtualnetwork/PublicIPAddresses2/Ddos-Protection-Status.yml)
 ### [Delete](virtualnetwork/PublicIPAddresses2/Delete.yml)
 ### [Get](virtualnetwork/PublicIPAddresses2/Get.yml)
 ### [List](virtualnetwork/PublicIPAddresses2/List.yml)
